@@ -1,0 +1,264 @@
+/*##  Section 10.6.7 Menus ##*/
+	/* ################ MENU DE BASE ################## */
+.esup-opiR1 form#navigationHeader{
+	padding: 0px;
+	margin: 0px;
+}
+
+.esup-opiR1 ul.menu {
+	background: #CCCCCC;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	vertical-align: bottom;
+	list-style: none;
+}
+
+.esup-opiR1 ul.menu li.item {
+	display: inline;
+	border-spacing: 0;
+}
+
+.esup-opiR1 ul.menu li.item input {
+	width: 24%;
+	margin: 0px;
+	padding: 0px;
+	color: black;
+	background: transparent;
+	font-size: 10px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	border-style: none;
+	cursor: pointer;
+}
+
+.esup-opiR1 ul.menu li.item-selected {
+	display: inline;
+	border-spacing: 0px;
+}
+
+.esup-opiR1 ul.menu li.item-selected input {
+	width: 24%;
+	margin: 0px;
+	padding: 0px;
+	background: transparent;
+	font-size: 10px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #a71817;
+	border-style: none;
+	cursor: pointer;
+}
+
+.esup-opiR1 ul.menu li.hover {
+	display: inline;
+	background-color: transparent;
+}
+
+.esup-opiR1 ul.menu li.hover input {
+	width: 24%;
+	margin: 0px;
+	padding: 0px;
+	font-size: 10px;
+	background: transparent;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #a71817;
+	text-decoration: underline;
+	border-style: none;
+	cursor: pointer;
+	background-color: transparent;
+}
+
+/* ################ MENU WELCOME ################## */
+.esup-opiR1 ul.menuWelcome {
+	background: #CCCCCC;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	vertical-align: bottom;
+	list-style: none;
+}
+
+.esup-opiR1 ul.menuWelcome li.item {
+	display: inline;
+	border-spacing: 0;
+}
+
+.esup-opiR1 ul.menuWelcome li.item input {
+	width: 32%;
+	margin: 0px;
+	padding: 0px;
+	color: black;
+	background: transparent;
+	font-size: 10px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	border-style: none;
+	cursor: pointer;
+}
+
+.esup-opiR1 ul.menuWelcome li.item-selected {
+	display: inline;
+	border-spacing: 0px;
+}
+
+.esup-opiR1 ul.menuWelcome li.item-selected input {
+	width: 32%;
+	margin: 0px;
+	padding: 0px;
+	background: transparent;
+	font-size: 10px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #a71817;
+	border-style: none;
+	cursor: pointer;
+}
+
+.esup-opiR1 ul.menuWelcome li.hover {
+	display: inline;
+	background-color: transparent;
+}
+
+.esup-opiR1 ul.menuWelcome li.hover input {
+	width: 32%;
+	margin: 0px;
+	padding: 0px;
+	font-size: 10px;
+	background: transparent;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #a71817;
+	text-decoration: underline;
+	border-style: none;
+	cursor: pointer;
+	background-color: transparent;
+}
+
+
+/* ################ MENU GESTIONNAIRE ################## */
+
+/* ################ MENU CONTENANT 2 ITEMS ################## */
+.esup-opiR1 ul.menu2Items {
+	background: #CCCCCC;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	vertical-align: bottom;
+	list-style: none;
+}
+
+.esup-opiR1 ul.menu2Items li.item {
+	display: inline;
+	border-spacing: 0;
+}
+
+.esup-opiR1 ul.menu2Items li.item input {
+	width: 48%;
+	margin: 0px;
+	padding: 0px;
+	color: black;
+	background: transparent;
+	font-size: 10px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	border-style: none;
+	cursor: pointer;
+}
+
+.esup-opiR1 ul.menu2Items li.item-selected {
+	display: inline;
+	border-spacing: 0px;
+}
+
+.esup-opiR1 ul.menu2Items li.item-selected input {
+	width: 48%;
+	margin: 0px;
+	padding: 0px;
+	background: transparent;
+	font-size: 10px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #a71817;
+	border-style: none;
+	cursor: pointer;
+}
+
+.esup-opiR1 ul.menu2Items li.hover {
+	display: inline;
+	background-color: transparent;
+}
+
+.esup-opiR1 ul.menu2Items li.hover input {
+	width: 48%;
+	margin: 0px;
+	padding: 0px;
+	font-size: 10px;
+	background: transparent;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #a71817;
+	text-decoration: underline;
+	border-style: none;
+	cursor: pointer;
+	background-color: transparent;
+}
+
+
+/* ################ MENU GESTIONNAIRE ################## */
+
+
+
+/* ################ LIST DES TRAITEMENTS ################## */
+
+.esup-opiR1 div.displayTraitement {
+	margin:0px;
+	padding:0px;
+}
+
+.esup-opiR1 div.displayTraitement ul{
+	margin:0px;
+	padding:0px;
+	list-style: none;
+}
+
+/* ################ ROAD_MAP ################## */
+.esup-opiR1 .div_roadMap form {
+	padding: 0px;
+	margin: 0px;
+}
+
+.esup-opiR1 .div_roadMap ul.roadMap {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+	display:inline;
+}
+
+.esup-opiR1 .div_roadMap ul.roadMap li {
+	display: inline;
+}
+
+.esup-opiR1 .div_roadMap ul .roadMapSeparator {
+	font-size: 9px;
+	color: black;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	margin: 0px;
+	padding: 0px;
+}
+
+.esup-opiR1 .div_roadMap ul.roadMap li input {
+	border: none;
+	cursor: pointer;
+	background-color: transparent;
+	text-decoration: underline;
+	font-size: 9px;
+	padding: 0px;
+	margin: 0px;
+	color: black;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.esup-opiR1 .div_roadMap ul.roadMap li input:hover {
+	border: none;
+	padding: 0px;
+	margin: 0px;
+	cursor: pointer;
+	background-color: transparent;
+	font-size: 9px;
+	color: #a71817;
+	text-decoration: underline;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}

@@ -1,0 +1,93 @@
+<xhtml:html xmlns:xxi="http://orbeon.org/oxf/xml/xinclude"
+	xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xhtml="http://www.w3.org/1999/xhtml"
+	xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:fr="http://orbeon.org/oxf/xml/form-runner" xmlns:xxforms="http://orbeon.org/oxf/xml/xforms"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<xhtml:head>
+		<xhtml:title>fer</xhtml:title>
+		<xforms:model id="fr-form-model">
+			<xforms:instance id="fr-form-instance">
+				<form>
+					<section-1>
+						<control-1 />
+					</section-1>
+				</form>
+			</xforms:instance>
+			<xforms:bind id="fr-form-binds" nodeset="instance('fr-form-instance')">
+				<xforms:bind id="section-1-bind" nodeset="section-1">
+					<xforms:bind id="control-1-bind" name="control-1"
+						nodeset="control-1" />
+				</xforms:bind>
+			</xforms:bind>
+			<xforms:instance id="fr-form-metadata"
+				xxforms:readonly="true">
+				<metadata>
+					<application-name>appName</application-name>
+					<form-name>formName</form-name>
+					<title xml:lang="fr">Titre</title>
+					<description xml:lang="fr">Description
+					</description>
+					<author />
+					<logo mediatype="image/png" filename="Orbeon Logo" size=""/>
+				</metadata>
+			</xforms:instance>
+			<xforms:instance id="fr-form-attachments">
+				<attachments>
+					<css mediatype="text/css" filename="" size="" />
+					<pdf mediatype="application/pdf" filename="" size="" />
+				</attachments>
+			</xforms:instance>
+			<xforms:instance id="fr-form-resources"
+				xxforms:readonly="true">
+				<resources>
+					<resource xml:lang="fr">
+						<section-1>
+							<label>Partie</label>
+							<help />
+						</section-1>
+						<control-1>
+							<label />
+							<hint />
+							<help />
+							<alert />
+						</control-1>
+					</resource>
+				</resources>
+			</xforms:instance>
+			<xforms:instance id="fr-service-request-instance"
+				xxforms:exclude-result-prefixes="#all">
+				<request />
+			</xforms:instance>
+			<xforms:instance id="fr-service-response-instance"
+				xxforms:exclude-result-prefixes="#all">
+				<response />
+			</xforms:instance>
+		</xforms:model>
+	</xhtml:head>
+	<xhtml:body>
+		<fr:view>
+			<xforms:label ref="instance('fr-form-metadata')/title" />
+			<fr:body>
+				<fr:section id="section-1-section" bind="section-1-bind">
+					<xforms:label ref="$form-resources/section-1/label" />
+					<xforms:help ref="$form-resources/section-1/help" />
+					<fr:grid columns="2">
+						<xhtml:tr>
+							<xhtml:td>
+								<xforms:input id="control-1-control" bind="control-1-bind"
+									incremental="true">
+									<xforms:label ref="$form-resources/control-1/label" />
+									<xforms:hint ref="$form-resources/control-1/hint" />
+									<xforms:help ref="$form-resources/control-1/help" />
+									<xforms:alert ref="$fr-resources/detail/labels/alert" />
+								</xforms:input>
+							</xhtml:td>
+							<xhtml:td />
+						</xhtml:tr>
+					</fr:grid>
+				</fr:section>
+			</fr:body>
+		</fr:view>
+	</xhtml:body>
+</xhtml:html>

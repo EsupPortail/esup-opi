@@ -1,0 +1,996 @@
+/*----------------------------------------
+		Charte graphique
+ 
+couleur primaire : rouge : #a71817
+
+Couleur secondaire : gris #CCCCCC
+declianison 1 : #666666 (plus fonce)
+declinaison 2 : #b7b6b6 (fonce)
+declianison 3 : #e6e6e6
+declinaison 4 : #f9f9f9 (tres tres clair)
+couleur tertiaire : orange : #f28d00
+declianison 1 : #fff6eb (tres clair)
+
+autres : pr�coniser d�clinaison � partir de la couleur secondaire.
+
+
+--------------------------------------------------------------*/
+@import url("opiR1_header.css");
+
+@import url("opiR1_navigation.css");
+
+.esup-opiR1 .link {
+	cursor: pointer;
+	font-size: 9px;
+	color: black;
+	text-decoration: underline;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.esup-opiR1 .link:hover {
+	cursor: pointer;
+	font-size: 9px;
+	color: #a71817;
+	text-decoration: underline;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+/* ## Section maPage ##*/
+.esup-opiR1 div.div_body {
+	background-color: white;
+	width: auto;
+	border: 1px solid #CCCCCC;
+	padding: 5px;
+	min-height: 400px;
+}
+
+.esup-opiR1 div.div_subSection {
+	margin-left: 20px;
+	margin-right: 20px;
+	width: auto;
+}
+
+.esup-opiR1 div.div_subSection div.blockTable input {
+	white-space: normal;
+}
+
+/*##  Section BLOCK (DIV) ##*/
+.esup-opiR1 div.blockForm {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	display: block;
+	width: 100%;
+}
+
+.esup-opiR1 div.blockTable {
+	width: auto;
+	border: 1px solid #b7b6b6;
+	padding: 2px 5px 2px 5px;
+	background-color: #f9f9f9;
+}
+
+.esup-opiR1 div.blockBlue {
+	background-color: #eadede;
+	margin-bottom: 20px;
+	border: 1px solid #c0c0c0;
+}
+
+.esup-opiR1 div.labelListCreateDoss {
+	margin-bottom: 10px;
+}
+
+.esup-opiR1 div.blockForm div.blockButton {
+	text-align: right;
+}
+
+.esup-opiR1 div.blockForm div.blockButton table.twoGroupsButton {
+	width: 100%;
+	margin-top: 40px;
+	text-align: right;
+}
+
+.esup-opiR1 .twoGroupsButton {
+	width: 100%;
+	margin: 0px 0px 0px 0px;
+	text-align: right;
+}
+
+.esup-opiR1 .maxDivTextRight {
+	width: 100%;
+	text-align: right;
+}
+
+.esup-opiR1 div.blockImportant {
+	border: 1px solid #b7b6b6;
+}
+
+.esup-opiR1 div.blockImportant .text {
+	font-size: 13px;
+	vertical-align: middle;
+}
+
+.esup-opiR1 div.blockCenterWidthMax {
+	width: 100%;
+	text-align: center;
+}
+
+.esup-opiR1 div.blockColLeft {
+	float: left;
+	width: 50%;
+}
+
+.esup-opiR1 div.blockColRight {
+	width: auto;
+}
+
+.esup-opiR1 div.block-red {
+	border: 1px solid #a71817;
+	width: auto;
+	padding: 8px;
+}
+
+.esup-opiR1 table.welcomeConnexion {
+	width: 100%;
+	margin: 0px;
+	border-spacing: 0px;
+}
+
+.esup-opiR1 td.blockColCenter {
+	text-align: center;
+}
+
+.esup-opiR1 div.welcomeInfoFirstConnexion {
+	float: right;
+	border: 1px solid #b7b6b6;
+	background-color: #f9f9f9;
+	padding: 5px;
+	width: 390px;
+	height: 120px;
+	text-align: left;
+}
+
+.esup-opiR1 div.welcomeInfoUpdateCandi {
+	float: right;
+	border: 1px solid #b7b6b6;
+	background-color: #f9f9f9;
+	padding: 5px;
+	width: 390px;
+	height: 120px;
+	text-align: left;
+}
+
+.esup-opiR1 div.welcomeBackSalamander {
+	background-image: url("/media/images/back_salamandre.png");
+	background-position: center;
+	background-repeat: no-repeat;
+	width: auto;
+	height: auto;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	border-spacing: 0px;
+}
+
+.esup-opiR1 div.buttonRadioHeader {
+	text-align: right;
+	padding-left: 70%;
+}
+
+.esup-opiR1 div.buttonRadioHeader table {
+	color: #a71817;
+	background-color: #e6e6e6;
+	font-weight: normal;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+
+.esup-opiR1 div.buttonRadioHeaderTrtCmi table {
+	color: #a71817;
+	background-color: #e6e6e6;
+	font-weight: normal;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+/*-----------------------------------
+ *
+ * Style popup aide
+ */
+.esup-opiR1 .containerPopup {
+	color: black;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	margin-bottom: 1px;
+	margin: 10px;
+	vertical-align: middle;
+	padding: 8px;
+	border: 1px solid #f28d00;
+	background: #fff6eb;
+	width: 500px;
+	z-index: 9000;
+}
+
+.esup-opiR1 .titrePopupAide {
+	TEXT-ALIGN: left;
+	text-decoration: none;
+	font-weight: bold;
+	display: table-cell;
+	display: inline-block;
+	vertical-align: middle;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	text-align: left;
+	color: #f28d00;
+}
+
+.esup-opiR1 .libellesAide {
+	TEXT-ALIGN: left;
+	text-decoration: none;
+	display: table-cell;
+	display: inline-block;
+	vertical-align: middle;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	text-align: left;
+}
+
+.esup-opiR1 .sousTitrePopupAide {
+	TEXT-ALIGN: left;
+	text-decoration: none;
+	font-weight: bold;
+	display: table-cell;
+	display: inline-block;
+	vertical-align: middle;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	text-align: left;
+	color: #4848B7;
+}
+
+/*##  Section Sections ##*/
+.esup-opiR1 .section-header {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	color: #f28d00;
+	font-weight: bold;
+}
+
+.esup-opiR1 .section-header-black {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	color: black;
+	font-weight: bold;
+}
+
+.esup-opiR1 .section-header-red {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	color: #a71817;
+	font-weight: bold;
+}
+
+.esup-opiR1 .section-subheader {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #a71817;
+}
+
+.esup-opiR1 .section-smallTitle {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #b7b6b6;
+	font-weight: bold;
+	font-style: none;
+	padding-left: 15px;
+	background-image: url("/media/images/bullet_red.png");
+	background-repeat: no-repeat;
+	background-position: left;
+}
+
+.esup-opiR1 .section-black-smallTitle {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: Black;
+	font-weight: bold;
+	font-style: none;
+}
+
+/*####   Section FORM ########*/
+.esup-opiR1 .opiR1_form {
+	padding: 0px;
+	margin: 0px;
+}
+
+.esup-opiR1 .form-button {
+	color: white;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	background: #a71817;
+	border: none;
+	cursor: pointer;
+	margin: 3px;
+}
+
+.esup-opiR1 .form-button-image {
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
+.esup-opiR1 .form-button-image img {
+	border: none;
+}
+
+.esup-opiR1 .form-button-link {
+	color: Black;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	width: auto;
+	text-align: left;
+	text-decoration: underline;
+}
+
+.esup-opiR1 .form-button-link-small {
+	color: Black;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	width: auto;
+	text-align: center;
+	text-decoration: underline;
+}
+
+.esup-opiR1 .form-button-link-small-red {
+	color: #a71817;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	width: auto;
+	text-align: center;
+}
+
+.esup-opiR1 .form-input-field {
+	width: auto;
+	color: Black;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	border: 1px solid #f28d00;
+}
+
+.esup-opiR1 .form-input-field-focus {
+	width: auto;
+	color: Black;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	border: 1px solid #f28d00;
+	background-color: #fff6eb;
+}
+
+.esup-opiR1 .form-field-label {
+	color: #666666;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.esup-opiR1 .form-field-label-validator {
+	color: #666666;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.esup-opiR1 .form-field-label-inHeader-validator {
+	color: #a71817;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+.esup-opiR1 .select_focus {
+	width: auto;
+	color: Black;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	background-color: #fff6eb;
+	border: 1px solid #f28d00;
+}
+
+.esup-opiR1 .form-button-link:hover,.esup-opiR1 .form-button-link-hover
+	{
+	color: #a71817;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	background: transparent;
+	cursor: pointer;
+	width: auto;
+	text-align: left;
+	border: none;
+	text-decoration: underline;
+}
+
+.esup-opiR1 .form-button-link-small:hover,.esup-opiR1 .form-button-link-small-hover
+	{
+	color: #a71817;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	background: transparent;
+	cursor: pointer;
+	width: auto;
+	text-align: center;
+	border: none;
+	text-decoration: underline;
+}
+
+.esup-opiR1 .form-button-link-small-red:hover,.esup-opiR1 .form-button-link-small-red-hover
+	{
+	color: #a71817;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	width: auto;
+	text-align: center;
+	text-decoration: underline;
+}
+
+.esup-opiR1 .etoileForChpObli {
+	color: #a71817;
+	font-size: 12px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+/*####   Section for SPAN ########*/
+.esup-opiR1 .span-text-small {
+	color: Black;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+}
+
+.esup-opiR1 .span-text-small-italic {
+	color: Black;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	font-style: italic;
+}
+
+/*####   Section for TABLE ########*/
+.esup-opiR1 .tableWidthMax {
+	width: 100%;
+	border: 1px solid #b7b6b6;
+	padding: 2px 5px 2px 5px;
+	background-color: #f9f9f9;
+	border-spacing: 0px;
+	font-weight: normal;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+.esup-opiR1 .tableWidthMax td {
+	vertical-align: middle;
+}
+
+/*## For use e:dataTable ##*/
+.esup-opiR1 table.paginatorData {
+	width: 100%;
+	border: none;
+	padding: 0px 0px 2px 0px;
+	text-align: center;
+	border-spacing: 2px;
+}
+
+.esup-opiR1 table.paginatorData th.paginatorData-header {
+	color: #a71817;
+	background-color: #e6e6e6;
+	text-align: center;
+	font-weight: normal;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	padding-bottom: 3px;
+}
+
+.esup-opiR1 table.paginatorData tr.paginatorData-text {
+	background-color: #f9f9f9;
+	text-align: center;
+	font-weight: normal;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+.esup-opiR1 table.paginatorData tr.paginatorData-alternate {
+	background-color: #e6e6e6;
+	text-align: center;
+	font-weight: normal;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+/*## END For use e:dataTable ##*/
+.esup-opiR1 table.displayInfo {
+	width: 100%;
+	border: 1px solid #b7b6b6;
+	padding: 0px 0px 2px 0px;
+	text-align: center;
+	background-color: #f9f9f9;
+	border-spacing: 0px;
+}
+
+.esup-opiR1 table.displayInfo th {
+	background-color: #e6e6e6;
+	color: #a71817;
+	text-align: center;
+	font-weight: normal;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	padding-bottom: 3px;
+}
+
+.esup-opiR1 table.displayInfo td.buttonTD {
+	width: 2%;
+}
+
+.esup-opiR1 table.displayInfo td.codeTD {
+	width: 20%;
+}
+
+.esup-opiR1 table.displayInfo td.libelleTD {
+	width: 60%;
+}
+
+.esup-opiR1 table.displayInfo td.checkBoxTD {
+	width: 10%;
+}
+
+.esup-opiR1 table.displayInfo .headerRow td {
+	background-color: #e6e6e6;
+	color: #a71817;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	padding-bottom: 3px;
+}
+
+.esup-opiR1 table.displayInfo .codeDisplayInfo {
+	vertical-align: center;
+}
+
+.esup-opiR1 table.displayInfo th.thOrdonne {
+	width: 250px;
+}
+
+.esup-opiR1 table.displayInfo tr.trCampagne th {
+	display: none;
+}
+
+.esup-opiR1 table.displayInfo tr.trCampagne th.thCampagne {
+	display: table-cell;
+}
+
+
+/*## table displayAddRdv ##*/
+table.displayAddRdv {
+	background-color: #f9f9f9;
+	border: 1px solid #b7b6b6;
+	width: 100%;
+	margin-bottom: 40px;
+	padding: 10px;
+	border-spacing: 0px;
+	font-weight:normal;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+table.displayAddRdv .manyMenu {
+	min-width: 100px;
+	max-width: 300px;
+	width:100%;
+	height:100px;
+}
+
+table.displayAddRdv th {
+	background-color: #e6e6e6;
+	color: #a71817;
+	vertical-align: middle;
+	font-weight:normal;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	padding-bottom: 3px;
+}
+
+table.displayAddRdv tr td {
+	vertical-align: middle;
+	text-align: left;
+}
+
+table.displayAddRdv tr td.left {
+	vertical-align: middle;
+	text-align: left;
+	width: 380px;
+	padding: 8px 0px 8px 0px;
+}
+
+table.displayAddRdv tr td.right {
+	vertical-align: middle;
+	text-align: left;
+	padding: 8px 0px 8px 0px;
+}
+
+
+
+/*####  Presentation hors connexion  ########*/
+.esup-opiR1 .tableJustWidthMax {
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	border-spacing: 0px;
+}
+
+.esup-opiR1 .colUnQuart {
+	width: 25%;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.esup-opiR1 .colTroisQuart {
+	width: 75%;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.esup-opiR1 .colUnQuartTextRight {
+	width: 25%;
+	text-align: right;
+	vertical-align: middle;
+}
+
+.esup-opiR1 .col90 {
+	width: 90%;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.esup-opiR1 .col10TextRight {
+	width: 10%;
+	text-align: right;
+	vertical-align: middle;
+}
+
+
+.esup-opiR1 .col200px {
+	width: 200px;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.esup-opiR1 .colTroisQuart {
+	width: 75%;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.esup-opiR1 .col1UnDemi {
+	width: 50%;
+	text-align: left;
+}
+
+.esup-opiR1 .col2UnDemi {
+	width: 50%;
+	text-align: right;
+}
+
+.esup-opiR1 div.welcomeGotoFirstConnexion {
+	border: 1px solid #b7b6b6;
+	background-color: #f9f9f9;
+	padding: 5px;
+	width: 360px;
+	height: 90px;
+}
+
+.esup-opiR1 div.welcomeGotoAccueilCandi {
+	border: 1px solid #b7b6b6;
+	background-color: #f9f9f9;
+	padding: 5px;
+	width: 360px;
+	height: 150px;
+}
+
+.esup-opiR1 table.listVowWithTypTrt {
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+
+.esup-opiR1 table.listVowWithTypTrt .td1 {
+	width: 68%;
+}
+
+.esup-opiR1 table.listVowWithTypTrt .td2,
+.esup-opiR1 table.listVowWithTypTrt .td2 table
+	{
+	margin: 0px;
+	padding: 0px;
+	border-spacing: 0px;
+}
+
+.esup-opiR1 table.listVowWithTypTrt .td2 table td {
+	width: 40px;
+}
+
+
+.esup-opiR1 table.radioTrtcmi td {
+	width: 40px;
+}
+
+/*####   Section for E:MESSAGES ########*/
+.esup-opiR1 div.messageForUser ul {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.esup-opiR1 div.messageForUser .msg-error {
+	padding: 2px;
+	display: block;
+	text-align: center;
+	font-weight: bold;
+	border: 1px solid #a71817;
+	border-bottom: 0.5px solid #a71817;
+	border-top: 0.5px solid #a71817;
+	color: #a71817;
+}
+
+.esup-opiR1 div.messageForUser .msg-header-error {
+	padding: 2px;
+	display: block;
+	width: 100px;
+	background-color: #a71817;
+	border: 1 none;
+	color: white;
+}
+
+.esup-opiR1 div.messageForUser .msg-info {
+	padding: 2px;
+	display: block;
+	border: 1px solid green;
+	color: green;
+	text-align: center;
+	font-weight: bold;
+}
+
+}
+.esup-opiR1 div.messageForUser .msg-alert {
+	padding: 2px;
+	display: block;
+	border: 1px solid #f28d00;
+	color: black;
+}
+
+/*########  Section Footer ##########*/
+.esup-opiR1 div.section-footer {
+	color: black;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	text-align: center;
+}
+
+/*########### LIST (UL, LI) ############*/
+.esup-opiR1 ul.listeFormation {
+	width: 100%;
+}
+
+.esup-opiR1 ul.listeFormation li {
+	list-style-type: none;
+	float: left;
+}
+
+.esup-opiR1 ul.listeFormation div {
+	width: 95%;
+	text-align: right;
+}
+
+.esup-opiR1 ul.listeVoeu {
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+
+.esup-opiR1 ul.listeVoeu li {
+	list-style-type: none;
+	float: left;
+}
+
+.esup-opiR1 ul.listeVoeu div {
+	width: 100%;
+	text-align: right;
+	float: right;
+	/*padding-left:65%;*/
+}
+
+.esup-opiR1 ul.listeVoeu td {
+	width: 30px;
+	text-align: center;
+	/*vertical-align:top;*/
+}
+
+.esup-opiR1 ul.formWith4col {
+	width: 100%;
+	clear: both;
+	padding: 0px;
+	margin: 2px;
+}
+
+.esup-opiR1 ul.formWith4col li.colLabel {
+	list-style-type: none;
+	width: 25%;
+	text-align: left;
+	vertical-align: middle;
+	display: inline;
+}
+
+.esup-opiR1 ul.formWith4col li.colField {
+	list-style-type: none;
+	width: 25%;
+	text-align: left;
+	vertical-align: middle;
+	display: inline;
+}
+
+.esup-opiR1 ul.listeTypeDiplome li {
+	display: inline;
+}
+
+.esup-opiR1 ul.listStyleTypeNone {
+	width: 100%;
+}
+
+.esup-opiR1 ul.listStyleTypeNone li {
+	list-style-type: none;
+}
+
+/*########  PAGINATOR ##########*/
+.esup-opiR1 div.paginator {
+	clear: both;
+}
+
+.esup-opiR1 div.paginator div.itemsNumbers {
+	float: left;
+	padding: 5px;
+	width: 22%;
+}
+
+.esup-opiR1 div.paginator div.navigation {
+	float: left;
+	text-align: center;
+	width: 55%;
+	/*utilis� dans le cas o� ce div serait vide : permet de conserver sa taille*/
+	border: 1px solid transparent;
+}
+
+.esup-opiR1 div.paginator ul {
+	margin: 0;
+	padding: 2px;
+}
+
+.esup-opiR1 div.paginator li {
+	list-style-type: none;
+	display: inline;
+	margin-left: 2px;
+	margin-right: 2px;
+	padding: 1px;
+	border: 1px solid #a71817;
+	z-index: 10;
+}
+
+.esup-opiR1 div.paginator input {
+	text-decoration: underline;
+	text-align: center;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	padding: 0px;
+	margin: 0px;
+	background-color: transparent;
+	border: none;
+}
+
+/*li.hover use for IE*/
+.esup-opiR1 div.paginator li:hover,.esup-opiR1 div.paginator li.hover {
+	background-color: #fff6eb;
+}
+
+.esup-opiR1 div.paginator li.currentpage {
+	border: 1px solid #a71817;
+	background-color: #a71817;
+}
+
+.esup-opiR1 div.paginator li.currentpage input {
+	font-weight: bold;
+	text-decoration: none;
+	color: white;
+}
+
+.esup-opiR1 .icone {
+	background: transparent;
+}
+
+.esup-opiR1 .espaceIcone {
+	background: transparent;
+	margin-right: 2px;
+}
+
+.esup-opiR1 .textLangLib {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #575757;
+	margin-left: 4px;
+	margin-right: 6px;
+}
+
+.esup-opiR1 .displayInfo .manyMenu,.esup-opiR1 .paginatorData .manyMenu
+	{
+	min-width: 100px;
+	max-width: 300px;
+	width: 100%;
+	height: 100px;
+}
+
+.esup-opiR1 table.displayInfo,.esup-opiR1 .paginatorData {
+	margin-bottom: 40px
+}
+
+.esup-opiR1.portlet-table-text {
+	text-align: center;
+}
+
+.esup-opiR1.portlet-table-text-left {
+	text-align: left;
+}
+
+/*
+   ------------------------------------------------------------
+   Schedule
+   ------------------------------------------------------------
+*/
+.schedule_header {
+	background-color: #a1c0f6;
+	color : #000000;
+	font-size: 70%;
+}
+
+.schedule_selected {
+	background-color: yellow;
+	font-weight: bold;
+	font-size: 80%;
+}
+
+#formAddParamRdvSup {
+	text-align: center;
+}
+
+#formAddParamRdvSup .calendrierRdv {
+	width: 100%;
+}
+
+.colRDVLeft {
+	text-align: right;
+	padding: 20px;
+}
+
+.colRDVCenter {
+	text-align: center;
+	width: 850px;
+}
+
+.colRDVRight {
+	text-align: left;
+	padding: 20px;
+}

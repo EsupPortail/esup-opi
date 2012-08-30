@@ -1,0 +1,75 @@
+.esup-opiR1 div.header {
+	position: relative;
+	background-image: url("/media/images/header/background_body.jpg");
+	background-repeat: repeat;
+	padding-left: 3px;
+	width: auto;
+	height: 80px;
+}
+
+.esup-opiR1 div.header div.logo {
+	position: absolute;
+	width: 150px;
+	top: 23px;
+	background-repeat: no-repeat;
+	height: 56px;
+	background-image: url("/media/images/header/logo-header.png");
+}
+
+.esup-opiR1 div.header div.header_suite {
+	position: relative;
+	background-image: url("/media/images/header/background_logo.jpg");
+	background-position: right;
+	background-repeat: no-repeat;
+	left: 15%;
+	width: 85%;
+	height: 80px;
+}
+
+.esup-opiR1 div.header div.header_suite div.titreAppli {
+	text-align: center;
+	width: 85%;
+	padding-top: 20px;
+}
+
+.esup-opiR1 div.header div.header_suite div.titreAppli .span_bigTitre {
+	color: black;
+	font-size: 18px;
+	font-weight: bold;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.esup-opiR1 div.header div.header_suite div.titreAppli .span_titre {
+	color: #f28d00;
+	font-size: 14px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.esup-opiR1 div.header div.header_suite div.user_displayName {
+	text-align: right;
+	position: absolute;
+	width: 49%;
+	left: 50%;
+	top: 40%;
+}
+
+.esup-opiR1 div.header div.header_suite div.version {
+	text-align: right;
+	position: absolute;
+	width: 49%;
+	left: 50%;
+	top: 65%;
+}
+
+.esup-opiR1 div.header div.header_suite .span_currentUser {
+	color: #f28d00;
+	font-size: 14px;
+	font-weight: bold;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.esup-opiR1 div.header div.header_suite .span_version {
+	color: #f28d00;
+	font-size: 12px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
