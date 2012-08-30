@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.user">
+
+	<class name="User" table="opi_user" > 
+		<id name="id" unsaved-value="null">
+			<column name="id_usr" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">opi_user_seq</param>
+			</generator>
+		</id> 
+		<property name="language" column="lang" length="10"/>
+		
+		<property name="nomPatronymique" column="lib_nom_pat_usr" length="30" unique-key="key_user"/>
+		<property name="nomUsuel" column="lib_nom_usu_usr" length="30"/>
+		<property name="prenom" column="lib_pr1_usr"  length="20" unique-key="key_user"/>
+		<property name="prenom2" column="lib_pr2_usr" length="20" unique-key="key_user"/>
+		<property name="adressMail" column="lib_mail_usr" length="50" not-null="true" unique="true"/>
+		
+		<property name="dateCreaEnr" column="date_crea_enr_usr" />
+		<property name="dateModifEnr" column="date_modif_enr_usr" />
+		<property name="codUserToCreate" column="cod_user_to_create_usr" />
+		<property name="codUserToUpdate" column="cod_user_to_update_usr" />
+		<property name="temoinEnService" column="tem_en_sve_usr" type="yes_no"/>
+		
+		<!-- ***************Individu*******************************  --> 
+		<joined-subclass name="Individu" table="individu" >
+			<key column="id_usr" />
+			
+			<property name="codeEtu" column="cod_etu" length="8"/>	
+			<property name="codInd" column="cod_ind" length="8"/>
+			<property name="numDossierOpi" column="num_dos_opi" length="20" unique="true" not-null="true"/>
+			<property name="codPayNationalite" column="cod_pay_nat" length="3"/>
+			<property name="codDepPaysNaissance" column="cod_dep_nai" length="3" unique-key="key_user"/>
+			<property name="codPayNaissance" column="cod_pay_nai" length="3"/>
+			<property name="dateNaissance" column="dat_nai_ind" type="date" unique-key="key_user"/>
+			<property name="villeNaissance" column="ville_nai_ind" length="30" unique-key="key_user"/>
+			<property name="codeNNE" column="cod_nne_ind" length="10"/>
+			<property name="codeClefNNE" column="cle_nne_ind" length="1"/>
+			<property name="numeroTelPortable" column="num_por_ind" length="15"/>
+			<property name="sexe" column="cod_sex" length="1"/>
+			<property name="emailAnnuaire" column="mail_annuaire" length="70"/>
+			<property name="state" column="state_ind" length="70" not-null="true"/>
+			<!--<property name="codeRI" column="cod_ri_ind" type="int" not-null="true"/>-->
+			
+			<set name="campagnes" table="ind_camp" lazy="true"
+				>
+				<key column="id_usr" not-null="true"/>
+				<many-to-many column="id_nom" class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.Campagne"/>
+			</set>
+			
+			<set name="cursus" 
+				
+				cascade="delete,delete-orphan" inverse="true">
+				<key column="id_usr"/>
+				<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus.IndCursus"/>
+			</set>
+			
+			<set name="cursusScol" 
+				 
+				cascade="delete,delete-orphan" inverse="true">
+				<key column="id_usr"/>
+				<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus.IndCursusScol"/>
+			</set>
+						
+			<map name="adresses"  cascade="all-delete-orphan" 
+				 
+				inverse="true">
+				<key column="id_usr"/>
+				<map-key type="string" column="type_adr" />
+				<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.user.Adresse"/>
+			</map>
+				
+			<set name="indBac" inverse="true"
+					  
+					cascade="all-delete-orphan">
+				<key column="id_usr"/>
+				<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus.IndBac"/>
+			</set>	
+			
+			<set name="voeux" 
+				where="tem_en_sve_voeu='Y'"
+				inverse="true" batch-size="5" cascade="all-delete-orphan">
+				<key column="id_usr"/>
+				<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.user.candidature.IndVoeu"/>
+			</set>	
+		
+			
+			<set name="archVoeux" 
+				where="tem_en_sve_voeu='N'"
+				inverse="true" batch-size="5" cascade="all-delete-orphan">
+				<key column="id_usr"/>
+				<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.user.candidature.IndVoeu"/>
+			</set>	
+			
+			<set name="missingPieces"
+			 	inverse="true"
+			 	cascade="all-delete-orphan">
+				<key column="id_usr"/>
+				<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.user.candidature.MissingPiece"/>
+			</set>
+			
+		</joined-subclass>
+		
+		
+		<!-- ***************Gestionnaire*******************************  -->
+		<joined-subclass name="Gestionnaire" table="gestionnaire" >
+			<key column="id_usr" />
+			<property name="displayName" column="disp_name" length="80"/>
+			<property name="login" column="login_gest" unique="true" length="50"/>
+			<property name="dateDbtValidite" column="dat_deb_valid" type="date"/>
+			<property name="dateFinValidite" column="dat_fin_valid" type="date"/>
+			<property name="codeCge" column="cod_cge" type="string" length="3"/>
+			
+			<many-to-one name="profile" column="id_pro" lazy="false"/>
+			
+			<set name="members" inverse="true"
+				cascade="all-delete-orphan">
+				<key column="id_usr"/>
+				<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.Member"/>
+			</set>
+			
+			<set name="rightOnCmi" table="rightOnCmi" lazy="false">
+				<key column="id_usr" />
+				<many-to-many  column="id_cmi"
+						class="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.Commission"/>
+			</set>
+			
+			
+		</joined-subclass>
+	</class>
+
+</hibernate-mapping>
+
+

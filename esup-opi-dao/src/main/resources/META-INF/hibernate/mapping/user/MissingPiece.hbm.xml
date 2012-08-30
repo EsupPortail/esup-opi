@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.user.candidature">
+
+	<class name="MissingPiece" table="missing_piece" >
+		<id name="id"> 
+			<column name="id_miss_piece" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">ind_miss_piece</param>
+			</generator>
+		</id> 
+		
+		<property name="libelle" column="lib_miss_piece" length="500"/>
+		
+		<property name="dateCreaEnr" column="date_crea_enr_miss_piece" />
+		<property name="dateModifEnr" column="date_modif_enr_miss_piece" />
+		<property name="codUserToCreate" column="cod_user_to_create_miss_piece" />
+		<property name="codUserToUpdate" column="cod_user_to_update_miss_piece" />
+		
+
+		
+
+		<many-to-one name="individu" column="id_usr" not-null="true" />
+		
+		<many-to-one name="commission" column="id_cmi" not-null="true" />
+		
+		<many-to-one name="piece" lazy="false"
+			class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.PieceJustificative" column="id_nom" />
+	</class>	
+</hibernate-mapping>

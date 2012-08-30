@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission">
+
+	<class name="ContactCommission" table="contactComm">
+		<id name="id" unsaved-value="null"> 
+			<column name="id_contact_cmi" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">contact_cmi_seq</param>
+			</generator>
+		</id>
+		<many-to-one name="adresse" column="id_adr_coord_cmi" lazy="false"/>
+		<property name="corresponding" column="corresp_cmi" />
+		<property name="codSig" column="cod_sig_cmi" length="2"/>
+		<property name="codeRI" column="cod_ri_coord" type="int" not-null="true"/>
+		<property name="managerName" column="lib_mgr_cmi" />
+		<property name="managerPhone" column="lib_mgr_phone_cmi" length="15" />
+		<property name="managerMail" column="lib_mgr_mail_cmi" length="50" />
+		
+		<many-to-one name="commission" column="id_cmi" />
+		
+	</class>	
+
+</hibernate-mapping>

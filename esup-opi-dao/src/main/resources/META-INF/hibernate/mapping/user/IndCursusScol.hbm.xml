@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+          
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus">
+
+	<class name="IndCursusScol" table="ind_cur_scol" >
+		<id name="id"> 
+			<column name="id_cur_scol" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">ind_cur_scol_seq</param>
+			</generator>
+		</id> 
+		
+		<discriminator column="type_cur_scol" type="string"/>
+		
+		<property name="type" column="type_cur_scol" insert="false" update="false"/>
+		
+		<property name="annee" column="an_cur_scol" length="10" not-null="true"/>
+		<property name="codEtablissement" column="cod_etb_cur_scol" length="8" />
+		<property name="codTypeEtab" column="cod_tpe_cur_scol" length="2"/>
+		<property name="temoinFromApogee" column="tem_from_apo_cur_scol" type="yes_no" not-null="true"/>
+		<property name="resultat" column="resulat_cur_scol" length="40"/>
+		
+		
+		<property name="dateCreaEnr" column="date_crea_enr_cur_scol" />
+		<property name="dateModifEnr" column="date_modif_enr_cur_scol" />
+		<property name="codUserToCreate" column="cod_user_to_create_cur_scol" />
+		<property name="codUserToUpdate" column="cod_user_to_update_cur_scol" />
+		<property name="temoinEnService" column="tem_en_sve_cur_scol" type="yes_no"/>
+		<property name="libMention" column="lib_mnp_cur_scol" length="60"/>
+		
+		<many-to-one name="individu" column="id_usr" not-null="true" />
+		
+		<subclass name="CursusR1" discriminator-value="CUR_R1" lazy="false">
+			<property name="codVersionDiplome" column="cod_vrs_vdi_cur_r1" />
+			<property name="codDiplome" column="cod_dip_cur_r1" length="7"/>
+			<property name="codEtape" column="cod_etp_cur_r1" length="6"/>
+			<property name="codVersionEtape" column="cod_vrs_vet_cur_r1" />
+			<property name="libEtape" column="lib_etp_cur_r1" length="120"/>
+		</subclass>
+		
+		<subclass name="CursusExt" discriminator-value="CUR_EXT" lazy="false">
+			<property name="codDac" column="cod_dac_cur_ext" length="7"/>
+			<property name="libDac" column="lib_dac_cur_ext" length="60"/>
+			<property name="libelle" column="lib_exact_dac_cur_ext" length="200"/>
+			<property name="libEtbEtr" column="lib_etb_etr_cur_ext" />
+		</subclass>
+				
+	</class>	
+</hibernate-mapping>
+
+

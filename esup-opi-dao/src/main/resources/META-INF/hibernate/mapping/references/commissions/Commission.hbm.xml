@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+          
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission">
+
+	<class name="Commission" table="commission">
+		<id name="id" unsaved-value="null"> 
+			<column name="id_cmi" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">commission_seq</param>
+			</generator>
+		</id>
+		<property name="code" column="cod_cmi" length="10" not-null="true"/>
+		<property name="libelle" column="lib_cmi" length="60" not-null="true"/>
+		
+		<property name="dateCreaEnr" column="date_crea_enr_cmi" />
+		<property name="dateModifEnr" column="date_modif_enr_cmi" />
+		<property name="codUserToCreate" column="cod_user_to_create_cmi" />
+		<property name="codUserToUpdate" column="cod_user_to_update_cmi" />
+		<property name="temoinEnService" column="tem_en_sve_cmi" type="yes_no"/> 
+		
+		<set name="members" inverse="true" lazy="false">
+			<key column="id_cmi"/>
+			<one-to-many class="Member"/>
+		</set>
+		
+		<set name="traitementCmi" inverse="true" lazy="false">
+			<key column="id_cmi"/>
+			<one-to-many class="TraitementCmi"/>
+		</set>
+		
+		<many-to-one name="calendarCmi" column="id_cal_cmi" cascade="delete" lazy="false"/>
+		<many-to-one name="calendrierRdv" column="id_rdv_calendar" 
+			class="fr.univ.rennes1.cri.opiR1.domain.beans.references.rendezvous.CalendarRDV"/>
+		<map name="contactsCommission" table="contactComm"
+			lazy="false"
+			cascade="delete,delete-orphan"
+			inverse="true">
+			<key column="id_cmi" />
+			<map-key column="cod_ri_coord" type="integer" />
+			<one-to-many class="ContactCommission" />
+		</map>
+	</class>	
+</hibernate-mapping>
+
+

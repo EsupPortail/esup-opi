@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.user.candidature">
+
+	<class name="IndFormulaire" table="ind_formulaire" >
+		<id name="id"> 
+			<column name="id_ind_form" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">ind_formulaire_seq</param>
+			</generator>
+		</id> 
+		<component name="versionEtpOpi">
+			<property name="codEtp" column="cod_etp_ind_voeu" length="6" not-null="true"/>
+			<property name="codVrsVet" column="cod_vrs_vet_ind_voeu" not-null="true"/>
+		</component>
+
+		<many-to-one name="individu" column="id_usr" not-null="true" />
+		
+	</class>	
+</hibernate-mapping>

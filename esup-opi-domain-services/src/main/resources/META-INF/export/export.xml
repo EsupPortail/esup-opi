@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!--
+		/properties/export/export.xml The configuration file for webService to
+		flush the cache in current instance. This file is referenced by
+		/properties/applicationContext.xml. It should not be modified but by
+		the developers.
+	-->
+
+
+	<bean id="abstractXFire" class="org.codehaus.xfire.spring.remoting.XFireExporter"
+		abstract="true">
+		<property name="serviceFactory" ref="xfire.serviceFactory" />
+		<property name="xfire" ref="xfire" />
+	</bean>
+
+
+	<bean id="flushCacheXFire" parent="abstractXFire">
+		<property name="serviceBean" ref="flushCache" />
+		<property name="serviceClass"
+			value="fr.univ.rennes1.cri.opiR1.services.remote.IFlushCache" />
+	</bean>
+
+
+	<bean id="flushCache" class="fr.univ.rennes1.cri.opiR1.services.remote.FlushCacheImpl">
+		<property name="cacheProvider" ref="cacheProvider" />
+		<property name="flushingModels" ref="cachePropertyConfigurer"/>
+	</bean>
+
+
+
+	<bean id="schedulerFlushCache"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="quartzProperties">
+			<props>
+				<!-- ThreadPool -->
+				<prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool
+				</prop>
+				<prop key="org.quartz.threadPool.threadCount">10</prop>
+				<prop key="org.quartz.threadPool.threadPriority">5</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<bean id="flushCacheThread" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass"
+			value="fr.univ.rennes1.cri.opiR1.services.remote.client.FlushCacheThread" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="useFlushCache">
+					<ref bean="useFlushCache" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="useFlushCache" class="fr.univ.rennes1.cri.opiR1.services.remote.client.UseFlushCacheImpl">
+		<property name="serversString" value="${remote.flushCache.servers}"/>
+	</bean>
+	
+	
+
+</beans>

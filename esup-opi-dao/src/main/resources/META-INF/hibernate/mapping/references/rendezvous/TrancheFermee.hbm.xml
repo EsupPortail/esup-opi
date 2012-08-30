@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.references.rendezvous">
+	<class name="TrancheFermee" table="RDV_JOURSFERMETURE">
+		<id name="id" unsaved-value="null"> 
+			<column name="id_TFermeture" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">rdv_joursfermeture_seq</param>
+			</generator>
+		</id>
+		
+		<property name="matin" column="MATIN"/>
+		<property name="aprem" column="APREM"/>
+		
+		<property name="dateFermeture" column="DATEFERMETURE" type="date" />
+		
+		<many-to-one name="calendrierRdv" column="id_rdv_calendar" class="CalendarRDV" />
+	</class>
+</hibernate-mapping>
+
+

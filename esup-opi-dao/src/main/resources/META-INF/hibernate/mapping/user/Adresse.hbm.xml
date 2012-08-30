@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.user">
+
+	<class name="Adresse" table="adresse">
+	<cache usage="nonstrict-read-write"/>
+		<id name="id"> 
+			<column name="id_adr" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">adresse_seq</param>
+			</generator>
+		</id> 
+		
+		<discriminator column="type_adr" type="string"/>
+		<property name="adr1" column="ad1_adr" length="32"/>
+		<property name="adr2" column="ad2_adr" length="70"/>
+		<property name="adr3" column="ad3_adr" length="70"/>
+		<property name="codPays" column="cod_pay_adr" length="3"/>
+		<property name="codCommune" column="cod_com_adr" length="5"/>
+		<property name="codBdi" column="cod_bdi_adr" length="8"/>
+		<property name="cedex" column="cedex_adr" length="4"/>
+		<property name="libComEtr" column="lib_com_etr_adr" length="40"/>
+		<property name="mail" column="lib_mail_adr" length="50"/>
+		<property name="phoneNumber" column="tel_num_adr" length="15"/>
+		<property name="faxNumber" column="fax_num_adr" length="10"/>
+	
+	
+		<property name="dateCreaEnr" column="date_crea_enr_adr" />
+		<property name="dateModifEnr" column="date_modif_enr_adr" />
+		<property name="codUserToCreate" column="cod_user_to_create_adr" />
+		<property name="codUserToUpdate" column="cod_user_to_update_adr" />
+	
+		<subclass name="AdresseFix" discriminator-value="fix">
+			<many-to-one name="individu" column="id_usr" />
+		</subclass>
+		
+		<subclass name="AdresseCommission" discriminator-value="commission"/>
+		
+		<subclass name="AdresseEmployeur" discriminator-value="employeur"/>
+		
+	</class>
+</hibernate-mapping>

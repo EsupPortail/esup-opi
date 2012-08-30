@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+          
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus">
+
+	<class name="IndCursus" table="ind_cursus" >
+		<id name="id"> 
+			<column name="id_cursus" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">ind_cursus_seq</param>
+			</generator>
+		</id> 
+		
+		<discriminator column="type_cursus" type="string"/>
+		
+		<property name="type" column="type_cursus" insert="false" update="false"/>
+		
+		<property name="annee" column="an_cursus" length="20"/>
+		<property name="comment" column="com_cursus" length="2000"/>
+		<property name="organisme" column="org_cursus" length="70"/>
+		<property name="duree" column="duree_cursus" length="20"/>
+		<property name="libelle" column="lib_cursus" length="50"/>
+		
+		<property name="dateCreaEnr" column="date_crea_enr_cursus" />
+		<property name="dateModifEnr" column="date_modif_enr_cursus" />
+		<property name="codUserToCreate" column="cod_user_to_create_cursus" />
+		<property name="codUserToUpdate" column="cod_user_to_update_cursus" />
+		<property name="temoinEnService" column="tem_en_sve_cursus" type="yes_no"/>
+		
+		<many-to-one name="individu" column="id_usr" not-null="true" />
+		
+		<subclass name="CursusPro" discriminator-value="CUR_PRO" lazy="false">
+			<property name="quotite" column="quotite_cursus_pro" length="10"/>
+		<!--  	<property name="function" column="fct_cursus_pro" />-->
+		</subclass>
+		
+		<subclass name="QualifNonDiplomante" discriminator-value="CUR_QUA_NON_DIP" lazy="false"/>
+		
+	</class>	
+</hibernate-mapping>
+
+

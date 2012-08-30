@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus">
+
+	<class name="IndBac" table="ind_bac" >
+		<id name="id"> 
+			<column name="id_ind_bac" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">ind_bac_seq</param>
+			</generator>
+		</id> 
+		
+		<property name="codTpe" column="cod_tpe" length="2" />
+		<property name="codMnb" column="cod_mnb" length="2" />
+		<property name="codDep" column="cod_dep" length="3"/>
+		<property name="codEtb" column="cod_etb" length="8" />
+		<property name="codPay" column="cod_pay" length="3" />
+		<property name="codCom" column="cod_com" length="8" />
+		<property name="dateObtention" column="daa_obt_bac" length="4" not-null="true"/>
+		<property name="codBac" column="cod_bac" length="4" not-null="true"/>
+		
+		<property name="dateCreaEnr" column="date_crea_enr_ind_bac" />
+		<property name="dateModifEnr" column="date_modif_enr_ind_bac" />
+		<property name="codUserToCreate" column="cod_user_to_create_ind_bac" />
+		<property name="codUserToUpdate" column="cod_user_to_update_ind_bac" />
+		<property name="temoinEnService" column="tem_en_sve_ind_bac" type="yes_no"/>
+		<property name="temoinFromApogee" column="tem_from_apo_ind_bac" type="yes_no"/>
+	
+		<many-to-one name="individu" column="id_usr" not-null="true" />
+		
+	</class>	
+</hibernate-mapping>

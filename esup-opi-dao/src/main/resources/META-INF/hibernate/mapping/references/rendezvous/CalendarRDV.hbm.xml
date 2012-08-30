@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.references.rendezvous">
+	<class name="CalendarRDV" table="RDV_CALENDAR">
+		<id name="id" unsaved-value="null">
+			<column name="id_rdv_calendar" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">rdv_calendar_seq</param>
+			</generator>
+		</id>
+		
+		<property name="titre" column="TITRE" unique="true" not-null="true"/>
+		<property name="codeCge" column="CODE_CGE" unique="true" />
+		<property name="msgMailConfirmation" column="MAIL" type="text"/>
+		<property name="msgEtudiant" column="MSG_ETUDIANT" />
+		<property name="msgValidation" column="MSG_VALIDATION" />
+		<property name="nbreMaxEtud" column="NBETUDCRENEAU" />
+		<property name="nbJoursAvantPro" column="NBJOURSAVANTPRO" />
+		<property name="nbJoursApresPro" column="NBJOURSAPRESPRO" />
+		<property name="dateDebutInsc" column="D_DEBUT" />
+		<property name="dateFinInsc" column="D_FIN" />
+		<property name="participeOK" column="PARTICIPE" />
+		
+		<set name="commissions" lazy="false">
+			<key column="id_rdv_calendar"/>
+			<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.Commission"/>
+		</set>
+		
+		<set name="vets" lazy="false" 
+			cascade="delete,delete-orphan">
+			<key column="id_rdv_calendar"/>
+			<one-to-many class="VetCalendar"/>
+		</set>
+		
+		<bag name="candidats" lazy="false" 
+			cascade="delete,delete-orphan">
+			<key column="id_rdv_calendar"/>
+			<one-to-many class="IndividuDate"/>
+		</bag>
+		
+		<map name="tranchesFermees" table="RDV_JOURSFERMETURE"
+			lazy="false" cascade="delete,delete-orphan">
+			<key column="id_rdv_calendar" />
+			<map-key column="DATEFERMETURE" type="date" />
+			<one-to-many class="TrancheFermee" />
+		</map>
+		
+		<map name="horaires" table="RDV_HORAIRE"
+			lazy="false" cascade="delete,delete-orphan">
+			<key column="id_rdv_calendar" />
+			<map-key column="NUMMOIS" type="integer" />
+			<one-to-many class="Horaire" />
+		</map>
+		
+		<map name="jourHoraires" table="RDV_JOUR_HORAIRE"
+			lazy="false" cascade="delete,delete-orphan">
+			<key column="id_rdv_calendar" />
+			<map-key column="DATEDUJOUR" type="date" />
+			<one-to-many class="JourHoraire" />
+		</map>
+	</class>
+</hibernate-mapping>
+
+

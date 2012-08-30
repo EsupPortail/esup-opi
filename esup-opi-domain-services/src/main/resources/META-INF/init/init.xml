@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
+	>
+
+	<!-- 
+		/properties/init/init.xml
+		The configuration file for the initialization of the application.
+		This file is referenced by /properties/applicationContext.xml.
+	-->
+
+	<import resource="initTraitement.xml" />
+
+	<bean 
+		id="versionningService"
+		class="fr.univ.rennes1.cri.opiR1.services.application.VersionningServiceImpl"
+		parent="abstractDomainAwareBean"
+		>
+		<property name="firstAdministratorId" value="${init.firstAdministratorId}" />
+		<property name="accessAdmin">
+			<list>
+				<ref bean="access_admin_param_read"/>
+				<ref bean="access_admin_profil_add"/>
+				<ref bean="access_admin_profil_read"/>
+				<ref bean="access_admin_profil_update"/>
+			</list>
+		</property>
+		<property name="profils">
+			<list>
+				<ref bean="profil_admin"/>
+				<ref bean="profil_membre"/>
+			</list>
+		</property>
+		
+		<property name="admin" ref="profil_admin"/>
+		
+	</bean>
+	
+	<bean 
+		id="profil_admin"
+		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Profile"
+		lazy-init="true"
+		>
+		<property name="code" value="ADMIN" />
+		<property name="libelle" value="Administrateur Technique" />
+		<property name="superProfile" value="true"/>
+	</bean>
+	
+	<bean 
+		id="profil_membre"
+		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Profile"
+		lazy-init="true"
+		>
+		<property name="code" value="MEMBRE" />
+		<property name="libelle" value="Membre de commission" />
+	</bean>
+
+</beans>

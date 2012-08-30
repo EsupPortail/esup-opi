@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.user.situation">
+
+	<class name="IndSituation" table="ind_situation">
+	<cache usage="nonstrict-read-write"/>
+		<id name="id"> 
+			<column name="id_situ" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">situation_seq</param>
+			</generator>
+		</id> 
+		
+		<discriminator column="type_situ" type="string"/>
+		
+		<property name="type" column="type_situ" insert="false" update="false"/>
+		
+		<property name="handicapTravail" column="han_tra_situ" type="yes_no" not-null="true"/>
+		<property name="handicapAdulte" column="han_ad_situ" type="yes_no" not-null="true"/>
+		
+		<many-to-one name="individu" column="id_usr" />
+	
+		<property name="dateCreaEnr" column="date_crea_enr_situ" />
+		<property name="dateModifEnr" column="date_modif_enr_situ" />
+		<property name="codUserToCreate" column="cod_user_to_create_situ" />
+		<property name="codUserToUpdate" column="cod_user_to_update_situ" />
+	
+		<subclass name="SituationSalarie" discriminator-value="sal">
+			<property name="codeTypeContrat" column="cod_typ_contrat" length="5"/>
+			<property name="dateFinCDD" column="date_fin_cdd" type="date" />
+			<property name="autreTypeContrat" column="autre_typ" length="50"/>
+			<property name="codeTypeStatut" column="cod_typ_statut" length="10"/>
+			<property name="grade" column="grade" length="50"/>
+			<property name="raisonSociale" column="rais_soc" length="50"/>
+			<property name="codeTypeOrga" column="cod_typ_orga" length="10"/>
+			<property name="secteurActivity" column="sect_act" length="50"/>
+			<many-to-one name="adresseEmployeur" column="id_adr_situ" lazy="false"
+				cascade="delete"/>
+		</subclass>
+		
+		<subclass name="SituationProLib" discriminator-value="pro_lib">
+			<property name="exactStatut" column="lib_situ" length="100"/>
+			<property name="activity" column="activity" length="50"/>
+			<property name="dateStartActivity" column="dat_deb_situ" type="date"/>
+		</subclass>
+
+		<subclass name="SituationDE" discriminator-value="dem_emp">
+			<property name="dateInscriptionPE" column="dat_deb_situ" type="date"/>
+			<property name="compensated" column="compensated" type="yes_no"/>
+			<property name="dateStartCompensation" column="dat_deb_comp" type="date"/>
+			<property name="dateEndCompensation" column="dat_fin_comp" type="date"/>
+		</subclass>
+
+		<subclass name="SituationEtu" discriminator-value="etu"/>
+
+		<subclass name="SituationAutre" discriminator-value="other">
+			<property name="actualSituation" column="lib_situ" length="100"/>
+		</subclass>
+		
+	</class>
+</hibernate-mapping>

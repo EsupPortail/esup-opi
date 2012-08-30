@@ -8,22 +8,61 @@
 
     <bean 
     	id="tagsConfigurator"
-    	class="org.esupportail.commons.web.jsf.tags.config.TagsConfigurator"
+    	class="org.esupportail.commons.web.tags.config.TagsConfigurator"
     	parent="abstractApplicationAwareBean"
-		lazy-init="true"
     	>
     	<description>
     		The bean 'tagsConfigurator' is used to set up the configuration of
     		the custom tags of consortium ESUP-Portail (see esup-commons.tld).
     	</description>
+    	<property name="messagesInfoClass" value="msg-info" >
+    		<description>
+    			The default value used for attribute infoClass of tags message 
+    			and messages. It is the CSS class used for info messages.
+    		</description>
+    	</property>
+    	<property name="messagesWarnClass" value="msg-alert" >
+    		<description>
+    			The default value used for attribute warnClass of tags message 
+    			and messages. It is the CSS class used for warn messages.
+    		</description>
+    	</property>
+    	<property name="messagesErrorClass" value="msg-error" >
+    		<description>
+    			The default value used for attribute errorClass of tags message 
+    			and messages. It is the CSS class used for error messages.
+    		</description>
+    	</property>
+    	<property name="messagesFatalClass" value="msg-error" >
+    		<description>
+    			The default value used for attribute fatalClass of tags message 
+    			and messages. It is the CSS class used for fatal messages.
+    		</description>
+    	</property>
+    	<property name="messagesLayout" value="table" >
+    		<description>
+    			The default value used for attribute layout of tag messages. 
+    		</description>
+    	</property>
+    	<property name="documentTitle" value="" >
+    		<description>
+    			The default value for attribute title of tag document, used to 
+    			generate the content of output tag TITLE, optional.
+    		</description>
+    	</property>
+    	<property name="doctype" value="" >
+    		<description>
+    			The doctype of the document, optional.
+    		</description>
+    	</property>
     	<property name="servletMediaPath" value="${mediaPath.servlet}" >
     		<description>
-    			The path to the media files, used for scripts.
+    			The path to the media files, used for scripts and styleheets.
     		</description>
     	</property>
     	<property name="portletMediaPath" value="${mediaPath.portlet}" >
     		<description>
-    			The path to the media files, used for scripts and stylesheets.
+    			The path to the media files, used for scripts.
     		</description>
     	</property>
     	<property name="scripts" >
@@ -33,7 +72,10 @@
     			URLs are prefixed by property portletMediaPath or servletMediaPath.
     		</description>
     		<list>
-    			<value>js/functions.js</value>
+    			<value>functions.js</value>
+    			<value>js/opiR1_global.js</value>
+    			<value>js/formValidator.js</value>
+    			<value>js/JSPopup.js</value>
     		</list>
     	</property>
     	<property name="stylesheets" >
@@ -44,8 +86,97 @@
     			Warning: this tag is ignored for portlet installations.
     		</description>
     		<list>
-    			<value>style/esup.css</value>
+    			<value>style/opiR1_global.css</value>
+    			<value>commons.css</value>
+    			<value>portlet.css</value>
     		</list>
+    	</property>
+    	<property name="documentBodyStyleClass" value="portlet-section-body esup-opiR1" >
+    		<description>
+    			The default value used for attribute class of HTML tag BODY.
+    			Use in opiR1_global.js 
+    		</description>
+    	</property>
+    	<property name="menuLayout" value="table" >
+    		<description>
+    			The default value used for attribute layout of tag panelNavigation. 
+    		</description>
+    	</property>
+    	<property name="menuStyleClass" value="menu" >
+    		<description>
+    			The default value used for attribute styleClass of tag panelNavigation. 
+    		</description>
+    	</property>
+    	<property name="menuItemStyleClass" value="item" >
+    		<description>
+    			The default value used for attribute itemClass of tag panelNavigationItem. 
+    		</description>
+    	</property>
+    	<property name="menuActiveItemStyleClass" value="item-selected" >
+    		<description>
+    			The default value used for attribute activeItemClass of tag panelNavigationItem. 
+    		</description>
+    	</property>
+    	<property name="footerStyleClass" value="section-footer" >
+    		<description>
+    			The default value used for attribute styleClass of tag footer. 
+    		</description>
+    	</property>
+    	<property name="footerItemStyleClass" value="" >
+    		<description>
+    			The default value used for attribute itemClass of tag footer. 
+    		</description>
+    	</property>
+    	<property name="footerText" value="" >
+    		<description>
+    			The footer text printed by tag 'page'. If this property is ommited, no
+    			footer will be printed. If it is empty, a default value will be used.
+    		</description>
+    	</property>
+    	<property name="labelStyleClass" value="form-field-label" >
+    		<description>
+    			The default value used for attribute styleClass of tag outputLabel. 
+    		</description>
+    	</property>
+    	<property name="buttonStyleClass" value="form-button" >
+    		<description>
+    			The default value used for attribute styleClass of tag commandButton. 
+    		</description>
+    	</property>
+    	<property name="inputFieldStyleClass" value="form-input-field" >
+    		<description>
+    			The default value used for attribute styleClass of tag inputText. 
+    		</description>
+    	</property>
+    	<property name="checkboxStyleClass" value="portlet-form-field" >
+    		<description>
+    			The default value used for attribute styleClass of tag SelectBooleanCheckbox. 
+    		</description>
+    	</property>
+    	<property name="dataTableHeaderClass" value="paginatorData-header" >
+    		<description>
+    			The default value used for attribute headerClass of tag dataTable. 
+    		</description>
+    	</property>
+    	<property name="dataTableFooterClass" value="portlet-table-footer" >
+    		<description>
+    			The default value used for attribute footerClass of tag dataTable. 
+    		</description>
+    	</property>
+    	<property name="dataTableRowClass" value="paginatorData-text" >
+    		<description>
+    			The default value used for attribute rowClass of tag dataTable. 
+    		</description>
+    	</property>
+    	<property name="dataTableRowAlternateClass" value="paginatorData-alternate" >
+    		<description>
+    			The default value used for attribute rowClass of tag dataTable. 
+    		</description>
+    	</property>
+    	<property name="dataTableColumnClass" value="portlet-table-text" >
+    		<description>
+    			The default value used for attribute columnClass of tag dataTable. 
+    		</description>
     	</property>
     	<property name="sectionTag" value="h1" >
     		<description>
@@ -62,14 +193,29 @@
     			The tag used to wrap the input of tag 'subSection'.
     		</description>
     	</property>
-    	<property name="subSectionStyleClass" value="section-smallTitle" >
+    	<property name="subSectionStyleClass" value="section-subheader" >
     		<description>
     			The default CSS class used for tag 'subSection'.
     		</description>
     	</property>
+    	<property name="paragraphTag" value="p" >
+    		<description>
+    			The tag used to wrap the input of tag 'paragraph'.
+    		</description>
+    	</property>
+    	<property name="paragraphStyleClass" value="portlet-section-text" >
+    		<description>
+    			The default CSS class used for tag 'paragraph'.
+    		</description>
+    	</property>
+    	<property name="textStyleClass" value="portlet-section-text" >
+    		<description>
+    			The default CSS class used for tag 'text'.
+    		</description>
+    	</property>
     	<property name="paginatorStyleClass" value="paginator" >
     		<description>
-    			The default CSS class used for tag 'paginator'.
+    			The default value used for attribute styleClass of tag paginator. 
     		</description>
     	</property>
      </bean>

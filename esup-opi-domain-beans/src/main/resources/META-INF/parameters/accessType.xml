@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
+	>
+
+	<bean
+		id="accessRead"
+		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.AccessType"
+		scope="singleton"
+		>
+
+		<property name="code" value="READ" /> 
+		<property name="libelle" value="Lecture" />
+		<property name="comment" value="Permet d'accéder et de consulter." />
+		<property name="rang" value="1" />
+	</bean>
+	
+	<bean
+		id="accessAdd"
+		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.AccessType"
+		scope="singleton"
+		>
+
+		<property name="code" value="ADD" /> 
+		<property name="libelle" value="Ajouter" />
+		<property name="comment" value="Permet d'ajouter des données." />
+		<property name="rang" value="2" />
+	</bean>
+	
+	<bean
+		id="accessUpdate"
+		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.AccessType"
+		scope="singleton"
+		>
+
+		<property name="code" value="UPDATE" /> 
+		<property name="libelle" value="Modifier" />
+		<property name="comment" value="Permet de modifier des données." />
+		<property name="rang" value="3" />
+	</bean>
+	
+	<bean
+		id="accessDelete"
+		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.AccessType"
+		scope="singleton"
+		>
+
+		<property name="code" value="DELETE" /> 
+		<property name="libelle" value="Supprimer" />
+		<property name="comment" value="Permet de supprimer des données." />
+		<property name="rang" value="4" />
+	</bean>
+	
+
+</beans>

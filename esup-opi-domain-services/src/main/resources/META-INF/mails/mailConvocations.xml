@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<bean id="inscriptionAdmMailFI"
+		class="fr.univ.rennes1.cri.opiR1.web.beans.parameters.MailConvocation">
+		<description></description>
+		<property name="isAppel" value="false" />
+		<property name="mailContentService" ref="inscriptionAdmFI" />
+	</bean>
+
+	<bean id="inscriptionAdmMailAppelFI"
+		class="fr.univ.rennes1.cri.opiR1.web.beans.parameters.MailConvocation">
+		<description></description>
+		<property name="isAppel" value="true" />
+		<property name="mailContentService" ref="inscriptionAdmAppelFI" />
+	</bean>
+
+	<bean id="refusedMailFI"
+		class="fr.univ.rennes1.cri.opiR1.web.beans.parameters.MailConvocation">
+		<description></description>
+		<property name="isAppel" value="false" />
+		<property name="mailContentService" ref="refusedFI" />
+	</bean>
+
+	<bean id="refusedMailAppelFI"
+		class="fr.univ.rennes1.cri.opiR1.web.beans.parameters.MailConvocation">
+		<description></description>
+		<property name="isAppel" value="true" />
+		<property name="mailContentService" ref="refusedAppelFI" />
+	</bean>
+
+	<bean id="preselectionMailFI"
+		class="fr.univ.rennes1.cri.opiR1.web.beans.parameters.MailConvocation">
+		<description></description>
+		<property name="mailContentService" ref="preselectionFI" />
+	</bean>
+
+	<bean id="listeComplementaireMailFI"
+		class="fr.univ.rennes1.cri.opiR1.web.beans.parameters.MailConvocation">
+		<description></description>
+		<property name="mailContentService" ref="listeComplementaireFI" />
+	</bean>
+
+	<bean id="intermediaryMailFI"
+		class="fr.univ.rennes1.cri.opiR1.web.beans.parameters.MailConvocation">
+		<description></description>
+		<property name="mailContentService" ref="intermediaryFI" />
+	</bean>
+
+	<bean id="inscriptionAdmMailFC"
+		class="fr.univ.rennes1.cri.opiR1.web.beans.parameters.MailConvocation">
+		<description></description>
+		<property name="isAppel" value="false" />
+		<property name="mailContentService" ref="inscriptionAdmFC" />
+	</bean>
+
+	<bean id="inscriptionAdmMailAppelFC"
+		class="fr.univ.rennes1.cri.opiR1.web.beans.parameters.MailConvocation">
+		<description></description>
+		<property name="isAppel" value="true" />
+		<property name="mailContentService" ref="inscriptionAdmAppelFC" />
+	</bean>
+
+	<bean id="refusedMailFC"
+		class="fr.univ.rennes1.cri.opiR1.web.beans.parameters.MailConvocation">
+		<description></description>
+		<property name="isAppel" value="false" />
+		<property name="mailContentService" ref="refusedFC" />
+	</bean>
+
+	<bean id="refusedMailAppelFC"
+		class="fr.univ.rennes1.cri.opiR1.web.beans.parameters.MailConvocation">
+		<description></description>
+		<property name="isAppel" value="true" />
+		<property name="mailContentService" ref="refusedAppelFC" />
+	</bean>
+
+	<bean id="preselectionMailFC"
+		class="fr.univ.rennes1.cri.opiR1.web.beans.parameters.MailConvocation">
+		<description></description>
+		<property name="mailContentService" ref="preselectionFC" />
+	</bean>
+
+	<bean id="listeComplementaireMailFC"
+		class="fr.univ.rennes1.cri.opiR1.web.beans.parameters.MailConvocation">
+		<description></description>
+		<property name="mailContentService" ref="listeComplementaireFC" />
+	</bean>
+
+	<bean id="intermediaryMailFC"
+		class="fr.univ.rennes1.cri.opiR1.web.beans.parameters.MailConvocation">
+		<description></description>
+		<property name="mailContentService" ref="intermediaryFC" />
+	</bean>
+
+
+</beans>

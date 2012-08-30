@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+          
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.parameters">
+
+	<class name="AutoListPrincipale" table="AUTO_LIST_PRINCIPALE">
+		<id name="id">
+			<column name="id_auto_lp" sql-type="integer" not-null="true"/>
+			<generator class="native">
+				<param name="sequence">AutoListPrincipale_seq</param>
+			</generator>
+		</id>
+		
+		<property name="libelle" column="lib_nom" length="500" not-null="true"/>
+		<property name="dateCreaEnr" column="date_crea_enr_nom"/>
+		<property name="dateModifEnr" column="date_modif_enr_nom"/>
+		<property name="codUserToCreate" column="cod_user_to_create_nom"/>
+		<property name="codUserToUpdate" column="cod_user_to_update_nom"/>
+		<property name="temoinEnService" column="tem_en_sve_nom" type="yes_no"/>
+		
+		<property name="Mail" column="mail" />
+		<property name="codeCge" column="code_cge" />
+		
+		<set name="listCommission" lazy="false">
+			<key column="id_auto_lp"/>
+			<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.Commission"/>
+		</set>
+		
+		<set name="listVet" lazy="false"
+			cascade="delete,delete-orphan">
+			<key column="id_auto_lp"/>
+			<one-to-many class="VetAutoLp"/>
+		</set>
+		
+		<many-to-one name="typeDecisionDeLP"  column="type_decision_LP" not-null="true" />
+		
+		<list name="listTypeOfDecision" table="AUTO_LP_TYPED_DECISION"
+			lazy="true" cascade="save-update">
+			<key column="id_auto_lp"/>
+			<list-index column="position"/>
+			<many-to-many class="TypeDecision" column="id_nom"/>
+		</list>
+		
+	</class>	
+</hibernate-mapping>
+
+

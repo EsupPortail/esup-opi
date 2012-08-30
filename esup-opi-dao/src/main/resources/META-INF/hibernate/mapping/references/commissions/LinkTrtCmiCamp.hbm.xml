@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+          
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission">
+
+	<class name="LinkTrtCmiCamp" table="link_trt_cmi_camp">
+		<id name="id" unsaved-value="null"> 
+			<column name="id_link" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">link_seq</param>
+			</generator>
+		</id>
+		<property name="temoinEnService" column="tem_en_sve_link" type="yes_no" not-null="true"/>
+	
+		<many-to-one name="campagne"  column="id_nom" not-null="true" unique-key="key_link_trt_camp"/>
+		<many-to-one name="traitementCmi"  column="id_trt_cmi" not-null="true" unique-key="key_link_trt_camp"/>
+	
+		<set name="voeux"
+			inverse="true">
+			<key column="id_link"/>
+			<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.user.candidature.IndVoeu"/>
+		</set>	
+	
+	</class>	
+</hibernate-mapping>
+
+

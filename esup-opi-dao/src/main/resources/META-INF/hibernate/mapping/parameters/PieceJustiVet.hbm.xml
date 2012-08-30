@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.parameters">
+
+	<class name="PieceJustiVet" table="piece_justi_vet" >
+		<id name="id"> 
+			<column name="id_pc_jst_vet" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">piece_justi_vet_seq</param>
+			</generator>
+		</id> 
+		
+		<component name="versionEtpOpi">
+			<property name="codEtp" column="cod_etp_pc_jst_vet" length="6" not-null="true"/>
+			<property name="codVrsVet" column="cod_vrs_vet_pc_jst_vet" not-null="true"/>
+		</component>
+		
+	</class>	
+</hibernate-mapping>

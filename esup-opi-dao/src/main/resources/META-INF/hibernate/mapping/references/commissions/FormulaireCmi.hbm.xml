@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class
+		name="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.FormulaireCmi"
+		table="formulaireCmi">
+		<id name="id" unsaved-value="null"> 
+			<column name="id_form_cmi" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">formulaireCmi_seq</param>
+			</generator>
+		</id>
+		
+		<component name="versionEtpOpi">
+			<property name="codEtp" column="cod_etp_form" length="6"
+				not-null="true" />
+			<property name="codVrsVet" column="cod_vrs_vet_form"
+				not-null="true" />
+		</component>
+		<property name="codeRI" column="code_ri_form" />
+
+<!-- 
+		<property name="appName" column="appName" not-null="true" />
+		<property name="formName" column="formName" not-null="true" />
+-->		
+
+<!-- 
+		<property name="dateCreaEnr" column="date_crea_enr_form" />
+		<property name="dateModifEnr" column="date_modif_enr_form" />
+		<property name="codUserToCreate" column="cod_user_to_create_form" />
+		<property name="codUserToUpdate" column="cod_user_to_update_form" />
+		<property name="temoinEnService" column="tem_en_sve_form"
+			type="yes_no" />
+			
+		<one-to-one name="traitement" constrained="true" />
+ -->
+	</class>
+</hibernate-mapping>

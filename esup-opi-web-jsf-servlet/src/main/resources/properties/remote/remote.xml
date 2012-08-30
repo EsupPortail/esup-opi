@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
+	>
+
+	
+	<bean id="remoteCriApogeeRef"
+		lazy-init="true"
+		class="org.codehaus.xfire.spring.remoting.XFireClientFactoryBean">
+		<property name="serviceClass" value="org.esupportail.apogee.services.remote.ReadReferentiel" />
+		<property name="wsdlDocumentUrl" value="${remote.referentiel.url}" />
+
+		<!--<property name="lookupServiceOnStartup" value="false" />
+	--></bean>
+
+	
+	<bean id="remoteCriApogeeEns"
+		lazy-init="true"
+		class="org.codehaus.xfire.spring.remoting.XFireClientFactoryBean">
+		<property name="serviceClass" value="org.esupportail.apogee.services.remote.ReadEnseignement" />
+		<property name="wsdlDocumentUrl" value="${remote.enseignement.url}" />
+		
+	</bean>
+	
+	<bean id="remoteCriApogeeRennes1"
+		lazy-init="true"
+		class="org.codehaus.xfire.spring.remoting.XFireClientFactoryBean">
+		<property name="serviceClass" value="fr.univ.rennes1.cri.apogee.services.remote.ReadRennes1" />
+		<property name="wsdlDocumentUrl" value="${remote.rennes1.url}" />
+		<!--<property name="lookupServiceOnStartup" value="false" />-->
+	</bean>
+	
+	<bean id="remoteCriApogeeInsertLaisserPasser"
+		lazy-init="true"
+		class="org.codehaus.xfire.spring.remoting.XFireClientFactoryBean">
+		<property name="serviceClass" value="org.esupportail.apogee.services.remote.InsertLaisserPasser" />
+		<property name="wsdlDocumentUrl" value="${remote.insertLaisserPasser.url}" />
+		<!--<property name="lookupServiceOnStartup" value="false" />-->
+	</bean>
+	
+	<bean id="remoteCriEtudiant"
+		lazy-init="true"
+		class="org.codehaus.xfire.spring.remoting.XFireClientFactoryBean">
+		<property name="serviceClass" value="org.esupportail.apogee.services.remote.ReadEtudiant" />
+		<property name="wsdlDocumentUrl" value="${remote.etudiant.url}" />
+		<!--<property name="lookupServiceOnStartup" value="false" />-->
+	</bean>
+	
+</beans>

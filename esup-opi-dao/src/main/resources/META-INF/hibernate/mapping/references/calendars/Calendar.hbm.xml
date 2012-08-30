@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+          
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.references.calendar">
+
+	<class name="Calendar" table="calendar">
+		<id name="id"> 
+			<column name="id_cal" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">calendar_seq</param>
+			</generator>
+		</id> 
+		
+		<discriminator column="type_cal" type="string"/>
+		
+		<property name="type" column="type_cal" insert="false" update="false"/>
+		
+		<property name="code" column="cod_cal" length="11" not-null="true"/>
+		<property name="libelle" column="lib_cal" length="80" not-null="true"/>
+		
+		<property name="dateCreaEnr" column="date_crea_enr_cal" />
+		<property name="dateModifEnr" column="date_modif_enr_cal" />
+		<property name="codUserToCreate" column="cod_user_to_create_cal" />
+		<property name="codUserToUpdate" column="cod_user_to_update_cal" />
+		<property name="temoinEnService" column="tem_en_sve_cal" type="yes_no"/>
+	
+		<subclass name="CalendarIns" discriminator-value="CAL_INS">
+			<property name="startDate" column="dat_dbt" type="date"/>
+			<property name="endDate" column="dat_fin" type="date" />
+			
+			<set name="commissions" table="cal_ins_cmi" >
+				<key column="id_cal_ins" not-null="true"/>
+				<many-to-many column="id_cmi" class="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.Commission"/>
+			</set>
+		</subclass>
+		
+		<subclass name="CalendarCmi" discriminator-value="CAL_CMI">
+			<property name="datEndBackDossier" column="dat_end_back_dossier" type="date"/>
+			<property name="commDatEndBack" column="comm_dat_end_back" length="100"/>
+			<property name="endDatConfRes" column="end_dat_conf_res" type="date"/>
+			<one-to-one name="commission" property-ref="calendarCmi"/>
+			
+			<set name="reunions" cascade="all-delete-orphan"  
+				inverse="true" lazy="false">
+				<key column="id_cal"/>
+				<one-to-many class="ReunionCmi" />
+			</set>
+			
+		</subclass>
+	
+		
+	</class>	
+</hibernate-mapping>
+
+

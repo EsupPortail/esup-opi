@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
+	>
+
+	<bean id="abstractDomainService" 
+		abstract="true"
+		>
+		<description>
+			An abstract bean to the all domain service.
+		</description>
+		<property name="jobDetail"><ref bean="flushCacheThread"/></property>
+       <property name="schedulerFlushCache"><ref bean="schedulerFlushCache"/></property> 
+	</bean>
+
+
+	<bean
+		id="domainService"
+		parent="abstractDomainService"
+		class="fr.univ.rennes1.cri.opiR1.domain.DomainServiceImpl"
+		>
+		<property name="daoService" ref="daoService" />
+		<property name="urlGenerator" ref="${urlGeneration.bean}" />
+		<property name="ldapUserService" ref="ldapUserService" /> 
+		<property name="ldapAttributes" ref="ldapAttributes" />
+		<property name="codStudentRegex" value="${init.codStudent.regex}"/>
+		<property name="codStudentPattern" value="${init.codStudent.pattern}"/>
+	</bean>
+	
+	<bean
+		id="parameterService"
+		parent="abstractDomainService"
+		class="fr.univ.rennes1.cri.opiR1.domain.ParameterServiceImpl"
+		>
+		<property name="daoService" ref="paramDaoService" />
+		<property name="typeTraitements">
+			<list>
+				<ref bean="transfert"/>
+				<ref bean="accesSelectif"/>
+				<ref bean="validationAcquis"/>
+				<ref bean="enAttente"/>
+			</list>
+		</property>
+		<property name="typeConvocations">
+			<list>
+				<ref bean="refused"/>
+				<ref bean="inscriptionAdm"/>
+				<ref bean="preselection"/>
+				<ref bean="listeComplementaire"/>
+				<ref bean="intermediary"/>
+			</list>
+		</property>
+		<property name="typeContrats">
+			<list>
+				<ref bean="cdd"/>
+				<ref bean="cdi"/>
+				<ref bean="autreContrat"/>
+			</list>
+		</property>
+		<property name="typeStatuts">
+			<list>
+				<ref bean="cadre"/>
+				<ref bean="employe"/>
+				<ref bean="ouvrier"/>
+				<ref bean="proIntermediaire"/>
+			</list>
+		</property>
+		<property name="typeOrganismes">
+			<list>
+				<ref bean="orgPublic"/>
+				<ref bean="orgPrivate"/>
+			</list>
+		</property>
+		<property name="typeSituations">
+			<list>
+				<ref bean="salarie"/>
+				<ref bean="pro_lib"/>
+				<ref bean="dem_emp"/>
+				<ref bean="etu"/>
+				<ref bean="other"/>
+			</list>
+		</property>
+		<property name="domainService" ref="domainService"/>
+		<property name="orbeonService" ref="orbeonService"/>
+		<property name="dateBackDefault" value="${init.dateBackDefault}"/>
+		<property name="prefixCodCalCmi" value="${init.prefixCodCalCmi}"/>
+		<property name="prefixLibCalCmi" value="${init.prefixLibCalCmi}"/>
+	</bean>
+	
+	<bean
+		id="domainApoService"
+		parent="abstractDomainService"
+		class="fr.univ.rennes1.cri.opiR1.domain.DomainApoServiceImpl"
+		>
+		<property name="remoteCriApogeeRef" ref="remoteCriApogeeRef" />
+		<property name="remoteCriApogeeEns" ref="remoteCriApogeeEns" />
+		<property name="remoteCriApogeeRennes1" ref="remoteCriApogeeRennes1"/>
+		<property name="remoteCriApogeeEtudiant" ref="remoteCriEtudiant"/>
+		<property name="codEtbInt" value="${init.codEtbInt}" />
+		<property name="codDacEtr" value="${init.codDacEtr}" />
+		<property name="onlyTerminaux" value="${init.onlyTerminaux}" />
+		<property name="parameterService" ref="parameterService"/>
+		<property name="insertLaisserPasser" ref="remoteCriApogeeInsertLaisserPasser"/>
+		<property name="obtentionDip" value="${init.obtentionDip}"/>
+		<property name="isRecupCursusExt" value="${init.recupCursusExt}"/>
+		<property name="temoinRecupAnnu" value="${init.temoinRecupAnnu}"/>
+	</bean>
+	
+	<bean
+		id="businessCacheService"
+		parent="abstractDomainService"
+		class="fr.univ.rennes1.cri.opiR1.domain.BusinessCacheServiceImpl"
+		>
+		<property name="domainApoService" ref="domainApoService" />
+		<property name="cacheManager" ref="cacheManager" />
+	</bean>
+	
+	
+	<bean
+		id="orbeonService"
+		parent="abstractDomainService"
+		class="fr.univ.rennes1.cri.opiR1.domain.OrbeonServiceImpl"
+		>
+		<property name="xslXmlPath" value="${xsl_xml.path}" />
+		<property name="orbeonUrl" value="${orbeon.url}"/>
+		<property name="orbeonUsername" value="${orbeon.username}"/>
+		<property name="orbeonPassword" value="${orbeon.password}"/>
+		<property name="uri" value="${init.orbeon.uri}"/>
+	</bean>
+	
+	<bean
+		id="opiWebService"
+		lazy-init="true"
+		class="fr.univ.rennes1.cri.opiR1.domain.OpiWebServiceImpl"
+		>
+		<property name="transfert" ref="transfert"/>
+		<property name="typeEtabUniv" value="${init.typEtbUniv}"/>
+		<property name="codEtabUniv" value="${init.codEtbInt}"/>
+		<!--<property name="domainApoService" ref="domainApoService"/>
+	--></bean>
+	
+	<bean
+		id="pilotageService"
+		parent="abstractDomainService"
+		class="fr.univ.rennes1.cri.opiR1.domain.PilotageServiceImpl"
+		>
+		<property name="daoService" ref="pilotageDaoService" />
+		<property name="domainApoService" ref="domainApoService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="i18nService" ref="i18nService" />
+		<property name="domainService" ref="domainService" />
+		<property name="orbeonService" ref="orbeonService" />
+		<property name="businessCacheService" ref="businessCacheService"/>
+	</bean>
+	
+	<bean
+		id="voidOpiWebService"
+		lazy-init="true"
+		class="fr.univ.rennes1.cri.opiR1.domain.VoidOpiWebServiceImpl"
+		>
+	</bean>
+	
+	<bean id="ldapAttributes" class="fr.univ.rennes1.cri.opiR1.utils.ldap.LdapAttributes"
+		lazy-init="true">
+		<property name="displayNameAttribute" value="${ldap.displayNameAttribute}" />
+		<property name="uidAttribute" value="${ldap.uidAttribute}" />
+		<property name="cnAttribute" value="${ldap.searchAttribute}" />
+		<property name="emailAttribute" value="${ldap.emailAttribute}" />
+		<property name="eduPersonPrincipalNameAttribute" value="${ldap.eduPersonPrincipalNameAttribute}" />
+		<property name="prenomAttribute" value="${ldap.prenomAttribute}" />
+		<property name="nomUsuelAttribute" value="${ldap.nomUsuelAttribute}" />
+		<property name="filterPers" value="${ldap.filterPers}" />
+	
+	</bean>
+
+
+</beans>

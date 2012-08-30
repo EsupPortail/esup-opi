@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+          
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.references.calendar">
+
+	<class name="ReunionCmi" table="reunionCmi" lazy="false">
+		<id name="id"> 
+			<column name="id_reu_cmi" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">reunionCmi_seq</param>
+			</generator>
+		</id> 
+		
+		
+		<property name="date" column="date_reu_cmi" type="date" />
+		<property name="heure" column="hh_reu_cmi" type="time"/>
+		<property name="lieu" column="lieu_reu_cmi"/>
+		
+		<property name="dateCreaEnr" column="date_crea_enr_reu_cmi" />
+		<property name="dateModifEnr" column="date_modif_enr_reu_cmi" />
+		<property name="codUserToCreate" column="cod_user_to_create_reu_cmi" />
+		<property name="codUserToUpdate" column="cod_user_to_update_reu_cmi" />
+		<property name="temoinEnService" column="tem_en_sve_reu_cmi" type="yes_no"/>
+		
+		<many-to-one name="calendar" column="id_cal"  not-null="true"/>
+		
+	</class>	
+</hibernate-mapping>
+
+

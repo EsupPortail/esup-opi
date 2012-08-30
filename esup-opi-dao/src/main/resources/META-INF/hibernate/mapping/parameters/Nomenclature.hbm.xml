@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+          
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.parameters">
+
+	<class name="Nomenclature" table="nomenclature">
+		<id name="id"> 
+			<column name="id_nom" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">nomenclature_seq</param>
+			</generator>
+		</id> 
+		
+		<discriminator column="type_nom" type="string"/>
+		
+		<property name="type" column="type_nom" insert="false" update="false"/>
+		
+		<property name="code" column="cod_nom" length="9" not-null="true"/>
+		<property name="libelle" column="lib_nom" length="500" not-null="true"/>
+		<property name="shortLabel" column="lic_nom" length="10" />
+		
+		<property name="dateCreaEnr" column="date_crea_enr_nom" />
+		<property name="dateModifEnr" column="date_modif_enr_nom" />
+		<property name="codUserToCreate" column="cod_user_to_create_nom" />
+		<property name="codUserToUpdate" column="cod_user_to_update_nom" />
+		<property name="temoinEnService" column="tem_en_sve_nom" type="yes_no"/>
+	
+	
+		
+		<subclass name="TypeDecision" discriminator-value="TYP_DEC">
+			<property name="codeTypeConvocation" column="cod_typ_conv" length="10"/>
+			<property name="codeApogee" column="cod_dec_voeu_apo" length="1"/>
+			<property name="isFinal" column="tem_is_final" type="yes_no" />
+			
+		</subclass>
+
+		<subclass name="PieceJustificative" discriminator-value="PIECE_JST">
+			<set name="versionEtapes" 
+				lazy="false"
+				cascade="all">
+				<key column="id_nom" not-null="true"/>
+				<one-to-many class="PieceJustiVet"/>
+			</set>
+			<property name="isForAllVet" column="is_for_all_vet_nom" type="yes_no"/>
+			<property name="codeRI" column="cod_ri_nom" type="int"/>
+			<property name="nomDocument" column="nom_doc" type="string"/>
+		</subclass>
+		
+		<subclass name="MotivationAvis" discriminator-value="MOTIV_AVIS" lazy="false"/>
+		
+		<subclass name="Campagne" discriminator-value="CAMPAGNE" lazy="false">
+			<property name="codAnu" column="cod_anu_nom"/>
+			<property name="codeRI" column="cod_ri_nom" type="int"/>
+			<property name="isArchived" column="is_archived_nom" type="yes_no"/>
+			<property name="dateDebCamp" column="date_deb_camp" />
+			<property name="dateFinCamp" column="date_fin_camp" />
+			<set name="linkTrtCmiCamp" lazy="false" 
+				inverse="true">
+				<key column="id_nom"/>
+				<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.LinkTrtCmiCamp"/>
+			</set>
+		</subclass>
+
+	</class>	
+</hibernate-mapping>
+
+

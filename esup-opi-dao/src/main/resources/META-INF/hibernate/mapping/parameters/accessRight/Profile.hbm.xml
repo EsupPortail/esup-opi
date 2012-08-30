@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+          
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight">
+
+	<class name="Profile" table="profile">
+		<id name="id" unsaved-value="null"> 
+			<column name="id_pro" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">profile_seq</param>
+			</generator>
+		</id>
+		<property name="code" column="cod_pro" length="10" unique="true" not-null="true"/>
+		<property name="libelle" column="lib_pro" length="50" not-null="true"/>
+		<property name="superProfile" column="super_pro" type="yes_no" not-null="true"/> 
+		
+		<property name="dateCreaEnr" column="date_crea_enr_pro" />
+		<property name="dateModifEnr" column="date_modif_enr_pro" />
+		<property name="codUserToCreate" column="cod_user_to_create_pro" />
+		<property name="codUserToUpdate" column="cod_user_to_update_pro" />
+		<property name="temoinEnService" column="tem_en_sve_pro" type="yes_no"/> 
+		<property name="codeRI" column="cod_ri_pro" type="int" not-null="true"/>
+		
+		<set name="accessRight" inverse="true" lazy="false">
+			<key column="id_pro"/>
+			<one-to-many class="AccessRight"/>
+		</set>
+		
+		<set name="gestionnaires" inverse="true">
+			<key column="id_pro"/>
+			<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.user.Gestionnaire"/>
+		</set>
+	</class>	
+</hibernate-mapping>
+
+

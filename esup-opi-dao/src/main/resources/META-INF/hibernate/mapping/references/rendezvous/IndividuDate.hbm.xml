@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.references.rendezvous">
+	<class name="IndividuDate" table="RDV_INDIVIDU_DATE">
+		<id name="id" unsaved-value="null"> 
+			<column name="ID_INDIV_DATE" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">rdv_individu_date_seq</param>
+			</generator>
+		</id>
+		
+		<property name="dateRdv" column="DATERDV" not-null="true" 
+			type="java.util.Date"/>
+		<property name="dateCreation" column="D_PRISERDV" not-null="true" 
+			type="java.util.Date"/>
+		<property name="dateModification" column="D_MODIFICATION" not-null="true" 
+			type="java.util.Date"/>
+		
+		<many-to-one name="voeu" column="id_ind_voeu" not-null="true" fetch="join"
+			class="fr.univ.rennes1.cri.opiR1.domain.beans.user.candidature.IndVoeu"/>
+		
+		<many-to-one name="candidat" column="id_usr" not-null="true" fetch="join"
+			class="fr.univ.rennes1.cri.opiR1.domain.beans.user.Individu"/>
+		
+		<many-to-one name="calendrierRdv" column="id_rdv_calendar" class="CalendarRDV"/>
+		
+	</class>
+</hibernate-mapping>
+
+

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.pilotage">
+
+	<class name="ArchiveTask" table="archive_task" > 
+		<id name="id" unsaved-value="null">
+			<column name="id_arch_task" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">arch_task_seq</param>
+			</generator>
+		</id> 
+		
+		<property name="dateCreaEnr" column="date_crea_enr_arch" />
+		<property name="dateModifEnr" column="date_modif_enr_arch" />
+		<property name="codUserToCreate" column="cod_user_to_create_arch" />
+		<property name="codUserToUpdate" column="cod_user_to_update_arch" />
+		<property name="temoinEnService" column="tem_en_sve_arch" type="yes_no"/>
+		
+		<many-to-one name="campagneToArchive"  column="id_camp_arch" not-null="true" lazy="false"/>
+		<many-to-one name="campagneToActive"  column="id_camp_act" not-null="true" lazy="false"/>
+
+		<property name="dateArchive" column="date_archive" type="date" not-null="true" />
+		
+		<property name="isExecuted" column="is_executed" not-null="true" type="yes_no"/>
+		
+	</class>
+
+</hibernate-mapping>
+
+

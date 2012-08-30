@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.mails">
+
+	<class name="MailContent" table="mail_content" >
+		<id name="id"> 
+			<column name="id_mail_cont" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">mail_cont_seq</param>
+			</generator>
+		</id> 
+		
+		<property name="code" column="cod_mail_cont" length="15" not-null="true" unique="true"/>
+		<property name="libelle" column="lib_mail_cont" length="40" not-null="true"/>
+		
+		<property name="body" column="body_mail_cont" type="text" />
+		<property name="subject" column="sjt_mail_cont" length="150" />
+		
+		
+		<property name="dateCreaEnr" column="date_crea_enr_mail_cont" />
+		<property name="dateModifEnr" column="date_modif_enr_mail_cont" />
+		<property name="codUserToCreate" column="cod_user_to_create_mail_cont" />
+		<property name="codUserToUpdate" column="cod_user_to_update_mail_cont" />
+		
+	</class>	
+</hibernate-mapping>

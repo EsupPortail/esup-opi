@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.user.candidature">
+
+	<class name="IndVoeu" table="ind_voeu" >
+		<id name="id"> 
+			<column name="id_ind_voeu" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">ind_voeu_seq</param>
+			</generator>
+		</id>
+<!--		<component name="versionEtpOpi">-->
+<!--			<property name="codEtp" column="cod_etp_ind_voeu" length="6"/>-->
+<!--			<property name="codVrsVet" column="cod_vrs_vet_ind_voeu"/>-->
+<!--			<property name="codCge" column="cod_cge_ind_voeu" length="3"/>-->
+<!--		</component>-->
+
+		<property name="state" column="state_ind_voeu" length="70" not-null="true"/>
+		
+		<property name="dateCreaEnr" column="date_crea_enr_voeu" />
+		<property name="codUserToCreate" column="cod_user_to_create_voeu" />
+		<property name="codTypeTrait" column="cod_typ_trt" not-null="true"/>
+		<property name="temoinEnService" column="tem_en_sve_voeu" type="yes_no"/>
+		
+		<property name="isProp" column="is_Prop" not-null="true" type="yes_no"/>
+
+		<property name="haveBeTraited" column="have_be_traited" not-null="true" type="yes_no"/>
+		
+		<many-to-one name="individu" column="id_usr" not-null="true" />
+		
+		<many-to-one name="linkTrtCmiCamp"  column="id_link" not-null="true" />
+
+		<set name="avis" inverse="true" cascade="all-delete-orphan" lazy="false">
+			<key column="id_ind_voeu"/>
+			<one-to-many class="Avis"/>
+		</set>
+	</class>	
+</hibernate-mapping>

@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+
+
+	<bean id="createDosIndFI" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la création du dossier pour un candidat
+			de la fomation Initiale </description>
+		<property name="code" value="CREATE_DOS_FI" />
+		<property name="defaultBody" value="MAIL.CREATE.DOS_FI.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.CREATE.DOS_FI.DEFAULT_SJT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="createDosIndFC" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la création du dossier pour un candidat
+			de la fomation Continue </description>
+		<property name="code" value="CREATE_DOS_FC" />
+		<property name="defaultBody" value="MAIL.CREATE.DOS_FC.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.CREATE.DOS_FC.DEFAULT_SJT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="addCursusScolFI" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : pour toutes modifications du cursus post
+			bac pour un candidat FI </description>
+		<property name="code" value="ADD_CUR_SCOL_FI" /><!--
+		<property name="code" value="ADD_CURSUS_SCOL" />
+		--><property name="defaultBody" value="MAIL.UPDATE.CURSUS_SCOL_FI.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.UPDATE.CURSUS_SCOL_FI.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="addCursusScolFC" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : pour toutes modifications du cursus post
+			bac pour un candidat FC </description>
+		<property name="code" value="ADD_CUR_SCOL_FC" />
+		<property name="defaultBody" value="MAIL.UPDATE.CURSUS_SCOL_FC.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.UPDATE.CURSUS_SCOL_FC.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="addWishesASFI" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : pour tout ajout de voeux pour un candidat FI</description>
+		<property name="code" value="WISHES_AS_FI" />
+		<property name="defaultBody" value="MAIL.UPDATE.WISHES_FI.AS.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.UPDATE.WISHES_FI.AS.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="addWishesASFC" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : pour tout ajout de voeux pour un candidat FC</description>
+		<property name="code" value="WISHES_AS_FC" />
+		<property name="defaultBody" value="MAIL.UPDATE.WISHES_FC.AS.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.UPDATE.WISHES_FC.AS.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="addWishesTRVAFI" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : pour tout ajout de voeux pour un candidat FI</description>
+		<property name="code" value="WISHES_TR_VA_FI" />
+		<property name="defaultBody" value="MAIL.UPDATE.WISHES_FI.TR_VA.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.UPDATE.WISHES_FI.TR_VA.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="addWishesTRVAFC" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : pour tout ajout de voeux pour un candidat FC</description>
+		<property name="code" value="WISHES_TR_VA_FC" />
+		<property name="defaultBody" value="MAIL.UPDATE.WISHES_FC.TR_VA.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.UPDATE.WISHES_FC.TR_VA.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="convocMember" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : convocation pour les membres de commission
+		</description>
+		<property name="code" value="CONVOC_MBR_CMI" />
+		<property name="defaultBody" value="MAIL.COMMISSION.CONVOC.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.COMMISSION.CONVOC.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods">
+			<bean class="fr.univ.rennes1.cri.opiR1.services.mails.MailExceptionMethods">
+				<property name="IService" ref="i18nService" />
+				<property name="domainApoService" ref="domainApoService"/>
+				<property name="domainService" ref="domainService" />
+				<property name="businessCacheService" ref="businessCacheService" />
+				<property name="exceptions">
+					<map>
+						<entry>
+							<key>
+								<value>commission.calendarCmi</value>
+							</key>
+							<value>getReunions</value>
+						</entry>
+					</map>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="infoValidWishesFC" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la création du dossier pour un candidat
+			de la fomation Continue </description>
+		<property name="code" value="VALID_WISHES_FC" />
+		<property name="defaultBody" value="MAIL.COMMISSION.VALIDE_WISHES.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.COMMISSION.VALIDE_WISHES.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="confirmInscriptionFI" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la confirmation d'une inscription par un candidat FI </description>
+		<property name="code" value="CONF_INSC_FI" />
+		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.CONF_FI.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.CONF_FI.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="confirmInscriptionFC" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la confirmation d'une inscription par un candidat FC </description>
+		<property name="code" value="CONF_INSC_FC" />
+		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.CONF_FC.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.CONF_FC.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="rappelNumDossFI" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la demande d'un rappel de num de dossier d'un candidat FI </description>
+		<property name="code" value="RAP_NUM_DOSS_FI" />
+		<property name="defaultBody" value="MAIL.FORGET_NUM_DOS_FI.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.FORGET_NUM_DOS_FI.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="rappelNumDossFC" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la demande d'un rappel de num de dossier d'un candidat FC </description>
+		<property name="code" value="RAP_NUM_DOSS_FC" />
+		<property name="defaultBody" value="MAIL.FORGET_NUM_DOS_FC.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.FORGET_NUM_DOS_FC.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="dossArriveCompletFI" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la réception du dossier complet d'un candidat FI </description>
+		<property name="code" value="DOSS_COMPLET_FI" />
+		<property name="defaultBody" value="MAIL.ARRIVE.COMPLET_FI.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.ARRIVE.COMPLET_FI.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="dossArriveIncompletFI" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la réception du dossier incomplet d'un candidat FI </description>
+		<property name="code" value="DOSS_INCOMP_FI" />
+		<property name="defaultBody" value="MAIL.ARRIVE.INCOMPLET_FI.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.ARRIVE.INCOMPLET_FI.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="dossArriveCompletFC" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la réception du dossier complet d'un candidat FI </description>
+		<property name="code" value="DOSS_COMPLET_FC" />
+		<property name="defaultBody" value="MAIL.ARRIVE.COMPLET_FC.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.ARRIVE.COMPLET_FC.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="dossArriveIncompletFC" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la réception du dossier incomplet d'un candidat FI </description>
+		<property name="code" value="DOSS_INCOMP_FC" />
+		<property name="defaultBody" value="MAIL.ARRIVE.INCOMPLET_FC.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.ARRIVE.INCOMPLET_FC.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="inscriptionAdmFI" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la validation d'un type de convocation menant à 
+		une inscription administrative pour un candidat FI </description>
+		<property name="code" value="INSCR_ADM_FI" />
+		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.FAV_FI.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.FAV_FI.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="inscriptionAdmAppelFI" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la validation d'un type de convocation menant à 
+		une inscription administrative pour un candidat FI </description>
+		<property name="code" value="INS_ADM_APP_FI" />
+		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.FAV_APPEL_FI.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.FAV_APPEL_FI.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="refusedFI" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la validation d'un type de convocation menant à 
+		un avis défavorable pour un candidat FI </description>
+		<property name="code" value="REFUSED_FI" />
+		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.REFUSED_FI.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.REFUSED_FI.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="refusedAppelFI" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la validation d'un type de convocation menant à 
+		un avis défavorable pour un candidat FI </description>
+		<property name="code" value="REFUS_APPEL_FI" />
+		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.REFUSED_APPEL_FI.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.REFUSED_APPEL_FI.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="preselectionFI" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la validation d'un type de convocation menant à 
+		une préselection pour un candidat FI </description>
+		<property name="code" value="PRESELECTION_FI" />
+		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.PRE_FI.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.PRE_FI.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="listeComplementaireFI" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la validation d'un type de convocation menant à 
+		une liste complémentaire pour un candidat FI </description>
+		<property name="code" value="LISTE_COMP_FI" />
+		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.LC_FI.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.LC_FI.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+	
+	<bean id="intermediaryFI" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la validation d'un type de convocation 
+		intérmédiaire pour un candidat FI </description>
+		<property name="code" value="INTERM_FI" />
+		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.INTERM_FI.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.INTERM_FI.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+	
+	<bean id="inscriptionAdmFC" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la validation d'un type de convocation menant à 
+		une inscription administrative pour un candidat FC </description>
+		<property name="code" value="INSCR_ADM_FC" />
+		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.FAV_FC.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.FAV_FC.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="inscriptionAdmAppelFC" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la validation d'un type de convocation menant à 
+		une inscription administrative pour un candidat FC </description>
+		<property name="code" value="INS_ADM_APP_FC" />
+		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.FAV_APPEL_FC.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.FAV_APPEL_FC.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="refusedFC" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la validation d'un type de convocation menant à 
+		un avis défavorable pour un candidat FC </description>
+		<property name="code" value="REFUSED_FC" />
+		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.REFUSED_FC.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.REFUSED_FC.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="refusedAppelFC" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la validation d'un type de convocation menant à 
+		un avis défavorable pour un candidat FC </description>
+		<property name="code" value="REFUS_APPEL_FC" />
+		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.REFUSED_APPEL_FC.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.REFUSED_APPEL_FC.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="preselectionFC" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la validation d'un type de convocation menant à 
+		une préselection pour un candidat FC </description>
+		<property name="code" value="PRESELECTION_FC" />
+		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.PRE_FC.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.PRE_FC.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="listeComplementaireFC" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : à la validation d'un type de convocation menant à 
+		une liste complémentaire pour un candidat FC </description>
+		<property name="code" value="LISTE_COMP_FC" />
+		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.LC_FC.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.LC_FC.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+	
+	<bean id="intermediaryFC" parent="abstractMailForInd"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		<description>send to : Ã  la validation d'un type de convocation 
+		intÃ©rmÃ©diaire pour un candidat FC </description>
+		<property name="code" value="INTERM_FC" />
+		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.INTERM_FC.DEFAULT_BODY" />
+		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.INTERM_FC.DEFAULT_SUBJECT" />
+		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
+	</bean>
+
+	<bean id="methodExcepGlobal"
+		class="fr.univ.rennes1.cri.opiR1.services.mails.MailExceptionMethods">
+		<property name="IService" ref="i18nService" />
+		<property name="domainApoService" ref="domainApoService"/>
+		<property name="domainService" ref="domainService" />
+		<property name="businessCacheService" ref="businessCacheService" />
+		<property name="exceptions">
+			<map>
+				<entry>
+					<key>
+						<value>individu.sexe</value>
+					</key>
+					<value>getCivilite</value>
+				</entry>
+				<entry>
+					<key>
+						<value>cmiPojo.adressePojo</value>
+					</key>
+					<value>getFullAdrCmi</value>
+				</entry>
+				<entry>
+					<key>
+						<value>commissionPojo.adressePojo</value>
+					</key>
+					<value>getFullAdrCmi</value>
+				</entry>
+				<entry>
+					<key>
+						<value>av.indVoeu</value>
+					</key>
+					<value>getLibelleVet</value>
+				</entry>
+				<entry>
+					<key>
+						<value>iPojo.indVoeu</value>
+					</key>
+					<value>getLibelleVet</value>
+				</entry>
+				<entry>
+					<key>
+						<value>av.motivationAvis</value>
+					</key>
+					<value>getMotivationAvis</value>
+				</entry>
+				<entry>
+					<key>
+						<value>av.commentaire</value>
+					</key>
+					<value>getCommentaire</value>
+				</entry>
+				<entry>
+					<key>
+						<value>commissionPojo.commission</value>
+					</key>
+					<value>getMsgDateFin</value>
+				</entry>
+				<entry>
+					<key>
+						<value>av.indVoeu.linkTrtCmiCamp.traitementCmi.selection</value>
+					</key>
+					<value>getSelectionPlace</value>
+				</entry>
+				<entry>
+					<key>
+						<value>commissionPojo.contactCommission.codSig</value>
+					</key>
+					<value>getSignataire</value>
+				</entry>
+				<entry>
+					<key>
+						<value>missingP</value>
+					</key>
+					<value>getMissingPiece</value>
+				</entry>
+				<entry>
+					<key>
+						<value>commissionPojo.commission.calendarCmi.datEndBackDossier</value>
+					</key>
+					<value>getDatEndBackDossier</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+
+
+
+
+	<bean id="abstractMailForInd" abstract="true">
+		<property name="smtpService" ref="smtpService" />
+		<property name="interceptAll" value="${smtp.interceptAll}" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="i18Service" ref="i18nService" />
+		<property name="definitions">
+			<map>
+				<entry>
+					<key>
+						<value>individu.sexe</value>
+					</key>
+					<value>INDIVIDU.CIVILITE</value>
+				</entry>
+				<entry>
+					<key>
+						<value>individu.numDossierOpi</value>
+					</key>
+					<value>INDIVIDU.NUM_DOSSIER</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+</beans>

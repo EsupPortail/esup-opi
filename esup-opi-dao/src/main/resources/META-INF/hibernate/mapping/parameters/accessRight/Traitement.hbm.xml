@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+          
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight">
+
+	<class name="Traitement" table="traitement">
+		<id name="id" unsaved-value="null"> 
+			<column name="id_trt" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">traitement_seq</param>
+			</generator>
+		</id> 
+		
+		<discriminator column="type_trt" type="string"/>
+		
+		<property name="type" column="type_trt" insert="false" update="false"/>
+		
+		<property name="code" column="cod_trt" length="15" not-null="true"/>
+		<property name="rang" column="rang_trt" />
+		<property name="libelle" column="lib_trt" length="60" not-null="true"/>
+		<property name="shortLabel" column="lic_trt" length="15" />
+		<property name="action" column="action_trt" length="50" not-null="true"/>
+		
+		<property name="dateCreaEnr" column="date_crea_enr_trt" />
+		<property name="dateModifEnr" column="date_modif_enr_trt" />
+		<property name="codUserToCreate" column="cod_user_to_create_trt" />
+		<property name="codUserToUpdate" column="cod_user_to_update_trt" />
+		<property name="temoinEnService" column="tem_en_sve_trt" type="yes_no"/>
+		
+		<set name="accessRight" inverse="true"
+			cascade="all-delete-orphan">
+			<key column="id_trt"/>
+			<one-to-many class="AccessRight"/>
+		</set>
+		
+		<subclass name="Domain" discriminator-value="DOM">
+			<set name="fonctions" inverse="true"
+				cascade="all-delete-orphan">
+				<key column="id_dom" />
+				<one-to-many class="Fonction" />
+			</set>
+		</subclass>
+		
+		<subclass name="Fonction" discriminator-value="FCT">
+			<many-to-one name="domain" column="id_dom"/>
+		</subclass>
+		
+		
+		
+	</class>		
+</hibernate-mapping>
+
+

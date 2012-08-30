@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.user.candidature">
+
+	<class name="Avis" table="avis" >
+		<id name="id"> 
+			<column name="id_avis" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">avis_seq</param>
+			</generator>
+		</id> 
+
+		<property name="commentaire" column="commentaire" length="500" />
+		<property name="rang" column="rang"/>
+		
+		<property name="dateCreaEnr" column="date_crea_enr_avis" />
+		<property name="dateModifEnr" column="date_modif_enr_avis" />
+		<property name="codUserToCreate" column="cod_user_to_create_avis" />
+		<property name="codUserToUpdate" column="cod_user_to_update_avis" />
+		<property name="temoinEnService" column="tem_en_sve_avis" type="yes_no" not-null="true"/>
+
+		<property name="validation" column="validation" not-null="true" type="yes_no"/>
+		<property name="appel" column="appel" not-null="true" type="yes_no"/>
+		
+		<many-to-one name="indVoeu" column="id_ind_voeu" not-null="true"/>
+		
+		<many-to-one name="result"  column="id_typ_dec" lazy="false" not-null="true" />
+		
+		<many-to-one name="motivationAvis"  column="id_motiv" lazy="false"/>
+		
+	</class>	
+</hibernate-mapping>

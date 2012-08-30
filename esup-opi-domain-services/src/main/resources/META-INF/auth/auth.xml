@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
+	><!--
+
+	<bean 
+		id="authenticationService"
+		class="fr.univ.rennes1.cri.opiR1.services.authentification.PortalOrShibFilterAuthenticator"
+		lazy-init="true"
+		>
+	</bean>
+
+
+	--><bean id="authenticator" lazy-init="true"
+		scope="session"
+        class="fr.univ.rennes1.cri.opiR1.services.authentification.AuthenticatorImpl">
+        <property name="authenticationService" ref="${auth.bean}" />
+        <property name="domainService" ref="domainService" />
+    </bean>
+
+    <bean id="servletAuthenticationService" lazy-init="true"
+        class="fr.univ.rennes1.cri.opiR1.services.authentification.CasFilterAuthenticationService">
+    </bean>
+
+    <bean id="portletAuthenticationService" lazy-init="true"
+        class="org.esupportail.commons.services.authentication.CasifiedPortalAuthenticationService">
+        <property name="uidPortalAttribute" value="${auth.portal.uidAttribute}" />
+    </bean>
+
+	<bean 
+		id="portletCasService"
+		class="org.esupportail.commons.services.cas.PortletCasServiceImpl"
+		scope="session"
+		lazy-init="true"
+		>
+		<property name="service" value="${cas.service}" />
+		<property name="casValidateUrl" value="${cas.url}/proxyValidate" />
+		<property name="proxyCallbackUrl" value="${cas.service}/casProxyCallback" />
+	</bean>
+
+	<bean 
+		id="servletCasService"
+		class="org.esupportail.commons.services.cas.ServletCasServiceImpl"
+		scope="session"
+		lazy-init="true"
+		>
+	</bean>
+
+</beans>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.references.rendezvous">
+	<class name="JourHoraire" table="RDV_JOUR_HORAIRE">
+		<id name="id" unsaved-value="null">
+			<column name="id_JourHoraire" sql-type="integer" not-null="true"/>
+			<generator class="native" >
+				<param name="sequence">rdv_JourHoraire_seq</param>
+			</generator>
+		</id>
+		
+		<property name="dateDuJour" column="DATEDUJOUR"
+			type="date" />
+
+		<property name="dateDebutMatin" column="HEUREDEBMATIN"
+			type="java.util.Date" />
+		<property name="dateDebutAmidi" column="HEUREDEBAPREM"
+			type="java.util.Date" />
+		<property name="dateFinMatin" column="HEUREFINMATIN"
+			type="java.util.Date" />
+		<property name="dateFinAmidi" column="HEUREFINAPREM"
+			type="java.util.Date" />
+		
+		<many-to-one name="calendrierRdv" column="id_rdv_calendar" class="CalendarRDV" />
+	</class>
+</hibernate-mapping>
+
+
