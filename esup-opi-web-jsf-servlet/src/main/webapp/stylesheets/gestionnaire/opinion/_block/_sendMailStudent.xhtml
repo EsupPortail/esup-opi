@@ -1,25 +1,27 @@
-<%@include file="../../../_include/_include.jsp"%>
-<t:div id="div_subSectionSendMail" styleClass="div_subSection"
-	rendered="#{pjController.actionEnum.whatAction == pjController.actionEnum.sendMail}">
-
-<h:form id="formSendMail">
-	<t:div style="width:100%;">
-		<e:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-			styleClass="tableJustWidthMax">
-			<t:panelGroup>
-				<e:text value="#{msgs['GESTIONNAIRE.CONFIRM.SEND.MAIL']}" />
-			</t:panelGroup>
-			
-			<t:panelGroup>
-				<e:commandButton value="#{msgs['_.BUTTON.YES']}"
-					action="#{pjController.sendMail}">
-				</e:commandButton>
-				<e:commandButton value="#{msgs['_.BUTTON.NO']}"
-					immediate="true"
-					action="#{pjController.reset}"/>
-			</t:panelGroup>
-		</e:panelGrid>
-	</t:div>
-</h:form>
-
-</t:div>
+<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        rendered="#{pjController.actionEnum.whatAction == pjController.actionEnum.sendMail}">
+    <div id="div_subSectionSendMail" class="div_subSection">
+        <h:form id="formSendMail">
+        	<div style="width:100%;">
+        		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+        			styleClass="tableJustWidthMax">
+        			<h:panelGroup>
+        				<h:outputText value="#{msgs['GESTIONNAIRE.CONFIRM.SEND.MAIL']}" />
+        			</h:panelGroup>
+        			
+        			<h:panelGroup>
+        				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
+        					action="#{pjController.sendMail}">
+        				</p:commandButton>
+        				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
+        					immediate="true"
+        					action="#{pjController.reset}"/>
+        			</h:panelGroup>
+        		</h:panelGrid>
+        	</div>
+        </h:form>    
+    </div>
+</ui:fragment>

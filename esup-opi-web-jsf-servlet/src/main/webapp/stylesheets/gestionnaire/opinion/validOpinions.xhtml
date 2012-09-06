@@ -1,176 +1,159 @@
-<%@include file="../../_include/_include.jsp"%>
-<e:page stringsVar="msgs" locale="#{sessionController.locale}"
-	authorized="#{managedAccess.readAuthorized}">
-	<%@include file="../../_include/_header.jsp"%>
-	<h:form id="navigationHeader">
-		<%@include file="../_navigation/_navGestionnaire.jsp"%>
-	</h:form>
-	<t:div id="maPage" styleClass="div_body">
-		<e:section value="#{managedAccess.currentTraitement.libelle}" />
-		<t:div styleClass="messageForUser">
-			<e:messages />
-		</t:div>
-		
-		<t:div id="div_sectionConfirmPdf" styleClass="div_subSection"
-			rendered="#{printOpinionController.actionEnum.whatAction 
-				== printOpinionController.actionEnum.confirmAction}">
-				<%@include file="_block/_confirmPdfNotification.jsp"%>
-		</t:div>
-		
-		<t:div id="div_sectionMail" styleClass="div_subSection"
-			rendered="#{printOpinionController.actionEnum.whatAction 
-				== printOpinionController.actionEnum.sendMail}">
-			<h:form id="formSendMail">
-				<t:div style="width:100%;">
-					<e:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-						styleClass="tableJustWidthMax">
-						<e:text value="#{msgs['OPINION.CONFIRM.SEND_MAIL']}">
-						</e:text>
-						<t:panelGroup>
-							<e:commandButton value="#{msgs['_.BUTTON.YES']}"
-								action="#{validOpinionController.validateStudentsForCommissions}">
-								<t:updateActionListener value="#{true}"
-									property="#{validOpinionController.valideFC}" />
-								<t:updateActionListener value="#{true}"
-									property="#{validOpinionController.sendMail}" />
-							</e:commandButton>
-							
-							<e:commandButton value="#{msgs['_.BUTTON.NO']}"
-								action="#{validOpinionController.validateStudentsForCommissions}">
-								<t:updateActionListener value="#{true}"
-									property="#{validOpinionController.valideFC}" />
-								<t:updateActionListener value="#{false}"
-									property="#{validOpinionController.sendMail}" />
-							</e:commandButton>
-						</t:panelGroup>
-					</e:panelGrid>
-				</t:div>
-			</h:form>
-		</t:div>
-		
-		
-		<h:form id="lookForOpinionForm" styleClass="opiR1_form">		
-			<t:div id="blockFormSearch" styleClass="blockForm"
-				rendered="#{not empty managedAccess.domainAccueilGest}">
-				<e:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-					styleClass="tableJustWidthMax">
-					<e:text value="#{msgs['FIELD_LABEL.VALIDATE_OPINIO']}"
-						styleClass="section-smallTitle" />
-				</e:panelGrid>
-
-				<e:panelGrid columns="1" align="center">
-					<t:panelGroup>
-						<e:selectOneRadio id="choixTypeOpinion"
-						value="#{printOpinionController.isFinal}"
-						onclick="javascript:{simulateLinkClick('lookForOpinionForm:submitSelectTypeOpinion');}">
-  							<f:selectItem itemLabel="#{msgs['AVIS.NON_DEFINITIFS']}" itemValue="#{false}" />
-  							<f:selectItem itemLabel="#{msgs['AVIS.DEFINITIFS']}" itemValue="#{true}" />
-						</e:selectOneRadio>
-						<e:commandButton id="submitSelectTypeOpinion"
-							value="#{msgs['_.BUTTON.CHANGE']}"
-							action="#{printOpinionController.setListTypeOpinions}" />
-						
-					</t:panelGroup>
-					
-					<t:dataList var="typeDec" id="typeOpinionData" 
-						value="#{nomenclatureController.typeDecisionsSorted}"
-						>
-						<t:div 
-							rendered="#{typeDec.isFinal == printOpinionController.isFinal}" 
-							style="padding:0px;margin:0px;margin-left:45%;">
-								<jdt:multipleRowsSelector 
-									selectionList="#{printOpinionController.resultSelected}" />
-								<e:text value="#{typeDec.libelle }" />
-							</t:div>
-					</t:dataList>
-					<t:panelGroup>
-						<t:htmlTag value="br" />
-						<e:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="regime" />
-						<e:selectManyCheckbox id="regime" value="#{commissionController.listeRI}" converter="#{regimeInscriptionConverter}"
-							disabled="#{!commissionController.canModifyRISearch}"
-							layout="lineDirection">
-							<t:selectItems var="ri" 
-									itemLabel="#{ri.shortLabel}" itemValue="#{ri}"
-									value="#{nomenclatureController.allRegimeInscription}"/>
-						</e:selectManyCheckbox>
-					</t:panelGroup>
-				</e:panelGrid>
-			</t:div>
-		
-			<t:div id="blockCommission" styleClass="blockForm">
-					<t:div style="width:100%;">
-						<e:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-							styleClass="tableJustWidthMax">
-							<e:text value="#{msgs['COMMISSIONS']}"
-								styleClass="section-smallTitle" />
-							<t:panelGroup>
-								<e:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-									action="#{validOpinionController.validateStudentsForCommissions}" 
-									rendered="#{printOpinionController.actionEnum.whatAction 
-										!= printOpinionController.actionEnum.confirmAction}" />
-								<e:commandButton value="#{msgs['_.BUTTON.BACK']}"
-									immediate="true" action="#{managedAccess.goDisplayFunction}" 
-									rendered="#{printOpinionController.actionEnum.whatAction 
-										!= printOpinionController.actionEnum.confirmAction}" />
-							</t:panelGroup>
-						</e:panelGrid>
-					</t:div>
-					<e:dataTable var="commission" id="lesCommissions"
-						value="#{commissionController.commissionsItemsByRight}"
-						styleClass="paginatorData" alternateColors="true">
-						<t:column width="20%">
-							<f:facet name="header">
-								<t:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
-							</f:facet>
-							<e:text value="#{commission.code}" />
-						</t:column>
-						<t:column width="64%">
-							<f:facet name="header">
-								<t:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-							</f:facet>
-							<e:text value="#{commission.libelle}" />
-						</t:column>
-						<t:column styleClass="buttonTD">
-							<e:commandButton image="/media/images/magnifier.png"
-								styleClass="form-button-image" immediate="true"
-								action="#{validOpinionController.goSeeStudientForCommission}"
-								title="#{msgs['INFO.CANDIDAT.DISPLAY']}"
-								rendered="#{printOpinionController.actionEnum.whatAction 
-									!= printOpinionController.actionEnum.confirmAction}" >
-								<t:updateActionListener value="#{commission}"
-									property="#{commissionController.commission}" />
-							</e:commandButton>
-						</t:column>
-						<t:column styleClass="buttonTD">
-							<f:facet name="header">
-								<t:selectBooleanCheckbox
-									value="#{printOpinionController.allChecked}"
-									onclick="checkAllInElement('lookForOpinionForm:lesCommissions' ,this.checked)" />
-							</f:facet>
-							<jdt:multipleRowsSelector
-								selectionList="#{printOpinionController.commissionsSelected}" />
-						
-						</t:column>
-					</e:dataTable>
-			</t:div>
-
-		
-		</h:form>
-
-
-		<t:htmlTag value="br" />
-		<t:htmlTag value="br" />
-		<t:htmlTag value="br" />
-
-	</t:div>
-	<t:div id="div_navigationFooter">
-		<h:form id="navigationFooter" styleClass="opiR1_form">
-			<%@include file="../_navigation/_navGestionnaire.jsp"%>
-		</h:form>
-	</t:div>
-	<script type="text/javascript">
-		highlightChildrenLiTags('navigationHeader:navigation');
-		highlightChildrenLiTags('navigationFooter:navigation');
-		hideElement('lookForOpinionForm:submitSelectTypeOpinion');
-	</script>
-</e:page>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    template="template.xhtml">
+    <ui:define name="content">
+    	
+    	
+    	<div id="maPage" class="div_body">
+    		<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
+    		<div class="messageForUser">
+    			<p:message id="messages" showDetail="true" autoUpdate="true" />
+    		</div>
+    		<ui:fragment rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.confirmAction}">
+        		<div id="div_sectionConfirmPdf" class="div_subSection">
+    				<ui:include src="_block/_confirmPdfNotification.xhtml" />
+        		</div>
+    		</ui:fragment>
+            <ui:fragment rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.sendMail}">
+        		<div id="div_sectionMail" class="div_subSection">
+        			<h:form id="formSendMail">
+        				<div style="width:100%;">
+        					<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+        						styleClass="tableJustWidthMax">
+        						<h:outputText value="#{msgs['OPINION.CONFIRM.SEND_MAIL']}">
+        						</h:outputText>
+        						<h:panelGroup>
+        							<p:commandButton value="#{msgs['_.BUTTON.YES']}"
+        								action="#{validOpinionController.validateStudentsForCommissions}">
+        								<f:setPropertyActionListener value="#{true}" target="#{validOpinionController.valideFC}" />
+        								<f:setPropertyActionListener value="#{true}" target="#{validOpinionController.sendMail}" />
+        							</p:commandButton>
+        							
+        							<p:commandButton value="#{msgs['_.BUTTON.NO']}"
+        								action="#{validOpinionController.validateStudentsForCommissions}">
+        								<f:setPropertyActionListener value="#{true}" target="#{validOpinionController.valideFC}" />
+        								<f:setPropertyActionListener value="#{false}" target="#{validOpinionController.sendMail}" />
+        							</p:commandButton>
+        						</h:panelGroup>
+        					</h:panelGrid>
+        				</div>
+        			</h:form>
+        		</div>
+    		</ui:fragment>
+    		
+    		<h:form id="lookForOpinionForm" styleClass="opiR1_form">
+                <ui:fragment rendered="#{not empty managedAccess.domainAccueilGest}">
+        			<div id="blockFormSearch" class="blockForm">
+        				<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+        					styleClass="tableJustWidthMax">
+        					<h:outputText value="#{msgs['FIELD_LABEL.VALIDATE_OPINIO']}"
+        						styleClass="section-smallTitle" />
+        				</h:panelGrid>
+        
+        				<h:panelGrid columns="1" align="center">
+        					<h:panelGroup>
+        						<p:selectOneRadio id="choixTypeOpinion"
+        						value="#{printOpinionController.isFinal}"
+        						onclick="javascript:{simulateLinkClick('lookForOpinionForm:submitSelectTypeOpinion');}">
+          							<f:selectItem itemLabel="#{msgs['AVIS.NON_DEFINITIFS']}" itemValue="#{false}" />
+          							<f:selectItem itemLabel="#{msgs['AVIS.DEFINITIFS']}" itemValue="#{true}" />
+        						</p:selectOneRadio>
+        						<p:commandButton id="submitSelectTypeOpinion"
+        							value="#{msgs['_.BUTTON.CHANGE']}"
+        							action="#{printOpinionController.setListTypeOpinions}" />
+        						
+        					</h:panelGroup>
+        					
+        					<p:dataList var="typeDec" id="typeOpinionData" 
+        						value="#{nomenclatureController.typeDecisionsSorted}">
+        						<h:panelGroup 
+        							rendered="#{typeDec.isFinal == printOpinionController.isFinal}" 
+        							style="padding:0px;margin:0px;margin-left:45%;">
+    								<jdt:multipleRowsSelector 
+    									selectionList="#{printOpinionController.resultSelected}" />
+    								<h:outputText value="#{typeDec.libelle }" />
+    							</h:panelGroup>
+        					</p:dataList>
+        					<h:panelGroup>
+        						<br />
+        						<h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="regime" />
+        						<p:selectManyCheckbox id="regime" value="#{commissionController.listeRI}" converter="#{regimeInscriptionConverter}"
+        							disabled="#{!commissionController.canModifyRISearch}"
+        							layout="lineDirection">
+        							<f:selectItems var="ri" 
+        									itemLabel="#{ri.shortLabel}" itemValue="#{ri}"
+        									value="#{nomenclatureController.allRegimeInscription}"/>
+        						</p:selectManyCheckbox>
+        					</h:panelGroup>
+        				</h:panelGrid>
+        			</div>
+                </ui:fragment>
+    			<div id="blockCommission" class="blockForm">
+    					<div style="width:100%;">
+    						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+    							styleClass="tableJustWidthMax">
+    							<h:outputText value="#{msgs['COMMISSIONS']}"
+    								styleClass="section-smallTitle" />
+    							<h:panelGroup>
+    								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+    									action="#{validOpinionController.validateStudentsForCommissions}" 
+    									rendered="#{printOpinionController.actionEnum.whatAction 
+    										!= printOpinionController.actionEnum.confirmAction}" />
+    								<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+    									immediate="true" action="#{managedAccess.goDisplayFunction}" 
+    									rendered="#{printOpinionController.actionEnum.whatAction 
+    										!= printOpinionController.actionEnum.confirmAction}" />
+    							</h:panelGroup>
+    						</h:panelGrid>
+    					</div>
+    					<p:dataTable var="commission" id="lesCommissions"
+    						value="#{commissionController.commissionsItemsByRight}"
+    						styleClass="paginatorData" alternateColors="true">
+    						<p:column width="20%">
+    							<f:facet name="header">
+    								<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
+    							</f:facet>
+    							<h:outputText value="#{commission.code}" />
+    						</p:column>
+    						<p:column width="64%">
+    							<f:facet name="header">
+    								<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
+    							</f:facet>
+    							<h:outputText value="#{commission.libelle}" />
+    						</p:column>
+    						<p:column styleClass="buttonTD">
+    							<p:commandButton image="/media/images/magnifier.png"
+    								styleClass="form-button-image" immediate="true"
+    								action="#{validOpinionController.goSeeStudientForCommission}"
+    								title="#{msgs['INFO.CANDIDAT.DISPLAY']}"
+    								rendered="#{printOpinionController.actionEnum.whatAction 
+    									!= printOpinionController.actionEnum.confirmAction}" >
+    								<f:setPropertyActionListener value="#{commission}" target="#{commissionController.commission}" />
+    							</p:commandButton>
+    						</p:column>
+    						<p:column styleClass="buttonTD">
+    							<f:facet name="header">
+    								<p:selectBooleanCheckbox
+    									value="#{printOpinionController.allChecked}"
+    									onclick="checkAllInElement('lookForOpinionForm:lesCommissions' ,this.checked)" />
+    							</f:facet>
+    							<jdt:multipleRowsSelector
+    								selectionList="#{printOpinionController.commissionsSelected}" />
+    						
+    						</p:column>
+    					</p:dataTable>
+    			</div>
+    		</h:form>
+    		<br />
+    		<br />
+    		<br />
+    	</div>
+    	<script type="text/javascript">
+    		highlightChildrenLiTags('navigationHeader:navigation');
+    		highlightChildrenLiTags('navigationFooter:navigation');
+    		hideElement('lookForOpinionForm:submitSelectTypeOpinion');
+    	</script>
+    </ui:define>
+</ui:composition>

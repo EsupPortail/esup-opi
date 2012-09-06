@@ -1,160 +1,153 @@
-<%@include file="../../_include/_include.jsp"%>
-<e:page stringsVar="msgs" authorized="#{managedAccess.readAuthorized}"
-	locale="#{sessionController.locale}">
-	
-	<%@include file="../../_include/_header.jsp"%>
-	
-	<h:form id="navigationHeader">
-		<%@include file="../_navigation/_navGestionnaire.jsp"%>
-	</h:form>
-	
-	<e:section value="#{msgs['AUTO_LP.MANAGED']}"/>
-	<t:div styleClass="messageForUser">
-		<e:messages />
-	</t:div>
-	
-	<t:panelGroup id="div_subSectionDelete" styleClass="div_subSection"
-		rendered="#{autoLpController.actionEnum.whatAction == autoLpController.actionEnum.deleteAction}">
-		<%@include file="_delete/_deleteAutoLp.jsp"%>
-	</t:panelGroup>
-	
-	<h:form id="seeAutoLpForm" styleClass="div_subSection">
-		<t:div styleClass="twoGroupsButton"
-			rendered="#{autoLpController.actionEnum.whatAction == autoLpController.actionEnum.emptyAction}">
-			<e:commandButton value="#{msgs['_.BUTTON.ADD']}" immediate="true"
-				rendered="#{managedAccess.addAuthorized}"
-				action="#{autoLpController.goAddAutoLp}"/>
-			<e:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
-				action="#{managedAccess.goDisplayFunction}"/>
-		</t:div>
-		
-		<e:dataTable var="autoLpSelect" value="#{autoLpController.listAutoLp}" 
-			rendered="#{autoLpController.actionEnum.whatAction == autoLpController.actionEnum.emptyAction
-						|| autoLpController.actionEnum.whatAction == autoLpController.actionEnum.deleteAction}"
-			styleClass="paginatorData" alternateColors="true">
-			
-			<t:column>
-				<f:facet name="header">
-					<t:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
-				</f:facet>
-				<e:text value="#{autoLpSelect.autoLp.libelle}"/>
-			</t:column>
-			
-			<t:column>
-				<f:facet name="header">
-					<t:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
-				</f:facet>
-				<t:graphicImage url="/media/images/check2.gif" 
-					rendered="#{autoLpSelect.autoLp.temoinEnService}"/>
-				<t:graphicImage url="/media/images/check0.gif" 
-					rendered="#{!autoLpSelect.autoLp.temoinEnService}"/>
-			</t:column>
-			
-			<t:column>
-				<f:facet name="header">
-					<t:outputText value="#{msgs['FIELD_LABEL.MAIL']}"/>
-				</f:facet>
-				<e:text value="#{autoLpSelect.autoLp.mail}"/>
-			</t:column>
-			
-			<t:column>
-				<f:facet name="header">
-					<t:outputText value="#{msgs['FIELD_LABEL.LIST_CGE_COMMISSION_VET']}"/>
-				</f:facet>
-				
-				<e:text value="#{autoLpSelect.libelleCge}" rendered="#{autoLpSelect.autoLp.codeCge != null}"/>
-			
-				<t:dataTable var="commissionPojo" value="#{autoLpSelect.listCommissionPojo}"
-							rendered="#{not empty autoLpSelect.listCommissionPojo}">
-					<t:column>
-						<f:facet name="header">
-							<t:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>
-						</f:facet>
-						<e:text value="#{commissionPojo.commission.code}"/>
-					</t:column>
-					<t:column>
-						<f:facet name="header">
-							<t:outputText value="#{msgs['FIELD_LABEL.CORRESPONDANT']}"/>
-						</f:facet>
-						<e:text value="#{commissionPojo.contactCommission.corresponding}"/>
-					</t:column>
-				</t:dataTable>
-				
-				<t:dataTable var="vet" value="#{autoLpSelect.listVetAutoLpPojo}"
-							rendered="#{not empty autoLpSelect.listVetAutoLpPojo}">
-					<t:column>
-						<f:facet name="header">
-							<t:outputText value="#{msgs['FIELD_LABEL.CODE_VET']}"/>
-						</f:facet>
-						<e:text value="#{vet.vetAutoLp.codEtp}"/>
-					</t:column>
-					<t:column>
-						<f:facet name="header">
-							<t:outputText value="#{msgs['FIELD_LABEL.LIB_VET']}"/>
-						</f:facet>
-						<e:text value="#{vet.libWebVet}"/>
-					</t:column>
-				</t:dataTable>
-			</t:column>
-			
-			<t:column>
-				<f:facet name="header">
-					<t:outputText value="#{msgs['FIELD_LABEL.TYPE_DECISION_LP']}"/>
-				</f:facet>
-				<e:text value="#{autoLpSelect.autoLp.typeDecisionDeLP.libelle}"/>
-			</t:column>
-			
-			<t:column>
-				<f:facet name="header">
-					<t:outputText value="#{msgs['FIELD_LABEL.TYPE_DECISION_LC']}"/>
-				</f:facet>
-				
-				<t:dataList var="typeDec" value="#{autoLpSelect.autoLp.listTypeOfDecision}">
-					<e:text value="#{typeDec.libelle}"/>
-				</t:dataList>
-			</t:column>
-			
-			<t:column styleClass="buttonTD"
-				rendered="#{autoLpController.actionEnum.whatAction == autoLpController.actionEnum.emptyAction
-							&& managedAccess.updateAuthorized}">
-				<e:commandButton image="/media/images/update.png"
-					rendered="#{managedAccess.updateAuthorized && autoLpSelect.right}"
-					styleClass="form-button-image" immediate="true"
-					title="#{msgs['BUTTON.UPDATE']}">
-					<t:updateActionListener
-						value="#{autoLpController.actionEnum.updateAction}"
-						property="#{autoLpController.actionEnum.whatAction}"/>
-					<t:updateActionListener value="#{autoLpSelect}"
-						property="#{autoLpController.autoListPrincipale}"/>
-				</e:commandButton>
-				
-				<e:commandButton image="/media/images/cancel.png"
-					rendered="#{managedAccess.deleteAuthorized && autoLpSelect.right}"
-					styleClass="form-button-image" immediate="true"
-					title="#{msgs['_.BUTTON.DELETE']}">
-					<t:updateActionListener
-						value="#{autoLpController.actionEnum.deleteAction}"
-						property="#{autoLpController.actionEnum.whatAction}"/>
-					<t:updateActionListener value="#{autoLpSelect}"
-						property="#{autoLpController.autoListPrincipale}"/>
-				</e:commandButton>
-			</t:column>
-		</e:dataTable>
-		
-		<t:panelGroup id="addAutoLp"
-			rendered="#{autoLpController.actionEnum.whatAction == autoLpController.actionEnum.addAction
-						|| autoLpController.actionEnum.whatAction == autoLpController.actionEnum.updateAction}">
-			<%@include file="_add/_enterAutoLp.jsp"%>
-		</t:panelGroup>
-	</h:form>
-	
-	<h:form id="navigationFooter" styleClass="opiR1_form">
-		<%@include file="../_navigation/_navGestionnaire.jsp"%>
-	</h:form>
-	
-	<script type="text/javascript">
-		highlightChildrenLiTags('navigationHeader:navigation');
-		highlightChildrenLiTags('navigationFooter:navigation');
-		hideElement('seeAutoLpForm:selectChoix');
-	</script>
-</e:page>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    template="template.xhtml">
+    <ui:define name="content">
+    	<h1><h:outputText value="#{msgs['AUTO_LP.MANAGED']}" /></h1>
+    	<div class="messageForUser">
+    		<p:message id="messages" showDetail="true" autoUpdate="true" />
+    	</div>
+    	
+    	<h:panelGroup id="div_subSectionDelete" styleClass="div_subSection"
+    		rendered="#{autoLpController.actionEnum.whatAction == autoLpController.actionEnum.deleteAction}">
+    		<ui:include src="_delete/_deleteAutoLp.xhtml" />
+    	</h:panelGroup>
+    	
+    	<h:form id="seeAutoLpForm" styleClass="div_subSection">
+            <ui:fragment rendered="#{autoLpController.actionEnum.whatAction == autoLpController.actionEnum.emptyAction}">
+        		<div class="twoGroupsButton">
+        			<p:commandButton value="#{msgs['_.BUTTON.ADD']}" immediate="true"
+        				rendered="#{managedAccess.addAuthorized}"
+        				action="#{autoLpController.goAddAutoLp}"/>
+        			<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
+        				action="#{managedAccess.goDisplayFunction}"/>
+        		</div>
+    		</ui:fragment>
+    		<p:dataTable var="autoLpSelect" value="#{autoLpController.listAutoLp}" 
+    			rendered="#{autoLpController.actionEnum.whatAction == autoLpController.actionEnum.emptyAction
+    						|| autoLpController.actionEnum.whatAction == autoLpController.actionEnum.deleteAction}"
+    			styleClass="paginatorData" alternateColors="true">
+    			
+    			<p:column>
+    				<f:facet name="header">
+    					<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+    				</f:facet>
+    				<h:outputText value="#{autoLpSelect.autoLp.libelle}"/>
+    			</p:column>
+    			
+    			<p:column>
+    				<f:facet name="header">
+    					<h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
+    				</f:facet>
+    				<p:graphicImage url="/media/images/check2.gif" 
+    					rendered="#{autoLpSelect.autoLp.temoinEnService}"/>
+    				<p:graphicImage url="/media/images/check0.gif" 
+    					rendered="#{!autoLpSelect.autoLp.temoinEnService}"/>
+    			</p:column>
+    			
+    			<p:column>
+    				<f:facet name="header">
+    					<h:outputText value="#{msgs['FIELD_LABEL.MAIL']}"/>
+    				</f:facet>
+    				<h:outputText value="#{autoLpSelect.autoLp.mail}"/>
+    			</p:column>
+    			
+    			<p:column>
+    				<f:facet name="header">
+    					<h:outputText value="#{msgs['FIELD_LABEL.LIST_CGE_COMMISSION_VET']}"/>
+    				</f:facet>
+    				
+    				<h:outputText value="#{autoLpSelect.libelleCge}" rendered="#{autoLpSelect.autoLp.codeCge != null}"/>
+    			
+    				<p:dataTable var="commissionPojo" value="#{autoLpSelect.listCommissionPojo}"
+    							rendered="#{not empty autoLpSelect.listCommissionPojo}">
+    					<p:column>
+    						<f:facet name="header">
+    							<h:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>
+    						</f:facet>
+    						<h:outputText value="#{commissionPojo.commission.code}"/>
+    					</p:column>
+    					<p:column>
+    						<f:facet name="header">
+    							<h:outputText value="#{msgs['FIELD_LABEL.CORRESPONDANT']}"/>
+    						</f:facet>
+    						<h:outputText value="#{commissionPojo.contactCommission.corresponding}"/>
+    					</p:column>
+    				</p:dataTable>
+    				
+    				<p:dataTable var="vet" value="#{autoLpSelect.listVetAutoLpPojo}"
+    							rendered="#{not empty autoLpSelect.listVetAutoLpPojo}">
+    					<p:column>
+    						<f:facet name="header">
+    							<h:outputText value="#{msgs['FIELD_LABEL.CODE_VET']}"/>
+    						</f:facet>
+    						<h:outputText value="#{vet.vetAutoLp.codEtp}"/>
+    					</p:column>
+    					<p:column>
+    						<f:facet name="header">
+    							<h:outputText value="#{msgs['FIELD_LABEL.LIB_VET']}"/>
+    						</f:facet>
+    						<h:outputText value="#{vet.libWebVet}"/>
+    					</p:column>
+    				</p:dataTable>
+    			</p:column>
+    			
+    			<p:column>
+    				<f:facet name="header">
+    					<h:outputText value="#{msgs['FIELD_LABEL.TYPE_DECISION_LP']}"/>
+    				</f:facet>
+    				<h:outputText value="#{autoLpSelect.autoLp.typeDecisionDeLP.libelle}"/>
+    			</p:column>
+    			
+    			<p:column>
+    				<f:facet name="header">
+    					<h:outputText value="#{msgs['FIELD_LABEL.TYPE_DECISION_LC']}"/>
+    				</f:facet>
+    				
+    				<p:dataList var="typeDec" value="#{autoLpSelect.autoLp.listTypeOfDecision}">
+    					<h:outputText value="#{typeDec.libelle}"/>
+    				</p:dataList>
+    			</p:column>
+    			
+    			<p:column styleClass="buttonTD"
+    				rendered="#{autoLpController.actionEnum.whatAction == autoLpController.actionEnum.emptyAction
+    							&& managedAccess.updateAuthorized}">
+    				<p:commandButton image="/media/images/update.png"
+    					rendered="#{managedAccess.updateAuthorized && autoLpSelect.right}"
+    					styleClass="form-button-image" immediate="true"
+    					title="#{msgs['BUTTON.UPDATE']}">
+    					<f:setPropertyActionListener value="#{autoLpController.actionEnum.updateAction}"
+    						target="#{autoLpController.actionEnum.whatAction}" />
+    					<f:setPropertyActionListener value="#{autoLpSelect}"
+    						target="#{autoLpController.autoListPrincipale}" />
+    				</p:commandButton>
+    				
+    				<p:commandButton image="/media/images/cancel.png"
+    					rendered="#{managedAccess.deleteAuthorized && autoLpSelect.right}"
+    					styleClass="form-button-image" immediate="true"
+    					title="#{msgs['_.BUTTON.DELETE']}">
+    					<f:setPropertyActionListener value="#{autoLpController.actionEnum.deleteAction}"
+    						target="#{autoLpController.actionEnum.whatAction}" />
+    					<f:setPropertyActionListener value="#{autoLpSelect}"
+    						target="#{autoLpController.autoListPrincipale}" />
+    				</p:commandButton>
+    			</p:column>
+    		</p:dataTable>
+    		
+    		<h:panelGroup id="addAutoLp"
+    			rendered="#{autoLpController.actionEnum.whatAction == autoLpController.actionEnum.addAction
+    						|| autoLpController.actionEnum.whatAction == autoLpController.actionEnum.updateAction}">
+    			<ui:include src="_add/_enterAutoLp.xhtml" />
+    		</h:panelGroup>
+    	</h:form>
+    	
+    	
+    	
+    	<script type="text/javascript">
+    		highlightChildrenLiTags('navigationHeader:navigation');
+    		highlightChildrenLiTags('navigationFooter:navigation');
+    		hideElement('seeAutoLpForm:selectChoix');
+    	</script>
+    </ui:define>
+</ui:composition>

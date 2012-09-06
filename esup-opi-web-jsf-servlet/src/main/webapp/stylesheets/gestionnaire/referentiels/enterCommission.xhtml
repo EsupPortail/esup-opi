@@ -1,331 +1,323 @@
-<%@include file="../../_include/_include.jsp"%>
-<e:page stringsVar="msgs" authorized="#{managedAccess.readAuthorized}"
-	locale="#{sessionController.locale}">
-	<%@include file="../../_include/_header.jsp"%>
-	<h:form id="navigationHeader">
-		<%@include file="../_navigation/_navGestionnaire.jsp"%>
-	</h:form>
-	<t:div id="maPage" styleClass="div_body">
-		<e:section value="#{msgs['COMMISSION.TITLE.ADD']}"
-			rendered="#{commissionController.actionEnum.whatAction 
-						== commissionController.actionEnum.addAction}" />
-		<e:section value="#{msgs['COMMISSION.TITLE.UPDATE']}"
-			rendered="#{commissionController.actionEnum.whatAction 
-						== commissionController.actionEnum.updateAction}" />
-		<t:div styleClass="messageForUser">
-			<e:messages />
-		</t:div>
-		<t:div id="div_subSectionCmiForm" styleClass="div_subSection">
-			<h:form id="enterCommissionForm">
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				<t:div id="blockFormInfo" styleClass="blockForm">
-					<t:div style="width:100%;">
-						<e:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-							styleClass="tableJustWidthMax">
-							<e:text value="#{msgs['COMMISSIONS']}"
-								styleClass="section-smallTitle" />
-							<t:panelGroup>
-								<e:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-									action="#{commissionController.add}"
-									rendered="#{commissionController.actionEnum.whatAction 
-										== commissionController.actionEnum.addAction
-										&& managedAccess.addAuthorized}" />
-								<e:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-									action="#{commissionController.update}"
-									rendered="#{commissionController.actionEnum.whatAction 
-										== commissionController.actionEnum.updateAction
-										&& managedAccess.updateAuthorized}" />
-								<e:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-									immediate="true" action="#{commissionController.goSeeAllCmi}" />
-							</t:panelGroup>
-						</e:panelGrid>
-					</t:div>
-					<e:panelGrid styleClass="tableWidthMax" columns="4"
-						columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-						<t:panelGroup>
-							<e:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code" />
-							<t:outputText value="*" styleClass="etoileForChpObli" />
-						</t:panelGroup>
-						<e:inputText id="code"
-							value="#{commissionController.commission.code}" size="11"
-							maxlength="10" />
-						<t:panelGroup>
-							<e:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}"
-								for="temoinEnService" />
-							<t:outputText value="*" styleClass="etoileForChpObli" />
-						</t:panelGroup>
-						<e:selectBooleanCheckbox id="temoinEnService"
-							value="#{commissionController.commission.temoinEnService}" />
-
-						<t:panelGroup>
-							<e:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
-								for="libelle" />
-							<t:outputText value="*" styleClass="etoileForChpObli" />
-						</t:panelGroup>
-						<e:inputText id="libelle"
-							value="#{commissionController.commission.libelle}" size="40"
-							maxlength="60" />
-					</e:panelGrid>
-
-				</t:div>
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-
-
-
-				<t:div id="blockFormContact" styleClass="blockForm">
-					<t:div style="width:100%;">
-						<e:panelGrid columns="2" columnClasses="col1UnDemi,col1UnDemi"
-							styleClass="tableJustWidthMax">
-							<e:text value="#{msgs['COMMISSION.CONTACT']}"
-								styleClass="section-smallTitle" />
-							<t:panelGroup/>
-							<t:panelGroup rendered="#{commissionController.contactCommission.adresse == null}">
-								<e:outputLabel value="#{msgs['COMMISSION.SELECT_ADRESS']}"
-									for="selectAdress" />
-							</t:panelGroup>		
-							<t:panelGroup rendered="#{commissionController.contactCommission.adresse == null}">
-								<e:selectOneMenu id="selectAdress"
-									onchange="javascript:{simulateLinkClick('enterCommissionForm:selectCommAdress');}"
-									converter="javax.faces.Integer"
-									value="#{commissionController.idCmiForAdress}">
-									<f:selectItem itemLabel="" itemValue="" />
-									<t:selectItems var="commission"
-										value="#{commissionController.commissionsForAdresses}"
-										itemLabel="#{commission.libelle}" itemValue="#{commission.id}" />
-								</e:selectOneMenu>
-								<t:commandButton id="selectCommAdress"
-										action="#{commissionController.selectCommAdress}"
-										onclick="javascript:{clickAnnuler = true;}"/>
-							</t:panelGroup>
-						</e:panelGrid>
-					</t:div>
-					<t:div styleClass="tableWidthMax">
-						<e:panelGrid styleClass="tableJustWidthMax" columns="4"
-							columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-							<t:panelGroup>
-								<e:outputLabel value="#{msgs['FIELD_LABEL.MAIL']}" for="mail" />
-							</t:panelGroup>
-	
-							<e:inputText id="mail" value="#{adressController.fixAdrPojo.adresse.mail}" 
-										size="35" maxlength="50" />
-							<t:panelGroup>
-								<e:outputLabel value="#{msgs['COMMISSION.CORRESPONDING']}"
-									for="corresponding" />
-							</t:panelGroup>
-							<e:inputText id="corresponding"
-								value="#{commissionController.contactCommission.corresponding}"
-								size="35" />
-							<t:panelGroup>
-								<e:outputLabel value="#{msgs['ADRESS.TEL_FIX']}"
-									for="phoneNumber" />
-								<t:outputText value="*" styleClass="etoileForChpObli" />
-							</t:panelGroup>
-	
-							<e:inputText id="phoneNumber" value="#{adressController.fixAdrPojo.adresse.phoneNumber}" 
-										size="12" maxlength="10" />	
-										
-							<t:panelGroup>
-								<e:outputLabel value="#{msgs['ADRESS.TEL_FAX']}"
-									for="faxNumber" />
-							</t:panelGroup>
-							<e:inputText id="faxNumber" value="#{adressController.fixAdrPojo.adresse.faxNumber}" 
-										size="12" maxlength="10" />		
-							<t:panelGroup>
-								<e:outputLabel value="#{msgs['COMMISSION.SIGNATAIRE']}"
-									for="codSig" />
-							</t:panelGroup>		
-							<e:selectOneMenu id="codSig"
-									value="#{commissionController.contactCommission.codSig}">
-									<f:selectItem itemLabel=""
-									itemValue="" />
-									<t:selectItems var="sign" value="#{commissionController.signataireInUse}"
-										itemLabel="#{sign.codSig} - #{sign.nomSig}" itemValue="#{sign.codSig}"/>
-							</e:selectOneMenu>
-						</e:panelGrid>
-						<%@include file="_commission/_blockAddressCmi.jsp"%>
-						<t:div id="blockFormManager" styleClass="blockForm" rendered="#{commissionController.managerUsed}" >
-							<t:div style="width:100%;">
-								<e:panelGrid columns="2" columnClasses="col1UnDemi,col1UnDemi"
-									styleClass="tableJustWidthMax">
-									<e:text value="#{msgs['COMMISSION.MANAGER']}"
-										styleClass="section-smallTitle" />
-									<t:panelGroup />
-								</e:panelGrid>
-							</t:div>
-							<e:panelGrid styleClass="tableWidthMax" columns="4"
-								columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-								<t:panelGroup>
-									<e:outputLabel value="#{msgs['COMMISSION.MANAGER.NAME']}"
-										for="manager" />
-								</t:panelGroup>
-								<e:inputText id="manager"
-									value="#{commissionController.contactCommission.managerName}"
-									size="35" maxlength="255" />
-								<t:panelGroup>
-									<e:outputLabel value="#{msgs['COMMISSION.MANAGER.PHONE']}"
-										for="phoneManager" />
-								</t:panelGroup>
-								<e:inputText id="phoneManager"
-									value="#{commissionController.contactCommission.managerPhone}"
-									size="12" maxlength="10" />
-								<t:panelGroup>
-									<e:outputLabel value="#{msgs['COMMISSION.MANAGER.MAIL']}"
-										for="mailManager" />
-								</t:panelGroup>
-								<e:inputText id="mailManager"
-									value="#{commissionController.contactCommission.managerMail}"
-									size="35" maxlength="50" />
-							</e:panelGrid>
-						</t:div>
-					</t:div>
-				</t:div>
-						
-
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				<t:div id="blockFormMembre" styleClass="blockForm">
-					<t:div style="width:100%;">
-						<e:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-							styleClass="tableJustWidthMax">
-							<t:panelGroup>
-								<e:text value="#{msgs['MEMBERS']}"
-									styleClass="section-smallTitle" />
-								<t:popup styleClass="containerPopup" style="width:400px;"
-									closePopupOnExitingElement="true"
-									closePopupOnExitingPopup="true" displayAtDistanceX="01"
-									displayAtDistanceY="0">
-									<t:graphicImage url="/media/images/informationSmall.png"
-										style="cursor:pointer;" id="infoAnneeUni" />
-
-									<f:facet name="popup">
-										<h:panelGroup>
-											<h:panelGrid columns="1">
-												<t:outputText styleClass="titrePopupAide"
-													value="#{msgs['MEMBERS']}" />
-												<t:panelGroup>
-													<t:graphicImage url="/media/images/flag_green.png" />
-													<t:outputText styleClass="libellesAide"
-														value="#{msgs['MEMBERS.INFO.ALLREADY_USER']}" />
-												</t:panelGroup>
-												<t:panelGroup>
-													<t:graphicImage url="/media/images/flag_orange.png" />
-													<t:outputText styleClass="libellesAide"
-														value="#{msgs['MEMBERS.INFO.NOT_USER']}" />
-												</t:panelGroup>
-												<t:panelGroup>
-													<t:graphicImage url="/media/images/flag_red.png" />
-													<t:outputText styleClass="libellesAide"
-														value="#{msgs['MEMBERS.NEVER.USER']}" />
-												</t:panelGroup>
-											</h:panelGrid>
-										</h:panelGroup>
-									</f:facet>
-								</t:popup>
-
-							</t:panelGroup>
-
-							<t:panelGroup>
-								<e:commandButton value="#{msgs['GESTIONNAIRE.SEARCH_LDAP']}"
-									action="#{commissionController.goSearchMembers}">
-									<t:updateActionListener
-										value="#{ldapSearchController.ldapEnum.memberCmiValue}"
-										property="#{ldapSearchController.ldapEnum.whereAreYouFrom}" />
-								</e:commandButton>
-								<e:commandButton value="#{msgs['_.BUTTON.ADD']}"
-									action="#{commissionController.addOneMember}">
-								</e:commandButton>
-							</t:panelGroup>
-						</e:panelGrid>
-					</t:div>
-					<e:dataTable var="member"
-						value="#{commissionController.keySetMbrToDisplay}"
-						styleClass="displayInfo" alternateColors="false">
-						<t:column styleClass="buttonTD">
-							<t:graphicImage url="/media/images/flag_green.png"
-								rendered="#{commissionController.membersToDisplay[member] == commissionController.isGestionnaire}" />
-							<t:graphicImage url="/media/images/flag_orange.png"
-								rendered="#{commissionController.membersToDisplay[member] == commissionController.mustBeGest}" />
-							<!-- /*TODO probleme d'affichage flag pour les membres sasie a voir*/ -->
-							<t:graphicImage url="/media/images/flag_red.png"
-								rendered="#{commissionController.membersToDisplay[member] == commissionController.enterMbr
-									|| (commissionController.membersToDisplay[member] != commissionController.mustBeGest
-										&& commissionController.membersToDisplay[member] != commissionController.isGestionnaire)}" />
-						</t:column>
-						<t:column>
-							<f:facet name="header">
-								<t:outputText value="#{msgs['FIELD_LABEL.NAME']}" />
-							</f:facet>
-							<e:text value="#{member.nom}" rendered="#{member.nom != null}" />
-							<e:inputText value="#{member.nom}" size="31" maxlength="30"
-								rendered="#{member.nom == null}" />
-						</t:column>
-						<t:column>
-							<f:facet name="header">
-								<t:outputText value="#{msgs['INDIVIDU.PRENOM']}" />
-							</f:facet>
-							<e:text value="#{member.prenom}"
-								rendered="#{member.prenom != null}" />
-							<e:inputText value="#{member.prenom}" size="21" maxlength="20"
-								rendered="#{member.prenom == null}" />
-						</t:column>
-						<t:column>
-							<f:facet name="header">
-								<t:outputText value="#{msgs['FIELD_LABEL.MAIL']}" />
-							</f:facet>
-							<e:text value="#{member.adressMail}"
-								rendered="#{member.adressMail != null}" />
-							<e:inputText value="#{member.adressMail}" size="42"
-								maxlength="50" rendered="#{member.adressMail == null}" />
-
-						</t:column>
-						<t:column>
-							<f:facet name="header">
-								<t:outputText value="#{msgs['FIELD_LABEL.TYPE']}" />
-							</f:facet>
-							<e:selectOneMenu value="#{member.type}">
-								<f:selectItems value="#{commissionController.typMbrItems}" />
-							</e:selectOneMenu>
-						</t:column>
-						<t:column styleClass="buttonTD">
-							<e:commandButton image="/media/images/cancel.png"
-								styleClass="form-button-image" immediate="true"
-								rendered="#{member.adressMail != null}"
-								action="#{commissionController.removeMember}"
-								title="#{msgs['_.BUTTON.DELETE']}">
-								<t:updateActionListener value="#{member}"
-									property="#{commissionController.memberToDelete}" />
-							</e:commandButton>
-							<e:commandButton image="/media/images/add.png"
-								styleClass="form-button-image"
-								rendered="#{member.adressMail == null}"
-								title="#{msgs['_.BUTTON.VALIDATE']}" />
-						</t:column>
-					</e:dataTable>
-				</t:div>
-
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-			</h:form>
-		</t:div>
-	</t:div>
-	<t:div id="div_navigationFooter">
-		<h:form id="navigationFooter" styleClass="opiR1_form">
-			<%@include file="../_navigation/_navGestionnaire.jsp"%>
-		</h:form>
-	</t:div>
-	<script type="text/javascript">
-	highlightChildrenLiTags('navigationHeader:navigation');
-	highlightChildrenLiTags('navigationFooter:navigation');
-	highlightInputAndSelect('enterCommissionForm');
-	hideElement('enterCommissionForm:submitSelectCpFix');
-	hideElement('enterCommissionForm:selectCommAdress');
-	onblurInput('enterCommissionForm:codePostalFix',
-			'enterCommissionForm:submitSelectCpFix');
-</script>
-</e:page>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+    template="template.xhtml">
+    <ui:define name="content">
+    	<div id="maPage" class="div_body">
+    		<ui:fragment rendered="#{commissionController.actionEnum.whatAction 
+    						== commissionController.actionEnum.addAction}">
+    			<h1><h:outputText value="#{msgs['COMMISSION.TITLE.ADD']}"/></h1>
+    		</ui:fragment>
+    		<ui:fragment rendered="#{commissionController.actionEnum.whatAction 
+    						== commissionController.actionEnum.updateAction}">
+    			<h1><h:outputText value="#{msgs['COMMISSION.TITLE.UPDATE']}"/></h1>
+    		</ui:fragment>
+    		<div class="messageForUser">
+    			<p:message id="messages" showDetail="true" autoUpdate="true" />
+    		</div>
+    		<div id="div_subSectionCmiForm" class="div_subSection">
+    			<h:form id="enterCommissionForm">
+    				<br />
+    				<br />
+    				<br />
+    				<div id="blockFormInfo" class="blockForm">
+    					<div style="width:100%;">
+    						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+    							styleClass="tableJustWidthMax">
+    							<h:outputText value="#{msgs['COMMISSIONS']}"
+    								styleClass="section-smallTitle" />
+    							<h:panelGroup>
+    								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+    									action="#{commissionController.add}"
+    									rendered="#{commissionController.actionEnum.whatAction 
+    										== commissionController.actionEnum.addAction
+    										&& managedAccess.addAuthorized}" />
+    								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+    									action="#{commissionController.update}"
+    									rendered="#{commissionController.actionEnum.whatAction 
+    										== commissionController.actionEnum.updateAction
+    										&& managedAccess.updateAuthorized}" />
+    								<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+    									immediate="true" action="#{commissionController.goSeeAllCmi}" />
+    							</h:panelGroup>
+    						</h:panelGrid>
+    					</div>
+    					<h:panelGrid styleClass="tableWidthMax" columns="4"
+    						columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+    						<h:panelGroup>
+    							<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code" />
+    							<h:outputText value="*" styleClass="etoileForChpObli" />
+    						</h:panelGroup>
+    						<h:inputText id="code"
+    							value="#{commissionController.commission.code}" size="11"
+    							maxlength="10" />
+    						<h:panelGroup>
+    							<h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}"
+    								for="temoinEnService" />
+    							<h:outputText value="*" styleClass="etoileForChpObli" />
+    						</h:panelGroup>
+    						<p:selectBooleanCheckbox id="temoinEnService"
+    							value="#{commissionController.commission.temoinEnService}" />
+    
+    						<h:panelGroup>
+    							<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
+    								for="libelle" />
+    							<h:outputText value="*" styleClass="etoileForChpObli" />
+    						</h:panelGroup>
+    						<h:inputText id="libelle"
+    							value="#{commissionController.commission.libelle}" size="40"
+    							maxlength="60" />
+    					</h:panelGrid>
+    				</div>
+    				<br />
+    				<br />
+    				<br />
+    				<div id="blockFormContact" class="blockForm">
+    					<div style="width:100%;">
+    						<h:panelGrid columns="2" columnClasses="col1UnDemi,col1UnDemi"
+    							styleClass="tableJustWidthMax">
+    							<h:outputText value="#{msgs['COMMISSION.CONTACT']}"
+    								styleClass="section-smallTitle" />
+    							<h:panelGroup/>
+    							<h:panelGroup rendered="#{commissionController.contactCommission.adresse == null}">
+    								<h:outputLabel value="#{msgs['COMMISSION.SELECT_ADRESS']}"
+    									for="selectAdress" />
+    							</h:panelGroup>		
+    							<h:panelGroup rendered="#{commissionController.contactCommission.adresse == null}">
+    								<p:selectOneMenu id="selectAdress"
+    									onchange="javascript:{simulateLinkClick('enterCommissionForm:selectCommAdress');}"
+    									converter="javax.faces.Integer"
+    									value="#{commissionController.idCmiForAdress}">
+    									<f:selectItem itemLabel="" itemValue="" />
+    									<f:selectItems var="commission"
+    										value="#{commissionController.commissionsForAdresses}"
+    										itemLabel="#{commission.libelle}" itemValue="#{commission.id}" />
+    								</p:selectOneMenu>
+    								<p:commandButton id="selectCommAdress"
+    										action="#{commissionController.selectCommAdress}"
+    										onclick="javascript:{clickAnnuler = true;}"/>
+    							</h:panelGroup>
+    						</h:panelGrid>
+    					</div>
+    					<div class="tableWidthMax">
+    						<h:panelGrid styleClass="tableJustWidthMax" columns="4"
+    							columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+    							<h:panelGroup>
+    								<h:outputLabel value="#{msgs['FIELD_LABEL.MAIL']}" for="mail" />
+    							</h:panelGroup>
+    	
+    							<h:inputText id="mail" value="#{adressController.fixAdrPojo.adresse.mail}" 
+    										size="35" maxlength="50" />
+    							<h:panelGroup>
+    								<h:outputLabel value="#{msgs['COMMISSION.CORRESPONDING']}"
+    									for="corresponding" />
+    							</h:panelGroup>
+    							<h:inputText id="corresponding"
+    								value="#{commissionController.contactCommission.corresponding}"
+    								size="35" />
+    							<h:panelGroup>
+    								<h:outputLabel value="#{msgs['ADRESS.TEL_FIX']}"
+    									for="phoneNumber" />
+    								<h:outputText value="*" styleClass="etoileForChpObli" />
+    							</h:panelGroup>
+    	
+    							<h:inputText id="phoneNumber" value="#{adressController.fixAdrPojo.adresse.phoneNumber}" 
+    										size="12" maxlength="10" />	
+    										
+    							<h:panelGroup>
+    								<h:outputLabel value="#{msgs['ADRESS.TEL_FAX']}"
+    									for="faxNumber" />
+    							</h:panelGroup>
+    							<h:inputText id="faxNumber" value="#{adressController.fixAdrPojo.adresse.faxNumber}" 
+    										size="12" maxlength="10" />		
+    							<h:panelGroup>
+    								<h:outputLabel value="#{msgs['COMMISSION.SIGNATAIRE']}"
+    									for="codSig" />
+    							</h:panelGroup>		
+    							<p:selectOneMenu id="codSig"
+    									value="#{commissionController.contactCommission.codSig}">
+    									<f:selectItem itemLabel=""
+    									itemValue="" />
+    									<f:selectItems var="sign" value="#{commissionController.signataireInUse}"
+    										itemLabel="#{sign.codSig} - #{sign.nomSig}" itemValue="#{sign.codSig}"/>
+    							</p:selectOneMenu>
+    						</h:panelGrid>
+    						<ui:include src="_commission/_blockAddressCmi.xhtml" />
+                            <ui:fragment rendered="#{commissionController.managerUsed}" >
+        						<div id="blockFormManager" class="blockForm">
+        							<div style="width:100%;">
+        								<h:panelGrid columns="2" columnClasses="col1UnDemi,col1UnDemi"
+        									styleClass="tableJustWidthMax">
+        									<h:outputText value="#{msgs['COMMISSION.MANAGER']}"
+        										styleClass="section-smallTitle" />
+        									<h:panelGroup />
+        								</h:panelGrid>
+        							</div>
+        							<h:panelGrid styleClass="tableWidthMax" columns="4"
+        								columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+        								<h:panelGroup>
+        									<h:outputLabel value="#{msgs['COMMISSION.MANAGER.NAME']}"
+        										for="manager" />
+        								</h:panelGroup>
+        								<h:inputText id="manager"
+        									value="#{commissionController.contactCommission.managerName}"
+        									size="35" maxlength="255" />
+        								<h:panelGroup>
+        									<h:outputLabel value="#{msgs['COMMISSION.MANAGER.PHONE']}"
+        										for="phoneManager" />
+        								</h:panelGroup>
+        								<h:inputText id="phoneManager"
+        									value="#{commissionController.contactCommission.managerPhone}"
+        									size="12" maxlength="10" />
+        								<h:panelGroup>
+        									<h:outputLabel value="#{msgs['COMMISSION.MANAGER.MAIL']}"
+        										for="mailManager" />
+        								</h:panelGroup>
+        								<h:inputText id="mailManager"
+        									value="#{commissionController.contactCommission.managerMail}"
+        									size="35" maxlength="50" />
+        							</h:panelGrid>
+        						</div>
+                            </ui:fragment>
+    					</div>
+    				</div>
+    				<br />
+    				<br />
+    				<br />
+    				<div id="blockFormMembre" class="blockForm">
+    					<div style="width:100%;">
+    						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+    							styleClass="tableJustWidthMax">
+    							<h:panelGroup>
+    								<h:outputText value="#{msgs['MEMBERS']}"
+    									styleClass="section-smallTitle" />
+    								<t:popup styleClass="containerPopup" style="width:400px;"
+    									closePopupOnExitingElement="true"
+    									closePopupOnExitingPopup="true" displayAtDistanceX="01"
+    									displayAtDistanceY="0">
+    									<p:graphicImage url="/media/images/informationSmall.png"
+    										style="cursor:pointer;" id="infoAnneeUni" />
+    
+    									<f:facet name="popup">
+    										<h:panelGroup>
+    											<h:panelGrid columns="1">
+    												<h:outputText styleClass="titrePopupAide"
+    													value="#{msgs['MEMBERS']}" />
+    												<h:panelGroup>
+    													<p:graphicImage url="/media/images/flag_green.png" />
+    													<h:outputText styleClass="libellesAide"
+    														value="#{msgs['MEMBERS.INFO.ALLREADY_USER']}" />
+    												</h:panelGroup>
+    												<h:panelGroup>
+    													<p:graphicImage url="/media/images/flag_orange.png" />
+    													<h:outputText styleClass="libellesAide"
+    														value="#{msgs['MEMBERS.INFO.NOT_USER']}" />
+    												</h:panelGroup>
+    												<h:panelGroup>
+    													<p:graphicImage url="/media/images/flag_red.png" />
+    													<h:outputText styleClass="libellesAide"
+    														value="#{msgs['MEMBERS.NEVER.USER']}" />
+    												</h:panelGroup>
+    											</h:panelGrid>
+    										</h:panelGroup>
+    									</f:facet>
+    								</t:popup>
+    
+    							</h:panelGroup>
+    
+    							<h:panelGroup>
+    								<p:commandButton value="#{msgs['GESTIONNAIRE.SEARCH_LDAP']}"
+    									action="#{commissionController.goSearchMembers}">
+    									<f:setPropertyActionListener value="#{ldapSearchController.ldapEnum.memberCmiValue}" target="#{ldapSearchController.ldapEnum.whereAreYouFrom}" />
+    								</p:commandButton>
+    								<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+    									action="#{commissionController.addOneMember}">
+    								</p:commandButton>
+    							</h:panelGroup>
+    						</h:panelGrid>
+    					</div>
+    					<p:dataTable var="member"
+    						value="#{commissionController.keySetMbrToDisplay}"
+    						styleClass="displayInfo" alternateColors="false">
+    						<p:column styleClass="buttonTD">
+    							<p:graphicImage url="/media/images/flag_green.png"
+    								rendered="#{commissionController.membersToDisplay[member] == commissionController.isGestionnaire}" />
+    							<p:graphicImage url="/media/images/flag_orange.png"
+    								rendered="#{commissionController.membersToDisplay[member] == commissionController.mustBeGest}" />
+    							<!-- /*TODO probleme d'affichage flag pour les membres sasie a voir*/ -->
+    							<p:graphicImage url="/media/images/flag_red.png"
+    								rendered="#{commissionController.membersToDisplay[member] == commissionController.enterMbr
+    									|| (commissionController.membersToDisplay[member] != commissionController.mustBeGest
+    										&& commissionController.membersToDisplay[member] != commissionController.isGestionnaire)}" />
+    						</p:column>
+    						<p:column>
+    							<f:facet name="header">
+    								<h:outputText value="#{msgs['FIELD_LABEL.NAME']}" />
+    							</f:facet>
+    							<h:outputText value="#{member.nom}" rendered="#{member.nom != null}" />
+    							<h:inputText value="#{member.nom}" size="31" maxlength="30"
+    								rendered="#{member.nom == null}" />
+    						</p:column>
+    						<p:column>
+    							<f:facet name="header">
+    								<h:outputText value="#{msgs['INDIVIDU.PRENOM']}" />
+    							</f:facet>
+    							<h:outputText value="#{member.prenom}"
+    								rendered="#{member.prenom != null}" />
+    							<h:inputText value="#{member.prenom}" size="21" maxlength="20"
+    								rendered="#{member.prenom == null}" />
+    						</p:column>
+    						<p:column>
+    							<f:facet name="header">
+    								<h:outputText value="#{msgs['FIELD_LABEL.MAIL']}" />
+    							</f:facet>
+    							<h:outputText value="#{member.adressMail}"
+    								rendered="#{member.adressMail != null}" />
+    							<h:inputText value="#{member.adressMail}" size="42"
+    								maxlength="50" rendered="#{member.adressMail == null}" />
+    
+    						</p:column>
+    						<p:column>
+    							<f:facet name="header">
+    								<h:outputText value="#{msgs['FIELD_LABEL.TYPE']}" />
+    							</f:facet>
+    							<p:selectOneMenu value="#{member.type}">
+    								<f:selectItems value="#{commissionController.typMbrItems}" />
+    							</p:selectOneMenu>
+    						</p:column>
+    						<p:column styleClass="buttonTD">
+    							<p:commandButton image="/media/images/cancel.png"
+    								styleClass="form-button-image" immediate="true"
+    								rendered="#{member.adressMail != null}"
+    								action="#{commissionController.removeMember}"
+    								title="#{msgs['_.BUTTON.DELETE']}">
+    								<f:setPropertyActionListener value="#{member}" target="#{commissionController.memberToDelete}" />
+    							</p:commandButton>
+    							<p:commandButton image="/media/images/add.png"
+    								styleClass="form-button-image"
+    								rendered="#{member.adressMail == null}"
+    								title="#{msgs['_.BUTTON.VALIDATE']}" />
+    						</p:column>
+    					</p:dataTable>
+    				</div>
+    
+    				<br />
+    				<br />
+    				<br />
+    			</h:form>
+    		</div>
+    	</div>
+    	
+    	<script type="text/javascript">
+        	highlightChildrenLiTags('navigationHeader:navigation');
+        	highlightChildrenLiTags('navigationFooter:navigation');
+        	highlightInputAndSelect('enterCommissionForm');
+        	hideElement('enterCommissionForm:submitSelectCpFix');
+        	hideElement('enterCommissionForm:selectCommAdress');
+        	onblurInput('enterCommissionForm:codePostalFix',
+        			'enterCommissionForm:submitSelectCpFix');
+        </script>
+    </ui:define>
+</ui:composition>

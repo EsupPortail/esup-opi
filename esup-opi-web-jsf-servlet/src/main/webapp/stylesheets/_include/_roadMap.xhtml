@@ -1,25 +1,29 @@
-<%@include file="_include.jsp"%>
-<t:div id="roadMap" styleClass="div_roadMap">
-	<h:form id="roadMapForm">
-		<e:text value="Piste : " styleClass="span-text-small" />
-		<e:ul styleClass="roadMap">
-			<t:dataList var="rang" value="#{managedRoadMap.roadsKey}">
-				<e:li>
-					<e:commandButton value="#{managedRoadMap.roads[rang].label}"
-						immediate="true"
-						title="#{managedRoadMap.roads[rang].title}"
-						rendered="#{!managedRoadMap.roads[rang].isCurrentPage}"
-						action="#{managedRoadMap.goToRoadSelect}">
-						<t:updateActionListener value="#{managedRoadMap.roads[rang]}" 
-								property="#{managedRoadMap.roadSelected}"/>
-					</e:commandButton>
-					<e:text value="#{managedRoadMap.roads[rang].label}" 
-						title="#{managedRoadMap.roads[rang].title}"
-						styleClass="span-text-small"
-						rendered="#{managedRoadMap.roads[rang].isCurrentPage}"/>
-					<e:text value=" > " rendered="#{managedRoadMap.isMoreTwoElt && !managedRoadMap.roads[rang].isCurrentPage}"/>
-				</e:li>
-			</t:dataList>
-		</e:ul>
-	</h:form>
-</t:div>
+<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+    <div id="roadMap" class="div_roadMap">
+    	<h:form id="roadMapForm">
+    		<h:outputText value="Piste : " styleClass="span-text-small" />
+    		<ul class="roadMap">
+    			<p:dataList var="rang" value="#{managedRoadMap.roadsKey}">
+    				<li>
+    					<p:commandButton value="#{managedRoadMap.roads[rang].label}"
+    						immediate="true"
+    						title="#{managedRoadMap.roads[rang].title}"
+    						rendered="#{!managedRoadMap.roads[rang].isCurrentPage}"
+    						action="#{managedRoadMap.goToRoadSelect}">
+    						<f:setPropertyActionListener value="#{managedRoadMap.roads[rang]}" 
+    								target="#{managedRoadMap.roadSelected}" />
+    					</p:commandButton>
+    					<h:outputText value="#{managedRoadMap.roads[rang].label}" 
+    						title="#{managedRoadMap.roads[rang].title}"
+    						styleClass="span-text-small"
+    						rendered="#{managedRoadMap.roads[rang].isCurrentPage}"/>
+    					<h:outputText value=" > " rendered="#{managedRoadMap.isMoreTwoElt && !managedRoadMap.roads[rang].isCurrentPage}"/>
+    				</li>
+    			</p:dataList>
+    		</ul>
+    	</h:form>
+    </div>
+</ui:fragment>

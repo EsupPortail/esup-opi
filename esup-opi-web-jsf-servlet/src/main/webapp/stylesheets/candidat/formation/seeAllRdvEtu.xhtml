@@ -1,56 +1,47 @@
-<%@include file="../../_include/_include.jsp"%>
-<e:page stringsVar="msgs" locale="#{sessionController.locale}">
-	
-	<%@include file="../../_include/_header.jsp"%>
-	
-	<h:form id="navigationHeader">
-		<%@include file="../_navigation/_navGlobal.jsp"%>
-	</h:form>
-	
-	<e:section value="#{msgs['CALENDAR_RDV.ACCUEIL.TITRE_RDV']}"/>
-	
-	<e:messages styleClass="messageForUser"/>
-	
-	<e:dataTable var="dateRdv"
-		value="#{saisieRdvEtuController.keyMapAllRdvEtu}"
-		alternateColors="false" renderedIfEmpty="false"
-		styleClass="displayInfo">
-		<t:column>
-			<f:facet name="header">
-				<t:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.DATE']}"/>
-			</f:facet>
-			<e:text value="#{dateRdv}">
-				<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
-				timeZone="#{sessionController.timezone}" />
-			</e:text>
-		</t:column>
-		
-		<t:column>
-			<f:facet name="header">
-				<t:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.MESSAGE']}"/>
-			</f:facet>
-			<e:text escape="false" value="#{saisieRdvEtuController.allRdvEtu[dateRdv][0].messageRdv}"/>
-		</t:column>
-		
-		<t:column>
-			<f:facet name="header">
-				<t:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.TITRE_VOEU']}"/>
-			</f:facet>
-			<t:dataList var="individuDatePojo" value="#{saisieRdvEtuController.allRdvEtu[dateRdv]}">
-				<e:text value="#{individuDatePojo.voeuRdv.vrsEtape.libWebVet}"/>
-			</t:dataList>
-		</t:column>
-	</e:dataTable>
-	
-	<t:div id="div_navigationFooter">
-		<h:form id="navigationFooter" styleClass="opiR1_form">
-			<%@include file="../_navigation/_navGlobal.jsp"%>
-		</h:form>
-	</t:div>
-	
-	<script type="text/javascript">
-		highlightChildrenLiTags('navigationHeader:navigationLogin');
-		highlightChildrenLiTags('navigationFooter:navigationLogin');
-		highlightInputAndSelect('seeVoeuxForm');
-	</script>
-</e:page>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    template="template.xhtml">
+    <ui:define name="content">
+    	<h1><h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.TITRE_RDV']}" /></h1>
+    	
+    	<p:message id="messages" showDetail="true" autoUpdate="true" styleClass="messageForUser"/>
+    	
+    	<p:dataTable var="dateRdv"
+    		value="#{saisieRdvEtuController.keyMapAllRdvEtu}" rendered="#{not empty saisieRdvEtuController.keyMapAllRdvEtu}"
+    		styleClass="displayInfo">
+    		<p:column>
+    			<f:facet name="header">
+    				<h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.DATE']}"/>
+    			</f:facet>
+    			<h:outputText value="#{dateRdv}">
+    				<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+    				timeZone="#{sessionController.timezone}" />
+    			</h:outputText>
+    		</p:column>
+    		
+    		<p:column>
+    			<f:facet name="header">
+    				<h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.MESSAGE']}"/>
+    			</f:facet>
+    			<h:outputText escape="false" value="#{saisieRdvEtuController.allRdvEtu[dateRdv][0].messageRdv}"/>
+    		</p:column>
+    		
+    		<p:column>
+    			<f:facet name="header">
+    				<h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.TITRE_VOEU']}"/>
+    			</f:facet>
+    			<p:dataList var="individuDatePojo" value="#{saisieRdvEtuController.allRdvEtu[dateRdv]}">
+    				<h:outputText value="#{individuDatePojo.voeuRdv.vrsEtape.libWebVet}"/>
+    			</p:dataList>
+    		</p:column>
+    	</p:dataTable>    	
+    	
+    	<script type="text/javascript">
+    		highlightChildrenLiTags('navigationHeader:navigationLogin');
+    		highlightChildrenLiTags('navigationFooter:navigationLogin');
+    		highlightInputAndSelect('seeVoeuxForm');
+    	</script>
+    </ui:define>
+</ui:composition>

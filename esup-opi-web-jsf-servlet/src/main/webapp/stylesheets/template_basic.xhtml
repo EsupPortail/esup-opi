@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
+	<f:view locale="#{sessionController.currentUserLocale}">
+		<h:head>
+            <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+                <title><h:outputText value="#{applicationService.name}" /></title>
+            </f:facet>
+            <ui:repeat value="#{tagsConfigurator.stylesheets}" var="path">
+                <link type="text/css" rel="stylesheet" href="#{path}" />
+            </ui:repeat>
+            <ui:repeat value="#{tagsConfigurator.scripts}" var="path">
+                <script type="text/javascript" src="#{path}"></script>
+            </ui:repeat>
+            <script type="text/javascript" src="/media/js/primefaces-locales.js"></script>
+		</h:head>
+		<h:body styleClass="portlet-section-body">
+			<ui:insert name="header" />
+			<ui:insert name="navigation" />
+			<ui:insert name="content" />
+			<ui:insert name="footer" />
+		</h:body>
+	</f:view>
+</html>
+

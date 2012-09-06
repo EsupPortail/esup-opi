@@ -1,16 +1,20 @@
-<%@include file="_include.jsp"%>
-<e:menu id="navigation" styleClass="menuWelcome">
-	<e:menuItem id="login" action="#{welcomeController.goWelcomeManager}"
-		rendered="#{sessionController.isServlet}"
-		value="#{msgs['NAVIGATION.TEXT.LOGIN']} #{msgs['GESTIONNAIRES']}"/>
-	<e:menuItem id="faq" value="#{msgs['NAVIGATION.TEXT.FAQ']}" 
-		onclick="openPage('#{accueilController.context}/stylesheets/help/faq.html#whatIne','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
-	<e:menuItem id="help" value="#{msgs['NAVIGATION.TEXT.CONTACT']}" 
-		rendered="#{sessionController.regimeInsUser == null || !sessionController.regimeInsUser.displayInfoFC}" 
-		onclick="openPage('#{accueilController.context}/stylesheets/help/contact.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
-	<e:menuItem id="helpFC" value="#{msgs['NAVIGATION.TEXT.CONTACT']}" 
-		rendered="#{sessionController.regimeInsUser != null && sessionController.regimeInsUser.displayInfoFC}" 
-		onclick="openPage('#{accueilController.context}/stylesheets/help/contactFC.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
-	<e:menuItem id="seeFormation" value="#{msgs['NAVIGATION.TEXT.SEE_FORMATION']}"
-		action="#{welcomeController.goSeeFormation}"/>
-</e:menu>
+<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+    <p:menu id="navigation" styleClass="menuWelcome">
+    	<p:menuItem id="login" action="#{welcomeController.goWelcomeManager}"
+    		rendered="#{sessionController.isServlet}"
+    		value="#{msgs['NAVIGATION.TEXT.LOGIN']} #{msgs['GESTIONNAIRES']}"/>
+    	<p:menuItem id="faq" value="#{msgs['NAVIGATION.TEXT.FAQ']}" 
+    		onclick="openPage('#{accueilController.context}/stylesheets/help/faq.html#whatIne','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
+    	<p:menuItem id="help" value="#{msgs['NAVIGATION.TEXT.CONTACT']}" 
+    		rendered="#{sessionController.regimeInsUser == null || !sessionController.regimeInsUser.displayInfoFC}" 
+    		onclick="openPage('#{accueilController.context}/stylesheets/help/contact.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
+    	<p:menuItem id="helpFC" value="#{msgs['NAVIGATION.TEXT.CONTACT']}" 
+    		rendered="#{sessionController.regimeInsUser != null && sessionController.regimeInsUser.displayInfoFC}" 
+    		onclick="openPage('#{accueilController.context}/stylesheets/help/contactFC.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
+    	<p:menuItem id="seeFormation" value="#{msgs['NAVIGATION.TEXT.SEE_FORMATION']}"
+    		action="#{welcomeController.goSeeFormation}"/>
+    </p:menu>
+</ui:fragment>

@@ -1,17 +1,21 @@
-<%@include file="../../_include/_include.jsp"%>
-<t:div id="blockrecapDossier" styleClass="blockForm">
-	<t:div style="width:100%;">
-		<e:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-			styleClass="tableJustWidthMax">
-			<e:text value="Récapitulatif des données saisies"
-				styleClass="section-smallTitle" />
-			<e:commandButton value="Imprimer TODO" action="#{accueilController.printDossier}"/>
-		</e:panelGrid>
-	</t:div>
-	<t:div style="width:100%;" styleClass="blockImportant">
-		<t:htmlTag value="br" />
-	</t:div>
-</t:div>
-<t:htmlTag value="br" />
-<t:htmlTag value="br" />
-<t:htmlTag value="br" />
+<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui">
+    <div id="blockrecapDossier" class="blockForm">
+    	<div style="width:100%;">
+    		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+    			styleClass="tableJustWidthMax">
+    			<h:outputText value="RÃ©capitulatif des donnÃ©es saisies"
+    				styleClass="section-smallTitle" />
+    			<p:commandButton value="Imprimer TODO" action="#{accueilController.printDossier}"/>
+    		</h:panelGrid>
+    	</div>
+    	<div style="width:100%;" class="blockImportant">
+    		<br />
+    	</div>
+    </div>
+    <br />
+    <br />
+    <br />
+</ui:fragment>

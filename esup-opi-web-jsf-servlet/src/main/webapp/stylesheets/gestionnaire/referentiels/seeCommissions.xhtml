@@ -1,291 +1,271 @@
-<%@include file="../../_include/_include.jsp"%>
-<e:page stringsVar="msgs" authorized="#{managedAccess.readAuthorized}"
-	locale="#{sessionController.locale}">
-	<%@include file="../../_include/_header.jsp"%>
-	<h:form id="navigationHeader">
-		<%@include file="../_navigation/_navGestionnaire.jsp"%>
-	</h:form>
-	<t:div id="maPage" styleClass="div_body">
-		<e:section value="#{msgs['COMMISSION.TITLE.LIST']}" />
-		<t:div styleClass="messageForUser">
-			<e:messages />
-		</t:div>
-		<t:div id="div_subSectionDelete" styleClass="div_subSection"
-			rendered="#{commissionController.actionEnum.whatAction == commissionController.actionEnum.deleteAction}">
-			<%@include file="_commission/_deleteCmi.jsp"%>
-		</t:div>
-
-
-		<t:div id="blockFormSearch" styleClass="blockForm">
-			<h:form id="lookForCmiForm" styleClass="opiR1_form">
-				<e:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-					styleClass="tableJustWidthMax">
-					<e:text value="#{msgs['FIELD_LABEL.LOOK_FOR.COM']}"
-						styleClass="section-smallTitle" />
-					<t:panelGroup>
-						<e:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
-							action="#{paginatorCommission.lookForCommissions}" />
-					</t:panelGroup>
-				</e:panelGrid>
-				<e:panelGrid styleClass="tableWidthMax" columns="4"
-					columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-					<t:panelGroup>
-						<e:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code" />
-					</t:panelGroup>
-					<e:inputText id="code"
-						value="#{commissionController.paginator.commissionRechPojo.code}" />
-
-					<t:panelGroup>
-						<e:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
-							for="libelle" />
-					</t:panelGroup>
-					<e:inputText id="libelle"
-						value="#{commissionController.paginator.commissionRechPojo.libelle}" />
-				</e:panelGrid>
-			</h:form>
-		</t:div>
-
-		<t:htmlTag value="br" />
-
-
-
-		<t:div id="div_subSection" styleClass="div_subSection">
-			<h:form id="seeCommissionForm">
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				<t:div id="blockFormInfo" styleClass="blockForm">
-					<t:div style="width:100%;">
-						<e:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-							styleClass="tableJustWidthMax">
-							<e:text value="#{msgs['COMMISSIONS']}"
-								styleClass="section-smallTitle" />
-							<t:panelGroup>
-								<e:commandButton value="#{msgs['_.BUTTON.ADD']}"
-									rendered="#{managedAccess.addAuthorized}"
-									action="#{commissionController.goAddCmi}" />
-								<e:commandButton value="#{msgs['_.BUTTON.BACK']}"
-									immediate="true" action="#{managedAccess.goDisplayFunction}" />
-							</t:panelGroup>
-						</e:panelGrid>
-					</t:div>
-
-					<e:dataTable id="dataCommission" rowIndexVar="variable"
-						value="#{paginatorCommission.visibleItems}"
-						var="commissionPojo" styleClass="paginatorData" alternateColors="true">
-						<f:facet name="header">
-							<h:panelGroup>
-								<e:paginator id="paginatorCmi"
-									paginator="#{paginatorCommission}"
-									itemsName="#{msgs['COMMISSIONS']}"
-									onchange="javascript:{simulateLinkClick('seeCommissionForm:dataCommission:submitPageSize');}" />
-								<e:commandButton id="submitPageSize"
-									action="#{paginatorCommission.forceReload}" />
-							</h:panelGroup>
-						</f:facet>
-						<t:column width="20%">
-							<f:facet name="header">
-								<t:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
-							</f:facet>
-							<e:text value="#{commissionPojo.commission.code}" />
-						</t:column>
-						<t:column width="64%">
-							<f:facet name="header">
-								<t:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-							</f:facet>
-							<e:text value="#{commissionPojo.commission.libelle}" />
-						</t:column>
-						<t:column width="10%">
-							<f:facet name="header">
-								<t:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
-							</f:facet>
-							<t:graphicImage url="/media/images/check2.gif"
-								rendered="#{commissionPojo.commission.temoinEnService}" />
-							<t:graphicImage url="/media/images/check0.gif"
-								rendered="#{!commissionPojo.commission.temoinEnService}" />
-						</t:column>
-						<t:column width="10%">
-							<f:facet name="header">
-								<t:popup styleClass="containerPopup" style="width:400px;"
-									closePopupOnExitingElement="true"
-									closePopupOnExitingPopup="true" displayAtDistanceX="-200"
-									displayAtDistanceY="0">
-									<t:graphicImage url="/media/images/informationSmall.png"
-										style="cursor:pointer;" id="infoAnneeUni" />
-
-									<f:facet name="popup">
-										<h:panelGroup>
-											<h:panelGrid columns="1">
-												<t:outputText styleClass="titrePopupAide"
-													value="#{msgs['COMMISSIONS']}" />
-												<t:panelGroup>
-													<t:graphicImage url="/media/images/flag_green.png" />
-													<t:outputText styleClass="libellesAide"
-														value="#{msgs['COMMISSION.INFO.ALL_ACTIVE_ETP']}" />
-												</t:panelGroup>
-												<t:panelGroup>
-													<t:graphicImage url="/media/images/flag_orange.png" />
-													<t:outputText styleClass="libellesAide"
-														value="#{msgs['COMMISSION.INFO.SOME_INACTIVE_ETP']}" />
-												</t:panelGroup>
-												<t:panelGroup>
-													<t:graphicImage url="/media/images/flag_red.png" />
-													<t:outputText styleClass="libellesAide"
-														value="#{msgs['COMMISSION.INFO.NO_ACTIVE_ETP']}" />
-												</t:panelGroup>
-											</h:panelGrid>
-										</h:panelGroup>
-									</f:facet>
-								</t:popup>
-							</f:facet>
-							<t:panelGroup>
-								<t:graphicImage url="/media/images/flag_green.png"
-									rendered="#{!commissionPojo.flagWithoutTrtActive && !commissionPojo.flagWithSomeTrtInactive}"
-									style="cursor:pointer;" id="allActiveEtp" />
-								<t:graphicImage url="/media/images/flag_orange.png"
-									rendered="#{commissionPojo.flagWithSomeTrtInactive}"
-									style="cursor:pointer;" id="someInactiveEtp" />
-								<t:graphicImage url="/media/images/flag_red.png"
-									rendered="#{commissionPojo.flagWithoutTrtActive}"
-									style="cursor:pointer;" id="noActiveEtp" />
-		
-							</t:panelGroup>
-						</t:column>
-						<t:column styleClass="buttonTD">
-							<e:commandButton image="/media/images/magnifier.png"
-								styleClass="form-button-image" immediate="true"
-								action="#{commissionController.goSeeOneCmi}"
-								title="#{msgs['_.BUTTON.DISPLAY']}">
-								<t:updateActionListener
-									value="#{commissionController.actionEnum.readAction}"
-									property="#{commissionController.actionEnum.whatAction}" />
-								<t:updateActionListener value="#{commissionPojo.commission}"
-									property="#{commissionController.commission}" />
-							</e:commandButton>
-						</t:column>
-						<t:column styleClass="buttonTD">
-							<e:commandButton image="/media/images/update.png"
-								immediate="true" styleClass="form-button-image"
-								title="#{msgs['BUTTON.UPDATE']}"
-								action="#{commissionController.goUpdateCmi}"
-								rendered="#{managedAccess.updateAuthorized}">
-								<t:updateActionListener
-									value="#{commissionController.actionEnum.updateAction}"
-									property="#{commissionController.actionEnum.whatAction}" />
-								<t:updateActionListener value="#{commissionPojo.commission}"
-									property="#{commissionController.commission}" />
-							</e:commandButton>
-						</t:column>
-						<t:column styleClass="buttonTD">
-							<e:commandButton image="/media/images/cancel.png"
-								styleClass="form-button-image" immediate="true"
-								title="#{msgs['_.BUTTON.DELETE']}"
-								rendered="#{managedAccess.deleteAuthorized}">
-								<t:updateActionListener
-									value="#{commissionController.actionEnum.deleteAction}"
-									property="#{commissionController.actionEnum.whatAction}" />
-								<t:updateActionListener value="#{commissionPojo.commission}"
-									property="#{commissionController.commission}" />
-							</e:commandButton>
-						</t:column>
-					</e:dataTable>
-
-				</t:div>
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				<t:div id="blockFormInfoWithoutTrt" styleClass="blockForm"
-					rendered="#{not empty commissionController.currentGest.rightOnCmi || commissionController.currentGest.codeCge != null}">
-					<t:div style="width:100%;">
-						<e:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-							styleClass="tableJustWidthMax">
-							<e:text value="#{msgs['COMMISSIONS.WITHOUT_TRT']}"
-								styleClass="section-smallTitle" />
-							<t:panelGroup>
-								<e:commandButton value="#{msgs['_.BUTTON.ADD']}"
-									rendered="#{managedAccess.addAuthorized}"
-									action="#{commissionController.goAddCmi}" />
-								<e:commandButton value="#{msgs['_.BUTTON.BACK']}"
-									immediate="true" action="#{managedAccess.goDisplayFunction}" />
-							</t:panelGroup>
-						</e:panelGrid>
-					</t:div>
-					<e:dataTable var="commission"
-						value="#{commissionController.commissionsItemsWithoutTrt}"
-						styleClass="displayInfo" alternateColors="false">
-						<t:column width="20%">
-							<f:facet name="header">
-								<t:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
-							</f:facet>
-							<e:text value="#{commission.code}" />
-						</t:column>
-						<t:column width="64%">
-							<f:facet name="header">
-								<t:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-							</f:facet>
-							<e:text value="#{commission.libelle}" />
-						</t:column>
-						<t:column width="10%">
-							<f:facet name="header">
-								<t:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
-							</f:facet>
-							<t:graphicImage url="/media/images/check2.gif"
-								rendered="#{commission.temoinEnService}" />
-							<t:graphicImage url="/media/images/check0.gif"
-								rendered="#{!commission.temoinEnService}" />
-						</t:column>
-						<t:column styleClass="buttonTD">
-							<e:commandButton image="/media/images/magnifier.png"
-								styleClass="form-button-image" immediate="true"
-								action="#{commissionController.goSeeOneCmi}"
-								title="#{msgs['_.BUTTON.DISPLAY']}">
-								<t:updateActionListener
-									value="#{commissionController.actionEnum.readAction}"
-									property="#{commissionController.actionEnum.whatAction}" />
-								<t:updateActionListener value="#{commission}"
-									property="#{commissionController.commission}" />
-							</e:commandButton>
-						</t:column>
-						<t:column styleClass="buttonTD">
-							<e:commandButton image="/media/images/update.png"
-								immediate="true" styleClass="form-button-image"
-								title="#{msgs['BUTTON.UPDATE']}"
-								action="#{commissionController.goUpdateCmi}"
-								rendered="#{managedAccess.updateAuthorized}">
-								<t:updateActionListener
-									value="#{commissionController.actionEnum.updateAction}"
-									property="#{commissionController.actionEnum.whatAction}" />
-								<t:updateActionListener value="#{commission}"
-									property="#{commissionController.commission}" />
-							</e:commandButton>
-						</t:column>
-						<t:column styleClass="buttonTD">
-							<e:commandButton image="/media/images/cancel.png"
-								styleClass="form-button-image" immediate="true"
-								title="#{msgs['_.BUTTON.DELETE']}"
-								rendered="#{managedAccess.deleteAuthorized}">
-								<t:updateActionListener
-									value="#{commissionController.actionEnum.deleteAction}"
-									property="#{commissionController.actionEnum.whatAction}" />
-								<t:updateActionListener value="#{commission}"
-									property="#{commissionController.commission}" />
-							</e:commandButton>
-						</t:column>
-					</e:dataTable>
-				</t:div>
-
-
-			</h:form>
-		</t:div>
-	</t:div>
-	<t:div id="div_navigationFooter">
-		<h:form id="navigationFooter" styleClass="opiR1_form">
-			<%@include file="../_navigation/_navGestionnaire.jsp"%>
-		</h:form>
-	</t:div>
-	<script type="text/javascript">
-	highlightChildrenLiTags('navigationHeader:navigation');
-	highlightChildrenLiTags('navigationFooter:navigation');
-	hideElement('seeCommissionForm:dataCommission:submitPageSize');
-</script>
-</e:page>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+    template="template.xhtml">
+    <ui:define name="content">
+    	
+    	
+    	<div id="maPage" class="div_body">
+    		<h1><h:outputText value="#{msgs['COMMISSION.TITLE.LIST']}" /></h1>
+    		<div class="messageForUser">
+    			<p:message id="messages" showDetail="true" autoUpdate="true" />
+    		</div>
+            <ui:fragment rendered="#{commissionController.actionEnum.whatAction == commissionController.actionEnum.deleteAction}">
+        		<div id="div_subSectionDelete" class="div_subSection">
+        			<ui:include src="_commission/_deleteCmi.xhtml" />
+        		</div>
+            </ui:fragment>
+    
+    		<div id="blockFormSearch" class="blockForm">
+    			<h:form id="lookForCmiForm" styleClass="opiR1_form">
+    				<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+    					styleClass="tableJustWidthMax">
+    					<h:outputText value="#{msgs['FIELD_LABEL.LOOK_FOR.COM']}"
+    						styleClass="section-smallTitle" />
+    					<h:panelGroup>
+    						<p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
+    							action="#{paginatorCommission.lookForCommissions}" />
+    					</h:panelGroup>
+    				</h:panelGrid>
+    				<h:panelGrid styleClass="tableWidthMax" columns="4"
+    					columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+    					<h:panelGroup>
+    						<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code" />
+    					</h:panelGroup>
+    					<h:inputText id="code"
+    						value="#{commissionController.paginator.commissionRechPojo.code}" />
+    
+    					<h:panelGroup>
+    						<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
+    							for="libelle" />
+    					</h:panelGroup>
+    					<h:inputText id="libelle"
+    						value="#{commissionController.paginator.commissionRechPojo.libelle}" />
+    				</h:panelGrid>
+    			</h:form>
+    		</div>
+    
+    		<br />
+    
+    
+    
+    		<div id="div_subSection" class="div_subSection">
+    			<h:form id="seeCommissionForm">
+    				<br />
+    				<br />
+    				<br />
+    				<div id="blockFormInfo" class="blockForm">
+    					<div style="width:100%;">
+    						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+    							styleClass="tableJustWidthMax">
+    							<h:outputText value="#{msgs['COMMISSIONS']}"
+    								styleClass="section-smallTitle" />
+    							<h:panelGroup>
+    								<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+    									rendered="#{managedAccess.addAuthorized}"
+    									action="#{commissionController.goAddCmi}" />
+    								<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+    									immediate="true" action="#{managedAccess.goDisplayFunction}" />
+    							</h:panelGroup>
+    						</h:panelGrid>
+    					</div>
+    
+    					<p:dataTable id="dataCommission" rowIndexVar="variable"
+    						value="#{paginatorCommission.visibleItems}"
+    						var="commissionPojo" styleClass="paginatorData" alternateColors="true">
+    						<f:facet name="header">
+    							<h:panelGroup>
+    								<e:paginator id="paginatorCmi"
+    									paginator="#{paginatorCommission}"
+    									itemsName="#{msgs['COMMISSIONS']}"
+    									onchange="javascript:{simulateLinkClick('seeCommissionForm:dataCommission:submitPageSize');}" />
+    								<p:commandButton id="submitPageSize"
+    									action="#{paginatorCommission.forceReload}" />
+    							</h:panelGroup>
+    						</f:facet>
+    						<p:column width="20%">
+    							<f:facet name="header">
+    								<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
+    							</f:facet>
+    							<h:outputText value="#{commissionPojo.commission.code}" />
+    						</p:column>
+    						<p:column width="64%">
+    							<f:facet name="header">
+    								<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
+    							</f:facet>
+    							<h:outputText value="#{commissionPojo.commission.libelle}" />
+    						</p:column>
+    						<p:column width="10%">
+    							<f:facet name="header">
+    								<h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
+    							</f:facet>
+    							<p:graphicImage url="/media/images/check2.gif"
+    								rendered="#{commissionPojo.commission.temoinEnService}" />
+    							<p:graphicImage url="/media/images/check0.gif"
+    								rendered="#{!commissionPojo.commission.temoinEnService}" />
+    						</p:column>
+    						<p:column width="10%">
+    							<f:facet name="header">
+    								<t:popup styleClass="containerPopup" style="width:400px;"
+    									closePopupOnExitingElement="true"
+    									closePopupOnExitingPopup="true" displayAtDistanceX="-200"
+    									displayAtDistanceY="0">
+    									<p:graphicImage url="/media/images/informationSmall.png"
+    										style="cursor:pointer;" id="infoAnneeUni" />
+    
+    									<f:facet name="popup">
+    										<h:panelGroup>
+    											<h:panelGrid columns="1">
+    												<h:outputText styleClass="titrePopupAide"
+    													value="#{msgs['COMMISSIONS']}" />
+    												<h:panelGroup>
+    													<p:graphicImage url="/media/images/flag_green.png" />
+    													<h:outputText styleClass="libellesAide"
+    														value="#{msgs['COMMISSION.INFO.ALL_ACTIVE_ETP']}" />
+    												</h:panelGroup>
+    												<h:panelGroup>
+    													<p:graphicImage url="/media/images/flag_orange.png" />
+    													<h:outputText styleClass="libellesAide"
+    														value="#{msgs['COMMISSION.INFO.SOME_INACTIVE_ETP']}" />
+    												</h:panelGroup>
+    												<h:panelGroup>
+    													<p:graphicImage url="/media/images/flag_red.png" />
+    													<h:outputText styleClass="libellesAide"
+    														value="#{msgs['COMMISSION.INFO.NO_ACTIVE_ETP']}" />
+    												</h:panelGroup>
+    											</h:panelGrid>
+    										</h:panelGroup>
+    									</f:facet>
+    								</t:popup>
+    							</f:facet>
+    							<h:panelGroup>
+    								<p:graphicImage url="/media/images/flag_green.png"
+    									rendered="#{!commissionPojo.flagWithoutTrtActive && !commissionPojo.flagWithSomeTrtInactive}"
+    									style="cursor:pointer;" id="allActiveEtp" />
+    								<p:graphicImage url="/media/images/flag_orange.png"
+    									rendered="#{commissionPojo.flagWithSomeTrtInactive}"
+    									style="cursor:pointer;" id="someInactiveEtp" />
+    								<p:graphicImage url="/media/images/flag_red.png"
+    									rendered="#{commissionPojo.flagWithoutTrtActive}"
+    									style="cursor:pointer;" id="noActiveEtp" />
+    		
+    							</h:panelGroup>
+    						</p:column>
+    						<p:column styleClass="buttonTD">
+    							<p:commandButton image="/media/images/magnifier.png"
+    								styleClass="form-button-image" immediate="true"
+    								action="#{commissionController.goSeeOneCmi}"
+    								title="#{msgs['_.BUTTON.DISPLAY']}">
+    								<f:setPropertyActionListener value="#{commissionController.actionEnum.readAction}" target="#{commissionController.actionEnum.whatAction}" />
+    								<f:setPropertyActionListener value="#{commissionPojo.commission}" target="#{commissionController.commission}" />
+    							</p:commandButton>
+    						</p:column>
+    						<p:column styleClass="buttonTD">
+    							<p:commandButton image="/media/images/update.png"
+    								immediate="true" styleClass="form-button-image"
+    								title="#{msgs['BUTTON.UPDATE']}"
+    								action="#{commissionController.goUpdateCmi}"
+    								rendered="#{managedAccess.updateAuthorized}">
+    								<f:setPropertyActionListener value="#{commissionController.actionEnum.updateAction}" target="#{commissionController.actionEnum.whatAction}" />
+    								<f:setPropertyActionListener value="#{commissionPojo.commission}" target="#{commissionController.commission}" />
+    							</p:commandButton>
+    						</p:column>
+    						<p:column styleClass="buttonTD">
+    							<p:commandButton image="/media/images/cancel.png"
+    								styleClass="form-button-image" immediate="true"
+    								title="#{msgs['_.BUTTON.DELETE']}"
+    								rendered="#{managedAccess.deleteAuthorized}">
+    								<f:setPropertyActionListener value="#{commissionController.actionEnum.deleteAction}" target="#{commissionController.actionEnum.whatAction}" />
+    								<f:setPropertyActionListener value="#{commissionPojo.commission}" target="#{commissionController.commission}" />
+    							</p:commandButton>
+    						</p:column>
+    					</p:dataTable>
+    
+    				</div>
+    				<br />
+    				<br />
+    				<br />
+                    <ui:fragment rendered="#{not empty commissionController.currentGest.rightOnCmi || commissionController.currentGest.codeCge != null}">
+        				<div id="blockFormInfoWithoutTrt" class="blockForm">
+        					<div style="width:100%;">
+        						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+        							styleClass="tableJustWidthMax">
+        							<h:outputText value="#{msgs['COMMISSIONS.WITHOUT_TRT']}"
+        								styleClass="section-smallTitle" />
+        							<h:panelGroup>
+        								<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+        									rendered="#{managedAccess.addAuthorized}"
+        									action="#{commissionController.goAddCmi}" />
+        								<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+        									immediate="true" action="#{managedAccess.goDisplayFunction}" />
+        							</h:panelGroup>
+        						</h:panelGrid>
+        					</div>
+        					<p:dataTable var="commission"
+        						value="#{commissionController.commissionsItemsWithoutTrt}"
+        						styleClass="displayInfo" alternateColors="false">
+        						<p:column width="20%">
+        							<f:facet name="header">
+        								<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
+        							</f:facet>
+        							<h:outputText value="#{commission.code}" />
+        						</p:column>
+        						<p:column width="64%">
+        							<f:facet name="header">
+        								<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
+        							</f:facet>
+        							<h:outputText value="#{commission.libelle}" />
+        						</p:column>
+        						<p:column width="10%">
+        							<f:facet name="header">
+        								<h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
+        							</f:facet>
+        							<p:graphicImage url="/media/images/check2.gif"
+        								rendered="#{commission.temoinEnService}" />
+        							<p:graphicImage url="/media/images/check0.gif"
+        								rendered="#{!commission.temoinEnService}" />
+        						</p:column>
+        						<p:column styleClass="buttonTD">
+        							<p:commandButton image="/media/images/magnifier.png"
+        								styleClass="form-button-image" immediate="true"
+        								action="#{commissionController.goSeeOneCmi}"
+        								title="#{msgs['_.BUTTON.DISPLAY']}">
+        								<f:setPropertyActionListener value="#{commissionController.actionEnum.readAction}" target="#{commissionController.actionEnum.whatAction}" />
+        								<f:setPropertyActionListener value="#{commission}" target="#{commissionController.commission}" />
+        							</p:commandButton>
+        						</p:column>
+        						<p:column styleClass="buttonTD">
+        							<p:commandButton image="/media/images/update.png"
+        								immediate="true" styleClass="form-button-image"
+        								title="#{msgs['BUTTON.UPDATE']}"
+        								action="#{commissionController.goUpdateCmi}"
+        								rendered="#{managedAccess.updateAuthorized}">
+        								<f:setPropertyActionListener value="#{commissionController.actionEnum.updateAction}" target="#{commissionController.actionEnum.whatAction}" />
+        								<f:setPropertyActionListener value="#{commission}" target="#{commissionController.commission}" />
+        							</p:commandButton>
+        						</p:column>
+        						<p:column styleClass="buttonTD">
+        							<p:commandButton image="/media/images/cancel.png"
+        								styleClass="form-button-image" immediate="true"
+        								title="#{msgs['_.BUTTON.DELETE']}"
+        								rendered="#{managedAccess.deleteAuthorized}">
+        								<f:setPropertyActionListener value="#{commissionController.actionEnum.deleteAction}" target="#{commissionController.actionEnum.whatAction}" />
+        								<f:setPropertyActionListener value="#{commission}" target="#{commissionController.commission}" />
+        							</p:commandButton>
+        						</p:column>
+        					</p:dataTable>
+        				</div>
+                    </ui:fragment>
+    			</h:form>
+    		</div>
+    	</div>
+    	
+    	<script type="text/javascript">
+        	highlightChildrenLiTags('navigationHeader:navigation');
+        	highlightChildrenLiTags('navigationFooter:navigation');
+        	hideElement('seeCommissionForm:dataCommission:submitPageSize');
+        </script>
+    </ui:define>
+</ui:composition>

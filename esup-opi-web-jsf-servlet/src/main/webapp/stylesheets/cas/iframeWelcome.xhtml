@@ -1,10 +1,15 @@
-<%@include file="../_include/_include.jsp"%>
-<e:page menuItem="acccueil" stringsVar="msgs"
-	locale="#{sessionController.locale}">
-	<t:div id="accueilCandidat" rendered="#{sessionController.whoIsConnectInPortlet == 'individu.exist'}">
-		<%@include file="../candidat/_block/_accueil.jsp"%>
-	</t:div>
-	<t:div id="lookForEtu" rendered="#{sessionController.whoIsConnectInPortlet == 'individu.not_exist'}">
-		<%@include file="../candidat/_block/_lookforEtu.jsp"%>
-	</t:div>
-</e:page>
+
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:p="http://primefaces.org/ui"
+template="template.xhtml">
+<ui:define name="content">
+	<div id="accueilCandidat" rendered="#{sessionController.whoIsConnectInPortlet == 'individu.exist'}">
+		<ui:include src="../candidat/_block/_accueil.xhtml" />
+	</div>
+	<div id="lookForEtu" rendered="#{sessionController.whoIsConnectInPortlet == 'individu.not_exist'}">
+		<ui:include src="../candidat/_block/_lookforEtu.xhtml" />
+	</div>
+</ui:define>
+</ui:composition>

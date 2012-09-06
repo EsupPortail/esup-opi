@@ -1,167 +1,164 @@
-	<%@include file="../../_include/_include.jsp"%>
-	<e:page stringsVar="msgs" locale="#{sessionController.locale}"
-		authorized="#{managedAccess.readAuthorized}">
-		<%@include file="../../_include/_header.jsp"%>
-		<h:form id="navigationHeader">
-			<%@include file="../_navigation/_navGestionnaire.jsp"%>
-		</h:form>
-		<t:div id="maPage" styleClass="div_body">
-			<e:section value="#{msgs['AVIS.TITLE.HISTO']}" />
-			<t:div styleClass="messageForUser">
-				<e:messages />
-			</t:div>
-			<t:div rendered="#{opinionController.actionEnum.whatAction != 
+	
+	<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:p="http://primefaces.org/ui"
+template="template.xhtml">
+<ui:define name="content">
+		
+		
+		<div id="maPage" class="div_body">
+			<h1><h:outputText value="#{msgs['AVIS.TITLE.HISTO']}" /></h1>
+			<div class="messageForUser">
+				<p:message id="messages" showDetail="true" autoUpdate="true" />
+			</div>
+			<ui:fragment rendered="#{opinionController.actionEnum.whatAction != 
 				opinionController.actionEnum.propositionAction}">
-				<e:text value="#{msgs['FIELD_LABEL.AVIS.STUDENT']}" 
+				<h:outputText value="#{msgs['FIELD_LABEL.AVIS.STUDENT']}" 
 					styleClass="section-subheader"/>
-				<e:text value="#{opinionController.indVoeuxPojo.indVoeu.individu.nomPatronymique} 
+				<h:outputText value="#{opinionController.indVoeuxPojo.indVoeu.individu.nomPatronymique} 
 					#{opinionController.indVoeuxPojo.indVoeu.individu.prenom} 
 					(#{opinionController.indVoeuxPojo.indVoeu.individu.numDossierOpi})"/>
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				<e:text value="#{msgs['FIELD_LABEL.AVIS.ETAPE']}" 
+				<br />
+				<br />
+				<h:outputText value="#{msgs['FIELD_LABEL.AVIS.ETAPE']}" 
 					styleClass="section-subheader"/>
-				<e:text value="#{opinionController.indVoeuxPojo.vrsEtape.libWebVet}"/>
-			</t:div>
-			<t:div id="div_subSectionEnter" styleClass="div_subSection"
+				<h:outputText value="#{opinionController.indVoeuxPojo.vrsEtape.libWebVet}"/>
+			</div>
+			<div id="div_subSectionEnter" class="div_subSection"
 				rendered="#{opinionController.actionEnum.whatAction == opinionController.actionEnum.addAction
 							|| opinionController.actionEnum.whatAction == opinionController.actionEnum.updateAction}">
-				<%@include file="_block/_enterOpinion.jsp"%>
-			</t:div>
+				<ui:include src="_block/_enterOpinion.xhtml" />
+			</div>
 			<%@include
 				file="/stylesheets/gestionnaire/opinion/_block/_proposition.jsp"%>
-			<t:div id="div_subSection" styleClass="div_subSection">
+			<div id="div_subSection" class="div_subSection">
 				<h:form id="seeAvisForm">
-					<t:div id="blockFormAdresse" styleClass="blockForm">
-						<t:div styleClass="blockButton"
+					<div id="blockFormAdresse" class="blockForm">
+						<div styleClass="blockButton"
 							rendered="#{opinionController.actionEnum.whatAction == opinionController.actionEnum.emptyAction}">
-							<t:panelGroup>
-								<e:commandButton value="#{msgs['FIELD_LABEL.PROPOSITION']}"
+							<h:panelGroup>
+								<p:commandButton value="#{msgs['FIELD_LABEL.PROPOSITION']}"
 									immediate="true"
 									action="#{opinionController.addProposition}"/>
-								<e:commandButton value="#{msgs['AVIS.BUTTON.APPEL']}"
+								<p:commandButton value="#{msgs['AVIS.BUTTON.APPEL']}"
 									 immediate="true"
 									 action="#{opinionController.goAddAvisAppel}"/>
-								<e:commandButton value="#{msgs['_.BUTTON.ADD']}"
+								<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
 									 immediate="true"
 									 action="#{opinionController.goAddAvis}"/>
-								<e:commandButton value="#{msgs['_.BUTTON.BACK']}"
+								<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
 										immediate="true"
 										action="#{opinionController.goBackOpinions}"/>
-							</t:panelGroup>
-						</t:div>
-						<e:dataTable var="avisPojo" value="#{opinionController.listAvisPojo}"
+							</h:panelGroup>
+						</div>
+						<p:dataTable var="avisPojo" value="#{opinionController.listAvisPojo}"
 							styleClass="paginatorData" alternateColors="true">
-							<t:column>
+							<p:column>
 								<f:facet name="header">
-									<t:outputText value="#{msgs['AVIS.LABEL_DECISION']}" />
+									<h:outputText value="#{msgs['AVIS.LABEL_DECISION']}" />
 								</f:facet>
-								<e:text value="#{avisPojo.avis.result.libelle}"/>
-							</t:column>
-							<t:column rendered="#{opinionController.indVoeuxPojo.isUsingLC}">
+								<h:outputText value="#{avisPojo.avis.result.libelle}"/>
+							</p:column>
+							<p:column rendered="#{opinionController.indVoeuxPojo.isUsingLC}">
 								<f:facet name="header">
-									<t:outputText value="#{msgs['AVIS.RANG']}" />
+									<h:outputText value="#{msgs['AVIS.RANG']}" />
 								</f:facet>
-								<e:text value="#{avisPojo.avis.rang}"/>
-							</t:column>
-							<t:column>
+								<h:outputText value="#{avisPojo.avis.rang}"/>
+							</p:column>
+							<p:column>
 								<f:facet name="header">
-									<t:outputText value="#{msgs['AVIS.COMM_MOTIV']}" />
+									<h:outputText value="#{msgs['AVIS.COMM_MOTIV']}" />
 								</f:facet>
-								<e:text value="#{avisPojo.shortCommentaireMotiv}" />
+								<h:outputText value="#{avisPojo.shortCommentaireMotiv}" />
 								<t:popup styleClass="containerPopup" style="width:350px;"
 									closePopupOnExitingElement="true"
 									closePopupOnExitingPopup="true" displayAtDistanceX="-50"
 									displayAtDistanceY="0"
 									rendered="#{avisPojo.isShortCommentaireMotiv}">
-									<t:graphicImage url="/media/images/informationSmall.png"
+									<p:graphicImage url="/media/images/informationSmall.png"
 										style="cursor:pointer;" />
 									<f:facet name="popup">
 										<h:panelGroup>
 											<h:panelGrid columns="1">
-												<t:outputText styleClass="titrePopupAide"
+												<h:outputText styleClass="titrePopupAide"
 													value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-												<t:outputText styleClass="libellesAide"
+												<h:outputText styleClass="libellesAide"
 													value="#{avisPojo.commentaireMotiv}" />
 											</h:panelGrid>
 										</h:panelGroup>
 									</f:facet>
 								</t:popup>
-							</t:column>
-							<t:column>
+							</p:column>
+							<p:column>
 								<f:facet name="header">
-									<t:outputText value="#{msgs['AVIS.DATE_CREATION']}" />
+									<h:outputText value="#{msgs['AVIS.DATE_CREATION']}" />
 								</f:facet>
-								<e:text value="#{avisPojo.avis.dateCreaEnr}">
+								<h:outputText value="#{avisPojo.avis.dateCreaEnr}">
 									<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 										timeZone="#{sessionController.timezone}" />
-								</e:text>
-							</t:column>
-							<t:column>
+								</h:outputText>
+							</p:column>
+							<p:column>
 								<f:facet name="header">
-									<t:outputText value="#{msgs['AVIS.DATE_MODIF']}" />
+									<h:outputText value="#{msgs['AVIS.DATE_MODIF']}" />
 								</f:facet>
-								<e:text value="#{avisPojo.avis.dateModifEnr}">
+								<h:outputText value="#{avisPojo.avis.dateModifEnr}">
 									<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
 										timeZone="#{sessionController.timezone}" />
-								</e:text>
-							</t:column>
-							<t:column>
+								</h:outputText>
+							</p:column>
+							<p:column>
 								<f:facet name="header">
-									<t:outputText value="#{msgs['AVIS.APPEL']}" />
+									<h:outputText value="#{msgs['AVIS.APPEL']}" />
 								</f:facet>
-								<t:graphicImage url="/media/images/check2.gif" 
+								<p:graphicImage url="/media/images/check2.gif" 
 									rendered="#{avisPojo.avis.appel}"/>
-								<t:graphicImage url="/media/images/check0.gif" 
+								<p:graphicImage url="/media/images/check0.gif" 
 									rendered="#{!avisPojo.avis.appel}"/>
-							</t:column>
-							<t:column>
+							</p:column>
+							<p:column>
 								<f:facet name="header">
-									<t:outputText value="#{msgs['AVIS.VALIDATE']}" />
+									<h:outputText value="#{msgs['AVIS.VALIDATE']}" />
 								</f:facet>
-								<t:graphicImage url="/media/images/check2.gif" 
+								<p:graphicImage url="/media/images/check2.gif" 
 									rendered="#{avisPojo.avis.validation}"/>
-								<t:graphicImage url="/media/images/check0.gif" 
+								<p:graphicImage url="/media/images/check0.gif" 
 									rendered="#{!avisPojo.avis.validation}"/>
-							</t:column>
-							<t:column>
+							</p:column>
+							<p:column>
 								<f:facet name="header">
-									<t:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
+									<h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
 								</f:facet>
-								<t:graphicImage url="/media/images/check2.gif" 
+								<p:graphicImage url="/media/images/check2.gif" 
 									rendered="#{avisPojo.avis.temoinEnService}"/>
-								<t:graphicImage url="/media/images/check0.gif" 
+								<p:graphicImage url="/media/images/check0.gif" 
 									rendered="#{!avisPojo.avis.temoinEnService}"/>
-							</t:column>
-							<t:column styleClass="buttonTD">
-								<e:commandButton image="/media/images/update.png"
+							</p:column>
+							<p:column styleClass="buttonTD">
+								<p:commandButton image="/media/images/update.png"
 									immediate="true"
 									styleClass="form-button-image" title="#{msgs['BUTTON.UPDATE']}" 
 									action="#{opinionController.goUpdateAvis}"
 									rendered="#{opinionController.actionEnum.whatAction == opinionController.actionEnum.emptyAction
 											&& managedAccess.updateAuthorized && avisPojo.avis.temoinEnService
 											&& !(avisPojo.avis.result.isFinal && avisPojo.avis.validation)}">
-									<t:updateActionListener
-										value="#{avisPojo.avis}"
-										property="#{opinionController.avis}" />
-								</e:commandButton>
-							</t:column>
-						</e:dataTable>
+									<f:setPropertyActionListener value="#{avisPojo.avis}" target="#{opinionController.avis}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
 						
-					</t:div>
-					<t:htmlTag value="br" />
-					<t:htmlTag value="br" />
-					<t:htmlTag value="br" />
+					</div>
+					<br />
+					<br />
+					<br />
 				</h:form>
-			</t:div>
-		</t:div>
-		<t:div id="div_navigationFooter">
-			<h:form id="navigationFooter" styleClass="opiR1_form">
-				<%@include file="../_navigation/_navGestionnaire.jsp"%>
-			</h:form>
-		</t:div>
+			</div>
+		</div>
+		
 		<script type="text/javascript">
 		highlightChildrenLiTags('navigationHeader:navigation');
 		highlightChildrenLiTags('navigationFooter:navigation');
 	</script>
-	</e:page>
+	</ui:define>
+</ui:composition>

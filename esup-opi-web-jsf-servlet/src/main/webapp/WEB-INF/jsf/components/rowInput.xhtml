@@ -5,19 +5,21 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.prime.com.tr/ui"
 	xmlns:e="http://commons.esup-portail.org">
-	<e:li rendered="#{rendered == null || rendered}">
-		<t:htmlTag value="span" styleClass="fl-label">
-			<h:outputLabel id="label#{id}" for="#{id}" value="#{label}" />
-			<h:outputLabel value="*" styleClass="etoileForChpObli"
-				rendered="#{obligatory == null || obligatory}" for="label#{id}" />
-		</t:htmlTag>
-		<t:panelGroup>
-			<p:inputText id="#{id}" value="#{text}" size="#{size}"
-				maxlength="#{maxlength}" required="#{required}"
-				disabled="#{disabledInput != null and disabledInput}" />
-		</t:panelGroup>
-		<t:htmlTag value="br" />
-	</e:li>
+    <ui:fragment rendered="#{rendered == null || rendered}">
+    	<li>
+    		<span class="fl-label">
+    			<h:outputLabel id="label#{id}" for="#{id}" value="#{label}" />
+    			<h:outputLabel value="*" styleClass="etoileForChpObli"
+    				rendered="#{obligatory == null || obligatory}" for="label#{id}" />
+    		</span>
+    		<h:panelGroup>
+    			<p:inputText id="#{id}" value="#{text}" size="#{size}"
+    				maxlength="#{maxlength}" required="#{required}"
+    				disabled="#{disabledInput != null and disabledInput}" />
+    		</h:panelGroup>
+    		<br />
+    	</li>
+    </ui:fragment>
 </ui:composition>
 
 

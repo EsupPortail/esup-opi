@@ -1,34 +1,36 @@
-<%@include file="../../../_include/_include.jsp"%>
-<h:form id="formaddMailContent">
-	<t:div styleClass="messageForUser">
-		<e:paragraph value="#{msgs['MAIL_CONTENT.INFO.CREATE_BEAN']}" styleClass="msg-info"/>
-	</t:div>
-	<t:div id="blockAddMailContent" styleClass="blockForm">
-		<t:div style="width:100%;text-align:right;">
-			<t:panelGroup>
-				<e:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-					action="#{mailContentController.add}" />
-				<e:commandButton value="#{msgs['_.BUTTON.CANCEL']}" immediate="true"
-					action="#{mailContentController.reset}" />
-			</t:panelGroup>
-		</t:div>
-		<e:panelGrid styleClass="tableWidthMax" columns="4"
-			columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-			<t:panelGroup>
-				<e:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code" />
-				<t:outputText value="*" styleClass="etoileForChpObli" />
-			</t:panelGroup>
-			<e:inputText id="code" size="16" maxlength="15" required="true"
-				value="#{mailContentController.mailContent.code}" />
-
-			<t:panelGroup>
-				<e:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}" for="libelle" />
-				<t:outputText value="*" styleClass="etoileForChpObli" />
-			</t:panelGroup>
-			<e:inputText id="libelle" size="41" maxlength="40" required="true"
-				value="#{mailContentController.mailContent.libelle}" />
-
-		</e:panelGrid>
-
-	</t:div>
-</h:form>
+<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui">
+    <h:form id="formaddMailContent">
+    	<div class="messageForUser">
+    		<h:outputFormat value="#{msgs['MAIL_CONTENT.INFO.CREATE_BEAN']}" styleClass="msg-info"/>
+    	</div>
+    	<div id="blockAddMailContent" class="blockForm">
+    		<div style="width:100%;text-align:right;">
+    			<h:panelGroup>
+    				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+    					action="#{mailContentController.add}" />
+    				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" immediate="true"
+    					action="#{mailContentController.reset}" />
+    			</h:panelGroup>
+    		</div>
+    		<h:panelGrid styleClass="tableWidthMax" columns="4"
+    			columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+    			<h:panelGroup>
+    				<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code" />
+    				<h:outputText value="*" styleClass="etoileForChpObli" />
+    			</h:panelGroup>
+    			<h:inputText id="code" size="16" maxlength="15" required="true"
+    				value="#{mailContentController.mailContent.code}" />
+    
+    			<h:panelGroup>
+    				<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}" for="libelle" />
+    				<h:outputText value="*" styleClass="etoileForChpObli" />
+    			</h:panelGroup>
+    			<h:inputText id="libelle" size="41" maxlength="40" required="true"
+    				value="#{mailContentController.mailContent.libelle}" />
+    		</h:panelGrid>
+    	</div>
+    </h:form>
+</ui:fragment>

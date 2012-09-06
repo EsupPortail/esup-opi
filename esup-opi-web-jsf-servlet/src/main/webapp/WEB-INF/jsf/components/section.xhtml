@@ -3,10 +3,10 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:h="http://java.sun.com/jsf/html">
-	<t:htmlTag value="#{tagsConfigurator.sectionTag}">
+	<#{tagsConfigurator.sectionTag}>
 		<h:outputText value="#{value}"
 			styleClass="#{tagsConfigurator.sectionStyleClass}" />
-	</t:htmlTag>
+	</#{tagsConfigurator.sectionTag}>
 </ui:composition>
 
 

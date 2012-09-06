@@ -1,79 +1,68 @@
-<%@include file="../_include/_include.jsp"%>
-<e:page stringsVar="msgs" locale="#{sessionController.locale}">
-	<%@include file="../_include/_header.jsp"%>
-
-	<h:form id="navigationHeader" styleClass="opiR1_form">
-		<%@include file="../_include/_navigation.jsp"%>
-	</h:form>
-	<t:div id="maPage" styleClass="div_body">
-		<t:div styleClass="messageForUser">
-			<e:messages />
-		</t:div>
-		<t:htmlTag value="br" />
-		<t:htmlTag value="br" />
-		<t:div id="div_subSection" styleClass="div_subSection">
-			<h:form id="searchEtuR1Form" styleClass="opiR1_form">
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				<t:div style="padding-left:25%;">
-					<t:div styleClass="blockTable" style="width:60%;">
-						<t:div id="blockFormSearchEtuR1">
-							<t:div >
-								<e:text value="#{msgs['FORGET_NUM_DOS.TITLE']}"
-									styleClass="form-field-label" style="font-size:18px;" />
-							</t:div>
-							
-							<t:div styleClass="containerPopup" style="width:60%;margin-left:20%;">
-								<h:panelGrid columns="1">
-									<t:panelGroup>
-										<t:outputText styleClass="libellesAide"
-											value="#{msgs['FORGET_NUM_DOS.INFO']}" />
-									</t:panelGroup>
-								</h:panelGrid>
-							
-							</t:div>
-							<t:htmlTag value="br" />
-							<t:div style="text-align:center;">
-								<t:panelGroup>
-									<t:panelGroup>
-										<e:outputLabel value="#{msgs['FIELD_LABEL.MAIL']} :   "
-											for="email" />
-									</t:panelGroup>
-									<e:inputText id="email"
-										value="#{welcomeController.mail}"
-										size="35" maxlength="50" />
-								</t:panelGroup>
-							</t:div>
-							<t:htmlTag value="br" />
-							<t:htmlTag value="br" />
-							<t:div style="text-align:center;">
-								<e:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-									action="#{welcomeController.sendRappelNumDos}" />
-							</t:div>
-						</t:div>
-
-						<t:htmlTag value="br" />
-						<t:htmlTag value="br" />
-					</t:div>
-					<t:htmlTag value="br" />
-					<t:htmlTag value="br" />
-					<t:htmlTag value="br" />
-				</t:div>
-			</h:form>
-		</t:div>
-
-		<t:htmlTag value="br" />
-		<t:htmlTag value="br" />
-		<t:htmlTag value="br" />
-	</t:div>
-	<t:div id="div_navigationFooter">
-		<h:form id="navigationFooter" styleClass="opiR1_form">
-			<%@include file="../_include/_navigation.jsp"%>
-		</h:form>
-	</t:div>
-	<script type="text/javascript">
-	highlightChildrenLiTags('navigationHeader:navigationLogin');
-	highlightChildrenLiTags('navigationFooter:navigationLogin');
-	highlightInputAndSelect('searchEtuR1Form');
-</script>
-</e:page>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        template="template.xhtml">
+    <ui:define name="content">
+    	<div id="maPage" class="div_body">
+    		<div class="messageForUser">
+    			<p:message id="messages" showDetail="true" autoUpdate="true" />
+    		</div>
+    		<br />
+    		<br />
+    		<div id="div_subSection" class="div_subSection">
+    			<h:form id="searchEtuR1Form" styleClass="opiR1_form">
+    				<br />
+    				<br />
+    				<div style="padding-left:25%;">
+    					<div class="blockTable" style="width:60%;">
+    						<div id="blockFormSearchEtuR1">
+								<h:outputText value="#{msgs['FORGET_NUM_DOS.TITLE']}"
+									styleClass="form-field-label" style="font-size:18px;" />  							
+    							<div class="containerPopup" style="width:60%;margin-left:20%;">
+    								<h:panelGrid columns="1">
+    									<h:panelGroup>
+    										<h:outputText styleClass="libellesAide"
+    											value="#{msgs['FORGET_NUM_DOS.INFO']}" />
+    									</h:panelGroup>
+    								</h:panelGrid>
+    							</div>
+    							<br />
+    							<div style="text-align:center;">
+    								<h:panelGroup>
+    									<h:panelGroup>
+    										<h:outputLabel value="#{msgs['FIELD_LABEL.MAIL']} :   " for="email" />
+    									</h:panelGroup>
+    									<h:inputText id="email"
+    										value="#{welcomeController.mail}"
+    										size="35" maxlength="50" />
+    								</h:panelGroup>
+    							</div>
+    							<br />
+    							<br />
+    							<div style="text-align:center;">
+    								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+    									action="#{welcomeController.sendRappelNumDos}" />
+    							</div>
+    						</div>    
+    						<br />
+    						<br />
+    					</div>
+    					<br />
+    					<br />
+    					<br />
+    				</div>
+    			</h:form>
+    		</div>    
+    		<br />
+    		<br />
+    		<br />
+    	</div>
+    	
+    	<script type="text/javascript">
+        	highlightChildrenLiTags('navigationHeader:navigationLogin');
+        	highlightChildrenLiTags('navigationFooter:navigationLogin');
+        	highlightInputAndSelect('searchEtuR1Form');
+        </script>
+    </ui:define>
+</ui:composition>

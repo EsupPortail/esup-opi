@@ -1,22 +1,23 @@
-<%@include file="../../../_include/_include.jsp"%>
-<%@include file="../../../_include/_include.jsp"%>
-<h:form id="choiceColForm" styleClass="opiR1_form">
-	<t:div style="text-align:right;">
-		<e:commandButton value="#{msgs['_.BUTTON.VALIDATE']}">
-			<t:updateActionListener
-				value="#{printOpinionController.actionEnum.emptyAction}"
-				property="#{printOpinionController.actionEnum.whatAction}" />
-		</e:commandButton>
-	</t:div>
-	<e:text value="#{msgs['COMMISSION.EXPORT_LISTE_PREPA_CHAMPS']}" />
-	<t:div id="listcolumn">
-		<t:dataList var="champs" id="titrecom"
-			value="#{printOpinionController.champsDispos}">
-			<e:li >
-				<jdt:multipleRowsSelector
-					selectionList="#{printOpinionController.champsChoisis}" />
-				<e:text value="#{champs}" style="padding-right:10px;" />
-			</e:li>
-		</t:dataList>
-	</t:div>
-</h:form>
+<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui">
+    <h:form id="choiceColForm" styleClass="opiR1_form">
+    	<div style="text-align:right;">
+    		<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}">
+    			<f:setPropertyActionListener value="#{printOpinionController.actionEnum.emptyAction}" target="#{printOpinionController.actionEnum.whatAction}" />
+    		</p:commandButton>
+    	</div>
+    	<h:outputText value="#{msgs['COMMISSION.EXPORT_LISTE_PREPA_CHAMPS']}" />
+    	<div id="listcolumn">
+    		<p:dataList var="champs" id="titrecom"
+    			value="#{printOpinionController.champsDispos}">
+    			<li>
+    				<jdt:multipleRowsSelector
+    					selectionList="#{printOpinionController.champsChoisis}" />
+    				<h:outputText value="#{champs}" style="padding-right:10px;" />
+    			</li>
+    		</p:dataList>
+    	</div>
+    </h:form>
+</ui:fragment>

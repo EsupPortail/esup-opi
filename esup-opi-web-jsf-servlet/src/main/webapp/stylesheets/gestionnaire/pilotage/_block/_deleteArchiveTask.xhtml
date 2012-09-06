@@ -1,18 +1,22 @@
-<%@include file="../../../_include/_include.jsp"%>
-<h:form id="formDeleteZrchiveTask">
-	<t:div style="width:100%;">
-		<e:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-			styleClass="tableJustWidthMax">
-			<e:text value="#{msgs['ARCHIVAGE.CONFIRM.DELETE']}" escape="false">
-				<f:param value="#{archiveTaskController.archiveTask.campagneToArchive.libelle}"/>
-			</e:text>
-			<t:panelGroup>
-				<e:commandButton value="#{msgs['_.BUTTON.YES']}"
-					action="#{archiveTaskController.delete}"/>
-				<e:commandButton value="#{msgs['_.BUTTON.NO']}"
-					action="#{archiveTaskController.reset}"
-					immediate="true"/>
-			</t:panelGroup>
-		</e:panelGrid>
-	</t:div>
-</h:form>
+<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui">
+    <h:form id="formDeleteZrchiveTask">
+    	<div style="width:100%;">
+    	<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+    		styleClass="tableJustWidthMax">
+    		<h:outputText value="#{msgs['ARCHIVAGE.CONFIRM.DELETE']}" escape="false">
+    			<f:param value="#{archiveTaskController.archiveTask.campagneToArchive.libelle}"/>
+    		</h:outputText>
+    		<h:panelGroup>
+    			<p:commandButton value="#{msgs['_.BUTTON.YES']}"
+    				action="#{archiveTaskController.delete}"/>
+    			<p:commandButton value="#{msgs['_.BUTTON.NO']}"
+    				action="#{archiveTaskController.reset}"
+    					immediate="true"/>
+    			</h:panelGroup>
+    		</h:panelGrid>
+    	</div>
+    </h:form>
+</ui:fragment>

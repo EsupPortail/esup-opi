@@ -1,20 +1,20 @@
-<%@include file="../../../../_include/_include.jsp"%>
 
-<t:div id="blockFormSituationEtu" styleClass="blockForm">
-	<t:div style="width:100%;">
-		<e:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+
+<div id="blockFormSituationEtu" class="blockForm">
+	<div style="width:100%;">
+		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
 			styleClass="tableJustWidthMax">
-			<t:panelGroup>
-				<e:text value="#{msgs['SITUATION.ETU.TITLE']}"
+			<h:panelGroup>
+				<h:outputText value="#{msgs['SITUATION.ETU.TITLE']}"
 					styleClass="section-smallTitle" style="margin-right:4px;"/>
-			</t:panelGroup>
+			</h:panelGroup>
 
-			<t:panelGroup/>
-		</e:panelGrid>
-	</t:div>
-	<t:div styleClass="blockTable">
-		<e:text value="#{msgs['SITUATION.ETU.TEXT1']}" 
+			<h:panelGroup/>
+		</h:panelGrid>
+	</div>
+	<div class="blockTable">
+		<h:outputText value="#{msgs['SITUATION.ETU.TEXT1']}" 
 						escape="false" 
 						style="text-align: left;"/>
-	</t:div>
-</t:div>
+	</div>
+</div>

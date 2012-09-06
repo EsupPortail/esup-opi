@@ -1,23 +1,28 @@
-<%@include file="_include.jsp"%>
-<t:div id="header" styleClass="header" 
-			rendered="#{sessionController.isServlet}">  
-	<t:div styleClass="logo"/>
-	<t:div styleClass="header_suite">
-		<t:div id="titreAppli" styleClass="titreAppli">
-			<t:outputText value="#{msgs['APPLICATION.BIG_TITLE']}" styleClass="span_bigTitre"/>
-			<t:htmlTag value="br"/>
-			<t:outputText value="#{msgs['APPLICATION.TITLE']}"
-				styleClass="span_titre"/>
-		</t:div>
-		
-		<t:div styleClass="user_displayName">
-			<t:outputText
-				value="#{sessionController.currentDisplayName}"
-				styleClass="span_currentUser"/>
-		</t:div>
-		<t:div styleClass="version">
-			<t:outputText value="#{msgs['EXCEPTION.INFORMATION.VERSION']} #{applicationService.version}"
-					styleClass="span_version"/>
-		</t:div>
-	</t:div>
-</t:div>
+<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:fragment rendered="#{sessionController.isServlet}">
+        <div id="header" class="header" >  
+        	<div class="logo"/>
+        	<div class="header_suite">
+        		<div id="titreAppli" class="titreAppli">
+        			<h:outputText value="#{msgs['APPLICATION.BIG_TITLE']}" styleClass="span_bigTitre"/>
+        			<br />
+        			<h:outputText value="#{msgs['APPLICATION.TITLE']}"
+        				styleClass="span_titre"/>
+        		</div>
+        		
+        		<div class="user_displayName">
+        			<h:outputText
+        				value="#{sessionController.currentDisplayName}"
+        				styleClass="span_currentUser"/>
+        		</div>
+        		<div class="version">
+        			<h:outputText value="#{msgs['EXCEPTION.INFORMATION.VERSION']} #{applicationService.version}"
+        					styleClass="span_version"/>
+        		</div>
+        	</div>
+        </div>
+    </ui:fragment>
+</ui:fragment>

@@ -1,43 +1,31 @@
-<%@include file="../../../_include/_include.jsp"%>
-<e:panelGrid styleClass="tableWidthMax" columns="4"
-	columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-	<t:panelGroup>
-		<e:outputLabel value="#{msgs['FIELD_LABEL.CODE_VET']}" for="code" />
-		
-	</t:panelGroup>
-	<t:panelGroup>
-		<e:text id="code" value="#{nomenclatureController.vetDTO.codEtp}"/>
-		
-	</t:panelGroup>
-	<t:panelGroup>
-		
-	</t:panelGroup>
-	<t:panelGroup>
-		
-	</t:panelGroup>
-	<t:panelGroup>
-		<e:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}" for="libelle" />
-	</t:panelGroup>
-	<t:panelGroup>
-		<e:text id="libelle"
-			value="#{nomenclatureController.vetDTO.libWebVet}"  />
-	</t:panelGroup>
-	<t:panelGroup>
-		
-	</t:panelGroup>
-	<t:panelGroup>
-		
-	</t:panelGroup>
-
-	<t:panelGroup>
-		<e:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"
-			for="regimeInscription" />
-		<t:outputText value="*" styleClass="etoileForChpObli" />
-	</t:panelGroup>
-	<t:panelGroup>
-		<e:text id="ri"
-			value="#{nomenclatureController.regimeInscription}"  />
-	</t:panelGroup>
-	<t:panelGroup />
-	<t:panelGroup />
-</e:panelGrid>
+<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+    <h:panelGrid styleClass="tableWidthMax" columns="4"
+    	columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+    	<h:panelGroup>
+    		<h:outputLabel value="#{msgs['FIELD_LABEL.CODE_VET']}" for="code" />    		
+    	</h:panelGroup>
+    	<h:panelGroup>
+    		<h:outputText id="code" value="#{nomenclatureController.vetDTO.codEtp}"/>    		
+    	</h:panelGroup>
+    	<h:panelGroup>
+    		<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}" for="libelle" />
+    	</h:panelGroup>
+    	<h:panelGroup>
+    		<h:outputText id="libelle"
+    			value="#{nomenclatureController.vetDTO.libWebVet}"  />
+    	</h:panelGroup>
+    
+    	<h:panelGroup>
+    		<h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"
+    			for="regimeInscription" />
+    		<h:outputText value="*" styleClass="etoileForChpObli" />
+    	</h:panelGroup>
+    	<h:panelGroup>
+    		<h:outputText id="ri"
+    			value="#{nomenclatureController.regimeInscription}"  />
+    	</h:panelGroup>
+    </h:panelGrid>
+</ui:fragment>

@@ -1,37 +1,36 @@
-<%@include file="../../_include/_include.jsp"%>
-<e:page stringsVar="msgs" locale="#{sessionController.locale}">
-	<%@include file="../../_include/_header.jsp"%>
-	<h:form id="navigationHeader">
-		<%@include file="../_navigation/_navGlobal.jsp"%>
-	</h:form>
-	<t:div id="maPage" styleClass="div_body">
+
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:p="http://primefaces.org/ui"
+template="template.xhtml">
+<ui:define name="content">
+	
+	
+	<div id="maPage" class="div_body">
 		<h:form id="addCursusForm" styleClass="opiR1_form">
-			<e:section value="#{msgs['INDIVIDU.CURSUS_UNI']}" />
-			<t:div styleClass="messageForUser">
-				<e:messages />
-			</t:div>
-			<t:div styleClass="maxDivTextRight">
-				<t:panelGroup>
-					<e:text value="#{msgs['INFO.CHAMP']}" />
-					<t:outputText value="*" styleClass="etoileForChpObli" />
-				</t:panelGroup>
-			</t:div>
+			<h1><h:outputText value="#{msgs['INDIVIDU.CURSUS_UNI']}" /></h1>
+			<div class="messageForUser">
+				<p:message id="messages" showDetail="true" autoUpdate="true" />
+			</div>
+			<div class="maxDivTextRight">
+				<h:panelGroup>
+					<h:outputText value="#{msgs['INFO.CHAMP']}" />
+					<h:outputText value="*" styleClass="etoileForChpObli" />
+				</h:panelGroup>
+			</div>
 
-			<t:div id="div_subSection" styleClass="div_subSection">
+			<div id="div_subSection" class="div_subSection">
 				
-				<%@include file="_block/_blockCursusScol.jsp"%>
+				<ui:include src="_block/_blockCursusScol.xhtml" />
 
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
+				<br />
+				<br />
 
-			</t:div>
+			</div>
 		</h:form>
-	</t:div>
-	<t:div id="div_navigationFooter">
-		<h:form id="navigationFooter" styleClass="opiR1_form">
-			<%@include file="../_navigation/_navGlobal.jsp"%>
-		</h:form>
-	</t:div>
+	</div>
+	
 	<script type="text/javascript">	
 	highlightChildrenLiTags('navigationHeader:navigationLogin');
 	highlightChildrenLiTags('navigationFooter:navigationLogin');
@@ -42,4 +41,5 @@
 	hideElement('addCursusForm:submitDaaObt');
 	onblurInput('addCursusForm:daaObt', 'addCursusForm:submitDaaObt');
 </script>
-</e:page>
+</ui:define>
+</ui:composition>

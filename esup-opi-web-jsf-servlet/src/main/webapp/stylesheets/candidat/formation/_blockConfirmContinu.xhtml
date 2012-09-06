@@ -1,31 +1,34 @@
-<%@include file="../../_include/_include.jsp"%>
-<t:div id="div_confirmFinish" styleClass="div_subSection"
-	rendered="#{formationController.action.whatAction ==
-				formationController.action.confirmAction}">
-	<h:form id="formDeleteCmi">
-		<t:div style="width:100%;" styleClass="blockImportant">
-			<e:text
-				value="Vous venez de postuler pour la(les) formation(s) suivante(s) : " />
-			<t:dataList var="vetPojo" value="#{formationController.searchFormationPojo.vrsEtpSelected}"
-				layout="unorderedList">
-				<t:column>
-					<e:text value="#{vet.versionEtape.libWebVet}" styleClass="span-text-small" />
-				</t:column>
-			</t:dataList>
-			<e:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-				styleClass="tableJustWidthMax">
-				<e:text value="Voulez vous valider vos choix ?">
-				</e:text>
-				<t:panelGroup>
-					<e:commandButton value="#{msgs['_.BUTTON.YES']}" immediate="true"
-						action="#{formationController.goRecapChoice}" />
-					<e:commandButton value="#{msgs['_.BUTTON.NO']}"
-						action="#{formationController.goSearchAgain}" immediate="true" />
-				</t:panelGroup>
-			</e:panelGrid>
-		</t:div>
-	</h:form>
-	<t:htmlTag value="br" />
-	<t:htmlTag value="br" />
-</t:div>
-
+<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui">
+    <ui:fragment rendered="#{formationController.action.whatAction == formationController.action.confirmAction}">
+        <div id="div_confirmFinish" class="div_subSection">
+        	<h:form id="formDeleteCmi">
+        		<div style="width:100%;" class="blockImportant">
+        			<h:outputText
+        				value="Vous venez de postuler pour la(les) formation(s) suivante(s) : " />
+        			<p:dataList var="vetPojo" value="#{formationController.searchFormationPojo.vrsEtpSelected}"
+        				layout="unorderedList">
+        				<p:column>
+        					<h:outputText value="#{vet.versionEtape.libWebVet}" styleClass="span-text-small" />
+        				</p:column>
+        			</p:dataList>
+        			<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+        				styleClass="tableJustWidthMax">
+        				<h:outputText value="Voulez vous valider vos choix ?">
+        				</h:outputText>
+        				<h:panelGroup>
+        					<p:commandButton value="#{msgs['_.BUTTON.YES']}" immediate="true"
+        						action="#{formationController.goRecapChoice}" />
+        					<p:commandButton value="#{msgs['_.BUTTON.NO']}"
+        						action="#{formationController.goSearchAgain}" immediate="true" />
+        				</h:panelGroup>
+        			</h:panelGrid>
+        		</div>
+        	</h:form>
+        	<br />
+        	<br />
+        </div>
+    </ui:fragment>
+</ui:fragment>

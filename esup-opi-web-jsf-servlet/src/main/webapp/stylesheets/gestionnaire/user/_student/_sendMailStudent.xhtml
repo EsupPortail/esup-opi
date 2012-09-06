@@ -1,27 +1,27 @@
-<%@include file="../../../_include/_include.jsp"%>
-<h:form id="formSendMail">
-	<t:div style="width:100%;">
-		<e:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-			styleClass="tableJustWidthMax">
-			<t:panelGroup>
-				<e:text value="#{msgs['INFO.CANDIDAT.SAVE_OK']} " />
-				<e:text value="#{msgs['GESTIONNAIRE.CONFIRM.SEND.MAIL']}" />
-			</t:panelGroup>
-			
-			<t:panelGroup>
-				<e:commandButton value="#{msgs['_.BUTTON.YES']}"
-					action="#{individuController.goSendMailStudent}">
-					<t:updateActionListener
-						value="#{individuController.actionEnum.readAction}"
-						property="#{individuController.actionEnum.whatAction}" />
-				</e:commandButton>
-				<e:commandButton value="#{msgs['_.BUTTON.NO']}"
-					immediate="true">
-					<t:updateActionListener
-						value="#{individuController.actionEnum.readAction}"
-						property="#{individuController.actionEnum.whatAction}" />
-				</e:commandButton>
-			</t:panelGroup>
-		</e:panelGrid>
-	</t:div>
-</h:form>
+<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+    <h:form id="formSendMail">
+    	<div style="width:100%;">
+    		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+    			styleClass="tableJustWidthMax">
+    			<h:panelGroup>
+    				<h:outputText value="#{msgs['INFO.CANDIDAT.SAVE_OK']} " />
+    				<h:outputText value="#{msgs['GESTIONNAIRE.CONFIRM.SEND.MAIL']}" />
+    			</h:panelGroup>
+    			
+    			<h:panelGroup>
+    				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
+    					action="#{individuController.goSendMailStudent}">
+    					<f:setPropertyActionListener value="#{individuController.actionEnum.readAction}" target="#{individuController.actionEnum.whatAction}" />
+    				</p:commandButton>
+    				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
+    					immediate="true">
+    					<f:setPropertyActionListener value="#{individuController.actionEnum.readAction}" target="#{individuController.actionEnum.whatAction}" />
+    				</p:commandButton>
+    			</h:panelGroup>
+    		</h:panelGrid>
+    	</div>
+    </h:form>
+</ui:fragment>

@@ -1,65 +1,59 @@
-<%@include file="../../_include/_include.jsp"%>
-<e:page stringsVar="msgs" 
-	authorized="#{managedAccess.readAuthorized}"
-	locale="#{sessionController.locale}">
-	<%@include file="../../_include/_header.jsp"%>
-	<h:form id="navigationHeader">
-		<%@include file="../_navigation/_navGestionnaire.jsp"%>
-	</h:form>
-	<t:div id="maPage" styleClass="div_body">
-		<e:section value="#{msgs['TYP_TRT.TITLE.MANAGED']}" />
-		<t:div styleClass="messageForUser">
-			<e:messages />
-		</t:div>
-		<t:div id="div_subSection" styleClass="div_subSection">
-			<h:form id="seeTraitementTypesForm">
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				<t:div id="blockFormInfo" styleClass="blockForm">
-					<t:div styleClass="blockButton">
-						<t:panelGroup>
-							<e:commandButton value="#{msgs['_.BUTTON.BACK']}"
-									immediate="true"
-									action="#{managedAccess.goDisplayFunction}"/>
-						</t:panelGroup>
-					</t:div>
-					<e:dataTable var="typeTraitement" value="#{nomenclatureController.typeTrts}"
-						styleClass="displayInfo" alternateColors="false">
-						<t:column>
-							<f:facet name="header">
-								<t:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
-							</f:facet>
-							<e:text value="#{typeTraitement.code}"/>
-						</t:column>
-						<t:column>
-							<f:facet name="header">
-								<t:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-							</f:facet>
-							<e:text value="#{typeTraitement.label}" />
-						</t:column>
-						<t:column>
-							<f:facet name="header">
-								<t:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
-							</f:facet>
-							<t:graphicImage url="/media/images/check2.gif" />
-						</t:column>
-					</e:dataTable>
-
-				</t:div>
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-			</h:form>
-		</t:div>
-	</t:div>
-	<t:div id="div_navigationFooter">
-		<h:form id="navigationFooter" styleClass="opiR1_form">
-			<%@include file="../_navigation/_navGestionnaire.jsp"%>
-		</h:form>
-	</t:div>
-	<script type="text/javascript">
-	highlightChildrenLiTags('navigationHeader:navigation');
-	highlightChildrenLiTags('navigationFooter:navigation');
-</script>
-</e:page>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    template="template.xhtml">
+    <ui:define name="content">
+    	<div id="maPage" class="div_body">
+    		<h1><h:outputText value="#{msgs['TYP_TRT.TITLE.MANAGED']}" /></h1>
+    		<div class="messageForUser">
+    			<p:message id="messages" showDetail="true" autoUpdate="true" />
+    		</div>
+    		<div id="div_subSection" class="div_subSection">
+    			<h:form id="seeTraitementTypesForm">
+    				<br />
+    				<br />
+    				<br />
+    				<div id="blockFormInfo" class="blockForm">
+    					<div class="blockButton">
+    						<h:panelGroup>
+    							<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+    									immediate="true"
+    									action="#{managedAccess.goDisplayFunction}"/>
+    						</h:panelGroup>
+    					</div>
+    					<p:dataTable var="typeTraitement" value="#{nomenclatureController.typeTrts}"
+    						styleClass="displayInfo" alternateColors="false">
+    						<p:column>
+    							<f:facet name="header">
+    								<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
+    							</f:facet>
+    							<h:outputText value="#{typeTraitement.code}"/>
+    						</p:column>
+    						<p:column>
+    							<f:facet name="header">
+    								<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
+    							</f:facet>
+    							<h:outputText value="#{typeTraitement.label}" />
+    						</p:column>
+    						<p:column>
+    							<f:facet name="header">
+    								<h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
+    							</f:facet>
+    							<p:graphicImage url="/media/images/check2.gif" />
+    						</p:column>
+    					</p:dataTable>
+    				</div>
+    				<br />
+    				<br />
+    				<br />
+    			</h:form>
+    		</div>
+    	</div>
+    	
+    	<script type="text/javascript">
+        	highlightChildrenLiTags('navigationHeader:navigation');
+        	highlightChildrenLiTags('navigationFooter:navigation');
+        </script>
+    </ui:define>
+</ui:composition>

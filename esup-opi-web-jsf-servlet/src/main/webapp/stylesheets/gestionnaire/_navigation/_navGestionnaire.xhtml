@@ -1,11 +1,12 @@
-<%@include file="../../_include/_include.jsp"%>
-<e:menu id="navigation" styleClass="menuWelcome">
-	<e:menuItem id="accueil" action="#{welcomeController.goWelcomeManager}" 
-		value="#{msgs['NAVIGATION.TEXT.WELCOME']}"/>
-<% /*
-	<e:menuItem id="help" value="#{msgs['NAVIGATION.TEXT.HELP']}" />
-*/ %>
-	<e:menuItem id="logout" value="#{msgs['NAVIGATION.TEXT.LOGOUT']}"
-		rendered="#{sessionController.isServlet}"
-		action="#{sessionController.logoutGest}" />
-</e:menu>
+<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui">
+    <p:menu id="navigation" styleClass="menuWelcome">
+    	<p:menuItem id="accueil" action="#{welcomeController.goWelcomeManager}" 
+    		value="#{msgs['NAVIGATION.TEXT.WELCOME']}"/>
+    	<p:menuItem id="logout" value="#{msgs['NAVIGATION.TEXT.LOGOUT']}"
+    		rendered="#{sessionController.isServlet}"
+    		action="#{sessionController.logoutGest}" />
+    </p:menu>
+</ui:fragment>

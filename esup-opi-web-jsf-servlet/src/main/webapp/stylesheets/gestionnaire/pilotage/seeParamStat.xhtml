@@ -1,215 +1,187 @@
-<%@include file="../../_include/_include.jsp"%>
-<e:page stringsVar="msgs" authorized="#{managedAccess.readAuthorized}"
-	locale="#{sessionController.locale}">
-
-	<%@include file="../../_include/_header.jsp"%>
-
-	<h:form id="navigationHeader">
-		<%@include file="../_navigation/_navGestionnaire.jsp"%>
-	</h:form>
-
-	<e:section value="#{msgs['STAT.MANAGED_PARAM']}" />
-	<t:div styleClass="messageForUser">
-		<e:messages />
-	</t:div>
-
-	<h:form id="seeParamStatForm" styleClass="div_subSection">
-		<t:div id="parametreStat" styleClass="div_body">
-			<t:div styleClass="blockButton">
-				<e:commandButton value="#{msgs['_.BUTTON.RESULT_STAT']}"
-					immediate="true"
-					rendered="#{not empty parametreStatController.listAbscisseCoordonne &&
-							not empty parametreStatController.listOrdonneCoordonne &&
-							not empty parametreStatController.campagneItems}"
-					action="#{seeStatController.goSeeResulStat}" />
-
-				<e:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
-					rendered="#{parametreStatController.addUpdateCoordonne.whatAction != parametreStatController.addUpdateCoordonne.addAction
-								&& parametreStatController.addUpdateCoordonne.whatAction != parametreStatController.addUpdateCoordonne.updateAction}"
-					action="#{managedAccess.goDisplayFunction}" />
-
-				<e:commandButton value="#{msgs['_.BUTTON.BACK']}"
-					rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction 
-								&& parametreStatController.actionEnum.whatAction == parametreStatController.actionEnum.emptyAction }"
-					action="#{managedAccess.goDisplayFunction}">
-				</e:commandButton>
-
-				<e:commandButton value="#{msgs['_.BUTTON.BACK']}"
-					rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction ||
-							(parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction 
-					 		&&  parametreStatController.actionEnum.whatAction != parametreStatController.actionEnum.emptyAction )}"
-					action="#{parametreStatController.clearObjAbscisse}">
-					<t:updateActionListener
-						value="#{parametreStatController.actionEnum.emptyAction}"
-						property="#{parametreStatController.actionEnum.whatAction}" />
-					<t:updateActionListener
-						value="#{parametreStatController.actionEnum.emptyAction}"
-						property="#{parametreStatController.addUpdateCoordonne.whatAction}" />
-				</e:commandButton>
-			</t:div>
-
-			<t:panelGroup id="orderedDelete"
-				rendered="#{parametreStatController.actionEnum.whatAction == parametreStatController.actionEnum.paramOrdonne
-								&& parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.deleteAction}">
-				<%@include file="_delete/_deleteParamStatOrdonne.jsp"%>
-			</t:panelGroup>
-
-			<t:panelGroup id="abscissaDelete"
-				rendered="#{parametreStatController.actionEnum.whatAction == parametreStatController.actionEnum.paramAbscisse
-								&& parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.deleteAction}">
-				<%@include file="_delete/_deleteParamStatAbscisse.jsp"%>
-			</t:panelGroup>
-
-			<t:panelGrid columns="3" id="coordinatedSelected"
-				styleClass="displayInfo"
-				rendered="#{parametreStatController.actionEnum.whatAction == parametreStatController.actionEnum.emptyAction}">
-				<e:outputLabel value="#{msgs['FIELD_LABEL.ORDONNE']}"
-					styleClass="formHeader" for="ordered" />
-
-				<e:outputLabel value="#{msgs['FIELD_LABEL.ABSCISSE']}"
-					styleClass="formHeader" for="abscissa" />
-
-				<e:outputLabel value="#{msgs['FIELD_LABEL.CAMPAGNES']}"
-					styleClass="formHeader" for="campagne" />
-
-				<t:panelGrid columns="3" id="ordered">
-					<t:panelGrid columns="1">
-						<e:commandButton image="/media/images/en_haut.gif"
-							styleClass="icone"
-							action="#{parametreStatController.enHautOrdonne}" />
-						<e:commandButton image="/media/images/monter.gif"
-							styleClass="icone"
-							action="#{parametreStatController.monterOrdonne}" />
-						<e:commandButton image="/media/images/descendre.gif"
-							styleClass="icone"
-							action="#{parametreStatController.descendreOrdonne}" />
-						<e:commandButton image="/media/images/en_bas.gif"
-							styleClass="icone"
-							action="#{parametreStatController.enBasOrdonne}" />
-					</t:panelGrid>
-					<t:selectOneListbox styleClass="manyMenu"
-						value="#{parametreStatController.selectOrdonneCoordonne}">
-						<f:selectItems
-							value="#{parametreStatController.listOrdonneCoordonneItems}" />
-					</t:selectOneListbox>
-					<t:panelGroup>
-						<e:commandButton image="/media/images/add.png" styleClass="icone">
-							<t:updateActionListener
-								value="#{parametreStatController.actionEnum.paramOrdonne}"
-								property="#{parametreStatController.actionEnum.whatAction}" />
-							<t:updateActionListener
-								value="#{parametreStatController.addUpdateCoordonne.addAction}"
-								property="#{parametreStatController.addUpdateCoordonne.whatAction}" />
-						</e:commandButton>
-						<e:commandButton image="/media/images/update.png"
-							styleClass="icone"
-							rendered="#{not empty parametreStatController.listOrdonneCoordonne}"
-							action="#{parametreStatController.changeSelectCoordonneOrdonneUpdate}" />
-						<e:commandButton image="/media/images/cancel.png"
-							styleClass="icone"
-							rendered="#{not empty parametreStatController.listOrdonneCoordonne}"
-							action="#{parametreStatController.changeSelectCoordonneOrdonne}">
-							<t:updateActionListener
-								value="#{parametreStatController.actionEnum.paramOrdonne}"
-								property="#{parametreStatController.actionEnum.whatAction}" />
-							<t:updateActionListener
-								value="#{parametreStatController.addUpdateCoordonne.deleteAction}"
-								property="#{parametreStatController.addUpdateCoordonne.whatAction}" />
-						</e:commandButton>
-					</t:panelGroup>
-				</t:panelGrid>
-
-				<t:panelGrid columns="3" id="abscissa">
-					<t:panelGrid columns="1">
-						<e:commandButton image="/media/images/en_haut.gif"
-							styleClass="icone"
-							action="#{parametreStatController.enHautAbscisse}" />
-						<e:commandButton image="/media/images/monter.gif"
-							styleClass="icone"
-							action="#{parametreStatController.monterAbscisse}" />
-						<e:commandButton image="/media/images/descendre.gif"
-							styleClass="icone"
-							action="#{parametreStatController.descendreAbscisse}" />
-						<e:commandButton image="/media/images/en_bas.gif"
-							styleClass="icone"
-							action="#{parametreStatController.enBasAbscisse}" />
-					</t:panelGrid>
-					<t:selectOneListbox styleClass="manyMenu"
-						value="#{parametreStatController.selectAbscisseCoordonne}">
-						<f:selectItems
-							value="#{parametreStatController.listAbscisseCoordonneItems}" />
-					</t:selectOneListbox>
-					<t:panelGroup>
-						<e:commandButton image="/media/images/add.png" styleClass="icone">
-							<t:updateActionListener
-								value="#{parametreStatController.actionEnum.paramAbscisse}"
-								property="#{parametreStatController.actionEnum.whatAction}" />
-							<t:updateActionListener
-								value="#{parametreStatController.addUpdateCoordonne.addAction}"
-								property="#{parametreStatController.addUpdateCoordonne.whatAction}" />
-						</e:commandButton>
-						<e:commandButton image="/media/images/update.png"
-							styleClass="icone"
-							rendered="#{not empty parametreStatController.listAbscisseCoordonne}"
-							action="#{parametreStatController.changeSelectCoordonneAbscisseUpdate}" />
-						<e:commandButton image="/media/images/cancel.png"
-							styleClass="icone"
-							rendered="#{not empty parametreStatController.listAbscisseCoordonne}"
-							action="#{parametreStatController.changeSelectCoordonneAbscisse}">
-							<t:updateActionListener
-								value="#{parametreStatController.actionEnum.paramAbscisse}"
-								property="#{parametreStatController.actionEnum.whatAction}" />
-							<t:updateActionListener
-								value="#{parametreStatController.addUpdateCoordonne.deleteAction}"
-								property="#{parametreStatController.addUpdateCoordonne.whatAction}" />
-						</e:commandButton>
-					</t:panelGroup>
-				</t:panelGrid>
-
-				<t:panelGrid columns="3" id="campagne">
-					<t:selectManyMenu styleClass="manyMenu"
-						value="#{parametreStatController.selectCampagneAdd}">
-						<f:selectItems value="#{parametreStatController.allCampagneItems}" />
-					</t:selectManyMenu>
-					<t:panelGrid columns="1">
-						<e:commandButton image="/media/images/fleche_gauche.gif"
-							styleClass="icone"
-							action="#{parametreStatController.delCampagneItems}" />
-						<e:commandButton image="/media/images/fleche_droite.gif"
-							styleClass="icone"
-							action="#{parametreStatController.addCampagneItems}" />
-					</t:panelGrid>
-					<t:selectManyMenu styleClass="manyMenu"
-						value="#{parametreStatController.selectCampagneDel}">
-						<f:selectItems value="#{parametreStatController.campagneItems}" />
-					</t:selectManyMenu>
-				</t:panelGrid>
-			</t:panelGrid>
-
-			<t:panelGroup id="orderedSelected"
-				rendered="#{parametreStatController.actionEnum.whatAction == parametreStatController.actionEnum.paramOrdonne
-								&& (parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction
-									|| parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction)}">
-				<%@include file="_add/_enterParamStatOrdonne.jsp"%>
-			</t:panelGroup>
-
-			<t:panelGroup id="abscissaSelected"
-				rendered="#{parametreStatController.actionEnum.whatAction == parametreStatController.actionEnum.paramAbscisse
-								&& (parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction
-									|| parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction)}">
-				<%@include file="_add/_enterParamStatAbscisse.jsp"%>
-			</t:panelGroup>
-		</t:div>
-	</h:form>
-
-	<h:form id="navigationFooter" styleClass="opiR1_form">
-		<%@include file="../_navigation/_navGestionnaire.jsp"%>
-	</h:form>
-
-	<script type="text/javascript">
-	highlightChildrenLiTags('navigationHeader:navigation');
-	highlightChildrenLiTags('navigationFooter:navigation');
-	hideElement('seeParamStatForm:submitTypeOrdonne');
-	hideElement('seeParamStatForm:submitTypeAbscisse');
-</script>
-</e:page>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    template="template.xhtml">
+    <ui:define name="content">
+    	<h1><h:outputText value="#{msgs['STAT.MANAGED_PARAM']}" /></h1>
+    	<div class="messageForUser">
+    		<p:message id="messages" showDetail="true" autoUpdate="true" />
+    	</div>
+    
+    	<h:form id="seeParamStatForm" styleClass="div_subSection">
+    		<div id="parametreStat" class="div_body">
+    			<div class="blockButton">
+    				<p:commandButton value="#{msgs['_.BUTTON.RESULT_STAT']}"
+    					immediate="true"
+    					rendered="#{not empty parametreStatController.listAbscisseCoordonne &&
+    							not empty parametreStatController.listOrdonneCoordonne &&
+    							not empty parametreStatController.campagneItems}"
+    					action="#{seeStatController.goSeeResulStat}" />
+    
+    				<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
+    					rendered="#{parametreStatController.addUpdateCoordonne.whatAction != parametreStatController.addUpdateCoordonne.addAction
+    								&& parametreStatController.addUpdateCoordonne.whatAction != parametreStatController.addUpdateCoordonne.updateAction}"
+    					action="#{managedAccess.goDisplayFunction}" />
+    
+    				<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+    					rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction 
+    								&& parametreStatController.actionEnum.whatAction == parametreStatController.actionEnum.emptyAction }"
+    					action="#{managedAccess.goDisplayFunction}">
+    				</p:commandButton>
+    
+    				<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+    					rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction ||
+    							(parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction 
+    					 		&&  parametreStatController.actionEnum.whatAction != parametreStatController.actionEnum.emptyAction )}"
+    					action="#{parametreStatController.clearObjAbscisse}">
+    					<f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}" target="#{parametreStatController.actionEnum.whatAction}" />
+    					<f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}" target="#{parametreStatController.addUpdateCoordonne.whatAction}" />
+    				</p:commandButton>
+    			</div>
+    
+    			<h:panelGroup id="orderedDelete"
+    				rendered="#{parametreStatController.actionEnum.whatAction == parametreStatController.actionEnum.paramOrdonne
+    								&& parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.deleteAction}">
+    				<ui:include src="_delete/_deleteParamStatOrdonne.xhtml" />
+    			</h:panelGroup>
+    
+    			<h:panelGroup id="abscissaDelete"
+    				rendered="#{parametreStatController.actionEnum.whatAction == parametreStatController.actionEnum.paramAbscisse
+    								&& parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.deleteAction}">
+    				<ui:include src="_delete/_deleteParamStatAbscisse.xhtml" />
+    			</h:panelGroup>
+    
+    			<h:panelGrid columns="3" id="coordinatedSelected"
+    				styleClass="displayInfo"
+    				rendered="#{parametreStatController.actionEnum.whatAction == parametreStatController.actionEnum.emptyAction}">
+    				<h:outputLabel value="#{msgs['FIELD_LABEL.ORDONNE']}"
+    					styleClass="formHeader" for="ordered" />
+    
+    				<h:outputLabel value="#{msgs['FIELD_LABEL.ABSCISSE']}"
+    					styleClass="formHeader" for="abscissa" />
+    
+    				<h:outputLabel value="#{msgs['FIELD_LABEL.CAMPAGNES']}"
+    					styleClass="formHeader" for="campagne" />
+    
+    				<h:panelGrid columns="3" id="ordered">
+    					<h:panelGrid columns="1">
+    						<p:commandButton image="/media/images/en_haut.gif"
+    							styleClass="icone"
+    							action="#{parametreStatController.enHautOrdonne}" />
+    						<p:commandButton image="/media/images/monter.gif"
+    							styleClass="icone"
+    							action="#{parametreStatController.monterOrdonne}" />
+    						<p:commandButton image="/media/images/descendre.gif"
+    							styleClass="icone"
+    							action="#{parametreStatController.descendreOrdonne}" />
+    						<p:commandButton image="/media/images/en_bas.gif"
+    							styleClass="icone"
+    							action="#{parametreStatController.enBasOrdonne}" />
+    					</h:panelGrid>
+    					<p:selectOneListbox styleClass="manyMenu"
+    						value="#{parametreStatController.selectOrdonneCoordonne}">
+    						<f:selectItems
+    							value="#{parametreStatController.listOrdonneCoordonneItems}" />
+    					</p:selectOneListbox>
+    					<h:panelGroup>
+    						<p:commandButton image="/media/images/add.png" styleClass="icone">
+    							<f:setPropertyActionListener value="#{parametreStatController.actionEnum.paramOrdonne}" target="#{parametreStatController.actionEnum.whatAction}" />
+    							<f:setPropertyActionListener value="#{parametreStatController.addUpdateCoordonne.addAction}" target="#{parametreStatController.addUpdateCoordonne.whatAction}" />
+    						</p:commandButton>
+    						<p:commandButton image="/media/images/update.png"
+    							styleClass="icone"
+    							rendered="#{not empty parametreStatController.listOrdonneCoordonne}"
+    							action="#{parametreStatController.changeSelectCoordonneOrdonneUpdate}" />
+    						<p:commandButton image="/media/images/cancel.png"
+    							styleClass="icone"
+    							rendered="#{not empty parametreStatController.listOrdonneCoordonne}"
+    							action="#{parametreStatController.changeSelectCoordonneOrdonne}">
+    							<f:setPropertyActionListener value="#{parametreStatController.actionEnum.paramOrdonne}" target="#{parametreStatController.actionEnum.whatAction}" />
+    							<f:setPropertyActionListener value="#{parametreStatController.addUpdateCoordonne.deleteAction}" target="#{parametreStatController.addUpdateCoordonne.whatAction}" />
+    						</p:commandButton>
+    					</h:panelGroup>
+    				</h:panelGrid>
+    
+    				<h:panelGrid columns="3" id="abscissa">
+    					<h:panelGrid columns="1">
+    						<p:commandButton image="/media/images/en_haut.gif"
+    							styleClass="icone"
+    							action="#{parametreStatController.enHautAbscisse}" />
+    						<p:commandButton image="/media/images/monter.gif"
+    							styleClass="icone"
+    							action="#{parametreStatController.monterAbscisse}" />
+    						<p:commandButton image="/media/images/descendre.gif"
+    							styleClass="icone"
+    							action="#{parametreStatController.descendreAbscisse}" />
+    						<p:commandButton image="/media/images/en_bas.gif"
+    							styleClass="icone"
+    							action="#{parametreStatController.enBasAbscisse}" />
+    					</h:panelGrid>
+    					<p:selectOneListbox styleClass="manyMenu"
+    						value="#{parametreStatController.selectAbscisseCoordonne}">
+    						<f:selectItems
+    							value="#{parametreStatController.listAbscisseCoordonneItems}" />
+    					</p:selectOneListbox>
+    					<h:panelGroup>
+    						<p:commandButton image="/media/images/add.png" styleClass="icone">
+    							<f:setPropertyActionListener value="#{parametreStatController.actionEnum.paramAbscisse}" target="#{parametreStatController.actionEnum.whatAction}" />
+    							<f:setPropertyActionListener value="#{parametreStatController.addUpdateCoordonne.addAction}" target="#{parametreStatController.addUpdateCoordonne.whatAction}" />
+    						</p:commandButton>
+    						<p:commandButton image="/media/images/update.png"
+    							styleClass="icone"
+    							rendered="#{not empty parametreStatController.listAbscisseCoordonne}"
+    							action="#{parametreStatController.changeSelectCoordonneAbscisseUpdate}" />
+    						<p:commandButton image="/media/images/cancel.png"
+    							styleClass="icone"
+    							rendered="#{not empty parametreStatController.listAbscisseCoordonne}"
+    							action="#{parametreStatController.changeSelectCoordonneAbscisse}">
+    							<f:setPropertyActionListener value="#{parametreStatController.actionEnum.paramAbscisse}" target="#{parametreStatController.actionEnum.whatAction}" />
+    							<f:setPropertyActionListener value="#{parametreStatController.addUpdateCoordonne.deleteAction}" target="#{parametreStatController.addUpdateCoordonne.whatAction}" />
+    						</p:commandButton>
+    					</h:panelGroup>
+    				</h:panelGrid>
+    
+    				<h:panelGrid columns="3" id="campagne">
+    					<p:selectManyMenu styleClass="manyMenu"
+    						value="#{parametreStatController.selectCampagneAdd}">
+    						<f:selectItems value="#{parametreStatController.allCampagneItems}" />
+    					</p:selectManyMenu>
+    					<h:panelGrid columns="1">
+    						<p:commandButton image="/media/images/fleche_gauche.gif"
+    							styleClass="icone"
+    							action="#{parametreStatController.delCampagneItems}" />
+    						<p:commandButton image="/media/images/fleche_droite.gif"
+    							styleClass="icone"
+    							action="#{parametreStatController.addCampagneItems}" />
+    					</h:panelGrid>
+    					<p:selectManyMenu styleClass="manyMenu"
+    						value="#{parametreStatController.selectCampagneDel}">
+    						<f:selectItems value="#{parametreStatController.campagneItems}" />
+    					</p:selectManyMenu>
+    				</h:panelGrid>
+    			</h:panelGrid>
+    
+    			<h:panelGroup id="orderedSelected"
+    				rendered="#{parametreStatController.actionEnum.whatAction == parametreStatController.actionEnum.paramOrdonne
+    								&& (parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction
+    									|| parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction)}">
+    				<ui:include src="_add/_enterParamStatOrdonne.xhtml" />
+    			</h:panelGroup>
+    
+    			<h:panelGroup id="abscissaSelected"
+    				rendered="#{parametreStatController.actionEnum.whatAction == parametreStatController.actionEnum.paramAbscisse
+    								&& (parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction
+    									|| parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction)}">
+    				<ui:include src="_add/_enterParamStatAbscisse.xhtml" />
+    			</h:panelGroup>
+    		</div>
+    	</h:form>
+    	<script type="text/javascript">
+        	highlightChildrenLiTags('navigationHeader:navigation');
+        	highlightChildrenLiTags('navigationFooter:navigation');
+        	hideElement('seeParamStatForm:submitTypeOrdonne');
+        	hideElement('seeParamStatForm:submitTypeAbscisse');
+        </script>
+    </ui:define>
+</ui:composition>

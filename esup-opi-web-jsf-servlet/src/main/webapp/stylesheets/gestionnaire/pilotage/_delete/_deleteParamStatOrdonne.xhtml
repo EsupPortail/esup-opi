@@ -1,24 +1,28 @@
-<%@include file="../../../_include/_include.jsp"%>
-<t:div style="width:100%;">
-	<e:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-		styleClass="tableJustWidthMax">
-		<e:text value="#{msgs['COORDONNE.CONFIRM.DELETE']}">
-			<f:param value="#{parametreStatController.selectOrdonneCoordonne}"/>
-		</e:text>
-		<t:panelGroup>
-			<e:commandButton value="#{msgs['_.BUTTON.YES']}"
-				action="#{parametreStatController.delOrdonneCoordonne}">
-				<t:updateActionListener value="#{parametreStatController.actionEnum.emptyAction}"
-					property="#{parametreStatController.actionEnum.whatAction}"/>
-				<t:updateActionListener value="#{parametreStatController.addUpdateCoordonne.emptyAction}"
-					property="#{parametreStatController.addUpdateCoordonne.whatAction}"/>
-			</e:commandButton>
-			<e:commandButton value="#{msgs['_.BUTTON.NO']}">
-				<t:updateActionListener value="#{parametreStatController.actionEnum.emptyAction}"
-					property="#{parametreStatController.actionEnum.whatAction}"/>
-				<t:updateActionListener value="#{parametreStatController.addUpdateCoordonne.emptyAction}"
-					property="#{parametreStatController.addUpdateCoordonne.whatAction}"/>
-			</e:commandButton>
-		</t:panelGroup>
-	</e:panelGrid>
-</t:div>
+<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui">
+    <div style="width:100%;">
+    	<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+    		styleClass="tableJustWidthMax">
+    		<h:outputText value="#{msgs['COORDONNE.CONFIRM.DELETE']}">
+    			<f:param value="#{parametreStatController.selectOrdonneCoordonne}"/>
+    		</h:outputText>
+    		<h:panelGroup>
+    			<p:commandButton value="#{msgs['_.BUTTON.YES']}"
+    				action="#{parametreStatController.delOrdonneCoordonne}">
+    				<f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}"
+    					target="#{parametreStatController.actionEnum.whatAction}" />
+    				<f:setPropertyActionListener value="#{parametreStatController.addUpdateCoordonne.emptyAction}"
+    					target="#{parametreStatController.addUpdateCoordonne.whatAction}" />
+    			</p:commandButton>
+    			<p:commandButton value="#{msgs['_.BUTTON.NO']}">
+    				<f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}"
+    					target="#{parametreStatController.actionEnum.whatAction}" />
+    				<f:setPropertyActionListener value="#{parametreStatController.addUpdateCoordonne.emptyAction}"
+    					target="#{parametreStatController.addUpdateCoordonne.whatAction}" />
+    			</p:commandButton>
+    		</h:panelGroup>
+    	</h:panelGrid>
+    </div>
+</ui:fragment>

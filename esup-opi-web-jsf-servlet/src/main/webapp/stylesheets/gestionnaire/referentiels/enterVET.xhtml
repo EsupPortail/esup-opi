@@ -1,65 +1,59 @@
-<%@include file="../../_include/_include.jsp"%>
-<e:page stringsVar="msgs" authorized="#{managedAccess.readAuthorized}"
-	locale="#{sessionController.locale}">
-	<%@include file="../../_include/_header.jsp"%>
-	<h:form id="navigationHeader">
-		<%@include file="../_navigation/_navGestionnaire.jsp"%>
-	</h:form>
-	<t:div id="maPage" styleClass="div_body">
-		<e:section value="#{msgs['PJ.IS_FOR_ONE_VET']}#{nomenclatureController.vetDTO.libWebVet}" />
-		
-		<t:div styleClass="messageForUser">
-			<e:messages />
-		</t:div>
-		
-		<t:div id="info_valider" styleClass="messageForUser">
-			<e:text styleClass="msg-info" value="#{msgs['INFO.VALIDATE']}" />
-		</t:div>
-		
-		<t:div id="div_subSection" styleClass="div_subSection">
-			<h:form id="addPJForm">
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				<t:div id="blockFormInfo" styleClass="blockForm">
-					<t:div style="width:100%;">
-						<e:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-							styleClass="tableJustWidthMax">
-							<e:text value="#{msgs['FIELD_LABEL.VRS_VET']}"
-								styleClass="section-smallTitle" />
-							<t:panelGroup>
-							<e:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-								immediate="true" action="#{nomenclatureController.updatePJs}"
-								/>		
-							<e:commandButton value="#{msgs['_.BUTTON.BACK']}"
-								immediate="true" action="#{nomenclatureController.goBackFromSearchPJ}"
-								/>					
-							</t:panelGroup>
-						</e:panelGrid>
-					</t:div>
-					<%@include file="_blockVET/_blockDescVET.jsp"%>
-					
-				</t:div>
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				<t:htmlTag value="br" />
-				
-				<t:div id="blockFormSeePJ" styleClass="blockForm">
-					<%@include file="_blockPJ/_seePJ.jsp"%>
-				</t:div>
-
-
-			</h:form>
-		</t:div>
-	</t:div>
-	<t:div id="div_navigationFooter">
-		<h:form id="navigationFooter" styleClass="opiR1_form">
-			<%@include file="../_navigation/_navGestionnaire.jsp"%>
-		</h:form>
-	</t:div>
-	<script type="text/javascript">
-	highlightChildrenLiTags('navigationHeader:navigation');
-	highlightChildrenLiTags('navigationFooter:navigation');
-	highlightInputAndSelect('enterCommissionForm');
-</script>
-</e:page>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    template="template.xhtml">
+    <ui:define name="content">
+    	<div id="maPage" class="div_body">
+    		<h1><h:outputText value="#{msgs['PJ.IS_FOR_ONE_VET']}#{nomenclatureController.vetDTO.libWebVet}" /></h1>
+    		
+    		<div class="messageForUser">
+    			<p:message id="messages" showDetail="true" autoUpdate="true" />
+    		</div>
+    		
+    		<div id="info_valider" class="messageForUser">
+    			<h:outputText styleClass="msg-info" value="#{msgs['INFO.VALIDATE']}" />
+    		</div>
+    		
+    		<div id="div_subSection" class="div_subSection">
+    			<h:form id="addPJForm">
+    				<br />
+    				<br />
+    				<br />
+    				<div id="blockFormInfo" class="blockForm">
+    					<div style="width:100%;">
+    						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+    							styleClass="tableJustWidthMax">
+    							<h:outputText value="#{msgs['FIELD_LABEL.VRS_VET']}"
+    								styleClass="section-smallTitle" />
+    							<h:panelGroup>
+    							<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+    								immediate="true" action="#{nomenclatureController.updatePJs}"
+    								/>		
+    							<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+    								immediate="true" action="#{nomenclatureController.goBackFromSearchPJ}"
+    								/>					
+    							</h:panelGroup>
+    						</h:panelGrid>
+    					</div>
+    					<ui:include src="_blockVET/_blockDescVET.xhtml" />
+    					
+    				</div>
+    				<br />
+    				<br />
+    				<br />
+    				
+    				<div id="blockFormSeePJ" class="blockForm">
+    					<ui:include src="_blockPJ/_seePJ.xhtml" />
+    				</div>
+    			</h:form>
+    		</div>
+    	</div>
+    	
+    	<script type="text/javascript">
+        	highlightChildrenLiTags('navigationHeader:navigation');
+        	highlightChildrenLiTags('navigationFooter:navigation');
+        	highlightInputAndSelect('enterCommissionForm');
+        </script>
+    </ui:define>
+</ui:composition>

@@ -1,73 +1,69 @@
-<%@include file="../../_include/_include.jsp"%>
-<e:page stringsVar="msgs" locale="#{sessionController.locale}">
-	<%@include file="../../_include/_header.jsp"%>
-	<h:form id="navigationHeader">
-		<%@include file="../_navigation/_navGlobal.jsp"%>
-	</h:form>
-	<t:div id="maPage" styleClass="div_body">
-		<e:section value="#{msgs['FIELD_LABEL.FORMATION_SELECT']}" />
-		<t:div styleClass="messageForUser">
-			<e:messages />
-		</t:div>
-		<t:div styleClass="blockImportant">
-			<e:panelGrid columns="2" columnClasses="image,text">
-				<t:graphicImage url="/media/images/important.png" />
-				<t:panelGroup>
-					<t:outputText value="#{msgs['FORMATION.INFO.PROCEDURE']}"
-						escape="false" />
-				</t:panelGroup>
-			</e:panelGrid>
-		</t:div>
-		<t:div id="div_subSection" styleClass="div_subSection">
-			<h:form id="choiceEtapeForm" styleClass="opiR1_form">
-				<t:div id="div_subSection" styleClass="div_subSection">
-					<t:htmlTag value="br" />
-					<t:htmlTag value="br" />
-					<t:div id="blockFormEtape" styleClass="blockForm">
-						<t:div style="width:100%;">
-							<e:text value="#{msgs['FORMATION.TITLE.LIST.CHOICE']}"
-								styleClass="section-smallTitle" />
-						</t:div>
-						<t:div styleClass="blockTable">
-							<t:dataList var="versionEtpPojo" styleClass="listeFormation"
-								value="#{formationController.searchFormationPojo.vrsEtpSelected}"
-								layout="unorderedList">
-								<e:li>
-									<e:text value="#{versionEtpPojo.versionEtape.libWebVet}" />
-								</e:li>
-								<t:div>
-									<e:commandButton image="/media/images/cancel.png"
-										styleClass="form-button-image" immediate="true"
-										action="#{formationController.searchFormationPojo.removeEtapeChoice}"
-										title="#{msgs['_.BUTTON.DELETE']}">
-										<t:updateActionListener value="#{versionEtpPojo}"
-											property="#{formationController.searchFormationPojo.versiontEtpToDelete}" />
-									</e:commandButton>
-								</t:div>
-							</t:dataList>
-						</t:div>
-					</t:div>
-					<t:div style="text-align:center;">
-						<t:panelGroup>
-							<e:commandButton value="#{msgs['_.BUTTON.VALIDATE.CHOICE']}"
-								immediate="true" action="#{formationController.add}" />
-							<e:commandButton value="#{msgs['_.BUTTON.ADD.CANDI']}"
-								immediate="true" action="#{formationController.goSearchAgain}" />
-						</t:panelGroup>
-					</t:div>
-					<t:htmlTag value="br" />
-					<t:htmlTag value="br" />
-				</t:div>
-			</h:form>
-		</t:div>
-	</t:div>
-	<t:div id="div_navigationFooter">
-		<h:form id="navigationFooter" styleClass="opiR1_form">
-			<%@include file="../_navigation/_navGlobal.jsp"%>
-		</h:form>
-	</t:div>
-	<script type="text/javascript">
-	highlightChildrenLiTags('navigationHeader:navigationLogin');
-	highlightChildrenLiTags('navigationFooter:navigationLogin');
-</script>
-</e:page>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    template="template.xhtml">
+    <ui:define name="content">
+    	<div id="maPage" class="div_body">
+    		<h1><h:outputText value="#{msgs['FIELD_LABEL.FORMATION_SELECT']}" /></h1>
+    		<div class="messageForUser">
+    			<p:message id="messages" showDetail="true" autoUpdate="true" />
+    		</div>
+    		<div class="blockImportant">
+    			<h:panelGrid columns="2" columnClasses="image,text">
+    				<p:graphicImage url="/media/images/important.png" />
+    				<h:panelGroup>
+    					<h:outputText value="#{msgs['FORMATION.INFO.PROCEDURE']}"
+    						escape="false" />
+    				</h:panelGroup>
+    			</h:panelGrid>
+    		</div>
+    		<div id="div_subSection" class="div_subSection">
+    			<h:form id="choiceEtapeForm" styleClass="opiR1_form">
+    				<div id="div_subSection" class="div_subSection">
+    					<br />
+    					<br />
+    					<div id="blockFormEtape" class="blockForm">
+    						<div style="width:100%;">
+    							<h:outputText value="#{msgs['FORMATION.TITLE.LIST.CHOICE']}"
+    								styleClass="section-smallTitle" />
+    						</div>
+    						<div class="blockTable">
+    							<p:dataList var="versionEtpPojo" styleClass="listeFormation"
+    								value="#{formationController.searchFormationPojo.vrsEtpSelected}"
+    								layout="unorderedList">
+    								<li>
+    									<h:outputText value="#{versionEtpPojo.versionEtape.libWebVet}" />
+    								</li>
+    								<div>
+    									<p:commandButton image="/media/images/cancel.png"
+    										styleClass="form-button-image" immediate="true"
+    										action="#{formationController.searchFormationPojo.removeEtapeChoice}"
+    										title="#{msgs['_.BUTTON.DELETE']}">
+    										<f:setPropertyActionListener value="#{versionEtpPojo}" target="#{formationController.searchFormationPojo.versiontEtpToDelete}" />
+    									</p:commandButton>
+    								</div>
+    							</p:dataList>
+    						</div>
+    					</div>
+    					<div style="text-align:center;">
+    						<h:panelGroup>
+    							<p:commandButton value="#{msgs['_.BUTTON.VALIDATE.CHOICE']}"
+    								immediate="true" action="#{formationController.add}" />
+    							<p:commandButton value="#{msgs['_.BUTTON.ADD.CANDI']}"
+    								immediate="true" action="#{formationController.goSearchAgain}" />
+    						</h:panelGroup>
+    					</div>
+    					<br />
+    					<br />
+    				</div>
+    			</h:form>
+    		</div>
+    	</div>
+    	
+    	<script type="text/javascript">
+        	highlightChildrenLiTags('navigationHeader:navigationLogin');
+        	highlightChildrenLiTags('navigationFooter:navigationLogin');
+        </script>
+    </ui:define>
+</ui:composition>
