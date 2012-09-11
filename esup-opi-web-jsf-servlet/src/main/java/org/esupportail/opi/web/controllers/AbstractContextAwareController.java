@@ -1,11 +1,17 @@
 /**
  * ESUP-Portail Blank Application - Copyright (c) 2006 ESUP-Portail consortium
- * http://sourcesup.cru.fr/projects/esup-opi
+ * http://sourcesup.cru.fr/projects/esup-opiR1
  */
 package org.esupportail.opi.web.controllers;
 
-import org.esupportail.opi.domain.beans.User;
+
 import org.esupportail.commons.utils.Assert;
+import org.esupportail.opi.domain.beans.user.Gestionnaire;
+import org.esupportail.opi.domain.beans.user.User;
+import org.esupportail.opi.web.beans.pojo.IndividuPojo;
+
+
+
 
 /**
  * An abstract class inherited by all the beans for them to get:
@@ -16,23 +22,18 @@ import org.esupportail.commons.utils.Assert;
  */
 public abstract class AbstractContextAwareController extends AbstractDomainAwareBean {
 
-	/*
-	 ******************* PROPERTIES ******************** */
-	
 	/**
-	 * The serialization id.
+	 * The serialization id. 
 	 */
-	private static final long serialVersionUID = -1826458262448752328L;
-	
-	
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * The SessionController.
 	 */
 	private SessionController sessionController;
 
-	/*
-	 ******************* INIT ******************** */
 	
+
 	/**
 	 * Constructor.
 	 */
@@ -47,23 +48,9 @@ public abstract class AbstractContextAwareController extends AbstractDomainAware
 	public void afterPropertiesSetInternal() {
 		Assert.notNull(this.sessionController, "property sessionController of class " 
 				+ this.getClass().getName() + " can not be null");
+		
 	}
 
-	/*
-	 ******************* CALLBACK ******************** */
-	
-	
-	/*
-	 ******************* METHODS ******************** */
-	
-	/**
-	 * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#getCurrentUser()
-	 */
-	@Override
-	protected User getCurrentUser() throws Exception {
-		return sessionController.getCurrentUser();
-	}
-	
 	/**
 	 * @param sessionController the sessionController to set
 	 */
@@ -79,5 +66,31 @@ public abstract class AbstractContextAwareController extends AbstractDomainAware
 	}
 
 	
+	
+	
+	/**
+	 * Return the current user if is a gestionnaire.
+	 * @return Gestionnaire
+	 */
+	public Gestionnaire getCurrentGest() {
+		User u = sessionController.getCurrentUser();
+		if (!(u instanceof Gestionnaire)) {
+			return sessionController.getManager();
+		}
+		return (Gestionnaire) u;
+	}
+
+
+	/**
+	 * Return the current user if is a Individu.
+	 * @return Individu
+	 */
+	@Override
+	public IndividuPojo getCurrentInd() {
+		return sessionController.getCurrentInd();
+	}
+	
+	
+
 
 }

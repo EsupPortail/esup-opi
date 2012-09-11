@@ -1,0 +1,105 @@
+package org.esupportail.opi.web.beans.pojo;
+
+import java.util.List;
+
+import fr.univ.rennes1.cri.apogee.domain.beans.Ren1Domaine2AnnuForm;
+import fr.univ.rennes1.cri.apogee.domain.beans.Ren1DomaineAnnuForm;
+
+/**
+ * @author ylecuyer
+ *
+ */
+public class Ren1DomaineAnnuFormPojo {
+	/*
+	 ******************* PROPERTIES ******************* */
+	/**
+	 * ren1ClesAnnuForm.
+	 */
+	private Ren1DomaineAnnuForm ren1DomaineAnnuForm;
+	/**
+	 * liste de ren1Domaine2AnnuForm (un libele par langue).
+	 */
+	private List<Ren1Domaine2AnnuForm> ren1Domaine2AnnuForm;
+	/**
+	 * codeLang.
+	 */
+	private String codeLang;
+	
+	
+	/*
+	 ******************* INIT ************************* */
+	/**
+	 * Constructors.
+	 */
+	public Ren1DomaineAnnuFormPojo() {
+		super();
+	}
+	/**
+	 * Constructors.
+	 * @param ren1DomaineAnnuForm
+	 * @param codeLang
+	 */
+	public Ren1DomaineAnnuFormPojo(final Ren1DomaineAnnuForm ren1DomaineAnnuForm, final String codeLang) {
+		super();
+		this.ren1DomaineAnnuForm = ren1DomaineAnnuForm;
+		this.codeLang = codeLang;
+	}
+	
+	
+	/*
+	 ******************* METHODS ********************** */
+	/**
+	 * @return String
+	 */
+	public String getLibClesFr() {
+		for (Ren1Domaine2AnnuForm dom : ren1Domaine2AnnuForm) {
+			if(dom.getCodLang().equalsIgnoreCase(codeLang)) {
+				return dom.getLibDom();
+			}
+		}
+		return "";
+	}
+	
+	
+	/*
+	 ******************* ACCESSORS ******************** */
+	/**
+	 * 
+	 * @return ren1DomaineAnnuForm
+	 */
+	public Ren1DomaineAnnuForm getRen1DomaineAnnuForm() {
+		return ren1DomaineAnnuForm;
+	}
+	/**
+	 * 
+	 * @param ren1DomaineAnnuForm
+	 */
+	public void setRen1DomaineAnnuForm(Ren1DomaineAnnuForm ren1DomaineAnnuForm) {
+		this.ren1DomaineAnnuForm = ren1DomaineAnnuForm;
+	}
+	/**
+	 * @return ren1Domaine2AnnuForm
+	 */
+	public List<Ren1Domaine2AnnuForm> getRen1Domaine2AnnuForm() {
+		return ren1Domaine2AnnuForm;
+	}
+	/**
+	 * @param ren1Domaine2AnnuForm
+	 */
+	public void setRen1Domaine2AnnuForm(
+			List<Ren1Domaine2AnnuForm> ren1Domaine2AnnuForm) {
+		this.ren1Domaine2AnnuForm = ren1Domaine2AnnuForm;
+	}
+	/**
+	 * @return codeLang
+	 */
+	public String getCodeLang() {
+		return codeLang;
+	}
+	/**
+	 * @param codeLang
+	 */
+	public void setCodeLang(String codeLang) {
+		this.codeLang = codeLang;
+	}
+}

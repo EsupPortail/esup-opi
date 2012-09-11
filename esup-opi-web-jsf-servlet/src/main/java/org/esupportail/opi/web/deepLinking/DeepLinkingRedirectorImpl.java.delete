@@ -1,0 +1,311 @@
+/**
+ * ESUP-Portail Example Application - Copyright (c) 2006 ESUP-Portail consortium
+ * http://sourcesup.cru.fr/projects/esup-example
+ */
+package org.esupportail.opi.web.deepLinking;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.esupportail.apogee.domain.dto.enseignement.VersionEtapeDTO;
+import org.esupportail.commons.services.logging.Logger;
+import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.commons.utils.Assert;
+import org.esupportail.opi.domain.DomainApoService;
+import org.esupportail.opi.domain.DomainService;
+import org.esupportail.opi.domain.beans.user.User;
+import org.esupportail.opi.web.beans.ManagedCalendar;
+import org.esupportail.opi.web.beans.parameters.FormationContinue;
+import org.esupportail.opi.web.beans.pojo.VersionEtapePojo;
+import org.esupportail.opi.web.controllers.SessionController;
+import org.esupportail.opi.web.controllers.formation.FormationController;
+import org.esupportail.opi.web.controllers.user.IndividuController;
+
+
+
+/**
+ * The esup-helpdesk implementation of the page redirector (for deep linking).
+ */
+public class DeepLinkingRedirectorImpl extends AbstractDeepLinkingRedirector implements DeepLinkingRedirector {
+
+	/**
+	 * The serialization id.
+	 */
+	private static final long serialVersionUID = -4484064189163071618L;
+	
+	/**
+	 * Param for the iframe in ENT.
+	 */
+	private static final String PARAM_IN_ENT = "ent";
+	
+	/**
+	 * Param for if manager is connect in ENT.
+	 */
+	private static final String PARAM_IS_MANAGER = "isManager";
+	
+	/**
+	 * Param for the creation of an individu.
+	 */
+	private static final String PARAM_CREATE_DOSSIER = "createDossier";
+	
+	/**
+	 * Param for the SFC.
+	 */
+	private static final String PARAM_FOR_SFC = "forSFC";
+
+	/**
+	 * Param for the logout of an individu.
+	 */
+	private static final String PARAM_LOGOUT = "logout";
+	
+	/**
+	 * A logger.
+	 */
+	private final Logger logger = new LoggerImpl(DeepLinkingRedirectorImpl.class);
+
+	/**
+	 * The session controller.
+	 */
+	private SessionController sessionController;
+	
+	/**
+	 * The domain service.
+	 */
+	private DomainService domainService;
+	
+	/**
+	 * The domain apogee service.
+	 */
+	private DomainApoService domainApoService;
+	
+	/**
+	 * The formation controller.
+	 */
+	private FormationController formationController;
+	
+	/**
+	 * The individu controller.
+	 */
+	private IndividuController individuController;
+	
+	/**
+	 * see {@link ManagedCalendar}.
+	 */
+	private ManagedCalendar managedCalendar;
+
+	/**
+	 * Bean constructor.
+	 */
+	public DeepLinkingRedirectorImpl() {
+		super();
+	}
+
+	/**
+	 * @see org.esupportail.commons.beans.AbstractI18nAwareBean#afterPropertiesSet()
+	 */
+	@Override
+	public void afterPropertiesSet() {
+		super.afterPropertiesSet();
+		Assert.notNull(this.sessionController, "property sessionController of class " 
+				+ this.getClass().getName() + " can not be null");
+		Assert.notNull(this.domainService, "property domainService of class " 
+				+ this.getClass().getName() + " can not be null");
+		Assert.notNull(this.domainApoService, "property domainApoService of class " 
+				+ this.getClass().getName() + " can not be null");
+		Assert.notNull(this.formationController, "property formationController of class " 
+				+ this.getClass().getName() + " can not be null");
+		Assert.notNull(this.individuController, "property individuController of class " 
+				+ this.getClass().getName() + " can not be null");
+		Assert.notNull(this.managedCalendar, "property managedCalendar of class " 
+				+ this.getClass().getName() + " can not be null");
+	}
+	
+	/**
+	 * Redirect to the choice page.
+	 * @param params
+	 * @return a String.
+	 */
+	protected String redirectVows(
+			final Map<String, String> params) {
+		/*
+		 if (!formationController.isPageAuthorized()) {
+			addAuthenticationRequiredErrorMessage();
+		}
+		 */
+	
+		formationController.getAction()
+				.setWhatAction(
+						formationController.getAction().getConfirmAction()); 
+	
+			String codeEtp = params.get(PARAM_CODE_ETAPE);
+			String codeVet = params.get(PARAM_CODE_VERSION_ETAPE);
+			if (codeEtp == null || codeVet == null) {
+				logger.debug("Le code etape est null" + codeEtp);
+				return "/stylesheets/welcome.faces";
+			}
+			try {
+				int codVrsVet = Integer.parseInt(codeVet);
+	
+				VersionEtapeDTO vet = sessionController.getBusinessCacheService().getVersionEtape(codeEtp, codVrsVet);
+				
+				Set<VersionEtapePojo> vets = new HashSet<VersionEtapePojo>();
+				//TODO test ajout test si deje inscrit et si calendrier est ouvert
+				
+				
+				vets.add(new VersionEtapePojo(vet, false, null));
+				getFormationController().getSearchFormationPojo().setVrsEtpSelected(vets);
+			} catch (NumberFormatException nfe) {
+				// On va sur la page de selection des voeux
+			}
+		
+			
+		return "/stylesheets/candidat/formation/searchFormation.jsp";
+		// formationController.goSearchFormation()
+		
+	}
+
+	/**
+	 * redirect to the creation of individu with the correct settings.
+	 * @param params
+	 * @return
+	 */
+	protected String redirectCreateDossier(final Map<String, String> params) {
+		Boolean createDossier = Boolean.valueOf(params.get(PARAM_CREATE_DOSSIER));
+		if (createDossier && params.get(PARAM_FOR_SFC) != null) {
+			Boolean forSFC = Boolean.valueOf(params.get(PARAM_FOR_SFC));
+			if (forSFC) {
+				individuController.goSearchEtuR1();
+//				String redir = individuController.goAddEtudiant();
+				sessionController.setRegimeInsUser(
+						sessionController.getRegimeIns().get(FormationContinue.CODE));
+				return "/stylesheets/candidat/account/search_etur1.faces";
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @see org.esupportail.commons.web.deepLinking.DeepLinkingRedirector#redirect(java.util.Map)
+	 */
+	public String redirect(
+			final Map<String, String> params) {
+
+		if (params != null) {
+			sessionController.resetSessionLocale();
+			//for iframe in ENT. 
+			if (params.get(PARAM_IN_ENT) != null) {
+				Boolean isInEnt = Boolean.valueOf(params.get(PARAM_IN_ENT));
+				sessionController.setIsInEnt(isInEnt);
+				
+				if (params.get(PARAM_IS_MANAGER) != null) {
+					Boolean isManager = Boolean.valueOf(params.get(PARAM_IS_MANAGER));
+					if (isManager) {
+						return "/stylesheets/cas/accueil.faces";
+					}
+					if (managedCalendar.getCalInsIsOpen()) {
+						return "/stylesheets/cas/iframeWelcome.faces";
+					}
+					//if all calendar is close
+					return "/stylesheets/candidat/inscriptionClose.faces";
+				}
+				return null;
+			}
+			
+			if (params.get(PARAM_CREATE_DOSSIER) != null) {
+				return redirectCreateDossier(params);
+			}
+			
+			if (params.get(PARAM_LOGOUT) != null) {
+				return sessionController.logoutInd();
+			}
+			
+			User user = sessionController.getCurrentUser();
+			if (user != null && user.getLanguage() == null) {
+				user.setLanguage(sessionController.getLocale().toString());
+				getDomainService().updateUser(user);
+			}
+		
+			if (logger.isDebugEnabled()) {
+				logger.debug("params is not null");
+				for (Map.Entry<String, String> paramName : params.entrySet()) {
+					logger.debug("[" + paramName.getKey() + "] => [" + paramName.getValue() + "]");
+
+				}
+			}
+			if (VOWS_PAGE_VALUE.equals(params.get(PAGE_PARAM))) {
+				return redirectVows(params);
+			}
+			
+			
+			
+			return "/stylesheets/welcome.faces";
+		} 
+		return null;
+		
+	}
+
+	/**
+	 * @param sessionController the sessionController to set
+	 */
+	public void setSessionController(final SessionController sessionController) {
+		this.sessionController = sessionController;
+	}
+
+	/**
+	 * @return the sessionController
+	 */
+	public SessionController getSessionController() {
+		return sessionController;
+	}
+
+	/**
+	 * @return the domainService
+	 */
+	public DomainService getDomainService() {
+		return domainService;
+	}
+
+	/**
+	 * @return the formationController
+	 */
+	public FormationController getFormationController() {
+		return formationController;
+	}
+
+	/**
+	 * @param domainService the domainService to set
+	 */
+	public void setDomainService(final DomainService domainService) {
+		this.domainService = domainService;
+	}
+
+	/**
+	 * @param formationController the formationController to set
+	 */
+	public void setFormationController(final FormationController formationController) {
+		this.formationController = formationController;
+	}
+
+	/**
+	 * @param domainApoService the domainApoService to set
+	 */
+	public void setDomainApoService(final DomainApoService domainApoService) {
+		this.domainApoService = domainApoService;
+	}
+
+	/**
+	 * @param managedCalendar the managedCalendar to set
+	 */
+	public void setManagedCalendar(final ManagedCalendar managedCalendar) {
+		this.managedCalendar = managedCalendar;
+	}
+
+	/**
+	 * @param individuController the individuController to set
+	 */
+	public void setIndividuController(final IndividuController individuController) {
+		this.individuController = individuController;
+	}
+
+}

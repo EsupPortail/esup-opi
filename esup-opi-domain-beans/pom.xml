@@ -1,21 +1,163 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>esup-opi</artifactId>
         <groupId>org.esupportail</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>org.esupportail</groupId>
     <artifactId>esup-opi-domain-beans</artifactId>
     <description>The business object</description>
-    <dependencies>
-        <dependency>
-            <groupId>org.esupportail</groupId>
-            <artifactId>esup-commons2-core</artifactId>
-            <version>${esupcommons.version}</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <version>2.5.2</version>
+                <executions>
+                    <execution>
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <defaultOptions>
+                                <extraargs>
+                                    <extraarg>-b</extraarg>
+                                    <extraarg>${basedir}/src/main/resources/META-INF/jaxb/bindings.xml</extraarg>
+                                    <extraarg>-xjc-Xfluent-api</extraarg>
+                                </extraargs>
+                            </defaultOptions>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <!-- <Packagenames> -->
+                                    <!-- <Packagename>org.esupportail.apogee.readref</Packagename> -->
+                                    <!-- </Packagenames> -->
+                                    <wsdl>http://apo-cri-webservices.univ-rennes1.fr/esup-ws-si/cxf/ReadReferentiel?WSDL</wsdl>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <!-- <Packagenames> -->
+                                    <!-- <Packagename>org.esupportail.apogee.readens</Packagename> -->
+                                    <!-- </Packagenames> -->
+                                    <wsdl>http://apo-cri-webservices.univ-rennes1.fr/esup-ws-si/cxf/ReadEnseignement?WSDL</wsdl>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <!-- <Packagenames> -->
+                                    <!-- <Packagename>org.esupportail.apogee.inslaispass</Packagename> -->
+                                    <!-- </Packagenames> -->
+                                    <wsdl>http://apo-cri-webservices.univ-rennes1.fr/esup-ws-si/cxf/InsertLaisserPasser?WSDL</wsdl>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <!-- <Packagenames> -->
+                                    <!-- <Packagename>org.esupportail.apogee.readetu</Packagename> -->
+                                    <!-- </Packagenames> -->
+                                    <wsdl>http://apo-cri-webservices.univ-rennes1.fr/esup-ws-si/cxf/ReadEtudiant?WSDL</wsdl>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <!-- <Packagenames> -->
+                                    <!-- <Packagename>gouv.education.apogee.geographiemetier</Packagename> -->
+                                    <!-- </Packagenames> -->
+                                    <wsdl>http://apo-webservices.univ-rennes1.fr/services/GeographieMetier?wsdl</wsdl>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <!-- <Packagenames> -->
+                                    <!-- <Packagename>gouv.education.apogee.pedagogiquemetier</Packagename> -->
+                                    <!-- </Packagenames> -->
+                                    <wsdl>http://apo-webservices.univ-rennes1.fr/services/PedagogiqueMetier?wsdl</wsdl>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <!-- <Packagenames> -->
+                                    <!-- <Packagename>gouv.education.apogee.etudiantmetier</Packagename> -->
+                                    <!-- </Packagenames> -->
+                                    <wsdl>http://apo-webservices.univ-rennes1.fr/services/EtudiantMetier?wsdl</wsdl>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <!-- <Packagenames> -->
+                                    <!-- <Packagename>gouv.education.apogee.administratifmetier</Packagename> -->
+                                    <!-- </Packagenames> -->
+                                    <wsdl>http://apo-webservices.univ-rennes1.fr/services/AdministratifMetier?wsdl</wsdl>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <!-- <Packagenames> -->
+                                    <!-- <Packagename>gouv.education.apogee.opimetier</Packagename> -->
+                                    <!-- </Packagenames> -->
+                                    <wsdl>http://apo-webservices.univ-rennes1.fr/services/OpiMetier?wsdl</wsdl>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>http://apo-cri-webservices.univ-rennes1.fr/xfire/ReadRennes1?WSDL</wsdl>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.java.dev.jaxb2-commons</groupId>
+                        <artifactId>jaxb-fluent-api</artifactId>
+                        <version>2.1.8</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse 
+                    m2e settings only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>
+                                            com.mysema.maven
+                                        </groupId>
+                                        <artifactId>
+                                            maven-apt-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [0.3.2,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>process</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>
+                                            org.apache.cxf
+                                        </groupId>
+                                        <artifactId>
+                                            cxf-codegen-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [2.5.2,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>wsdl2java</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>
