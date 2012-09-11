@@ -1,0 +1,151 @@
+package org.esupportail.opi.web.beans.pojo;
+
+import java.util.List;
+
+/**
+ * @author ylecuyer
+ *
+ */
+public class Ren1ClesAnnuFormPojo {
+	/*
+	 ******************* PROPERTIES ******************* */
+	/**
+	 * ren1ClesAnnuForm.
+	 */
+	private Ren1ClesAnnuForm ren1ClesAnnuForm;
+	/**
+	 * liste de libele en fonction de la langue.
+	 */
+	private List<Ren1Cles2AnnuForm> ren1Cles2AnnuForm;
+
+	// TODO: fix the following !!
+//	/**
+//	 * liste de diplomes.
+//	 */
+//	private List<Ren1ClesDiplomeAnnuForm> ren1ClesDiplomeAnnuForm;
+	
+	/**
+	 * lien vers le domaine.
+	 */
+	private Ren1DomaineAnnuFormPojo ren1DomaineAnnuFormPojo;
+	/**
+	 * codeLang.
+	 */
+	private String codeLang;
+	
+	
+	/*
+	 ******************* INIT ************************* */
+	/**
+	 * Constructors.
+	 */
+	public Ren1ClesAnnuFormPojo() {
+		super();
+	}
+	/**
+	 * Constructors.
+	 * @param ren1ClesAnnuForm
+	 * @param codeLang
+	 */
+	public Ren1ClesAnnuFormPojo(final Ren1ClesAnnuForm ren1ClesAnnuForm, final String codeLang) {
+		super();
+		this.ren1ClesAnnuForm = ren1ClesAnnuForm;
+		this.codeLang = codeLang;
+	}
+	
+	
+	/*
+	 ******************* METHODS ********************** */
+	/**
+	 * @return String
+	 */
+	public String getCodCles() {
+		return ren1ClesAnnuForm.getCodCles();
+	}
+	
+	/**
+	 * @return String
+	 */
+	public String getLibClesFr() {
+		for (Ren1Cles2AnnuForm cle : ren1Cles2AnnuForm) {
+			if(cle.getId().getCodLang().equalsIgnoreCase(codeLang)) {
+				return cle.getLibCles();
+			}
+		}
+		return "";
+	}
+	
+	
+	/*
+	 ******************* ACCESSORS ******************** */
+	/**
+	 * @return ren1ClesAnnuForm
+	 */
+	public Ren1ClesAnnuForm getRen1ClesAnnuForm() {
+		return ren1ClesAnnuForm;
+	}
+	/**
+	 * @param ren1ClesAnnuForm
+	 */
+	public void setRen1ClesAnnuForm(Ren1ClesAnnuForm ren1ClesAnnuForm) {
+		this.ren1ClesAnnuForm = ren1ClesAnnuForm;
+	}
+	/**
+	 * @return ren1Cles2AnnuForm
+	 */
+	public List<Ren1Cles2AnnuForm> getRen1Cles2AnnuForm() {
+		return ren1Cles2AnnuForm;
+	}
+	/**
+	 * @param ren1Cles2AnnuForm
+	 */
+	public void setRen1Cles2AnnuForm(List<Ren1Cles2AnnuForm> ren1Cles2AnnuForm) {
+		this.ren1Cles2AnnuForm = ren1Cles2AnnuForm;
+	}
+
+	// TODO: fix the following !!
+//	/**
+//	 * 
+//	 * @return Set(ren1ClesDiplomeAnnuForm)
+//	 */
+//	public List<Ren1ClesDiplomeAnnuForm> getRen1ClesDiplomeAnnuForm() {
+//		return ren1ClesDiplomeAnnuForm;
+//	}
+
+//	TODO: fix the following !!	
+//	/**
+//	 * 
+//	 * @param ren1ClesDiplomeAnnuForm Set
+//	 */
+//	public void setRen1ClesDiplomeAnnuForm(
+//			List<Ren1ClesDiplomeAnnuForm> ren1ClesDiplomeAnnuForm) {
+//		this.ren1ClesDiplomeAnnuForm = ren1ClesDiplomeAnnuForm;
+//	}
+
+	/**
+	 * 
+	 * @return ren1DomaineAnnuForm
+	 */
+	public Ren1DomaineAnnuFormPojo getRen1DomaineAnnuFormPojo() {
+		return ren1DomaineAnnuFormPojo;
+	}
+	/**
+	 * 
+	 * @param ren1DomaineAnnuFormPojo
+	 */
+	public void setRen1DomaineAnnuFormPojo(Ren1DomaineAnnuFormPojo ren1DomaineAnnuFormPojo) {
+		this.ren1DomaineAnnuFormPojo = ren1DomaineAnnuFormPojo;
+	}
+	/**
+	 * @return codeLang
+	 */
+	public String getCodeLang() {
+		return codeLang;
+	}
+	/**
+	 * @param codeLang
+	 */
+	public void setCodeLang(String codeLang) {
+		this.codeLang = codeLang;
+	}
+}

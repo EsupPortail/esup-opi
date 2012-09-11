@@ -1,0 +1,357 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="ServiceService"
+	targetNamespace="http://domain.ws_ur1_apogee.cri.rennes1.univ.fr/"
+	xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://domain.ws_ur1_apogee.cri.rennes1.univ.fr/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<wsdl:types>
+		<xs:schema elementFormDefault="unqualified"
+			targetNamespace="http://domain.ws_ur1_apogee.cri.rennes1.univ.fr/"
+			version="1.0" xmlns:tns="http://domain.ws_ur1_apogee.cri.rennes1.univ.fr/"
+			xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<xs:element name="getAnneeUniv" type="tns:getAnneeUniv" />
+			<xs:element name="getAnneeUnivResponse" type="tns:getAnneeUnivResponse" />
+			<xs:element name="getEtape" type="tns:getEtape" />
+			<xs:element name="getEtapeResponse" type="tns:getEtapeResponse" />
+			<xs:element name="getVersionEtapeByCmp" type="tns:getVersionEtapeByCmp" />
+			<xs:element name="getVersionEtapeByCmpResponse" type="tns:getVersionEtapeByCmpResponse" />
+			<xs:element name="getVersionEtapeByCodeAnnee" type="tns:getVersionEtapeByCodeAnnee" />
+			<xs:element name="getVersionEtapeByCodeAnneeResponse"
+				type="tns:getVersionEtapeByCodeAnneeResponse" />
+			<xs:element name="versionEtapeExistsWithCmp" type="tns:versionEtapeExistsWithCmp" />
+			<xs:element name="versionEtapeExistsWithCmpResponse" type="tns:versionEtapeExistsWithCmpResponse" />
+			<xs:complexType name="getVersionEtapeByCodeAnnee">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="codeAnnee" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="getVersionEtapeByCodeAnneeResponse">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="return"
+						type="tns:versionEtapeDTO" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="versionEtapeDTO">
+				<xs:complexContent>
+					<xs:extension base="tns:dto">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="barSaiVet" type="xs:int" />
+							<xs:element minOccurs="0" name="codCgeMinVet" type="xs:string" />
+							<xs:element minOccurs="0" name="codCgeMinpVet" type="xs:string" />
+							<xs:element minOccurs="0" name="codCipAdipVet" type="xs:string" />
+							<xs:element minOccurs="0" name="codEtp" type="xs:string" />
+							<xs:element minOccurs="0" name="codPan1" type="xs:string" />
+							<xs:element minOccurs="0" name="codPan2" type="xs:string" />
+							<xs:element minOccurs="0" name="codPan3" type="xs:string" />
+							<xs:element minOccurs="0" name="codPan4" type="xs:string" />
+							<xs:element minOccurs="0" name="codTreNeg" type="xs:string" />
+							<xs:element minOccurs="0" name="codTrePos" type="xs:string" />
+							<xs:element name="codVrsVet" type="xs:int" />
+							<xs:element minOccurs="0" name="composante" type="tns:composanteDTO" />
+							<xs:element minOccurs="0" name="datDebDefPacesRee"
+								type="xs:dateTime" />
+							<xs:element minOccurs="0" name="datDebMinVet" type="xs:dateTime" />
+							<xs:element minOccurs="0" name="datDebMinpVet" type="xs:dateTime" />
+							<xs:element minOccurs="0" name="datDebPacesRee" type="xs:dateTime" />
+							<xs:element minOccurs="0" name="datDebPacesSim" type="xs:dateTime" />
+							<xs:element minOccurs="0" name="datDebProvPacesRee"
+								type="xs:dateTime" />
+							<xs:element minOccurs="0" name="datDebProvPacesSim"
+								type="xs:dateTime" />
+							<xs:element minOccurs="0" name="datFinDefPacesRee"
+								type="xs:dateTime" />
+							<xs:element minOccurs="0" name="datFinMinVet" type="xs:dateTime" />
+							<xs:element minOccurs="0" name="datFinMinpVet" type="xs:dateTime" />
+							<xs:element minOccurs="0" name="datFinPacesRee" type="xs:dateTime" />
+							<xs:element minOccurs="0" name="datFinPacesSim" type="xs:dateTime" />
+							<xs:element minOccurs="0" name="datFinProvPacesRee"
+								type="xs:dateTime" />
+							<xs:element minOccurs="0" name="datFinProvPacesSim"
+								type="xs:dateTime" />
+							<xs:element minOccurs="0" name="etape" type="tns:etapeDTO" />
+							<xs:element minOccurs="0" name="grpPacesVet" type="xs:string" />
+							<xs:element minOccurs="0" name="libCmtVet" type="xs:string" />
+							<xs:element minOccurs="0" name="libWebVet" type="xs:string" />
+							<xs:element minOccurs="0" name="lim1Vet" type="xs:string" />
+							<xs:element minOccurs="0" name="lim2Vet" type="xs:string" />
+							<xs:element minOccurs="0" name="lim3Vet" type="xs:string" />
+							<xs:element minOccurs="0" name="nbrAdmVet" type="xs:int" />
+							<xs:element minOccurs="0" name="nbrCrdVet" type="xs:double" />
+							<xs:element minOccurs="0" name="nbrVolHorVet" type="xs:int" />
+							<xs:element minOccurs="0" name="temAdi" type="xs:string" />
+							<xs:element minOccurs="0" name="temAdo" type="xs:string" />
+							<xs:element minOccurs="0" name="temDipVet" type="xs:string" />
+							<xs:element minOccurs="0" name="temJurVet" type="xs:string" />
+							<xs:element minOccurs="0" name="temMndVet" type="xs:string" />
+							<xs:element minOccurs="0" name="temNotVet" type="xs:string" />
+							<xs:element minOccurs="0" name="temOpiMinVet" type="xs:string" />
+							<xs:element minOccurs="0" name="temPmt3fVetWeb" type="xs:string" />
+							<xs:element minOccurs="0" name="temPntJurVet" type="xs:string" />
+							<xs:element minOccurs="0" name="temReinsSansDelib"
+								type="xs:string" />
+							<xs:element minOccurs="0" name="temResVet" type="xs:string" />
+							<xs:element minOccurs="0" name="temSesUni" type="xs:string" />
+							<xs:element minOccurs="0" name="temTlsVet" type="xs:string" />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType abstract="true" name="dto">
+				<xs:sequence />
+			</xs:complexType>
+			<xs:complexType name="composanteDTO">
+				<xs:complexContent>
+					<xs:extension base="tns:dto">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="codCmp" type="xs:string" />
+							<xs:element minOccurs="0" name="codComAdrCmp" type="xs:string" />
+							<xs:element minOccurs="0" name="codNatCmp" type="xs:string" />
+							<xs:element minOccurs="0" name="codPosAdrCmp" type="xs:string" />
+							<xs:element minOccurs="0" name="codRneCmp" type="xs:string" />
+							<xs:element minOccurs="0" name="codSig" type="xs:string" />
+							<xs:element minOccurs="0" name="codTpc" type="xs:string" />
+							<xs:element minOccurs="0" name="int1EdiDipCmp" type="xs:string" />
+							<xs:element minOccurs="0" name="int2EdiDipCmp" type="xs:string" />
+							<xs:element minOccurs="0" name="libAd1Cmp" type="xs:string" />
+							<xs:element minOccurs="0" name="libAd2Cmp" type="xs:string" />
+							<xs:element minOccurs="0" name="libAd3Cmp" type="xs:string" />
+							<xs:element minOccurs="0" name="libCmp" type="xs:string" />
+							<xs:element minOccurs="0" name="libCmtCmp" type="xs:string" />
+							<xs:element minOccurs="0" name="libWebCmp" type="xs:string" />
+							<xs:element minOccurs="0" name="licCmp" type="xs:string" />
+							<xs:element minOccurs="0" name="lim1Cmp" type="xs:string" />
+							<xs:element minOccurs="0" name="lim2Cmp" type="xs:string" />
+							<xs:element minOccurs="0" name="lim3Cmp" type="xs:string" />
+							<xs:element minOccurs="0" name="numOrdCmp" type="xs:int" />
+							<xs:element minOccurs="0" name="temCouAccTrvCmp" type="xs:string" />
+							<xs:element minOccurs="0" name="temElcCmp" type="xs:string" />
+							<xs:element minOccurs="0" name="temEnSveCmp" type="xs:string" />
+							<xs:element minOccurs="0" name="temMinCmp" type="xs:string" />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="etapeDTO">
+				<xs:complexContent>
+					<xs:extension base="tns:dto">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="codEtp" type="xs:string" />
+							<xs:element minOccurs="0" name="cycle" type="tns:cycleDTO" />
+							<xs:element minOccurs="0" name="libEtp" type="xs:string" />
+							<xs:element minOccurs="0" name="licEtp" type="xs:string" />
+							<xs:element minOccurs="0" name="nbrMaxIaeAut" type="xs:int" />
+							<xs:element minOccurs="0" name="nbrMaxInscDeug" type="xs:int" />
+							<xs:element minOccurs="0" name="temCouAccTrvEtp" type="xs:string" />
+							<xs:element minOccurs="0" name="temOuvDrtSsoEtp" type="xs:string" />
+							<xs:element minOccurs="0" name="temTypOpi" type="xs:string" />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="cycleDTO">
+				<xs:complexContent>
+					<xs:extension base="tns:dto">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="codCyc" type="xs:string" />
+							<xs:element minOccurs="0" name="libCyc" type="xs:string" />
+							<xs:element minOccurs="0" name="temDel" type="xs:string" />
+							<xs:element minOccurs="0" name="temEnSveCyc" type="xs:string" />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="getVersionEtapeByCmp">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="codeAnnee" type="xs:string" />
+					<xs:element minOccurs="0" name="codeCmp" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="getVersionEtapeByCmpResponse">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="return"
+						type="tns:versionEtapeDTO" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="getAnneeUniv">
+				<xs:sequence />
+			</xs:complexType>
+			<xs:complexType name="getAnneeUnivResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:anneeUniDTO" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="anneeUniDTO">
+				<xs:complexContent>
+					<xs:extension base="tns:dto">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="codAnu" type="xs:string" />
+							<xs:element minOccurs="0" name="datFrmOpi" type="xs:dateTime" />
+							<xs:element minOccurs="0" name="datOuvOpi" type="xs:dateTime" />
+							<xs:element minOccurs="0" name="etaAnuAgl" type="xs:string" />
+							<xs:element minOccurs="0" name="etaAnuIae" type="xs:string" />
+							<xs:element minOccurs="0" name="etaAnuIpe" type="xs:string" />
+							<xs:element minOccurs="0" name="etaAnuRes" type="xs:string" />
+							<xs:element minOccurs="0" name="libAnu" type="xs:string" />
+							<xs:element minOccurs="0" name="licAnu" type="xs:string" />
+							<xs:element name="numOccObtAdd" type="xs:int" />
+							<xs:element name="numOccObtCer" type="xs:int" />
+							<xs:element name="numOccObtVdi" type="xs:int" />
+							<xs:element name="numOccObtVdiUni" type="xs:int" />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="versionEtapeExistsWithCmp">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="codeCmp" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="versionEtapeExistsWithCmpResponse">
+				<xs:sequence>
+					<xs:element name="return" type="xs:boolean" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="getEtape">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="codeEtape" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="getEtapeResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:etapeDTO" />
+				</xs:sequence>
+			</xs:complexType>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="getVersionEtapeByCmpResponse">
+		<wsdl:part element="tns:getVersionEtapeByCmpResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getEtapeResponse">
+		<wsdl:part element="tns:getEtapeResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getEtape">
+		<wsdl:part element="tns:getEtape" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getVersionEtapeByCodeAnneeResponse">
+		<wsdl:part element="tns:getVersionEtapeByCodeAnneeResponse"
+			name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getVersionEtapeByCodeAnnee">
+		<wsdl:part element="tns:getVersionEtapeByCodeAnnee" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="versionEtapeExistsWithCmpResponse">
+		<wsdl:part element="tns:versionEtapeExistsWithCmpResponse"
+			name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getAnneeUniv">
+		<wsdl:part element="tns:getAnneeUniv" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getAnneeUnivResponse">
+		<wsdl:part element="tns:getAnneeUnivResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getVersionEtapeByCmp">
+		<wsdl:part element="tns:getVersionEtapeByCmp" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="versionEtapeExistsWithCmp">
+		<wsdl:part element="tns:versionEtapeExistsWithCmp" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="IService">
+		<wsdl:operation name="getVersionEtapeByCodeAnnee">
+			<wsdl:input message="tns:getVersionEtapeByCodeAnnee" name="getVersionEtapeByCodeAnnee">
+			</wsdl:input>
+			<wsdl:output message="tns:getVersionEtapeByCodeAnneeResponse"
+				name="getVersionEtapeByCodeAnneeResponse">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getVersionEtapeByCmp">
+			<wsdl:input message="tns:getVersionEtapeByCmp" name="getVersionEtapeByCmp">
+			</wsdl:input>
+			<wsdl:output message="tns:getVersionEtapeByCmpResponse"
+				name="getVersionEtapeByCmpResponse">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getAnneeUniv">
+			<wsdl:input message="tns:getAnneeUniv" name="getAnneeUniv">
+			</wsdl:input>
+			<wsdl:output message="tns:getAnneeUnivResponse" name="getAnneeUnivResponse">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="versionEtapeExistsWithCmp">
+			<wsdl:input message="tns:versionEtapeExistsWithCmp" name="versionEtapeExistsWithCmp">
+			</wsdl:input>
+			<wsdl:output message="tns:versionEtapeExistsWithCmpResponse"
+				name="versionEtapeExistsWithCmpResponse">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getEtape">
+			<wsdl:input message="tns:getEtape" name="getEtape">
+			</wsdl:input>
+			<wsdl:output message="tns:getEtapeResponse" name="getEtapeResponse">
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="ServiceServiceSoapBinding" type="tns:IService">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="getVersionEtapeByCodeAnnee">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getVersionEtapeByCodeAnnee">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getVersionEtapeByCodeAnneeResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getVersionEtapeByCmp">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getVersionEtapeByCmp">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getVersionEtapeByCmpResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getAnneeUniv">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getAnneeUniv">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getAnneeUnivResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="versionEtapeExistsWithCmp">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="versionEtapeExistsWithCmp">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="versionEtapeExistsWithCmpResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getEtape">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="getEtape">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getEtapeResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="ServiceService">
+		<wsdl:port binding="tns:ServiceServiceSoapBinding" name="ServicePort">
+			<soap:address location="http://localhost:8080/cxf/ApogeeService" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

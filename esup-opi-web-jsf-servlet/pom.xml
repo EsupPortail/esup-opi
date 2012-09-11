@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>esup-opi</artifactId>
         <groupId>org.esupportail</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>org.esupportail</groupId>
     <artifactId>esup-opi-web-jsf-servlet</artifactId>
     <packaging>war</packaging>
     <description>couche d'acces aux donnees</description>
@@ -27,16 +30,22 @@
             </resource>
         </resources>
         <plugins>
-	    	<plugin>
-		        <artifactId>maven-war-plugin</artifactId>
-		        <version>2.1</version>
-		        <configuration>
-		            <warName>${project.parent.artifactId}</warName>
-		        </configuration>
-		    </plugin>
-	    </plugins>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <warName>${project.parent.artifactId}</warName>
+                    <!-- <dependentWarExcludes>WEB-INF/lib/*</dependentWarExcludes> -->
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
     <dependencies>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.0.2.GA</version>
+        </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
@@ -44,24 +53,49 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.primefaces</groupId>
-            <artifactId>primefaces</artifactId>
-            <version>2.2</version>
+            <groupId>org.apache.avalon.framework</groupId>
+            <artifactId>avalon-framework-api</artifactId>
+            <version>4.3.1</version>
         </dependency>
         <dependency>
-            <groupId>org.esupportail</groupId>
-            <artifactId>esup-commons2-jsf2-exception</artifactId>
-            <version>${esupcommons.version}</version>
+            <groupId>org.apache.avalon.framework</groupId>
+            <artifactId>avalon-framework-impl</artifactId>
+            <version>4.3.1</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>4.0.2.GA</version>
+            <groupId>fop</groupId>
+            <artifactId>fop</artifactId>
+            <version>0.20.5</version>
         </dependency>
         <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-opi-domain-services</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.esupportail</groupId>
+            <artifactId>esup-opi-utils</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.8</version>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>3.4-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.portlet</groupId>
+            <artifactId>portlet-api</artifactId>
+            <version>2.0</version>
         </dependency>
     </dependencies>
     <properties>
@@ -74,5 +108,4 @@
         <log.file>/tmp/${project.parent.artifactId}.log</log.file>
         <cache.path>/tmp/${project.parent.artifactId}/cache</cache.path>
     </properties>
-
 </project>

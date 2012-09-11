@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>esup-opi</artifactId>
         <groupId>org.esupportail</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>org.esupportail</groupId>
     <artifactId>esup-opi-domain-services</artifactId>
     <description>Domain Interface and Impl</description>
+    <!-- <build> -->
+    <!-- <plugins> -->
+    <!-- <plugin> -->
+    <!-- <groupId>org.appfuse</groupId> -->
+    <!-- <artifactId>maven-warpath-plugin</artifactId> -->
+    <!-- <version>2.0.2</version> -->
+    <!-- <extensions>true</extensions> -->
+    <!-- <executions> -->
+    <!-- <execution> -->
+    <!-- <goals> -->
+    <!-- <goal>add-classes</goal> -->
+    <!-- </goals> -->
+    <!-- </execution> -->
+    <!-- </executions> -->
+    <!-- </plugin> -->
+    <!-- </plugins> -->
+    <!-- </build> -->
     <dependencies>
         <dependency>
             <groupId>org.esupportail</groupId>
@@ -21,6 +41,70 @@
             <artifactId>esup-commons2-auth</artifactId>
             <version>${esupcommons.version}</version>
             <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.esupportail</groupId>
+            <artifactId>esup-opi-dao</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>opensymphony</groupId>
+            <artifactId>quartz</artifactId>
+            <version>1.6.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.esupportail</groupId>
+            <artifactId>esup-opi-utils</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.esupportail</groupId>
+            <artifactId>esup-commons2-ldap</artifactId>
+            <version>0.2.8</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>esup-commons2-core</artifactId>
+                    <groupId>org.esupportail</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.esupportail</groupId>
+            <artifactId>esup-commons2-jsf2-exception</artifactId>
+            <version>${esupcommons.version}</version>
+        </dependency>
+        <!-- <dependency> -->
+        <!-- <groupId>orbeon</groupId> -->
+        <!-- <artifactId>orbeon-war</artifactId> -->
+        <!-- <version>3.9.0.201105152046-CE</version> -->
+        <!-- <type>war</type> -->
+        <!-- </dependency> -->
+        <!-- <dependency> -->
+        <!-- <groupId>orbeon</groupId> -->
+        <!-- <artifactId>orbeon-war</artifactId> -->
+        <!-- <version>3.9.0.201105152046-CE</version> -->
+        <!-- <type>warpath</type> -->
+        <!-- </dependency> -->
+        <dependency>
+            <groupId>org.esupportail</groupId>
+            <artifactId>esup-commons2-annotations</artifactId>
+            <version>0.2.2</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>esup-commons2-core</artifactId>
+                    <groupId>org.esupportail</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>xmldb</groupId>
+            <artifactId>xmldb-api</artifactId>
+            <version>20021118</version>
+        </dependency>
+        <dependency>
+            <groupId>org.exist</groupId>
+            <artifactId>exist</artifactId>
+            <version>1.4.0</version>
         </dependency>
     </dependencies>
 </project>
