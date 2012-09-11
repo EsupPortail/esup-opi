@@ -1,4 +1,4 @@
-package org.esupportail.opi.utils.test;
+package org.esupportail.opi.utils;
 
 import java.util.ArrayList;
 import java.util.List;
