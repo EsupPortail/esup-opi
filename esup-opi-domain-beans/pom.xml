@@ -30,65 +30,10 @@
                                     <extraarg>-xjc-Xfluent-api</extraarg>
                                 </extraargs>
                             </defaultOptions>
-                            <wsdlOptions>
-                                <wsdlOption>
-                                    <!-- <Packagenames> -->
-                                    <!-- <Packagename>org.esupportail.apogee.readref</Packagename> -->
-                                    <!-- </Packagenames> -->
-                                    <wsdl>http://apo-cri-webservices.univ-rennes1.fr/esup-ws-si/cxf/ReadReferentiel?WSDL</wsdl>
-                                </wsdlOption>
-                                <wsdlOption>
-                                    <!-- <Packagenames> -->
-                                    <!-- <Packagename>org.esupportail.apogee.readens</Packagename> -->
-                                    <!-- </Packagenames> -->
-                                    <wsdl>http://apo-cri-webservices.univ-rennes1.fr/esup-ws-si/cxf/ReadEnseignement?WSDL</wsdl>
-                                </wsdlOption>
-                                <wsdlOption>
-                                    <!-- <Packagenames> -->
-                                    <!-- <Packagename>org.esupportail.apogee.inslaispass</Packagename> -->
-                                    <!-- </Packagenames> -->
-                                    <wsdl>http://apo-cri-webservices.univ-rennes1.fr/esup-ws-si/cxf/InsertLaisserPasser?WSDL</wsdl>
-                                </wsdlOption>
-                                <wsdlOption>
-                                    <!-- <Packagenames> -->
-                                    <!-- <Packagename>org.esupportail.apogee.readetu</Packagename> -->
-                                    <!-- </Packagenames> -->
-                                    <wsdl>http://apo-cri-webservices.univ-rennes1.fr/esup-ws-si/cxf/ReadEtudiant?WSDL</wsdl>
-                                </wsdlOption>
-                                <wsdlOption>
-                                    <!-- <Packagenames> -->
-                                    <!-- <Packagename>gouv.education.apogee.geographiemetier</Packagename> -->
-                                    <!-- </Packagenames> -->
-                                    <wsdl>http://apo-webservices.univ-rennes1.fr/services/GeographieMetier?wsdl</wsdl>
-                                </wsdlOption>
-                                <wsdlOption>
-                                    <!-- <Packagenames> -->
-                                    <!-- <Packagename>gouv.education.apogee.pedagogiquemetier</Packagename> -->
-                                    <!-- </Packagenames> -->
-                                    <wsdl>http://apo-webservices.univ-rennes1.fr/services/PedagogiqueMetier?wsdl</wsdl>
-                                </wsdlOption>
-                                <wsdlOption>
-                                    <!-- <Packagenames> -->
-                                    <!-- <Packagename>gouv.education.apogee.etudiantmetier</Packagename> -->
-                                    <!-- </Packagenames> -->
-                                    <wsdl>http://apo-webservices.univ-rennes1.fr/services/EtudiantMetier?wsdl</wsdl>
-                                </wsdlOption>
-                                <wsdlOption>
-                                    <!-- <Packagenames> -->
-                                    <!-- <Packagename>gouv.education.apogee.administratifmetier</Packagename> -->
-                                    <!-- </Packagenames> -->
-                                    <wsdl>http://apo-webservices.univ-rennes1.fr/services/AdministratifMetier?wsdl</wsdl>
-                                </wsdlOption>
-                                <wsdlOption>
-                                    <!-- <Packagenames> -->
-                                    <!-- <Packagename>gouv.education.apogee.opimetier</Packagename> -->
-                                    <!-- </Packagenames> -->
-                                    <wsdl>http://apo-webservices.univ-rennes1.fr/services/OpiMetier?wsdl</wsdl>
-                                </wsdlOption>
-                                <wsdlOption>
-                                    <wsdl>http://apo-cri-webservices.univ-rennes1.fr/xfire/ReadRennes1?WSDL</wsdl>
-                                </wsdlOption>
-                            </wsdlOptions>
+                            <wsdlRoot>${basedir}/src/main/resources/META-INF/wsdl</wsdlRoot>
+                            <includes>
+                                <include>*.wsdl</include>
+                            </includes>
                         </configuration>
                         <goals>
                             <goal>wsdl2java</goal>

@@ -1,0 +1,1337 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="ReadReferentielImplService" targetNamespace="http://remote.services.wssi.esupportail.org/" xmlns:ns1="http://cxf.apache.org/bindings/xformat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://remote.services.wssi.esupportail.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+<xs:schema elementFormDefault="unqualified" targetNamespace="http://remote.services.wssi.esupportail.org/" version="1.0" xmlns:tns="http://remote.services.wssi.esupportail.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:element name="getBacOuxEqus" type="tns:getBacOuxEqus" />
+<xs:element name="getBacOuxEqusResponse" type="tns:getBacOuxEqusResponse" />
+<xs:element name="getBatiment" type="tns:getBatiment" />
+<xs:element name="getBatimentResponse" type="tns:getBatimentResponse" />
+<xs:element name="getBatiments" type="tns:getBatiments" />
+<xs:element name="getBatimentsResponse" type="tns:getBatimentsResponse" />
+<xs:element name="getCentreGestion" type="tns:getCentreGestion" />
+<xs:element name="getCentreGestionResponse" type="tns:getCentreGestionResponse" />
+<xs:element name="getCentreGestions" type="tns:getCentreGestions" />
+<xs:element name="getCentreGestionsResponse" type="tns:getCentreGestionsResponse" />
+<xs:element name="getComBdi" type="tns:getComBdi" />
+<xs:element name="getComBdi1" type="tns:getComBdi1" />
+<xs:element name="getComBdi1Response" type="tns:getComBdi1Response" />
+<xs:element name="getComBdiResponse" type="tns:getComBdiResponse" />
+<xs:element name="getCommune" type="tns:getCommune" />
+<xs:element name="getCommuneResponse" type="tns:getCommuneResponse" />
+<xs:element name="getCommunes" type="tns:getCommunes" />
+<xs:element name="getCommunesResponse" type="tns:getCommunesResponse" />
+<xs:element name="getComposantes" type="tns:getComposantes" />
+<xs:element name="getComposantesResponse" type="tns:getComposantesResponse" />
+<xs:element name="getDateDebWeb" type="tns:getDateDebWeb" />
+<xs:element name="getDateDebWebPrimoNb" type="tns:getDateDebWebPrimoNb" />
+<xs:element name="getDateDebWebPrimoNbResponse" type="tns:getDateDebWebPrimoNbResponse" />
+<xs:element name="getDateDebWebPrimoNnb" type="tns:getDateDebWebPrimoNnb" />
+<xs:element name="getDateDebWebPrimoNnbResponse" type="tns:getDateDebWebPrimoNnbResponse" />
+<xs:element name="getDateDebWebResponse" type="tns:getDateDebWebResponse" />
+<xs:element name="getDepartement" type="tns:getDepartement" />
+<xs:element name="getDepartementResponse" type="tns:getDepartementResponse" />
+<xs:element name="getDepartements" type="tns:getDepartements" />
+<xs:element name="getDepartementsResponse" type="tns:getDepartementsResponse" />
+<xs:element name="getEtablissement" type="tns:getEtablissement" />
+<xs:element name="getEtablissementResponse" type="tns:getEtablissementResponse" />
+<xs:element name="getEtablissements" type="tns:getEtablissements" />
+<xs:element name="getEtablissementsResponse" type="tns:getEtablissementsResponse" />
+<xs:element name="getMentionNivBacs" type="tns:getMentionNivBacs" />
+<xs:element name="getMentionNivBacsResponse" type="tns:getMentionNivBacsResponse" />
+<xs:element name="getNiveauxFormation" type="tns:getNiveauxFormation" />
+<xs:element name="getNiveauxFormationResponse" type="tns:getNiveauxFormationResponse" />
+<xs:element name="getPays" type="tns:getPays" />
+<xs:element name="getPaysResponse" type="tns:getPaysResponse" />
+<xs:element name="getSalle" type="tns:getSalle" />
+<xs:element name="getSalleResponse" type="tns:getSalleResponse" />
+<xs:element name="getSalles" type="tns:getSalles" />
+<xs:element name="getSallesResponse" type="tns:getSallesResponse" />
+<xs:element name="getSecDisSis" type="tns:getSecDisSis" />
+<xs:element name="getSecDisSisResponse" type="tns:getSecDisSisResponse" />
+<xs:element name="getSignataire" type="tns:getSignataire" />
+<xs:element name="getSignataireResponse" type="tns:getSignataireResponse" />
+<xs:element name="getSignataires" type="tns:getSignataires" />
+<xs:element name="getSignatairesResponse" type="tns:getSignatairesResponse" />
+<xs:element name="getSpecialites" type="tns:getSpecialites" />
+<xs:element name="getSpecialitesResponse" type="tns:getSpecialitesResponse" />
+<xs:element name="getTypResultats" type="tns:getTypResultats" />
+<xs:element name="getTypResultatsResponse" type="tns:getTypResultatsResponse" />
+<xs:element name="getUtilisateur" type="tns:getUtilisateur" />
+<xs:element name="getUtilisateurResponse" type="tns:getUtilisateurResponse" />
+<xs:element name="getVariableAppli" type="tns:getVariableAppli" />
+<xs:element name="getVariableAppliResponse" type="tns:getVariableAppliResponse" />
+<xs:complexType name="getEtablissement">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getEtablissementResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:etablissement" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="etablissement">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codAFFEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="codAffDepEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="codComAdrEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="codDep" type="xs:string" />
+      <xs:element minOccurs="0" name="codEsuEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="codEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="codPayAdrEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="codPosAdrEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="codPruChg" type="xs:string" />
+      <xs:element minOccurs="0" name="codPruPrl" type="xs:string" />
+      <xs:element minOccurs="0" name="codSte" type="xs:string" />
+      <xs:element minOccurs="0" name="codTpe" type="xs:string" />
+      <xs:element minOccurs="0" name="libAd1Etb" type="xs:string" />
+      <xs:element minOccurs="0" name="libAd2Etb" type="xs:string" />
+      <xs:element minOccurs="0" name="libAd3Etb" type="xs:string" />
+      <xs:element minOccurs="0" name="libAdeEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="libArtOffEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="libCmtEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="libEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="libOffEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="libWebEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="licEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="numOrdEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="temAutSisEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="temCnvEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="temEnSveEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="temPreSisEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="temPubEtb" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getVariableAppli">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getVariableAppliResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:variableAppliDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="variableAppliDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codVap" type="xs:string" />
+      <xs:element minOccurs="0" name="libVap" type="xs:string" />
+      <xs:element minOccurs="0" name="parVap" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getComBdi">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getComBdiResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:comBdi" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="comBdi">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codBdi" type="xs:string" />
+      <xs:element minOccurs="0" name="codCom" type="xs:string" />
+      <xs:element minOccurs="0" name="codFicCbd" type="xs:string" />
+      <xs:element minOccurs="0" name="etatPtcAch" type="xs:string" />
+      <xs:element minOccurs="0" name="etatPtcLoc" type="xs:string" />
+      <xs:element minOccurs="0" name="libAch" type="xs:string" />
+      <xs:element minOccurs="0" name="temEnSveCbd" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getSalle">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getSalleResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:salleDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="salleDTO">
+    <xs:complexContent>
+      <xs:extension base="tns:dto">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="batimentDTO" type="tns:batimentDTO" />
+          <xs:element minOccurs="0" name="codSal" type="xs:string" />
+          <xs:element minOccurs="0" name="codTsa" type="xs:string" />
+          <xs:element minOccurs="0" name="libSal" type="xs:string" />
+          <xs:element minOccurs="0" name="nbrCpcEnsSal" type="xs:int" />
+          <xs:element minOccurs="0" name="nbrCpcExaSal" type="xs:int" />
+          <xs:element minOccurs="0" name="nbrPlcExaDspSal" type="xs:int" />
+          <xs:element minOccurs="0" name="numDepSal" type="xs:int" />
+          <xs:element minOccurs="0" name="numEtgBatSal" type="xs:int" />
+          <xs:element minOccurs="0" name="numTelSal" type="xs:string" />
+          <xs:element name="pasNmrSal" type="xs:boolean" />
+          <xs:element minOccurs="0" name="temAccThpSal" type="xs:string" />
+          <xs:element minOccurs="0" name="temEnSveSal" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType abstract="true" name="dto">
+    <xs:sequence />
+  </xs:complexType>
+<xs:complexType name="batimentDTO">
+    <xs:complexContent>
+      <xs:extension base="tns:dto">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="codBat" type="xs:string" />
+          <xs:element minOccurs="0" name="libBat" type="xs:string" />
+          <xs:element minOccurs="0" name="libLocBat" type="xs:string" />
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="sallesDTO" nillable="true" type="tns:salleDTO" />
+          <xs:element minOccurs="0" name="temEnSveBat" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="getCentreGestions">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getCentreGestionsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:centreGestion" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="centreGestion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codCge" type="xs:string" />
+      <xs:element minOccurs="0" name="codComAdrCge" type="xs:string" />
+      <xs:element minOccurs="0" name="codCpa" type="xs:string" />
+      <xs:element minOccurs="0" name="codModPaiMinCge" type="xs:string" />
+      <xs:element minOccurs="0" name="codModPaiMinpCge" type="xs:string" />
+      <xs:element minOccurs="0" name="codPosAdrCge" type="xs:string" />
+      <xs:element minOccurs="0" name="datDebInsCge" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="datFinInsCge" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="etatypEdtCrtCge" type="xs:string" />
+      <xs:element minOccurs="0" name="libAd1Cge" type="xs:string" />
+      <xs:element minOccurs="0" name="libAd2Cge" type="xs:string" />
+      <xs:element minOccurs="0" name="libAd3Cge" type="xs:string" />
+      <xs:element minOccurs="0" name="libCge" type="xs:string" />
+      <xs:element minOccurs="0" name="libCmtCge" type="xs:string" />
+      <xs:element minOccurs="0" name="libCmtPcjMinCge" type="xs:string" />
+      <xs:element minOccurs="0" name="libNomRespCge" type="xs:string" />
+      <xs:element minOccurs="0" name="licCge" type="xs:string" />
+      <xs:element minOccurs="0" name="modEdtCrt" type="xs:string" />
+      <xs:element minOccurs="0" name="nbrEtuCpt" type="xs:int" />
+      <xs:element minOccurs="0" name="nbrMaxInsAut" type="xs:int" />
+      <xs:element minOccurs="0" name="numChrQutCge" type="xs:int" />
+      <xs:element minOccurs="0" name="numOccPrmQutVal" type="xs:int" />
+      <xs:element minOccurs="0" name="numOccQutEdt" type="xs:int" />
+      <xs:element minOccurs="0" name="numOccQutEdtLch" type="xs:int" />
+      <xs:element minOccurs="0" name="numOccQutEdtVdr" type="xs:int" />
+      <xs:element minOccurs="0" name="numOccQutVal" type="xs:int" />
+      <xs:element minOccurs="0" name="temCtrlPai" type="xs:string" />
+      <xs:element minOccurs="0" name="temCtrlRmb" type="xs:string" />
+      <xs:element minOccurs="0" name="temEnSveCge" type="xs:string" />
+      <xs:element minOccurs="0" name="temMinCge" type="xs:string" />
+      <xs:element minOccurs="0" name="temPaiMemePos" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getNiveauxFormation">
+    <xs:sequence />
+  </xs:complexType>
+<xs:complexType name="getNiveauxFormationResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:niveauFormation" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="niveauFormation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codNif" type="xs:int" />
+      <xs:element minOccurs="0" name="libNif" type="xs:string" />
+      <xs:element minOccurs="0" name="temEnSveNif" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getEtablissements">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+      <xs:element minOccurs="0" name="arg1" type="xs:string" />
+      <xs:element minOccurs="0" name="arg2" type="xs:string" />
+      <xs:element minOccurs="0" name="arg3" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getEtablissementsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:etablissement" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getBatiment">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getBatimentResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:batimentDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getSignataire">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getSignataireResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:signataireDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="signataireDTO">
+    <xs:complexContent>
+      <xs:extension base="tns:dto">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="codSig" type="xs:string" />
+          <xs:element minOccurs="0" name="nomSig" type="xs:string" />
+          <xs:element minOccurs="0" name="quaSig" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="getSignataires">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getSignatairesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:signataireDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getCommune">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getCommuneResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:communeDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="communeDTO">
+    <xs:complexContent>
+      <xs:extension base="tns:dto">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="codCom" type="xs:string" />
+          <xs:element minOccurs="0" name="codDep" type="xs:string" />
+          <xs:element minOccurs="0" name="libCom" type="xs:string" />
+          <xs:element minOccurs="0" name="temEnSveCom" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="getTypResultats">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:critereTypResultatDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="critereTypResultatDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="onlyResultPositive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="temEnSveTre" type="xs:boolean" />
+      <xs:element minOccurs="0" name="typeCritereTypResultat" type="tns:typeCritereTypResultat" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getTypResultatsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:typResultatDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="typResultatDTO">
+    <xs:complexContent>
+      <xs:extension base="tns:dto">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="codTre" type="xs:string" />
+          <xs:element minOccurs="0" name="libTre" type="xs:string" />
+          <xs:element minOccurs="0" name="licTre" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="getPays">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getPaysResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:pays" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="pays">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codPay" type="xs:string" />
+      <xs:element minOccurs="0" name="codSisPay" type="xs:string" />
+      <xs:element minOccurs="0" name="libNat" type="xs:string" />
+      <xs:element minOccurs="0" name="libPay" type="xs:string" />
+      <xs:element minOccurs="0" name="licPay" type="xs:string" />
+      <xs:element minOccurs="0" name="temAflDecIndPay" type="xs:string" />
+      <xs:element minOccurs="0" name="temDel" type="xs:string" />
+      <xs:element minOccurs="0" name="temEnSvePay" type="xs:string" />
+      <xs:element minOccurs="0" name="temOuvDrtSsoPay" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getComposantes">
+    <xs:sequence />
+  </xs:complexType>
+<xs:complexType name="getComposantesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:composanteDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="composanteDTO">
+    <xs:complexContent>
+      <xs:extension base="tns:dto">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="codCmp" type="xs:string" />
+          <xs:element minOccurs="0" name="codSig" type="xs:string" />
+          <xs:element minOccurs="0" name="libCmp" type="xs:string" />
+          <xs:element minOccurs="0" name="libWebCmp" type="xs:string" />
+          <xs:element minOccurs="0" name="licCmp" type="xs:string" />
+          <xs:element minOccurs="0" name="temEnSveCmp" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="getMentionNivBacs">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getMentionNivBacsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:mentionNivBac" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="mentionNivBac">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codMnb" type="xs:string" />
+      <xs:element minOccurs="0" name="libMnb" type="xs:string" />
+      <xs:element minOccurs="0" name="licMnb" type="xs:string" />
+      <xs:element minOccurs="0" name="temEnSveMnb" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getDateDebWeb">
+    <xs:sequence />
+  </xs:complexType>
+<xs:complexType name="getDateDebWebResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getCommunes">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+      <xs:element minOccurs="0" name="arg1" type="xs:string" />
+      <xs:element minOccurs="0" name="arg2" type="xs:string" />
+      <xs:element minOccurs="0" name="arg3" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getCommunesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:communeDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getSecDisSis">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getSecDisSisResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:secDisSis" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="secDisSis">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codDsi" type="xs:string" />
+      <xs:element minOccurs="0" name="codSds" type="xs:string" />
+      <xs:element minOccurs="0" name="libSds" type="xs:string" />
+      <xs:element minOccurs="0" name="licSds" type="xs:string" />
+      <xs:element minOccurs="0" name="temEnSveSds" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getCentreGestion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getCentreGestionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:centreGestion" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getComBdi1">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+      <xs:element minOccurs="0" name="arg1" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getComBdi1Response">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:comBdi" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getDepartements">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getDepartementsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:departement" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="departement">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codDep" type="xs:string" />
+      <xs:element minOccurs="0" name="libDep" type="xs:string" />
+      <xs:element minOccurs="0" name="licDep" type="xs:string" />
+      <xs:element minOccurs="0" name="temEnSveDep" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getSalles">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+      <xs:element minOccurs="0" name="arg1" type="xs:string" />
+      <xs:element minOccurs="0" name="arg2" type="xs:string" />
+      <xs:element minOccurs="0" name="arg3" type="xs:string" />
+      <xs:element minOccurs="0" name="arg4" type="xs:string" />
+      <xs:element minOccurs="0" name="arg5" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getSallesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:salleDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getUtilisateur">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getUtilisateurResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:utilisateurDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="utilisateurDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codCge" type="xs:string" />
+      <xs:element minOccurs="0" name="codCin" type="xs:string" />
+      <xs:element minOccurs="0" name="codCip" type="xs:string" />
+      <xs:element minOccurs="0" name="codImp" type="xs:string" />
+      <xs:element minOccurs="0" name="codTut" type="xs:string" />
+      <xs:element minOccurs="0" name="codUti" type="xs:string" />
+      <xs:element minOccurs="0" name="libCmtUti" type="xs:string" />
+      <xs:element minOccurs="0" name="typUtilisateur" type="tns:typUtilisateur" />
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="utiCmps" nillable="true" type="tns:utiCmp" />
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="utiCollecterCtns" nillable="true" type="tns:utiCollecterCtn" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="typUtilisateur">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codTut" type="xs:string" />
+      <xs:element minOccurs="0" name="libCmtTut" type="xs:string" />
+      <xs:element minOccurs="0" name="libTut" type="xs:string" />
+      <xs:element minOccurs="0" name="temCofNot" type="xs:string" />
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="tutAvoirDroitFtps" nillable="true" type="tns:tutAvoirDroitFtp" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="tutAvoirDroitFtp">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codDom" type="xs:string" />
+      <xs:element minOccurs="0" name="codTrt" type="xs:string" />
+      <xs:element minOccurs="0" name="codTut" type="xs:string" />
+      <xs:element minOccurs="0" name="numOccFct" type="xs:int" />
+      <xs:element minOccurs="0" name="numOccFtp" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="utiCmp">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codCmp" type="xs:string" />
+      <xs:element minOccurs="0" name="codUti" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="utiCollecterCtn">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codCtn" type="xs:string" />
+      <xs:element minOccurs="0" name="codUti" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getBacOuxEqus">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+      <xs:element minOccurs="0" name="arg1" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getBacOuxEqusResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:bacOuxEqu" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="bacOuxEqu">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codBac" type="xs:string" />
+      <xs:element minOccurs="0" name="codSis" type="xs:string" />
+      <xs:element minOccurs="0" name="codSisBac" type="xs:string" />
+      <xs:element minOccurs="0" name="codTds" type="xs:string" />
+      <xs:element minOccurs="0" name="daaDebVldBac" type="xs:string" />
+      <xs:element minOccurs="0" name="daaFinVldBac" type="xs:string" />
+      <xs:element minOccurs="0" name="libBac" type="xs:string" />
+      <xs:element minOccurs="0" name="licBac" type="xs:string" />
+      <xs:element minOccurs="0" name="temDel" type="xs:string" />
+      <xs:element minOccurs="0" name="temEnSveBac" type="xs:string" />
+      <xs:element minOccurs="0" name="temEtb" type="xs:string" />
+      <xs:element minOccurs="0" name="temMnb" type="xs:string" />
+      <xs:element minOccurs="0" name="temObtTitEtbSec" type="xs:string" />
+      <xs:element minOccurs="0" name="temTypeEqui" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getBatiments">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getBatimentsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:batimentDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getDepartement">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getDepartementResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:departement" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getDateDebWebPrimoNnb">
+    <xs:sequence />
+  </xs:complexType>
+<xs:complexType name="getDateDebWebPrimoNnbResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getSpecialites">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getSpecialitesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:specialite" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="specialite">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codSpe" type="xs:string" />
+      <xs:element minOccurs="0" name="libSpe" type="xs:string" />
+      <xs:element minOccurs="0" name="libWebSpe" type="xs:string" />
+      <xs:element minOccurs="0" name="licSpe" type="xs:string" />
+      <xs:element minOccurs="0" name="lim1Spe" type="xs:string" />
+      <xs:element minOccurs="0" name="lim2Spe" type="xs:string" />
+      <xs:element minOccurs="0" name="lim3Spe" type="xs:string" />
+      <xs:element minOccurs="0" name="temEnSveSpe" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getDateDebWebPrimoNb">
+    <xs:sequence />
+  </xs:complexType>
+<xs:complexType name="getDateDebWebPrimoNbResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:simpleType name="typeCritereTypResultat">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="onlyResultVdi" />
+      <xs:enumeration value="onlyResultVet" />
+      <xs:enumeration value="all" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getEtablissements">
+    <wsdl:part element="tns:getEtablissements" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDateDebWebPrimoNb">
+    <wsdl:part element="tns:getDateDebWebPrimoNb" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getComposantesResponse">
+    <wsdl:part element="tns:getComposantesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCentreGestion">
+    <wsdl:part element="tns:getCentreGestion" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getComBdi1">
+    <wsdl:part element="tns:getComBdi1" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getComBdi1Response">
+    <wsdl:part element="tns:getComBdi1Response" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSignataires">
+    <wsdl:part element="tns:getSignataires" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMentionNivBacs">
+    <wsdl:part element="tns:getMentionNivBacs" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVariableAppliResponse">
+    <wsdl:part element="tns:getVariableAppliResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSalleResponse">
+    <wsdl:part element="tns:getSalleResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTypResultatsResponse">
+    <wsdl:part element="tns:getTypResultatsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCentreGestionsResponse">
+    <wsdl:part element="tns:getCentreGestionsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBacOuxEqusResponse">
+    <wsdl:part element="tns:getBacOuxEqusResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSignatairesResponse">
+    <wsdl:part element="tns:getSignatairesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSecDisSisResponse">
+    <wsdl:part element="tns:getSecDisSisResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDateDebWebPrimoNbResponse">
+    <wsdl:part element="tns:getDateDebWebPrimoNbResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSpecialites">
+    <wsdl:part element="tns:getSpecialites" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSignataire">
+    <wsdl:part element="tns:getSignataire" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDateDebWebPrimoNnb">
+    <wsdl:part element="tns:getDateDebWebPrimoNnb" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSallesResponse">
+    <wsdl:part element="tns:getSallesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCommunes">
+    <wsdl:part element="tns:getCommunes" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCentreGestionResponse">
+    <wsdl:part element="tns:getCentreGestionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getComposantes">
+    <wsdl:part element="tns:getComposantes" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getComBdiResponse">
+    <wsdl:part element="tns:getComBdiResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCentreGestions">
+    <wsdl:part element="tns:getCentreGestions" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSignataireResponse">
+    <wsdl:part element="tns:getSignataireResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDepartementsResponse">
+    <wsdl:part element="tns:getDepartementsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBatimentResponse">
+    <wsdl:part element="tns:getBatimentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBatiment">
+    <wsdl:part element="tns:getBatiment" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCommune">
+    <wsdl:part element="tns:getCommune" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getNiveauxFormation">
+    <wsdl:part element="tns:getNiveauxFormation" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPays">
+    <wsdl:part element="tns:getPays" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDateDebWebPrimoNnbResponse">
+    <wsdl:part element="tns:getDateDebWebPrimoNnbResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPaysResponse">
+    <wsdl:part element="tns:getPaysResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDepartements">
+    <wsdl:part element="tns:getDepartements" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUtilisateurResponse">
+    <wsdl:part element="tns:getUtilisateurResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEtablissement">
+    <wsdl:part element="tns:getEtablissement" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDepartementResponse">
+    <wsdl:part element="tns:getDepartementResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBatimentsResponse">
+    <wsdl:part element="tns:getBatimentsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUtilisateur">
+    <wsdl:part element="tns:getUtilisateur" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTypResultats">
+    <wsdl:part element="tns:getTypResultats" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getNiveauxFormationResponse">
+    <wsdl:part element="tns:getNiveauxFormationResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEtablissementsResponse">
+    <wsdl:part element="tns:getEtablissementsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSecDisSis">
+    <wsdl:part element="tns:getSecDisSis" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBacOuxEqus">
+    <wsdl:part element="tns:getBacOuxEqus" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBatiments">
+    <wsdl:part element="tns:getBatiments" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSalle">
+    <wsdl:part element="tns:getSalle" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCommuneResponse">
+    <wsdl:part element="tns:getCommuneResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVariableAppli">
+    <wsdl:part element="tns:getVariableAppli" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDateDebWeb">
+    <wsdl:part element="tns:getDateDebWeb" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSpecialitesResponse">
+    <wsdl:part element="tns:getSpecialitesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDepartement">
+    <wsdl:part element="tns:getDepartement" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCommunesResponse">
+    <wsdl:part element="tns:getCommunesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMentionNivBacsResponse">
+    <wsdl:part element="tns:getMentionNivBacsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getComBdi">
+    <wsdl:part element="tns:getComBdi" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSalles">
+    <wsdl:part element="tns:getSalles" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDateDebWebResponse">
+    <wsdl:part element="tns:getDateDebWebResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEtablissementResponse">
+    <wsdl:part element="tns:getEtablissementResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ReadReferentiel">
+    <wsdl:operation name="getEtablissement">
+      <wsdl:input message="tns:getEtablissement" name="getEtablissement">
+    </wsdl:input>
+      <wsdl:output message="tns:getEtablissementResponse" name="getEtablissementResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVariableAppli">
+      <wsdl:input message="tns:getVariableAppli" name="getVariableAppli">
+    </wsdl:input>
+      <wsdl:output message="tns:getVariableAppliResponse" name="getVariableAppliResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getComBdi">
+      <wsdl:input message="tns:getComBdi" name="getComBdi">
+    </wsdl:input>
+      <wsdl:output message="tns:getComBdiResponse" name="getComBdiResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSalle">
+      <wsdl:input message="tns:getSalle" name="getSalle">
+    </wsdl:input>
+      <wsdl:output message="tns:getSalleResponse" name="getSalleResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCentreGestions">
+      <wsdl:input message="tns:getCentreGestions" name="getCentreGestions">
+    </wsdl:input>
+      <wsdl:output message="tns:getCentreGestionsResponse" name="getCentreGestionsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getNiveauxFormation">
+      <wsdl:input message="tns:getNiveauxFormation" name="getNiveauxFormation">
+    </wsdl:input>
+      <wsdl:output message="tns:getNiveauxFormationResponse" name="getNiveauxFormationResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getEtablissements">
+      <wsdl:input message="tns:getEtablissements" name="getEtablissements">
+    </wsdl:input>
+      <wsdl:output message="tns:getEtablissementsResponse" name="getEtablissementsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBatiment">
+      <wsdl:input message="tns:getBatiment" name="getBatiment">
+    </wsdl:input>
+      <wsdl:output message="tns:getBatimentResponse" name="getBatimentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSignataire">
+      <wsdl:input message="tns:getSignataire" name="getSignataire">
+    </wsdl:input>
+      <wsdl:output message="tns:getSignataireResponse" name="getSignataireResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSignataires">
+      <wsdl:input message="tns:getSignataires" name="getSignataires">
+    </wsdl:input>
+      <wsdl:output message="tns:getSignatairesResponse" name="getSignatairesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCommune">
+      <wsdl:input message="tns:getCommune" name="getCommune">
+    </wsdl:input>
+      <wsdl:output message="tns:getCommuneResponse" name="getCommuneResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTypResultats">
+      <wsdl:input message="tns:getTypResultats" name="getTypResultats">
+    </wsdl:input>
+      <wsdl:output message="tns:getTypResultatsResponse" name="getTypResultatsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPays">
+      <wsdl:input message="tns:getPays" name="getPays">
+    </wsdl:input>
+      <wsdl:output message="tns:getPaysResponse" name="getPaysResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getComposantes">
+      <wsdl:input message="tns:getComposantes" name="getComposantes">
+    </wsdl:input>
+      <wsdl:output message="tns:getComposantesResponse" name="getComposantesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMentionNivBacs">
+      <wsdl:input message="tns:getMentionNivBacs" name="getMentionNivBacs">
+    </wsdl:input>
+      <wsdl:output message="tns:getMentionNivBacsResponse" name="getMentionNivBacsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDateDebWeb">
+      <wsdl:input message="tns:getDateDebWeb" name="getDateDebWeb">
+    </wsdl:input>
+      <wsdl:output message="tns:getDateDebWebResponse" name="getDateDebWebResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCommunes">
+      <wsdl:input message="tns:getCommunes" name="getCommunes">
+    </wsdl:input>
+      <wsdl:output message="tns:getCommunesResponse" name="getCommunesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSecDisSis">
+      <wsdl:input message="tns:getSecDisSis" name="getSecDisSis">
+    </wsdl:input>
+      <wsdl:output message="tns:getSecDisSisResponse" name="getSecDisSisResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCentreGestion">
+      <wsdl:input message="tns:getCentreGestion" name="getCentreGestion">
+    </wsdl:input>
+      <wsdl:output message="tns:getCentreGestionResponse" name="getCentreGestionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getComBdi1">
+      <wsdl:input message="tns:getComBdi1" name="getComBdi1">
+    </wsdl:input>
+      <wsdl:output message="tns:getComBdi1Response" name="getComBdi1Response">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDepartements">
+      <wsdl:input message="tns:getDepartements" name="getDepartements">
+    </wsdl:input>
+      <wsdl:output message="tns:getDepartementsResponse" name="getDepartementsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSalles">
+      <wsdl:input message="tns:getSalles" name="getSalles">
+    </wsdl:input>
+      <wsdl:output message="tns:getSallesResponse" name="getSallesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUtilisateur">
+      <wsdl:input message="tns:getUtilisateur" name="getUtilisateur">
+    </wsdl:input>
+      <wsdl:output message="tns:getUtilisateurResponse" name="getUtilisateurResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBacOuxEqus">
+      <wsdl:input message="tns:getBacOuxEqus" name="getBacOuxEqus">
+    </wsdl:input>
+      <wsdl:output message="tns:getBacOuxEqusResponse" name="getBacOuxEqusResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBatiments">
+      <wsdl:input message="tns:getBatiments" name="getBatiments">
+    </wsdl:input>
+      <wsdl:output message="tns:getBatimentsResponse" name="getBatimentsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDepartement">
+      <wsdl:input message="tns:getDepartement" name="getDepartement">
+    </wsdl:input>
+      <wsdl:output message="tns:getDepartementResponse" name="getDepartementResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDateDebWebPrimoNnb">
+      <wsdl:input message="tns:getDateDebWebPrimoNnb" name="getDateDebWebPrimoNnb">
+    </wsdl:input>
+      <wsdl:output message="tns:getDateDebWebPrimoNnbResponse" name="getDateDebWebPrimoNnbResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSpecialites">
+      <wsdl:input message="tns:getSpecialites" name="getSpecialites">
+    </wsdl:input>
+      <wsdl:output message="tns:getSpecialitesResponse" name="getSpecialitesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDateDebWebPrimoNb">
+      <wsdl:input message="tns:getDateDebWebPrimoNb" name="getDateDebWebPrimoNb">
+    </wsdl:input>
+      <wsdl:output message="tns:getDateDebWebPrimoNbResponse" name="getDateDebWebPrimoNbResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ReadReferentielImplServiceSoapBinding" type="tns:ReadReferentiel">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getEtablissement">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getEtablissement">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getEtablissementResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVariableAppli">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getVariableAppli">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getVariableAppliResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getComBdi">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getComBdi">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getComBdiResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSalle">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getSalle">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getSalleResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCentreGestions">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getCentreGestions">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getCentreGestionsResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBatiment">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getBatiment">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getBatimentResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getEtablissements">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getEtablissements">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getEtablissementsResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getNiveauxFormation">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getNiveauxFormation">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getNiveauxFormationResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSignataire">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getSignataire">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getSignataireResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCommune">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getCommune">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getCommuneResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSignataires">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getSignataires">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getSignatairesResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPays">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getPays">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getPaysResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTypResultats">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getTypResultats">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getTypResultatsResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getComposantes">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getComposantes">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getComposantesResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMentionNivBacs">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getMentionNivBacs">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getMentionNivBacsResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDateDebWeb">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDateDebWeb">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDateDebWebResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCommunes">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getCommunes">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getCommunesResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSecDisSis">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getSecDisSis">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getSecDisSisResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCentreGestion">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getCentreGestion">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getCentreGestionResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getComBdi1">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getComBdi1">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getComBdi1Response">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDepartements">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDepartements">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDepartementsResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSalles">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getSalles">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getSallesResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUtilisateur">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getUtilisateur">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getUtilisateurResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBacOuxEqus">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getBacOuxEqus">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getBacOuxEqusResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBatiments">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getBatiments">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getBatimentsResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDepartement">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDepartement">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDepartementResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDateDebWebPrimoNnb">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDateDebWebPrimoNnb">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDateDebWebPrimoNnbResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSpecialites">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getSpecialites">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getSpecialitesResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDateDebWebPrimoNb">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDateDebWebPrimoNb">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDateDebWebPrimoNbResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ReadReferentielImplService">
+    <wsdl:port binding="tns:ReadReferentielImplServiceSoapBinding" name="ReadReferentielImplPort">
+      <soap:address location="http://apo-cri-webservices.univ-rennes1.fr/esup-ws-si/cxf/ReadReferentiel" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="gouv.education.apogee.commun.servicesmetiers.OpiMetier_24022011-impl" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="gouv.education.apogee.commun.servicesmetiers.OpiMetier_24022011-impl" xmlns:intf="gouv.education.apogee.commun.servicesmetiers.OpiMetier_24022011-impl" xmlns:tns1="gouv.education.apogee.commun.servicesmetiers.OpiMetier_24022011" xmlns:tns10="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv" xmlns:tns11="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns:tns12="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns:tns13="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns:tns14="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns:tns15="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns:tns16="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns:tns17="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns:tns18="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns:tns19="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns:tns2="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv" xmlns:tns20="exception.transverse.commun.apogee.education.gouv" xmlns:tns3="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns:tns4="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns:tns5="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns:tns6="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv" xmlns:tns7="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns:tns8="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns:tns9="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.3
+Built on Dec 22, 2008 (02:17:58 CET)-->
+ <wsdl:types>
+  <schema targetNamespace="gouv.education.apogee.commun.servicesmetiers.OpiMetier_24022011" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <element name="mettreajourDonneesOpi_v2">
+    <complexType>
+     <sequence>
+      <element name="_donneesOpi" type="tns2:DonneesOpiDTO2"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="mettreajourDonneesOpi_v2Response">
+    <complexType/>
+   </element>
+   <element name="fault" type="tns20:WebBaseException"/>
+  </schema>
+  <schema targetNamespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="MAJOpiAdresseDTO">
+    <sequence>
+     <element name="codBdi" nillable="true" type="xsd:string"/>
+     <element name="codCom" nillable="true" type="xsd:string"/>
+     <element name="codPay" nillable="true" type="xsd:string"/>
+     <element name="lib1" nillable="true" type="xsd:string"/>
+     <element name="lib2" nillable="true" type="xsd:string"/>
+     <element name="lib3" nillable="true" type="xsd:string"/>
+     <element name="libAde" nillable="true" type="xsd:string"/>
+     <element name="numTel" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="MAJOpiBacDTO">
+    <sequence>
+     <element name="codBac" nillable="true" type="xsd:string"/>
+     <element name="codDep" nillable="true" type="xsd:string"/>
+     <element name="codEtb" nillable="true" type="xsd:string"/>
+     <element name="codMention" nillable="true" type="xsd:string"/>
+     <element name="codTpe" nillable="true" type="xsd:string"/>
+     <element name="daaObtBacOba" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="MAJOpiDacDTO">
+    <sequence>
+     <element name="codCurOpi" nillable="true" type="xsd:string"/>
+     <element name="codDac" nillable="true" type="xsd:string"/>
+     <element name="codDepPay" nillable="true" type="xsd:string"/>
+     <element name="codDipCur" nillable="true" type="xsd:string"/>
+     <element name="codEtb" nillable="true" type="xsd:string"/>
+     <element name="codNif" nillable="true" type="xsd:int"/>
+     <element name="codTpe" nillable="true" type="xsd:string"/>
+     <element name="codTypDepPay" nillable="true" type="xsd:string"/>
+     <element name="daaUniDac" nillable="true" type="xsd:string"/>
+     <element name="dipCur" nillable="true" type="xsd:string"/>
+     <element name="libCmtDac" nillable="true" type="xsd:string"/>
+     <element name="nbrCrdCur" nillable="true" type="xsd:decimal"/>
+     <element name="temObtCurVae" nillable="true" type="xsd:string"/>
+     <element name="temObtDac" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="MAJDernierDiplObtDTO">
+    <sequence>
+     <element name="codDepPayDerDip" nillable="true" type="xsd:string"/>
+     <element name="codEtbDerDip" nillable="true" type="xsd:string"/>
+     <element name="codTdeDerDip" nillable="true" type="xsd:string"/>
+     <element name="codTdsOpi" nillable="true" type="xsd:string"/>
+     <element name="codTypDepPayDerDip" nillable="true" type="xsd:string"/>
+     <element name="daaEtbDerDip" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="MAJDernierEtbFrequenteDTO">
+    <sequence>
+     <element name="codDepPayAntIaaOpi" nillable="true" type="xsd:string"/>
+     <element name="codEtbAntIaa" nillable="true" type="xsd:string"/>
+     <element name="codTpeAntIaa" nillable="true" type="xsd:string"/>
+     <element name="codTypDepPayAntIaaOpi" nillable="true" type="xsd:string"/>
+     <element name="daaEtbAntIaaOpi" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="MAJDonneesNaissanceDTO">
+    <sequence>
+     <element name="codDepPayNai" nillable="true" type="xsd:string"/>
+     <element name="codPayNat" nillable="true" type="xsd:string"/>
+     <element name="codTypDepPayNai" nillable="true" type="xsd:string"/>
+     <element name="dateNaiIndOpi" nillable="true" type="xsd:string"/>
+     <element name="libVilNaiEtuOpi" nillable="true" type="xsd:string"/>
+     <element name="temDateNaiRelOpi" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="MAJDonneesPersonnellesDTO">
+    <sequence>
+     <element name="adrMailOpi" nillable="true" type="xsd:string"/>
+     <element name="codFam" nillable="true" type="xsd:string"/>
+     <element name="codPcs" nillable="true" type="xsd:string"/>
+     <element name="codSim" nillable="true" type="xsd:string"/>
+     <element name="codThbOpi" nillable="true" type="xsd:string"/>
+     <element name="codThpOpi" nillable="true" type="xsd:string"/>
+     <element name="daaLbtIndOpi" nillable="true" type="xsd:string"/>
+     <element name="dmmLbtIndOpi" nillable="true" type="xsd:string"/>
+     <element name="numTelPorOpi" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="MAJDonneesPersonnellesDTO2">
+    <complexContent>
+     <extension base="tns11:MAJDonneesPersonnellesDTO">
+      <sequence>
+       <element name="codPcsAp" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="MAJEtatCivilDTO">
+    <sequence>
+     <element name="codCleNneIndOpi" nillable="true" type="xsd:string"/>
+     <element name="codNneIndOpi" nillable="true" type="xsd:string"/>
+     <element name="codSexEtuOpi" nillable="true" type="xsd:string"/>
+     <element name="libNomPatIndOpi" nillable="true" type="xsd:string"/>
+     <element name="libNomUsuIndOpi" nillable="true" type="xsd:string"/>
+     <element name="libPr1IndOpi" nillable="true" type="xsd:string"/>
+     <element name="libPr2IndOpi" nillable="true" type="xsd:string"/>
+     <element name="libPr3IndOpi" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="MAJInscriptionParalleleDTO">
+    <sequence>
+     <element name="codEtbAnnCrt" nillable="true" type="xsd:string"/>
+     <element name="codTpeAnnCrt" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="MAJPremiereInscriptionDTO">
+    <sequence>
+     <element name="codEtb" nillable="true" type="xsd:string"/>
+     <element name="daaEnsSupOpi" nillable="true" type="xsd:string"/>
+     <element name="daaEntEtbOpi" nillable="true" type="xsd:string"/>
+     <element name="daaEtbOpi" nillable="true" type="xsd:string"/>
+     <element name="daaEtrSup" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="MAJPrgEchangeDTO">
+    <sequence>
+     <element name="codEtrOpi" nillable="true" type="xsd:string"/>
+     <element name="codPrgOpi" nillable="true" type="xsd:string"/>
+     <element name="temSnsPrgOpi" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="MAJSituationAnnPreDTO">
+    <sequence>
+     <element name="codDepPayAnnPreOpi" nillable="true" type="xsd:string"/>
+     <element name="codEtbAnnPreOpi" nillable="true" type="xsd:string"/>
+     <element name="codSisAnnPreOpi" nillable="true" type="xsd:string"/>
+     <element name="codTypDepPayAnnPreOpi" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="MAJOpiIndDTO2">
+    <sequence>
+     <element name="codEtuOpi" nillable="true" type="xsd:int"/>
+     <element name="codOpiIntEpo" nillable="true" type="xsd:string"/>
+     <element name="dernierDiplObt" nillable="true" type="tns7:MAJDernierDiplObtDTO"/>
+     <element name="dernierEtbFrequente" nillable="true" type="tns8:MAJDernierEtbFrequenteDTO"/>
+     <element name="donneesNaissance" nillable="true" type="tns9:MAJDonneesNaissanceDTO"/>
+     <element name="donneesPersonnelles" nillable="true" type="tns10:MAJDonneesPersonnellesDTO2"/>
+     <element name="etatCivil" nillable="true" type="tns12:MAJEtatCivilDTO"/>
+     <element name="inscriptionParallele" nillable="true" type="tns13:MAJInscriptionParalleleDTO"/>
+     <element name="premiereInscription" nillable="true" type="tns14:MAJPremiereInscriptionDTO"/>
+     <element name="prgEchange" nillable="true" type="tns15:MAJPrgEchangeDTO"/>
+     <element name="situationAnnPre" nillable="true" type="tns16:MAJSituationAnnPreDTO"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="MAJConvocationDTO">
+    <sequence>
+     <element name="datCvc" nillable="true" type="xsd:string"/>
+     <element name="dhhCvc" nillable="true" type="xsd:int"/>
+     <element name="dmnCvc" nillable="true" type="xsd:int"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="MAJTitreAccesExterneDTO">
+    <sequence>
+     <element name="codDacOpi" nillable="true" type="xsd:string"/>
+     <element name="codDepPayDacOpi" nillable="true" type="xsd:string"/>
+     <element name="codEtbDacOpi" nillable="true" type="xsd:string"/>
+     <element name="codTpeDacOpi" nillable="true" type="xsd:string"/>
+     <element name="codTypDepPayDacOpi" nillable="true" type="xsd:string"/>
+     <element name="daaDacOpi" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="MAJOpiVoeuDTO">
+    <sequence>
+     <element name="codAttDec" nillable="true" type="xsd:string"/>
+     <element name="codCge" nillable="true" type="xsd:string"/>
+     <element name="codCmp" nillable="true" type="xsd:string"/>
+     <element name="codDecVeu" nillable="true" type="xsd:string"/>
+     <element name="codDemDos" nillable="true" type="xsd:string"/>
+     <element name="codDip" nillable="true" type="xsd:string"/>
+     <element name="codEtp" nillable="true" type="xsd:string"/>
+     <element name="codMfo" nillable="true" type="xsd:string"/>
+     <element name="codSpe1Opi" nillable="true" type="xsd:string"/>
+     <element name="codSpe2Opi" nillable="true" type="xsd:string"/>
+     <element name="codSpe3Opi" nillable="true" type="xsd:string"/>
+     <element name="codTyd" nillable="true" type="xsd:string"/>
+     <element name="codVrsVdi" nillable="true" type="xsd:int"/>
+     <element name="codVrsVet" nillable="true" type="xsd:int"/>
+     <element name="convocation" nillable="true" type="tns18:MAJConvocationDTO"/>
+     <element name="libCmtJur" nillable="true" type="xsd:string"/>
+     <element name="numCls" nillable="true" type="xsd:int"/>
+     <element name="temValPsd" nillable="true" type="xsd:string"/>
+     <element name="titreAccesExterne" nillable="true" type="tns19:MAJTitreAccesExterneDTO"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="exception.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="TableauVoeu">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="tns17:MAJOpiVoeuDTO"/>
+    </sequence>
+   </complexType>
+   <complexType name="DonneesOpiDTO2">
+    <sequence>
+     <element name="adresseAnnuelle" nillable="true" type="tns3:MAJOpiAdresseDTO"/>
+     <element name="adresseFixe" nillable="true" type="tns3:MAJOpiAdresseDTO"/>
+     <element name="bac" nillable="true" type="tns4:MAJOpiBacDTO"/>
+     <element name="dac" nillable="true" type="tns5:MAJOpiDacDTO"/>
+     <element name="individu" nillable="true" type="tns6:MAJOpiIndDTO2"/>
+     <element name="voeux" nillable="true" type="tns2:TableauVoeu"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="exception.transverse.commun.apogee.education.gouv" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="MAJPrgEchangeDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="DonneesOpiDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiBacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiVoeuDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiIndDTO2.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJTitreAccesExterneDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJEtatCivilDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesPersonnellesDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDonneesNaissanceDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJPremiereInscriptionDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiDacDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierEtbFrequenteDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJInscriptionParalleleDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJOpiAdresseDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJDernierDiplObtDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJSituationAnnPreDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <import namespace="MAJConvocationDTO.opi.dto.transverse.commun.apogee.education.gouv"/>
+   <complexType name="TableauString">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="WebBaseException">
+    <sequence>
+     <element name="domaine" nillable="true" type="xsd:string"/>
+     <element name="element" nillable="true" type="xsd:string"/>
+     <element name="lastErrorMsg" nillable="true" type="xsd:string"/>
+     <element name="messages" nillable="true" type="tns20:TableauString"/>
+     <element name="nature" nillable="true" type="xsd:string"/>
+     <element name="type" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="WebBaseException">
+
+      <wsdl:part element="tns1:fault" name="fault"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="mettreajourDonneesOpi_v2Response">
+
+      <wsdl:part element="tns1:mettreajourDonneesOpi_v2Response" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="mettreajourDonneesOpi_v2Request">
+
+      <wsdl:part element="tns1:mettreajourDonneesOpi_v2" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="OpiMetierServiceInterface">
+
+      <wsdl:operation name="mettreajourDonneesOpi_v2">
+
+         <wsdl:input message="intf:mettreajourDonneesOpi_v2Request" name="mettreajourDonneesOpi_v2Request"/>
+
+         <wsdl:output message="intf:mettreajourDonneesOpi_v2Response" name="mettreajourDonneesOpi_v2Response"/>
+
+         <wsdl:fault message="intf:WebBaseException" name="WebBaseException"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="OpiMetierSoapBinding" type="intf:OpiMetierServiceInterface">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="mettreajourDonneesOpi_v2">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="mettreajourDonneesOpi_v2Request">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="mettreajourDonneesOpi_v2Response">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+         <wsdl:fault name="WebBaseException">
+
+            <wsdlsoap:fault name="WebBaseException" use="literal"/>
+
+         </wsdl:fault>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="OpiMetierServiceInterfaceService">
+
+      <wsdl:port binding="intf:OpiMetierSoapBinding" name="OpiMetier">
+
+         <wsdlsoap:address location="http://apo-webservices.univ-rennes1.fr/services/OpiMetier"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

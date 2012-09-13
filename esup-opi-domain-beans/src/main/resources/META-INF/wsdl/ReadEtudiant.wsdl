@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="ReadEtudiantImplService" targetNamespace="http://remote.services.wssi.esupportail.org/" xmlns:ns1="http://cxf.apache.org/bindings/xformat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://remote.services.wssi.esupportail.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+<xs:schema elementFormDefault="unqualified" targetNamespace="http://remote.services.wssi.esupportail.org/" version="1.0" xmlns:tns="http://remote.services.wssi.esupportail.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:element name="getIndOpi" type="tns:getIndOpi" />
+<xs:element name="getIndOpiResponse" type="tns:getIndOpiResponse" />
+<xs:element name="getInfosInseeEtu" type="tns:getInfosInseeEtu" />
+<xs:element name="getInfosInseeEtuResponse" type="tns:getInfosInseeEtuResponse" />
+<xs:element name="getInsAdmEtp" type="tns:getInsAdmEtp" />
+<xs:element name="getInsAdmEtpResponse" type="tns:getInsAdmEtpResponse" />
+<xs:complexType name="getIndOpi">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="arg1" type="xs:string" />
+      <xs:element minOccurs="0" name="arg2" type="xs:string" />
+      <xs:element minOccurs="0" name="arg3" type="xs:string" />
+      <xs:element minOccurs="0" name="arg4" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getIndOpiResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:indOpiDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="indOpiDTO">
+    <xs:sequence>
+      <xs:element name="codIndOpi" type="xs:int" />
+      <xs:element minOccurs="0" name="codOpiIntEpo" type="xs:string" />
+      <xs:element minOccurs="0" name="dateNaiIndOpi" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="libNomPatIndOpi" type="xs:string" />
+      <xs:element minOccurs="0" name="libPr1IndOpi" type="xs:string" />
+      <xs:element minOccurs="0" name="temDateNaiRelOpi" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getInfosInseeEtu">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getInfosInseeEtuResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:individuDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="individuDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codCleNniEtu" type="xs:string" />
+      <xs:element minOccurs="0" name="codEtu" type="xs:int" />
+      <xs:element name="codInd" type="xs:int" />
+      <xs:element minOccurs="0" name="codNniEtu" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getInsAdmEtp">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string" />
+      <xs:element minOccurs="0" name="arg1" type="xs:int" />
+      <xs:element minOccurs="0" name="arg2" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getInsAdmEtpResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:insAdmEtp" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="insAdmEtp">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codAnu" type="xs:string" />
+      <xs:element minOccurs="0" name="codAnuAccIae" type="xs:string" />
+      <xs:element minOccurs="0" name="codBrs" type="xs:string" />
+      <xs:element minOccurs="0" name="codCge" type="xs:string" />
+      <xs:element minOccurs="0" name="codCmp" type="xs:string" />
+      <xs:element minOccurs="0" name="codDacAcc" type="xs:string" />
+      <xs:element minOccurs="0" name="codDepPayAcc" type="xs:string" />
+      <xs:element minOccurs="0" name="codDfm" type="xs:string" />
+      <xs:element minOccurs="0" name="codDip" type="xs:string" />
+      <xs:element minOccurs="0" name="codDipAcc" type="xs:string" />
+      <xs:element minOccurs="0" name="codEdoIae" type="xs:string" />
+      <xs:element minOccurs="0" name="codEtbAccIae" type="xs:string" />
+      <xs:element minOccurs="0" name="codEtbIfm1" type="xs:string" />
+      <xs:element minOccurs="0" name="codEtbIfm2" type="xs:string" />
+      <xs:element minOccurs="0" name="codEtp" type="xs:string" />
+      <xs:element minOccurs="0" name="codInd" type="xs:int" />
+      <xs:element minOccurs="0" name="codNatTitAccIae" type="xs:string" />
+      <xs:element minOccurs="0" name="codPru" type="xs:string" />
+      <xs:element minOccurs="0" name="codSesIae" type="xs:string" />
+      <xs:element minOccurs="0" name="codSpe1" type="xs:string" />
+      <xs:element minOccurs="0" name="codSpe2" type="xs:string" />
+      <xs:element minOccurs="0" name="codSpe3" type="xs:string" />
+      <xs:element minOccurs="0" name="codTls" type="xs:string" />
+      <xs:element minOccurs="0" name="codTpeAccIae" type="xs:string" />
+      <xs:element minOccurs="0" name="codTypCpg" type="xs:string" />
+      <xs:element minOccurs="0" name="codTypDepPayAcc" type="xs:string" />
+      <xs:element minOccurs="0" name="codUti" type="xs:string" />
+      <xs:element minOccurs="0" name="codUtiAcc" type="xs:string" />
+      <xs:element minOccurs="0" name="codUtiMod" type="xs:string" />
+      <xs:element minOccurs="0" name="codVrsVdi" type="xs:int" />
+      <xs:element minOccurs="0" name="codVrsVdiAcc" type="xs:int" />
+      <xs:element minOccurs="0" name="codVrsVet" type="xs:int" />
+      <xs:element minOccurs="0" name="datAccIae" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="datAnnulResIae" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="datCreIae" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="datModIae" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="datObsSisIae" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="etaIae" type="xs:string" />
+      <xs:element minOccurs="0" name="etaPmtIae" type="xs:string" />
+      <xs:element minOccurs="0" name="libRefAcc" type="xs:string" />
+      <xs:element minOccurs="0" name="nbrCrdVdiIns" type="xs:decimal" />
+      <xs:element minOccurs="0" name="nbrInsCyc" type="xs:int" />
+      <xs:element minOccurs="0" name="nbrInsDip" type="xs:int" />
+      <xs:element minOccurs="0" name="nbrInsEtp" type="xs:boolean" />
+      <xs:element minOccurs="0" name="numBrsEtu" type="xs:string" />
+      <xs:element minOccurs="0" name="numOccIae" type="xs:int" />
+      <xs:element minOccurs="0" name="temChgSurEtp" type="xs:string" />
+      <xs:element minOccurs="0" name="temCurAmg" type="xs:string" />
+      <xs:element minOccurs="0" name="temDipIae" type="xs:string" />
+      <xs:element minOccurs="0" name="temIaePrm" type="xs:string" />
+      <xs:element minOccurs="0" name="temInsElpAtmqIae" type="xs:string" />
+      <xs:element minOccurs="0" name="temTlsIae" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getIndOpi">
+    <wsdl:part element="tns:getIndOpi" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInfosInseeEtu">
+    <wsdl:part element="tns:getInfosInseeEtu" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getIndOpiResponse">
+    <wsdl:part element="tns:getIndOpiResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInsAdmEtpResponse">
+    <wsdl:part element="tns:getInsAdmEtpResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInsAdmEtp">
+    <wsdl:part element="tns:getInsAdmEtp" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInfosInseeEtuResponse">
+    <wsdl:part element="tns:getInfosInseeEtuResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ReadEtudiant">
+    <wsdl:operation name="getIndOpi">
+      <wsdl:input message="tns:getIndOpi" name="getIndOpi">
+    </wsdl:input>
+      <wsdl:output message="tns:getIndOpiResponse" name="getIndOpiResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInfosInseeEtu">
+      <wsdl:input message="tns:getInfosInseeEtu" name="getInfosInseeEtu">
+    </wsdl:input>
+      <wsdl:output message="tns:getInfosInseeEtuResponse" name="getInfosInseeEtuResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInsAdmEtp">
+      <wsdl:input message="tns:getInsAdmEtp" name="getInsAdmEtp">
+    </wsdl:input>
+      <wsdl:output message="tns:getInsAdmEtpResponse" name="getInsAdmEtpResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ReadEtudiantImplServiceSoapBinding" type="tns:ReadEtudiant">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getIndOpi">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getIndOpi">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getIndOpiResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInfosInseeEtu">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getInfosInseeEtu">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getInfosInseeEtuResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInsAdmEtp">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getInsAdmEtp">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getInsAdmEtpResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ReadEtudiantImplService">
+    <wsdl:port binding="tns:ReadEtudiantImplServiceSoapBinding" name="ReadEtudiantImplPort">
+      <soap:address location="http://apo-cri-webservices.univ-rennes1.fr/esup-ws-si/cxf/ReadEtudiant" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="InsertLaisserPasserImplService" targetNamespace="http://remote.services.wssi.esupportail.org/" xmlns:ns1="http://cxf.apache.org/bindings/xformat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://remote.services.wssi.esupportail.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+<xs:schema elementFormDefault="unqualified" targetNamespace="http://remote.services.wssi.esupportail.org/" version="1.0" xmlns:tns="http://remote.services.wssi.esupportail.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:element name="addTelemLaisserPasser" type="tns:addTelemLaisserPasser" />
+<xs:element name="addTelemLaisserPasserOpi" type="tns:addTelemLaisserPasserOpi" />
+<xs:element name="addTelemLaisserPasserOpiResponse" type="tns:addTelemLaisserPasserOpiResponse" />
+<xs:element name="addTelemLaisserPasserResponse" type="tns:addTelemLaisserPasserResponse" />
+<xs:element name="deleteTelemLaisserPasser" type="tns:deleteTelemLaisserPasser" />
+<xs:element name="deleteTelemLaisserPasserOpi" type="tns:deleteTelemLaisserPasserOpi" />
+<xs:element name="deleteTelemLaisserPasserOpiResponse" type="tns:deleteTelemLaisserPasserOpiResponse" />
+<xs:element name="deleteTelemLaisserPasserResponse" type="tns:deleteTelemLaisserPasserResponse" />
+<xs:complexType name="deleteTelemLaisserPasserOpi">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="tns:telemLaisserPasserOpiDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="telemLaisserPasserOpiDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codAnu" type="xs:string" />
+      <xs:element minOccurs="0" name="codDip" type="xs:string" />
+      <xs:element minOccurs="0" name="codEtp" type="xs:string" />
+      <xs:element name="codIndOpi" type="xs:int" />
+      <xs:element minOccurs="0" name="codOpiIntEpo" type="xs:string" />
+      <xs:element minOccurs="0" name="codUtiCreLpa" type="xs:string" />
+      <xs:element minOccurs="0" name="codUtiModLpa" type="xs:string" />
+      <xs:element minOccurs="0" name="codVrsVdi" type="xs:int" />
+      <xs:element minOccurs="0" name="codVrsVet" type="xs:int" />
+      <xs:element minOccurs="0" name="datCreLpa" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="datModLpa" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="libCmtLpa" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="deleteTelemLaisserPasserOpiResponse">
+    <xs:sequence />
+  </xs:complexType>
+<xs:complexType name="addTelemLaisserPasser">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="tns:telemLaisserPasserDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="telemLaisserPasserDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codAnu" type="xs:string" />
+      <xs:element minOccurs="0" name="codDip" type="xs:string" />
+      <xs:element minOccurs="0" name="codEtp" type="xs:string" />
+      <xs:element name="codEtuLpa" type="xs:int" />
+      <xs:element name="codInd" type="xs:int" />
+      <xs:element minOccurs="0" name="codUtiCreLpa" type="xs:string" />
+      <xs:element minOccurs="0" name="codUtiModLpa" type="xs:string" />
+      <xs:element minOccurs="0" name="codVrsVdi" type="xs:int" />
+      <xs:element minOccurs="0" name="codVrsVet" type="xs:int" />
+      <xs:element minOccurs="0" name="datCreLpa" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="datModLpa" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="libCmtLpa" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="addTelemLaisserPasserResponse">
+    <xs:sequence />
+  </xs:complexType>
+<xs:complexType name="addTelemLaisserPasserOpi">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="tns:telemLaisserPasserOpiDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="addTelemLaisserPasserOpiResponse">
+    <xs:sequence />
+  </xs:complexType>
+<xs:complexType name="deleteTelemLaisserPasser">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg0" type="tns:telemLaisserPasserDTO" />
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="deleteTelemLaisserPasserResponse">
+    <xs:sequence />
+  </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="addTelemLaisserPasserResponse">
+    <wsdl:part element="tns:addTelemLaisserPasserResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteTelemLaisserPasser">
+    <wsdl:part element="tns:deleteTelemLaisserPasser" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteTelemLaisserPasserOpi">
+    <wsdl:part element="tns:deleteTelemLaisserPasserOpi" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteTelemLaisserPasserOpiResponse">
+    <wsdl:part element="tns:deleteTelemLaisserPasserOpiResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addTelemLaisserPasserOpi">
+    <wsdl:part element="tns:addTelemLaisserPasserOpi" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addTelemLaisserPasser">
+    <wsdl:part element="tns:addTelemLaisserPasser" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addTelemLaisserPasserOpiResponse">
+    <wsdl:part element="tns:addTelemLaisserPasserOpiResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteTelemLaisserPasserResponse">
+    <wsdl:part element="tns:deleteTelemLaisserPasserResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="InsertLaisserPasser">
+    <wsdl:operation name="deleteTelemLaisserPasserOpi">
+      <wsdl:input message="tns:deleteTelemLaisserPasserOpi" name="deleteTelemLaisserPasserOpi">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteTelemLaisserPasserOpiResponse" name="deleteTelemLaisserPasserOpiResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addTelemLaisserPasser">
+      <wsdl:input message="tns:addTelemLaisserPasser" name="addTelemLaisserPasser">
+    </wsdl:input>
+      <wsdl:output message="tns:addTelemLaisserPasserResponse" name="addTelemLaisserPasserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addTelemLaisserPasserOpi">
+      <wsdl:input message="tns:addTelemLaisserPasserOpi" name="addTelemLaisserPasserOpi">
+    </wsdl:input>
+      <wsdl:output message="tns:addTelemLaisserPasserOpiResponse" name="addTelemLaisserPasserOpiResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteTelemLaisserPasser">
+      <wsdl:input message="tns:deleteTelemLaisserPasser" name="deleteTelemLaisserPasser">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteTelemLaisserPasserResponse" name="deleteTelemLaisserPasserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="InsertLaisserPasserImplServiceSoapBinding" type="tns:InsertLaisserPasser">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="addTelemLaisserPasser">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="addTelemLaisserPasser">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="addTelemLaisserPasserResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteTelemLaisserPasserOpi">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="deleteTelemLaisserPasserOpi">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="deleteTelemLaisserPasserOpiResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addTelemLaisserPasserOpi">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="addTelemLaisserPasserOpi">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="addTelemLaisserPasserOpiResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteTelemLaisserPasser">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="deleteTelemLaisserPasser">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="deleteTelemLaisserPasserResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="InsertLaisserPasserImplService">
+    <wsdl:port binding="tns:InsertLaisserPasserImplServiceSoapBinding" name="InsertLaisserPasserImplPort">
+      <soap:address location="http://apo-cri-webservices.univ-rennes1.fr/esup-ws-si/cxf/InsertLaisserPasser" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
