@@ -3,7 +3,7 @@
       "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
           "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
           
-<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission">
+<hibernate-mapping package="org.esupportail.opi.domain.beans.references.commission">
 
 	<class name="LinkTrtCmiCamp" table="link_trt_cmi_camp">
 		<id name="id" unsaved-value="null"> 
@@ -20,7 +20,7 @@
 		<set name="voeux"
 			inverse="true">
 			<key column="id_link"/>
-			<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.user.candidature.IndVoeu"/>
+			<one-to-many class="org.esupportail.opi.domain.beans.user.candidature.IndVoeu"/>
 		</set>	
 	
 	</class>	

@@ -2,23 +2,23 @@
 <mapping xmlns="http://castor.exolab.org/" 
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://castor.exolab.org/ http://castor.exolab.org/mapping.xsd">
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.NormeSI">
+  <class name="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="normeSI"/>
   	<field name="libelle" />
   </class>
 
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.LinkTrtCmiCamp"
-  		extends="fr.univ.rennes1.cri.opiR1.domain.beans.NormeSI">
+  <class name="org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp"
+  		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="linkTrtCmiCamp"/>
   </class>
 
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus.IndBac">
+  <class name="org.esupportail.opi.domain.beans.user.indcursus.IndBac">
   	<map-to xml="indBac"/>
   	<field name="codBac"/>
   	<field name="dateObtention"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus.IndCursus"
-  		extends="fr.univ.rennes1.cri.opiR1.domain.beans.NormeSI">
+  <class name="org.esupportail.opi.domain.beans.user.indcursus.IndCursus"
+  		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="indCursus"/>
   	<field name="type"/>
   	<field name="annee"/>
@@ -26,28 +26,28 @@
   	<field name="duree"/>
   	<field name="organisme"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus.IndCursusScol"
-  		extends="fr.univ.rennes1.cri.opiR1.domain.beans.NormeSI">
+  <class name="org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol"
+  		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="indCursusScol"/>
   	<field name="type"/>
   	<field name="annee"/>
   	<field name="resultat"/>
   	<field name="libMention"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.user.candidature.IndVoeu"
-  		extends="fr.univ.rennes1.cri.opiR1.domain.beans.NormeSI">
+  <class name="org.esupportail.opi.domain.beans.user.candidature.IndVoeu"
+  		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="indVoeu"/>
   	<field name="codTypeTrait"/>
   	<field name="isProp"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.web.beans.pojo.IndVoeuPojo">
+  <class name="org.esupportail.opi.web.beans.pojo.IndVoeuPojo">
   	<map-to xml="indVoeuPojo"/>
-  	<field name="indVoeu" type="fr.univ.rennes1.cri.opiR1.domain.beans.user.candidature.IndVoeu"/>
+  	<field name="indVoeu" type="org.esupportail.opi.domain.beans.user.candidature.IndVoeu"/>
   	<field name="vrsEtape"/>
   	<field name="avisEnService"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.user.candidature.Avis"
-  		extends="fr.univ.rennes1.cri.opiR1.domain.beans.NormeSI">
+  <class name="org.esupportail.opi.domain.beans.user.candidature.Avis"
+  		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="avis"/>
   	<field name="result"/>
   	<field name="motivationAvis"/>
@@ -55,24 +55,24 @@
    	<field name="validation"/>
    	<field name="rang"/> 	
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus.QualifNonDiplomante"
-  		extends="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus.IndCursus">
+  <class name="org.esupportail.opi.domain.beans.user.indcursus.QualifNonDiplomante"
+  		extends="org.esupportail.opi.domain.beans.user.indcursus.IndCursus">
   	<map-to xml="qualifNonDiplomante"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus.CursusPro"
-   		extends="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus.IndCursus">
+  <class name="org.esupportail.opi.domain.beans.user.indcursus.CursusPro"
+   		extends="org.esupportail.opi.domain.beans.user.indcursus.IndCursus">
   	<map-to xml="cursusPro"/>
   	<field name="quotite"/>
   	<field name="function"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus.CursusExt"
-   		extends="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus.IndCursusScol">
+  <class name="org.esupportail.opi.domain.beans.user.indcursus.CursusExt"
+   		extends="org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol">
   	<map-to xml="cursusExt"/>
   	<field name="codDac"/>
   	<field name="libDac"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus.CursusR1"
-   		extends="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus.IndCursusScol">
+  <class name="org.esupportail.opi.domain.beans.user.indcursus.CursusR1"
+   		extends="org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol">
   	<map-to xml="cursusR1"/>
   	<field name="codDiplome"/>
   	<field name="codVersionDiplome"/>
@@ -80,7 +80,7 @@
   	<field name="codVersionEtape"/>
   	<field name="libEtape"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.user.Adresse">
+  <class name="org.esupportail.opi.domain.beans.user.Adresse">
   	<map-to xml="adresse"/>
   	<field name="adr1"/>
   	<field name="adr2"/>
@@ -92,36 +92,36 @@
   	<field name="faxNumber"/>
   	<field name="mail"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.web.beans.pojo.AdressePojo">
+  <class name="org.esupportail.opi.web.beans.pojo.AdressePojo">
   	<map-to xml="adressePojo"/>
-  	<field name="adresse" type="fr.univ.rennes1.cri.opiR1.domain.beans.user.Adresse"/>
+  	<field name="adresse" type="org.esupportail.opi.domain.beans.user.Adresse"/>
   	<field name="pays"/>
   	<field name="commune"/>
   	<field name="isCedex"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.TraitementCmi"
-  		extends="fr.univ.rennes1.cri.opiR1.domain.beans.NormeSI">
+  <class name="org.esupportail.opi.domain.beans.references.commission.TraitementCmi"
+  		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="traitementCmi"/>
   	<field name="versionEtpOpi"/>
   	<field name="codTypeTrait"/>
   	<field name="selection"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.Member"
-  		extends="fr.univ.rennes1.cri.opiR1.domain.beans.NormeSI">
+  <class name="org.esupportail.opi.domain.beans.references.commission.Member"
+  		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="member"/>
   	<field name="nom"/>
   	<field name="prenom"/>
   	<field name="type"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.references.calendar.CalendarCmi"
-   		extends="fr.univ.rennes1.cri.opiR1.domain.beans.references.calendar.Calendar">
+  <class name="org.esupportail.opi.domain.beans.references.calendar.CalendarCmi"
+   		extends="org.esupportail.opi.domain.beans.references.calendar.Calendar">
   	<map-to xml="calendarCmi"/>
   	<field name="datEndBackDossier" type="string" 
-  		handler="fr.univ.rennes1.cri.opiR1.utils.converters.xml.DateHandler"/>
+  		handler="org.esupportail.opi.utils.converters.xml.DateHandler"/>
   	<field name="commDatEndBack"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.ContactCommission"
-   		extends="fr.univ.rennes1.cri.opiR1.domain.beans.NormeSI">
+  <class name="org.esupportail.opi.domain.beans.references.commission.ContactCommission"
+   		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="contactCommission"/>
   	<field name="codSig"/>
   	<field name="corresponding"/>
@@ -129,69 +129,69 @@
   	<field name="managerPhone"/>
   	<field name="managerMail"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.Commission"
-   		extends="fr.univ.rennes1.cri.opiR1.domain.beans.NormeSI">
+  <class name="org.esupportail.opi.domain.beans.references.commission.Commission"
+   		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="commission"/>
   	<field name="code"/>
   	<field name="traitementCmi"/>
-  	<field name="calendarCmi" type="fr.univ.rennes1.cri.opiR1.domain.beans.references.calendar.CalendarCmi"/>
+  	<field name="calendarCmi" type="org.esupportail.opi.domain.beans.references.calendar.CalendarCmi"/>
   	<field name="members"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.web.beans.pojo.CommissionPojo">
+  <class name="org.esupportail.opi.web.beans.pojo.CommissionPojo">
   	<map-to xml="commissionPojo"/>
-  	<field name="commission" type="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.Commission"/>
-  	<field name="adressePojo" type="fr.univ.rennes1.cri.opiR1.web.beans.pojo.AdressePojo"/>
-  	<field name="contactCommission" type="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.ContactCommission"/>
+  	<field name="commission" type="org.esupportail.opi.domain.beans.references.commission.Commission"/>
+  	<field name="adressePojo" type="org.esupportail.opi.web.beans.pojo.AdressePojo"/>
+  	<field name="contactCommission" type="org.esupportail.opi.domain.beans.references.commission.ContactCommission"/>
   </class>
   
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.PieceJustificative"
-   		extends="fr.univ.rennes1.cri.opiR1.domain.beans.NormeSI">
+  <class name="org.esupportail.opi.domain.beans.parameters.PieceJustificative"
+   		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="pieceJustificative"/>
   	<field name="codeRI"/>
   	<field name="isForAllVet"/>
   </class>
   
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.user.situation.IndSituation"
-  		extends="fr.univ.rennes1.cri.opiR1.domain.beans.NormeSI">
+  <class name="org.esupportail.opi.domain.beans.user.situation.IndSituation"
+  		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="indSituation"/>
   	<field name="type"/>
   	<field name="handicapTravail"/>
   	<field name="handicapAdulte"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.user.situation.SituationSalarie"
-   		extends="fr.univ.rennes1.cri.opiR1.domain.beans.user.situation.IndSituation">
+  <class name="org.esupportail.opi.domain.beans.user.situation.SituationSalarie"
+   		extends="org.esupportail.opi.domain.beans.user.situation.IndSituation">
   	<map-to xml="situationSalarie"/>
 		<field name="codeTypeContrat"/>
 		<field name="codeTypeStatut"/>
 		<field name="dateFinCDD" type="string" 
-  			handler="fr.univ.rennes1.cri.opiR1.utils.converters.xml.DateHandler"/>
+  			handler="org.esupportail.opi.utils.converters.xml.DateHandler"/>
 		<field name="autreTypeContrat"/>
 		<field name="grade"/>
 		<field name="raisonSociale"/>
 		<field name="codeTypeOrga"/>
 		<field name="secteurActivity"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.user.situation.SituationProLib"
-   		extends="fr.univ.rennes1.cri.opiR1.domain.beans.user.situation.IndSituation">
+  <class name="org.esupportail.opi.domain.beans.user.situation.SituationProLib"
+   		extends="org.esupportail.opi.domain.beans.user.situation.IndSituation">
   	<map-to xml="situationProLib"/>
   		<field name="exactStatut"/>
 		<field name="activity"/>
 		<field name="dateStartActivity" type="string" 
-  			handler="fr.univ.rennes1.cri.opiR1.utils.converters.xml.DateHandler"/>
+  			handler="org.esupportail.opi.utils.converters.xml.DateHandler"/>
   </class>
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.user.situation.SituationDE"
-   		extends="fr.univ.rennes1.cri.opiR1.domain.beans.user.situation.IndSituation">
+  <class name="org.esupportail.opi.domain.beans.user.situation.SituationDE"
+   		extends="org.esupportail.opi.domain.beans.user.situation.IndSituation">
   	<map-to xml="situationDE"/>
   		<field name="dateInscriptionPE" type="string" 
-  			handler="fr.univ.rennes1.cri.opiR1.utils.converters.xml.DateHandler"/>
+  			handler="org.esupportail.opi.utils.converters.xml.DateHandler"/>
   		<field name="compensated"/>
 		<field name="dateStartCompensation" type="string" 
-  			handler="fr.univ.rennes1.cri.opiR1.utils.converters.xml.DateHandler"/>
+  			handler="org.esupportail.opi.utils.converters.xml.DateHandler"/>
 		<field name="dateEndCompensation" type="string" 
-  			handler="fr.univ.rennes1.cri.opiR1.utils.converters.xml.DateHandler"/>
+  			handler="org.esupportail.opi.utils.converters.xml.DateHandler"/>
   </class>
   
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.user.User" >
+  <class name="org.esupportail.opi.domain.beans.user.User" >
   	<map-to xml="user"/>
   	<field name="language"/>
   	<field name="nomPatronymique"/>
@@ -201,15 +201,15 @@
   	<field name="adressMail"/>
   </class>
 
-  <class name="fr.univ.rennes1.cri.opiR1.domain.beans.user.Individu" 
-  	extends="fr.univ.rennes1.cri.opiR1.domain.beans.user.User">
+  <class name="org.esupportail.opi.domain.beans.user.Individu" 
+  	extends="org.esupportail.opi.domain.beans.user.User">
   	<map-to xml="individu"/>
   	<field name="numDossierOpi"/>
   	<field name="codeEtu"/>
   	<field name="codeNNE"/>
   	<field name="codeClefNNE"/>
   	<field name="dateNaissance" type="string" 
-  		handler="fr.univ.rennes1.cri.opiR1.utils.converters.xml.DateHandler"/>
+  		handler="org.esupportail.opi.utils.converters.xml.DateHandler"/>
   	<field name="villeNaissance"/>
   	<field name="numeroTelPortable"/>
   	<field name="emailAnnuaire"/>
@@ -217,9 +217,9 @@
   	<field name="state"/>
   </class>
   
-  <class name="fr.univ.rennes1.cri.opiR1.web.beans.pojo.IndividuPojo">
+  <class name="org.esupportail.opi.web.beans.pojo.IndividuPojo">
   	<map-to xml="individuPojo"/>
-  	<field name="individu" type="fr.univ.rennes1.cri.opiR1.domain.beans.user.Individu"/>
+  	<field name="individu" type="org.esupportail.opi.domain.beans.user.Individu"/>
   	<field name="pays"/>
   	<field name="nationalite"/>
   	<field name="departement"/>

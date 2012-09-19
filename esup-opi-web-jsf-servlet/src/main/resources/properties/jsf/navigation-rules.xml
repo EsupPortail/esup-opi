@@ -10,48 +10,48 @@
 
 <faces-config>
 
-	<navigation-rule>
-		<display-name>index.jsp -> welcome.jsp</display-name>
-		<from-view-id>/index.jsp</from-view-id>
-		<navigation-case>
-			<from-outcome>welcome</from-outcome>
-			<to-view-id>/stylesheets/welcome.jsp</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
+    <navigation-rule>
+        <display-name>index.xhtml -> welcome.xhtml</display-name>
+        <from-view-id>/*</from-view-id>
+        <navigation-case>
+            <from-outcome>*</from-outcome>
+            <to-view-id>/stylesheets/welcome.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
 
 	<navigation-rule>
 		<display-name> page d'accueil portlet</display-name>
-		<from-view-id>/stylesheets/portletWelcome.jsp</from-view-id>
+		<from-view-id>/stylesheets/portletWelcome.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_accueil_gestionnaire</from-outcome>
-			<to-view-id>/stylesheets/cas/accueil.jsp</to-view-id>
+			<to-view-id>/stylesheets/cas/accueil.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 
 	</navigation-rule>
 
 	<navigation-rule>
-		<display-name>welcome.jsp -> login.jsp</display-name>
-		<from-view-id>/stylesheets/welcome.jsp</from-view-id>
+		<display-name>welcome.xhtml -> login.xhtml</display-name>
+		<from-view-id>/stylesheets/welcome.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>navigationLogin</from-outcome>
-			<to-view-id>/stylesheets/login.jsp</to-view-id>
+			<to-view-id>/stylesheets/login.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_inscription_close</from-outcome>
-			<to-view-id>/stylesheets/candidat/inscriptionClose.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/inscriptionClose.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_forget_num_dos</from-outcome>
-			<to-view-id>/stylesheets/candidat/forgetNumDos.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/forgetNumDos.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_formation</from-outcome>
-			<to-view-id>/stylesheets/candidat/formation/seeFormation.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/formation/seeFormation.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -61,17 +61,17 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>applicationRestarted</from-outcome>
-			<to-view-id>/stylesheets/welcome.jsp</to-view-id>
+			<to-view-id>/stylesheets/welcome.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_login_candidat</from-outcome>
-			<to-view-id>/stylesheets/welcome.jsp</to-view-id>
+			<to-view-id>/stylesheets/welcome.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_welcome</from-outcome>
-			<to-view-id>/stylesheets/welcome.jsp</to-view-id>
+			<to-view-id>/stylesheets/welcome.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -92,121 +92,121 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>go_accueil_candidat</from-outcome>
-			<to-view-id>/stylesheets/candidat/accueil.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/accueil.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_accueil_candidat_formation</from-outcome>
-			<to-view-id>/stylesheets/candidat/accueilFormation.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/accueilFormation.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<!--#### Inscription ####-->
 		<navigation-case>
 			<from-outcome>go_add_account</from-outcome>
-			<to-view-id>/stylesheets/candidat/account/add_account.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/account/add_account.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_search_etur1</from-outcome>
-			<to-view-id>/stylesheets/candidat/account/search_etur1.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/account/search_etur1.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_get_num_dossier</from-outcome>
-			<to-view-id>/stylesheets/candidat/account/get_num_dossier.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/account/get_num_dossier.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_save_dossier</from-outcome>
-			<to-view-id>/stylesheets/candidat/account/save_dossier.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/account/save_dossier.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_add_cursus</from-outcome>
-			<to-view-id>/stylesheets/candidat/account/add_cursus.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/account/add_cursus.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_add_cursus_scol</from-outcome>
-			<to-view-id>/stylesheets/candidat/account/add_cursus_scol.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/account/add_cursus_scol.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_add_ind_bac</from-outcome>
-			<to-view-id>/stylesheets/candidat/account/add_ind_bac.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/account/add_ind_bac.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_add_situation</from-outcome>
-			<to-view-id>/stylesheets/candidat/account/add_situation.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/account/add_situation.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<!--#### Managed account ####-->
 		<navigation-case>
 			<from-outcome>go_see_account</from-outcome>
-			<to-view-id>/stylesheets/candidat/account/see_account.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/account/see_account.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_cursus</from-outcome>
-			<to-view-id>/stylesheets/candidat/account/see_cursus.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/account/see_cursus.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_ind_bac</from-outcome>
-			<to-view-id>/stylesheets/candidat/account/see_ind_bac.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/account/see_ind_bac.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_update_ind_bac</from-outcome>
-			<to-view-id>/stylesheets/candidat/account/update_ind_bac.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/account/update_ind_bac.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_cursus_scol</from-outcome>
-			<to-view-id>/stylesheets/candidat/account/see_cursus_scol.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/account/see_cursus_scol.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_qualif</from-outcome>
-			<to-view-id>/stylesheets/candidat/account/see_qualif.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/account/see_qualif.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_cursus_pro</from-outcome>
-			<to-view-id>/stylesheets/candidat/account/see_cursus_pro.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/account/see_cursus_pro.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_update_cursusUni</from-outcome>
-			<to-view-id>/stylesheets/candidat/account/update_cursusUni.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/account/update_cursusUni.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_update_bac</from-outcome>
-			<to-view-id>/stylesheets/candidat/account/update_bac.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/account/update_bac.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_situation</from-outcome>
-			<to-view-id>/stylesheets/candidat/account/see_situation.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/account/see_situation.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 
 		<!--  ADDED BY UM1 -->
 		<navigation-case>
 			<from-outcome>go_see_grp_typ_dip</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeGrpTypDip.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeGrpTypDip.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_domaines</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeDomainsDeFormations.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeDomainsDeFormations.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_keywords</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeClefsDesFormations.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeClefsDesFormations.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -215,110 +215,110 @@
 	<!--#### Managed vows ####-->
 	<navigation-rule>
 		<display-name>welcome candidat</display-name>
-		<from-view-id>/stylesheets/candidat/accueil.jsp</from-view-id>
+		<from-view-id>/stylesheets/candidat/accueil.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_search_formation</from-outcome>
-			<to-view-id>/stylesheets/candidat/formation/searchFormation.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/formation/searchFormation.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_voeux</from-outcome>
-			<to-view-id>/stylesheets/candidat/formation/seeVoeux.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/formation/seeVoeux.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_summary_wishes</from-outcome>
-			<to-view-id>/stylesheets/candidat/formation/summaryWishes.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/formation/summaryWishes.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_confirm_candidatures</from-outcome>
-			<to-view-id>/stylesheets/candidat/formation/confirmCandidatures.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/formation/confirmCandidatures.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_add_rdv_etu</from-outcome>
-			<to-view-id>/stylesheets/candidat/formation/addRdvEtu.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/formation/addRdvEtu.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	
 	<navigation-rule>
 		<display-name>welcome candidat in ENT</display-name>
-		<from-view-id>/stylesheets/cas/iframeWelcome.jsp</from-view-id>
+		<from-view-id>/stylesheets/cas/iframeWelcome.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_search_formation</from-outcome>
-			<to-view-id>/stylesheets/candidat/formation/searchFormation.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/formation/searchFormation.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_voeux</from-outcome>
-			<to-view-id>/stylesheets/candidat/formation/seeVoeux.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/formation/seeVoeux.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_summary_wishes</from-outcome>
-			<to-view-id>/stylesheets/candidat/formation/summaryWishes.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/formation/summaryWishes.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_add_rdv_etu</from-outcome>
-			<to-view-id>/stylesheets/candidat/formation/addRdvEtu.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/formation/addRdvEtu.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_confirm_candidatures</from-outcome>
-			<to-view-id>/stylesheets/candidat/formation/confirmCandidatures.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/formation/confirmCandidatures.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	
 	<navigation-rule>
 		<display-name>valider un rendez-vous</display-name>
-		<from-view-id>/stylesheets/candidat/formation/addRdvEtu.jsp</from-view-id>
+		<from-view-id>/stylesheets/candidat/formation/addRdvEtu.xhtml</from-view-id>
 		<navigation-case>		
 			<from-outcome>go_accueil_candidat</from-outcome>
-			<to-view-id>/stylesheets/candidat/accueil.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/accueil.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_confirm_candidatures</from-outcome>
-			<to-view-id>/stylesheets/candidat/formation/confirmCandidatures.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/formation/confirmCandidatures.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>Confirmer les candidatures</display-name>
-		<from-view-id>/stylesheets/candidat/formation/confirmCandidatures.jsp</from-view-id>
+		<from-view-id>/stylesheets/candidat/formation/confirmCandidatures.xhtml</from-view-id>
 		<navigation-case>		
 			<from-outcome>go_accueil_candidat</from-outcome>
-			<to-view-id>/stylesheets/candidat/accueil.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/accueil.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_add_rdv_etu</from-outcome>
-			<to-view-id>/stylesheets/candidat/formation/addRdvEtu.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/formation/addRdvEtu.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>look for formation</display-name>
-		<from-view-id>/stylesheets/candidat/formation/searchFormation.jsp</from-view-id>
+		<from-view-id>/stylesheets/candidat/formation/searchFormation.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_recap_formation</from-outcome>
-			<to-view-id>/stylesheets/candidat/formation/recapChoiceFormation.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/formation/recapChoiceFormation.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>consult voeux</display-name>
-		<from-view-id>/stylesheets/candidat/formation/seeVoeux.jsp</from-view-id>
+		<from-view-id>/stylesheets/candidat/formation/seeVoeux.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_search_formation</from-outcome>
-			<to-view-id>/stylesheets/candidat/formation/searchFormation.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/formation/searchFormation.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -326,15 +326,15 @@
 
 	<navigation-rule>
 		<display-name>recap choice candidat</display-name>
-		<from-view-id>/stylesheets/candidat/formation/recapChoiceFormation.jsp</from-view-id>
+		<from-view-id>/stylesheets/candidat/formation/recapChoiceFormation.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_search_formation</from-outcome>
-			<to-view-id>/stylesheets/candidat/formation/searchFormation.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/formation/searchFormation.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_summary_wishes</from-outcome>
-			<to-view-id>/stylesheets/candidat/formation/summaryWishes.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/formation/summaryWishes.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -354,229 +354,229 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>go_accueil_gestionnaire</from-outcome>
-			<to-view-id>/stylesheets/cas/accueil.jsp</to-view-id>
+			<to-view-id>/stylesheets/cas/accueil.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>welcome gestionnaire</display-name>
-		<from-view-id>/stylesheets/cas/accueil.jsp</from-view-id>
+		<from-view-id>/stylesheets/cas/accueil.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_gest</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/user/seeGestionnaires.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/user/seeGestionnaires.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_found_etudiant</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/user/seeSearchIndividu.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/user/seeSearchIndividu.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_etudiants</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/user/seeEtudiants.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/user/seeEtudiants.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>domain parameters fonctions</display-name>
-		<from-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</from-view-id>
 		<!-- Parameters and  Classifications -->
 		<navigation-case>
 			<from-outcome>go_managed_profils</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeProfils.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeProfils.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_convocation_types</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeConvocationTypes.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeConvocationTypes.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_decision_types</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeDecisionTypes.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeDecisionTypes.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_traitement_types</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeTraitementTypes.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeTraitementTypes.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_pj</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seePJ.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seePJ.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_avis_motivations</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeMotivationsAvis.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeMotivationsAvis.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_campagnes</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeCampagnes.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeCampagnes.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_all_affect_pj</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seePJForAffectation.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seePJForAffectation.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_document</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeDocuments.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeDocuments.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_param_rdv</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeParamRdv.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeParamRdv.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_param_rdv</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeParamRdv.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeParamRdv.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_mail_content</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeMailContent.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeMailContent.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_auto_lp</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeAutoLp.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeAutoLp.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<!-- References -->
 		<navigation-case>
 			<from-outcome>go_managed_cmi</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/seeCommissions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/seeCommissions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_calendar</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/seeCalendars.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/seeCalendars.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_nb_voeux_cge</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/seeNbVoeuByCGE.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/seeNbVoeuByCGE.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_consult_rdv</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/seeConsultRdv.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/seeConsultRdv.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_enter_selection</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/enterSelection.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/enterSelection.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_trt_cmi</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/managedTrtCmi.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/managedTrtCmi.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<!--  Type de Traitement -->
 		<navigation-case>
 			<from-outcome>go_see_typetraitement</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/opinion/seeTypeTraitments.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/opinion/seeTypeTraitments.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<!--  Gestion des Avis -->
 		<navigation-case>
 			<from-outcome>go_enter_all_students_opinions</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/opinion/enterAllStudentsOpinions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/opinion/enterAllStudentsOpinions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_enter_students_opinions</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/opinion/enterStudentsOpinions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/opinion/enterStudentsOpinions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<!--  valid opinions -->
 		<navigation-case>
 			<from-outcome>go_valid_opinions</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/opinion/validOpinions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/opinion/validOpinions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<!--  print opinions -->
 		<navigation-case>
 			<from-outcome>go_print_opinions</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/opinion/printOpinions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/opinion/printOpinions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<!--  print tr opinions -->
 		<navigation-case>
 			<from-outcome>go_print_tr_opinions</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/opinion/printTROpinions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/opinion/printTROpinions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<!--  print lists prepa -->
 		<navigation-case>
 			<from-outcome>go_print_lists_prepa</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/opinion/printListsPrepa.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/opinion/printListsPrepa.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<!--  print lists form -->
 		<navigation-case>
 			<from-outcome>go_print_lists_form</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/opinion/printListsForm.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/opinion/printListsForm.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<!--  Gestion candidature -->
 		<navigation-case>
 			<from-outcome>go_see_etudiants</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/user/seeEtudiants.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/user/seeEtudiants.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_pm_students</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/opinion/seeEtudiants.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/opinion/seeEtudiants.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_monitor_candidatures</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/user/suivreCandidatures.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/user/suivreCandidatures.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<!--  Gestion pilotage -->
 		<navigation-case>
 			<from-outcome>go_managed_archive_tasks</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/pilotage/seeAllArchiveTasks.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/pilotage/seeAllArchiveTasks.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_archive_sfc</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/pilotage/managedArchiveSFC.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/pilotage/managedArchiveSFC.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<!--  Statistique -->
 		<navigation-case>
 			<from-outcome>go_see_param_stat</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/pilotage/seeParamStat.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/pilotage/seeParamStat.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_result_stat</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/pilotage/seeResultStat.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/pilotage/seeResultStat.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_search_vet_gest_pj</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/searchVetGestPJ.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/searchVetGestPJ.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -586,75 +586,75 @@
 	<!--#### Gestions des comptes utilisateurs ####-->
 	<navigation-rule>
 		<display-name>managers list</display-name>
-		<from-view-id>/stylesheets/gestionnaire/user/seeGestionnaires.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/user/seeGestionnaires.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_enter_gest</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/user/enterGestionnaire.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/user/enterGestionnaire.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_gest</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/user/seeOneGestionnaire.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/user/seeOneGestionnaire.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>add manager</display-name>
-		<from-view-id>/stylesheets/gestionnaire/user/enterGestionnaire.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/user/enterGestionnaire.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_managed_gest</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/user/seeGestionnaires.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/user/seeGestionnaires.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_search_gest</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/user/searchGestionnaire.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/user/searchGestionnaire.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>search manager</display-name>
-		<from-view-id>/stylesheets/gestionnaire/user/searchGestionnaire.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/user/searchGestionnaire.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_enter_gest</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/user/enterGestionnaire.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/user/enterGestionnaire.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>see manager</display-name>
-		<from-view-id>/stylesheets/gestionnaire/user/seeOneGestionnaire.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/user/seeOneGestionnaire.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_enter_gest</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/user/enterGestionnaire.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/user/enterGestionnaire.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_gest</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/user/seeGestionnaires.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/user/seeGestionnaires.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_affect_right_gest</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/user/affectRightGestionnaire.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/user/affectRightGestionnaire.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>affect right manager</display-name>
-		<from-view-id>/stylesheets/gestionnaire/user/affectRightGestionnaire.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/user/affectRightGestionnaire.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_see_gest</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/user/seeOneGestionnaire.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/user/seeOneGestionnaire.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_gest</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/user/seeGestionnaires.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/user/seeGestionnaires.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -663,30 +663,30 @@
 	<!--#### Gestions des candidatures ####-->
 	<navigation-rule>
 		<display-name>individu list</display-name>
-		<from-view-id>/stylesheets/gestionnaire/user/seeEtudiants.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/user/seeEtudiants.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_accueil_candidat</from-outcome>
-			<to-view-id>/stylesheets/candidat/accueil.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/accueil.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_add_student</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/user/addEtudiant.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/user/addEtudiant.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>add an individu by a manager</display-name>
-		<from-view-id>/stylesheets/gestionnaire/user/addEtudiant.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/user/addEtudiant.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_accueil_candidat</from-outcome>
-			<to-view-id>/stylesheets/candidat/accueil.jsp</to-view-id>
+			<to-view-id>/stylesheets/candidat/accueil.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -700,30 +700,30 @@
 	<!--## Profils ##-->
 	<navigation-rule>
 		<display-name>profil list</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/seeProfils.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/seeProfils.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_enter_profil</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/enterProfil.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/enterProfil.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_profil</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeOneProfil.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeOneProfil.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>enter profil</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/enterProfil.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/enterProfil.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_managed_profils</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeProfils.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeProfils.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -731,15 +731,15 @@
 
 	<navigation-rule>
 		<display-name>see one profil</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/seeOneProfil.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/seeOneProfil.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_enter_profil</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/enterProfil.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/enterProfil.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_profils</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeProfils.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeProfils.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -747,45 +747,45 @@
 	<!--## Fonctionnalites ##-->
 	<navigation-rule>
 		<display-name>fonction list</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/seeFonctions.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/seeFonctions.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_add_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/addFonction.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/addFonction.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_dom</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeDomains.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeDomains.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_update_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/updateFonction.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/updateFonction.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>add fonction</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/addFonction.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/addFonction.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_managed_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>update fonction</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/updateFonction.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/updateFonction.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_managed_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -793,10 +793,10 @@
 	<!--# Domaines #-->
 	<navigation-rule>
 		<display-name>domains list</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/seeDomains.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/seeDomains.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_managed_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -807,15 +807,15 @@
 
 	<navigation-rule>
 		<display-name>convocations types list</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/seeConvocationTypes.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/seeConvocationTypes.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_add_convocation_types</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/addConvocationTypes.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/addConvocationTypes.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -823,10 +823,10 @@
 
 	<navigation-rule>
 		<display-name>convocations types add</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/addConvocationTypes.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/addConvocationTypes.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_managed_convocation_types</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeConvocationTypes.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeConvocationTypes.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -835,20 +835,20 @@
 
 	<navigation-rule>
 		<display-name>PJ list</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/seePJ.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/seePJ.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_enter_pj</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/enterPJ.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/enterPJ.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_choices_pj</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeChoicesPJ.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeChoicesPJ.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -856,90 +856,90 @@
 
 	<navigation-rule>
 		<display-name>PJ enter</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/enterPJ.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/enterPJ.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_managed_pj</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seePJ.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seePJ.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_search_vet</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/searchVersionEtape.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/searchVersionEtape.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	
 	<navigation-rule>
 		<display-name>go_choices_pj</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/seeChoicesPJ.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/seeChoicesPJ.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_enter_pj</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/enterPJ.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/enterPJ.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_pj</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seePJ.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seePJ.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>PJ list to affect VET</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/seePJForAffectation.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/seePJForAffectation.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_affect_pj</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/affectPJ.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/affectPJ.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>affect PJ</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/affectPJ.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/affectPJ.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_see_all_affect_pj</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seePJForAffectation.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seePJForAffectation.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_search_vet</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/searchVersionEtape.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/searchVersionEtape.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	
 	<navigation-rule>
 		<display-name>Managed vet for PJ</display-name>
-		<from-view-id>/stylesheets/gestionnaire/referentiels/searchVetGestPJ.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/referentiels/searchVetGestPJ.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>enter_vet</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/enterVET.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/enterVET.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	
 	<navigation-rule>
 		<display-name>Managed vet for PJ</display-name>
-		<from-view-id>/stylesheets/gestionnaire/referentiels/enterVET.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/referentiels/enterVET.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_search_vet_gest_pj</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/searchVetGestPJ.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/searchVetGestPJ.xhtml</to-view-id>
 			<redirect/>
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_search_pj_for_vet</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/searchPJforVet.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/searchPJforVet.xhtml</to-view-id>
 			<redirect/>
 		</navigation-case>
 	</navigation-rule>
@@ -947,10 +947,10 @@
 	
 	<navigation-rule>
 		<display-name>Managed vet for PJ</display-name>
-		<from-view-id>/stylesheets/gestionnaire/referentiels/searchPJforVet.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/referentiels/searchPJforVet.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>enter_vet</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/enterVET.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/enterVET.xhtml</to-view-id>
 			<redirect/>
 		</navigation-case>
 	</navigation-rule>
@@ -959,25 +959,25 @@
 
 	<navigation-rule>
 		<display-name>decisions types list</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/seeDecisionTypes.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/seeDecisionTypes.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_add_decision_types</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/addDecisionTypes.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/addDecisionTypes.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>Decision types add</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/addDecisionTypes.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/addDecisionTypes.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_managed_decision_types</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeDecisionTypes.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeDecisionTypes.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -987,20 +987,20 @@
 
 	<navigation-rule>
 		<display-name>Traitements types list</display-name>
-		<from-view-id>/stylesheets/gestionnaire/opinion/seeTypeTraitments.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/opinion/seeTypeTraitments.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	
 	<navigation-rule>
 		<display-name>Traitement types</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/seeTraitementTypes.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/seeTraitementTypes.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1008,25 +1008,25 @@
 	<!--## MailContent ##-->
 	<navigation-rule>
 		<display-name>Mails content list</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/seeMailContent.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/seeMailContent.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_update_mail_content</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/updateMailContent.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/updateMailContent.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	
 	<navigation-rule>
 		<display-name>update mail content</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/updateMailContent.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/updateMailContent.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_managed_mail_content</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeMailContent.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/seeMailContent.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1034,10 +1034,10 @@
 	<!--## AutoLp ##-->
 	<navigation-rule>
 		<display-name>Automation supplementary lists</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/seeAutoLp.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/seeAutoLp.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1046,45 +1046,45 @@
 
 	<navigation-rule>
 		<display-name>Opinions list</display-name>
-		<from-view-id>/stylesheets/gestionnaire/opinion/enterAllStudentsOpinions.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/opinion/enterAllStudentsOpinions.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_opinion</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/opinion/seeOpinions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/opinion/seeOpinions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>Opinions list students</display-name>
-		<from-view-id>/stylesheets/gestionnaire/opinion/enterStudentsOpinions.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/opinion/enterStudentsOpinions.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_opinion</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/opinion/seeOpinions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/opinion/seeOpinions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>Enter Opinion</display-name>
-		<from-view-id>/stylesheets/gestionnaire/opinion/seeOpinions.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/opinion/seeOpinions.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_enter_all_students_opinions</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/opinion/enterAllStudentsOpinions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/opinion/enterAllStudentsOpinions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_enter_students_opinions</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/opinion/enterStudentsOpinions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/opinion/enterStudentsOpinions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1093,10 +1093,10 @@
 
 	<navigation-rule>
 		<display-name>Print opinion</display-name>
-		<from-view-id>/stylesheets/gestionnaire/opinion/printOpinions.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/opinion/printOpinions.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1105,10 +1105,10 @@
 
 	<navigation-rule>
 		<display-name>Print TR opinion</display-name>
-		<from-view-id>/stylesheets/gestionnaire/opinion/printTROpinions.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/opinion/printTROpinions.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1117,10 +1117,10 @@
 
 	<navigation-rule>
 		<display-name>Print lists prepa</display-name>
-		<from-view-id>/stylesheets/gestionnaire/opinion/printListsPrepa.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/opinion/printListsPrepa.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1128,10 +1128,10 @@
 	<!--## Print lists form ##-->
 	<navigation-rule>
 		<display-name>Print lists form</display-name>
-		<from-view-id>/stylesheets/gestionnaire/opinion/printListsForm.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/opinion/printListsForm.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1140,10 +1140,10 @@
 
 	<navigation-rule>
 		<display-name>Motivation avis list</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/seeMotivationsAvis.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/seeMotivationsAvis.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1152,10 +1152,10 @@
 
 	<navigation-rule>
 		<display-name>Campagnes list</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/seeCampagnes.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/seeCampagnes.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1163,25 +1163,25 @@
 	<!--## Missing Pieces ##-->
 	<navigation-rule>
 		<display-name>Pièces Manquantes list</display-name>
-		<from-view-id>/stylesheets/gestionnaire/opinion/seeEtudiants.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/opinion/seeEtudiants.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_enter_pm_student</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/opinion/enterPM.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/opinion/enterPM.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>Missing piece list</display-name>
-		<from-view-id>/stylesheets/gestionnaire/opinion/enterPM.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/opinion/enterPM.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_see_pm_students</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/opinion/seeEtudiants.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/opinion/seeEtudiants.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1189,10 +1189,10 @@
 	<!--## Paramétrage des rendez-vous ##-->
 	<navigation-rule>
 		<display-name>Paramétrage RDV</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/seeParamRdv.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/seeParamRdv.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1206,20 +1206,20 @@
 
 	<navigation-rule>
 		<display-name>commissions functions</display-name>
-		<from-view-id>/stylesheets/gestionnaire/referentiels/seeCommissions.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/referentiels/seeCommissions.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_cmi</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/seeOneCommission.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/seeOneCommission.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_enter_cmi</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/enterCommission.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/enterCommission.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1227,20 +1227,20 @@
 
 	<navigation-rule>
 		<display-name>see one commission</display-name>
-		<from-view-id>/stylesheets/gestionnaire/referentiels/seeOneCommission.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/referentiels/seeOneCommission.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_managed_cmi</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/seeCommissions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/seeCommissions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_enter_cmi</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/enterCommission.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/enterCommission.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_cal_cmi</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/seeCalendarCmi.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/seeCalendarCmi.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1248,50 +1248,50 @@
 
 	<navigation-rule>
 		<display-name>see calendar CMI</display-name>
-		<from-view-id>/stylesheets/gestionnaire/referentiels/seeCalendarCmi.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/referentiels/seeCalendarCmi.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_see_cmi</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/seeOneCommission.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/seeOneCommission.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_update_calendar</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/updateCalendar.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/updateCalendar.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>enter commission</display-name>
-		<from-view-id>/stylesheets/gestionnaire/referentiels/enterCommission.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/referentiels/enterCommission.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_managed_cmi</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/seeCommissions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/seeCommissions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_cmi</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/seeOneCommission.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/seeOneCommission.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_search_membre</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/addSearchMembres.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/addSearchMembres.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_search_vet</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/searchVersionEtape.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/searchVersionEtape.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>addSearchMembres</display-name>
-		<from-view-id>/stylesheets/gestionnaire/referentiels/addSearchMembres.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/referentiels/addSearchMembres.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_enter_cmi</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/enterCommission.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/enterCommission.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1303,50 +1303,50 @@
 	<!--## Treatment Commissions ##-->
 	<navigation-rule>
 		<display-name>managed treatment cmi</display-name>
-		<from-view-id>/stylesheets/gestionnaire/referentiels/managedTrtCmi.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/referentiels/managedTrtCmi.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_search_vet</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/searchVersionEtape.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/searchVersionEtape.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_managed_camp_vet</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/managedCampToVet.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/managedCampToVet.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	
 	<navigation-rule>
 		<display-name>addSearchEtape</display-name>
-		<from-view-id>/stylesheets/gestionnaire/referentiels/searchVersionEtape.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/referentiels/searchVersionEtape.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_managed_trt_cmi</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/managedTrtCmi.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/managedTrtCmi.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_enter_pj</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/enterPJ.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/enterPJ.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_affect_pj</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/affectPJ.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/parameters/affectPJ.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	
 	<navigation-rule>
 		<display-name>managed Campagne to vet</display-name>
-		<from-view-id>/stylesheets/gestionnaire/referentiels/managedCampToVet.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/referentiels/managedCampToVet.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_managed_trt_cmi</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/managedTrtCmi.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/managedTrtCmi.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1358,70 +1358,70 @@
 
 	<navigation-rule>
 		<display-name>calendars fonctions</display-name>
-		<from-view-id>/stylesheets/gestionnaire/referentiels/seeCalendars.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/referentiels/seeCalendars.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_add_calendar</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/addCalendar.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/addCalendar.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_update_calendar</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/updateCalendar.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/updateCalendar.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_calendar</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/seeOneCalendar.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/seeOneCalendar.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>add calendars</display-name>
-		<from-view-id>/stylesheets/gestionnaire/referentiels/addCalendar.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/referentiels/addCalendar.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_managed_calendar</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/seeCalendars.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/seeCalendars.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>update calendars</display-name>
-		<from-view-id>/stylesheets/gestionnaire/referentiels/updateCalendar.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/referentiels/updateCalendar.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_managed_calendar</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/seeCalendars.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/seeCalendars.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>consult calendar</display-name>
-		<from-view-id>/stylesheets/gestionnaire/referentiels/seeOneCalendar.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/referentiels/seeOneCalendar.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_managed_calendar</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/seeCalendars.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/seeCalendars.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_update_calendar</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/referentiels/updateCalendar.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/referentiels/updateCalendar.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>consult nb voeux</display-name>
-		<from-view-id>/stylesheets/gestionnaire/referentiels/seeNbVoeuByCGE.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/referentiels/seeNbVoeuByCGE.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1429,10 +1429,10 @@
 	<!--## Consultation des rendez-vous ##-->
 	<navigation-rule>
 		<display-name>Consultation RDV</display-name>
-		<from-view-id>/stylesheets/gestionnaire/referentiels/seeConsultRdv.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/referentiels/seeConsultRdv.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1441,10 +1441,10 @@
 	<!--## Gestion des epreuves de selection ##-->
 	<navigation-rule>
 		<display-name>Consultation RDV</display-name>
-		<from-view-id>/stylesheets/gestionnaire/referentiels/enterSelection.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/referentiels/enterSelection.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1454,30 +1454,30 @@
 	<!--## Formations ##-->
 	<navigation-rule>
 		<display-name>fonction list</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/seeGrpTypDip.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/seeGrpTypDip.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>fonction list</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/seeDomainsDeFormations.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/seeDomainsDeFormations.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>fonction list</display-name>
-		<from-view-id>/stylesheets/gestionnaire/parameters/seeClefsDesFormations.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/parameters/seeClefsDesFormations.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1486,25 +1486,25 @@
 	<!--## opinion's validation ##-->
 	<navigation-rule>
 		<display-name>Students with opinion not validated</display-name>
-		<from-view-id>/stylesheets/gestionnaire/opinion/validOpinions.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/opinion/validOpinions.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_see_not_validated_student</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/opinion/seeEtuNotValid.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/opinion/seeEtuNotValid.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>List of Commission for opinion's validation</display-name>
-		<from-view-id>/stylesheets/gestionnaire/opinion/seeEtuNotValid.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/opinion/seeEtuNotValid.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_valid_opinions</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/opinion/validOpinions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/opinion/validOpinions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1513,10 +1513,10 @@
 	
 	<navigation-rule>
 		<display-name>Permet de suivre les candidatures en fonction de l'etat confirme ou desiste</display-name>
-		<from-view-id>/stylesheets/gestionnaire/user/suivreCandidatures.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/user/suivreCandidatures.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1527,20 +1527,20 @@
 
 	<navigation-rule>
 		<display-name>Permet d'afficher et de gérer la liste des taches d'archivage</display-name>
-		<from-view-id>/stylesheets/gestionnaire/pilotage/seeAllArchiveTasks.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/pilotage/seeAllArchiveTasks.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<display-name>Permet de gérer l'archivage des services de formation continue</display-name>
-		<from-view-id>/stylesheets/gestionnaire/pilotage/managedArchiveSFC.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/pilotage/managedArchiveSFC.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -1549,30 +1549,30 @@
 	
 	<navigation-rule>
 		<display-name>Permet de paramétrer les statistiques</display-name>
-		<from-view-id>/stylesheets/gestionnaire/pilotage/seeParamStat.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/pilotage/seeParamStat.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_result_stat</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/pilotage/seeResultStat.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/pilotage/seeResultStat.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	
 	<navigation-rule>
 		<display-name>Permet de visualiser les statistiques</display-name>
-		<from-view-id>/stylesheets/gestionnaire/pilotage/seeResultStat.jsp</from-view-id>
+		<from-view-id>/stylesheets/gestionnaire/pilotage/seeResultStat.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/displayFonctions.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>go_see_param_stat</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/pilotage/seeParamStat.jsp</to-view-id>
+			<to-view-id>/stylesheets/gestionnaire/pilotage/seeParamStat.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>

@@ -2,14 +2,14 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="template.xhtml">
+    template="/stylesheets/template.xhtml">
     <ui:define name="content">
        <ui:include src="../_include/_headerException.xhtml" />
     
     	
     	<div id="maPage" class="div_body">
     		<div class="messageForUser">
-    			<p:message id="messages" showDetail="true" autoUpdate="true" />
+    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
     		</div>
     		<h:form id="exceptionForm" styleClass="opiR1_form">
     			<br />

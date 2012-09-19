@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class
-		name="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.FormulaireCmi"
+		name="org.esupportail.opi.domain.beans.references.commission.FormulaireCmi"
 		table="formulaireCmi">
 		<id name="id" unsaved-value="null"> 
 			<column name="id_form_cmi" sql-type="integer" not-null="true"/>

@@ -105,4 +105,12 @@
             </plugins>
         </pluginManagement>
     </build>
+    <dependencies>
+        <dependency>
+          <groupId>org.esupportail</groupId>
+          <artifactId>esup-commons2-ws-cxf</artifactId>
+          <version>${esupcommons.version}</version>
+          <type>pom</type>
+        </dependency>
+    </dependencies>
 </project>

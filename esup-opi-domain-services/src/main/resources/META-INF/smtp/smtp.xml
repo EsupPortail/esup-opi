@@ -5,20 +5,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
 	>
-  
-    <bean 
-    	id="smtpServiceFactory" 
-    	class="fr.univ.rennes1.cri.opiR1.services.mails.SmtpServiceFactory" 
-    	lazy-init="true"
-    	>
-    	<property name="acknowledgment" value="${smtp.acknowledgment}" />
-    	<property name="recipientEmail" value="${exceptionHandling.email}" />
-    	<property name="acknowledgementEmail" value="${smtp.acknowledgementEmail}" />
-    </bean>
     
     <bean id="smtpService"
-      factory-bean="smtpServiceFactory"
-      factory-method="createInstance">   
+        class="org.esupportail.commons.services.smtp.AsynchronousSmtpServiceImpl" 
+        lazy-init="true">
       <property name="servers">
 			<list>
 				<ref bean="smtpServer" />

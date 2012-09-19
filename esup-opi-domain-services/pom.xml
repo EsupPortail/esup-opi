@@ -60,11 +60,15 @@
         <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-commons2-ldap</artifactId>
-            <version>0.2.8</version>
+            <version>${esupcommons.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>esup-commons2-core</artifactId>
                     <groupId>org.esupportail</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>spring-tx</artifactId>
+                    <groupId>org.springframework</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -88,7 +92,7 @@
         <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-commons2-annotations</artifactId>
-            <version>0.2.2</version>
+            <version>${esupcommons.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>esup-commons2-core</artifactId>
@@ -96,15 +100,33 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>xmldb</groupId>
-            <artifactId>xmldb-api</artifactId>
-            <version>20021118</version>
-        </dependency>
+        <!-- eXist -->
         <dependency>
             <groupId>org.exist</groupId>
             <artifactId>exist</artifactId>
             <version>1.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.fabric3.fabric3-db-exist</groupId>
+            <artifactId>xmldb</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlrpc</groupId>
+            <artifactId>xmlrpc</artifactId>
+            <version>3.1.3</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlrpc</groupId>
+            <artifactId>xmlrpc-client</artifactId>
+            <version>3.1.3</version>
+        </dependency>
+        <!-- spring oxm -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-oxm</artifactId>
+            <version>3.0.6.RELEASE</version>
         </dependency>
     </dependencies>
 </project>

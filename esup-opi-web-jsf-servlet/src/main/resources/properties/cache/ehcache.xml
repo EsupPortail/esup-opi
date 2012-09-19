@@ -5,7 +5,7 @@
 		file is referenced from /properties/cache/cache.xml.
 	-->
 
-	<diskStore path="${cache.path}" />
+	<diskStore path="/tmp" />
 
 	<!--
 		Note: EhCache is disabled by default in hibernate.cfg.xml.
@@ -14,83 +14,83 @@
 
 	<cache name="fr.univ.rennes1.cri.opiR1.domain.beans.VersionManager"
 		maxElementsInMemory="100" eternal="false" timeToIdleSeconds="30"
-		timeToLiveSeconds="60" overflowToDisk="true" />
+		timeToLiveSeconds="60" overflowToDisk="false" />
 
 	<cache name="org.esupportail.commons.services.ldap.CachingLdapServiceImpl"
 		maxElementsInMemory="100" eternal="false" timeToIdleSeconds="300"
-		timeToLiveSeconds="600" overflowToDisk="true" />
+		timeToLiveSeconds="600" overflowToDisk="false" />
 
 	<cache
 		name="org.esupportail.commons.services.exceptionHandling.CachingEmailExceptionServiceImpl"
 		maxElementsInMemory="100" eternal="false" timeToIdleSeconds="900"
-		timeToLiveSeconds="900" overflowToDisk="true" />
+		timeToLiveSeconds="900" overflowToDisk="false" />
 
 
 	<!-- *****  MANAGED USERS ***** -->
 	<cache name="fr.univ.rennes1.cri.opiR1.domain.beans.user.User"
 		maxElementsInMemory="300" eternal="false" timeToIdleSeconds="21600"
-		timeToLiveSeconds="21600" overflowToDisk="true" />
+		timeToLiveSeconds="21600" overflowToDisk="false" />
 		
 	<cache name="fr.univ.rennes1.cri.opiR1.domain.beans.user.candidature.MissingPiece"
 		maxElementsInMemory="200" eternal="false" timeToIdleSeconds="86400"
-		timeToLiveSeconds="86400" overflowToDisk="true" />
+		timeToLiveSeconds="86400" overflowToDisk="false" />
 
 
 	<!-- *****  PARAMETERS ***** -->
 	<cache
 		name="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.default"
 		maxElementsInMemory="100" eternal="false" timeToIdleSeconds="86400"
-		timeToLiveSeconds="86400" overflowToDisk="true" />
+		timeToLiveSeconds="86400" overflowToDisk="false" />
 
 	<cache name="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.nomenclature"
 		maxElementsInMemory="500" eternal="false" timeToIdleSeconds="86400"
-		timeToLiveSeconds="86400" overflowToDisk="true" />
+		timeToLiveSeconds="86400" overflowToDisk="false" />
 
 
 	<!-- *****  REFERENCES ***** -->
 	<cache name="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.references"
 		maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="86400"
-		timeToLiveSeconds="86400" overflowToDisk="true" />
+		timeToLiveSeconds="86400" overflowToDisk="false" />
 
 	<cache
 		name="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.references.NombreVoeuCge"
 		maxElementsInMemory="10" eternal="false" timeToIdleSeconds="172800"
-		timeToLiveSeconds="172800" overflowToDisk="true" />
+		timeToLiveSeconds="172800" overflowToDisk="false" />
 
 	<cache name="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.references.rendezvous"
 		maxElementsInMemory="500" eternal="false" timeToIdleSeconds="86400"
-		timeToLiveSeconds="86400" overflowToDisk="true" />
+		timeToLiveSeconds="86400" overflowToDisk="false" />
 
 	<!-- *****  GEOGRAPHIE APOGEE (2 jours dans le cache) ***** -->
 	<cache name="gouv.education.apogee.commun.transverse.dto.geographie"
 		maxElementsInMemory="4000" eternal="false" timeToIdleSeconds="172800"
-		timeToLiveSeconds="172800" overflowToDisk="true" />
+		timeToLiveSeconds="172800" overflowToDisk="false" />
 
 	<!-- *****  RENNES1 APOGEE (2 jours dans le cache) ***** -->
 	<cache name="org.esupportail.apogee.domain.beans.rennes1"
 		maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="172800"
-		timeToLiveSeconds="172800" overflowToDisk="true" />
+		timeToLiveSeconds="172800" overflowToDisk="false" />
 
 	<!-- *****  RENNES1 APOGEE (2 jours dans le cache) ***** -->
 	<cache name="org.esupportail.apogee.domain.beans.enseignement"
 		maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="172800"
-		timeToLiveSeconds="172800" overflowToDisk="true" />
+		timeToLiveSeconds="172800" overflowToDisk="false" />
 
 	<!-- *****  VET RENNES1 APOGEE (2 jours dans le cache) ***** -->
 	<cache name="org.esupportail.apogee.domain.dto.enseignement.VersionEtapeDTO"
 		maxElementsInMemory="500" eternal="false" timeToIdleSeconds="172800"
-		timeToLiveSeconds="172800" overflowToDisk="true" />
+		timeToLiveSeconds="172800" overflowToDisk="false" />
 
 	<cache name="org.esupportail.apogee.domain.beans.referentiel.etablissement.Etablissement"
 		maxElementsInMemory="800" eternal="false" timeToIdleSeconds="172800"
-		timeToLiveSeconds="172800" overflowToDisk="true" />
+		timeToLiveSeconds="172800" overflowToDisk="false" />
 		
 	<cache name="org.esupportail.apogee.domain.beans.referentiel.BacOuxEqu"
 		maxElementsInMemory="500" eternal="false" timeToIdleSeconds="172800"
-		timeToLiveSeconds="172800" overflowToDisk="true" />
+		timeToLiveSeconds="172800" overflowToDisk="false" />
 
 	<defaultCache maxElementsInMemory="10000" eternal="false"
-		timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="true"
+		timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="false"
 		diskPersistent="false" diskExpiryThreadIntervalSeconds="120"
 		memoryStoreEvictionPolicy="LRU" />
 

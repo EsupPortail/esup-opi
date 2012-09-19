@@ -25,7 +25,7 @@
 	
 	<bean 
 		id="motivationAvisConverter"
-		class="fr.univ.rennes1.cri.opiR1.web.converter.MotivationAvisConverter"
+		class="org.esupportail.opi.web.converter.MotivationAvisConverter"
 		>
     	<description>
 			A converter for MotivationAvis.
@@ -35,7 +35,7 @@
 
 	<bean 
 		id="typeDecisionConverter"
-		class="fr.univ.rennes1.cri.opiR1.web.converter.TypeDecisionConverter"
+		class="org.esupportail.opi.web.converter.TypeDecisionConverter"
 		>
     	<description>
 			A converter for TypeDecision.
@@ -45,7 +45,7 @@
 
 	<bean 
 		id="campagneConverter"
-		class="fr.univ.rennes1.cri.opiR1.web.converter.CampagneConverter"
+		class="org.esupportail.opi.web.converter.CampagneConverter"
 		>
     	<description>
 			A converter for Campagne.
@@ -55,7 +55,7 @@
 
 	<bean 
 		id="regimeInscriptionConverter"
-		class="fr.univ.rennes1.cri.opiR1.web.converter.RegimeInscriptionConverter"
+		class="org.esupportail.opi.web.converter.RegimeInscriptionConverter"
 		>
     	<description>
 			A converter for RegimeInscription.

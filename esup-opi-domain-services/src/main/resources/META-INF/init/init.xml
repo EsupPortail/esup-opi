@@ -16,8 +16,7 @@
 
 	<bean 
 		id="versionningService"
-		class="fr.univ.rennes1.cri.opiR1.services.application.VersionningServiceImpl"
-		parent="abstractDomainAwareBean"
+		class="org.esupportail.opi.services.application.VersionningServiceImpl"
 		>
 		<property name="firstAdministratorId" value="${init.firstAdministratorId}" />
 		<property name="accessAdmin">
@@ -41,7 +40,7 @@
 	
 	<bean 
 		id="profil_admin"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Profile"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Profile"
 		lazy-init="true"
 		>
 		<property name="code" value="ADMIN" />
@@ -51,7 +50,7 @@
 	
 	<bean 
 		id="profil_membre"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Profile"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Profile"
 		lazy-init="true"
 		>
 		<property name="code" value="MEMBRE" />

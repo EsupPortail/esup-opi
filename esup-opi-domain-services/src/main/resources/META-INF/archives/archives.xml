@@ -7,7 +7,7 @@
 	>
 	
 	<bean id="archiveService" lazy-init="true"
-        class="fr.univ.rennes1.cri.opiR1.services.archives.ArchiveServiceImpl">
+        class="org.esupportail.opi.services.archives.ArchiveServiceImpl">
         <property name="domainService" ref="domainService" />
         <property name="domainApoService" ref="domainApoService" />
         <property name="parameterService" ref="parameterService" />

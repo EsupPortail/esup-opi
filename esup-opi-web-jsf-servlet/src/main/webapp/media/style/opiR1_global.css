@@ -687,7 +687,7 @@ table.displayAddRdv tr td.right {
 	text-align: right;
 }
 
-.esup-opiR1 div.welcomeGotoFirstConnexion {
+.esup-opiR1 .welcomeGotoFirstConnexion {
 	border: 1px solid #b7b6b6;
 	background-color: #f9f9f9;
 	padding: 5px;
@@ -695,7 +695,7 @@ table.displayAddRdv tr td.right {
 	height: 90px;
 }
 
-.esup-opiR1 div.welcomeGotoAccueilCandi {
+.esup-opiR1 .welcomeGotoAccueilCandi {
 	border: 1px solid #b7b6b6;
 	background-color: #f9f9f9;
 	padding: 5px;

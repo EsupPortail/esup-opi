@@ -8,7 +8,7 @@
 
 
 	<bean id="createDosIndFI" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la création du dossier pour un candidat
 			de la fomation Initiale </description>
 		<property name="code" value="CREATE_DOS_FI" />
@@ -18,7 +18,7 @@
 	</bean>
 
 	<bean id="createDosIndFC" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la création du dossier pour un candidat
 			de la fomation Continue </description>
 		<property name="code" value="CREATE_DOS_FC" />
@@ -28,7 +28,7 @@
 	</bean>
 
 	<bean id="addCursusScolFI" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : pour toutes modifications du cursus post
 			bac pour un candidat FI </description>
 		<property name="code" value="ADD_CUR_SCOL_FI" /><!--
@@ -39,7 +39,7 @@
 	</bean>
 
 	<bean id="addCursusScolFC" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : pour toutes modifications du cursus post
 			bac pour un candidat FC </description>
 		<property name="code" value="ADD_CUR_SCOL_FC" />
@@ -49,7 +49,7 @@
 	</bean>
 
 	<bean id="addWishesASFI" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : pour tout ajout de voeux pour un candidat FI</description>
 		<property name="code" value="WISHES_AS_FI" />
 		<property name="defaultBody" value="MAIL.UPDATE.WISHES_FI.AS.DEFAULT_BODY" />
@@ -58,7 +58,7 @@
 	</bean>
 
 	<bean id="addWishesASFC" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : pour tout ajout de voeux pour un candidat FC</description>
 		<property name="code" value="WISHES_AS_FC" />
 		<property name="defaultBody" value="MAIL.UPDATE.WISHES_FC.AS.DEFAULT_BODY" />
@@ -67,7 +67,7 @@
 	</bean>
 
 	<bean id="addWishesTRVAFI" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : pour tout ajout de voeux pour un candidat FI</description>
 		<property name="code" value="WISHES_TR_VA_FI" />
 		<property name="defaultBody" value="MAIL.UPDATE.WISHES_FI.TR_VA.DEFAULT_BODY" />
@@ -76,7 +76,7 @@
 	</bean>
 
 	<bean id="addWishesTRVAFC" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : pour tout ajout de voeux pour un candidat FC</description>
 		<property name="code" value="WISHES_TR_VA_FC" />
 		<property name="defaultBody" value="MAIL.UPDATE.WISHES_FC.TR_VA.DEFAULT_BODY" />
@@ -85,14 +85,14 @@
 	</bean>
 
 	<bean id="convocMember" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : convocation pour les membres de commission
 		</description>
 		<property name="code" value="CONVOC_MBR_CMI" />
 		<property name="defaultBody" value="MAIL.COMMISSION.CONVOC.DEFAULT_BODY" />
 		<property name="defaultSubject" value="MAIL.COMMISSION.CONVOC.DEFAULT_SUBJECT" />
 		<property name="mailExceptionMethods">
-			<bean class="fr.univ.rennes1.cri.opiR1.services.mails.MailExceptionMethods">
+			<bean class="org.esupportail.opi.services.mails.MailExceptionMethods">
 				<property name="IService" ref="i18nService" />
 				<property name="domainApoService" ref="domainApoService"/>
 				<property name="domainService" ref="domainService" />
@@ -112,7 +112,7 @@
 	</bean>
 
 	<bean id="infoValidWishesFC" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la création du dossier pour un candidat
 			de la fomation Continue </description>
 		<property name="code" value="VALID_WISHES_FC" />
@@ -122,7 +122,7 @@
 	</bean>
 
 	<bean id="confirmInscriptionFI" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la confirmation d'une inscription par un candidat FI </description>
 		<property name="code" value="CONF_INSC_FI" />
 		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.CONF_FI.DEFAULT_BODY" />
@@ -131,7 +131,7 @@
 	</bean>
 
 	<bean id="confirmInscriptionFC" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la confirmation d'une inscription par un candidat FC </description>
 		<property name="code" value="CONF_INSC_FC" />
 		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.CONF_FC.DEFAULT_BODY" />
@@ -140,7 +140,7 @@
 	</bean>
 
 	<bean id="rappelNumDossFI" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la demande d'un rappel de num de dossier d'un candidat FI </description>
 		<property name="code" value="RAP_NUM_DOSS_FI" />
 		<property name="defaultBody" value="MAIL.FORGET_NUM_DOS_FI.DEFAULT_BODY" />
@@ -149,7 +149,7 @@
 	</bean>
 
 	<bean id="rappelNumDossFC" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la demande d'un rappel de num de dossier d'un candidat FC </description>
 		<property name="code" value="RAP_NUM_DOSS_FC" />
 		<property name="defaultBody" value="MAIL.FORGET_NUM_DOS_FC.DEFAULT_BODY" />
@@ -158,7 +158,7 @@
 	</bean>
 
 	<bean id="dossArriveCompletFI" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la réception du dossier complet d'un candidat FI </description>
 		<property name="code" value="DOSS_COMPLET_FI" />
 		<property name="defaultBody" value="MAIL.ARRIVE.COMPLET_FI.DEFAULT_BODY" />
@@ -167,7 +167,7 @@
 	</bean>
 
 	<bean id="dossArriveIncompletFI" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la réception du dossier incomplet d'un candidat FI </description>
 		<property name="code" value="DOSS_INCOMP_FI" />
 		<property name="defaultBody" value="MAIL.ARRIVE.INCOMPLET_FI.DEFAULT_BODY" />
@@ -176,7 +176,7 @@
 	</bean>
 
 	<bean id="dossArriveCompletFC" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la réception du dossier complet d'un candidat FI </description>
 		<property name="code" value="DOSS_COMPLET_FC" />
 		<property name="defaultBody" value="MAIL.ARRIVE.COMPLET_FC.DEFAULT_BODY" />
@@ -185,7 +185,7 @@
 	</bean>
 
 	<bean id="dossArriveIncompletFC" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la réception du dossier incomplet d'un candidat FI </description>
 		<property name="code" value="DOSS_INCOMP_FC" />
 		<property name="defaultBody" value="MAIL.ARRIVE.INCOMPLET_FC.DEFAULT_BODY" />
@@ -194,7 +194,7 @@
 	</bean>
 
 	<bean id="inscriptionAdmFI" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la validation d'un type de convocation menant à 
 		une inscription administrative pour un candidat FI </description>
 		<property name="code" value="INSCR_ADM_FI" />
@@ -204,7 +204,7 @@
 	</bean>
 
 	<bean id="inscriptionAdmAppelFI" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la validation d'un type de convocation menant à 
 		une inscription administrative pour un candidat FI </description>
 		<property name="code" value="INS_ADM_APP_FI" />
@@ -214,7 +214,7 @@
 	</bean>
 
 	<bean id="refusedFI" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la validation d'un type de convocation menant à 
 		un avis défavorable pour un candidat FI </description>
 		<property name="code" value="REFUSED_FI" />
@@ -224,7 +224,7 @@
 	</bean>
 
 	<bean id="refusedAppelFI" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la validation d'un type de convocation menant à 
 		un avis défavorable pour un candidat FI </description>
 		<property name="code" value="REFUS_APPEL_FI" />
@@ -234,7 +234,7 @@
 	</bean>
 
 	<bean id="preselectionFI" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la validation d'un type de convocation menant à 
 		une préselection pour un candidat FI </description>
 		<property name="code" value="PRESELECTION_FI" />
@@ -244,7 +244,7 @@
 	</bean>
 
 	<bean id="listeComplementaireFI" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la validation d'un type de convocation menant à 
 		une liste complémentaire pour un candidat FI </description>
 		<property name="code" value="LISTE_COMP_FI" />
@@ -254,7 +254,7 @@
 	</bean>
 	
 	<bean id="intermediaryFI" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la validation d'un type de convocation 
 		intérmédiaire pour un candidat FI </description>
 		<property name="code" value="INTERM_FI" />
@@ -264,7 +264,7 @@
 	</bean>
 	
 	<bean id="inscriptionAdmFC" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la validation d'un type de convocation menant à 
 		une inscription administrative pour un candidat FC </description>
 		<property name="code" value="INSCR_ADM_FC" />
@@ -274,7 +274,7 @@
 	</bean>
 
 	<bean id="inscriptionAdmAppelFC" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la validation d'un type de convocation menant à 
 		une inscription administrative pour un candidat FC </description>
 		<property name="code" value="INS_ADM_APP_FC" />
@@ -284,7 +284,7 @@
 	</bean>
 
 	<bean id="refusedFC" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la validation d'un type de convocation menant à 
 		un avis défavorable pour un candidat FC </description>
 		<property name="code" value="REFUSED_FC" />
@@ -294,7 +294,7 @@
 	</bean>
 
 	<bean id="refusedAppelFC" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la validation d'un type de convocation menant à 
 		un avis défavorable pour un candidat FC </description>
 		<property name="code" value="REFUS_APPEL_FC" />
@@ -304,7 +304,7 @@
 	</bean>
 
 	<bean id="preselectionFC" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la validation d'un type de convocation menant à 
 		une préselection pour un candidat FC </description>
 		<property name="code" value="PRESELECTION_FC" />
@@ -314,7 +314,7 @@
 	</bean>
 
 	<bean id="listeComplementaireFC" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : à la validation d'un type de convocation menant à 
 		une liste complémentaire pour un candidat FC </description>
 		<property name="code" value="LISTE_COMP_FC" />
@@ -324,7 +324,7 @@
 	</bean>
 	
 	<bean id="intermediaryFC" parent="abstractMailForInd"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailContentWithExceptionImpl">
+		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
 		<description>send to : Ã  la validation d'un type de convocation 
 		intÃ©rmÃ©diaire pour un candidat FC </description>
 		<property name="code" value="INTERM_FC" />
@@ -334,7 +334,7 @@
 	</bean>
 
 	<bean id="methodExcepGlobal"
-		class="fr.univ.rennes1.cri.opiR1.services.mails.MailExceptionMethods">
+		class="org.esupportail.opi.services.mails.MailExceptionMethods">
 		<property name="IService" ref="i18nService" />
 		<property name="domainApoService" ref="domainApoService"/>
 		<property name="domainService" ref="domainService" />

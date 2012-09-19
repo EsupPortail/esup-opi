@@ -21,33 +21,33 @@
 		<message-bundle>properties.i18n.bundles.JsfMessages</message-bundle>
 	</application>
 
-	<component>
-		<component-type>faces.opi.component.menu</component-type>
-		<component-class>fr.univ.rennes1.cri.opiR1.web.tag.UIMenuDyn</component-class>
-	</component>
+<!-- 	<component> -->
+<!-- 		<component-type>faces.opi.component.menu</component-type> -->
+<!-- 		<component-class>fr.univ.rennes1.cri.opiR1.web.tag.UIMenuDyn</component-class> -->
+<!-- 	</component> -->
 
-	<component>
-		<component-type>faces.opi.component.menuItems</component-type>
-		<component-class>fr.univ.rennes1.cri.opiR1.web.tag.UIMenuDynItems</component-class>
-	</component>
+<!-- 	<component> -->
+<!-- 		<component-type>faces.opi.component.menuItems</component-type> -->
+<!-- 		<component-class>fr.univ.rennes1.cri.opiR1.web.tag.UIMenuDynItems</component-class> -->
+<!-- 	</component> -->
 
-	<component>
-		<component-type>component.CustomSelectOneRadio</component-type>
-		<component-class>fr.univ.rennes1.cri.opiR1.web.tag.components.UICustomSelectOneRadio
-    </component-class>
-		<component-extension>
-			<component-family>CustomSelectOneRadio</component-family>
-			<renderer-type>renderer.CustomSelectOneRadio</renderer-type>
-		</component-extension>
-	</component>
+<!-- 	<component> -->
+<!-- 		<component-type>component.CustomSelectOneRadio</component-type> -->
+<!-- 		<component-class>fr.univ.rennes1.cri.opiR1.web.tag.components.UICustomSelectOneRadio -->
+<!--     </component-class> -->
+<!-- 		<component-extension> -->
+<!-- 			<component-family>CustomSelectOneRadio</component-family> -->
+<!-- 			<renderer-type>renderer.CustomSelectOneRadio</renderer-type> -->
+<!-- 		</component-extension> -->
+<!-- 	</component> -->
 
-	<render-kit>
-		<renderer>
-			<component-family>CustomSelectOneRadio</component-family>
-			<renderer-type>renderer.CustomSelectOneRadio</renderer-type>
-			<renderer-class>fr.univ.rennes1.cri.opiR1.web.tag.renderers.HTMLCustomSelectOneRadioRenderer
-      </renderer-class>
-		</renderer>
-	</render-kit>
+<!-- 	<render-kit> -->
+<!-- 		<renderer> -->
+<!-- 			<component-family>CustomSelectOneRadio</component-family> -->
+<!-- 			<renderer-type>renderer.CustomSelectOneRadio</renderer-type> -->
+<!-- 			<renderer-class>fr.univ.rennes1.cri.opiR1.web.tag.renderers.HTMLCustomSelectOneRadioRenderer -->
+<!--       </renderer-class> -->
+<!-- 		</renderer> -->
+<!-- 	</render-kit> -->
 
 </faces-config>

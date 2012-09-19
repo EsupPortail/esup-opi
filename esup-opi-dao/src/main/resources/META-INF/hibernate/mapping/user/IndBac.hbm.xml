@@ -3,7 +3,7 @@
       "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
           "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus">
+<hibernate-mapping package="org.esupportail.opi.domain.beans.user.indcursus">
 
 	<class name="IndBac" table="ind_bac" >
 		<id name="id"> 
