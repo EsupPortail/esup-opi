@@ -3,12 +3,12 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
     xmlns:t="http://myfaces.apache.org/tomahawk"
-    template="template.xhtml">
+    template="/stylesheets/template.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
     		<h1><h:outputText value="#{msgs['COMMISSION.TITLE.SEE']}" /></h1>
     		<div class="messageForUser">
-    			<p:message id="messages" showDetail="true" autoUpdate="true" />
+    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
     		</div>
     		<div id="div_subSectionCmiForm" class="div_subSection">
     			<h:form id="seeCommissionForm">

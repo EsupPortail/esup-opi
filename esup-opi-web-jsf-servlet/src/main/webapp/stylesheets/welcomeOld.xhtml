@@ -3,7 +3,7 @@
 xmlns:ui="http://java.sun.com/jsf/facelets"
 xmlns:h="http://java.sun.com/jsf/html"
 xmlns:p="http://primefaces.org/ui"
-template="template.xhtml">
+template="/stylesheets/template.xhtml">
 <ui:define name="content">
 	
 	
@@ -14,7 +14,7 @@ template="template.xhtml">
 		<h:form id="loginCandidatForm" class="div_subSection">
 				<h:outputFormat value="#{msgs['LOGIN_CANDIDAT.ETU_NOT_R1']}" escape="false" /></h2>
 				<div class="messageForUser">
-					<p:message id="messages" showDetail="true" autoUpdate="true" />
+					<p:messages id="messages" showDetail="true" autoUpdate="true" />
 				</div>
 				<div id="blockForm" class="blockForm">
 					<div styleClass="blockButton">

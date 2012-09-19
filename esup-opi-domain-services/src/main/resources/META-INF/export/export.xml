@@ -12,22 +12,21 @@
 	-->
 
 
-	<bean id="abstractXFire" class="org.codehaus.xfire.spring.remoting.XFireExporter"
-		abstract="true">
-		<property name="serviceFactory" ref="xfire.serviceFactory" />
-		<property name="xfire" ref="xfire" />
-	</bean>
+<!-- 	<bean id="abstractXFire" class="org.codehaus.xfire.spring.remoting.XFireExporter" -->
+<!-- 		abstract="true"> -->
+<!-- 		<property name="serviceFactory" ref="xfire.serviceFactory" /> -->
+<!-- 		<property name="xfire" ref="xfire" /> -->
+<!-- 	</bean> -->
 
 
-	<bean id="flushCacheXFire" parent="abstractXFire">
-		<property name="serviceBean" ref="flushCache" />
-		<property name="serviceClass"
-			value="fr.univ.rennes1.cri.opiR1.services.remote.IFlushCache" />
-	</bean>
+<!-- 	<bean id="flushCacheXFire" parent="abstractXFire"> -->
+<!-- 		<property name="serviceBean" ref="flushCache" /> -->
+<!-- 		<property name="serviceClass" -->
+<!-- 			value="org.esupportail.opi.services.remote.IFlushCache" /> -->
+<!-- 	</bean> -->
 
 
-	<bean id="flushCache" class="fr.univ.rennes1.cri.opiR1.services.remote.FlushCacheImpl">
-		<property name="cacheProvider" ref="cacheProvider" />
+	<bean id="flushCache" class="org.esupportail.opi.services.remote.FlushCacheImpl">
 		<property name="flushingModels" ref="cachePropertyConfigurer"/>
 	</bean>
 
@@ -49,7 +48,7 @@
 
 	<bean id="flushCacheThread" class="org.springframework.scheduling.quartz.JobDetailBean">
 		<property name="jobClass"
-			value="fr.univ.rennes1.cri.opiR1.services.remote.client.FlushCacheThread" />
+			value="org.esupportail.opi.services.remote.client.FlushCacheThread" />
 		<property name="jobDataAsMap">
 			<map>
 				<entry key="useFlushCache">
@@ -59,7 +58,7 @@
 		</property>
 	</bean>
 	
-	<bean id="useFlushCache" class="fr.univ.rennes1.cri.opiR1.services.remote.client.UseFlushCacheImpl">
+	<bean id="useFlushCache" class="org.esupportail.opi.services.remote.client.UseFlushCacheImpl">
 		<property name="serversString" value="${remote.flushCache.servers}"/>
 	</bean>
 	

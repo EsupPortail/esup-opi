@@ -77,7 +77,7 @@
 
 	<bean 
 		id="ldapTemplate" 
-		class="org.springframework.ldap.LdapTemplate"
+		class="org.springframework.ldap.core.LdapTemplate"
 		lazy-init="true"
 		>
 		<description>
@@ -92,7 +92,7 @@
 	</bean>
 
 	<bean id="contextSource"
-		class="org.springframework.ldap.support.LdapContextSource"
+		class="org.springframework.ldap.core.support.LdapContextSource"
 		lazy-init="true"
 		>
 		<description>
@@ -104,7 +104,7 @@
 			http://ldaptemplate.sourceforge.net.
 		</description>
 		<property name="url" value="${ldap.url}"/>
-		<property name="userName" value="${ldap.userName}">
+		<property name="userDn" value="${ldap.userName}">
 			<description>
 				The dn used to bind to the LDAP directory.
 			</description>

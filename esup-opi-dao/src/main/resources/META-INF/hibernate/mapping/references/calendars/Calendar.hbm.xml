@@ -3,7 +3,7 @@
       "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
           "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
           
-<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.references.calendar">
+<hibernate-mapping package="org.esupportail.opi.domain.beans.references.calendar">
 
 	<class name="Calendar" table="calendar">
 		<id name="id"> 
@@ -32,7 +32,7 @@
 			
 			<set name="commissions" table="cal_ins_cmi" >
 				<key column="id_cal_ins" not-null="true"/>
-				<many-to-many column="id_cmi" class="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.Commission"/>
+				<many-to-many column="id_cmi" class="org.esupportail.opi.domain.beans.references.commission.Commission"/>
 			</set>
 		</subclass>
 		

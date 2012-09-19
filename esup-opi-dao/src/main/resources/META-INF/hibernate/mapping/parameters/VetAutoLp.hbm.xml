@@ -3,7 +3,7 @@
       "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
           "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
           
-<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.parameters">
+<hibernate-mapping package="org.esupportail.opi.domain.beans.parameters">
 
 	<class name="VetAutoLp" table="AUTO_VET_LP">
 		<id name="id">
@@ -17,10 +17,10 @@
 		<property name="codVrsVet" column="cod_vrs_vet"/>
 		
 		<many-to-one name="autoListPrincipale" column="id_auto_lp" fetch="join" 
-			class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.AutoListPrincipale"/>
+			class="org.esupportail.opi.domain.beans.parameters.AutoListPrincipale"/>
 		
 		<many-to-one name="commission" column="id_commission" fetch="join" 
-			class="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.Commission"/>
+			class="org.esupportail.opi.domain.beans.references.commission.Commission"/>
 		
 	</class>
 </hibernate-mapping>

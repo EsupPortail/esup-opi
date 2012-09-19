@@ -10,9 +10,13 @@
         <ui:include src="_include/_header.xhtml" />
     </ui:define>
     <ui:define name="navigation">
-        <ui:include src="_include/_navigationAccueil.xhtml" />
+        <h:form id="navigationHeader">
+            <ui:include src="_include/_navigationAccueil.xhtml" />
+        </h:form>
     </ui:define>
     <ui:define name="footer">
-        <ui:include src="_include/_navigationAccueil.xhtml" />
+        <h:form id="navigationFooter">
+            <ui:include src="_include/_navigationAccueil.xhtml" />
+        </h:form>
     </ui:define>
 </ui:composition>

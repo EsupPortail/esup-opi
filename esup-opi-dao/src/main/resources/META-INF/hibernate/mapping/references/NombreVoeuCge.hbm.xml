@@ -3,7 +3,7 @@
       "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
           "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.references">
+<hibernate-mapping package="org.esupportail.opi.domain.beans.references">
 
 	<class name="NombreVoeuCge" table="nb_voeu_by_CGE">
 		<id name="codeCge" type="string">

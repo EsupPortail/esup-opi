@@ -142,7 +142,7 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 				l.addAll(parameterService.getTraitements(
 						g.getProfile(), Traitement.TYPE_DOMAIN, null)); 
 				for (Traitement t : l) {
-					traitementDisplay.add(new NavigationMenuItem(t.getLibelle(), t.getAction(), t));
+					traitementDisplay.add(new NavigationMenuItem(t.getLibelle(), "#{" + t.getAction() + "}", t));
 				}
 			} else {
 				log.warn("the user is not a manager : " + u);
@@ -162,7 +162,7 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 		l.addAll(parameterService.getTraitements(g.getProfile(),
 				Traitement.TYPE_FUNCTION, (Domain) currentTraitement)); 
 		for (Traitement t : l) {
-			traitementDisplay.add(new NavigationMenuItem(t.getLibelle(), t.getAction(), t));
+			traitementDisplay.add(new NavigationMenuItem(t.getLibelle(), "#{" + t.getAction() + "}", t));
 		}
 
 

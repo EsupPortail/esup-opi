@@ -3,7 +3,7 @@
       "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
           "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.user.candidature">
+<hibernate-mapping package="org.esupportail.opi.domain.beans.user.candidature">
 
 	<class name="MissingPiece" table="missing_piece" >
 		<id name="id"> 
@@ -28,6 +28,6 @@
 		<many-to-one name="commission" column="id_cmi" not-null="true" />
 		
 		<many-to-one name="piece" lazy="false"
-			class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.PieceJustificative" column="id_nom" />
+			class="org.esupportail.opi.domain.beans.parameters.PieceJustificative" column="id_nom" />
 	</class>	
 </hibernate-mapping>

@@ -15,7 +15,7 @@
 
 	<bean 
 		id="deepLinkingRedirector" 
-		class="fr.univ.rennes1.cri.opiR1.web.deepLinking.DeepLinkingRedirectorImpl"
+		class="org.esupportail.opi.web.deepLinking.DeepLinkingRedirectorImpl"
 		scope="session"
 		parent="abstractI18nAwareBean" 
 		lazy-init="true"

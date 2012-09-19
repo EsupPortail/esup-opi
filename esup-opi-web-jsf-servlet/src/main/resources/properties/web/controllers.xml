@@ -12,7 +12,7 @@
 	-->
 
 	<bean id="sessionController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.SessionController"
+		class="org.esupportail.opi.web.controllers.SessionController"
 		parent="abstractDomainAwareBean" scope="session">
 		<description>
 			A bean to store the context of the application.
@@ -49,13 +49,13 @@
 
 
 	<bean id="preferencesController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.PreferencesController"
+		class="org.esupportail.opi.web.controllers.PreferencesController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage user preferences.</description>
 	</bean>
 
 	<bean id="welcomeController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.WelcomeController"
+		class="org.esupportail.opi.web.controllers.WelcomeController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the welcome page.</description>
 		<property name="smtpService" ref="smtpService"/>
@@ -63,7 +63,7 @@
 	</bean>
 
 	<bean id="aboutController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.AboutController"
+		class="org.esupportail.opi.web.controllers.AboutController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the about page.</description>
 	</bean>
@@ -76,7 +76,7 @@
 
 	<!-- ########  MANAGED USERS ######### -->
 	<bean id="gestionnaireController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.user.GestionnaireController"
+		class="org.esupportail.opi.web.controllers.user.GestionnaireController"
 		parent="abstractAccessController" scope="session">
 		<description>A bean to manage the user profil.</description>
 		<property name="paginator" ref="paginatorManager">
@@ -86,7 +86,7 @@
 	</bean>
 
 	<bean id="ldapSearchController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.user.LdapSearchController"
+		class="org.esupportail.opi.web.controllers.user.LdapSearchController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage LDAP searches.</description>
 		<property name="ldapUserService" ref="ldapUserService">
@@ -96,7 +96,7 @@
 	</bean>
 
 	<bean id="accueilController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.AccueilController"
+		class="org.esupportail.opi.web.controllers.AccueilController"
 		parent="abstractAccessController" scope="session">
 		<description>A bean to manage the individu's home page.</description>
 		<property name="castorService" ref="castorService" />
@@ -107,7 +107,7 @@
 	</bean>
 
 	<bean id="individuController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.user.IndividuController"
+		class="org.esupportail.opi.web.controllers.user.IndividuController"
 		parent="abstractAccessController" scope="session">
 		<description>A bean to manage the individu.</description>
 		<property name="adressController" ref="adressController" />
@@ -125,33 +125,33 @@
 	</bean>
 
 	<bean id="adressController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.user.AdressController"
+		class="org.esupportail.opi.web.controllers.user.AdressController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the individu's adresses.</description>
 	</bean>
 
 	<bean id="cursusController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.user.CursusController"
+		class="org.esupportail.opi.web.controllers.user.CursusController"
 		parent="abstractAccessController" scope="session">
 		<description>A bean to manage the individu's cursus.</description>
 	</bean>
 
 	<bean id="situationController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.user.SituationController"
+		class="org.esupportail.opi.web.controllers.user.SituationController"
 		parent="abstractAccessController" scope="session">
 		<description>A bean to manage the individu's situation.</description>
 		<property name="adressController" ref="adressController" />
 	</bean>
 
 	<bean id="indBacController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.user.IndBacController"
+		class="org.esupportail.opi.web.controllers.user.IndBacController"
 		parent="abstractAccessController" scope="session">
 		<description>A bean to manage the individu's bac.</description>
 	</bean>
 
 	<!-- ####  FORMULAIRE ##### -->
 	<bean id="formulairesController" 
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.formation.FormulairesController"
+		class="org.esupportail.opi.web.controllers.formation.FormulairesController"
 		parent="abstractAccessController" scope="session">
 		<description>A bean to manage the individu's home page.</description>
 		<property name="orbeonService" ref="orbeonService"/>
@@ -161,38 +161,38 @@
 
 	<!-- ####  FORMATION ##### -->
 	<bean id="formationController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.formation.FormationController"
+		class="org.esupportail.opi.web.controllers.formation.FormationController"
 		parent="abstractAccessController" scope="session">
 		<description>A bean to manage the formation presentation.
 		</description>
 		<property name="smtpService" ref="smtpService"/>
 	</bean>
 	
-	<bean id="paramGrpTypDipController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.formation.ParamGrpTypDipController"
-		parent="abstractAccessController"
-		scope="session">
-		<description>A bean to manage the formation presentation.</description>
-	</bean>
+<!-- 	<bean id="paramGrpTypDipController" -->
+<!-- 		class="org.esupportail.opi.web.controllers.formation.ParamGrpTypDipController" -->
+<!-- 		parent="abstractAccessController" -->
+<!-- 		scope="session"> -->
+<!-- 		<description>A bean to manage the formation presentation.</description> -->
+<!-- 	</bean> -->
 	
-	<bean id="paramClefFormationController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.formation.ParamClefFormationController"
-		parent="abstractAccessController"
-		scope="session">
-		<description>A bean to manage the formation presentation.</description>
-		<property name="preferencesController" ref="preferencesController"/>
-	</bean>
+<!-- 	<bean id="paramClefFormationController" -->
+<!-- 		class="org.esupportail.opi.web.controllers.formation.ParamClefFormationController" -->
+<!-- 		parent="abstractAccessController" -->
+<!-- 		scope="session"> -->
+<!-- 		<description>A bean to manage the formation presentation.</description> -->
+<!-- 		<property name="preferencesController" ref="preferencesController"/> -->
+<!-- 	</bean> -->
 	
-	<bean id="paramDomainFormationController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.formation.ParamDomainFormationController"
-		parent="abstractAccessController"
-		scope="session">
-		<description>A bean to manage the formation presentation.</description>
-		<property name="preferencesController" ref="preferencesController"/>
-	</bean>
+<!-- 	<bean id="paramDomainFormationController" -->
+<!-- 		class="org.esupportail.opi.web.controllers.formation.ParamDomainFormationController" -->
+<!-- 		parent="abstractAccessController" -->
+<!-- 		scope="session"> -->
+<!-- 		<description>A bean to manage the formation presentation.</description> -->
+<!-- 		<property name="preferencesController" ref="preferencesController"/> -->
+<!-- 	</bean> -->
 	
 	<bean id="saisieRdvEtuController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.formation.SaisieRdvEtuController"
+		class="org.esupportail.opi.web.controllers.formation.SaisieRdvEtuController"
 		parent="abstractAccessController"
 		scope="session">
 		<description>A bean to manage the formation presentation.</description>
@@ -200,7 +200,7 @@
 	</bean>
 
 	<bean id="confirmationController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.formation.ConfirmationController"
+		class="org.esupportail.opi.web.controllers.formation.ConfirmationController"
 		parent="abstractAccessController"
 		scope="session">
 		<description>A bean to manage the confirmation des voeux favorables</description>
@@ -216,26 +216,26 @@
 	<!-- ########  PARAMETERS ######### -->
 
 	<bean id="profilController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.parameters.ProfilController"
+		class="org.esupportail.opi.web.controllers.parameters.ProfilController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the user profil.</description>
 		<property name="accessRController" ref="accessRController" />
 	</bean>
 
 	<bean id="fonctionController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.parameters.FonctionController"
+		class="org.esupportail.opi.web.controllers.parameters.FonctionController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the fonction.</description>
 	</bean>
 
 	<bean id="domainController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.parameters.DomainController"
+		class="org.esupportail.opi.web.controllers.parameters.DomainController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the domain.</description>
 	</bean>
 
 	<bean id="accessRController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.parameters.AccessRightController"
+		class="org.esupportail.opi.web.controllers.parameters.AccessRightController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the access right.</description>
 		<property name="accessTypes">
@@ -269,7 +269,7 @@
 	</bean>
 
 	<bean id="nomenclatureController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.parameters.NomenclatureController"
+		class="org.esupportail.opi.web.controllers.parameters.NomenclatureController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the nomenclature.</description>
 		<property name="etapeController" ref="etapeController" />
@@ -279,26 +279,26 @@
 	</bean>
 	
 	<bean id="mailContentController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.parameters.MailContentController"
+		class="org.esupportail.opi.web.controllers.parameters.MailContentController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the mail content.</description>
 	</bean>
 	
 	<bean id="paramRdvController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.parameters.ParamRdvController"
+		class="org.esupportail.opi.web.controllers.parameters.ParamRdvController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the paramRdv.</description>
 	</bean>
 	
 	<bean id="paramRdvSupController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.parameters.ParamRdvSupController"
+		class="org.esupportail.opi.web.controllers.parameters.ParamRdvSupController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the paramRdv.</description>
 		<property name="paramRdvController" ref="paramRdvController" />
 	</bean>
 	
 	<bean id="autoLpController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.parameters.AutoLpController"
+		class="org.esupportail.opi.web.controllers.parameters.AutoLpController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the paramRdv.</description>
 		<property name="inscriptionAdm" ref="inscriptionAdm" />
@@ -307,7 +307,7 @@
 	
 	<!-- ########  REFERENCES ######### -->
 	<bean id="commissionController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.references.CommissionController"
+		class="org.esupportail.opi.web.controllers.references.CommissionController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the commissions.</description>
 		<property name="trtCmiController" ref="trtCmiController" />
@@ -321,34 +321,34 @@
 	</bean>
 	
 	<bean id="nbVoeuByCGEController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.references.NbVoeuByCGEController"
+		class="org.esupportail.opi.web.controllers.references.NbVoeuByCGEController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the nbVoeuByCGE.</description>
 	</bean>
 	
 	<bean id="consultRdvController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.references.ConsultRdvController"
+		class="org.esupportail.opi.web.controllers.references.ConsultRdvController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the consultRdv.</description>
 		<property name="individuPaginator" ref="paginatorIndividuPojo" />
 	</bean>
 
 	<bean id="etapeController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.references.EtapeController"
+		class="org.esupportail.opi.web.controllers.references.EtapeController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the etape.</description>
 		<property name="paginator" ref="paginatorVET" />
 	</bean>
 	
 	<bean id="selectionController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.references.SelectionController"
+		class="org.esupportail.opi.web.controllers.references.SelectionController"
 		parent="abstractAccessController" scope="session">
 		<description>A bean to manage the selection test.</description>
 		<property name="trtCmiController" ref="trtCmiController"/>
 	</bean>
 	
 	<bean id="trtCmiController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.references.TrtCmiController"
+		class="org.esupportail.opi.web.controllers.references.TrtCmiController"
 		parent="abstractAccessController" scope="session">
 		<description>A bean to manage the selection test.</description>
 		<property name="etapeController" ref="etapeController"/>
@@ -356,7 +356,7 @@
 	
 
 	<bean id="calendarController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.references.CalendarController"
+		class="org.esupportail.opi.web.controllers.references.CalendarController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the calendars.</description>
 		<property name="commissionController" ref="commissionController" />
@@ -396,7 +396,7 @@
 	<!-- ########  OPINION AND TRAITMENTS ######### -->
 
 	<bean id="typeTraitController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.opinions.TypeTraitController"
+		class="org.esupportail.opi.web.controllers.opinions.TypeTraitController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage opinions and traitments.</description>
 		<property name="individuPaginator" ref="paginatorIndividuPojo" />
@@ -415,7 +415,7 @@
 	</bean>
 
 	<bean id="pjController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.opinions.PJController"
+		class="org.esupportail.opi.web.controllers.opinions.PJController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage pj missed.</description>
 		<property name="individuController" ref="individuController"/>
@@ -426,7 +426,7 @@
 	</bean>
 
 	<bean id="opinionController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.opinions.OpinionController"
+		class="org.esupportail.opi.web.controllers.opinions.OpinionController"
 		parent="abstractAccessController" scope="session">
 		<description>A bean to manage opinions.</description>
 		<property name="individuPaginator" ref="paginatorIndividuPojo" />
@@ -440,7 +440,7 @@
 	</bean>
 
 	<bean id="validOpinionController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.opinions.ValidOpinionController"
+		class="org.esupportail.opi.web.controllers.opinions.ValidOpinionController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage validation of opinions.</description>
 		<property name="preselection" ref="preselection" />
@@ -454,14 +454,14 @@
 	</bean>
 	
 	<bean id="exportFormOrbeonController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.opinions.ExportFormOrbeonController"
+		class="org.esupportail.opi.web.controllers.opinions.ExportFormOrbeonController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to export orbeon forms.</description>
 		<property name="pilotageService" ref="pilotageService" />
 	</bean>
 
 	<bean id="printOpinionController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.opinions.PrintOpinionController"
+		class="org.esupportail.opi.web.controllers.opinions.PrintOpinionController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to print opinions.</description>
 		<property name="commissionController" ref="commissionController"/>
@@ -476,7 +476,7 @@
 	<!-- ########  CANDIDATURES ######### -->
 
 	<bean id="monitorCandidaturesController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.candidatures.MonitorCandidaturesController"
+		class="org.esupportail.opi.web.controllers.candidatures.MonitorCandidaturesController"
 		parent="abstractAccessController" scope="session">
 		<description>A bean to monitor the all wishes.</description>
 		<property name="commissionController" ref="commissionController"/>
@@ -500,7 +500,7 @@
 	
 	<!-- ########  PILOTAGE ######### -->
 	<bean id="parametreStatController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.pilotage.ParametreStatController"
+		class="org.esupportail.opi.web.controllers.pilotage.ParametreStatController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the statistical parameter.</description>
 		<property name="pilotageService" ref="pilotageService"/>
@@ -528,7 +528,7 @@
 	</bean>
 	
 	<bean id="seeStatController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.pilotage.SeeStatController"
+		class="org.esupportail.opi.web.controllers.pilotage.SeeStatController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the statistical parameter.</description>
 		<property name="castorService" ref="castorService" />
@@ -539,7 +539,7 @@
 	<!-- ########  ARCHIVAGE ######### -->
 
 	<bean id="archiveTaskController"
-		class="fr.univ.rennes1.cri.opiR1.web.controllers.pilotage.ArchiveTaskController"
+		class="org.esupportail.opi.web.controllers.pilotage.ArchiveTaskController"
 		parent="abstractContextAwareController" scope="session">
 		<description>A bean to manage the archive tasks.</description>
 		<property name="trtCmiController" ref="trtCmiController"/>

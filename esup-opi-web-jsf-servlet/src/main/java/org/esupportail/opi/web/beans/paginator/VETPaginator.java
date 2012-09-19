@@ -87,22 +87,7 @@ public class VETPaginator extends ListPaginator<VersionEtapeDTO> {
 		reset();
 		
 	}
-	
-	/** 
-	 * @see org.esupportail.commons.web.beans.AbstractPaginator#reset()
-	 */
-	@Override
-	public void reset() {
-		// TODO Auto-generated method stub
-		super.reset();
-	}	
-	
-	/**
-	 * 
-	 */
-	public void afterPropertiesSet() {
-		this.loadItemsInternal();
-	}
+
 	
 	/**
 	 * Look for the commissions.
@@ -132,7 +117,6 @@ public class VETPaginator extends ListPaginator<VersionEtapeDTO> {
 		
 		Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
 		int codeRI = gest.getProfile().getCodeRI();	
-		Campagne campagne = parameterService.getCampagneEnServ(codeRI);
 		
 		//Dans le cas d'une recherche par commission. recherche indépendate du code vet lib vet ou code Cge
 		if (rvd.getIdCmi()!=null){
@@ -150,6 +134,7 @@ public class VETPaginator extends ListPaginator<VersionEtapeDTO> {
 		
 		}else{//Dans le cas d'une recherche par code vet, lib vet ou code Cge. recherche indépendante de recherche par commission
 			if (StringUtils.hasText(rvd.getCodCge()) && StringUtils.hasLength(rvd.getCodAnu())) {
+				Campagne campagne = parameterService.getCampagneEnServ(codeRI);
 				etapes = domainApoService.getVersionEtapes(rvd.getCodeVet(), rvd.getLibWebVet(), rvd.getCodCge(), campagne.getCodAnu());
 				Collections.sort(etapes, new ComparatorString(VersionEtapeDTO.class));
 			}

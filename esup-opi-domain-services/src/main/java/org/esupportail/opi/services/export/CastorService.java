@@ -5,17 +5,15 @@ package org.esupportail.opi.services.export;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.Serializable;
-import java.io.StringWriter;
-import java.io.Writer;
+
+import javax.xml.transform.stream.StreamResult;
 
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.utils.exceptions.ExportException;
-import org.exolab.castor.xml.MarshalException;
-import org.exolab.castor.xml.Marshaller;
-import org.exolab.castor.xml.ValidationException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.oxm.Marshaller;
+import org.springframework.oxm.MarshallingException;
 
 /**
  * @author cleprous
@@ -74,35 +72,15 @@ public class CastorService implements Serializable, InitializingBean {
 	 */
 	public void objectToFileXml(final Object object, 
 			final String fileName ) {
-		
-		Writer writer = new StringWriter();
-		OutputStreamWriter out = null;
-		
+		FileOutputStream out = null;
 		try {
-			out = new OutputStreamWriter(new FileOutputStream(xslXmlPath + fileName), "UTF-8");
+			out = new FileOutputStream(xslXmlPath + fileName);
+			castorMarshaller.marshal(object, new StreamResult(out));
 			
-			castorMarshaller.setWriter(writer);		
-			castorMarshaller.marshal(object);
-			String xmlContent = writer.toString();
-			out.write(xmlContent);
-			
-			
-		} catch (MarshalException e) {
-			throw new ExportException("problem marhsalling in getXmlIndividu ", e);
-		} catch (ValidationException e) {
+		} catch (MarshallingException e) {
 			throw new ExportException("problem marhsalling in getXmlIndividu ", e);
 		} catch (IOException e) {
 			throw new ExportException("problem marhsalling in getXmlIndividu ", e);
-		} finally {
-			try {
-				out.close();
-				writer.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		
 		}
 	}
 	
@@ -116,13 +94,6 @@ public class CastorService implements Serializable, InitializingBean {
 	public void setCastorMarshaller(final Marshaller castorMarshaller) {
 		this.castorMarshaller = castorMarshaller;
 	}
-
-//	/**
-//	 * @param castorUnMarshaller the castorUnMarshaller to set
-//	 */
-//	public void setCastorUnMarshaller(final Unmarshaller castorUnMarshaller) {
-//		this.castorUnMarshaller = castorUnMarshaller;
-//	}
 
 	/**
 	 * @return the xslXmlPath

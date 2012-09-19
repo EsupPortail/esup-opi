@@ -3,7 +3,7 @@
       "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
           "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
           
-<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission">
+<hibernate-mapping package="org.esupportail.opi.domain.beans.references.commission">
 
 	<class name="Commission" table="commission">
 		<id name="id" unsaved-value="null"> 
@@ -33,7 +33,7 @@
 		
 		<many-to-one name="calendarCmi" column="id_cal_cmi" cascade="delete" lazy="false"/>
 		<many-to-one name="calendrierRdv" column="id_rdv_calendar" 
-			class="fr.univ.rennes1.cri.opiR1.domain.beans.references.rendezvous.CalendarRDV"/>
+			class="org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV"/>
 		<map name="contactsCommission" table="contactComm"
 			lazy="false"
 			cascade="delete,delete-orphan"

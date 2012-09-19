@@ -8,7 +8,7 @@
 
 	<!--<bean name="inscriptionOuverte" class="org.springframework.scheduling.quartz.JobDetailBean">
 		<property name="jobClass"
-			value="fr.univ.rennes1.cri.opiR1.batch.InscriptionOuverte" />
+			value="org.esupportail.opi.batch.InscriptionOuverte" />
 		<property name="jobDataAsMap">
 			<map>
 				<entry key="domainService" value-ref="domainServiceJob" />
@@ -19,7 +19,7 @@
 	</bean>
 	-->
 	<bean name="archiveTaskBatch" class="org.springframework.scheduling.quartz.JobDetailBean">
-		<property name="jobClass" value="fr.univ.rennes1.cri.opiR1.batch.ArchiveTaskBatch" />
+		<property name="jobClass" value="org.esupportail.opi.batch.ArchiveTaskBatch" />
 		<property name="jobDataAsMap">
 			<map>
 				<entry key="regimeInscriptions">

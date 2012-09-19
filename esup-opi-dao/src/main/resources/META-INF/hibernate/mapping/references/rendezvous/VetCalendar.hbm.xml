@@ -3,7 +3,7 @@
       "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
           "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.references.rendezvous">
+<hibernate-mapping package="org.esupportail.opi.domain.beans.references.rendezvous">
 	<class name="VetCalendar" table="RDV_VET_CALENDAR">
 		<id name="id" unsaved-value="null"> 
 			<column name="ID_VET_CALENDAR" sql-type="integer" not-null="true"/>
@@ -16,7 +16,7 @@
 		<property name="codVrsVet" column="cod_vrs_vet"/>
 		
 		<many-to-one name="commission" column="id_commission" fetch="join" 
-			class="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.Commission"/>
+			class="org.esupportail.opi.domain.beans.references.commission.Commission"/>
 		
 		<many-to-one name="calendrierRdv" column="id_rdv_calendar" 
 			class="CalendarRDV"/>

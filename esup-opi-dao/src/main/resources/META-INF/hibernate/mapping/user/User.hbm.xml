@@ -3,7 +3,7 @@
       "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
           "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> 
 
-<hibernate-mapping package="fr.univ.rennes1.cri.opiR1.domain.beans.user">
+<hibernate-mapping package="org.esupportail.opi.domain.beans.user">
 
 	<class name="User" table="opi_user" > 
 		<id name="id" unsaved-value="null">
@@ -49,21 +49,21 @@
 			<set name="campagnes" table="ind_camp" lazy="true"
 				>
 				<key column="id_usr" not-null="true"/>
-				<many-to-many column="id_nom" class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.Campagne"/>
+				<many-to-many column="id_nom" class="org.esupportail.opi.domain.beans.parameters.Campagne"/>
 			</set>
 			
 			<set name="cursus" 
 				
 				cascade="delete,delete-orphan" inverse="true">
 				<key column="id_usr"/>
-				<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus.IndCursus"/>
+				<one-to-many class="org.esupportail.opi.domain.beans.user.indcursus.IndCursus"/>
 			</set>
 			
 			<set name="cursusScol" 
 				 
 				cascade="delete,delete-orphan" inverse="true">
 				<key column="id_usr"/>
-				<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus.IndCursusScol"/>
+				<one-to-many class="org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol"/>
 			</set>
 						
 			<map name="adresses"  cascade="all-delete-orphan" 
@@ -71,21 +71,21 @@
 				inverse="true">
 				<key column="id_usr"/>
 				<map-key type="string" column="type_adr" />
-				<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.user.Adresse"/>
+				<one-to-many class="org.esupportail.opi.domain.beans.user.Adresse"/>
 			</map>
 				
 			<set name="indBac" inverse="true"
 					  
 					cascade="all-delete-orphan">
 				<key column="id_usr"/>
-				<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.user.indcursus.IndBac"/>
+				<one-to-many class="org.esupportail.opi.domain.beans.user.indcursus.IndBac"/>
 			</set>	
 			
 			<set name="voeux" 
 				where="tem_en_sve_voeu='Y'"
 				inverse="true" batch-size="5" cascade="all-delete-orphan">
 				<key column="id_usr"/>
-				<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.user.candidature.IndVoeu"/>
+				<one-to-many class="org.esupportail.opi.domain.beans.user.candidature.IndVoeu"/>
 			</set>	
 		
 			
@@ -93,14 +93,14 @@
 				where="tem_en_sve_voeu='N'"
 				inverse="true" batch-size="5" cascade="all-delete-orphan">
 				<key column="id_usr"/>
-				<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.user.candidature.IndVoeu"/>
+				<one-to-many class="org.esupportail.opi.domain.beans.user.candidature.IndVoeu"/>
 			</set>	
 			
 			<set name="missingPieces"
 			 	inverse="true"
 			 	cascade="all-delete-orphan">
 				<key column="id_usr"/>
-				<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.user.candidature.MissingPiece"/>
+				<one-to-many class="org.esupportail.opi.domain.beans.user.candidature.MissingPiece"/>
 			</set>
 			
 		</joined-subclass>
@@ -120,13 +120,13 @@
 			<set name="members" inverse="true"
 				cascade="all-delete-orphan">
 				<key column="id_usr"/>
-				<one-to-many class="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.Member"/>
+				<one-to-many class="org.esupportail.opi.domain.beans.references.commission.Member"/>
 			</set>
 			
 			<set name="rightOnCmi" table="rightOnCmi" lazy="false">
 				<key column="id_usr" />
 				<many-to-many  column="id_cmi"
-						class="fr.univ.rennes1.cri.opiR1.domain.beans.references.commission.Commission"/>
+						class="org.esupportail.opi.domain.beans.references.commission.Commission"/>
 			</set>
 			
 			

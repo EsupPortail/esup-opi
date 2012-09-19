@@ -2,10 +2,10 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="template.xhtml">
+    template="/stylesheets/template.xhtml">
     <ui:define name="content">
     	<h1><h:outputText value="#{msgs['DOMAIN.MANAGED']}" /></h1>
-    	<p:message id="messages" showDetail="true" autoUpdate="true" styleClass="messageForUser"/>
+    	<p:messages id="messages" showDetail="true" autoUpdate="true" styleClass="messageForUser"/>
     	<h:panelGroup id="div_subSectionDelete" styleClass="div_subSection"
     		rendered="#{paramDomainFormationController.actionEnum.whatAction == paramDomainFormationController.actionEnum.deleteAction}">
     		<ui:include src="_delete/_deleteDomainsDeFormations.xhtml" />

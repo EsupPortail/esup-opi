@@ -6,22 +6,24 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html">
-	<f:view locale="#{sessionController.currentUserLocale}">
+<!-- 	<f:view locale="#{sessionController.currentUserLocale}"> -->
+    <f:view locale="fr">
 		<h:head>
             <f:facet name="first">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
                 <title><h:outputText value="#{applicationService.name}" /></title>
             </f:facet>
-            <ui:repeat value="#{tagsConfigurator.stylesheets}" var="path">
-                <link type="text/css" rel="stylesheet" href="#{path}" />
-            </ui:repeat>
-            <ui:repeat value="#{tagsConfigurator.scripts}" var="path">
-                <script type="text/javascript" src="#{path}"></script>
-            </ui:repeat>
+            <link rel="stylesheet" type="text/css" href="/media/style/opiR1_global.css" />
+            <link rel="stylesheet" type="text/css" href="/media/style/commons.css" />
+            <link rel="stylesheet" type="text/css" href="/media/style/portlet.css" />
             <script type="text/javascript" src="/media/js/primefaces-locales.js"></script>
+            <script type="text/javascript" src="/media/js/functions.js"></script>
+            <script type="text/javascript" src="/media/js/opiR1_global.js"></script>
+            <script type="text/javascript" src="/media/js/formValidator.js"></script>
+            <script type="text/javascript" src="/media/js/JSPopup.js"></script>
 		</h:head>
-		<h:body styleClass="portlet-section-body">
+		<h:body styleClass="portlet-section-body esup-opiR1">
 			<ui:insert name="header" />
 			<ui:insert name="navigation" />
 			<ui:insert name="content" />

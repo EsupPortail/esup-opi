@@ -2,12 +2,12 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="template.xhtml">
+    template="/stylesheets/template.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
     		<h1><h:outputText value="#{msgs['ARCHIVAGE.TITLE.MANAGED']}" /></h1>
     		<div class="messageForUser">
-    			<p:message id="messages" showDetail="true" autoUpdate="true" />
+    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
     		</div>
             <ui:fragment rendered="#{archiveTaskController.actionEnum.whatAction == archiveTaskController.actionEnum.addAction
                             || archiveTaskController.actionEnum.whatAction == archiveTaskController.actionEnum.updateAction}">

@@ -2,26 +2,26 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="template.xhtml">
+    template="/stylesheets/template.xhtml">
     <ui:define name="content">
     	
     	
     	<div id="maPage" class="div_body">
     		<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
     		<div class="messageForUser">
-    			<p:message id="messages" showDetail="true" autoUpdate="true" />
+    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
     		</div>
     		<div id="div_subSectionFirstForm" class="div_subSection">
-                <ui:segment rendered="#{not empty trtCmiController.listVETToTransfert}">
+                <ui:fragment rendered="#{not empty trtCmiController.listVETToTransfert}">
         			<div id="div_subSectionTransfert" class="div_subSection">
         				<ui:include src="_commission/_transfertTrtCmi.xhtml" />
         			</div>
-                </ui:segment>
+                </ui:fragment>
     			<br />
     			<br />
     			<br />
     			<h:form id="enterTrtCmiForm">
-                    <ui:segment rendered="#{trtCmiController.commission.id == null}">
+                    <ui:fragment rendered="#{trtCmiController.commission.id == null}">
     				<div id="div_subSection">
     					<h:outputFormat value="Rechercher une commission" />
     					<div id="blockFormInfo" class="blockForm">
@@ -55,8 +55,8 @@
     
     					</div>
     				</div>
-                    </ui:segment>
-                    <ui:segment rendered="#{trtCmiController.commission != null}">
+                    </ui:fragment>
+                    <ui:fragment rendered="#{trtCmiController.commission != null}">
         				<div id="info_valider" class="messageForUser">
         					<h:outputText styleClass="msg-info" value="#{msgs['INFO.VALIDATE']}" />
         				</div>
@@ -176,7 +176,7 @@
         					</p:dataTable>
         					<ui:include src="_commission/_enterTrtCmiOff.xhtml" />
         				</div>
-                    </ui:segment>
+                    </ui:fragment>
     				<br />
     				<br />
     				<br />

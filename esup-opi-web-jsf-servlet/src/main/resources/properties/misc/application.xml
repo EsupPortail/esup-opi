@@ -49,11 +49,12 @@
 	    		The copyright.
 	    	</description>
     	</property>
-    	<property name="vendor" value="Universite Rennes1" >
-	    	<description>
-	    		The vendor.
-	    	</description>
-    	</property>
+        <property name="vendor" value="Universite Rennes1" >
+            <description>
+                The vendor.
+            </description>
+        </property>
+        <property name="quickStart" value="true" />
     </bean>
 
 </beans>

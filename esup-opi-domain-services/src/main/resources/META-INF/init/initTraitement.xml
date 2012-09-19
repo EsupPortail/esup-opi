@@ -16,84 +16,84 @@
 
 	<bean 
 		id="domain_parametrage"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Domain"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Domain"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_01"/>
 		<property name="libelle" value="Parametrages et nomenclatures" />
 		<property name="shortLabel" value="Param. et nom." />
 		<property name="rang" value="1" />
-		<property name="action" value="#{managedAccess.goDisplayFunction}" />
+		<property name="action" value="managedAccess.goDisplayFunction" />
 	</bean>
 	
 	<bean 
 		id="domain_managedUser"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Domain"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Domain"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_03"/>
 		<property name="libelle" value="Gestions des utilisateurs" />
 		<property name="shortLabel" value="Gest. user" />
 		<property name="rang" value="2" />
-		<property name="action" value="#{gestionnaireController.goSeeAllManagers}" />
+		<property name="action" value="gestionnaireController.goSeeAllManagers" />
 	</bean>
 	
 	<bean 
 		id="domain_reference"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Domain"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Domain"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_02"/>
 		<property name="libelle" value="Référentiels" />
 		<property name="shortLabel" value="Référentiels" />
 		<property name="rang" value="3" />
-		<property name="action" value="#{managedAccess.goDisplayFunction}" />
+		<property name="action" value="managedAccess.goDisplayFunction" />
 	</bean>
 
 	<bean 
 		id="domain_candi"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Domain"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Domain"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_04"/>
 		<property name="libelle" value="Gestion des candidatures" />
 		<property name="shortLabel" value="Gest. candidat" />
 		<property name="rang" value="4" />
-		<property name="action" value="#{managedAccess.goDisplayFunction}" />
+		<property name="action" value="managedAccess.goDisplayFunction" />
 	</bean>
 
 	<bean 
 		id="domain_commission"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Domain"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Domain"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_05"/>
 		<property name="libelle" value="Gestion des commissions" />
 		<property name="shortLabel" value="Gest. commi" />
 		<property name="rang" value="5" />
-		<property name="action" value="#{managedAccess.goDisplayFunction}" />
+		<property name="action" value="managedAccess.goDisplayFunction" />
 	</bean>
 	
 	<bean id="domain_formations"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Domain"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Domain"
 		lazy-init="true">
 		<property name="code" value="OPIR1_06" />
 		<property name="libelle" value="Définition des formations" />
 		<property name="shortLabel" value="Déf form." />
 		<property name="rang" value="6" />
-		<property name="action" value="#{managedAccess.goDisplayFunction}" />
+		<property name="action" value="managedAccess.goDisplayFunction" />
 	</bean>
 	
 	<bean 
 		id="domain_pilotage"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Domain"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Domain"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_07"/>
 		<property name="libelle" value="Pilotage" />
 		<property name="shortLabel" value="Pilotage" />
 		<property name="rang" value="7" />
-		<property name="action" value="#{managedAccess.goDisplayFunction}" />
+		<property name="action" value="managedAccess.goDisplayFunction" />
 	</bean>
 	
 	<!-- ##### FUNCTION ###### -->
@@ -102,286 +102,286 @@
 	
 	<bean 
 		id="function_profil"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_01F02"/>
 		<property name="libelle" value="Profils" />
 		<property name="domain" ref="domain_parametrage" />
 		<property name="rang" value="1" />
-		<property name="action" value="#{profilController.goSeeAllProfil}" />
+		<property name="action" value="profilController.goSeeAllProfil" />
 	</bean>
 	
 	<bean 
 		id="function_fonction"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_01F03"/>
 		<property name="libelle" value="Fonctionnalites" />
 		<property name="rang" value="2" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="#{fonctionController.goSeeAllFonction}" />
+		<property name="action" value="fonctionController.goSeeAllFonction" />
 	</bean>
 	
 	<bean 
 		id="function_typ_trt"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_01F04"/>
 		<property name="libelle" value="Types de traitements" />
 		<property name="rang" value="3" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="#{nomenclatureController.goSeeAllTypTrt}" />
+		<property name="action" value="nomenclatureController.goSeeAllTypTrt" />
 	</bean>
 	
 	<bean 
 		id="function_typ_dec"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_01F05"/>
 		<property name="libelle" value="Types de decisions" />
 		<property name="rang" value="4" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="#{nomenclatureController.goSeeAllTypDecision}" />
+		<property name="action" value="nomenclatureController.goSeeAllTypDecision" />
 	</bean>
 	
 	<bean 
 		id="function_typ_conv"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_01F06"/>
 		<property name="libelle" value="Types de convocations" />
 		<property name="rang" value="5" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="#{nomenclatureController.goSeeAllTypConv}" />
+		<property name="action" value="nomenclatureController.goSeeAllTypConv" />
 	</bean>
 	
 	<bean 
 		id="function_piece_jst"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_01F07"/>
 		<property name="libelle" value="Pièces justificatives" />
 		<property name="rang" value="6" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="#{nomenclatureController.goSeeAllPJ}" />
+		<property name="action" value="nomenclatureController.goSeeAllPJ" />
 	</bean>
 	
 	
 	<bean 
 		id="function_affect_pj"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_01F08"/>
 		<property name="libelle" value="Affectation de pièces justificatives" />
 		<property name="rang" value="7" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="#{nomenclatureController.goSeeAllAffectPJ}" />
+		<property name="action" value="nomenclatureController.goSeeAllAffectPJ" />
 	</bean>
 	
 	<bean 
 		id="function_motiv_avis"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_01F09"/>
 		<property name="libelle" value="Motivation des avis" />
 		<property name="rang" value="8" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="#{nomenclatureController.goSeeAllMotivAvis}" />
+		<property name="action" value="nomenclatureController.goSeeAllMotivAvis" />
 	</bean>
 	
 	<bean
 		id="function_param_rdv"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_01F10"/>
 		<property name="libelle" value="Paramétrage des rendez-vous" />
 		<property name="rang" value="9" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="#{paramRdvController.goSeeAllParamRdv}" />
+		<property name="action" value="paramRdvController.goSeeAllParamRdv" />
 	</bean>
 	
 	<bean
 		id="function_gest_mails"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_01F11"/>
 		<property name="libelle" value="Gestion de contenu des mails" />
 		<property name="rang" value="10" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="#{mailContentController.goAllMails}" />
+		<property name="action" value="mailContentController.goAllMails" />
 	</bean>
 	
 	<bean
 		id="function_campagnes"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_01F12"/>
 		<property name="libelle" value="Campagnes" />
 		<property name="rang" value="11" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="#{nomenclatureController.goSeeAllCampagnes}" />
+		<property name="action" value="nomenclatureController.goSeeAllCampagnes" />
 	</bean>
 	
 	<bean
 		id="function_AutoLp"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_01F13"/>
 		<property name="libelle" value="Gestion automatique des listes complémentaires" />
 		<property name="rang" value="12" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="#{autoLpController.goSeeAllAutoLp}" />
+		<property name="action" value="autoLpController.goSeeAllAutoLp" />
 	</bean>
 	
 	<!-- ## domain_reference ## -->
 	
 	<bean 
 		id="function_cmi"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_02F01"/>
 		<property name="libelle" value="Commissions" />
 		<property name="rang" value="1" />
 		<property name="domain" ref="domain_reference" />
-		<property name="action" value="#{commissionController.goSeeAllCmi}" />
+		<property name="action" value="commissionController.goSeeAllCmi" />
 	</bean>
 	
 	<bean 
 		id="function_cal"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_02F02"/>
 		<property name="libelle" value="Calendriers" />
 		<property name="rang" value="2" />
 		<property name="domain" ref="domain_reference" />
-		<property name="action" value="#{calendarController.goSeeAllCal}" />
+		<property name="action" value="calendarController.goSeeAllCal" />
 	</bean>
 	
 	<bean 
 		id="function_nb_voeu_cge"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_02F03"/>
 		<property name="libelle" value="Nombre de voeux par CGE" />
 		<property name="rang" value="3" />
 		<property name="domain" ref="domain_reference" />
-		<property name="action" value="#{nbVoeuByCGEController.goSeeAllNbVoeu}" />
+		<property name="action" value="nbVoeuByCGEController.goSeeAllNbVoeu" />
 	</bean>
 	
 	<bean 
 		id="function_consult_rdv"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_02F04"/>
 		<property name="libelle" value="Consultation des rendez-vous" />
 		<property name="rang" value="4" />
 		<property name="domain" ref="domain_reference" />
-		<property name="action" value="#{consultRdvController.goSeeAllConsultRdv}" />
+		<property name="action" value="consultRdvController.goSeeAllConsultRdv" />
 	</bean>
 	
 	<bean 
 		id="function_gest_selection"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_02F05"/>
 		<property name="libelle" value="Gestion des épreuves de sélection" />
 		<property name="rang" value="5" />
 		<property name="domain" ref="domain_reference" />
-		<property name="action" value="#{selectionController.goEnterSelection}" />
+		<property name="action" value="selectionController.goEnterSelection" />
 	</bean>
 	
 	<bean 
 		id="function_gest_trt_cmi"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_02F06"/>
 		<property name="libelle" value="Gestion des étapes d'une commission" />
 		<property name="rang" value="6" />
 		<property name="domain" ref="domain_reference" />
-		<property name="action" value="#{trtCmiController.goMangedTrtCmi}" />
+		<property name="action" value="trtCmiController.goMangedTrtCmi" />
 	</bean>
 		
 	<bean 
 		id="function_gest_PJ_vet"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_02F07"/>
 		<property name="libelle" value="Gestion des pièces justificatives pour une version d’étape" />
 		<property name="rang" value="7" />
 		<property name="domain" ref="domain_reference" />
-		<property name="action" value="#{etapeController.goSearchVetForGestPJ}" />
+		<property name="action" value="etapeController.goSearchVetForGestPJ" />
 	</bean>
 	
 	<!-- ## domain_managedUser ## -->
 	
 	<bean 
 		id="function_affect_right_user"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_03F01"/>
 		<property name="libelle" value="Affecter des droits" />
 		<property name="rang" value="1" />
 		<property name="domain" ref="domain_managedUser" />
-		<property name="action" value="#{gestionnaireController.goAffectRightManager}" />
+		<property name="action" value="gestionnaireController.goAffectRightManager" />
 	</bean>
 	
 	<!-- ## domain_candi ## -->
 	
 	<bean 
 		id="function_list_candi"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_04F01"/>
 		<property name="libelle" value="Liste des candidatures" />
 		<property name="rang" value="1" />
 		<property name="domain" ref="domain_candi" />
-		<property name="action" value="#{individuController.goSeeAllEtudiants}" />
+		<property name="action" value="individuController.goSeeAllEtudiants" />
 	</bean>
 	
 	<bean 
 		id="function_gest_pm"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_04F02"/>
 		<property name="libelle" value="Gestion des pièces manquantes" />
 		<property name="rang" value="2" />
 		<property name="domain" ref="domain_candi" />
-		<property name="action" value="#{pjController.goSeePM}" />
+		<property name="action" value="pjController.goSeePM" />
 	</bean>
 	
 	
 	<bean 
 		id="function_suivre_candi"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_04F03"/>
 		<property name="libelle" value="Suivre les candidatures" />
 		<property name="rang" value="3" />
 		<property name="domain" ref="domain_candi" />
-		<property name="action" value="#{monitorCandidaturesController.goMonitorCand}" />
+		<property name="action" value="monitorCandidaturesController.goMonitorCand" />
 	</bean>
 	
 	
@@ -389,130 +389,130 @@
 	
 	<bean 
 		id="function_gest_commission"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_05F01"/>
 		<property name="libelle" value="Gestion des types de traitements" />
 		<property name="rang" value="1" />
 		<property name="domain" ref="domain_commission" />
-		<property name="action" value="#{typeTraitController.goSeeAllTypeTraitments}" />
+		<property name="action" value="typeTraitController.goSeeAllTypeTraitments" />
 	</bean>
 
 	<bean 
 		id="function_gest_valid_avis"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_05F02"/>
 		<property name="libelle" value="Gestion des validations des avis" />
 		<property name="rang" value="2" />
 		<property name="domain" ref="domain_commission" />
-		<property name="action" value="#{validOpinionController.goValidOpinions}" />
+		<property name="action" value="validOpinionController.goValidOpinions" />
 	</bean>
 
 	
 	<bean 
 		id="function_gest_avis"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_05F03"/>
 		<property name="libelle" value="Gestion des avis par types de décision" />
 		<property name="rang" value="3" />
 		<property name="domain" ref="domain_commission" />
-		<property name="action" value="#{opinionController.goEnterAllStudentsOpinions}" />
+		<property name="action" value="opinionController.goEnterAllStudentsOpinions" />
 	</bean>
 	
 	<bean 
 		id="function_gest_avis_students"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_05F04"/>
 		<property name="libelle" value="Gestion des avis par étudiant" />
 		<property name="rang" value="4" />
 		<property name="domain" ref="domain_commission" />
-		<property name="action" value="#{opinionController.goEnterStudentsOpinions}" />
+		<property name="action" value="opinionController.goEnterStudentsOpinions" />
 	</bean>
 	
 	
 	
 	<bean 
 		id="function_print_avis_students"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_05F05"/>
 		<property name="libelle" value="Edition des avis" />
 		<property name="rang" value="5" />
 		<property name="domain" ref="domain_commission" />
-		<property name="action" value="#{printOpinionController.goPrintOpinions}" />
+		<property name="action" value="printOpinionController.goPrintOpinions" />
 	</bean>
 	
 	<bean id="function_print_lists_prepa"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true">
 		<property name="code" value="OPIR1_05F06"/>
 		<property name="libelle" value="Edition des listes préparatoires" />
 		<property name="rang" value="6" />
 		<property name="domain" ref="domain_commission" />
-		<property name="action" value="#{commissionController.goPrintListsPrepa}" />
+		<property name="action" value="commissionController.goPrintListsPrepa" />
 	</bean>
 
 	<bean 
 		id="function_print_avis_students_tr"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_05F07"/>
 		<property name="libelle" value="Edition des transferts" />
 		<property name="rang" value="7" />
 		<property name="domain" ref="domain_commission" />
-		<property name="action" value="#{printOpinionController.goPrintTROpinions}" />
+		<property name="action" value="printOpinionController.goPrintTROpinions" />
 	</bean>
 	
 	<bean id="function_print_lists_form"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true">
 		<property name="code" value="OPIR1_05F08"/>
 		<property name="libelle" value="Extraction des formulaires complémentaires" />
 		<property name="rang" value="8" />
 		<property name="domain" ref="domain_commission" />
-		<property name="action" value="#{exportFormOrbeonController.goPrintListsForm}" />
+		<property name="action" value="exportFormOrbeonController.goPrintListsForm" />
 	</bean>
 	
 	<!-- ## domain_formations ## -->
 	
 	<bean id="function_grpTypDip"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true">
 		<property name="code" value="OPIR1_06F01" />
 		<property name="libelle" value="Groupes de type de diplômes" />
 		<property name="rang" value="1" />
 		<property name="domain" ref="domain_formations" />
-		<property name="action" value="#{paramGrpTypDipController.goSeeAllGrp}" />
+		<property name="action" value="paramGrpTypDipController.goSeeAllGrp" />
 	</bean>
 
 	<bean id="function_domFormation"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true">
 		<property name="code" value="OPIR1_06F02" />
 		<property name="libelle" value="Domaines de formations" />
 		<property name="rang" value="2" />
 		<property name="domain" ref="domain_formations" />
 		<property name="action"
-			value="#{paramDomainFormationController.goSeeAllDom}" />
+			value="paramDomainFormationController.goSeeAllDom" />
 	</bean>
 
 	<bean id="function_motsClefs"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true">
 		<property name="code" value="OPIR1_06F03" />
 		<property name="libelle" value="Mots clefs des formations" />
 		<property name="rang" value="3" />
 		<property name="domain" ref="domain_formations" />
-		<property name="action" value="#{paramClefFormationController.goSeeAllKeys}" />
+		<property name="action" value="paramClefFormationController.goSeeAllKeys" />
 	</bean>
 	
 	
@@ -521,26 +521,26 @@
 	
 	<bean 
 		id="function_gest_archivage"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_07F01"/>
 		<property name="libelle" value="Gestion de l'archivage" />
 		<property name="rang" value="1" />
 		<property name="domain" ref="domain_pilotage" />
-		<property name="action" value="#{archiveTaskController.goSeeAllArchiveTasks}" />
+		<property name="action" value="archiveTaskController.goSeeAllArchiveTasks" />
 	</bean>
 	
 	<bean 
 		id="function_param_statistique"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.Fonction"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
 		lazy-init="true"
 		>
 		<property name="code" value="OPIR1_07F02"/>
 		<property name="libelle" value="Statistique" />
 		<property name="rang" value="2" />
 		<property name="domain" ref="domain_pilotage" />
-		<property name="action" value="#{parametreStatController.goSeeParamStat}" />
+		<property name="action" value="parametreStatController.goSeeParamStat" />
 	</bean>
 	
 	
@@ -548,7 +548,7 @@
 	
 	<bean 
 		id="access_admin_param_read"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.AccessRight"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.AccessRight"
 		lazy-init="true"
 		>
 		<property name="codeAccessType" value="READ"  />
@@ -558,7 +558,7 @@
 	
 	<bean 
 		id="access_admin_profil_read"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.AccessRight"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.AccessRight"
 		lazy-init="true"
 		>
 		<property name="codeAccessType" value="READ"  />
@@ -568,7 +568,7 @@
 	
 	<bean 
 		id="access_admin_profil_add"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.AccessRight"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.AccessRight"
 		lazy-init="true"
 		>
 		<property name="codeAccessType" value="ADD"  />
@@ -578,7 +578,7 @@
 	
 	<bean 
 		id="access_admin_profil_update"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.AccessRight"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.AccessRight"
 		lazy-init="true"
 		>
 		<property name="codeAccessType" value="UPDATE"  />

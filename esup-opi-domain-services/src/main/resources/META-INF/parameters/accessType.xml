@@ -8,7 +8,7 @@
 
 	<bean
 		id="accessRead"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.AccessType"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.AccessType"
 		scope="singleton"
 		>
 
@@ -20,7 +20,7 @@
 	
 	<bean
 		id="accessAdd"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.AccessType"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.AccessType"
 		scope="singleton"
 		>
 
@@ -32,7 +32,7 @@
 	
 	<bean
 		id="accessUpdate"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.AccessType"
+		class="org.esupportail.opi.domain.beans.parameters.accessRight.AccessType"
 		scope="singleton"
 		>
 
@@ -44,7 +44,7 @@
 	
 	<bean
 		id="accessDelete"
-		class="fr.univ.rennes1.cri.opiR1.domain.beans.parameters.accessRight.AccessType"
+        class="org.esupportail.opi.domain.beans.parameters.accessRight.AccessType"
 		scope="singleton"
 		>
 

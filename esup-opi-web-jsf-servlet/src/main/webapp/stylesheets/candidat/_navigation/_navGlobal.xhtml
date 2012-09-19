@@ -2,24 +2,26 @@
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui">
-    <p:menu id="navigationLogin" >
-    	<p:menuItem id="accueil" action="#{accueilController.goLoginCandidat}"
-    		value="#{msgs['NAVIGATION.TEXT.WELCOME']} "/>
-    	<p:menuItem id="faq" value="#{msgs['NAVIGATION.TEXT.FAQ']}" 
-    		onclick="openPage('#{accueilController.context}/stylesheets/help/faq.html#whatIne','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
-    	<p:menuItem id="help" value="#{msgs['NAVIGATION.TEXT.CONTACT']}" 
-    		rendered="#{sessionController.currentInd.regimeInscription == null || !sessionController.currentInd.regimeInscription.displayInfoFC}" 
-    		onclick="openPage('#{accueilController.context}/stylesheets/help/contact.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
-    	<p:menuItem id="helpFC" value="#{msgs['NAVIGATION.TEXT.CONTACT']}" 
-    		rendered="#{sessionController.currentInd.regimeInscription != null && sessionController.currentInd.regimeInscription.displayInfoFC}" 
-    		onclick="openPage('#{accueilController.context}/stylesheets/help/contactFC.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
-    	<p:menuItem id="logout" value="#{msgs['NAVIGATION.TEXT.LOGOUT']}"
-    		action="#{sessionController.logoutInd}" 
-    		rendered="#{sessionController.isServlet 
-    			&& !sessionController.currentInd.isManager}"/>
-    	<p:menuItem id="retourGestionnaire" value="#{msgs['NAVIGATION.TEXT.BACK.GESTIONNAIRE']}"
-    		action="#{sessionController.goBackManager}" 
-    		rendered="#{sessionController.currentInd != null 
-    				&& sessionController.currentInd.isManager}"/>
-    </p:menu>
+    <h:form>
+        <p:menu id="navigationLogin" >
+        	<p:menuitem id="accueil" action="#{accueilController.goLoginCandidat}"
+        		value="#{msgs['NAVIGATION.TEXT.WELCOME']} "/>
+        	<p:menuitem id="faq" value="#{msgs['NAVIGATION.TEXT.FAQ']}" 
+        		onclick="openPage('#{accueilController.context}/stylesheets/help/faq.html#whatIne','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
+        	<p:menuitem id="help" value="#{msgs['NAVIGATION.TEXT.CONTACT']}" 
+        		rendered="#{sessionController.currentInd.regimeInscription == null || !sessionController.currentInd.regimeInscription.displayInfoFC}" 
+        		onclick="openPage('#{accueilController.context}/stylesheets/help/contact.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
+        	<p:menuitem id="helpFC" value="#{msgs['NAVIGATION.TEXT.CONTACT']}" 
+        		rendered="#{sessionController.currentInd.regimeInscription != null && sessionController.currentInd.regimeInscription.displayInfoFC}" 
+        		onclick="openPage('#{accueilController.context}/stylesheets/help/contactFC.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
+        	<p:menuitem id="logout" value="#{msgs['NAVIGATION.TEXT.LOGOUT']}"
+        		action="#{sessionController.logoutInd}" 
+        		rendered="#{sessionController.isServlet 
+        			&& !sessionController.currentInd.isManager}"/>
+        	<p:menuitem id="retourGestionnaire" value="#{msgs['NAVIGATION.TEXT.BACK.GESTIONNAIRE']}"
+        		action="#{sessionController.goBackManager}" 
+        		rendered="#{sessionController.currentInd != null 
+        				&& sessionController.currentInd.isManager}"/>
+        </p:menu>
+    </h:form>
 </ui:fragment>
