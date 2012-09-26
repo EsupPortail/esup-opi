@@ -6,6 +6,8 @@ package org.esupportail.opi.domain.beans.parameters.accessRight;
 import java.util.Set;
 
 import org.esupportail.opi.domain.beans.NormeSI;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
 /**
  * @author cleprous
@@ -209,5 +211,4 @@ public abstract class Traitement extends NormeSI {
 	public void setType(final String type) {
 		this.type = type;
 	}
-
 }

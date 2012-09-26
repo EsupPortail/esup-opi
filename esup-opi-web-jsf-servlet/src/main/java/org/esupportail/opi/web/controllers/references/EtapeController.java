@@ -132,7 +132,7 @@ public class EtapeController extends AbstractContextAwareController {
 		codAnu = null;
 		campagnes = new ArrayList<Campagne>();
 		objectToAdd = new ArrayList<Object>();
-		paginator.reset();
+//		paginator.reset();
 		this.wayfEnum = new WayfEnum();
 	}
 

@@ -551,6 +551,7 @@ public class IndividuController extends AbstractAccessController {
 	public String goSeeCandidats() {
 		//init the filtre
 		individuPaginator.filtreRechercheEtudiants();
+		individuPaginator.forceReload();
 		//comment the 01/04/2009
 		//individuPaginator.reset();
 		return NavigationRulesConst.DISPLAY_FOUND_STUDENT;
@@ -564,6 +565,7 @@ public class IndividuController extends AbstractAccessController {
 	 */
 	public String goSeeAllEtudiants() {
 		individuPaginator.allStudentsFilter();
+		individuPaginator.forceReload();
 		return NavigationRulesConst.DISPLAY_STUDENT;
 	}
 

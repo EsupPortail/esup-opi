@@ -19,18 +19,18 @@
         <property name="servletGuestUrl" value="${urlGeneration.servletGuestUrl}" />
     </bean>
 
-    <bean 
-        id="uportalUrlGenerator"
-        class="org.esupportail.commons.services.urlGeneration.UportalUrlGeneratorImpl"
-        lazy-init="true"
-        >
-        <property name="casUrl" value="${cas.url}" />
-        <property name="casLoginUrl" value="${urlGeneration.casLoginUrl}" />
-        <property name="uportalFunctionnalName" value="${urlGeneration.uportalFunctionnalName}" />
-        <property name="uportalUrl" value="${app.uportalUrl}" />
-        <property name="uportalLoginUrl" value="${urlGeneration.uportalLoginUrl}" /> 
-        <property name="uportalGuestUrl" value="${urlGeneration.uportalGuestUrl}" /> 
-    </bean>
+<!--     <bean  -->
+<!--         id="uportalUrlGenerator" -->
+<!--         class="org.esupportail.commons.services.urlGeneration.UportalUrlGeneratorImpl" -->
+<!--         lazy-init="true" -->
+<!--         > -->
+<!--         <property name="casUrl" value="${cas.url}" /> -->
+<!--         <property name="casLoginUrl" value="${urlGeneration.casLoginUrl}" /> -->
+<!--         <property name="uportalFunctionnalName" value="${urlGeneration.uportalFunctionnalName}" /> -->
+<!--         <property name="uportalUrl" value="${app.uportalUrl}" /> -->
+<!--         <property name="uportalLoginUrl" value="${urlGeneration.uportalLoginUrl}" />  -->
+<!--         <property name="uportalGuestUrl" value="${urlGeneration.uportalGuestUrl}" />  -->
+<!--     </bean> -->
     
 
 </beans>

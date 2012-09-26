@@ -12,6 +12,8 @@
 		This file is referenced by /properties/applicationContext.xml.
 	-->
 	
+    <bean class="org.esupportail.opi.domain.beans.DisableSpel" />
+    
 	<!-- ##### DOMAIN ###### -->
 
 	<bean 
@@ -23,7 +25,7 @@
 		<property name="libelle" value="Parametrages et nomenclatures" />
 		<property name="shortLabel" value="Param. et nom." />
 		<property name="rang" value="1" />
-		<property name="action" value="managedAccess.goDisplayFunction" />
+		<property name="action" value="#{managedAccess.goDisplayFunction}" />
 	</bean>
 	
 	<bean 
@@ -35,7 +37,7 @@
 		<property name="libelle" value="Gestions des utilisateurs" />
 		<property name="shortLabel" value="Gest. user" />
 		<property name="rang" value="2" />
-		<property name="action" value="gestionnaireController.goSeeAllManagers" />
+		<property name="action" value="#{gestionnaireController.goSeeAllManagers}" />
 	</bean>
 	
 	<bean 
@@ -47,7 +49,7 @@
 		<property name="libelle" value="Référentiels" />
 		<property name="shortLabel" value="Référentiels" />
 		<property name="rang" value="3" />
-		<property name="action" value="managedAccess.goDisplayFunction" />
+		<property name="action" value="#{managedAccess.goDisplayFunction}" />
 	</bean>
 
 	<bean 
@@ -59,7 +61,7 @@
 		<property name="libelle" value="Gestion des candidatures" />
 		<property name="shortLabel" value="Gest. candidat" />
 		<property name="rang" value="4" />
-		<property name="action" value="managedAccess.goDisplayFunction" />
+		<property name="action" value="#{managedAccess.goDisplayFunction}" />
 	</bean>
 
 	<bean 
@@ -71,7 +73,7 @@
 		<property name="libelle" value="Gestion des commissions" />
 		<property name="shortLabel" value="Gest. commi" />
 		<property name="rang" value="5" />
-		<property name="action" value="managedAccess.goDisplayFunction" />
+		<property name="action" value="#{managedAccess.goDisplayFunction}" />
 	</bean>
 	
 	<bean id="domain_formations"
@@ -81,7 +83,7 @@
 		<property name="libelle" value="Définition des formations" />
 		<property name="shortLabel" value="Déf form." />
 		<property name="rang" value="6" />
-		<property name="action" value="managedAccess.goDisplayFunction" />
+		<property name="action" value="#{managedAccess.goDisplayFunction}" />
 	</bean>
 	
 	<bean 
@@ -93,7 +95,7 @@
 		<property name="libelle" value="Pilotage" />
 		<property name="shortLabel" value="Pilotage" />
 		<property name="rang" value="7" />
-		<property name="action" value="managedAccess.goDisplayFunction" />
+		<property name="action" value="#{managedAccess.goDisplayFunction}" />
 	</bean>
 	
 	<!-- ##### FUNCTION ###### -->
@@ -109,7 +111,7 @@
 		<property name="libelle" value="Profils" />
 		<property name="domain" ref="domain_parametrage" />
 		<property name="rang" value="1" />
-		<property name="action" value="profilController.goSeeAllProfil" />
+		<property name="action" value="#{profilController.goSeeAllProfil}" />
 	</bean>
 	
 	<bean 
@@ -121,7 +123,7 @@
 		<property name="libelle" value="Fonctionnalites" />
 		<property name="rang" value="2" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="fonctionController.goSeeAllFonction" />
+		<property name="action" value="#{fonctionController.goSeeAllFonction}" />
 	</bean>
 	
 	<bean 
@@ -133,7 +135,7 @@
 		<property name="libelle" value="Types de traitements" />
 		<property name="rang" value="3" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="nomenclatureController.goSeeAllTypTrt" />
+		<property name="action" value="#{nomenclatureController.goSeeAllTypTrt}" />
 	</bean>
 	
 	<bean 
@@ -145,7 +147,7 @@
 		<property name="libelle" value="Types de decisions" />
 		<property name="rang" value="4" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="nomenclatureController.goSeeAllTypDecision" />
+		<property name="action" value="#{nomenclatureController.goSeeAllTypDecision}" />
 	</bean>
 	
 	<bean 
@@ -157,7 +159,7 @@
 		<property name="libelle" value="Types de convocations" />
 		<property name="rang" value="5" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="nomenclatureController.goSeeAllTypConv" />
+		<property name="action" value="#{nomenclatureController.goSeeAllTypConv}" />
 	</bean>
 	
 	<bean 
@@ -169,7 +171,7 @@
 		<property name="libelle" value="Pièces justificatives" />
 		<property name="rang" value="6" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="nomenclatureController.goSeeAllPJ" />
+		<property name="action" value="#{nomenclatureController.goSeeAllPJ}" />
 	</bean>
 	
 	
@@ -182,7 +184,7 @@
 		<property name="libelle" value="Affectation de pièces justificatives" />
 		<property name="rang" value="7" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="nomenclatureController.goSeeAllAffectPJ" />
+		<property name="action" value="#{nomenclatureController.goSeeAllAffectPJ}" />
 	</bean>
 	
 	<bean 
@@ -194,7 +196,7 @@
 		<property name="libelle" value="Motivation des avis" />
 		<property name="rang" value="8" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="nomenclatureController.goSeeAllMotivAvis" />
+		<property name="action" value="#{nomenclatureController.goSeeAllMotivAvis}" />
 	</bean>
 	
 	<bean
@@ -206,7 +208,7 @@
 		<property name="libelle" value="Paramétrage des rendez-vous" />
 		<property name="rang" value="9" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="paramRdvController.goSeeAllParamRdv" />
+		<property name="action" value="#{paramRdvController.goSeeAllParamRdv}" />
 	</bean>
 	
 	<bean
@@ -218,7 +220,7 @@
 		<property name="libelle" value="Gestion de contenu des mails" />
 		<property name="rang" value="10" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="mailContentController.goAllMails" />
+		<property name="action" value="#{mailContentController.goAllMails}" />
 	</bean>
 	
 	<bean
@@ -230,7 +232,7 @@
 		<property name="libelle" value="Campagnes" />
 		<property name="rang" value="11" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="nomenclatureController.goSeeAllCampagnes" />
+		<property name="action" value="#{nomenclatureController.goSeeAllCampagnes}" />
 	</bean>
 	
 	<bean
@@ -242,7 +244,7 @@
 		<property name="libelle" value="Gestion automatique des listes complémentaires" />
 		<property name="rang" value="12" />
 		<property name="domain" ref="domain_parametrage" />
-		<property name="action" value="autoLpController.goSeeAllAutoLp" />
+		<property name="action" value="#{autoLpController.goSeeAllAutoLp}" />
 	</bean>
 	
 	<!-- ## domain_reference ## -->
@@ -256,7 +258,7 @@
 		<property name="libelle" value="Commissions" />
 		<property name="rang" value="1" />
 		<property name="domain" ref="domain_reference" />
-		<property name="action" value="commissionController.goSeeAllCmi" />
+		<property name="action" value="#{commissionController.goSeeAllCmi}" />
 	</bean>
 	
 	<bean 
@@ -268,7 +270,7 @@
 		<property name="libelle" value="Calendriers" />
 		<property name="rang" value="2" />
 		<property name="domain" ref="domain_reference" />
-		<property name="action" value="calendarController.goSeeAllCal" />
+		<property name="action" value="#{calendarController.goSeeAllCal}" />
 	</bean>
 	
 	<bean 
@@ -280,7 +282,7 @@
 		<property name="libelle" value="Nombre de voeux par CGE" />
 		<property name="rang" value="3" />
 		<property name="domain" ref="domain_reference" />
-		<property name="action" value="nbVoeuByCGEController.goSeeAllNbVoeu" />
+		<property name="action" value="#{nbVoeuByCGEController.goSeeAllNbVoeu}" />
 	</bean>
 	
 	<bean 
@@ -292,7 +294,7 @@
 		<property name="libelle" value="Consultation des rendez-vous" />
 		<property name="rang" value="4" />
 		<property name="domain" ref="domain_reference" />
-		<property name="action" value="consultRdvController.goSeeAllConsultRdv" />
+		<property name="action" value="#{consultRdvController.goSeeAllConsultRdv}" />
 	</bean>
 	
 	<bean 
@@ -304,7 +306,7 @@
 		<property name="libelle" value="Gestion des épreuves de sélection" />
 		<property name="rang" value="5" />
 		<property name="domain" ref="domain_reference" />
-		<property name="action" value="selectionController.goEnterSelection" />
+		<property name="action" value="#{selectionController.goEnterSelection}" />
 	</bean>
 	
 	<bean 
@@ -316,7 +318,7 @@
 		<property name="libelle" value="Gestion des étapes d'une commission" />
 		<property name="rang" value="6" />
 		<property name="domain" ref="domain_reference" />
-		<property name="action" value="trtCmiController.goMangedTrtCmi" />
+		<property name="action" value="#{trtCmiController.goMangedTrtCmi}" />
 	</bean>
 		
 	<bean 
@@ -328,7 +330,7 @@
 		<property name="libelle" value="Gestion des pièces justificatives pour une version d’étape" />
 		<property name="rang" value="7" />
 		<property name="domain" ref="domain_reference" />
-		<property name="action" value="etapeController.goSearchVetForGestPJ" />
+		<property name="action" value="#{etapeController.goSearchVetForGestPJ}" />
 	</bean>
 	
 	<!-- ## domain_managedUser ## -->
@@ -342,7 +344,7 @@
 		<property name="libelle" value="Affecter des droits" />
 		<property name="rang" value="1" />
 		<property name="domain" ref="domain_managedUser" />
-		<property name="action" value="gestionnaireController.goAffectRightManager" />
+		<property name="action" value="#{gestionnaireController.goAffectRightManager}" />
 	</bean>
 	
 	<!-- ## domain_candi ## -->
@@ -356,7 +358,7 @@
 		<property name="libelle" value="Liste des candidatures" />
 		<property name="rang" value="1" />
 		<property name="domain" ref="domain_candi" />
-		<property name="action" value="individuController.goSeeAllEtudiants" />
+		<property name="action" value="#{individuController.goSeeAllEtudiants}" />
 	</bean>
 	
 	<bean 
@@ -368,7 +370,7 @@
 		<property name="libelle" value="Gestion des pièces manquantes" />
 		<property name="rang" value="2" />
 		<property name="domain" ref="domain_candi" />
-		<property name="action" value="pjController.goSeePM" />
+		<property name="action" value="#{pjController.goSeePM}" />
 	</bean>
 	
 	
@@ -381,7 +383,7 @@
 		<property name="libelle" value="Suivre les candidatures" />
 		<property name="rang" value="3" />
 		<property name="domain" ref="domain_candi" />
-		<property name="action" value="monitorCandidaturesController.goMonitorCand" />
+		<property name="action" value="#{monitorCandidaturesController.goMonitorCand}" />
 	</bean>
 	
 	
@@ -396,7 +398,7 @@
 		<property name="libelle" value="Gestion des types de traitements" />
 		<property name="rang" value="1" />
 		<property name="domain" ref="domain_commission" />
-		<property name="action" value="typeTraitController.goSeeAllTypeTraitments" />
+		<property name="action" value="#{typeTraitController.goSeeAllTypeTraitments}" />
 	</bean>
 
 	<bean 
@@ -408,7 +410,7 @@
 		<property name="libelle" value="Gestion des validations des avis" />
 		<property name="rang" value="2" />
 		<property name="domain" ref="domain_commission" />
-		<property name="action" value="validOpinionController.goValidOpinions" />
+		<property name="action" value="#{validOpinionController.goValidOpinions}" />
 	</bean>
 
 	
@@ -421,7 +423,7 @@
 		<property name="libelle" value="Gestion des avis par types de décision" />
 		<property name="rang" value="3" />
 		<property name="domain" ref="domain_commission" />
-		<property name="action" value="opinionController.goEnterAllStudentsOpinions" />
+		<property name="action" value="#{opinionController.goEnterAllStudentsOpinions}" />
 	</bean>
 	
 	<bean 
@@ -433,7 +435,7 @@
 		<property name="libelle" value="Gestion des avis par étudiant" />
 		<property name="rang" value="4" />
 		<property name="domain" ref="domain_commission" />
-		<property name="action" value="opinionController.goEnterStudentsOpinions" />
+		<property name="action" value="#{opinionController.goEnterStudentsOpinions}" />
 	</bean>
 	
 	
@@ -447,7 +449,7 @@
 		<property name="libelle" value="Edition des avis" />
 		<property name="rang" value="5" />
 		<property name="domain" ref="domain_commission" />
-		<property name="action" value="printOpinionController.goPrintOpinions" />
+		<property name="action" value="#{printOpinionController.goPrintOpinions}" />
 	</bean>
 	
 	<bean id="function_print_lists_prepa"
@@ -457,7 +459,7 @@
 		<property name="libelle" value="Edition des listes préparatoires" />
 		<property name="rang" value="6" />
 		<property name="domain" ref="domain_commission" />
-		<property name="action" value="commissionController.goPrintListsPrepa" />
+		<property name="action" value="#{commissionController.goPrintListsPrepa}" />
 	</bean>
 
 	<bean 
@@ -469,7 +471,7 @@
 		<property name="libelle" value="Edition des transferts" />
 		<property name="rang" value="7" />
 		<property name="domain" ref="domain_commission" />
-		<property name="action" value="printOpinionController.goPrintTROpinions" />
+		<property name="action" value="#{printOpinionController.goPrintTROpinions}" />
 	</bean>
 	
 	<bean id="function_print_lists_form"
@@ -479,7 +481,7 @@
 		<property name="libelle" value="Extraction des formulaires complémentaires" />
 		<property name="rang" value="8" />
 		<property name="domain" ref="domain_commission" />
-		<property name="action" value="exportFormOrbeonController.goPrintListsForm" />
+		<property name="action" value="#{exportFormOrbeonController.goPrintListsForm}" />
 	</bean>
 	
 	<!-- ## domain_formations ## -->
@@ -491,7 +493,7 @@
 		<property name="libelle" value="Groupes de type de diplômes" />
 		<property name="rang" value="1" />
 		<property name="domain" ref="domain_formations" />
-		<property name="action" value="paramGrpTypDipController.goSeeAllGrp" />
+		<property name="action" value="#{paramGrpTypDipController.goSeeAllGrp}" />
 	</bean>
 
 	<bean id="function_domFormation"
@@ -512,7 +514,7 @@
 		<property name="libelle" value="Mots clefs des formations" />
 		<property name="rang" value="3" />
 		<property name="domain" ref="domain_formations" />
-		<property name="action" value="paramClefFormationController.goSeeAllKeys" />
+		<property name="action" value="#{paramClefFormationController.goSeeAllKeys}" />
 	</bean>
 	
 	
@@ -528,7 +530,7 @@
 		<property name="libelle" value="Gestion de l'archivage" />
 		<property name="rang" value="1" />
 		<property name="domain" ref="domain_pilotage" />
-		<property name="action" value="archiveTaskController.goSeeAllArchiveTasks" />
+		<property name="action" value="#{archiveTaskController.goSeeAllArchiveTasks}" />
 	</bean>
 	
 	<bean 
@@ -540,7 +542,7 @@
 		<property name="libelle" value="Statistique" />
 		<property name="rang" value="2" />
 		<property name="domain" ref="domain_pilotage" />
-		<property name="action" value="parametreStatController.goSeeParamStat" />
+		<property name="action" value="#{parametreStatController.goSeeParamStat}" />
 	</bean>
 	
 	

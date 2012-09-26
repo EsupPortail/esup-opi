@@ -13,19 +13,38 @@
 		It should not be modified but by the developers.
 	-->
 
-	<bean 
-		id="deepLinkingRedirector" 
-		class="org.esupportail.opi.web.deepLinking.DeepLinkingRedirectorImpl"
-		scope="session"
-		parent="abstractI18nAwareBean" 
-		lazy-init="true"
-		>
-		<property name="domainService" ref="domainService" />
-		<property name="domainApoService" ref="domainApoService" />
-		<property name="sessionController" ref="sessionController" />
-		<property name="formationController" ref="formationController" />
-		<property name="individuController" ref="individuController" />
-		<property name="managedCalendar" ref="managedCalendar"/>
-	</bean>
+<!-- 	<bean  -->
+<!-- 		id="deepLinkingRedirector"  -->
+<!-- 		class="org.esupportail.opi.web.deepLinking.DeepLinkingRedirectorImpl" -->
+<!-- 		scope="session" -->
+<!-- 		parent="abstractI18nAwareBean"  -->
+<!-- 		lazy-init="true" -->
+<!-- 		> -->
+<!-- 		<property name="domainService" ref="domainService" /> -->
+<!-- 		<property name="domainApoService" ref="domainApoService" /> -->
+<!-- 		<property name="sessionController" ref="sessionController" /> -->
+<!-- 		<property name="formationController" ref="formationController" /> -->
+<!-- 		<property name="individuController" ref="individuController" /> -->
+<!-- 		<property name="managedCalendar" ref="managedCalendar"/> -->
+<!-- 	</bean> -->
+
+<!--     <bean id="treatment" class="org.esupportail.commons.jsf.UrlPatternDescriptor"> -->
+<!--         <property name="params"> -->
+<!--             <list> -->
+<!--                 <value>treatment</value> -->
+<!--             </list> -->
+<!--         </property> -->
+<!--         <property name="actionBinding"> -->
+<!--             <bean class="org.esupportail.commons.jsf.ActionBinding"> -->
+<!--                 <property name="action" -->
+<!--                     value="managedAccess.initCurrentTreatement" /> -->
+<!--                 <property name="args"> -->
+<!--                     <list> -->
+<!--                         <value>java.lang.String</value> -->
+<!--                     </list> -->
+<!--                 </property> -->
+<!--             </bean> -->
+<!--         </property> -->
+<!--     </bean> -->
 
 </beans>

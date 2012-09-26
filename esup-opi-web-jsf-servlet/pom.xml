@@ -89,7 +89,7 @@
             <groupId>fop</groupId>
             <artifactId>fop</artifactId>
             <version>0.20.5</version>
-        </dependency>
+        </dependency> 
         <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-opi-domain-services</artifactId>

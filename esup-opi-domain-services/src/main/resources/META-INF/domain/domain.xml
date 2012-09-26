@@ -9,14 +9,14 @@
 
     
     <aop:config>
-<!--         <aop:pointcut id="domainMethods" -->
-<!--             expression="execution(* org.esupportail.*.domain.DomainServiceImpl.*(..))" /> -->
-<!--         <aop:pointcut id="paramMethods" -->
-<!--             expression="execution(* org.esupportail.*.domain.ParameterServiceImpl.*(..))" /> -->
+        <aop:pointcut id="domainMethods"
+            expression="execution(* org.esupportail.*.domain.DomainServiceImpl.*(..))" />
+        <aop:pointcut id="paramMethods"
+            expression="execution(* org.esupportail.*.domain.ParameterServiceImpl.*(..))" />
 <!--         <aop:pointcut id="ctrlMethods" -->
 <!--             expression="execution(* org.esupportail.*.web.controllers.*.*Controller.*(..))" /> -->
-<!--         <aop:advisor advice-ref="txAdvice" pointcut-ref="domainMethods" /> -->
-<!--         <aop:advisor advice-ref="txAdvice" pointcut-ref="paramMethods" /> -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="domainMethods" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="paramMethods" />
 <!--         <aop:advisor advice-ref="txAdvice" pointcut-ref="ctrlMethods" /> -->
     </aop:config>
 

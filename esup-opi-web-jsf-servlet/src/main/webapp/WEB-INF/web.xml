@@ -108,11 +108,11 @@
         </listener-class>
    </listener>
 <!--    Listener Jetty -->
-<!--     <listener> -->
-<!--         <listener-class> -->
-<!--             org.apache.myfaces.webapp.StartupServletContextListener -->
-<!--         </listener-class> -->
-<!--     </listener> -->
+    <listener>
+        <listener-class>
+            org.apache.myfaces.webapp.StartupServletContextListener
+        </listener-class>
+    </listener>
     
 
     <filter>
@@ -147,7 +147,7 @@
     </filter>
     <filter-mapping>
         <filter-name>CAS Authentication Filter</filter-name>
-        <url-pattern>/stylesheets/login.xhtml</url-pattern>
+        <url-pattern>/stylesheets/cas/accueil.xhtml</url-pattern>
     </filter-mapping>
     
     <filter>

@@ -1,14 +1,6 @@
-<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
-    <h:form>
-        <p:menu id="navigation" styleClass="menuWelcome">
-        	<p:menuitem id="accueil" action="#{welcomeController.goWelcomeManager}" 
-        		value="#{msgs['NAVIGATION.TEXT.WELCOME']}"/>
-        	<p:menuitem id="logout" value="#{msgs['NAVIGATION.TEXT.LOGOUT']}"
-        		rendered="#{sessionController.isServlet}"
-        		action="#{sessionController.logoutGest}" />
-        </p:menu>
-    </h:form>
-</ui:fragment>
+<p:menubar id="navigation" styleClass="menuWelcome"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    model="#{managedAccess.menuGestionnaire}" />
