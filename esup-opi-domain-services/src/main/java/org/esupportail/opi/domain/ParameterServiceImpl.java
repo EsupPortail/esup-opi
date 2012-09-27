@@ -1281,7 +1281,7 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 */
 	@Override
 	public Map<VersionEtpOpi, FormulaireCmi> getFormulairesCmi(
-			final Set<TraitementCmi> traitements, final String codeRI) {
+			final Set<TraitementCmi> traitements, final Integer codeRI) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getFormulairesCmi( " + traitements + " )");
 		}
@@ -1414,7 +1414,7 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 */
 	@Override
 	public boolean isAllFormulairesCreatedByTraitementsCmi(
-			final Individu indSelected, final String codeRI,
+			final Individu indSelected, final Integer codeRI,
 			final Set<TraitementCmi> traitementsCmi) {
 
 		boolean allFormsCreated = true;

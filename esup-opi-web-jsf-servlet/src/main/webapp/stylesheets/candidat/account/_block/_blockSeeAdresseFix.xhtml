@@ -12,7 +12,7 @@
     					immediate="true"
     					action="#{adressController.initUpdate}"
     					rendered="#{individuController.pojoIndividu.asRightsToUpdate
-    					&& individuController.actionEnum.whatAction != individuController.actionEnum.updateAction}">
+    					and individuController.actionEnum.whatAction != individuController.actionEnum.updateAction}">
     					<f:setPropertyActionListener value="#{adressController.actionEnum.updateAction}" target="#{adressController.actionEnum.whatAction}" />								
     				</p:commandButton>
     			</h:panelGroup>

@@ -11,8 +11,8 @@
     				<p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
     					immediate="true"
     					rendered="#{individuController.pojoIndividu.individu.codeEtu == null
-    						&& individuController.pojoIndividu.asRightsToUpdate
-    						&& adressController.actionEnum.whatAction != adressController.actionEnum.updateAction}">
+    						and individuController.pojoIndividu.asRightsToUpdate
+    						and adressController.actionEnum.whatAction != adressController.actionEnum.updateAction}">
     					<f:setPropertyActionListener value="#{individuController.actionEnum.updateAction}" target="#{individuController.actionEnum.whatAction}" />								
     				</p:commandButton>
     				<p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"

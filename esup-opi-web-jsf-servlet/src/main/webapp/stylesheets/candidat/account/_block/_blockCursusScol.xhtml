@@ -234,8 +234,8 @@
         </ui:fragment>
     	<br />
     	<br />
-        <ui:fragment rendered="#{sessionController.currentInd.isManager && sessionController.currentInd.asRightsToUpdate
-                && !cursusController.confirmeDelete}">
+        <ui:fragment rendered="#{sessionController.currentInd.isManager and sessionController.currentInd.asRightsToUpdate
+                and !cursusController.confirmeDelete}">
         	<div style="text-align:right;width:100%;">
         		<p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
         					action="#{cursusController.updateCursusApogee}"/>
@@ -279,7 +279,7 @@
     			<p:commandButton image="/media/images/cancel.png"
     				styleClass="form-button-image" immediate="true"
     				title="#{msgs['_.BUTTON.DELETE']}"
-    				rendered="#{!cursusPojo.cursus.temoinFromApogee &&
+    				rendered="#{!cursusPojo.cursus.temoinFromApogee and
     				(sessionController.currentInd == null 
     				  || sessionController.currentInd.asRightsToUpdate)}">
     				<f:setPropertyActionListener value="true" target="#{cursusController.confirmeDelete}" />

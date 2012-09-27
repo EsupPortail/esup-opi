@@ -114,7 +114,7 @@
 		<property name="cursusController" ref="cursusController" />
 		<property name="indBacController" ref="indBacController" />
 		<property name="situationController" ref="situationController" />
-		<property name="individuPaginator" ref="paginatorIndividu" />
+ 		<property name="individuPaginator" ref="paginatorIndividu" />
 		<property name="formulairesController" ref="formulairesController"/>
 		<property name="isRecupCursus" value="${init.recupCursus}"/>
 		<property name="isRecupBac" value="${init.recupBac}"/>

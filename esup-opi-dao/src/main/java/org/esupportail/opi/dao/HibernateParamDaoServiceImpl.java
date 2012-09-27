@@ -880,7 +880,7 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<FormulaireCmi> getFormulairesCmi(
-			final Set<VersionEtpOpi> versionsEtpOpi, final  String codeRI) {
+			final Set<VersionEtpOpi> versionsEtpOpi, final  Integer codeRI) {
 		if (log.isDebugEnabled()) {
 			log.debug("");
 		}

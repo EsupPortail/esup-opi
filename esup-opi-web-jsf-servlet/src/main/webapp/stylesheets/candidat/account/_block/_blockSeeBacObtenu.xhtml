@@ -16,7 +16,7 @@
     					<p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
     						action="#{indBacController.goUpdateIndBac}"
     						rendered="#{!indBacPojo.indBac.temoinFromApogee 
-    							&& sessionController.currentInd.asRightsToUpdate}">
+    							and sessionController.currentInd.asRightsToUpdate}">
     						<f:setPropertyActionListener value="#{indBacPojo.indBac}" target="#{indBacController.indBac}" />
     						<f:setPropertyActionListener value="#{indBacController.actionEnum.updateAction}" target="#{indBacController.actionEnum.whatAction}" />
     					</p:commandButton>
@@ -89,7 +89,7 @@
     
     	<br />
     	<br />
-        <ui:fragment rendered="#{indBacPojo.indBac.temoinFromApogee && row == 0}">
+        <ui:fragment rendered="#{indBacPojo.indBac.temoinFromApogee and row == 0}">
         	<div class="blockImportant">
         		<h:panelGrid columns="2" columnClasses="image,text">
         			<p:graphicImage url="/media/images/important.png" />

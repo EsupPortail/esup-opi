@@ -14,8 +14,8 @@
     				<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
     					action="#{indBacController.add}" 
     					rendered="#{empty indBacController.indBacPojos
-    					&& indBacController.actionEnum.whatAction == indBacController.actionEnum.addAction
-    					&& individuController.pojoIndividu.asRightsToUpdate}"
+    					and indBacController.actionEnum.whatAction == indBacController.actionEnum.addAction
+    					and individuController.pojoIndividu.asRightsToUpdate}"
     					/>
     				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     					action="#{indBacController.update}" 
@@ -28,7 +28,7 @@
     				<p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
     					immediate="true" 
     					rendered="#{!indBacPojo.indBac.temoinFromApogee 
-    						&& sessionController.whoIsConnectInPortlet != 'individu.not_exist'}"
+    						and sessionController.whoIsConnectInPortlet != 'individu.not_exist'}"
     					action="#{accueilController.goWelcomeCandidat}" />
     
     			</h:panelGroup>

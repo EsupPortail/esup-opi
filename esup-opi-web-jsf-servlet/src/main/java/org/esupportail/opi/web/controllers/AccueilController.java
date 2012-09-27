@@ -319,8 +319,8 @@ public class AccueilController extends AbstractAccessController {
 
 		if (getParameterService().isAllFormulairesCreatedByTraitementsCmi(
 				getSessionController().getCurrentInd().getIndividu(),
-				String.valueOf(getSessionController().getCurrentInd()
-				.getRegimeInscription().getCode()),
+				getSessionController().getCurrentInd()
+				.getRegimeInscription().getCode(),
 				traitementsCmi)) {
 			printOneDossier();
 		} else {

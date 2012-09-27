@@ -12,16 +12,16 @@
         		rendered="#{sessionController.currentInd.regimeInscription == null || !sessionController.currentInd.regimeInscription.displayInfoFC}" 
         		onclick="openPage('#{accueilController.context}/stylesheets/help/contact.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
         	<p:menuitem id="helpFC" value="#{msgs['NAVIGATION.TEXT.CONTACT']}" 
-        		rendered="#{sessionController.currentInd.regimeInscription != null && sessionController.currentInd.regimeInscription.displayInfoFC}" 
+        		rendered="#{sessionController.currentInd.regimeInscription != null and sessionController.currentInd.regimeInscription.displayInfoFC}" 
         		onclick="openPage('#{accueilController.context}/stylesheets/help/contactFC.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
         	<p:menuitem id="logout" value="#{msgs['NAVIGATION.TEXT.LOGOUT']}"
         		action="#{sessionController.logoutInd}" 
         		rendered="#{sessionController.isServlet 
-        			&& !sessionController.currentInd.isManager}"/>
+        			and !sessionController.currentInd.isManager}"/>
         	<p:menuitem id="retourGestionnaire" value="#{msgs['NAVIGATION.TEXT.BACK.GESTIONNAIRE']}"
         		action="#{sessionController.goBackManager}" 
         		rendered="#{sessionController.currentInd != null 
-        				&& sessionController.currentInd.isManager}"/>
+        				and sessionController.currentInd.isManager}"/>
         </p:menu>
     </h:form>
 </ui:fragment>
