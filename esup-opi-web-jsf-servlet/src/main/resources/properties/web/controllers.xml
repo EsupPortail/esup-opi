@@ -508,7 +508,7 @@
 			<list>
 				<ref bean="commissionStat"/>
 				<ref bean="composantesStat"/>
-				<ref bean="motCleStat"/>
+<!-- 				<ref bean="motCleStat"/> -->
 				<ref bean="riStat"/>
 				<ref bean="trCmi"/>
 				<ref bean="vetStat"/>

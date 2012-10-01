@@ -6,5 +6,6 @@ target/
 /esup-blank-web-jsf-mixed/esup-blank.log
 .checkstyle
 .springBeans
-
+/esup-opi-web-jsf-servlet/.metadata/
+/esup-opi-web-jsf-servlet/tabStatistique.xml
 

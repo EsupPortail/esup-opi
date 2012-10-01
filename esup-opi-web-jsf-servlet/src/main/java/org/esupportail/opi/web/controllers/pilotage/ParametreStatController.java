@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 
 import org.apache.commons.beanutils.BeanComparator;
@@ -554,6 +555,13 @@ public class ParametreStatController extends AbstractContextAwareController {
 	/**
 	 * 
 	 */
+	public void clearObjOrdonne(AjaxBehaviorEvent evt) {
+		clearObjOrdonne();
+	}
+	
+	/**
+	 * 
+	 */
 	public void clearObjOrdonne() {
 		allObjOrdonneItems = null;
 		libelleCoordonne = null;
@@ -918,6 +926,13 @@ public class ParametreStatController extends AbstractContextAwareController {
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * 
+	 */
+	public void clearObjAbscisse(AjaxBehaviorEvent evt) {
+		clearObjAbscisse();
 	}
 	
 	/**

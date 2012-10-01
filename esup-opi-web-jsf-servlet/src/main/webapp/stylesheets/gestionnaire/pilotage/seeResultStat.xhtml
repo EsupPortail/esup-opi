@@ -2,57 +2,55 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	<h1><h:outputText value="#{msgs['STAT.MANAGED_SEE']}" /></h1>
-    	<div class="messageForUser">
-    		<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    	</div>	
     	<h:form id="seeResultStatForm" styleClass="div_subSection">
     		<div id="resultatStat" class="div_body">
+                <h1><h:outputText value="#{msgs['STAT.MANAGED_SEE']}" /></h1>
+                <div class="messageForUser">
+                    <p:messages id="messages" showDetail="true" autoUpdate="true" />
+                </div>
     			<div class="blockButton">
     				<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
     					action="#{parametreStatController.goReturnSeeParamStat}"/>
     				<p:commandButton value="#{msgs['_.BUTTON.EXPORT']}" 
     					action="#{seeStatController.makeCsvStatistique}"/>
-    				<p:commandButton value="#{msgs['OPINION.EDIT.VALIDATION']}" 
+    				<p:commandButton value="#{msgs['OPINION.EDIT.VALIDATION']}" ajax="false"
     					action="#{seeStatController.printPDFStatistique}"/>
     			</div>
     			<table class="displayInfo">
     				<tr class="trCampagne">
     					<th class="thCampagne"/>
-    					<h:dataList value="#{seeStatController.resultCampagne}" var="campagne" layout="simple">
-    						<h:outputText value="#{msgs['STAT.RESULT_CAMP_TAB']}" escape="false">
-    							<f:param value="#{seeStatController.tailleAbscisse}"/>
-    							<f:param value="#{campagne}"/>
-    						</h:outputText>
-    					</h:dataList>
+    					<ui:repeat value="#{seeStatController.resultCampagne}" var="campagne">
+    						<th class="thCampagne">
+                                <h:outputFormat value="#{msgs['STAT.RESULT_CAMP_TAB']}" escape="false">
+        							<f:param value="#{seeStatController.tailleAbscisse}"/>
+        							<f:param value="#{campagne}"/>
+        						</h:outputFormat>
+                            </th>
+    					</ui:repeat>
     				</tr>
     				<tr class="trAbscisse">
-    					<h:dataList value="#{seeStatController.resultAbscisse}" var="abscisse" layout="simple">
+    					<ui:repeat value="#{seeStatController.resultAbscisse}" var="abscisse">
     						<th class="thAbscisse">
     							<h:outputText value="#{abscisse}"/>
     						</th>
-    					</h:dataList>
+    					</ui:repeat>
     				</tr>
-    				<h:dataList value="#{seeStatController.resultKey}" var="key" layout="simple">
+    				<ui:repeat value="#{seeStatController.resultKey}" var="key">
     					<tr>
     						<th class="thOrdonne">
     							<h:outputText value="#{key}"/>
     						</th>
-    						<h:dataList value="#{seeStatController.result[key]}" var="result" layout="simple">
+    						<ui:repeat value="#{seeStatController.result[key]}" var="result">
     							<td>
     								<h:outputText value="#{result}"/>
     							</td>
-    						</h:dataList>
+    						</ui:repeat>
     					</tr>
-    				</h:dataList>
+    				</ui:repeat>
     			</table>
     		</div>
     	</h:form>
-    	<script type="text/javascript">
-    		highlightChildrenLiTags('navigationHeader:navigation');
-    		highlightChildrenLiTags('navigationFooter:navigation');
-    	</script>
     </ui:define>
 </ui:composition>

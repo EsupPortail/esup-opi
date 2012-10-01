@@ -33,6 +33,7 @@
             </list>
         </property>
         <property name="cacheSeconds" value="0" />
+        <property name="useCodeAsDefaultMessage" value="true" />
     </bean>
 
 </beans>

@@ -2,38 +2,44 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	<h1><h:outputText value="#{msgs['STAT.MANAGED_PARAM']}" /></h1>
-    	<div class="messageForUser">
-    		<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    	</div>
     
     	<h:form id="seeParamStatForm" styleClass="div_subSection">
     		<div id="parametreStat" class="div_body">
+                <h1>
+                    <span class="section-header">
+                        <h:outputText value="#{msgs['STAT.MANAGED_PARAM']}" />
+                    </span>
+                </h1>
+                <div class="messageForUser">
+                    <p:messages id="messages" showDetail="true" autoUpdate="true" />
+                </div>
     			<div class="blockButton">
     				<p:commandButton value="#{msgs['_.BUTTON.RESULT_STAT']}"
     					immediate="true"
-    					rendered="#{not empty parametreStatController.listAbscisseCoordonne &&
-    							not empty parametreStatController.listOrdonneCoordonne &&
+    					rendered="#{not empty parametreStatController.listAbscisseCoordonne and
+    							not empty parametreStatController.listOrdonneCoordonne and
     							not empty parametreStatController.campagneItems}"
     					action="#{seeStatController.goSeeResulStat}" />
     
-    				<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
-    					rendered="#{parametreStatController.addUpdateCoordonne.whatAction != parametreStatController.addUpdateCoordonne.addAction
-    								&& parametreStatController.addUpdateCoordonne.whatAction != parametreStatController.addUpdateCoordonne.updateAction}"
-    					action="#{managedAccess.goDisplayFunction}" />
+<!--     				<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true" -->
+<!--     					rendered="#{parametreStatController.addUpdateCoordonne.whatAction != parametreStatController.addUpdateCoordonne.addAction -->
+<!--     								and parametreStatController.addUpdateCoordonne.whatAction != parametreStatController.addUpdateCoordonne.updateAction}" -->
+<!--     					action="#{managedAccess.goDisplayFunction}" /> -->
     
-    				<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+    				<p:commandButton value="#{msgs['_.BUTTON.BACK']}" ajax="false"
+                        immediate="true"
     					rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction 
-    								&& parametreStatController.actionEnum.whatAction == parametreStatController.actionEnum.emptyAction }"
+    								and parametreStatController.actionEnum.whatAction == parametreStatController.actionEnum.emptyAction }"
     					action="#{managedAccess.goDisplayFunction}">
     				</p:commandButton>
     
-    				<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+    				<p:commandButton value="#{msgs['_.BUTTON.BACK']}" ajax="false"
+                        immediate="true"
     					rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction ||
     							(parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction 
-    					 		&&  parametreStatController.actionEnum.whatAction != parametreStatController.actionEnum.emptyAction )}"
+    					 		and  parametreStatController.actionEnum.whatAction != parametreStatController.actionEnum.emptyAction )}"
     					action="#{parametreStatController.clearObjAbscisse}">
     					<f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}" target="#{parametreStatController.actionEnum.whatAction}" />
     					<f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}" target="#{parametreStatController.addUpdateCoordonne.whatAction}" />
@@ -42,13 +48,13 @@
     
     			<h:panelGroup id="orderedDelete"
     				rendered="#{parametreStatController.actionEnum.whatAction == parametreStatController.actionEnum.paramOrdonne
-    								&& parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.deleteAction}">
+    								and parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.deleteAction}">
     				<ui:include src="_delete/_deleteParamStatOrdonne.xhtml" />
     			</h:panelGroup>
     
     			<h:panelGroup id="abscissaDelete"
     				rendered="#{parametreStatController.actionEnum.whatAction == parametreStatController.actionEnum.paramAbscisse
-    								&& parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.deleteAction}">
+    								and parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.deleteAction}">
     				<ui:include src="_delete/_deleteParamStatAbscisse.xhtml" />
     			</h:panelGroup>
     
@@ -66,35 +72,33 @@
     
     				<h:panelGrid columns="3" id="ordered">
     					<h:panelGrid columns="1">
-    						<p:commandButton image="/media/images/en_haut.gif"
-    							styleClass="icone"
+    						<p:commandButton icon="ui-icon-arrowthickstop-1-n"
+                                update="selectedOrdonnees"
     							action="#{parametreStatController.enHautOrdonne}" />
-    						<p:commandButton image="/media/images/monter.gif"
-    							styleClass="icone"
+    						<p:commandButton icon="ui-icon-arrowthick-1-n"
+                                update="selectedOrdonnees"
     							action="#{parametreStatController.monterOrdonne}" />
-    						<p:commandButton image="/media/images/descendre.gif"
-    							styleClass="icone"
+    						<p:commandButton  icon="ui-icon-arrowthick-1-s"
+                                update="selectedOrdonnees"
     							action="#{parametreStatController.descendreOrdonne}" />
-    						<p:commandButton image="/media/images/en_bas.gif"
-    							styleClass="icone"
+    						<p:commandButton  icon="ui-icon-arrowthickstop-1-s"
+                                update="selectedOrdonnees"
     							action="#{parametreStatController.enBasOrdonne}" />
     					</h:panelGrid>
-    					<p:selectOneListbox styleClass="manyMenu"
+    					<p:selectOneListbox id="selectedOrdonnees" styleClass="manyMenu"
     						value="#{parametreStatController.selectOrdonneCoordonne}">
     						<f:selectItems
     							value="#{parametreStatController.listOrdonneCoordonneItems}" />
     					</p:selectOneListbox>
     					<h:panelGroup>
-    						<p:commandButton image="/media/images/add.png" styleClass="icone">
+    						<p:commandButton icon="ui-icon-plus" ajax="false">
     							<f:setPropertyActionListener value="#{parametreStatController.actionEnum.paramOrdonne}" target="#{parametreStatController.actionEnum.whatAction}" />
     							<f:setPropertyActionListener value="#{parametreStatController.addUpdateCoordonne.addAction}" target="#{parametreStatController.addUpdateCoordonne.whatAction}" />
     						</p:commandButton>
-    						<p:commandButton image="/media/images/update.png"
-    							styleClass="icone"
+    						<p:commandButton icon="ui-icon-pencil" ajax="false"
     							rendered="#{not empty parametreStatController.listOrdonneCoordonne}"
     							action="#{parametreStatController.changeSelectCoordonneOrdonneUpdate}" />
-    						<p:commandButton image="/media/images/cancel.png"
-    							styleClass="icone"
+    						<p:commandButton icon="ui-icon-minus" ajax="false"
     							rendered="#{not empty parametreStatController.listOrdonneCoordonne}"
     							action="#{parametreStatController.changeSelectCoordonneOrdonne}">
     							<f:setPropertyActionListener value="#{parametreStatController.actionEnum.paramOrdonne}" target="#{parametreStatController.actionEnum.whatAction}" />
@@ -105,35 +109,33 @@
     
     				<h:panelGrid columns="3" id="abscissa">
     					<h:panelGrid columns="1">
-    						<p:commandButton image="/media/images/en_haut.gif"
-    							styleClass="icone"
+    						<p:commandButton icon="ui-icon-arrowthickstop-1-n"
+                                update="selectedAbscisses"
     							action="#{parametreStatController.enHautAbscisse}" />
-    						<p:commandButton image="/media/images/monter.gif"
-    							styleClass="icone"
+    						<p:commandButton icon="ui-icon-arrowthick-1-n"
+                                update="selectedAbscisses"
     							action="#{parametreStatController.monterAbscisse}" />
-    						<p:commandButton image="/media/images/descendre.gif"
-    							styleClass="icone"
+    						<p:commandButton icon="ui-icon-arrowthick-1-s"
+                                update="selectedAbscisses"
     							action="#{parametreStatController.descendreAbscisse}" />
-    						<p:commandButton image="/media/images/en_bas.gif"
-    							styleClass="icone"
+    						<p:commandButton icon="ui-icon-arrowthickstop-1-s"
+                                update="selectedAbscisses"
     							action="#{parametreStatController.enBasAbscisse}" />
     					</h:panelGrid>
-    					<p:selectOneListbox styleClass="manyMenu"
+    					<p:selectOneListbox id="selectedAbscisses" styleClass="manyMenu"
     						value="#{parametreStatController.selectAbscisseCoordonne}">
     						<f:selectItems
     							value="#{parametreStatController.listAbscisseCoordonneItems}" />
     					</p:selectOneListbox>
     					<h:panelGroup>
-    						<p:commandButton image="/media/images/add.png" styleClass="icone">
+    						<p:commandButton icon="ui-icon-plus" ajax="false">
     							<f:setPropertyActionListener value="#{parametreStatController.actionEnum.paramAbscisse}" target="#{parametreStatController.actionEnum.whatAction}" />
     							<f:setPropertyActionListener value="#{parametreStatController.addUpdateCoordonne.addAction}" target="#{parametreStatController.addUpdateCoordonne.whatAction}" />
     						</p:commandButton>
-    						<p:commandButton image="/media/images/update.png"
-    							styleClass="icone"
+    						<p:commandButton icon="ui-icon-pencil" ajax="false"
     							rendered="#{not empty parametreStatController.listAbscisseCoordonne}"
     							action="#{parametreStatController.changeSelectCoordonneAbscisseUpdate}" />
-    						<p:commandButton image="/media/images/cancel.png"
-    							styleClass="icone"
+    						<p:commandButton icon="ui-icon-minus" ajax="false"
     							rendered="#{not empty parametreStatController.listAbscisseCoordonne}"
     							action="#{parametreStatController.changeSelectCoordonneAbscisse}">
     							<f:setPropertyActionListener value="#{parametreStatController.actionEnum.paramAbscisse}" target="#{parametreStatController.actionEnum.whatAction}" />
@@ -143,19 +145,17 @@
     				</h:panelGrid>
     
     				<h:panelGrid columns="3" id="campagne">
-    					<p:selectManyMenu styleClass="manyMenu"
+    					<p:selectManyMenu id="listAllCampagnes" styleClass="manyMenu"
     						value="#{parametreStatController.selectCampagneAdd}">
     						<f:selectItems value="#{parametreStatController.allCampagneItems}" />
     					</p:selectManyMenu>
     					<h:panelGrid columns="1">
-    						<p:commandButton image="/media/images/fleche_gauche.gif"
-    							styleClass="icone"
+    						<p:commandButton icon="ui-icon-arrowthick-1-w" ajax="false"
     							action="#{parametreStatController.delCampagneItems}" />
-    						<p:commandButton image="/media/images/fleche_droite.gif"
-    							styleClass="icone"
+    						<p:commandButton icon="ui-icon-arrowthick-1-e" ajax="false"
     							action="#{parametreStatController.addCampagneItems}" />
     					</h:panelGrid>
-    					<p:selectManyMenu styleClass="manyMenu"
+    					<p:selectManyMenu id="listSelectedCampagnes" styleClass="manyMenu"
     						value="#{parametreStatController.selectCampagneDel}">
     						<f:selectItems value="#{parametreStatController.campagneItems}" />
     					</p:selectManyMenu>
@@ -164,18 +164,19 @@
     
     			<h:panelGroup id="orderedSelected"
     				rendered="#{parametreStatController.actionEnum.whatAction == parametreStatController.actionEnum.paramOrdonne
-    								&& (parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction
+    								and (parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction
     									|| parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction)}">
     				<ui:include src="_add/_enterParamStatOrdonne.xhtml" />
     			</h:panelGroup>
     
     			<h:panelGroup id="abscissaSelected"
     				rendered="#{parametreStatController.actionEnum.whatAction == parametreStatController.actionEnum.paramAbscisse
-    								&& (parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction
+    								and (parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction
     									|| parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction)}">
     				<ui:include src="_add/_enterParamStatAbscisse.xhtml" />
     			</h:panelGroup>
     		</div>
+            
     	</h:form>
     	<script type="text/javascript">
         	highlightChildrenLiTags('navigationHeader:navigation');

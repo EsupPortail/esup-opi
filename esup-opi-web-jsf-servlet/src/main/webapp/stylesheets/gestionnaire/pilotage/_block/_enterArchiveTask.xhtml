@@ -9,13 +9,14 @@
     				styleClass="tableJustWidthMax">
     				<h:outputText value="#{msgs['ARCHIVAGE.ENTER.TITLE']}" styleClass="section-smallTitle" />
     				<h:panelGroup>
-    					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+    					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}" ajax="false"
     						rendered="#{archiveTaskController.actionEnum.whatAction == archiveTaskController.actionEnum.addAction}"
     						action="#{archiveTaskController.add}" />
-    					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+    					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}" ajax="false"
     						rendered="#{archiveTaskController.actionEnum.whatAction == archiveTaskController.actionEnum.updateAction}"
     						action="#{archiveTaskController.update}" />
-    					<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+    					<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" ajax="false"
+                            immediate="true"
     						action="#{archiveTaskController.reset}"
     						onclick="javascript:{clickAnnuler = true;}"/>
     				</h:panelGroup>
@@ -27,12 +28,9 @@
     				</h:panelGroup>
     				<h:panelGroup>
     					<h:outputText value="#{archiveTaskController.campToArch.libelle}"/>
-    					<p:commandButton id="refreshCampToAct"
-    						value="#{msgs[_.BUTTON.CHANGE]}"
-    						action="#{archiveTaskController.refreshCampToAct}" />
     				</h:panelGroup>
     				<h:panelGroup>
-    					<h:outputLabel value="#{msgs['ARCHIVAGE.ENTER.CAMP_ACT']}" for="code" />
+    					<h:outputLabel value="#{msgs['ARCHIVAGE.ENTER.CAMP_ACT']}" for="choiceCampActive" />
     					<h:outputText value="*" styleClass="etoileForChpObli" />
     				</h:panelGroup>
     				<h:panelGroup>
@@ -56,8 +54,9 @@
     				</h:panelGroup>
     				<h:panelGroup style="text-align: right;">
     					<p:selectBooleanCheckbox id="affArchivedCamps"
-    						onchange="javascript:{simulateLinkClick('formEnterArchiveTask:refreshCampToAct');}"
-    						value="#{archiveTaskController.affArchivedCamps}" />
+    						value="#{archiveTaskController.affArchivedCamps}">
+                            <p:ajax update="choiceCampActive" listener="#{archiveTaskController.refreshCampToAct}" />
+                        </p:selectBooleanCheckbox>
     				</h:panelGroup>
     				<h:panelGroup>
     					<h:outputLabel value="#{msgs['ARCHIVAGE.ENTER.AFF_ARCH']}" />
@@ -67,9 +66,4 @@
     		
     	</div>
     </h:form>
-    <script type="text/javascript">
-    	hideElement('formEnterArchiveTask:refreshCampToAct');
-    	hideElement('lookForIndForm:lookForIndividuTypeDec')
-    	hideElement('lookForIndForm:lookForIndividuEtp');
-    </script>
 </ui:fragment>
