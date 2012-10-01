@@ -9,14 +9,14 @@
 
     
     <aop:config>
-<!--         <aop:pointcut id="domainMethods" -->
-<!--             expression="execution(* org.esupportail.*.domain.DomainServiceImpl.*(..))" /> -->
-<!--         <aop:pointcut id="paramMethods" -->
-<!--             expression="execution(* org.esupportail.*.domain.ParameterServiceImpl.*(..))" /> -->
+        <aop:pointcut id="domainMethods"
+            expression="execution(* org.esupportail.*.domain.DomainServiceImpl.*(..))" />
+        <aop:pointcut id="paramMethods"
+            expression="execution(* org.esupportail.*.domain.ParameterServiceImpl.*(..))" />
 <!--         <aop:pointcut id="ctrlMethods" -->
 <!--             expression="execution(* org.esupportail.*.web.controllers.*.*Controller.*(..))" /> -->
-<!--         <aop:advisor advice-ref="txAdvice" pointcut-ref="domainMethods" /> -->
-<!--         <aop:advisor advice-ref="txAdvice" pointcut-ref="paramMethods" /> -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="domainMethods" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="paramMethods" />
 <!--         <aop:advisor advice-ref="txAdvice" pointcut-ref="ctrlMethods" /> -->
     </aop:config>
 
@@ -122,6 +122,11 @@
 		<property name="remoteCriApogeeEns" ref="remoteCriApogeeEns" />
 		<property name="remoteCriApogeeRennes1" ref="remoteCriApogeeRennes1"/>
 		<property name="remoteCriApogeeEtudiant" ref="remoteCriEtudiant"/>
+		<property name="remoteApoRenAdminMetier" ref="remoteApoRenAdminMetier"/>
+    	<property name="remoteApoRenEtuMetier" ref="remoteApoRenEtuMetier"/>
+   		<property name="remoteApoRenGeoMetier" ref="remoteApoRenGeoMetier"/>
+<!--     	<property name="remoteApoRenOpiMetier" ref="remoteApoRenOpiMetier"/> -->
+    	<property name="remoteApoRenPedaMetier" ref="remoteApoRenPedaMetier"/>
 		<property name="codEtbInt" value="${init.codEtbInt}" />
 		<property name="codDacEtr" value="${init.codDacEtr}" />
 		<property name="onlyTerminaux" value="${init.onlyTerminaux}" />

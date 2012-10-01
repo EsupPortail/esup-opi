@@ -62,20 +62,22 @@ import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
 
 import pedagogiquemetier_28022011_impl.servicesmetiers.commun.apogee.education.gouv.PedagogiqueMetierServiceInterface;
-import pedagogiquemetier_28022011_impl.servicesmetiers.commun.apogee.education.gouv.PedagogiqueMetierServiceInterfaceService;
+
+//import pedagogiquemetier_28022011_impl.servicesmetiers.commun.apogee.education.gouv.PedagogiqueMetierServiceInterface;
+//import pedagogiquemetier_28022011_impl.servicesmetiers.commun.apogee.education.gouv.PedagogiqueMetierServiceInterfaceService;
 import administratifmetier_17062009_impl.servicesmetiers.commun.apogee.education.gouv.AdministratifMetierServiceInterface;
-import administratifmetier_17062009_impl.servicesmetiers.commun.apogee.education.gouv.AdministratifMetierServiceInterfaceService;
+//import administratifmetier_17062009_impl.servicesmetiers.commun.apogee.education.gouv.AdministratifMetierServiceInterfaceService;
 
 import com.googlecode.ehcache.annotations.Cacheable;
 
 import etudiantwebserviceimpl.impl.webservices.commun.apogee.education.gouv.EtudiantMetierServiceInterface;
-import etudiantwebserviceimpl.impl.webservices.commun.apogee.education.gouv.EtudiantMetierServiceInterfaceService;
+//import etudiantwebserviceimpl.impl.webservices.commun.apogee.education.gouv.EtudiantMetierServiceInterfaceService;
 import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip;
 import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDipCorresp;
 import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Domaine2AnnuFormDTO;
 import fr.univ.rennes1.cri.apogee.services.remote.ReadRennes1PortType;
 import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.GeographieMetierServiceInterface;
-import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.GeographieMetierServiceInterfaceService;
+//import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.GeographieMetierServiceInterfaceService;
 import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.WebBaseException;
 import gouv.education.apogee.commun.transverse.dto.administratif.cursusexternedto.CursusExterneDTO;
 import gouv.education.apogee.commun.transverse.dto.administratif.cursusexternesettransfertsdto.CursusExternesEtTransfertsDTO;
@@ -132,15 +134,35 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	private ReadRennes1PortType remoteCriApogeeRennes1;
 	
 	/**
-	 * Can read the table of etudiant in Apogee.
+	 * Can read the table of AdministratifMetier in Apogee.
 	 */
-	private ReadEtudiant remoteCriApogeeEtudiant;
+	private AdministratifMetierServiceInterface remoteApoRenAdminMetier;
+	
+	/**
+	 * Can read the table of EtudiantMetier in Apogee.
+	 */
+	private EtudiantMetierServiceInterface remoteApoRenEtuMetier;
 
+	/**
+	 * Can read the table of PedagoqiqueMetier in Apogee.
+	 */
+	private PedagogiqueMetierServiceInterface remoteApoRenPedaMetier;
+	
+	/**
+	 * Can read the table of GeographiqueMetier in Apogee.
+	 */
+	private GeographieMetierServiceInterface remoteApoRenGeoMetier;
+	
 	/**
 	 * Insert the laisserPassser in Apogee.
 	 */
 	private InsertLaisserPasser insertLaisserPasser; 
 
+	/**
+	 * Can read the table of etudiant in Apogee.
+	 */
+	private ReadEtudiant remoteCriApogeeEtudiant;
+	
 	/**
 	 * see {@link ParameterService}.
 	 */
@@ -203,6 +225,18 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 					+ this.getClass().getName() + " can not be null");
 		Assert.notNull(this.remoteCriApogeeEtudiant, 
 				"property remoteCriApogeeEtudiant of class " 
+				+ this.getClass().getName() + " can not be null");
+		Assert.notNull(this.remoteApoRenAdminMetier, 
+				"property remoteApoRenAdminMetier of class " 
+				+ this.getClass().getName() + " can not be null");
+		Assert.notNull(this.remoteApoRenPedaMetier, 
+				"property remoteApoRenPedaMetier of class " 
+				+ this.getClass().getName() + " can not be null");
+		Assert.notNull(this.remoteApoRenEtuMetier, 
+				"property remoteApoRenEtuMetier of class " 
+				+ this.getClass().getName() + " can not be null");
+		Assert.notNull(this.remoteApoRenGeoMetier, 
+				"property remoteApoRenGeoMetier of class " 
 				+ this.getClass().getName() + " can not be null");
 		Assert.notNull(this.obtentionDip, 
 				"property obtentionDip of class " 
@@ -414,11 +448,13 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 		try {
 			List<CommuneDTO> c = new ArrayList<CommuneDTO>();
 
-			GeographieMetierServiceInterface geographieMetierService 
-			= new GeographieMetierServiceInterfaceService().getGeographieMetier();
+//			GeographieMetierServiceInterface geographieMetierService 
+//			= new GeographieMetierServiceInterfaceService().getGeographieMetier();
 
 			String temoinEnService = TRUE;
-			List<CommuneDTO> commune = geographieMetierService.recupererCommune(
+//			List<CommuneDTO> commune = geographieMetierService.recupererCommune(
+//					codBdi, temoinEnService, temoinEnService);
+			List<CommuneDTO> commune = remoteApoRenGeoMetier.recupererCommune(
 					codBdi, temoinEnService, temoinEnService);
 			for (CommuneDTO communeDTO : commune) {
 				c.add(communeDTO);
@@ -838,19 +874,15 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 		try {
 			Individu individu = null;
 
-			EtudiantMetierServiceInterface etudiantMetierService 
-			= new EtudiantMetierServiceInterfaceService().getEtudiantMetier();
-
 			// Recherche l'etudiant dans Apogee
-			IdentifiantsEtudiantDTO etudiant = etudiantMetierService.recupererIdentifiantsEtudiant(
+			IdentifiantsEtudiantDTO etudiant = remoteApoRenEtuMetier.recupererIdentifiantsEtudiant(
 					codEtu, null, codeNne, clefNne, null, null, 
-					nom, prenom, dateNaiss, temoinRecupAnnu);
-
+					nom, prenom, dateNaiss, temoinRecupAnnu);			
 			individu = new Individu(etudiant.getNumeroINE(), etudiant.getCleINE(),
 					etudiant.getCodEtu().toString());
 
 			// Recuperation des infos de l'etudiant dans Apogee			
-			InfoAdmEtuDTO infosAdmEtu = etudiantMetierService.recupererInfosAdmEtu(
+			InfoAdmEtuDTO infosAdmEtu = remoteApoRenEtuMetier.recupererInfosAdmEtu(
 					etudiant.getCodEtu().toString());
 			individu.setCodInd(etudiant.getCodInd());
 			individu.setNomPatronymique(infosAdmEtu.getNomPatronymique());
@@ -870,9 +902,9 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 			individu.setSexe(infosAdmEtu.getSexe());
 
 			// Recuperation des infos de l'etudiant dans Apogee			
-			CoordonneesDTO coordonnees = etudiantMetierService.recupererAdressesEtudiant(
+			CoordonneesDTO coordonnees = remoteApoRenEtuMetier.recupererAdressesEtudiant(
 					etudiant.getCodEtu().toString(), null, temoinRecupAnnu);
-
+			
 			individu.setAdressMail(coordonnees.getEmail());
 			individu.setEmailAnnuaire(coordonnees.getEmailAnnuaire());
 			//TODO : fix this !!
@@ -881,8 +913,6 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 
 			Map<String, Adresse> adresses = new HashMap<String, Adresse>();
 
-			//			adresses.put(Constantes.ADR_CURRENT,
-			//				getAdresse(coordonnees.getAdresseAnnuelle()));
 			adresses.put(Constantes.ADR_FIX, getAdresseFix(coordonnees.getAdresseFixe()));
 
 			individu.setAdresses(adresses);
@@ -910,23 +940,21 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 		try {
 			List<IndBac> indBacs = new ArrayList<IndBac>();
 
-			EtudiantMetierServiceInterface etudiantMetierService 
-			= new EtudiantMetierServiceInterfaceService().getEtudiantMetier();
-
 			String codeEtudiant = null;
 			if (!StringUtils.hasText(codEtu)) {
 				// Recherche l'etudiant dans Apogee
-				IdentifiantsEtudiantDTO etudiant = etudiantMetierService.recupererIdentifiantsEtudiant(
+				IdentifiantsEtudiantDTO etudiant = remoteApoRenEtuMetier.recupererIdentifiantsEtudiant(
 						null, null, codeNne, clefNne, null,
 						null, null, null, null, temoinRecupAnnu);
+				
 				codeEtudiant = etudiant.getCodEtu().toString();
 			} else {
 				codeEtudiant = codEtu;
 			}
 
 			// Recuperation des infos de l'etudiant dans Apogee			
-			InfoAdmEtuDTO infosAdmEtu = etudiantMetierService.recupererInfosAdmEtu(codeEtudiant);
-
+			InfoAdmEtuDTO infosAdmEtu = remoteApoRenEtuMetier.recupererInfosAdmEtu(codeEtudiant);
+			
 			List<IndBacDTO> indBacDtos = infosAdmEtu.getListeBacs().getItem();
 			for (IndBacDTO indBacDto : indBacDtos) {
 				IndBac indBac = new IndBac();
@@ -967,16 +995,13 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 			List<IndCursusScol> cursusScol = null;
 			//si l'individu a un code etudiant
 			if (StringUtils.hasText(individu.getCodeEtu())) {
-				AdministratifMetierServiceInterface serviceAdministratif = 
-					new AdministratifMetierServiceInterfaceService().getAdministratifMetier();
-
 				cursusScol = new ArrayList<IndCursusScol>();
 
 
 				//INITIALISATION DES CURSUS HORS RENNES1
 				if (isRecupCursusExt) {
-					CursusExternesEtTransfertsDTO curEtTrans = serviceAdministratif
-							.recupererCursusExterne(individu.getCodeEtu());
+					CursusExternesEtTransfertsDTO curEtTrans = remoteApoRenAdminMetier
+					.recupererCursusExterne(individu.getCodeEtu());
 					if (curEtTrans != null) {
 						for (CursusExterneDTO curE : curEtTrans.getListeCursusExternes().getItem()) {
 							CursusExt curExt = new CursusExt(curE.getAnnee());
@@ -1009,9 +1034,8 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 				}
 				//INITIALISATION DES CURSUS DANS RENNES1
 				List<CursusR1> cursusR1List = new ArrayList<CursusR1>();
-				List<InsAdmEtpDTO> tabInsAdmEtp = serviceAdministratif.recupererIAEtapes(
+				List<InsAdmEtpDTO> tabInsAdmEtp = remoteApoRenAdminMetier.recupererIAEtapes(
 						individu.getCodeEtu(), "toutes", null, null);
-
 				for (InsAdmEtpDTO insAdmEtp : tabInsAdmEtp) {
 					CursusR1 curR1 = new CursusR1(insAdmEtp.getAnneeIAE(), 
 							codEtbInt, 
@@ -1028,12 +1052,9 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 					//INIT ATTRIBUTS
 					cursusR1List.add(curR1);
 				}
-
-				PedagogiqueMetierServiceInterface servicePedagogique = 
-					new PedagogiqueMetierServiceInterfaceService().getPedagogiqueMetier();
 				//RECUPERATION DES RESULTAT DES CURSUS DE RENNES1 
 				List<ContratPedagogiqueResultatVdiVetDTO> resultatVdiVet = 
-					servicePedagogique.recupererContratPedagogiqueResultatVdiVet(
+					remoteApoRenPedaMetier.recupererContratPedagogiqueResultatVdiVet(
 							individu.getCodeEtu(), "toutes",
 							"Apogee", null, "toutes",  "Admission");
 
@@ -1065,10 +1086,7 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 			List<String> anneesIA = null;
 			//si l'individu a un code etudiant
 			if (StringUtils.hasText(individu.getCodeEtu())) {
-				AdministratifMetierServiceInterface serviceAdministratif = 
-					new AdministratifMetierServiceInterfaceService().getAdministratifMetier();
-
-				anneesIA = serviceAdministratif.recupererAnneesIa(individu.getCodeEtu(), null);
+				anneesIA = remoteApoRenAdminMetier.recupererAnneesIa(individu.getCodeEtu(), null);
 			}
 			return anneesIA.toArray(new String[anneesIA.size()]);
 			//TODO: fix this !!
@@ -1474,12 +1492,10 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	            Integer codInd = ind.getCodInd();
 	            if (codInd == null) {
 	                //TODO a supprimer pour la campagne 2009-2010 car ajout dans individu du codeInd
-	                EtudiantMetierServiceInterface etudiantMetierService 
-	                = new EtudiantMetierServiceInterfaceService().getEtudiantMetier();
-	                IdentifiantsEtudiantDTO etudiant = etudiantMetierService.recupererIdentifiantsEtudiant(
-	                    ind.getCodeEtu(), null, null,
-	                    null, null, null, null, null, null, TRUE);
-	                codInd = etudiant.getCodInd();
+	                IdentifiantsEtudiantDTO etudiant = remoteApoRenEtuMetier.recupererIdentifiantsEtudiant(
+		                    ind.getCodeEtu(), null, null,
+		                    null, null, null, null, null, null, TRUE);
+	            	codInd = etudiant.getCodInd();
 	                
 	            }
 	            t.setCodInd(codInd);
@@ -1676,6 +1692,34 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	}
 	
 	/**
+	 * @return AdministratifMetier
+	 */	
+	public AdministratifMetierServiceInterface getRemoteApoRenAdminMetier() {
+		return remoteApoRenAdminMetier;
+	}
+	
+	/**
+	 * @return EtudiantMetierService
+	 */	
+	public EtudiantMetierServiceInterface getRemoteApoRenEtuMetier() {
+		return remoteApoRenEtuMetier;
+	}
+	
+	/**
+	 * @return PedagogiqueMetierService
+	 */	
+	public PedagogiqueMetierServiceInterface getRemoteApoRenPedaMetier() {
+		return remoteApoRenPedaMetier;
+	}
+
+	/**
+	 * @return GeographieMetierService
+	 */	
+	public GeographieMetierServiceInterface getRemoteApoRenGeoMetier() {
+		return remoteApoRenGeoMetier;
+	}
+	
+	/**
 	 * @param remoteCriApogeeRennes1 the remoteCriApogeeRennes1 to set
 	 */
 	public void setRemoteCriApogeeRennes1(final ReadRennes1PortType remoteCriApogeeRennes1) {
@@ -1703,6 +1747,34 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 		this.remoteCriApogeeEtudiant = remoteCriApogeeEtudiant;
 	}
 	
+	/**
+	 * @param remoteApoRenAdminMetier the remoteApoRenAdminMetier to set
+	 */
+	public void setRemoteApoRenAdminMetier(final AdministratifMetierServiceInterface remoteApoRenAdminMetier) {
+		this.remoteApoRenAdminMetier = remoteApoRenAdminMetier;
+	}
+
+	/**
+	 * @param remoteApoRenEtuMetier the remoteApoRenEtuMetier to set
+	 */
+	public void setRemoteApoRenEtuMetier(final EtudiantMetierServiceInterface remoteApoRenEtuMetier) {
+		this.remoteApoRenEtuMetier = remoteApoRenEtuMetier;
+	}
+
+	/**
+	 * @param remoteApoRenPedaMetier the remoteApoRenEtuMetier to set
+	 */
+	public void setRemoteApoRenPedaMetier(final PedagogiqueMetierServiceInterface remoteApoRenPedaMetier) {
+		this.remoteApoRenPedaMetier = remoteApoRenPedaMetier;
+	}
+
+	/**
+	 * @param remoteApoRenGeoMetier the remoteApoRenGeoMetier to set
+	 */
+	public void setRemoteApoRenGeoMetier(final GeographieMetierServiceInterface remoteApoRenGeoMetier) {
+		this.remoteApoRenGeoMetier = remoteApoRenGeoMetier;
+	}
+
 	/**
 	 * @param isRecupCursusExt
 	 */

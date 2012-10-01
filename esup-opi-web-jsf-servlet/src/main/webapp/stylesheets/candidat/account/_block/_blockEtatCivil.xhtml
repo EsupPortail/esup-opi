@@ -1,227 +1,222 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
-    <div id="blockFormEtatCivil" class="blockForm">
-    	<div style="width:100%;">
-    		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    			styleClass="tableJustWidthMax">
-    			<h:outputText value="#{msgs['INDIVIDU.ETAT_CIV']}"
-    				styleClass="section-smallTitle" />
-    			<h:panelGroup>
-    				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    					action="#{individuController.update}"
-    					rendered="#{individuController.actionEnum.whatAction == 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<div id="blockFormEtatCivil" class="blockForm">
+		<h:form id="formEtatCivil" styleClass="opiR1_form">
+			<div style="width: 100%;">
+				<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+					styleClass="tableJustWidthMax">
+					<h:outputText value="#{msgs['INDIVIDU.ETAT_CIV']}"
+						styleClass="section-smallTitle" />
+					<h:panelGroup>
+						<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+							action="#{individuController.update}"
+							rendered="#{individuController.actionEnum.whatAction == 
     								individuController.actionEnum.updateAction}" />
-    				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" 
-    					action="#{individuController.goSeeAccount}"
-    					rendered="#{individuController.actionEnum.whatAction == 
+						<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+							update=":content_panel"
+							immediate="true"
+							rendered="#{individuController.actionEnum.whatAction == 
     								individuController.actionEnum.updateAction}">
-    					<f:setPropertyActionListener value="#{individuController.currentInd}" target="#{individuController.pojoIndividu}" />
-    					<f:setPropertyActionListener value="#{individuController.actionEnum.readAction}" target="#{individuController.actionEnum.whatAction}" />
-    				</p:commandButton>
-    			</h:panelGroup>
-    		</h:panelGrid>
-    	</div>
-    	<h:panelGrid styleClass="tableWidthMax" columns="2"
-    		columnClasses="colUnQuart,colTroisQuart">
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['INDIVIDU.CIVILITE']}" for="civilite" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<p:selectOneMenu id="civilite"
-    			value="#{individuController.pojoIndividu.individu.sexe}">
-    			<f:selectItems value="#{individuController.civiliteItems}" />
-    		</p:selectOneMenu>
-    		<h:panelGroup />
-    		<h:panelGroup />
-    
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['INDIVIDU.NOM']}" for="nom" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-                <p:graphicImage url="/media/images/informationSmall.png"
-                    style="cursor:pointer;" id="helpNom"  />
-                <p:overlayPanel for="helpNom"
-                    showEvent="mouseover"
-                    hideEvent="mouseout"
-                    styleClass="containerPopup">
-					<h:panelGroup>
-						<h:panelGrid columns="1">
-							<h:outputText styleClass="titrePopupAide"
-								value="#{msgs['INDIVIDU.NOM']}" />
-							<h:panelGroup>
-								<h:outputText styleClass="libellesAide"
-									value="#{msgs['INDIVIDU.NOM.HELP']}" />
-							</h:panelGroup>
-						</h:panelGrid>
+							<f:setPropertyActionListener
+								value="#{individuController.actionEnum.readAction}"
+								target="#{individuController.actionEnum.whatAction}" />
+						</p:commandButton>
 					</h:panelGroup>
-    			</p:overlayPanel>
-    		</h:panelGroup>
-    		<h:inputText id="nom" size="32" maxlength="30"
-    			value="#{individuController.pojoIndividu.individu.nomPatronymique}" />
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['INDIVIDU.NOM_USUEL']}" for="nomUsuel" />
-                <p:graphicImage url="/media/images/informationSmall.png"
-                    style="cursor:pointer;" id="helpNomUsuel"  />
-                <p:overlayPanel for="helpNomUsuel"
-                    showEvent="mouseover"
-                    hideEvent="mouseout"
-                    styleClass="containerPopup">
-					<h:panelGroup>
-						<h:panelGrid columns="1">
-							<h:outputText styleClass="titrePopupAide"
-								value="#{msgs['INDIVIDU.NOM_USUEL']}" />
-							<h:panelGroup>
-								<h:outputText styleClass="libellesAide"
-									value="#{msgs['INDIVIDU.NOM_USUEL.HELP']}" />
-							</h:panelGroup>
-						</h:panelGrid>
-					</h:panelGroup>
-    			</p:overlayPanel>
-    		</h:panelGroup>
-    		<h:inputText id="nomUsuel" size="32" maxlength="30"
-    			value="#{individuController.pojoIndividu.individu.nomUsuel}" />
-    
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<h:inputText id="prenom" size="22" maxlength="20"
-    			value="#{individuController.pojoIndividu.individu.prenom}" />
-    		<h:outputLabel value="#{msgs['INDIVIDU.PRENOM_OTHER']}" for="prenom2" />
-    		<h:inputText id="prenom2" size="22" maxlength="20"
-    			value="#{individuController.pojoIndividu.individu.prenom2}" />
-    
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['INDIVIDU.DATE_NAI_COURT']}"
-    				for="dateNaissance" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<h:panelGroup>
-    			<p:selectOneMenu id="jourNaissance"
-    				value="#{individuController.jourNaissance}">
-    				<f:selectItem itemLabel="  " itemValue="" />
-    				<f:selectItem itemLabel="01" itemValue="01" />
-    				<f:selectItem itemLabel="02" itemValue="02" />
-    				<f:selectItem itemLabel="03" itemValue="03" />
-    				<f:selectItem itemLabel="04" itemValue="04" />
-    				<f:selectItem itemLabel="05" itemValue="05" />
-    				<f:selectItem itemLabel="06" itemValue="06" />
-    				<f:selectItem itemLabel="07" itemValue="07" />
-    				<f:selectItem itemLabel="08" itemValue="08" />
-    				<f:selectItem itemLabel="09" itemValue="09" />
-    				<f:selectItem itemLabel="10" itemValue="10" />
-    				<f:selectItem itemLabel="11" itemValue="11" />
-    				<f:selectItem itemLabel="12" itemValue="12" />
-    				<f:selectItem itemLabel="13" itemValue="13" />
-    				<f:selectItem itemLabel="14" itemValue="14" />
-    				<f:selectItem itemLabel="15" itemValue="15" />
-    				<f:selectItem itemLabel="16" itemValue="16" />
-    				<f:selectItem itemLabel="17" itemValue="17" />
-    				<f:selectItem itemLabel="18" itemValue="18" />
-    				<f:selectItem itemLabel="19" itemValue="19" />
-    				<f:selectItem itemLabel="20" itemValue="20" />
-    				<f:selectItem itemLabel="21" itemValue="21" />
-    				<f:selectItem itemLabel="22" itemValue="22" />
-    				<f:selectItem itemLabel="23" itemValue="23" />
-    				<f:selectItem itemLabel="24" itemValue="24" />
-    				<f:selectItem itemLabel="25" itemValue="25" />
-    				<f:selectItem itemLabel="26" itemValue="26" />
-    				<f:selectItem itemLabel="27" itemValue="27" />
-    				<f:selectItem itemLabel="28" itemValue="28" />
-    				<f:selectItem itemLabel="29" itemValue="29" />
-    				<f:selectItem itemLabel="30" itemValue="30" />
-    				<f:selectItem itemLabel="31" itemValue="31" />
-    			</p:selectOneMenu>
-    			<p:selectOneMenu id="moisNaissance"
-    				value="#{individuController.moisNaissance}">
-    				<f:selectItem itemLabel="  " itemValue="" />
-    				<f:selectItem itemLabel="01" itemValue="01" />
-    				<f:selectItem itemLabel="02" itemValue="02" />
-    				<f:selectItem itemLabel="03" itemValue="03" />
-    				<f:selectItem itemLabel="04" itemValue="04" />
-    				<f:selectItem itemLabel="05" itemValue="05" />
-    				<f:selectItem itemLabel="06" itemValue="06" />
-    				<f:selectItem itemLabel="07" itemValue="07" />
-    				<f:selectItem itemLabel="08" itemValue="08" />
-    				<f:selectItem itemLabel="09" itemValue="09" />
-    				<f:selectItem itemLabel="10" itemValue="10" />
-    				<f:selectItem itemLabel="11" itemValue="11" />
-    				<f:selectItem itemLabel="12" itemValue="12" />
-    			</p:selectOneMenu>
-    			<p:selectOneMenu id="anneNaissance" value="#{individuController.anneeNaissance}" > 
-    				<f:selectItems value="#{individuController.listeAnneeNaissance}" /> 
-    			</p:selectOneMenu>
-    		</h:panelGroup>
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['INDIVIDU.PAY_NAI']}"
-    				for="paysNaissance" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<h:panelGroup>
-    			<p:selectOneMenu id="paysNaissance"
-    				onchange="javascript:{simulateLinkClick('addAccountForm:submitSelectPay');}"
-    				valueChangeListener="#{individuController.selectPay}"
-    				value="#{individuController.pojoIndividu.individu.codPayNaissance}">
-    				<f:selectItem itemLabel="" itemValue="" />
-    				<f:selectItems var="pays" value="#{adressController.pays}"
-    					itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}" />
-    			</p:selectOneMenu>
-    			<p:commandButton id="submitSelectPay" />
-    		</h:panelGroup>
-    
-    		<h:panelGroup
-    			rendered="#{individuController.pojoIndividu.individu.codPayNaissance == adressController.codeFrance}">
-    			<h:outputLabel value="#{msgs['INDIVIDU.DEP_NAI']}" for="depNaissance" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<h:panelGroup
-    			rendered="#{individuController.pojoIndividu.individu.codPayNaissance == adressController.codeFrance}">
-    			<p:selectOneMenu id="depNaissance"
-    				value="#{individuController.pojoIndividu.individu.codDepPaysNaissance}">
-    				<f:selectItem itemLabel="" itemValue="" />
-    				<f:selectItems var="dept" value="#{adressController.departements}"
-    					itemLabel="#{dept.libDep}" itemValue="#{dept.codDep}" />
-    			</p:selectOneMenu>
-    		</h:panelGroup>
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['INDIVIDU.VIL_NAI']}"
-    				for="villeNaissance" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<h:inputText id="villeNaissance" size="32" maxlength="30"
-    			value="#{individuController.pojoIndividu.individu.villeNaissance}" />
-    
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['INDIVIDU.NAT']}" for="nationalite" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<p:selectOneMenu id="nationalite"
-    			value="#{individuController.pojoIndividu.individu.codPayNationalite}">
-    			<f:selectItem itemLabel="" itemValue="" />
-    			<f:selectItems var="pays" value="#{adressController.nationalite}"
-    				itemLabel="#{pays.libNat}" itemValue="#{pays.codPay}" />
-    		</p:selectOneMenu>
-    
-    		<h:panelGroup
-    			rendered="#{individuController.actionEnum.whatAction == 
+				</h:panelGrid>
+			</div>
+			<h:panelGrid styleClass="tableWidthMax" columns="2"
+				columnClasses="colUnQuart,colTroisQuart">
+				<h:panelGroup>
+					<h:outputLabel value="#{msgs['INDIVIDU.CIVILITE']}" for="civilite" />
+					<h:outputText value="*" styleClass="etoileForChpObli" />
+				</h:panelGroup>
+				<p:selectOneMenu id="civilite"
+					value="#{individuController.pojoIndividu.individu.sexe}">
+					<f:selectItems value="#{individuController.civiliteItems}" />
+				</p:selectOneMenu>
+				<h:panelGroup />
+				<h:panelGroup />
+				<h:panelGroup>
+					<h:outputLabel value="#{msgs['INDIVIDU.NOM']}" for="nom" />
+					<h:outputText value="*" styleClass="etoileForChpObli" />
+					<p:graphicImage url="/media/images/informationSmall.png"
+						style="cursor:pointer;" id="helpNom" />
+					<p:overlayPanel for="helpNom" showEvent="mouseover"
+						hideEvent="mouseout" styleClass="containerPopup">
+						<h:panelGroup>
+							<h:panelGrid columns="1">
+								<h:outputText styleClass="titrePopupAide"
+									value="#{msgs['INDIVIDU.NOM']}" />
+								<h:panelGroup>
+									<h:outputText styleClass="libellesAide"
+										value="#{msgs['INDIVIDU.NOM.HELP']}" />
+								</h:panelGroup>
+							</h:panelGrid>
+						</h:panelGroup>
+					</p:overlayPanel>
+				</h:panelGroup>
+				<h:inputText id="nom" size="32" maxlength="30"
+					value="#{individuController.pojoIndividu.individu.nomPatronymique}" />
+				<h:panelGroup>
+					<h:outputLabel value="#{msgs['INDIVIDU.NOM_USUEL']}" for="nomUsuel" />
+					<p:graphicImage url="/media/images/informationSmall.png"
+						style="cursor:pointer;" id="helpNomUsuel" />
+					<p:overlayPanel for="helpNomUsuel" showEvent="mouseover"
+						hideEvent="mouseout" styleClass="containerPopup">
+						<h:panelGroup>
+							<h:panelGrid columns="1">
+								<h:outputText styleClass="titrePopupAide"
+									value="#{msgs['INDIVIDU.NOM_USUEL']}" />
+								<h:panelGroup>
+									<h:outputText styleClass="libellesAide"
+										value="#{msgs['INDIVIDU.NOM_USUEL.HELP']}" />
+								</h:panelGroup>
+							</h:panelGrid>
+						</h:panelGroup>
+					</p:overlayPanel>
+				</h:panelGroup>
+				<h:inputText id="nomUsuel" size="32" maxlength="30"
+					value="#{individuController.pojoIndividu.individu.nomUsuel}" />
+				<h:panelGroup>
+					<h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom" />
+					<h:outputText value="*" styleClass="etoileForChpObli" />
+				</h:panelGroup>
+				<h:inputText id="prenom" size="22" maxlength="20"
+					value="#{individuController.pojoIndividu.individu.prenom}" />
+				<h:outputLabel value="#{msgs['INDIVIDU.PRENOM_OTHER']}"
+					for="prenom2" />
+				<h:inputText id="prenom2" size="22" maxlength="20"
+					value="#{individuController.pojoIndividu.individu.prenom2}" />
+				<h:panelGroup>
+					<h:outputLabel value="#{msgs['INDIVIDU.DATE_NAI_COURT']}" for="jourNaissance"/>
+					<h:outputText value="*" styleClass="etoileForChpObli" />
+				</h:panelGroup>
+				<h:panelGroup>
+					<p:selectOneMenu id="jourNaissance"
+						value="#{individuController.jourNaissance}">
+						<f:selectItem itemLabel="  " itemValue="" />
+						<f:selectItem itemLabel="01" itemValue="01" />
+						<f:selectItem itemLabel="02" itemValue="02" />
+						<f:selectItem itemLabel="03" itemValue="03" />
+						<f:selectItem itemLabel="04" itemValue="04" />
+						<f:selectItem itemLabel="05" itemValue="05" />
+						<f:selectItem itemLabel="06" itemValue="06" />
+						<f:selectItem itemLabel="07" itemValue="07" />
+						<f:selectItem itemLabel="08" itemValue="08" />
+						<f:selectItem itemLabel="09" itemValue="09" />
+						<f:selectItem itemLabel="10" itemValue="10" />
+						<f:selectItem itemLabel="11" itemValue="11" />
+						<f:selectItem itemLabel="12" itemValue="12" />
+						<f:selectItem itemLabel="13" itemValue="13" />
+						<f:selectItem itemLabel="14" itemValue="14" />
+						<f:selectItem itemLabel="15" itemValue="15" />
+						<f:selectItem itemLabel="16" itemValue="16" />
+						<f:selectItem itemLabel="17" itemValue="17" />
+						<f:selectItem itemLabel="18" itemValue="18" />
+						<f:selectItem itemLabel="19" itemValue="19" />
+						<f:selectItem itemLabel="20" itemValue="20" />
+						<f:selectItem itemLabel="21" itemValue="21" />
+						<f:selectItem itemLabel="22" itemValue="22" />
+						<f:selectItem itemLabel="23" itemValue="23" />
+						<f:selectItem itemLabel="24" itemValue="24" />
+						<f:selectItem itemLabel="25" itemValue="25" />
+						<f:selectItem itemLabel="26" itemValue="26" />
+						<f:selectItem itemLabel="27" itemValue="27" />
+						<f:selectItem itemLabel="28" itemValue="28" />
+						<f:selectItem itemLabel="29" itemValue="29" />
+						<f:selectItem itemLabel="30" itemValue="30" />
+						<f:selectItem itemLabel="31" itemValue="31" />
+					</p:selectOneMenu>
+					<p:selectOneMenu id="moisNaissance"
+						value="#{individuController.moisNaissance}">
+						<f:selectItem itemLabel="  " itemValue="" />
+						<f:selectItem itemLabel="01" itemValue="01" />
+						<f:selectItem itemLabel="02" itemValue="02" />
+						<f:selectItem itemLabel="03" itemValue="03" />
+						<f:selectItem itemLabel="04" itemValue="04" />
+						<f:selectItem itemLabel="05" itemValue="05" />
+						<f:selectItem itemLabel="06" itemValue="06" />
+						<f:selectItem itemLabel="07" itemValue="07" />
+						<f:selectItem itemLabel="08" itemValue="08" />
+						<f:selectItem itemLabel="09" itemValue="09" />
+						<f:selectItem itemLabel="10" itemValue="10" />
+						<f:selectItem itemLabel="11" itemValue="11" />
+						<f:selectItem itemLabel="12" itemValue="12" />
+					</p:selectOneMenu>
+					<p:selectOneMenu id="anneNaissance"
+						value="#{individuController.anneeNaissance}">
+						<f:selectItems value="#{individuController.listeAnneeNaissance}" />
+					</p:selectOneMenu>
+				</h:panelGroup>
+				<h:panelGroup>
+					<h:outputLabel value="#{msgs['INDIVIDU.PAY_NAI']}"
+						for="paysNaissance" />
+					<h:outputText value="*" styleClass="etoileForChpObli" />
+				</h:panelGroup>
+				<h:panelGroup>
+					<p:selectOneMenu id="paysNaissance"
+						onchange="javascript:{simulateLinkClick('addAccountForm:submitSelectPay');}"
+						valueChangeListener="#{individuController.selectPay}"
+						value="#{individuController.pojoIndividu.individu.codPayNaissance}">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems var="pays" value="#{adressController.pays}"
+							itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}" />
+					</p:selectOneMenu>
+					<p:commandButton id="submitSelectPay" />
+				</h:panelGroup>
+
+				<h:panelGroup
+					rendered="#{individuController.pojoIndividu.individu.codPayNaissance == adressController.codeFrance}">
+					<h:outputLabel value="#{msgs['INDIVIDU.DEP_NAI']}"
+						for="depNaissance" />
+					<h:outputText value="*" styleClass="etoileForChpObli" />
+				</h:panelGroup>
+				<h:panelGroup
+					rendered="#{individuController.pojoIndividu.individu.codPayNaissance == adressController.codeFrance}">
+					<p:selectOneMenu id="depNaissance"
+						value="#{individuController.pojoIndividu.individu.codDepPaysNaissance}">
+						<f:selectItem itemLabel="" itemValue="" />
+						<f:selectItems var="dept" value="#{adressController.departements}"
+							itemLabel="#{dept.libDep}" itemValue="#{dept.codDep}" />
+					</p:selectOneMenu>
+				</h:panelGroup>
+				<h:panelGroup>
+					<h:outputLabel value="#{msgs['INDIVIDU.VIL_NAI']}"
+						for="villeNaissance" />
+					<h:outputText value="*" styleClass="etoileForChpObli" />
+				</h:panelGroup>
+				<h:inputText id="villeNaissance" size="32" maxlength="30"
+					value="#{individuController.pojoIndividu.individu.villeNaissance}" />
+				<h:panelGroup>
+					<h:outputLabel value="#{msgs['INDIVIDU.NAT']}" for="nationalite" />
+					<h:outputText value="*" styleClass="etoileForChpObli" />
+				</h:panelGroup>
+				<p:selectOneMenu id="nationalite"
+					value="#{individuController.pojoIndividu.individu.codPayNationalite}">
+					<f:selectItem itemLabel="" itemValue="" />
+					<f:selectItems var="pays" value="#{adressController.nationalite}"
+						itemLabel="#{pays.libNat}" itemValue="#{pays.codPay}" />
+				</p:selectOneMenu>
+				<h:panelGroup
+					rendered="#{individuController.actionEnum.whatAction == 
     								individuController.actionEnum.updateAction}">
-    			<h:outputLabel value="#{msgs['INDIVIDU.NUM_NNE']}" for="numNNE" />
-    		</h:panelGroup>
-    		<h:panelGroup
-    			rendered="#{individuController.actionEnum.whatAction == 
+					<h:outputLabel value="#{msgs['INDIVIDU.NUM_NNE']}" for="numNNE" />
+				</h:panelGroup>
+				<h:panelGroup
+					rendered="#{individuController.actionEnum.whatAction == 
     								individuController.actionEnum.updateAction}">
-    			<h:inputText id="numNNE" size="12" maxlength="10"
-    				value="#{individuController.pojoIndividu.individu.codeNNE}">
-    				<f:validateLength minimum="10" />
-    			</h:inputText>
-    
-    			<h:inputText size="1" maxlength="1"
-    				value="#{individuController.pojoIndividu.individu.codeClefNNE}">
-    				<f:validateLength minimum="1" />
-    			</h:inputText>
-    		</h:panelGroup>
-    
-    	</h:panelGrid>
-    </div>
+					<h:inputText id="numNNE" size="12" maxlength="10"
+						value="#{individuController.pojoIndividu.individu.codeNNE}">
+						<f:validateLength minimum="10" />
+					</h:inputText>
+					<h:inputText size="1" maxlength="1"
+						value="#{individuController.pojoIndividu.individu.codeClefNNE}">
+						<f:validateLength minimum="1" />
+					</h:inputText>
+				</h:panelGroup>
+			</h:panelGrid>
+		</h:form>
+	</div>
 </ui:fragment>

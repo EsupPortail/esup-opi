@@ -89,6 +89,12 @@
             <groupId>fop</groupId>
             <artifactId>fop</artifactId>
             <version>0.20.5</version>
+            <exclusions>
+            	<exclusion>
+            		<artifactId>xercesImpl</artifactId>
+            		<groupId>xerces</groupId>
+            	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.esupportail</groupId>
