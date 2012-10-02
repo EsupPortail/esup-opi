@@ -11,17 +11,17 @@
     			<p:messages id="messages" showDetail="true" autoUpdate="true" />
     		</div>
     
-    		<h1>
-                <span class="section-header">
-                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
-                </span>
-            </h1>
+    		<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
     		<ui:fragment rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.confirmAction}">
         		<div id="div_subSectionPdf" class="div_subSection">
     				<ui:include src="_block/_confirmPdfNotification.xhtml" />
         		</div>
             </ui:fragment>
-			<ui:include src="_block/_choiceColumnExport.xhtml" />
+            <ui:fragment rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.choiceColExport}">
+        		<div id="choiceColumnExport">
+    				<ui:include src="_block/_choiceColumnExport.xhtml" />
+        		</div>
+    		</ui:fragment>
     		<h:form id="lookForOpinionForm" styleClass="opiR1_form"
     			rendered="#{printOpinionController.actionEnum.whatAction != printOpinionController.actionEnum.choiceColExport}">		
     			<div id="blockFormSearch" class="blockForm">
@@ -29,24 +29,27 @@
     					<p:commandButton value="#{msgs['_.BUTTON.DISPLAY']}"
     						action="#{printOpinionController.seeCandidats}" 
     						rendered="#{printOpinionController.actionEnum.whatAction 
-    						!= printOpinionController.actionEnum.confirmAction}" />
-    					<p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="choiceColumnExport.show();" type="button" />
+    						!= printOpinionController.actionEnum.confirmAction}"  ajax="false" />
+    					<p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" immediate="true" ajax="false" >
+    						<f:setPropertyActionListener value="#{printOpinionController.actionEnum.choiceColExport}"
+    							 target="#{printOpinionController.actionEnum.whatAction}" />
+    					</p:commandButton>
     					<p:commandButton value="#{msgs['_.BUTTON.EXPORT']}" 
     						action="#{printOpinionController.makeCsvValidation}" 
     						rendered="#{printOpinionController.actionEnum.whatAction 
-    						!= printOpinionController.actionEnum.confirmAction}" />
+    						!= printOpinionController.actionEnum.confirmAction}"  ajax="false" />
     					<p:commandButton value="#{msgs['OPINION.EDIT.VALIDATION']}" 
     						action="#{printOpinionController.printPDFValidation}"
     						rendered="#{printOpinionController.actionEnum.whatAction 
-    						!= printOpinionController.actionEnum.confirmAction}" />
+    						!= printOpinionController.actionEnum.confirmAction}"  ajax="false" />
     					<p:commandButton value="#{msgs['OPINION.EDIT.NOTIFICATION']}" 
     						action="#{printOpinionController.printPDFAllNotifications}"
     						rendered="#{printOpinionController.actionEnum.whatAction 
-    						!= printOpinionController.actionEnum.confirmAction}" />
+    						!= printOpinionController.actionEnum.confirmAction}"  ajax="false" />
     					<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
     						action="#{managedAccess.goDisplayFunction}" 
     						rendered="#{printOpinionController.actionEnum.whatAction 
-    						!= printOpinionController.actionEnum.confirmAction}" />
+    						!= printOpinionController.actionEnum.confirmAction}"  ajax="false" />
     				</div>
     				<h:panelGrid styleClass="tableWidthMax" columns="4"
     					columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
@@ -171,7 +174,7 @@
     								<p:commandButton 
     									image="/media/images/email.png"
     									styleClass="form-button-image" title="#{msgs['INFO.MAIL.TEST']}" immediate="true"
-    									action="#{validOpinionController.sendOneMail}">
+    									action="#{validOpinionController.sendOneMail}" ajax="false" >
     									<f:setPropertyActionListener value="#{indVoeuxPojo}"
     											 target="#{validOpinionController.indVoeuPojo}" />
     									<f:setPropertyActionListener value="#{individuPojo}" target="#{printOpinionController.individuPojoSelected}" />		 
@@ -181,7 +184,7 @@
     								<p:commandButton 
     									image="/media/images/emailCandidat.png"
     									styleClass="form-button-image" title="#{msgs['INFO.MAIL.RESEND']}" immediate="true"
-    									action="#{validOpinionController.sendOneMailCandidat}">
+    									action="#{validOpinionController.sendOneMailCandidat}" ajax="false" >
     									<f:setPropertyActionListener value="#{indVoeuxPojo}"
     											 target="#{validOpinionController.indVoeuPojo}" />
     									<f:setPropertyActionListener value="#{individuPojo}" target="#{printOpinionController.individuPojoSelected}" />		 
@@ -195,7 +198,7 @@
     								action="#{printOpinionController.printOneNotification}"
     								title="#{msgs['INFO.CANDIDAT.NOTIFICATION']}"
     								rendered="#{printOpinionController.actionEnum.whatAction 
-    									!= printOpinionController.actionEnum.confirmAction}" >
+    									!= printOpinionController.actionEnum.confirmAction}"  ajax="false" >
     								<f:setPropertyActionListener value="#{individuPojo}" target="#{printOpinionController.individuPojoSelected}" />
     						</p:commandButton>
     					</p:column>

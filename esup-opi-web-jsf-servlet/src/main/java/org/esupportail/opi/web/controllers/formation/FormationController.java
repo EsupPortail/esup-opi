@@ -37,6 +37,7 @@ import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
 import org.esupportail.opi.utils.Constantes;
+import org.esupportail.opi.utils.Conversions;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.parameters.FormationContinue;
 import org.esupportail.opi.web.beans.parameters.FormationInitiale;
@@ -315,7 +316,8 @@ public class FormationController extends AbstractAccessController {
 		//on ne doit garder que les version Etape rattache a au moins une commission.
 
 		//1. on regarde si c'est rattachee des commissions et on cree une map contenant cmi et vrsEtp.
-		Set<Commission> cmi = getParameterService().getCommissions(true);
+		// TODO: remove hashset hack
+		Set<Commission> cmi = new HashSet<Commission>(getParameterService().getCommissions(true));
 		Map<Commission, Set<VersionEtapeDTO>> mapCmi = Utilitaires.getCmiForVetDTO(cmi, new HashSet<VersionEtapeDTO>(list), camp);
 		
 		if (log.isDebugEnabled()) {
@@ -339,7 +341,8 @@ public class FormationController extends AbstractAccessController {
 		//on ne doit garder que les version Etape rattache a au moins une commission.
 
 		//1. on regarde si c'est rattachee des commissions et on cree une map contenant cmi et vrsEtp.
-		Set<Commission> cmi = getParameterService().getCommissions(true);
+		// TODO: remove hashset hack
+		Set<Commission> cmi = new HashSet<Commission>(getParameterService().getCommissions(true));
 		Map<Commission, Set<VersionEtapeDTO>> mapCmi = Utilitaires.getCmiForVetDTO(cmi, new HashSet<VersionEtapeDTO>(list), camp);
 		
 		if (log.isDebugEnabled()) {
@@ -417,8 +420,8 @@ public class FormationController extends AbstractAccessController {
 					.getVersionDiplomes(getSearchFormationPojo().getCodKeyWordSelected(),
 							getSearchFormationPojo().getGroupTypSelected(),
 							camp.getCodAnu()));
-
-			Set<Commission> cmi = getParameterService().getCommissions(true);
+			// TODO: remove hashset hack
+			Set<Commission> cmi = new HashSet<Commission>(getParameterService().getCommissions(true));
 			List<VersionDiplomeDTO> vdi = new ArrayList<VersionDiplomeDTO>();
 			//on retire le diplome qui n'ont pas de VET rattachees e des commissions.
 			for (VersionDiplomeDTO v : getSearchFormationPojo().getVersionDiplomes()) {
@@ -454,7 +457,8 @@ public class FormationController extends AbstractAccessController {
 		Campagne camp = getParameterService()
 			.getCampagneEnServ(regimeIns.getCode());
 		//list of all commissions in use
-		Set<Commission> cmi = getParameterService().getCommissions(true);
+		// TODO: remove hashset hack
+		Set<Commission> cmi = new HashSet<Commission>(getParameterService().getCommissions(true));
 
 		//map with the commission and its etapes sur lesquelles le candidat a deposer des voeux
 		Map<Commission, Set<VersionEtapeDTO>> mapCmi = Utilitaires.getCmiForIndVoeux(cmi, indVoeuPojos, camp);
@@ -471,11 +475,11 @@ public class FormationController extends AbstractAccessController {
 					c, new AdressePojo(contact.getAdresse(), getDomainApoService()), contact);
 			s.setCommission(cmiPojo);
 			List<PieceJustificative> listPJ = getParameterService().getPiecesJ(
-					Utilitaires.convertVetInVetOpi(cEntry.getValue()),
+					Conversions.convertVetInVetOpi(cEntry.getValue()),
 					String.valueOf(regimeIns.getCode()));
 			Collections.sort(listPJ, new ComparatorString(Nomenclature.class));
 			s.setPieces(listPJ);
-			Set<VersionEtpOpi> vOpi = Utilitaires.convertVetInVetOpi(cEntry.getValue());
+			Set<VersionEtpOpi> vOpi = Conversions.convertVetInVetOpi(cEntry.getValue());
 			Boolean canDownload = true;
 			for (VersionEtpOpi v : vOpi) {
 				for (IndVoeuPojo indVPojo : indVoeuPojos) {
@@ -519,8 +523,9 @@ public class FormationController extends AbstractAccessController {
 		Campagne camp = getParameterService()
 			.getCampagneEnServ(regimeIns.getCode());
 		Boolean sendMail = false;
+		// TODO: remove hashset hack
 		Map<Commission, Set<VersionEtapeDTO>> wishesByCmi = Utilitaires.getCmiForIndVoeux(
-				getParameterService().getCommissions(true),
+				new HashSet<Commission>(getParameterService().getCommissions(true)),
 				indVoeuAdd, camp); 
 		
 //		Map<Commission, Set<VersionEtapeDTO>> wishesVaOrTr = 

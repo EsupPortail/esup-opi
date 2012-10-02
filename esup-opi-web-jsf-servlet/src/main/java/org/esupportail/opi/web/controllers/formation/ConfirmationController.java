@@ -365,7 +365,8 @@ public class ConfirmationController extends AbstractAccessController {
 				getDomainService());
 		Campagne camp = Utilitaires.getCampagneEnServ(individu, getDomainService());
 		// list of commissions
-		Set<Commission> cmi = getParameterService().getCommissions(true);
+		// TODO: remove hashset hack
+		Set<Commission> cmi = new HashSet<Commission>(getParameterService().getCommissions(true));
 		// map des commissions sur lesquels le candidat a confirmé des voeux
 		Map<Commission, Set<VersionEtapeDTO>> mapCmi = Utilitaires.getCmiForIndVoeux(cmi, voeux, camp);
 		
@@ -636,7 +637,8 @@ public class ConfirmationController extends AbstractAccessController {
 	 */
 	public void initIndVoeuxPojoFav() {
 		// récupère la liste des commissions
-		Set<Commission> listComm = getParameterService().getCommissions(true);
+	 // TODO: remove hashset hack
+		Set<Commission> listComm = new HashSet<Commission>(getParameterService().getCommissions(true));
 		// Initialise la liste des voeux favorables
 		Set<IndVoeuPojo> listIndVoeu = getCurrentInd().getIndVoeuxPojo();
 		for (IndVoeuPojo indVoeuPojo : listIndVoeu) {

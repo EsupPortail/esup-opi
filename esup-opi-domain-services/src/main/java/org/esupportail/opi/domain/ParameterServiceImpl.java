@@ -821,7 +821,6 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * @see org.esupportail.opi.domain.ParameterService#addCommission(
 	 * org.esupportail.opi.domain.beans.references.commission.Commission)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public void addCommission(final Commission commission) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addCommission( " + commission + " )");
@@ -844,17 +843,12 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 		commission.setCalendarCmi(calendarCmi);
 		
 		daoService.addCommission(commission);
-
-		//flush the other instance
-		executeFlushCache(CacheModelConst.REFERENCES_MODEL, "addCommission");
-
 	}
 
 	/**
 	 * @see org.esupportail.opi.domain.ParameterService#deleteCommission(
 	 * org.esupportail.opi.domain.beans.references.commission.Commission)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public void deleteCommission(final Commission commission) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteCommission( " + commission + " )");
@@ -879,16 +873,11 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 		}
 		
 		daoService.deleteCommission(commission);
-
-		//flush the other instances
-		executeFlushCache(CacheModelConst.REFERENCES_MODEL, "deleteCommission");
-
 	}
 
 	/** 
 	 * @see org.esupportail.opi.domain.ParameterService#getCommission(java.lang.Integer, java.lang.String)
 	 */
-	@Cacheable(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public Commission getCommission(final Integer id, final String code) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getCommission( " + id + ", " + code + " )");
@@ -899,28 +888,23 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	/**
 	 * @see org.esupportail.opi.domain.ParameterService#getCommissions(java.lang.Boolean)
 	 */
-	@Cacheable(cacheName = CacheModelConst.REFERENCES_MODEL)
-	public Set<Commission> getCommissions(final Boolean temEnSve) {
+	public List<Commission> getCommissions(final Boolean temEnSve) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getCommissions( " + temEnSve + " )");
 		}
-		return new HashSet<Commission>(daoService.getCommissions(temEnSve));
+		return daoService.getCommissions(temEnSve);
 	}
 
+	
 	/**
 	 * @see org.esupportail.opi.domain.ParameterService#updateCommission(
 	 * org.esupportail.opi.domain.beans.references.commission.Commission)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public void updateCommission(final Commission commission) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateCommission( " + commission + " )");
 		}
 		daoService.updateCommission(commission);
-
-		//flush the other instance
-		executeFlushCache(CacheModelConst.REFERENCES_MODEL, "updateCommission");
-
 	}
 
 
@@ -933,7 +917,7 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 			log.debug("entering commissionCodeIsUnique( " + commission + " )");
 		}
 
-		Set<Commission> list = getCommissions(null);
+		List<Commission> list = getCommissions(null);
 		for (Commission c : list) {
 			if (!c.equals(commission)
 					&& c.getCode().equals(commission.getCode())) {
@@ -1221,7 +1205,7 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 		if (log.isDebugEnabled()) {
 			log.debug("entering getCalendars( " + versionEtpOpi + " )");
 		}
-		Set<Commission> cmiList = getCommissions(true);
+		List<Commission> cmiList = getCommissions(true);
 		Set<CalendarIns> cIns = new HashSet<CalendarIns>();
 		for (Commission cmi : cmiList) {
 			for (TraitementCmi trt : cmi.getTraitementCmi()) {

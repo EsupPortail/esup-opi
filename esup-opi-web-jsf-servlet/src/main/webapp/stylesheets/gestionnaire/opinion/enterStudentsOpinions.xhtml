@@ -7,11 +7,7 @@
     <ui:define name="content">	
     	
     	<div id="maPage" class="div_body">
-    		<h1>
-                <span class="section-header">
-                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
-                </span>
-            </h1>
+    		<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
     
     
     
@@ -29,9 +25,9 @@
     			<div style="width:100%;text-align:right;">
     				<h:panelGroup>
     					<p:commandButton value="#{msgs['_.BUTTON.SAVE']}"
-    						action="#{opinionController.saveAllByIndividu}"/>
+    						action="#{opinionController.saveAllByIndividu}" ajax="false" />
     					<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
-    						action="#{managedAccess.goDisplayFunction}" />
+    						action="#{managedAccess.goDisplayFunction}"  ajax="false" />
     				</h:panelGroup>
     			</div>
     
@@ -48,7 +44,7 @@
     								itemsName="#{msgs['INDIVIDUS']}"
     								onchange="javascript:{simulateLinkClick('seeOpinionsForm:individuData:submitPageSize');}" />
     							<p:commandButton id="submitPageSize"
-    								action="#{paginatorIndividuPojo.forceReload}" />
+    								action="#{paginatorIndividuPojo.forceReload}"  ajax="false" />
     						</h:panelGroup>
     					</f:facet>
     					<p:column width="10%">
@@ -129,7 +125,7 @@
 										value="#{indVoeuxPojo.newAvis.result}"
 										onchange="javascript:{simulateLinkClick('seeOpinionsForm:changeTypeDecision');}"
 										disabled="#{indVoeuxPojo.avisEnService.result.isFinal 
-											&& indVoeuxPojo.avisEnService.validation}" >
+											and indVoeuxPojo.avisEnService.validation}" >
 										<f:selectItems value="#{nomenclatureController.typeDecisionItems}" />
 									</p:selectOneMenu>
 								</h:panelGroup>
@@ -146,8 +142,8 @@
 										immediate="true" styleClass="form-button-image"
 										title="#{msgs['FIELD_LABEL.PROPOSITION']}"
 										rendered="#{managedAccess.updateAuthorized
-													&& indVoeuxPojo.isUsingDEF}"
-										action="#{opinionController.addProposition}">
+													and indVoeuxPojo.isUsingDEF}"
+										action="#{opinionController.addProposition}" ajax="false" >
 										<f:setPropertyActionListener value="#{indVoeuxPojo}" target="#{opinionController.indVoeuxPojo}" />
 									</p:commandButton>
 								</h:panelGroup>
@@ -163,7 +159,7 @@
 									<h:inputText id="rang" size="5"
 									value="#{indVoeuxPojo.newAvis.rang}" maxlength="5" 
 									disabled="#{indVoeuxPojo.avisEnService.result.isFinal 
-											&& indVoeuxPojo.avisEnService.validation}" 
+											and indVoeuxPojo.avisEnService.validation}" 
 									rendered="#{indVoeuxPojo.isUsingLC}"/>
 								</h:panelGroup>
     						</p:dataList>
@@ -179,9 +175,9 @@
 										converter="#{motivationAvisConverter }"
 										value="#{indVoeuxPojo.newAvis.motivationAvis}"
 										rendered="#{managedAccess.updateAuthorized
-													&& indVoeuxPojo.isUsingDEF}"
+													and indVoeuxPojo.isUsingDEF}"
 										disabled="#{indVoeuxPojo.avisEnService.result.isFinal 
-											&& indVoeuxPojo.avisEnService.validation}" >
+											and indVoeuxPojo.avisEnService.validation}" >
 										<f:selectItem itemLabel="" itemValue="" />
 										<f:selectItems var="motivationAvis" 
 											value="#{nomenclatureController.motivationsAvis}"
@@ -200,7 +196,7 @@
 								<h:inputText id="commentaire"size="30"
 									value="#{indVoeuxPojo.newAvis.commentaire}" maxlength="500"
 									disabled="#{indVoeuxPojo.avisEnService.result.isFinal 
-											&& indVoeuxPojo.avisEnService.validation}" />
+											and indVoeuxPojo.avisEnService.validation}" />
     						</p:dataList>
     					</p:column>
     					<p:column width="2%">
@@ -210,7 +206,7 @@
 									immediate="true" styleClass="form-button-image"
 									title="#{msgs['BUTTON.UPDATE']}"
 									rendered="#{managedAccess.updateAuthorized}"
-									action="#{opinionController.goSeeOpinionVoeu}">
+									action="#{opinionController.goSeeOpinionVoeu}" ajax="false" >
 									<f:setPropertyActionListener value="#{indVoeuxPojo}" target="#{opinionController.indVoeuxPojo}" />
 									<f:setPropertyActionListener value="#{opinionController.wayfEnum.opinionValue}" target="#{opinionController.wayfEnum.whereAreYouFrom}" />
 								</p:commandButton>
@@ -219,7 +215,7 @@
     				</p:dataTable>
     				<p:commandButton id="changeTypeDecision"
     										value="#{msgs[_.BUTTON.CHANGE]}"
-    										action="#{opinionController.selectTypeDecisionIndividu}" />
+    										action="#{opinionController.selectTypeDecisionIndividu}"  ajax="false" />
     			</div> 
     		</h:form>    
     		<h:outputText value="#{msgs['INDIVIDU.NOT.FOUND']}"

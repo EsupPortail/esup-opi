@@ -531,9 +531,10 @@ public class CursusController extends AbstractAccessController {
 				getDomainService()));
 		//send mail
 		if (regimeIns.getMailAddCursusScol() != null) {
-			Map<Commission, Set<VersionEtapeDTO>> wishesByCmi = 
+			Map<Commission, Set<VersionEtapeDTO>> wishesByCmi =
+			    // TODO: remove hashset hack
 				Utilitaires.getCmiForIndVoeux(
-						getParameterService().getCommissions(true),
+						new HashSet<Commission>(getParameterService().getCommissions(true)),
 						getCurrentInd().getIndVoeuxPojo(), camp);
 			List<CommissionPojo> listCmiPojo = new ArrayList<CommissionPojo>();
 			for (Map.Entry<Commission, Set<VersionEtapeDTO>> cmiEntry : wishesByCmi.entrySet()) {

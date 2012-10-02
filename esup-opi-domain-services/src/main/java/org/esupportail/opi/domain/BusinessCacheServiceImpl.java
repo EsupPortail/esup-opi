@@ -78,11 +78,6 @@ public class BusinessCacheServiceImpl
 	private CacheManager cacheManager;
 	
 	/**
-	 * The cache object for the VET.
-	 */
-	private Cache cacheVet;
-	
-	/**
 	 * The cache object for the Etablissement.
 	 */
 	private Cache cacheEtb;
@@ -122,9 +117,7 @@ public class BusinessCacheServiceImpl
 		if (!cacheManager.cacheExists(VET_CACHE_NAME)) {
 			cacheManager.addCache(VET_CACHE_NAME);
 		}
-		cacheVet = cacheManager.getCache(VET_CACHE_NAME);
-		
-		initCacheVet();
+
 		// initialisation du cache etablissement au démarrage de l'appli
 		if (!cacheManager.cacheExists(ETB_CACHE_NAME)) {
 			cacheManager.addCache(ETB_CACHE_NAME);
@@ -286,66 +279,54 @@ public class BusinessCacheServiceImpl
 	/**
 	 * Initialisation du cache VET.
 	 */
-	public void initCacheVet() {
-		if (log.isDebugEnabled()) {
-			log.debug("entering initCacheVet( )");
-		}
-		
-		cacheVet.flush();
-		
-		// création de la map avec sous liste de VET
-		Map<String, List<VersionEtapeDTO>> mapOfVet = new HashMap<String, List<VersionEtapeDTO>>();
-		List<VersionEtapeDTO> v = domainApoService.getVersionEtapes(null, null, null, null);
-		for (VersionEtapeDTO vet : v) {
-			if (!mapOfVet.containsKey(vet.getCodEtp())) {
-				mapOfVet.put(vet.getCodEtp(), new ArrayList<VersionEtapeDTO>());
-			}
-			mapOfVet.get(vet.getCodEtp()).add(vet);
-		}
-		
-		// mise en cache des éléments de la map
-		for (Map.Entry<String, List<VersionEtapeDTO>> vetEntry : mapOfVet.entrySet()) {
-			cacheVet.put(new Element(vetEntry.getKey(), vetEntry.getValue()));
-		}
-		
-		if (log.isDebugEnabled()) {
-			log.debug("leanving initCacheVet");
-		}
-	}
+//	public void initCacheVet() {
+//		if (log.isDebugEnabled()) {
+//			log.debug("entering initCacheVet( )");
+//		}
+//		
+//		cacheVet.flush();
+//		
+//		// création de la map avec sous liste de VET
+//		Map<String, List<VersionEtapeDTO>> mapOfVet = new HashMap<String, List<VersionEtapeDTO>>();
+//		List<VersionEtapeDTO> v = domainApoService.getVersionEtapes(null, null, null, null);
+//		for (VersionEtapeDTO vet : v) {
+//			if (!mapOfVet.containsKey(vet.getCodEtp())) {
+//				mapOfVet.put(vet.getCodEtp(), new ArrayList<VersionEtapeDTO>());
+//			}
+//			mapOfVet.get(vet.getCodEtp()).add(vet);
+//		}
+//		
+//		// mise en cache des éléments de la map
+//		for (Map.Entry<String, List<VersionEtapeDTO>> vetEntry : mapOfVet.entrySet()) {
+//			cacheVet.put(new Element(vetEntry.getKey(), vetEntry.getValue()));
+//		}
+//		
+//		if (log.isDebugEnabled()) {
+//			log.debug("leanving initCacheVet");
+//		}
+//	}
+
 	/**
 	 * @see org.esupportail.opi.domain.BusinessCacheService#
 	 * getVersionEtape(java.lang.String, java.lang.Integer)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public VersionEtapeDTO getVersionEtape(final String codEtp, final Integer codVrsVet) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getVersionEtape(" + codEtp + ", " 
 					+ codVrsVet + "  )");
 		}
-		
-		// dans le cas ou le cache ne contient pas l'étape ou si le cache a été flushé
-		// on réinitialise le cache
-		if (cacheVet.get(codEtp) == null) {
-			initCacheVet();	
+		VersionEtapeDTO result = null;
+		List<VersionEtapeDTO> v = domainApoService.getVersionEtapes(null, null, null, null);
+		for (VersionEtapeDTO vet : v) {
+		    if (codVrsVet.equals(vet.getCodVrsVet())) {
+		        return vet;
+		    }
 		}
-		if (cacheVet.get(codEtp) != null) {
-			Element element = cacheVet.get(codEtp);
-			VersionEtapeDTO result = null;
-	//		List<VersionEtapeDTO> v = getMapOfVersionEtapes().get(codEtp);
-			List<VersionEtapeDTO> v = (List<VersionEtapeDTO>) element.getObjectValue();
-			for (VersionEtapeDTO vet : v) {
-				if (codVrsVet.equals(vet.getCodVrsVet())) {
-					result = vet;
-					break;
-				}
-			}
-			if (log.isDebugEnabled()) {
-				log.debug("leanving getVersionEtape with vet =" + result);
-			}
-			return result;
+		if (log.isDebugEnabled()) {
+		    log.debug("leanving getVersionEtape with vet =" + result);
 		}
-		return null;
+		return result;
 	}
 	
 	//////////////////////////////////////////////////////////////

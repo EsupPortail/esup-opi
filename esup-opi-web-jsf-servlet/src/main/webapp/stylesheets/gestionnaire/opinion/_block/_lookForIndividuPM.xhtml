@@ -11,7 +11,7 @@
         				styleClass="section-smallTitle" />
         			<h:panelGroup>
         				<p:commandButton id="lookForIndividu" value="#{msgs['_.BUTTON.SEARCH']}"
-        					action="#{pjController.searchStudents}" />
+        					action="#{pjController.searchStudents}"  ajax="false" />
         			</h:panelGroup>
         		</h:panelGrid>
         		<h:panelGrid styleClass="tableWidthMax" columns="4"
@@ -48,7 +48,7 @@
         						itemLabel="#{commission.libelle}" itemValue="#{commission.id}" />
         				</p:selectOneMenu>
         				<p:commandButton id="lookForIndividuComm" value="#{msgs['_.BUTTON.SEARCH']}"
-        					action="#{pjController.searchStudents}" />
+        					action="#{pjController.searchStudents}"  ajax="false" />
         			</h:panelGroup>
         			<h:panelGroup>
         				<h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc" />

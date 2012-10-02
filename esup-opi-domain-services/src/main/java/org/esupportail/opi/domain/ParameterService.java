@@ -334,7 +334,7 @@ public interface ParameterService extends Serializable {
 	 * @param temEnSve 
 	 * @return Set< Commission> 
 	 */
-	Set<Commission> getCommissions(Boolean temEnSve);
+	List<Commission> getCommissions(Boolean temEnSve);
 	
 	/**
 	 * @param id can be null
@@ -870,4 +870,6 @@ public interface ParameterService extends Serializable {
 	 * @return String
 	 */
 	String getPrefixLibCalCmi();
+	
 }
+

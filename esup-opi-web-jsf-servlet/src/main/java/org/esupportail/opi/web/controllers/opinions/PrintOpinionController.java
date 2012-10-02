@@ -1,6 +1,8 @@
 package org.esupportail.opi.web.controllers.opinions;
 
 import static fj.data.IterableW.wrap;
+import static fj.data.Array.*;
+import static fj.Equal.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -62,6 +64,7 @@ import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
 
 import fj.F;
+import fj.data.Array;
 import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
 
 
@@ -119,7 +122,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		/**
 		 * liste des champs selectionnes.
 		 */
-		private Object[] champsChoisis;
+		private String[] champsChoisis;
 
 		/**
 		 * default value : false.
@@ -226,11 +229,12 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 			this.commissionsSelected = new ArrayList<Object>();
 			this.lesIndividus = new ArrayList<IndividuPojo>();
 			champsDispos = new ArrayList<String>();
-			champsChoisis = HEADER_CVS.toArray();
+			List<String> lChampschoisis = new ArrayList<String>();
 			for (String champs : HEADER_CVS) {
 				champsDispos.add(champs);
-//				champsChoisis.add(champs);
+				lChampschoisis.add(champs);
 			}
+			champsChoisis = lChampschoisis.toArray(new String[0]);
 			this.allChecked = false;
 			this.pdfData = new HashMap<Commission, List<NotificationOpinion>>();
 			this.actionEnum = new ActionEnum();
@@ -509,20 +513,14 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 			Map<Integer, List<String>> mapCsv = new HashMap<Integer, List<String>>(); 
 			Integer counter = 0;
 			Integer colonne = 0;
-			if (champsChoisis == null || champsChoisis.length == 0) {
-				champsChoisis = HEADER_CVS.toArray();
+			Array<String> tabChampschoisis = array(champsChoisis);
+			if (champsChoisis == null || tabChampschoisis.isEmpty()) {
+				champsChoisis = HEADER_CVS.toArray(new String[0]);
 			}
 
 			log.info("Champs choisis : " + champsChoisis);
-			for (Object o : Arrays.asList(champsChoisis)) {
-				List<String> l = mapCsv.get(counter);
-				if (l == null) {
-					l = new ArrayList<String>();
-				}
-				l.add(String.valueOf(o));
-				mapCsv.put(counter, l);
-			} 
-//			mapCsv.put(counter, champsChoisis);
+
+			mapCsv.put(counter, Arrays.asList(champsChoisis));
 			Collections.sort(individus, new ComparatorString(IndividuPojo.class));
 			for (IndividuPojo ind : individus) {
 				Pays p = null;
@@ -548,51 +546,50 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 					List<String> ligne = new ArrayList<String>();
 					++counter;
 					colonne = 0;
-					List<Object> listChampsChoisis = Arrays.asList(champsChoisis);
-					if (listChampsChoisis.contains(HEADER_CVS.get(colonne))) {
+					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(colonne)))) {
 						ligne.add(this.commissionController.getCommission().getLibelle());
 					}
-					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 						ligne.add(ind.getIndividu().getNumDossierOpi());
 					}
 
-					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {	
+					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {	
 						ligne.add(ind.getIndividu().getNomPatronymique());
 					}
 
-					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 						ligne.add(ind.getIndividu().getPrenom());
 					}
 
-					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 						ligne.add("" + ind.getIndividu().getDateNaissance());
 					}
-					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 						String ine = ExportUtils.isNotNull(ind.getIndividu().getCodeNNE()) 
 							+ ExportUtils.isNotNull(ind.getIndividu().getCodeClefNNE());
 						ligne.add(ExportUtils.isNotNull(ine));
 					}
 				
 					if (adresse != null) {
-						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 							ligne.add(ExportUtils.isNotNull(adresse.getAdr1()));
 						}
-						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 							ligne.add(ExportUtils.isNotNull(adresse.getAdr2()));
 						}
 
-						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 							ligne.add(ExportUtils.isNotNull(adresse.getAdr3()));
 						}
 
-						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 							ligne.add(ExportUtils.isNotNull(adresse.getCedex()));
 						}
 
-						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 							ligne.add(ExportUtils.isNotNull(adresse.getCodBdi()));
 						}
-						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 							if (c != null) {
 								ligne.add(c.getLibCommune());
 							} else { 
@@ -600,31 +597,31 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 									adresse.getLibComEtr())); 
 							}
 						}
-						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 							if (p != null) {
 								ligne.add(p.getLibPay());
 							} else {
 								ligne.add("");
 							}
 						}
-						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 							ligne.add(ExportUtils.isNotNull(adresse.getPhoneNumber()));
 						}
 					} else {
 						for (int i = 0; i < 8; i++) {
-							if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+							if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 								ligne.addAll(ExportUtils.addBlankList(1));
 							}
 						}
 						//ExportUtils.addBlankList(8);
 					}
-					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 						ligne.add(ExportUtils.isNotNull(ind.getIndividu().getAdressMail()));
 					}
 
 					// bac
 					boolean hasCodeBac = false;
-					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 						for (IndBac iB : ind.getIndividu().getIndBac()) {
 							BacOuxEqu b = getBusinessCacheService().getBacOuxEqu(
 									iB.getDateObtention(),
@@ -643,45 +640,45 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 					// dernier cursus
 					IndCursusScolPojo d = ind.getDerniereAnneeEtudeCursus();
 					if (d != null) {
-						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 							ligne.add(ExportUtils.isNotNull(d.getLibCur()));
 						}
-						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 							ligne.add(ExportUtils.isNotNull(d.getLibEtb()));
 						}
-						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 							ligne.add(ExportUtils.isNotNull(d.getResultatExt()));
 						}
 					} else {
 						for (int i = 0; i < 3; i++) {
-							if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+							if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 								ligne.addAll(ExportUtils.addBlankList(1));
 							}
 						}
 					}
 
 					// Voeux
-					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 						DateFormat sdf = new SimpleDateFormat(Constantes.DATE_HOUR_FORMAT); 
 						ligne.add(sdf.format(v.getIndVoeu().getDateCreaEnr()));
 					}
 
-					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 						ligne.add(ExportUtils.isNotNull(v.getTypeTraitement().getCode()));
 					}
 
-					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 						ligne.add(ExportUtils.isNotNull(v.getVrsEtape().getLibWebVet()));
 					}
-					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 						ligne.add(ExportUtils.isNotNull(v.getEtat().getLabel()));
 					}
 					if (v.getAvisEnService() != null) {
-						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 							ligne.add(ExportUtils.isNotNull(v.getAvisEnService().
 									getResult().getLibelle()));
 						}
-						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 							if (v.getAvisEnService().getRang() != null) {
 								ligne.add(v.getAvisEnService().getRang().toString());
 							} else {
@@ -700,23 +697,23 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 									v.getAvisEnService().getCommentaire()); 
 						}
 
-						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 							ligne.add(ExportUtils.isNotNull(comm));
 						}
-						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 							ligne.add(ExportUtils.isNotNull(v.getAvisEnService().
 									getResult().getCode()));
 						}
-						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 							ligne.add(ExportUtils.isNotNull(v.getAvisEnService().
 									getResult().getCodeApogee()));
 						}
-						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 							ligne.add(ExportUtils.isNotNull("" + v.getAvisEnService().
 									getValidation()));
 						}
 						if (v.getAvisEnService().getValidation()) {
-							if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+							if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 								ligne.add(ExportUtils.isNotNull(
 										Utilitaires.convertDateToString(
 											v.getAvisEnService().
@@ -724,24 +721,24 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 											Constantes.DATE_FORMAT)));
 							}
 						} else {
-							if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+							if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 								ligne.add(""); 
 							}
 						}
 					} else {
 						for (int i = 0; i < 7; i++) {
-							if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
+							if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 								ligne.addAll(ExportUtils.addBlankList(1));
 							}
 						}
 
 					}
-					if (ligne.size() != listChampsChoisis.size()) {
+					if (ligne.size() != tabChampschoisis.length()) {
 						throw new ConfigException("Construction du csv avis : " 
 								+ "le nombre de colonne par ligne ("
 								+ ligne.size() + ")est different " 
 								+ "que celui du header("
-								+ listChampsChoisis.size() + ")(method csvGeneration in " 
+								+ tabChampschoisis.length() + ")(method csvGeneration in " 
 								+ getClass().getName() + " )");
 					}
 
@@ -1279,14 +1276,14 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		/**
 		 * @return the champsChoisis
 		 */
-		public Object[] getChampsChoisis() {
+		public String[] getChampsChoisis() {
 			return champsChoisis;
 		}
 
 		/**
 		 * @param champsChoisis the champsChoisis to set
 		 */
-		public void setChampsChoisis(final Object[] champsChoisis) {
+		public void setChampsChoisis(final String[] champsChoisis) {
 			this.champsChoisis = champsChoisis;
 		}
 

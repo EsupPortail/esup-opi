@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.esupportail.opi.domain.beans.parameters.Campagne;
+import org.esupportail.opi.domain.beans.references.commission.Commission;
+import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
@@ -114,6 +116,16 @@ public interface DomainApoService extends Serializable {
 	 * TODO : à supprimer (11/01/2012)
 	 */
 //	VersionEtapeDTO getVersionEtape(String codEtp, Integer codVrsVet);
+	
+	    /**
+    	 * List of the commisions managed by the gestionnaire.
+    	 * @param gest 
+    	 * @param domainApoService 
+    	 * @param parameterService 
+    	 * @return Set< Commission>
+    	 */
+	List<Commission> getListCommissionsByRight(final Gestionnaire gest, final Boolean temEnSve);
+
 	
 	//////////////////////////////////////////////////////////////
 	// GeographieApogee

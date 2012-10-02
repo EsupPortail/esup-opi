@@ -13,11 +13,11 @@
             expression="execution(* org.esupportail.*.domain.DomainServiceImpl.*(..))" />
         <aop:pointcut id="paramMethods"
             expression="execution(* org.esupportail.*.domain.ParameterServiceImpl.*(..))" />
-<!--         <aop:pointcut id="ctrlMethods" -->
-<!--             expression="execution(* org.esupportail.*.web.controllers.*.*Controller.*(..))" /> -->
+        <aop:pointcut id="domainApoMethods"
+            expression="execution(* org.esupportail.*.domain.DomainApoServiceImpl.getListCommissionsByRight(..))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="domainMethods" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="paramMethods" />
-<!--         <aop:advisor advice-ref="txAdvice" pointcut-ref="ctrlMethods" /> -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="domainApoMethods" />        
     </aop:config>
 
     <tx:advice id="txAdvice" transaction-manager="txManager">

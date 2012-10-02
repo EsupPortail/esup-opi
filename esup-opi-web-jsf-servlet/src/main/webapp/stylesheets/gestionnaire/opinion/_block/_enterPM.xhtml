@@ -3,16 +3,16 @@
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui">
     <ui:fragment rendered="#{pjController.currentCmiPojo != null 
-						&& pjController.currentCmiPojo.state.displayPJ}">
+						and pjController.currentCmiPojo.state.displayPJ}">
         	<h:form id="listePieceManquante">
         		<div class="blockButton" style="text-align:right;">
         			<h:panelGroup>
         				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
         					rendered="#{managedAccess.updateAuthorized
         								|| managedAccess.addAuthorized}"
-        					action="#{pjController.saveMissingPiecePrincipal}" />
+        					action="#{pjController.saveMissingPiecePrincipal}"  ajax="false" />
         				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-        					action="#{pjController.searchStudents}" immediate="true" />
+        					action="#{pjController.searchStudents}" immediate="true"  ajax="false" />
         			</h:panelGroup>
         		</div>
         		<p:dataTable var="missingPiece" id="pjData"

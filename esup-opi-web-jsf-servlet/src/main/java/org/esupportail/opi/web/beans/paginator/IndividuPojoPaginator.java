@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
@@ -47,6 +48,11 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 	 */
 	private List<IndividuPojo> individuPojos;
 
+	
+    /**
+     * domainApoService.
+     */
+	private DomainApoService domainApoService;
 	
 	/**
 	 * default value false.
@@ -155,14 +161,14 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 		}
 		individuPojos.clear();
 		List<IndividuPojo> indPojo = 
-			Utilitaires.convertIndInIndPojo(getVisibleItems(), 
+			// TODO: move convertIndInIndPojo away from web layer
+		    Utilitaires.convertIndInIndPojo(getVisibleItems(), 
 					getSessionController().getParameterService(), 
 					getSessionController().getI18nService(), 
-					getSessionController().getBusinessCacheService(), 
-					Utilitaires.getListCommissionsByRight(
-							(Gestionnaire) getSessionController().getCurrentUser(), 
-							getSessionController().getDomainApoService(),
-							getSessionController().getParameterService(), true),
+					getSessionController().getBusinessCacheService(),
+					// TODO : remove the hashset hack
+					new HashSet<Commission>(domainApoService.getListCommissionsByRight(
+							(Gestionnaire) getSessionController().getCurrentUser(), true)),
 					null, getSessionController().getParameterService().getTypeTraitements(),
 					getSessionController().getParameterService().getCalendarRdv(),
 					null, getIndRechPojo().getExcludeWishProcessed());
@@ -189,17 +195,16 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 			return individuPojos;
 		}
 		// filtrage sur les etapes de la commission
-		Set<Commission> cmi = new HashSet<Commission>();
+		List<Commission> cmi = new ArrayList<Commission>();
 		Commission comm = null;
 		if (getIndRechPojo().getIdCmi() != null) {
 			comm = getSessionController().getParameterService()
 			.getCommission(getIndRechPojo().getIdCmi(), null);
 			cmi.add(comm);
 		} else {
-			cmi = Utilitaires.getListCommissionsByRight(
+			cmi = domainApoService.getListCommissionsByRight(
 					(Gestionnaire) getSessionController().getCurrentUser(), 
-					getSessionController().getDomainApoService(),
-					getSessionController().getParameterService(), true);
+					true);
 		}
 
 		// filtrage sur le type de decision
@@ -226,12 +231,14 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 		} else {
 			versionsEtp = null;
 		}
-		List<IndividuPojo> indPojo = 
+		List<IndividuPojo> indPojo =
+		    // TODO : move convertIndInIndPojo away from web layer
 			Utilitaires.convertIndInIndPojo(getVisibleItems(), 
 					getSessionController().getParameterService(), 
 					getSessionController().getI18nService(), 
 					getSessionController().getBusinessCacheService(),
-					cmi, typeD, getSessionController().getParameterService().getTypeTraitements(), 
+					// TODO: remove hashset hack
+					new HashSet<Commission>(cmi), typeD, getSessionController().getParameterService().getTypeTraitements(), 
 					getSessionController().getParameterService().getCalendarRdv(),
 					versionsEtp, false);
 
@@ -366,5 +373,13 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 	public void setUseIndividuPojo(final Boolean useIndividuPojo) {
 		this.useIndividuPojo = useIndividuPojo;
 	}
+
+    public DomainApoService getDomainApoService() {
+        return domainApoService;
+    }
+
+    public void setDomainApoService(DomainApoService domainApoService) {
+        this.domainApoService = domainApoService;
+    }
 
 }

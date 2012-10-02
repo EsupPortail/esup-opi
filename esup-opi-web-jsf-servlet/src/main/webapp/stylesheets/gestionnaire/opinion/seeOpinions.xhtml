@@ -8,11 +8,7 @@ template="/stylesheets/template.xhtml">
 		
 		
 		<div id="maPage" class="div_body">
-			<h1>
-                <span class="section-header">
-                    <h:outputText value="#{msgs['AVIS.TITLE.HISTO']}" />
-                </span>
-            </h1>
+			<h1><h:outputText value="#{msgs['AVIS.TITLE.HISTO']}" /></h1>
 			<div class="messageForUser">
 				<p:messages id="messages" showDetail="true" autoUpdate="true" />
 			</div>
@@ -44,16 +40,16 @@ template="/stylesheets/template.xhtml">
 							<h:panelGroup>
 								<p:commandButton value="#{msgs['FIELD_LABEL.PROPOSITION']}"
 									immediate="true"
-									action="#{opinionController.addProposition}"/>
+									action="#{opinionController.addProposition}" ajax="false" />
 								<p:commandButton value="#{msgs['AVIS.BUTTON.APPEL']}"
 									 immediate="true"
-									 action="#{opinionController.goAddAvisAppel}"/>
+									 action="#{opinionController.goAddAvisAppel}" ajax="false" />
 								<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
 									 immediate="true"
-									 action="#{opinionController.goAddAvis}"/>
+									 action="#{opinionController.goAddAvis}" ajax="false" />
 								<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
 										immediate="true"
-										action="#{opinionController.goBackOpinions}"/>
+										action="#{opinionController.goBackOpinions}" ajax="false" />
 							</h:panelGroup>
 						</div>
 						<p:dataTable var="avisPojo" value="#{opinionController.listAvisPojo}"
@@ -145,8 +141,8 @@ template="/stylesheets/template.xhtml">
 									styleClass="form-button-image" title="#{msgs['BUTTON.UPDATE']}" 
 									action="#{opinionController.goUpdateAvis}"
 									rendered="#{opinionController.actionEnum.whatAction == opinionController.actionEnum.emptyAction
-											&& managedAccess.updateAuthorized && avisPojo.avis.temoinEnService
-											&& !(avisPojo.avis.result.isFinal && avisPojo.avis.validation)}">
+											and managedAccess.updateAuthorized and avisPojo.avis.temoinEnService
+											and !(avisPojo.avis.result.isFinal and avisPojo.avis.validation)}" ajax="false" >
 									<f:setPropertyActionListener value="#{avisPojo.avis}" target="#{opinionController.avis}" />
 								</p:commandButton>
 							</p:column>

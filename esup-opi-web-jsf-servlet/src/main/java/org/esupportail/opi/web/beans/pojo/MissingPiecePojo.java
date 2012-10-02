@@ -10,6 +10,7 @@ package org.esupportail.opi.web.beans.pojo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +24,7 @@ import org.esupportail.opi.domain.beans.parameters.PieceJustificative;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.candidature.MissingPiece;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
+import org.esupportail.opi.utils.Conversions;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
@@ -103,7 +105,8 @@ public class MissingPiecePojo {
 			final DomainService domainService,
 			final Integer idCommissionCherchee) {
 		Map<Commission, Set<VersionEtapeDTO>> mapCmi = 
-			Utilitaires.getCmiForIndVoeux(parameterService.getCommissions(true)
+		 // TODO: remove hashset hack
+			Utilitaires.getCmiForIndVoeux(new HashSet<Commission>(parameterService.getCommissions(true))
 					, this.individuPojo.getIndVoeuxPojo(), 
 					this.individuPojo.getCampagneEnServ(domainService));
 		for (Commission cmi : mapCmi.keySet()) {
@@ -130,7 +133,7 @@ public class MissingPiecePojo {
 			final DomainService domainService,
 			final Map<Commission, Set<VersionEtapeDTO>> mapCmi,
 			final Commission cmi) {
-		Set<VersionEtpOpi> vOpi = Utilitaires.convertVetInVetOpi(mapCmi.get(cmi));
+		Set<VersionEtpOpi> vOpi = Conversions.convertVetInVetOpi(mapCmi.get(cmi));
 		List<IndVoeuPojo> iList = new ArrayList<IndVoeuPojo>();
 		String codeTypeTrait = null;
 		for (VersionEtpOpi vet : vOpi) {

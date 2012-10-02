@@ -14,11 +14,11 @@
         			
         			<h:panelGroup>
         				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-        					action="#{pjController.sendMail}">
+        					action="#{pjController.sendMail}" ajax="false" >
         				</p:commandButton>
         				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
         					immediate="true"
-        					action="#{pjController.reset}"/>
+        					action="#{pjController.reset}" ajax="false" />
         			</h:panelGroup>
         		</h:panelGrid>
         	</div>

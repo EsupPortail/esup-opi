@@ -5,10 +5,13 @@
 package org.esupportail.opi.web.beans.paginator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.opi.domain.DomainApoService;
+import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.opi.web.beans.pojo.MissingPiecePojo;
@@ -46,6 +49,12 @@ public class PMPaginator extends IndividuPaginator {
 	 * if true MissingPiecePojo must be reload
 	 */
 	private Boolean forceReload;
+	
+    /**
+     * domainApoService.
+     */
+	private DomainApoService domainApoService;
+	
 
 	/*
 	 ******************* INIT ************************* */
@@ -125,14 +134,15 @@ public class PMPaginator extends IndividuPaginator {
 		}
 		this.missingPiecePojos.clear();
 		List<IndividuPojo> indPojo = 
+		    // TODO : move convertIndInIndPojo away from web layer		    
 			Utilitaires.convertIndInIndPojo(getVisibleItems(), 
 					getSessionController().getParameterService(),
 					getSessionController().getI18nService(),
-					getSessionController().getBusinessCacheService(), 
-					Utilitaires.getListCommissionsByRight(
+					getSessionController().getBusinessCacheService(),
+					// TODO: remove hashset hack					
+					new HashSet<Commission>(domainApoService.getListCommissionsByRight(
 							(Gestionnaire) getSessionController().getCurrentUser(), 
-							getSessionController().getDomainApoService(),
-							getSessionController().getParameterService(), true), 
+							true)), 
 					null, getSessionController().getParameterService().getTypeTraitements(),
 					getSessionController().getParameterService().getCalendarRdv(), null, false);
 		for (IndividuPojo iP : indPojo) {
@@ -178,6 +188,14 @@ public class PMPaginator extends IndividuPaginator {
 	public void setForceReload(final Boolean forceReload) {
 		this.forceReload = forceReload;
 	}
+
+    public DomainApoService getDomainApoService() {
+        return domainApoService;
+    }
+
+    public void setDomainApoService(DomainApoService domainApoService) {
+        this.domainApoService = domainApoService;
+    }
 
 
 

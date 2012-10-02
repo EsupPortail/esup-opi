@@ -7,11 +7,7 @@
     	
     	
     	<div id="maPage" class="div_body">
-    		<h1>
-                <span class="section-header">
-                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
-                </span>
-            </h1>
+    		<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
             <ui:fragment rendered="#{not empty managedAccess.domainAccueilGest}">
         		<div id="blockFormSearch" class="blockForm">
         			<h:form id="lookForIndForm" styleClass="opiR1_form">
@@ -21,7 +17,7 @@
         						styleClass="section-smallTitle" />
         					<h:panelGroup>
         						<p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
-        							action="#{typeTraitController.filterPaginator}" />
+        							action="#{typeTraitController.filterPaginator}"  ajax="false" />
         					</h:panelGroup>
         				</h:panelGrid>
         
@@ -109,14 +105,14 @@
     					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     						action="#{typeTraitController.update}"
     						rendered="#{managedAccess.updateAuthorized
-    								|| managedAccess.addAuthorized}" />
+    								|| managedAccess.addAuthorized}"  ajax="false" />
     					<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    						immediate="true" action="#{typeTraitController.goSeeAllTypeTraitments}" />
+    						immediate="true" action="#{typeTraitController.goSeeAllTypeTraitments}"  ajax="false" />
     					<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
-    						action="#{managedAccess.goDisplayFunction}" />
+    						action="#{managedAccess.goDisplayFunction}"  ajax="false" />
     					<p:commandButton id="submitSelectTypeTrt"
     										value="#{msgs['_.BUTTON.CHANGE_TYP_TRT']}"
-    										action="#{typeTraitController.selectAllTypeAction}" />
+    										action="#{typeTraitController.selectAllTypeAction}"  ajax="false" />
     				</h:panelGroup>
     			</div>
     
@@ -133,7 +129,7 @@
     								itemsName="#{msgs['INDIVIDUS']}"
     								onchange="javascript:{simulateLinkClick('seeTypeTrtForm:individuData:submitPageSize');}" />
     							<p:commandButton id="submitPageSize"
-    								action="#{paginatorIndividuPojo.forceReload}" />
+    								action="#{paginatorIndividuPojo.forceReload}"  ajax="false" />
     						</h:panelGroup>
     					</f:facet>
     					<p:column width="2%">

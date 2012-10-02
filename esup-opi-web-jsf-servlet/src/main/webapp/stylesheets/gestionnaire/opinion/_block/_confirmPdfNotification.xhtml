@@ -10,12 +10,12 @@
     			</h:outputText>
     			<h:panelGroup>
     				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    					action="#{printOpinionController.notificationPdfGeneration}">
+    					action="#{printOpinionController.notificationPdfGeneration}" ajax="false" >
     					<f:setPropertyActionListener value="#{true}" target="#{printOpinionController.printOnlyDef}" />
     				</p:commandButton>
     				
     				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
-    					action="#{printOpinionController.notificationPdfGeneration}">
+    					action="#{printOpinionController.notificationPdfGeneration}" ajax="false" >
     					<f:setPropertyActionListener value="#{false}" target="#{printOpinionController.printOnlyDef}" />
     				</p:commandButton>
     			</h:panelGroup>

@@ -7,11 +7,7 @@
     	
     	
     	<div id="maPage" class="div_body">
-    		<h1>
-                <span class="section-header">
-                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
-                </span>
-            </h1>
+    		<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
     		<div class="messageForUser">
     			<p:messages id="messages" showDetail="true" autoUpdate="true" />
     		</div>
@@ -30,13 +26,13 @@
         						</h:outputText>
         						<h:panelGroup>
         							<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-        								action="#{validOpinionController.validateStudentsForCommissions}">
+        								action="#{validOpinionController.validateStudentsForCommissions}" ajax="false" >
         								<f:setPropertyActionListener value="#{true}" target="#{validOpinionController.valideFC}" />
         								<f:setPropertyActionListener value="#{true}" target="#{validOpinionController.sendMail}" />
         							</p:commandButton>
         							
         							<p:commandButton value="#{msgs['_.BUTTON.NO']}"
-        								action="#{validOpinionController.validateStudentsForCommissions}">
+        								action="#{validOpinionController.validateStudentsForCommissions}" ajax="false" >
         								<f:setPropertyActionListener value="#{true}" target="#{validOpinionController.valideFC}" />
         								<f:setPropertyActionListener value="#{false}" target="#{validOpinionController.sendMail}" />
         							</p:commandButton>
@@ -66,7 +62,7 @@
         						</p:selectOneRadio>
         						<p:commandButton id="submitSelectTypeOpinion"
         							value="#{msgs['_.BUTTON.CHANGE']}"
-        							action="#{printOpinionController.setListTypeOpinions}" />
+        							action="#{printOpinionController.setListTypeOpinions}"  ajax="false" />
         						
         					</h:panelGroup>
         					
@@ -104,11 +100,11 @@
     								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     									action="#{validOpinionController.validateStudentsForCommissions}" 
     									rendered="#{printOpinionController.actionEnum.whatAction 
-    										!= printOpinionController.actionEnum.confirmAction}" />
+    										!= printOpinionController.actionEnum.confirmAction}"  ajax="false" />
     								<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
     									immediate="true" action="#{managedAccess.goDisplayFunction}" 
     									rendered="#{printOpinionController.actionEnum.whatAction 
-    										!= printOpinionController.actionEnum.confirmAction}" />
+    										!= printOpinionController.actionEnum.confirmAction}"  ajax="false" />
     							</h:panelGroup>
     						</h:panelGrid>
     					</div>
@@ -133,7 +129,7 @@
     								action="#{validOpinionController.goSeeStudientForCommission}"
     								title="#{msgs['INFO.CANDIDAT.DISPLAY']}"
     								rendered="#{printOpinionController.actionEnum.whatAction 
-    									!= printOpinionController.actionEnum.confirmAction}" >
+    									!= printOpinionController.actionEnum.confirmAction}"  ajax="false" >
     								<f:setPropertyActionListener value="#{commission}" target="#{commissionController.commission}" />
     							</p:commandButton>
     						</p:column>

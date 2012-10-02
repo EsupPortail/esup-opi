@@ -44,7 +44,6 @@ import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.opi.web.beans.pojo.NomenclaturePojo;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorDate;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractAccessController;
@@ -242,13 +241,13 @@ public class OpinionController
 	 */
 	public String goEnterAllStudentsOpinions() {
 		reset();
-		individuPaginator.reset();
-		individuPaginator.filtreAllCommissionRights(
-				Utilitaires.getListCommissionsByRight(
-						getCurrentGest(), 
-						getDomainApoService(),
-						getParameterService(), true), false, transfert.getCode());
-		individuPaginator.forceReload();
+//		individuPaginator.reset();
+//		individuPaginator.filtreAllCommissionRights(
+//				Utilitaires.getListCommissionsByRight(
+//						getCurrentGest(), 
+//						getDomainApoService(),
+//						getParameterService(), true), false, transfert.getCode());
+//		individuPaginator.forceReload();
 		return NavigationRulesConst.ENTER_ALL_STUDENTS_OPINIONS;
 	}
 
@@ -261,10 +260,10 @@ public class OpinionController
 		individuPaginator.reset();
 		individuPaginator.setUseIndividuPojo(true);
 		individuPaginator.filtreAllCommissionRights(
-				Utilitaires.getListCommissionsByRight(
+		    // TODO: remove hashset hack
+		    new HashSet<Commission>(getDomainApoService().getListCommissionsByRight(
 						getCurrentGest(), 
-						getDomainApoService(),
-						getParameterService(), true), false, transfert.getCode());
+						true)), false, transfert.getCode());
 		individuPaginator.forceReload();
 		return NavigationRulesConst.ENTER_STUDENTS_OPINIONS;
 	}
@@ -788,7 +787,7 @@ public class OpinionController
 				&& (codeCommRech == null || codeTrtCmiRech == null)) {
 			addInfoMessage(null, "AVIS.INFO.LISTE_COMP");
 		}
-		individuPaginator.forceReload();
+		//individuPaginator.forceReload();
 	}
 
 	/**

@@ -37,12 +37,12 @@ import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
 import org.esupportail.opi.utils.Constantes;
+import org.esupportail.opi.utils.Conversions;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.components.ExtendedEntry;
 import org.esupportail.opi.web.beans.paginator.IndividuPaginator;
 import org.esupportail.opi.web.beans.utils.ExportUtils;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
@@ -223,7 +223,7 @@ public class ConsultRdvController extends AbstractContextAwareController {
 						vetCal.getCodEtp(), vetCal.getCodVrsVet()));
 			}
 			if (!listVetDto.isEmpty()) {
-				listVet.addAll(Utilitaires.convertVetInVetOpi(listVetDto));
+				listVet.addAll(Conversions.convertVetInVetOpi(listVetDto));
 			}
 			log.debug("nb VET : " + listVet.size());
 			//Recupération des voeux d'un individu correspondant au calendrier de rendez-vous

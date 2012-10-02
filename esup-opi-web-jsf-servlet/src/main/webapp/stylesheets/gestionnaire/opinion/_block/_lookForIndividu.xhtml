@@ -3,7 +3,7 @@
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui">
     <ui:fragment rendered="#{not empty managedAccess.domainAccueilGest
-                && opinionController.actionEnum.whatAction != 
+                and opinionController.actionEnum.whatAction != 
                 opinionController.actionEnum.propositionAction}">
         <div id="blockFormSearch" class="blockForm">
         	<h:form id="lookForIndForm" styleClass="opiR1_form">
@@ -13,7 +13,7 @@
         				styleClass="section-smallTitle" />
         			<h:panelGroup>
         				<p:commandButton id="lookForIndividu" value="#{msgs['_.BUTTON.SEARCH']}"
-        					action="#{opinionController.searchStudents}" />
+        					action="#{opinionController.searchStudents}"  ajax="false" />
         			</h:panelGroup>
         		</h:panelGrid>
         		<h:panelGrid styleClass="tableWidthMax" columns="4"
@@ -22,18 +22,18 @@
         				<h:outputLabel value="#{msgs['INDIVIDU.NUM_DOSSIER']}"
         					for="numDossierOpi" />
         			</h:panelGroup>
-        			<h:inputText id="numDossierOpi"
+        			<p:inputText id="numDossierOpi"
         				value="#{paginatorIndividuPojo.indRechPojo.numDossierOpiRecherche}" />
         
         			<h:panelGroup>
         				<h:outputLabel value="#{msgs['INDIVIDU.NOM']}" for="nom" />
         			</h:panelGroup>
-        			<h:inputText id="nom"
+        			<p:inputText id="nom"
         				value="#{paginatorIndividuPojo.indRechPojo.nomRecherche}" />
         			<h:panelGroup>
         				<h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom" />
         			</h:panelGroup>
-        			<h:inputText id="prenom"
+        			<p:inputText id="prenom"
         				value="#{paginatorIndividuPojo.indRechPojo.prenomRecherche}" />
         
         			<h:panelGroup>
@@ -50,7 +50,7 @@
         						itemLabel="#{commission.libelle}" itemValue="#{commission.id}" />
         				</p:selectOneMenu>
         				<p:commandButton id="lookForIndividuComm" value="#{msgs['_.BUTTON.SEARCH']}"
-        					action="#{opinionController.searchStudentsByComm}" />
+        					action="#{opinionController.searchStudentsByComm}"  ajax="false" />
         			</h:panelGroup>
         			<h:panelGroup>
         				<h:outputLabel value="#{msgs['AVIS.LABEL_DECISION']}" for="lesTypesDecision"/>
@@ -62,7 +62,7 @@
         					<f:selectItems value="#{nomenclatureController.typeDecisionItems}" />
         				</p:selectOneMenu>
         				<p:commandButton id="lookForIndividuTypeDec" value="#{msgs['_.BUTTON.SEARCH']}"
-        					action="#{opinionController.searchStudentsByTypeDec}" />
+        					action="#{opinionController.searchStudentsByTypeDec}"  ajax="false" />
         			</h:panelGroup>
         			<h:panelGroup rendered="#{opinionController.isFilterLCAndCommissionOK}">
         				<h:outputLabel value="#{msgs['FIELD_LABEL.ETAPES']}" for="lesEtapes"/>
@@ -77,7 +77,7 @@
         						itemLabel="#{beanTrtCmi.etape.licEtp}" itemValue="#{beanTrtCmi.traitementCmi.id}" />
         				</p:selectOneMenu>
         				<p:commandButton id="lookForIndividuEtp" value="#{msgs['_.BUTTON.SEARCH']}"
-        					action="#{opinionController.searchStudentsByEtp}" />
+        					action="#{opinionController.searchStudentsByEtp}"  ajax="false" />
         			</h:panelGroup>
         			<h:panelGroup>
         				<h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc" />

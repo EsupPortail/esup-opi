@@ -18,6 +18,7 @@ import org.apache.commons.collections.comparators.NullComparator;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.domain.BusinessUtil;
+import org.esupportail.opi.domain.DomainApoServiceImpl;
 import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.InscriptionAdm;
@@ -1374,10 +1375,9 @@ public class AutoLpController extends AbstractContextAwareController {
 	@SuppressWarnings("unchecked")
 	public List<SelectItem> getAllCommItems() {
 		if (allCommItems.isEmpty()) {
-			Set<Commission> allCommissions = Utilitaires.getListCommissionsByRight(
+			List<Commission> allCommissions = getDomainApoService().getListCommissionsByRight(
 					getCurrentGest(), 
-					getDomainApoService(),
-					getParameterService(), true);
+					true);
 			if (allCommissions != null) {
 				for (Commission comm : allCommissions) {
 					if (!testExistCommItems(comm.getCode())) {
@@ -1440,11 +1440,10 @@ public class AutoLpController extends AbstractContextAwareController {
 				allVets.addAll(getDomainApoService().getVersionEtapes(
 					null, null, getCurrentGest().getCodeCge(), camp.getCodAnu()));
 			}
-
-			Set<Commission> cmi = Utilitaires.getListCommissionsByRight(
+			// TODO: remove hashset hack
+			Set<Commission> cmi = new HashSet<Commission>(getDomainApoService().getListCommissionsByRight(
 					getCurrentGest(), 
-					getDomainApoService(),
-					getParameterService(), true);
+					true));
 			
 			Set<VersionEtapeDTO> allVets2 = new HashSet<VersionEtapeDTO>();
 				

@@ -4,8 +4,11 @@
 	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
-	>
+    xmlns:tx="http://www.springframework.org/schema/tx"    
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+    
 	<!--
 		/properties/applicationContext.xml The main Spring configuration file.
 		This file should not be modified but by the developers. This file is
@@ -37,19 +40,6 @@
 	<bean
 	    id="sessionCacheBean"
 	    class="org.esupportail.commons.annotations.cache.SessionCachingMethodInterceptor" />
-
-<!--     <aop:aspectj-autoproxy proxy-target-class="true" /> -->
-<!--     <aop:config proxy-target-class="true" /> -->
-<!-- 	<aop:config> -->
-<!-- 		<aop:pointcut id="monitorPointcut" -->
-<!-- 			expression="@within(org.esupportail.commons.annotations.monitor.Monitor) || @annotation(org.esupportail.commons.annotations.monitor.Monitor)" /> -->
-<!-- 		<aop:aspect id="monitorAspect" ref="monitorBean"> -->
-<!-- 			<aop:around method="aroundMonitor" pointcut-ref="monitorPointcut" /> -->
-<!-- 		</aop:aspect> -->
-<!-- 	</aop:config> -->
-<!-- 	<bean id="monitorBean" -->
-<!-- 		class="org.esupportail.commons.annotations.monitor.MonitoringMethodInterceptor" /> -->
- 	
 
 	<import resource="classpath*:/META-INF/archives/archives.xml" /> 
 	<import resource="classpath*:/META-INF/auth/auth.xml" />

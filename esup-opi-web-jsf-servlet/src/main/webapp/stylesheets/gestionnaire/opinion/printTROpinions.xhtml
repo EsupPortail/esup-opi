@@ -7,11 +7,7 @@
     	
     	
     	<div id="maPage" class="div_body">
-    		<h1>
-                <span class="section-header">
-                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
-                </span>
-            </h1>
+    		<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
     		
             <ui:fragment rendered="#{printOpinionController.actionEnum.whatAction 
                     == printOpinionController.actionEnum.confirmAction}">
@@ -29,12 +25,15 @@
     				<div style="text-align:right;">
     					<p:commandButton value="#{msgs['_.BUTTON.EXPORT']}"
     							rendered="#{commissionController.commission.code != null}"
-    							action="#{printOpinionController.generateCSVListesTransfert}"/>
-    					<p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="choiceColumnExport.show();" type="button" />
+    							action="#{printOpinionController.generateCSVListesTransfert}" ajax="false" />
+    					<p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" immediate="true" ajax="false" >
+    						<f:setPropertyActionListener value="#{printOpinionController.actionEnum.choiceColExport}"
+    							 target="#{printOpinionController.actionEnum.whatAction}" />
+    					</p:commandButton>
     					<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
     						action="#{managedAccess.goDisplayFunction}" 
     						rendered="#{printOpinionController.actionEnum.whatAction 
-    						!= printOpinionController.actionEnum.confirmAction}" />
+    						!= printOpinionController.actionEnum.confirmAction}"  ajax="false" />
     				</div>
     				<h:panelGrid styleClass="tableWidthMax" columns="4"
     					columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
@@ -51,7 +50,7 @@
     								itemLabel="#{commission.libelle}" itemValue="#{commission.id}" />
     						</p:selectOneMenu>
     						<p:commandButton id="selectCommission" 
-    							action="#{commissionController.selectCommissionForLists}"/>
+    							action="#{commissionController.selectCommissionForLists}" ajax="false" />
     					</h:panelGroup>
     				</h:panelGrid>
     		

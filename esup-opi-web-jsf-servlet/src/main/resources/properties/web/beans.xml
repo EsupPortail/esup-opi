@@ -388,6 +388,7 @@
 		class="org.esupportail.opi.web.beans.paginator.IndividuPojoPaginator"
 		scope="session">
         <property name="sessionController" ref="sessionController"/>
+        <property name="domainApoService" ref="domainApoService" />
 		<property name="daoService" ref="daoService" />
 		<property name="maxNearPages" value="4" />
 		<property name="defaultPageSize" value="20"/>
@@ -405,7 +406,8 @@
 	<bean id="paginatorPM"
 		class="org.esupportail.opi.web.beans.paginator.PMPaginator"
 		scope="session">
-        <property name="sessionController" ref="sessionController"/>    
+        <property name="sessionController" ref="sessionController"/>
+        <property name="domainApoService" ref="domainApoService"/>
 		<property name="daoService" ref="daoService" />
 		<property name="maxNearPages" value="4" />
 		<property name="defaultPageSize" value="20"/>

@@ -41,6 +41,7 @@ import org.esupportail.opi.domain.beans.user.situation.IndSituation;
 import org.esupportail.opi.domain.beans.user.situation.SituationSalarie;
 import org.esupportail.opi.services.export.CastorService;
 import org.esupportail.opi.utils.Constantes;
+import org.esupportail.opi.utils.Conversions;
 import org.esupportail.opi.web.beans.parameters.FormationContinue;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 import org.esupportail.opi.web.beans.pojo.AdressePojo;
@@ -455,7 +456,8 @@ public class AccueilController extends AbstractAccessController {
 	private void makePDF(final Commission cmiSelect, final IndDocument indDocument) {
 		Individu i = getCurrentInd().getIndividu().clone();
 		//liste de toutes les commissions en service.
-		Set<Commission> cmi = getParameterService().getCommissions(true);
+		// TODO: remove hashset hack
+		Set<Commission> cmi = new HashSet<Commission>(getParameterService().getCommissions(true));
 		
 		//map contenant la commission et ses etapes sur lesquelles le candidat e deposer des voeux
 		Map<Commission, Set<VersionEtapeDTO>> mapCmi = Utilitaires.getCmiForIndVoeux(cmi, 
@@ -474,7 +476,7 @@ public class AccueilController extends AbstractAccessController {
 			//test s'il y a des formulaires pour cette commission.
 			Map<VersionEtpOpi, IndFormulaire> mapIndF = new HashMap<VersionEtpOpi, IndFormulaire>();
 			for (Map.Entry<VersionEtpOpi, IndFormulaire> vOpi : mapIndFormulaires.entrySet()) {
-				Set<VersionEtpOpi> listVOpi = Utilitaires.convertVetInVetOpi(mapCmi.get(cmiSelect));
+				Set<VersionEtpOpi> listVOpi = Conversions.convertVetInVetOpi(mapCmi.get(cmiSelect));
 				if (listVOpi.contains(vOpi.getKey())) {
 					mapIndF.put(vOpi.getKey(), vOpi.getValue());
 				}
@@ -520,7 +522,7 @@ public class AccueilController extends AbstractAccessController {
 			mapOneCmi.put(cmiPojo, commissionMap.getValue());
 			
 			indDocument.setCmiAndVowsInd(mapOneCmi);
-			Set<VersionEtpOpi> vetOpi = Utilitaires.convertVetInVetOpi(commissionMap.getValue());
+			Set<VersionEtpOpi> vetOpi = Conversions.convertVetInVetOpi(commissionMap.getValue());
 			List<PieceJustificative> listPJ = getParameterService()
 						.getPiecesJ(vetOpi, Utilitaires.getCodeRIIndividu(i,
 								getDomainService()).toString());

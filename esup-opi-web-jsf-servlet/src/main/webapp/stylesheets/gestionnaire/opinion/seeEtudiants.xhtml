@@ -15,11 +15,7 @@
     			}
     		</script>
     
-    		<h1>
-                <span class="section-header">
-                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
-                </span>
-            </h1>
+    		<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
     		
     		<div class="messageForUser">
     			<p:messages id="messages" showDetail="true" autoUpdate="true" />
@@ -29,7 +25,7 @@
     		<ui:include src="_block/_enterPM.xhtml" />
     		
     		<ui:fragment rendered="#{!(pjController.currentCmiPojo != null 
-    			&& pjController.currentCmiPojo.state.displayPJ)}"> 
+    			and pjController.currentCmiPojo.state.displayPJ)}"> 
     			<ui:include src="/stylesheets/gestionnaire/opinion/_block/_lookForIndividuPM.jsp" />
     		</ui:fragment>    				
     		<br />
@@ -44,15 +40,15 @@
     						<p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
     								action="#{pjController.changeStateAll}"
     								rendered="#{(managedAccess.updateAuthorized
-    									|| managedAccess.addAuthorized) && !(pjController.currentCmiPojo != null 
-    									&& pjController.currentCmiPojo.state.displayPJ)}">
+    									|| managedAccess.addAuthorized) and !(pjController.currentCmiPojo != null 
+    									and pjController.currentCmiPojo.state.displayPJ)}" ajax="false" >
     						</p:commandButton>
     						<p:commandButton id="changeAllState" value="#{msgs['_.BUTTON.CHANGE']}"
-    							action="#{pjController.putStateAll}" />
+    							action="#{pjController.putStateAll}"  ajax="false" />
     						<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
     							action="#{managedAccess.goDisplayFunction}" 
     							rendered="#{!(pjController.currentCmiPojo != null 
-    						&& pjController.currentCmiPojo.state.displayPJ)}"/>
+    						and pjController.currentCmiPojo.state.displayPJ)}" ajax="false" />
     					</h:panelGroup>
     				</h:panelGrid>
     			</div>
@@ -68,7 +64,7 @@
     								itemsName="#{msgs['INDIVIDUS']}"
     								onchange="javascript:{simulateLinkClick('seeIndividusForm:individuData:submitPageSize');}" />
     							<p:commandButton id="submitPageSize"
-    								action="#{paginatorPM.forceReload}" />
+    								action="#{paginatorPM.forceReload}"  ajax="false" />
     						</h:panelGroup>
     					</f:facet>
     					<p:column onclick="selectUser('seeIndividusForm:individuData:#{variable}:updateState')">
@@ -106,9 +102,9 @@
     						<p:commandButton image="/media/images/update.png"
     							styleClass="form-button-image" id="updateState" immediate="true"
     							title="#{msgs['_.BUTTON.UPDATE']}"
-    							rendered="#{managedAccess.updateAuthorized && !(pjController.currentCmiPojo != null 
-    									&& pjController.currentCmiPojo.state.displayPJ)}"
-    							action="#{pjController.goSeePMEtudiant}">
+    							rendered="#{managedAccess.updateAuthorized and !(pjController.currentCmiPojo != null 
+    									and pjController.currentCmiPojo.state.displayPJ)}"
+    							action="#{pjController.goSeePMEtudiant}" ajax="false" >
     							<f:setPropertyActionListener value="#{missingPiecePojos}" target="#{pjController.mpPojoSelected}" />
     						</p:commandButton>
     					</p:column>
@@ -200,8 +196,8 @@
     							<p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
     								action="#{pjController.changeState}"
     								rendered="#{(managedAccess.updateAuthorized
-    									|| managedAccess.addAuthorized) && !(pjController.currentCmiPojo != null 
-    									&& pjController.currentCmiPojo.state.displayPJ)}">
+    									|| managedAccess.addAuthorized) and !(pjController.currentCmiPojo != null 
+    									and pjController.currentCmiPojo.state.displayPJ)}" ajax="false" >
     								<f:setPropertyActionListener value="#{commissionPojo}" target="#{pjController.currentCmiPojo}" />
     								<f:setPropertyActionListener value="#{missingPiecePojos}" target="#{pjController.mpPojoSelected}" />
     							</p:commandButton>
@@ -217,7 +213,7 @@
     									action="#{pjController.seeMissingPiecePrincipal}"
     									title="#{msgs['_.BUTTON.DISPLAY']}"
     									rendered="#{!(pjController.currentCmiPojo != null 
-    									&& pjController.currentCmiPojo.state.displayPJ)}">
+    									and pjController.currentCmiPojo.state.displayPJ)}" ajax="false" >
     									<f:setPropertyActionListener value="#{commissionPojo}" target="#{pjController.currentCmiPojo}" />
     									<f:setPropertyActionListener value="#{missingPiecePojos}" target="#{pjController.mpPojoSelected}" />
     								</p:commandButton>

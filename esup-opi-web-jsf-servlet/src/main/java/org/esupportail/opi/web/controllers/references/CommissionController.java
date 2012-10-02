@@ -1164,10 +1164,10 @@ public class CommissionController
 	 * Depends to wayfEnum. 
 	 * @return Set< Commission>
 	 */
-	public Set<Commission> getCommissionsItems() {
-		Set<Commission> cmi = new TreeSet<Commission>(new ComparatorString(NormeSI.class));
-		cmi.addAll(getParameterService().getCommissions(true));
-		return cmi;
+	public List<Commission> getCommissionsItems() {
+		//Set<Commission> cmi = new TreeSet<Commission>(new ComparatorString(NormeSI.class));
+		return getParameterService().getCommissions(true);
+		//return cmi;
 	}
 	
 	/**
@@ -1175,14 +1175,13 @@ public class CommissionController
 	 * the list is function the commisions managed by the gestionnaire
 	 * @return Set< Commission>
 	 */
-	public Set<Commission> getCommissionsItemsByRight() {
-		Set<Commission> cmi = new TreeSet<Commission>(new ComparatorString(NormeSI.class));
+	public List<Commission> getCommissionsItemsByRight() {
+		//Set<Commission> cmi = new TreeSet<Commission>(new ComparatorString(NormeSI.class));
 		
-		cmi.addAll(Utilitaires.getListCommissionsByRight(
+		return getDomainApoService().getListCommissionsByRight(
 				getCurrentGest(), 
-				getDomainApoService(),
-				getParameterService(), true));
-		return cmi;		
+				true);
+		//return cmi;		
 	}
 	
 	/**
@@ -1191,7 +1190,7 @@ public class CommissionController
 	 * else return all the commissions
 	 * @return Set< Commission>
 	 */
-	public Set<Commission> getCommissionsItemsByRightParametrable() {
+	public List<Commission> getCommissionsItemsByRightParametrable() {
 
 		if (isListCmiByRight()){
 			return getCommissionsItemsByRight();
@@ -1208,10 +1207,9 @@ public class CommissionController
 	public Set<Commission> getCommissionsItemsByRightAndIsFormComp() {
 		Set<Commission> cmi = new TreeSet<Commission>(new ComparatorString(NormeSI.class));
 		
-		cmi.addAll(Utilitaires.getListCommissionsByRight(
+		cmi.addAll(getDomainApoService().getListCommissionsByRight(
 				getCurrentGest(), 
-				getDomainApoService(),
-				getParameterService(), true));
+				true));
 		return Utilitaires.getListCommissionExitForm(cmi, listeRI, getParameterService());
 		
 	}
@@ -1279,7 +1277,8 @@ public class CommissionController
 	 * @return Set< Commission> All commission in dataBase.
 	 */
 	public Set<Commission> getCommissions() {
-		return getParameterService().getCommissions(null);
+	    // TODO: remove hashset hack
+		return new HashSet<Commission>(getParameterService().getCommissions(null));
 	}
 	
 	/**
@@ -1289,10 +1288,9 @@ public class CommissionController
 	// TODO : à supprimer, méthode identique getCommissionsItemsByRight()
 	public Set<Commission> getCommissionsByRight() {
 		Set<Commission> cmi = new TreeSet<Commission>(new ComparatorString(Commission.class));
-		cmi.addAll(Utilitaires.getListCommissionsByRight(
+		cmi.addAll(getDomainApoService().getListCommissionsByRight(
 				getCurrentGest(), 
-				getDomainApoService(),
-				getParameterService(), true));
+				true));
 		return cmi;
 	}
 	
@@ -1300,7 +1298,8 @@ public class CommissionController
 	 * @return Set< Commission> commissions in use.
 	 */
 	public Set<Commission> getCommissionsInUse() {
-		return getParameterService().getCommissions(true);
+	    // TODO: remove hashset hack	    
+		return new HashSet<Commission>(getParameterService().getCommissions(true));
 	}
 
 	

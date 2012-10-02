@@ -264,10 +264,9 @@ public class EtapeController extends AbstractContextAwareController {
 	public Set<Commission> getCommissionsItemsByRight() {
 		Set<Commission> cmi = new TreeSet<Commission>(new ComparatorString(NormeSI.class));
 		
-		cmi.addAll(Utilitaires.getListCommissionsByRight(
+		cmi.addAll(getDomainApoService().getListCommissionsByRight(
 				getCurrentGest(), 
-				getDomainApoService(),
-				getParameterService(), true));
+				true));
 		return cmi;
 		
 	}
@@ -290,10 +289,9 @@ public class EtapeController extends AbstractContextAwareController {
 	 * @return List < BeanTrtCmi>
 	 */
 	public List<BeanTrtCmi> searchEtapeInCmi() {
-		Set<Commission> c = Utilitaires.getListCommissionsByRight(
+		List<Commission> c = getDomainApoService().getListCommissionsByRight(
 									getCurrentGest(), 
-									getDomainApoService(),
-									getParameterService(), true);
+									true);
 		// on récupère les campagnes en service
 		Set<Campagne> camps = getParameterService().getCampagnes(true, 
 				String.valueOf(getCurrentGest().getProfile().getCodeRI()));

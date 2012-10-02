@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -485,12 +486,13 @@ public class IndividuController extends AbstractAccessController {
 	public String goSeeOneIndividu() {
 		//put true boolean isManager attribute in indPojo 
 		//put the boolean canUpdateStudent atttribute in indPojo 
-		Set<Commission> rightOnCmi = Utilitaires.getListCommissionsByRight(
-				getCurrentGest(), getDomainApoService(), getParameterService(), true);
+		Set<Commission> rightOnCmi = new HashSet<Commission>(getDomainApoService().getListCommissionsByRight(
+				getCurrentGest(), true));
 		getSessionController().initCurrentInd(
 				pojoIndividu.getIndividu().getNumDossierOpi(),
 				pojoIndividu.getIndividu().getDateNaissance(),
 				true,
+				// TODO : change asGestionnaireRightsOnStudent to take a List ?
 				getDomainService().asGestionnaireRightsOnStudent(
 						pojoIndividu.getIndividu().getVoeux(),
 						rightOnCmi)

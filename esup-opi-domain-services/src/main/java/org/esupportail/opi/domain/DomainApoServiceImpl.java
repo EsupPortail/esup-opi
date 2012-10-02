@@ -28,6 +28,7 @@ import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Adresse;
 import org.esupportail.opi.domain.beans.user.AdresseFix;
+import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
@@ -37,6 +38,7 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.utils.CacheModelConst;
 import org.esupportail.opi.utils.Constantes;
+import org.esupportail.opi.utils.Conversions;
 import org.esupportail.opi.utils.exceptions.CommunicationApogeeException;
 import org.esupportail.wssi.services.remote.AnneeUniDTO;
 import org.esupportail.wssi.services.remote.BacOuxEqu;
@@ -1247,7 +1249,7 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 			log.debug("entering getRen1GrpTypDip()");
 		}
 		List<Ren1GrpTypDip> listEnd = new ArrayList<Ren1GrpTypDip>();
-		Set<Commission> cmi = parameterService.getCommissions(true);
+		List<Commission> cmi = parameterService.getCommissions(true);
 		try {
 			List<Ren1GrpTypDip> l;
 			// TODO : remove the switch RENNES1 / OPI			
@@ -1848,6 +1850,45 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	public void setTemoinRecupAnnu(String temoinRecupAnnu) {
 		this.temoinRecupAnnu = temoinRecupAnnu;
 	}
+
+    /**
+    	 * List of the commisions managed by the gestionnaire.
+    	 * @param gest 
+    	 * @param domainApoService 
+    	 * @param parameterService 
+    	 * @return Set< Commission>
+    	 */
+    	public List<Commission> getListCommissionsByRight(
+    			final Gestionnaire gest, 
+    			final Boolean temEnSve) {
+    		List<Commission> lesCommissions = new ArrayList<Commission>();	
+    		if (StringUtils.hasText(gest.getCodeCge())) {
+    			Set<VersionEtapeDTO> vet = new HashSet<VersionEtapeDTO>();
+    			vet.addAll(getVersionEtapes(null, null, 	gest.getCodeCge(), null));
+    			Set<VersionEtpOpi> vOpi = Conversions.convertVetInVetOpi(new HashSet<VersionEtapeDTO>(vet));
+    			List<Commission> lCom = parameterService.getCommissions(temEnSve); 
+    			for (Commission c : lCom) {
+    				if (!c.getTemoinEnService()) {
+    					log.info("cas d'une comm HS");
+    				}
+    				for (TraitementCmi trt : c.getTraitementCmi()) {
+    					if (vOpi.contains(trt.getVersionEtpOpi())) {
+    						lesCommissions.add(c);
+    						break;
+    					}
+    				}
+    			}
+    
+    		} else if (gest.getRightOnCmi()!= null && !gest.getRightOnCmi().isEmpty()) {
+    			//si pas cge, renvoie les cmi auxquelles ils ont droit
+    		    // TODO: change getRightOnCmi to return a list ?
+    			lesCommissions = new ArrayList<Commission>(gest.getRightOnCmi());
+    		} else {
+    			lesCommissions = parameterService.getCommissions(null);
+    		}
+    
+    		return lesCommissions;
+    	}
 
 	
 	

@@ -11,12 +11,12 @@
     				<h:panelGroup>
     					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     						rendered="#{opinionController.actionEnum.whatAction == opinionController.actionEnum.addAction}"
-    						action="#{opinionController.add}" />
+    						action="#{opinionController.add}"  ajax="false" />
     					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     						rendered="#{opinionController.actionEnum.whatAction == opinionController.actionEnum.updateAction}"
-    						action="#{opinionController.update}" />
+    						action="#{opinionController.update}"  ajax="false" />
     					<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    						action="#{opinionController.goSeeOpinionVoeu}">
+    						action="#{opinionController.goSeeOpinionVoeu}" ajax="false" >
     						<f:setPropertyActionListener value="#{opinionController.actionEnum.emptyAction}" target="#{opinionController.actionEnum.whatAction}" />
     					</p:commandButton>
     				</h:panelGroup>
@@ -38,7 +38,7 @@
     					<h:outputText value="#{opinionController.avis.result.libelle}"/>
     					<p:commandButton id="submitChangeTypeDecision"
     						value="#{msgs[_.BUTTON.CHANGE]}"
-    						action="#{opinionController.selectTypeDecisionOpinion}" />
+    						action="#{opinionController.selectTypeDecisionOpinion}"  ajax="false" />
     				</h:panelGroup>
     				<h:panelGroup rendered="#{paginatorIndividuPojo.isUsingLC}">
     					<h:outputLabel value="#{msgs['AVIS.RANG']}" />
@@ -59,7 +59,7 @@
     						<f:selectItems var="motivationAvis" value="#{nomenclatureController.motivationsAvis}"
     							itemLabel="#{motivationAvis.shortLabel}" itemValue="#{motivationAvis.nomenclature.id}" />
     					</p:selectOneMenu>
-    					<p:commandButton id="submitChangeMotiv" action="#{opinionController.setSelectedMotivation}"/>
+    					<p:commandButton id="submitChangeMotiv" action="#{opinionController.setSelectedMotivation}" ajax="false" />
                         <p:graphicImage url="/media/images/informationSmall.png"
                             style="cursor:pointer;" id="helpMotivation" />
                         <p:overlayPanel for="helpMotivation"
@@ -67,7 +67,7 @@
                             hideEvent="mouseout"
                             styleClass="containerPopup"
                             rendered="#{opinionController.selectedMotivation != null 
-                                        && opinionController.selectedMotivation.isShortLabel}">
+                                        and opinionController.selectedMotivation.isShortLabel}">
 							<h:panelGroup>
 								<h:panelGrid columns="1">
 									<h:outputText styleClass="titrePopupAide"

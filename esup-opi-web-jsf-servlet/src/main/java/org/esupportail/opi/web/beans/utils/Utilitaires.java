@@ -62,7 +62,7 @@ public class Utilitaires {
 	/**
 	 * 
 	 */
-	private static final Logger LOGGER = new LoggerImpl(Utilitaires.class);	
+	public static final Logger LOGGER = new LoggerImpl(Utilitaires.class);	
 
 	/**
 	 * Constructors.
@@ -296,20 +296,7 @@ public class Utilitaires {
 	}
 
 
-	/**
-	 * Convert a versionEtape list in versionEtpOpi list.
-	 * @param vet
-	 * @return Set< VersionEtpOpi>
-	 */
-	public static Set<VersionEtpOpi> convertVetInVetOpi(final Set<VersionEtapeDTO> vet) {
-		Set<VersionEtpOpi> vetOpi = new HashSet<VersionEtpOpi>();
-		for (VersionEtapeDTO v : vet) {
-			VersionEtpOpi vOpi = new VersionEtpOpi(v);
-			vetOpi.add(vOpi);
-		}
-		return vetOpi;
-
-	}
+	
 	
 	/**
 	 * @param n1
@@ -582,50 +569,6 @@ public class Utilitaires {
 			}
 		}
 		return linkTrtCmiCamp;
-	}
-	
-	/**
-	 * List of the commisions managed by the gestionnaire.
-	 * @param gest 
-	 * @param domainApoService 
-	 * @param parameterService 
-	 * @return Set< Commission>
-	 */
-	public static Set<Commission> getListCommissionsByRight(
-			final Gestionnaire gest, 
-			final DomainApoService domainApoService,
-			final ParameterService parameterService,
-			final Boolean temEnSve) {
-		Set<Commission> lesCommissions = new HashSet<Commission>();	
-		if (StringUtils.hasText(gest.getCodeCge())) {
-//			Set<Campagne> campagnes = parameterService.getCampagnes(true, gest.getProfile().getCodeRI());
-			// les droits du cge sur les etapes et renvoie les cmi qui ont ses etapes ou aucune etape
-			Set<VersionEtapeDTO> vet = new HashSet<VersionEtapeDTO>();
-//			for (Campagne camp : campagnes) {
-				vet.addAll(domainApoService.getVersionEtapes(null, null, 
-						gest.getCodeCge(), null));
-//			}
-			Set<VersionEtpOpi> vOpi = Utilitaires.convertVetInVetOpi(new HashSet<VersionEtapeDTO>(vet));
-			for (Commission c : parameterService.getCommissions(temEnSve)) {
-				if (!c.getTemoinEnService()) {
-					LOGGER.info("cas d'une comm HS");
-				}
-				for (TraitementCmi trt : c.getTraitementCmi()) {
-					if (vOpi.contains(trt.getVersionEtpOpi())) {
-						lesCommissions.add(c);
-						break;
-					}
-				}
-			}
-
-		} else if (gest.getRightOnCmi()!= null && !gest.getRightOnCmi().isEmpty()) {
-			//si pas cge, renvoie les cmi auxquelles ils ont droit
-			lesCommissions = gest.getRightOnCmi();
-		} else {
-			lesCommissions = parameterService.getCommissions(null);
-		}
-
-		return lesCommissions;
 	}
 	
 	/**

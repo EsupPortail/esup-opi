@@ -34,7 +34,6 @@ import org.esupportail.opi.web.beans.pojo.CalendarRDVPojo;
 import org.esupportail.opi.web.beans.pojo.CommissionPojo;
 import org.esupportail.opi.web.beans.pojo.VetCalendarPojo;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.wssi.services.remote.CentreGestion;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
@@ -933,7 +932,7 @@ public class ParamRdvController extends AbstractContextAwareController {
 	@SuppressWarnings("unchecked")
 	public List<SelectItem> getAllCommItems() {
 		if (allCommItems.isEmpty()) {
-			Set<Commission> allCommissions = getParameterService().getCommissions(null);
+			List<Commission> allCommissions = getParameterService().getCommissions(null);
 			if (allCommissions != null) {
 				for (Commission comm : allCommissions) {
 					if (!testExistCommItems(comm.getCode())) {
@@ -992,10 +991,10 @@ public class ParamRdvController extends AbstractContextAwareController {
 			}
 
 			if (!allVets.isEmpty()) {
-				Set<Commission> cmi = Utilitaires.getListCommissionsByRight(
+			    // TODO: remove hashset hack
+			    Set<Commission> cmi = new HashSet<Commission>(getDomainApoService().getListCommissionsByRight(
 						getCurrentGest(), 
-						getDomainApoService(),
-						getParameterService(), true);
+						true));
 				
 				Set<VersionEtapeDTO> allVets2 = new HashSet<VersionEtapeDTO>();
 					

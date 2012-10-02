@@ -14,11 +14,7 @@
     			  	}
     			}
     		</script>
-    		<h1>
-                <span class="section-header">
-                    <h:outputText value="#{msgs['INDIVIDU.TITLE.LISTE_NOT_VALID']}" />
-                </span>
-            </h1>
+    		<h1><h:outputText value="#{msgs['INDIVIDU.TITLE.LISTE_NOT_VALID']}" /></h1>
             <h2><h:outputFormat value="#{msgs['COMMISSION.SELECTED']}">
     			<f:param value="#{commissionController.commission.libelle}"/>
             </h:outputFormat></h2>
@@ -26,13 +22,13 @@
                <h2><h:outputText value="#{msgs['OPINION.NO_AVIS_SELECTED']}" /></h2>
             </ui:fragment>
             <ui:fragment rendered="#{!printOpinionController.isFinal
-                     && not empty printOpinionController.resultSelected}">
+                     and not empty printOpinionController.resultSelected}">
                 <h2><h:outputFormat value="#{msgs['OPINION.SELECT_NON_DEFINITIF']} ">
     			     <f:param value="#{printOpinionController.labelResultSelected}"/>
                 </h:outputFormat></h2>
             </ui:fragment>
             <ui:fragment rendered="#{printOpinionController.isFinal
-                 && not empty printOpinionController.resultSelected}">
+                 and not empty printOpinionController.resultSelected}">
                 <h2><h:outputFormat value="#{msgs['OPINION.SELECT_DEFINITIF']}">
                     <f:param value="#{printOpinionController.labelResultSelected}"/>
                 </h:outputFormat></h2>
@@ -49,12 +45,12 @@
     					styleClass="tableJustWidthMax">
     					<h:panelGroup>
     						<p:commandButton value="#{msgs['_.BUTTON.EXPORT']}" immediate="true"
-    							action="#{printOpinionController.makeCsvInSeeEtuVal}" />
+    							action="#{printOpinionController.makeCsvInSeeEtuVal}"  ajax="false" />
     						<p:commandButton value="#{msgs['OPINION.EDIT.VALIDATION']}"
     									rendered="#{managedAccess.updateAuthorized}" immediate="true"
-    									action="#{printOpinionController.makePDFValidation}"/>
+    									action="#{printOpinionController.makePDFValidation}" ajax="false" />
     						<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
-    							action="go_valid_opinions" />
+    							action="go_valid_opinions"  ajax="false" />
     					</h:panelGroup>
     				</h:panelGrid>
     			</div>

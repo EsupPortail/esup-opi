@@ -10,6 +10,7 @@ import javax.faces.event.ValueChangeEvent;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
+import org.esupportail.opi.domain.DomainApoServiceImpl;
 import org.esupportail.opi.domain.beans.etat.EtatNull;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.InscriptionAdm;
@@ -134,10 +135,10 @@ public class TypeTraitController  extends AbstractContextAwareController  {
 		reset();
 		individuPaginator.setUseIndividuPojo(true);
 		individuPaginator.filtreAllCommissionRights(
-				Utilitaires.getListCommissionsByRight(
+		    // TODO: remove hashset hack
+		    new HashSet<Commission>(getDomainApoService().getListCommissionsByRight(
 						getCurrentGest(), 
-						getDomainApoService(),
-						getParameterService(), true), true, null);
+						true)), true, null);
 		individuPaginator.forceReload();
 		return NavigationRulesConst.DISPLAY_TYPE_TRAITEMENT;
 	}
@@ -155,9 +156,10 @@ public class TypeTraitController  extends AbstractContextAwareController  {
 		//init the filtre
 		individuPaginator.setUseIndividuPojo(true);
 		individuPaginator.filterInMannagedCmi(
-				Utilitaires.getListCommissionsByRight(
+		    // TODO: remove hashset hack
+		    new HashSet<Commission>(getDomainApoService().getListCommissionsByRight(
 						getCurrentGest(), 
-						getDomainApoService(), getParameterService(), true),
+						true)),
 						null, true);
 		individuPaginator.forceReload();
 	}
@@ -183,7 +185,8 @@ public class TypeTraitController  extends AbstractContextAwareController  {
 
 		htmlBody = "";
 		Map<Commission, Set<VersionEtapeDTO>> mapCmi = 
-			Utilitaires.getCmiForIndVoeux(getParameterService().getCommissions(true),
+		    // TODO: remove hashset hack
+			Utilitaires.getCmiForIndVoeux(new HashSet<Commission>(getParameterService().getCommissions(true)),
 					indVoeuPojo, camp);
 		Integer codeRI = camp.getCodeRI();
 		for (Map.Entry<Commission, Set<VersionEtapeDTO>> cmiEntry : mapCmi.entrySet()) {

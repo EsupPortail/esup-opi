@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1110,7 +1111,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 						null, null, null, null));
 		
 		if (!allVets.isEmpty()) {
-			Set<Commission> cmi = parameterService.getCommissions(true);
+			Set<Commission> cmi = new HashSet<Commission>(parameterService.getCommissions(true));
 			
 			for (VersionEtapeDTO versionEtapeDTO : allVets) {
 				if (BusinessUtil.getCmiForVetDTO(cmi, versionEtapeDTO) != null) {
