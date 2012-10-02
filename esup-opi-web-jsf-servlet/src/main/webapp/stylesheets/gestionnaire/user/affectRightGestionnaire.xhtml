@@ -2,7 +2,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">    	
     	<div id="maPage" class="div_body">
     		<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
@@ -17,11 +17,13 @@
     					<div class="blockButton">
     						<h:panelGroup>
     							<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                        ajax="false"
     									action="#{gestionnaireController.update}"
     									rendered="#{managedAccess.updateAuthorized}" />
     							<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-    								immediate="true"
-    								action="#{gestionnaireController.goSeeOneManager}">
+                                        ajax="false"
+        								immediate="true"
+        								action="#{gestionnaireController.goSeeOneManager}">
     								<f:setPropertyActionListener value="#{gestionnaireController.actionEnum.emptyAction}" target="#{gestionnaireController.actionEnum.whatAction}" />
     							</p:commandButton>
     
@@ -68,8 +70,6 @@
     						<h:outputLabel value="#{msgs['FIELD_LABEL.CGE']}" for="cge" />
     						<h:panelGroup>
     							<p:selectOneMenu id="cge"
-    								valueChangeListener="#{gestionnaireController.selectCge}"
-    								onchange="javascript:{simulateLinkClick('affectRightManagerForm:submitCodCge');}"
     								value="#{gestionnaireController.manager.codeCge}">
     								<f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}"
     									itemValue="" />
@@ -77,6 +77,7 @@
     									value="#{gestionnaireController.centreGestion}"
     									itemLabel="#{centreGestion.libCge}"
     									itemValue="#{centreGestion.codCge}" />
+                                    <p:ajax update="@form" listener="#{gestionnaireController.selectCge}" />
     							</p:selectOneMenu>
     							<p:commandButton id="submitCodCge" />
     						</h:panelGroup>

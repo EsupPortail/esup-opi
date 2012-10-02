@@ -1049,7 +1049,7 @@ public class CommissionController
 		 * - affichage par titre fondant la demande
 		 */
 		if (listeIndPrepa instanceof Map) {
-			list.setMapIndList((Map) listeIndPrepa);
+			list.setMapIndList((Map<?, ?>) listeIndPrepa);
 		} else {
 			list.setListeIndPrepa((List<IndListePrepaPojo>) listeIndPrepa);
 		}

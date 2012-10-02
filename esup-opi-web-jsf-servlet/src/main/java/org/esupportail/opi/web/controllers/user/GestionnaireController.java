@@ -165,10 +165,14 @@ public class GestionnaireController extends AbstractAccessController {
 	 * @return String 
 	 */
 	public String goAffectRightManager() {
-		commissionController.reset();
-		commissionController.setSelectedCommissions(manager.getRightOnCmi());
-		setIdProfilSelected(manager.getProfile().getId());
-		return NavigationRulesConst.AFFECT_RIGHT_MANAGER;
+		Gestionnaire g = getCurrentGest();
+		if (g != null) {
+			commissionController.reset();
+			commissionController.setSelectedCommissions(g.getRightOnCmi());
+			setIdProfilSelected(g.getProfile().getId());
+			return NavigationRulesConst.AFFECT_RIGHT_MANAGER;
+		}
+		return "";
 	}
 	
 	

@@ -39,7 +39,7 @@
     			<h:outputText value="#{msgs['COMMISSIONS']}"
     				styleClass="section-smallTitle" />
     			<h:panelGroup>
-    				<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+    				<p:commandButton value="#{msgs['_.BUTTON.ADD']}" ajax="false"
     					onclick="javascript:{clickAnnuler = true;}">
     					<f:setPropertyActionListener value="#{commissionController.actionEnum.seeSelectCmi}" target="#{commissionController.actionEnum.whatAction}" />
     				</p:commandButton>
@@ -48,21 +48,22 @@
     	</div>
     	<p:dataTable var="commission"
     		value="#{commissionController.selectedCommissions}"
-    		styleClass="displayInfo" alternateColors="false">
-    		<p:column width="30%">
+    		styleClass="displayInfo">
+    		<p:column>
     			<f:facet name="header">
     				<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
     			</f:facet>
     			<h:outputText value="#{commission.code}" />
     		</p:column>
-    		<p:column width="65%">
+    		<p:column>
     			<f:facet name="header">
     				<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
     			</f:facet>
     			<h:outputText value="#{commission.libelle}" />
     		</p:column>
-    		<p:column width="5%">
-    			<p:commandButton image="/media/images/cancel.png"
+    		<p:column>
+    			<p:commandButton icon="ui-icon-minus"
+                    ajax="false"
     				styleClass="form-button-image"
     				action="#{commissionController.removeCmi}"
     				title="#{msgs['_.BUTTON.DELETE']}">

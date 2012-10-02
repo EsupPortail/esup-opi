@@ -7,7 +7,11 @@
     	
     	
     	<div id="maPage" class="div_body">
-    		<h1><h:outputText value="#{msgs['INDIVIDU.TITLE.LISTE']}" /></h1>
+    		<h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['INDIVIDU.TITLE.LISTE']}" />
+                </span>
+            </h1>
             <ui:fragment rendered="#{individuController.actionEnum.whatAction == individuController.actionEnum.deleteAction}">
         		<div id="div_subSectionDelete" class="div_subSection">
         			<ui:include src="_student/_deleteStudent.xhtml" />
@@ -27,8 +31,6 @@
     						<p:commandButton value="#{msgs['_.BUTTON.ADD']}" ajax="false"
     							action="#{individuController.goAddEtudiant}"
     							rendered="#{managedAccess.addAuthorized}" />
-    						<p:commandButton value="#{msgs['_.BUTTON.BACK']}" ajax="false" immediate="true"
-    							action="#{managedAccess.goDisplayFunction}" />
     					</h:panelGroup>
     				</div>
     				<p:dataTable var="individu" id="managerData"
