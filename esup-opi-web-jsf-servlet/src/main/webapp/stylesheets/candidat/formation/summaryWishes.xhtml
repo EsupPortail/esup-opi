@@ -73,11 +73,11 @@
     											<h:outputText value="#{indVoeuPojo.vrsEtape.libWebVet} " />
     											<h:panelGroup
     												rendered="#{formulairesController.formulairesCmi[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null
-    															&& indVoeuPojo.etat.displayForms}">
+    															and indVoeuPojo.etat.displayForms}">
     												<p:commandButton value="#{msgs['FORMULAIRE.ACCESS']}"
     													style="margin-right:5px;"
     													action="#{formulairesController.createResponseInRunner}"
-    													rendered="#{formulairesController.indFormulaires[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] == null && formulairesController.indSelectedForms[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null}">
+    													rendered="#{formulairesController.indFormulaires[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] == null and formulairesController.indSelectedForms[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null}">
     													<f:setPropertyActionListener value="#{indVoeuPojo.indVoeu}" target="#{formulairesController.indVoeuSelected}" />
     												</p:commandButton>
     												<h:outputLink target="_blank" styleClass="form-button"
@@ -116,7 +116,7 @@
     											<p:commandButton value="#{msgs['FORMULAIRE.ACCESS']}"
     												style="margin-right:5px;"
     												action="#{formulairesController.createResponseInRunner}"
-    												rendered="#{formulairesController.indFormulaires[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] == null && formulairesController.indSelectedForms[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null}">
+    												rendered="#{formulairesController.indFormulaires[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] == null and formulairesController.indSelectedForms[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null}">
     												<f:setPropertyActionListener value="#{indVoeuPojo.indVoeu}" target="#{formulairesController.indVoeuSelected}" />
     											</p:commandButton>
     											<h:outputLink target="_blank" styleClass="form-button"
@@ -173,13 +173,13 @@
     								<h:outputText
     									value="#{summaryWishes.commission.adressePojo.adresse.adr2}"
     									rendered="#{summaryWishes.commission.adressePojo.adresse.adr2 != null 
-    										&& summaryWishes.commission.adressePojo.adresse.adr2 != ''}" />
+    										and summaryWishes.commission.adressePojo.adresse.adr2 != ''}" />
     							</div>
     							<div>
     								<h:outputText
     									value="#{summaryWishes.commission.adressePojo.adresse.adr3}"
     									rendered="#{summaryWishes.commission.adressePojo.adresse.adr3 != null 
-    										&& summaryWishes.commission.adressePojo.adresse.adr3 != ''}" />
+    										and summaryWishes.commission.adressePojo.adresse.adr3 != ''}" />
     							</div>
     							<div>
     								<h:outputText

@@ -46,12 +46,12 @@ xmlns:p="http://primefaces.org/ui">
         				<p:commandButton value="#{msgs['_.BUTTON.SAVE']}"
         					rendered="#{situationController.actionEnum.whatAction 
         						== situationController.actionEnum.addAction
-        						&& situationController.displayCreateDossier}"
+        						and situationController.displayCreateDossier}"
         					action="#{situationController.add}"/>
         				<p:commandButton value="#{msgs['_.BUTTON.SAVE']}"
         					rendered="#{situationController.actionEnum.whatAction 
         						== situationController.actionEnum.updateAction
-        						&& situationController.displayCreateDossier}"
+        						and situationController.displayCreateDossier}"
         					action="#{situationController.update}"/>
         				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
         					rendered="#{situationController.actionEnum.whatAction 
@@ -68,14 +68,14 @@ xmlns:p="http://primefaces.org/ui">
         				<p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
         					rendered="#{situationController.actionEnum.whatAction 
         						== situationController.actionEnum.readAction
-        						&& situationController.displayCreateDossier}"
+        						and situationController.displayCreateDossier}"
         					action="#{accueilController.goWelcomeCandidat}"/>
         			</h:panelGroup>
         	</h:panelGrid>
         </div>
     </ui:fragment>
     <ui:fragment rendered="#{situationController.indSituation != null
-            && situationController.codeTypeSituation == situationController.typeSal}">
+            and situationController.codeTypeSituation == situationController.typeSal}">
         <div id="blockSituationSal" class="blockForm">
         	<ui:include src="_situation/_blockEnterSituationSalarie.xhtml" />
         	
@@ -83,7 +83,7 @@ xmlns:p="http://primefaces.org/ui">
         </div>
     </ui:fragment>
     <ui:fragment rendered="#{situationController.indSituation != null
-            && situationController.codeTypeSituation == situationController.typeProLib}">
+            and situationController.codeTypeSituation == situationController.typeProLib}">
         <div id="blockSituationProLib" class="blockForm">
         	<ui:include src="_situation/_blockEnterSituationProLib.xhtml" />
         	
@@ -91,20 +91,20 @@ xmlns:p="http://primefaces.org/ui">
         </div>
     </ui:fragment>
     <ui:fragment rendered="#{situationController.indSituation != null
-            && situationController.codeTypeSituation == situationController.typeDemEmp}">
+            and situationController.codeTypeSituation == situationController.typeDemEmp}">
         <div id="blockSituationDemEmpl" class="blockForm">
         	<ui:include src="_situation/_blockEnterSituationDemEmpl.xhtml" />
         	<ui:include src="_situation/_blockSeeSituationDemEmpl.xhtml" />
         </div>
     </ui:fragment>
     <ui:fragment rendered="#{situationController.indSituation != null
-            && situationController.codeTypeSituation == situationController.typeEtu}">
+            and situationController.codeTypeSituation == situationController.typeEtu}">
         <div id="blockSituationEtu" class="blockForm">
         	<ui:include src="_situation/_blockEnterSituationEtu.xhtml" />
         </div>
     </ui:fragment>
     <ui:fragment rendered="#{situationController.indSituation != null
-            && situationController.codeTypeSituation == situationController.typeOther}">
+            and situationController.codeTypeSituation == situationController.typeOther}">
         <div id="blockSituationOther" class="blockForm">
         	<ui:include src="_situation/_blockEnterSituationOther.xhtml" />
         	<ui:include src="_situation/_blockSeeSituationOther.xhtml" />
@@ -134,11 +134,11 @@ xmlns:p="http://primefaces.org/ui">
         		</h:panelGroup>
         		<h:panelGroup>
         			<p:graphicImage url="/media/images/check2.gif"
-        				rendered="#{situationController.indSituation.handicapTravail &&
+        				rendered="#{situationController.indSituation.handicapTravail and
         							situationController.actionEnum.whatAction 
         								== situationController.actionEnum.readAction}" />
         			<p:graphicImage url="/media/images/check0.gif"
-        				rendered="#{!situationController.indSituation.handicapTravail &&
+        				rendered="#{!situationController.indSituation.handicapTravail and
         							situationController.actionEnum.whatAction 
         								== situationController.actionEnum.readAction}" />
         			<p:selectBooleanCheckbox id="handiWork"
@@ -151,11 +151,11 @@ xmlns:p="http://primefaces.org/ui">
         		<h:panelGroup/>
         		<h:panelGroup>
         			<p:graphicImage url="/media/images/check2.gif"
-        				rendered="#{situationController.indSituation.handicapAdulte &&
+        				rendered="#{situationController.indSituation.handicapAdulte and
         							situationController.actionEnum.whatAction 
         								== situationController.actionEnum.readAction}" />
         			<p:graphicImage url="/media/images/check0.gif"
-        				rendered="#{!situationController.indSituation.handicapAdulte &&
+        				rendered="#{!situationController.indSituation.handicapAdulte and
         							situationController.actionEnum.whatAction 
         								== situationController.actionEnum.readAction}" />
         			<p:selectBooleanCheckbox id="handiAd"
@@ -169,7 +169,7 @@ xmlns:p="http://primefaces.org/ui">
         </div>
     </ui:fragment>
     <ui:fragment rendered="#{situationController.indSituation != null
-            && situationController.codeTypeSituation == situationController.typeEtu}">
+            and situationController.codeTypeSituation == situationController.typeEtu}">
         <div id="blockFormSituationEtuEnd" class="blockForm">
         	<h:outputText value="#{msgs['SITUATION.ETU.TEXT2']}" 
         					escape="false" 

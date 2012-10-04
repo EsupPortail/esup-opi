@@ -403,7 +403,7 @@ public interface ParameterDaoService extends Serializable {
 	 * @return the list of cmi forms
 	 */
 	List<FormulaireCmi> getFormulairesCmi(
-			Set<VersionEtpOpi> versionsEtpOpi, String codeRI);
+			Set<VersionEtpOpi> versionsEtpOpi, Integer codeRI);
 
 	/**
 	 * @param formNorme

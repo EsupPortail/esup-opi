@@ -14,7 +14,7 @@
     		</p:commandButton>
     	</p:dataList>
     	<ui:fragment id="div_sectionEtpEmpty"
-            rendered="#{empty formationController.searchFormationPojo.versionDiplomes && formationController.searchFormationPojo.versionDiplomes != null}">
+            rendered="#{empty formationController.searchFormationPojo.versionDiplomes and formationController.searchFormationPojo.versionDiplomes != null}">
         	<div id="blockFormEtpEmpty" class="blockForm">
         		<div class="blockTable">
         			<h:outputText escape="false"

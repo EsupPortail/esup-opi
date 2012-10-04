@@ -44,6 +44,13 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>rennes1-3rd</id>
+            <url>https://nexus.univ-rennes1.fr/content/repositories/thirdparty</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
     </repositories>
     <distributionManagement>
         <repository>

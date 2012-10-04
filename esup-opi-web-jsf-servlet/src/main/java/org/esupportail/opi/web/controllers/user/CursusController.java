@@ -182,12 +182,8 @@ public class CursusController extends AbstractAccessController {
 		List<IndCursusScol> indCursScol = null;
 		indCursScol = new ArrayList<IndCursusScol>(
 					getCurrentInd().getIndividu().getCursusScol());
-		
-
-
 		initCursusList(indCursScol);
-		actionEnum.setWhatAction(ActionEnum.UPDATE_ACTION);
-
+		actionEnum.setWhatAction(ActionEnum.UPDATE_ACTION);	
 		return NavigationRulesConst.SEE_CURSUS_SCOL;
 	}
 
@@ -400,6 +396,7 @@ public class CursusController extends AbstractAccessController {
 			//Suppression dans le pojo
 			indCursusPojo.removeCursus();
 		}
+		this.confirmeDelete = false;
 	}
 
 	/**
@@ -445,6 +442,7 @@ public class CursusController extends AbstractAccessController {
 			//Suppression dans le pojo
 			pojoQualif.removeCursus();
 		}
+		this.confirmeDelete = false;
 	}
 
 	/**
@@ -839,28 +837,14 @@ public class CursusController extends AbstractAccessController {
 	public void setActionEnum(final ActionEnum actionEnum) {
 		this.actionEnum = actionEnum;
 	}
+
 	
-	/**
-	 * @return confirmeDelete (Boolean)
-	 */
-	public Boolean getConfirmeDelete() {
-		return confirmeDelete;
+	public boolean isConfirmeDelete() {
+	       return confirmeDelete;
+	    }
+
+	public void setConfirmeDelete(){
+		this.confirmeDelete = true;
 	}
-	
-	/**
-	 * @param confirmeDelete
-	 */
-	public void setConfirmeDelete(final Boolean confirmeDelete) {
-		this.confirmeDelete = confirmeDelete;
-	}
-	/**
-	 * @param confirmeDelete
-	 */
-	public void setConfirmeDelete(final String confirmeDelete) {
-		if (confirmeDelete.equals("true") || confirmeDelete.equals("True")) {
-			this.confirmeDelete = true;
-		} else {
-			this.confirmeDelete = false;
-		}
-	}
+
 }

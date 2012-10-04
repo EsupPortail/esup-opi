@@ -2,7 +2,7 @@
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui">
-    <ui:fragment rendered="#{not empty formulairesController.indSelectedForms && not sessionController.currentInd.hideMessageInfoForm}">
+    <ui:fragment rendered="#{not empty formulairesController.indSelectedForms and not sessionController.currentInd.hideMessageInfoForm}">
         <div id="blockInfoForm" class="blockForm">
         	<div style="width:100%;">
         		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
@@ -22,7 +22,7 @@
         				action="#{formationController.goSummaryWishes}"
         				value="#{indVoeuPojo.vrsEtape.libWebVet}"
         				rendered="#{formulairesController.formulairesCmi[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null
-        							&& indVoeuPojo.etat.displayForms}">
+        							and indVoeuPojo.etat.displayForms}">
         				<f:setPropertyActionListener value="#{indVoeuPojo}" target="#{formationController.indVoeuPojo}" />
         			</p:commandButton>
         		</p:column>
@@ -32,11 +32,11 @@
         			</f:facet>
         			<h:panelGroup
         				rendered="#{formulairesController.formulairesCmi[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null
-        							&& indVoeuPojo.etat.displayForms}">
+        							and indVoeuPojo.etat.displayForms}">
         				<p:commandButton value="#{msgs['FORMULAIRE.ACCESS']}"
         					style="font-size:14px;"
         					action="#{formulairesController.createResponseInRunner}"
-        					rendered="#{formulairesController.indFormulaires[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] == null && formulairesController.indSelectedForms[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null}">
+        					rendered="#{formulairesController.indFormulaires[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] == null and formulairesController.indSelectedForms[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null}">
         					<f:setPropertyActionListener value="#{indVoeuPojo.indVoeu}" target="#{formulairesController.indVoeuSelected}" />
         				</p:commandButton>
         				<h:outputLink target="_blank" styleClass="form-button"
@@ -44,7 +44,7 @@
         					value="#{formulairesController.orbeonOpiUrl}#{indVoeuPojo.vrsEtape.codEtp}-#{indVoeuPojo.vrsEtape.codVrsVet}
         							-#{sessionController.currentInd.regimeInscription.shortLabel}/edit/#{indVoeuPojo.indVoeu.individu.numDossierOpi}"
         					rendered="#{formulairesController.indFormulaires[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null
-        					&& sessionController.currentInd.asRightsToUpdate}">
+        					and sessionController.currentInd.asRightsToUpdate}">
         					<h:outputText value="#{msgs['FORMULAIRE.EDIT2']}"/>
         				</h:outputLink>
         				<h:outputLink target="_blank" styleClass="form-button-image"

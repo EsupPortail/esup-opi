@@ -334,7 +334,7 @@ public class FormulairesController extends AbstractAccessController {
 				cmiSelected = trtCmiController.getCommission();
 			}
 			mapFormulairesVet = getParameterService().getFormulairesCmi(cmiSelected.getTraitementCmi(),
-					codeRI.toString());
+					codeRI);
 		}
 		return mapFormulairesVet; 
 	}
@@ -349,7 +349,7 @@ public class FormulairesController extends AbstractAccessController {
 			// On recupere tout les formulaires Cmi
 			Map<VersionEtpOpi, FormulaireCmi> map = getParameterService().getFormulairesCmi(null,
 					Utilitaires.getCodeRIIndividu(getCurrentInd().getIndividu(),
-							getDomainService()).toString());
+							getDomainService()));
 			for (IndVoeuPojo indVoeuPojo : getCurrentInd().getIndVoeuxPojo()) {
 				TraitementCmi trtCmi = indVoeuPojo.getIndVoeu().getLinkTrtCmiCamp().getTraitementCmi();
 				if (map.containsKey(trtCmi.getVersionEtpOpi())) {

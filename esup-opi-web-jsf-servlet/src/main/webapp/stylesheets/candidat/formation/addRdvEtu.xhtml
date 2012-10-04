@@ -34,10 +34,10 @@
     									<br />
     									<br />
     									<h:outputText value="#{msgs['CALENDAR_RDV.VOEU_NO_DATE']}"
-    										rendered="#{saisieRdvEtuController.dateSelected == null && saisieRdvEtuController.autorizedDate}"/>
+    										rendered="#{saisieRdvEtuController.dateSelected == null and saisieRdvEtuController.autorizedDate}"/>
     									
     									<h:outputText value="#{msgs['CALENDAR_RDV.VOEU_DATE']}" escape="false"
-    										rendered="#{saisieRdvEtuController.dateSelected != null && saisieRdvEtuController.autorizedDate}">
+    										rendered="#{saisieRdvEtuController.dateSelected != null and saisieRdvEtuController.autorizedDate}">
     										<f:param value="#{saisieRdvEtuController.dateSelected}" />
     										<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
     												timeZone="#{sessionController.timezone}" />
@@ -52,7 +52,7 @@
     									<br />
     									<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     										rendered="#{saisieRdvEtuController.dateSelected != null 
-    												&& sessionController.currentInd.asRightsToUpdate}"
+    												and sessionController.currentInd.asRightsToUpdate}"
     										immediate="true">
     										<f:setPropertyActionListener value="#{saisieRdvEtuController.actionEnum.addAction}" 
     											target="#{saisieRdvEtuController.actionEnum.whatAction}" />
@@ -61,7 +61,7 @@
     								
     								<h:panelGroup id="choixRdv"
     									rendered="#{saisieRdvEtuController.autorizedDate
-    										&& saisieRdvEtuController.weekScheduleModel != null}">
+    										and saisieRdvEtuController.weekScheduleModel != null}">
     									<h:panelGrid columns="3" cellpadding="0" cellspacing="1" align="middle" 
     										columnClasses="colRDVLeft,colRDVCenter,colRDVRight">
     										<p:commandLink id="clmoisprec" immediate="true"

@@ -39,7 +39,7 @@
 		</description>
 		<param-name>javax.faces.CONFIG_FILES</param-name>
 		<param-value>
-			/WEB-INF/classes/properties/jsf/navigation-rules.xml,/WEB-INF/faces-config.xml
+			/WEB-INF/classes/properties/jsf/navigation-rules.xml
 		</param-value>
 	</context-param>
 

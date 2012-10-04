@@ -67,9 +67,9 @@
     									styleClass="form-button-image" immediate="true"
     									title="#{msgs['CALENDAR_RDV.ADD.TITLE']}"
     									rendered="#{indVoeuPojo.isEtatConfirme 
-    												&& (!indVoeuPojo.hasIAForVoeu || !indVoeuPojo.hasNNE)
-    												&& indVoeuPojo.individuDate == null
-    												&& indVoeuPojo.calendrierRdv != null}"
+    												and (!indVoeuPojo.hasIAForVoeu || !indVoeuPojo.hasNNE)
+    												and indVoeuPojo.individuDate == null
+    												and indVoeuPojo.calendrierRdv != null}"
     									action="#{saisieRdvEtuController.goAddRdvEtu}">
     									<f:setPropertyActionListener value="#{indVoeuPojo}"
     										target="#{saisieRdvEtuController.voeu}" />

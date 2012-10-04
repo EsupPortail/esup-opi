@@ -34,8 +34,8 @@
     									<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
     										immediate="true"
     										rendered="#{sessionController.currentInd.etat.canDoChoiceEtape
-    											&& sessionController.currentInd.regimeInscription.calInsIsOpen
-    											&& sessionController.currentInd.asRightsToUpdate}"
+    											and sessionController.currentInd.regimeInscription.calInsIsOpen
+    											and sessionController.currentInd.asRightsToUpdate}"
     										action="#{formationController.goSearchFormation}" />
     								</h:panelGroup>
     							</h:panelGrid>
@@ -62,10 +62,10 @@
     								</f:facet>
     								<h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
     									rendered="#{empty indVoeuPojo.indVoeu.avis}" />
-    								<p:dataList id="datalist" style="myStyle" var="avis"
+    								<p:dataList id="datalistavis" style="myStyle" var="avis"
     									value="#{indVoeuPojo.indVoeu.avis}">
     									<h:outputText value="#{avis.result.libelle}"
-    										rendered="#{avis.temoinEnService && avis.validation}" />
+    										rendered="#{avis.temoinEnService and avis.validation}" />
     								</p:dataList>
     							</p:column>
     							<p:column>
@@ -74,10 +74,10 @@
     								</f:facet>
     								<h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
     									rendered="#{empty indVoeuPojo.indVoeu.avis}" />
-    								<p:dataList id="datalist" style="myStyle" var="avis2"
+    								<p:dataList id="datalistavis2" style="myStyle" var="avis2"
     									value="#{indVoeuPojo.indVoeu.avis}">
     									<h:outputText value="#{avis2.commentaire}"
-    										rendered="#{avis2.temoinEnService && avis2.validation}" />
+    										rendered="#{avis2.temoinEnService and avis2.validation}" />
     								</p:dataList>
     							</p:column>
     							<p:column>

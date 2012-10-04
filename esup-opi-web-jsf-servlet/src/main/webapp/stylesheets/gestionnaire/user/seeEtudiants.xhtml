@@ -2,7 +2,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	
     	
@@ -24,27 +24,30 @@
     			<div id="blockFormButton" class="blockForm">
     				<div class="blockButton">
     					<h:panelGroup>
-    						<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+    						<p:commandButton value="#{msgs['_.BUTTON.ADD']}" ajax="false"
     							action="#{individuController.goAddEtudiant}"
     							rendered="#{managedAccess.addAuthorized}" />
-    						<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
+    						<p:commandButton value="#{msgs['_.BUTTON.BACK']}" ajax="false" immediate="true"
     							action="#{managedAccess.goDisplayFunction}" />
     					</h:panelGroup>
     				</div>
     				<p:dataTable var="individu" id="managerData"
     					value="#{paginatorIndividu.visibleItems}"
     					styleClass="paginatorData"
-    					rendered="#{not empty paginatorIndividu.visibleItems}">
-    					<f:facet name="header">
-    						<h:panelGroup>
-    							<e:paginator id="paginatorIndividu"
-    								paginator="#{paginatorIndividu}"
-    								itemsName="#{msgs['INDIVIDUS']}"
-    								onchange="javascript:{simulateLinkClick('seeManagersForm:managerData:submitPageSize');}" />
-    							<p:commandButton id="submitPageSize"
-    								action="#{paginatorIndividu.forceReload}" />
-    						</h:panelGroup>
-    					</f:facet>
+                        paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40"
+                        paginatorTemplate="#{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
+                        currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
+                        emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}">
+<!--     					<f:facet name="header"> -->
+<!--     						<h:panelGroup> -->
+<!--     							<e:paginator id="paginatorIndividu" -->
+<!--     								paginator="#{paginatorIndividu}" -->
+<!--     								itemsName="#{msgs['INDIVIDUS']}" -->
+<!--     								onchange="javascript:{simulateLinkClick('seeManagersForm:managerData:submitPageSize');}" /> -->
+<!--     							<p:commandButton id="submitPageSize" -->
+<!--     								action="#{paginatorIndividu.forceReload}" /> -->
+<!--     						</h:panelGroup> -->
+<!--     					</f:facet> -->
     					<p:column>
     						<f:facet name="header">
     							<h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}" />
@@ -75,16 +78,14 @@
     
     
     					<p:column>
-    						<p:commandButton image="/media/images/magnifier.png"
-    							styleClass="form-button-image" immediate="true"
+    						<p:commandButton icon="ui-icon-search" ajax="false" immediate="true"
     							title="#{msgs['_.BUTTON.DISPLAY']}"
     							action="#{individuController.goSeeOneIndividu}">
     							<f:setPropertyActionListener value="#{individu}" target="#{individuController.pojoIndividu.individu}" />
     						</p:commandButton>
     					</p:column>
     					<p:column>
-    						<p:commandButton image="/media/images/cancel.png"
-    							styleClass="form-button-image" immediate="true"
+    						<p:commandButton icon="ui-icon-minus" ajax="false" immediate="true"
     							rendered="#{managedAccess.deleteAuthorized}"
     							title="#{msgs['_.BUTTON.DELETE']}">
     							<f:setPropertyActionListener value="#{individu}" target="#{individuController.pojoIndividu.individu}" />
@@ -94,21 +95,11 @@
     
     				</p:dataTable>
     			</div>
-    		</h:form>
-    
-    		<h:outputText value="#{msgs['INDIVIDU.NOT.FOUND']}"
-    			rendered="#{empty paginatorIndividu.visibleItems}" />
-    
+    		</h:form>    
     		<br />
     		<br />
     		<br />
     
     	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        	hideElement('seeManagersForm:managerData:submitPageSize');
-        </script>
     </ui:define>
 </ui:composition>

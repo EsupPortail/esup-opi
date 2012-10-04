@@ -513,7 +513,7 @@ public interface ParameterService extends Serializable {
 	 * @param codeRI 
 	 * @return a corresponding map of cmi formulaire
 	 */
-	Map<VersionEtpOpi, FormulaireCmi> getFormulairesCmi(Set<TraitementCmi> traitements, String codeRI);
+	Map<VersionEtpOpi, FormulaireCmi> getFormulairesCmi(Set<TraitementCmi> traitements, Integer codeRI);
 
 	/**
 	 * @param formNorme
@@ -567,7 +567,7 @@ public interface ParameterService extends Serializable {
 	 * @return boolean
 	 */
 	boolean isAllFormulairesCreatedByTraitementsCmi(Individu indSelected,
-			String codeRI, Set <TraitementCmi> traitementsCmi);
+			Integer codeRI, Set <TraitementCmi> traitementsCmi);
 
 	/**
 	 * @param camp

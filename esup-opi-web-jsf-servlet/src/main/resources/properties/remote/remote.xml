@@ -18,5 +18,10 @@
     <jaxws:client id="remoteCriApogeeInsertLaisserPasser" serviceClass="org.esupportail.wssi.services.remote.InsertLaisserPasser" address="${remote.insertLaisserPasser.url}"/>
     <jaxws:client id="remoteCriEtudiant" serviceClass="org.esupportail.wssi.services.remote.ReadEtudiant" address="${remote.etudiant.url}"/>
     <jaxws:client id="remoteCriApogeeRennes1" serviceClass="fr.univ.rennes1.cri.apogee.services.remote.ReadRennes1PortType" address="${remote.rennes1.url}"/>
+    <jaxws:client id="remoteApoRenAdminMetier" serviceClass="administratifmetier_17062009_impl.servicesmetiers.commun.apogee.education.gouv.AdministratifMetierServiceInterface" address="${remote.administratifMetier.url}"/>
+    <jaxws:client id="remoteApoRenEtuMetier" serviceClass="etudiantwebserviceimpl.impl.webservices.commun.apogee.education.gouv.EtudiantMetierServiceInterface" address="${remote.etudiantMetier.url}"/>
+    <jaxws:client id="remoteApoRenGeoMetier" serviceClass="geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.GeographieMetierServiceInterface" address="${remote.geographieMetier.url}"/>
+    <jaxws:client id="remoteApoRenOpiMetier" serviceClass="opimetier_24022011_impl.servicesmetiers.commun.apogee.education.gouv.OpiMetierServiceInterface" address="${remote.opiMetier.url}"/>
+    <jaxws:client id="remoteApoRenPedaMetier" serviceClass="pedagogiquemetier_28022011_impl.servicesmetiers.commun.apogee.education.gouv.PedagogiqueMetierServiceInterface" address="${remote.pedagogiqueMetier.url}"/>
     
-</beans>
+    </beans>

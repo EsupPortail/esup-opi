@@ -1026,9 +1026,7 @@ public class IndividuController extends AbstractAccessController {
 				int codeRI = pojoIndividu.getRegimeInscription().getCode();
 				Campagne campEnCours = getParameterService().getCampagneEnServ(codeRI);
 				Campagne campDel = null;
-				//init hib proxy adresse
-				getDomainService().initOneProxyHib(pojoIndividu.getIndividu(), 
-						pojoIndividu.getIndividu().getCampagnes(), Campagne.class);
+
 				for (Campagne camp : pojoIndividu.getIndividu().getCampagnes()) {
 					if (camp.getCodAnu().equals(campEnCours.getCodAnu())) {
 						campDel = camp;
