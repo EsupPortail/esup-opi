@@ -8,4 +8,5 @@ target/
 .springBeans
 /esup-opi-web-jsf-servlet/.metadata/
 /esup-opi-web-jsf-servlet/tabStatistique.xml
+config.properties
 
