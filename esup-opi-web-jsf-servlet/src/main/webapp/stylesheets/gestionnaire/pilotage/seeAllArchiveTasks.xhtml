@@ -2,7 +2,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
     		<h1><h:outputText value="#{msgs['ARCHIVAGE.TITLE.MANAGED']}" /></h1>
@@ -28,15 +28,16 @@
     				<div id="blockFormArchiveTasks" class="blockForm">
     					<h:panelGroup class="blockButton"
     						rendered="#{archiveTaskController.actionEnum.whatAction == archiveTaskController.actionEnum.emptyAction}">
-							<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-							 immediate="true"
+							<p:commandButton value="#{msgs['_.BUTTON.ADD']}" 
+                             ajax="false"
+                             immediate="true"
 							 action="#{archiveTaskController.goAddArchiveTask}"/>
 							<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
 									immediate="true"
 									action="#{managedAccess.goDisplayFunction}"/>
     					</h:panelGroup>
     					<p:dataTable var="archiveTask" value="#{archiveTaskController.archiveTasks}"
-    						styleClass="displayInfo" alternateColors="false">
+    						styleClass="displayInfo paginatorData">
     						<p:column>
     							<f:facet name="header">
     								<h:outputText value="#{msgs['FIELD_LABEL.ARCHIVE.CAMP_ARCH']}" />
@@ -69,22 +70,23 @@
     								rendered="#{!archiveTask.isExecuted}"/>
     						</p:column>
     						<p:column styleClass="buttonTD">
-    							<p:commandButton image="/media/images/update.png"
+    							<p:commandButton icon="ui-icon-pencil" 
+                                    ajax="false"
     								immediate="true"
-    								styleClass="form-button-image" title="#{msgs['BUTTON.UPDATE']}" 
-    								rendered="#{archiveTaskController.actionEnum.whatAction == archiveTaskController.actionEnum.emptyAction
-    										&& !archiveTask.isExecuted && managedAccess.updateAuthorized}"
-    								action="#{archiveTaskController.goUpdateArchiveTask}">
+                                    title="#{msgs['BUTTON.UPDATE']}" 
+    								action="#{archiveTaskController.goUpdateArchiveTask}"
+                                    rendered="#{archiveTaskController.actionEnum.whatAction == archiveTaskController.actionEnum.emptyAction
+                                            and !archiveTask.isExecuted and managedAccess.updateAuthorized}">
     								<f:setPropertyActionListener value="#{archiveTask}" target="#{archiveTaskController.archiveTask}" />
     							</p:commandButton>
     						</p:column>
     						<p:column styleClass="buttonTD">
-    							<p:commandButton image="/media/images/cancel.png"
-    								styleClass="form-button-image"
+    							<p:commandButton icon="ui-icon-minus" 
+                                    ajax="false"
     								immediate="true"
     								title="#{msgs['_.BUTTON.DELETE']}"
-    								rendered="#{archiveTaskController.actionEnum.whatAction == archiveTaskController.actionEnum.emptyAction
-    										&& !archiveTask.isExecuted && managedAccess.deleteAuthorized}">
+                                    rendered="#{archiveTaskController.actionEnum.whatAction == archiveTaskController.actionEnum.emptyAction
+                                            and !archiveTask.isExecuted and managedAccess.deleteAuthorized}">
     								<f:setPropertyActionListener value="#{archiveTaskController.actionEnum.deleteAction}" target="#{archiveTaskController.actionEnum.whatAction}" />
     								<f:setPropertyActionListener value="#{archiveTask}" target="#{archiveTaskController.archiveTask}" />
     							</p:commandButton>
@@ -98,10 +100,5 @@
     			</h:form>
     		</div>
     	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        </script>
     </ui:define>
 </ui:composition>

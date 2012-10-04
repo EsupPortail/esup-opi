@@ -13,6 +13,7 @@
 		scope="session">
 		<property name="parameterService" ref="parameterService" />
 		<property name="sessionController" ref="sessionController" />
+<!--         <property name="urlGenerator" ref="servletUrlGenerator"/> -->
 	</bean>
 
 	<bean id="managedRoadMap" class="org.esupportail.opi.web.beans.ManagedRoadMap"
@@ -384,6 +385,7 @@
 	<bean id="paginatorIndividu"
 		class="org.esupportail.opi.web.beans.paginator.IndividuPaginator"
 		scope="session">
+        <property name="sessionController" ref="sessionController"/>
 		<property name="daoService" ref="daoService" />
 		<property name="maxNearPages" value="4" />
 		<property name="defaultPageSize" value="20"/>
@@ -396,13 +398,13 @@
 				<value>40</value>
 			</set>
 		</property>
-		<property name="sessionController" ref="sessionController"/>
 	</bean>
 	
 	
 	<bean id="paginatorIndividuPojo"
 		class="org.esupportail.opi.web.beans.paginator.IndividuPojoPaginator"
 		scope="session">
+        <property name="sessionController" ref="sessionController"/>
 		<property name="daoService" ref="daoService" />
 		<property name="maxNearPages" value="4" />
 		<property name="defaultPageSize" value="20"/>
@@ -414,13 +416,13 @@
 				<value>40</value>
 			</set>
 		</property>
-		<property name="sessionController" ref="sessionController"/>
 	</bean>
 	
 
 	<bean id="paginatorPM"
 		class="org.esupportail.opi.web.beans.paginator.PMPaginator"
 		scope="session">
+        <property name="sessionController" ref="sessionController"/>    
 		<property name="daoService" ref="daoService" />
 		<property name="maxNearPages" value="4" />
 		<property name="defaultPageSize" value="20"/>
@@ -432,14 +434,15 @@
 				<value>30</value>
 				<value>40</value>
 			</set>
-		</property>
-		<property name="sessionController" ref="sessionController"/>		
+		</property>	
 	</bean>
 
 
 	<bean id="paginatorCommission"
 		class="org.esupportail.opi.web.beans.paginator.CommissionPaginator"
 		scope="session">
+        <property name="parameterService" ref="parameterService"/>
+        <property name="domainApoService" ref="domainApoService"/>
 		<property name="maxNearPages" value="4" />
 		<property name="defaultPageSize" value="20"/>
 		<property name="pageSize" value="20"/>
@@ -451,14 +454,15 @@
 				<value>40</value>
 			</set>
 		</property>
-		<property name="parameterService" ref="parameterService"/>
-		<property name="domainApoService" ref="domainApoService"/>
 	</bean>
 	
 	
 	<bean id="paginatorVET"
 		class="org.esupportail.opi.web.beans.paginator.VETPaginator"
-		scope="session" lazy-init="true">
+		scope="session">
+        <property name="parameterService" ref="parameterService"/>
+        <property name="domainApoService" ref="domainApoService"/>
+        <property name="sessionController" ref="sessionController"/>
 		<property name="maxNearPages" value="4" />
 		<property name="defaultPageSize" value="20"/>
 		<property name="pageSize" value="20"/>
@@ -470,9 +474,6 @@
 				<value>40</value>
 			</set>
 		</property>
-		<property name="parameterService" ref="parameterService"/>
-		<property name="domainApoService" ref="domainApoService"/>
-		<property name="sessionController" ref="sessionController"/>
 	</bean>
 	
 	

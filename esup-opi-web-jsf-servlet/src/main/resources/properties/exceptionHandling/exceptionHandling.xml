@@ -17,7 +17,7 @@
 		class="org.esupportail.commons.services.exceptionHandling.CachingEmailExceptionServiceFactoryImpl"
 		parent="abstractApplicationAwareBean"
 		>
-		<property name="authenticationService" ref="${auth.bean}" />
+		<property name="authenticationService" ref="servletAuthenticationService" />
 		<property name="smtpService" ref="smtpService" />
 		<property name="recipientEmail" value="${exceptionHandling.email}" />
 		<property name="exceptionViews" >
@@ -43,7 +43,6 @@
 			</list>
 		</property>
 		<property name="cacheManager" ref="cacheManager" />
-		<property name="cacheName" value="" />
 		<property name="logLevel" value="${exceptionHandling.logLevel}" />
 	</bean>
 

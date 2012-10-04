@@ -9,14 +9,14 @@
     			<f:param value="#{parametreStatController.selectAbscisseCoordonne}"/>
     		</h:outputText>
     		<h:panelGroup>
-    			<p:commandButton value="#{msgs['_.BUTTON.YES']}"
+    			<p:commandButton value="#{msgs['_.BUTTON.YES']}" ajax="false"
     				action="#{parametreStatController.delAbscisseCoordonne}">
     				<f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}"
     					target="#{parametreStatController.actionEnum.whatAction}" />
     				<f:setPropertyActionListener value="#{parametreStatController.addUpdateCoordonne.emptyAction}"
     					target="#{parametreStatController.addUpdateCoordonne.whatAction}" />
     			</p:commandButton>
-    			<p:commandButton value="#{msgs['_.BUTTON.NO']}">
+    			<p:commandButton value="#{msgs['_.BUTTON.NO']}" ajax="false">
     				<f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}"
     					target="#{parametreStatController.actionEnum.whatAction}" />
     				<f:setPropertyActionListener value="#{parametreStatController.addUpdateCoordonne.emptyAction}"

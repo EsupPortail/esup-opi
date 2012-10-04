@@ -320,8 +320,12 @@ autres : pr�coniser d�clinaison � partir de la couleur secondaire.
 	margin-left: 10px;
 }
 
-.esup-opiR1 .form-button-image img {
-	border: none;
+.esup-opiR1 .form-button-image-see {
+    background-image: url("/media/images/magnifier.png");
+}
+
+.esup-opiR1 .form-button-image-cancel {
+    background-image: url("/media/images/cancel.png");
 }
 
 .esup-opiR1 .form-button-link {
@@ -481,17 +485,18 @@ autres : pr�coniser d�clinaison � partir de la couleur secondaire.
 }
 
 /*## For use e:dataTable ##*/
-.esup-opiR1 table.paginatorData {
+.esup-opiR1 .paginatorData table {
 	width: 100%;
 	border: none;
 	padding: 0px 0px 2px 0px;
 	text-align: center;
 	border-spacing: 2px;
+    border-collapse: separate;
 }
 
-.esup-opiR1 table.paginatorData th.paginatorData-header {
+.esup-opiR1 .paginatorData table th {
 	color: #a71817;
-	background-color: #e6e6e6;
+/* 	background-color: #e6e6e6; */
 	text-align: center;
 	font-weight: normal;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -499,21 +504,21 @@ autres : pr�coniser d�clinaison � partir de la couleur secondaire.
 	padding-bottom: 3px;
 }
 
-.esup-opiR1 table.paginatorData tr.paginatorData-text {
-	background-color: #f9f9f9;
+.esup-opiR1 .paginatorData table tr {
+/* 	background-color: #f9f9f9; */
 	text-align: center;
 	font-weight: normal;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 12px;
 }
 
-.esup-opiR1 table.paginatorData tr.paginatorData-alternate {
-	background-color: #e6e6e6;
-	text-align: center;
-	font-weight: normal;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 12px;
-}
+/* .esup-opiR1 table.paginatorData tr.paginatorData-alternate { */
+/* 	background-color: #e6e6e6; */
+/* 	text-align: center; */
+/* 	font-weight: normal; */
+/* 	font-family: Verdana, Arial, Helvetica, sans-serif; */
+/* 	font-size: 12px; */
+/* } */
 
 /*## END For use e:dataTable ##*/
 .esup-opiR1 table.displayInfo {

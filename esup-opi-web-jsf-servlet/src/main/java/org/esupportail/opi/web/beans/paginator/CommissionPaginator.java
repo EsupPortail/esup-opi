@@ -31,7 +31,7 @@ public class CommissionPaginator extends ListPaginator<CommissionPojo> {
 	/**
 	 * The serialization id.
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2889762688005715110L;
 	
 	/*
 	 ******************* PROPERTIES ******************* */
@@ -41,7 +41,7 @@ public class CommissionPaginator extends ListPaginator<CommissionPojo> {
 	 */
 //	private static final Logger LOG = new LoggerImpl(CommissionPaginator.class);
 	
-    /**
+	/**
      * The values of the search.
      */
     private CommisionRechPojo commissionRechPojo;
@@ -200,8 +200,6 @@ public class CommissionPaginator extends ListPaginator<CommissionPojo> {
 		return lesCommissionsPojo;
 	}
 	
-	
-
 	/*
 	 ******************* ACCESSORS ******************** */
 	/**

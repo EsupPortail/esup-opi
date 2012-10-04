@@ -5,18 +5,18 @@
     <div style="width:100%;">
     	<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
     		styleClass="tableJustWidthMax">
-    		<h:outputText value="#{msgs['COORDONNE.CONFIRM.DELETE']}">
+    		<h:outputFormat value="#{msgs['COORDONNE.CONFIRM.DELETE']}">
     			<f:param value="#{parametreStatController.selectOrdonneCoordonne}"/>
-    		</h:outputText>
+    		</h:outputFormat>
     		<h:panelGroup>
-    			<p:commandButton value="#{msgs['_.BUTTON.YES']}"
+    			<p:commandButton value="#{msgs['_.BUTTON.YES']}" ajax="false"
     				action="#{parametreStatController.delOrdonneCoordonne}">
     				<f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}"
     					target="#{parametreStatController.actionEnum.whatAction}" />
     				<f:setPropertyActionListener value="#{parametreStatController.addUpdateCoordonne.emptyAction}"
     					target="#{parametreStatController.addUpdateCoordonne.whatAction}" />
     			</p:commandButton>
-    			<p:commandButton value="#{msgs['_.BUTTON.NO']}">
+    			<p:commandButton value="#{msgs['_.BUTTON.NO']}" ajax="false">
     				<f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}"
     					target="#{parametreStatController.actionEnum.whatAction}" />
     				<f:setPropertyActionListener value="#{parametreStatController.addUpdateCoordonne.emptyAction}"

@@ -114,7 +114,6 @@ public class VETPaginator extends ListPaginator<VersionEtapeDTO> {
 	@Override
 	protected List<VersionEtapeDTO> getData() {
 		List<VersionEtapeDTO> etapes = new ArrayList<VersionEtapeDTO>();
-		
 		Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
 		int codeRI = gest.getProfile().getCodeRI();	
 		

@@ -39,7 +39,7 @@
 	    class="org.esupportail.commons.annotations.cache.SessionCachingMethodInterceptor" />
 
 <!--     <aop:aspectj-autoproxy proxy-target-class="true" /> -->
-    <aop:config proxy-target-class="true" />
+<!--     <aop:config proxy-target-class="true" /> -->
 <!-- 	<aop:config> -->
 <!-- 		<aop:pointcut id="monitorPointcut" -->
 <!-- 			expression="@within(org.esupportail.commons.annotations.monitor.Monitor) || @annotation(org.esupportail.commons.annotations.monitor.Monitor)" /> -->

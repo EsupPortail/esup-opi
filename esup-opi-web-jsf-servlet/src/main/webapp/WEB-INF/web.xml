@@ -39,18 +39,23 @@
 		</description>
 		<param-name>javax.faces.CONFIG_FILES</param-name>
 		<param-value>
-			/WEB-INF/classes/properties/jsf/navigation-rules.xml,/WEB-INF/faces-config.xml
+			/WEB-INF/classes/properties/jsf/navigation-rules.xml
 		</param-value>
 	</context-param>
-    
+
     <context-param>
         <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
         <param-value>.xhtml</param-value>
     </context-param>
     <context-param>
-    <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
-    <param-value>true</param-value>
-  </context-param>
+        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+  
 
 <!-- 	<context-param> -->
 <!-- 		<param-name>org.fckfaces.CUSTOM_CONFIGURATIONS_PATH</param-name> -->
@@ -108,11 +113,11 @@
         </listener-class>
    </listener>
 <!--    Listener Jetty -->
-<!--     <listener> -->
-<!--         <listener-class> -->
-<!--             org.apache.myfaces.webapp.StartupServletContextListener -->
-<!--         </listener-class> -->
-<!--     </listener> -->
+    <listener>
+        <listener-class>
+            org.apache.myfaces.webapp.StartupServletContextListener
+        </listener-class>
+    </listener>
     
 
     <filter>
@@ -147,7 +152,7 @@
     </filter>
     <filter-mapping>
         <filter-name>CAS Authentication Filter</filter-name>
-        <url-pattern>/stylesheets/login.xhtml</url-pattern>
+        <url-pattern>/stylesheets/cas/accueil.xhtml</url-pattern>
     </filter-mapping>
     
     <filter>

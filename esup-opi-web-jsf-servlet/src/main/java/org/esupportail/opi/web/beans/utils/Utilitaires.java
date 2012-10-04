@@ -618,7 +618,7 @@ public class Utilitaires {
 				}
 			}
 
-		} else if (!gest.getRightOnCmi().isEmpty()) {
+		} else if (gest.getRightOnCmi()!= null && !gest.getRightOnCmi().isEmpty()) {
 			//si pas cge, renvoie les cmi auxquelles ils ont droit
 			lesCommissions = gest.getRightOnCmi();
 		} else {

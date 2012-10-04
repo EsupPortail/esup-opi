@@ -1,6 +1,7 @@
 package org.esupportail.opi.web.controllers.pilotage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -123,7 +124,7 @@ public class ArchiveTaskController extends AbstractContextAwareController {
 	/**
 	 * List of BeanTrtCmi to archive.
 	 */
-	private List<Object> objectToArch;
+	private Object[] objectToArch;
 
 	/**
 	 * Has true if all traitement cmi on service are selected.
@@ -177,7 +178,7 @@ public class ArchiveTaskController extends AbstractContextAwareController {
 		commission = null;
 		allTraitementCmi = new ArrayList<BeanTrtCmi>();
 		treatmentsCmiOff = new ArrayList<BeanTrtCmi>();
-		objectToArch = new ArrayList<Object>();
+		objectToArch = new Object[]{};
 		allCheckedOn = false;
 		allCheckedOff = false;
 	}
@@ -211,10 +212,8 @@ public class ArchiveTaskController extends AbstractContextAwareController {
 		RegimeInscription regimeIns = getSessionController().getRegimeIns().get(codeRI);
 		if (regimeIns instanceof FormationInitiale) {
 			return NavigationRulesConst.MANAGED_ARCHIVE_TASKS;
-		} else {
-			return NavigationRulesConst.MANAGED_ARCHIVE_SFC;
 		}
-		
+		return NavigationRulesConst.MANAGED_ARCHIVE_SFC;
 	}
 	
 	/**
@@ -273,7 +272,7 @@ public class ArchiveTaskController extends AbstractContextAwareController {
 	public void selectCampToArch() {
 		allTraitementCmi.clear();
 		treatmentsCmiOff.clear();
-		objectToArch.clear();
+		objectToArch = new Object[]{};
 		if (campToArch != null) {
 			for (TraitementCmi t : commission.getTraitementCmi()) {
 				//init proxy hib
@@ -329,22 +328,26 @@ public class ArchiveTaskController extends AbstractContextAwareController {
 	 * @param value
 	 */
 	public void checkAllOn(final ValueChangeEvent value) {
+		List<Object> list = Arrays.asList(objectToArch);
 		if (!allCheckedOn) {
-			objectToArch.addAll(allTraitementCmi);
+			list.addAll(allTraitementCmi);
 		} else {
-			objectToArch.removeAll(allTraitementCmi);
+			list.removeAll(allTraitementCmi);
 		}
+		objectToArch = list.toArray();
 	}
 
 	/**
 	 * @param value
 	 */
 	public void checkAllOff(final ValueChangeEvent value) {
+		List<Object> list = Arrays.asList(objectToArch);
 		if (!allCheckedOff) {
-			objectToArch.addAll(treatmentsCmiOff);
+			list.addAll(treatmentsCmiOff);
 		} else {
-			objectToArch.removeAll(treatmentsCmiOff);
+			list.removeAll(treatmentsCmiOff);
 		}
+		objectToArch = list.toArray();
 	}
 
 	/**
@@ -828,14 +831,14 @@ public class ArchiveTaskController extends AbstractContextAwareController {
 	/**
 	 * @return the objectToArch
 	 */
-	public List<Object> getObjectToArch() {
+	public Object[] getObjectToArch() {
 		return objectToArch;
 	}
 
 	/**
 	 * @param objectToArch the objectToArch to set
 	 */
-	public void setObjectToArch(final List<Object> objectToArch) {
+	public void setObjectToArch(final Object[] objectToArch) {
 		this.objectToArch = objectToArch;
 	}
 

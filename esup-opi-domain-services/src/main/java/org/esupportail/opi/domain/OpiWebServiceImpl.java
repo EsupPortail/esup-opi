@@ -3,6 +3,7 @@ package org.esupportail.opi.domain;
 import static fj.data.Option.fromString;
 import static fj.data.Stream.iterableStream;
 import fj.F;
+import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.GeographieMetierServiceInterface;
 import gouv.education.apogee.commun.transverse.dto.opi.donneesopidto2.DonneesOpiDTO2;
 import gouv.education.apogee.commun.transverse.dto.opi.donneesopidto2.TableauVoeu;
 import gouv.education.apogee.commun.transverse.dto.opi.majconvocationdto.MAJConvocationDTO;
@@ -29,7 +30,7 @@ import java.util.Date;
 import java.util.List;
 
 import opimetier_24022011_impl.servicesmetiers.commun.apogee.education.gouv.OpiMetierServiceInterface;
-import opimetier_24022011_impl.servicesmetiers.commun.apogee.education.gouv.OpiMetierServiceInterfaceService;
+//import opimetier_24022011_impl.servicesmetiers.commun.apogee.education.gouv.OpiMetierServiceInterfaceService;
 
 import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.services.logging.Logger;
@@ -68,7 +69,12 @@ public class OpiWebServiceImpl implements OpiWebService {
 	 * see {@link DomainApoService}.
 	 */
 //	private DomainApoService domainApoService;
-
+	/**
+	 * Can read the table of GeographiqueMetier in Apogee.
+	 */
+	private OpiMetierServiceInterface remoteApoRenOpiMetier;
+	
+	
 	/**
 	 * see {@link Transfert}.
 	 */
@@ -113,17 +119,19 @@ public class OpiWebServiceImpl implements OpiWebService {
 //			OpiMetierServiceInterface serviceOpi = (OpiMetierSoapBindingStub) WSUtils
 //						.getService(WSUtils.OPI_SERVICE_NAME, null, null);
 
-		    OpiMetierServiceInterface serviceOpi =
-		        new OpiMetierServiceInterfaceService().getOpiMetier();
-		    
-			DonneesOpiDTO2 donneesOPI = initDonneesOpi(serviceOpi, individu, voeux);
+//		    OpiMetierServiceInterface serviceOpi =
+//		        new OpiMetierServiceInterfaceService().getOpiMetier();
+			
+//			DonneesOpiDTO2 donneesOPI = initDonneesOpi(serviceOpi, individu, voeux);
 //			DonneesOpiDTO donneesOPI = initDonneesOpiTest();
+			DonneesOpiDTO2 donneesOPI = initDonneesOpi(remoteApoRenOpiMetier, individu, voeux);
 			log.info("derversement dans Apo du candidat (numero dossier = " + individu.getNumDossierOpi());
 
 			
 			try {
 				log.info("execute serviceOpi.mettreajourDonneesOpi");
-				serviceOpi.mettreajourDonneesOpiV2(donneesOPI);
+				remoteApoRenOpiMetier.mettreajourDonneesOpiV2(donneesOPI);
+//				serviceOpi.mettreajourDonneesOpiV2(donneesOPI);
 
 				log.info("after execute serviceOpi.mettreajourDonneesOpi");
 				return true;

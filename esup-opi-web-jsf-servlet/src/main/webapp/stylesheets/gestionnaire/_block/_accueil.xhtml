@@ -2,11 +2,9 @@
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui">
-    <h:form id="navHeaderManager" styleClass="opiR1_form">
-    	<ui:include src="/stylesheets/gestionnaire/_navigation/_navGestionnaire.xhtml" />
-    </h:form>
+
     <div id="maPageGest" class="div_body">
-    	<div id="div_subSectionGest" styleClass="div_subSection">
+    	<div id="div_subSectionGest" class="div_subSection">
     		<h:form id="accueilGestionnaireForm" styleClass="opiR1_form">
     			<br />
     			<br />
@@ -17,25 +15,8 @@
     			<br />
     			<br />
     			<br />
-    			<opi:menuDynTag id="menuAccueil" styleClass="displayTraitement">
-    				<opi:menuDynItems value="#{managedAccess.domainAccueilGest}"
-    					styleClass="form-button-link" />
-    			</opi:menuDynTag>
-    			<br />
-    			<br />
-    			<br />
     
     		</h:form>
     	</div>
     </div>
-    <div id="div_navFooterManager">
-    	<h:form id="navFooterManager" styleClass="opiR1_form">
-    		<ui:include src="/stylesheets/gestionnaire/_navigation/_navGestionnaire.xhtml" />
-    	</h:form>
-    </div>
-    <script type="text/javascript">	
-    	highlightChildrenLiTags('navigationHeader:navigation');
-    	highlightChildrenLiTags('navigationFooter:navigation');
-    	highlightInputAndSelect('accueilGestionnaireForm');
-    </script>
 </ui:fragment>

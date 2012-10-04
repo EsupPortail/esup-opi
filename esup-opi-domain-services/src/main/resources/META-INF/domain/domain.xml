@@ -167,6 +167,7 @@
 		<property name="transfert" ref="transfert"/>
 		<property name="typeEtabUniv" value="${init.typEtbUniv}"/>
 		<property name="codEtabUniv" value="${init.codEtbInt}"/>
+		<property name="remoteApoRenOpiMetier" ref="remoteApoRenOpiMetier"/>
 		<!--<property name="domainApoService" ref="domainApoService"/>
 	--></bean>
 	

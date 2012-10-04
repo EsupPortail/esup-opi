@@ -13,38 +13,41 @@
     		
     		<h:panelGroup rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction}">
     			<p:selectOneMenu id="typeAbscisse"
-    				onchange="javascript:{simulateLinkClick('seeParamStatForm:submitTypeAbscisse');}"
     				value="#{parametreStatController.selectTypeAbscisse}">
     				<f:selectItems value="#{parametreStatController.allTypeAbscisseItems}"/>
+                    <p:ajax listener="#{parametreStatController.clearObjAbscisse}" update="manageAbscisses,@(.paginatorData)" />
     			</p:selectOneMenu>
-    			<p:commandButton id="submitTypeAbscisse" action="#{parametreStatController.clearObjAbscisse}"/>
     		</h:panelGroup>
     		
     		
     		
     		<h:outputLabel value="#{msgs['FIELD_LABEL.CHOIX_ABSCISSE']}" styleClass="formHeader" for="abscisseModif"/>
     		
-    		<h:panelGrid columns="2">
+    		<h:panelGrid id="manageAbscisses" columns="2">
     			<h:panelGrid columns="1">
     				<h:panelGroup>
     					<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE_COORDONNE']} "/>
-    					<h:inputText value="#{parametreStatController.libelleCoordonne}" />
+    					<p:inputText id="libelleAbscisses" value="#{parametreStatController.libelleCoordonne}" >
+                            <f:validateRequired />
+                        </p:inputText>
     				</h:panelGroup>
     				<h:panelGrid columns="4" id="abscisseModif">
-    					<p:selectManyMenu styleClass="manyMenu"
+    					<p:selectManyMenu id="selectObjAbscisseAdd" styleClass="manyMenu"
     						value="#{parametreStatController.selectObjAbscisseAdd}">
     						<f:selectItems value="#{parametreStatController.allObjAbscisseItems}"/>
     					</p:selectManyMenu>
     					<h:panelGrid columns="1">
-    						<p:commandButton image="/media/images/fleche_gauche.gif"
-    							styleClass="icone"
+    						<p:commandButton icon="ui-icon-arrowthick-1-w"
+                                process="abscisseModif"
+                                update="selectObjAbscisseAdd,selectObjAbscisseDel"
     							action="#{parametreStatController.delAbscisseItems}"/>
-    						<p:commandButton image="/media/images/fleche_droite.gif"
-    							styleClass="icone"
+    						<p:commandButton icon="ui-icon-arrowthick-1-e" 
+                                process="abscisseModif"
+                                update="selectObjAbscisseAdd,selectObjAbscisseDel"
     							action="#{parametreStatController.addAbscisseItems}"/>
     					</h:panelGrid>
     					<h:panelGroup>
-    						<p:selectManyMenu styleClass="manyMenu"
+    						<p:selectManyMenu id="selectObjAbscisseDel" styleClass="manyMenu"
     							value="#{parametreStatController.selectObjAbscisseDel}">
     							<f:selectItems value="#{parametreStatController.objAbscisseItems}"/>
     						</p:selectManyMenu>
@@ -53,13 +56,13 @@
     			</h:panelGrid>
     			
     			<h:panelGroup>
-    				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+    				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}" ajax="false"
     					rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction}"
     					action="#{parametreStatController.addAbscisseCoordonne}"/>
-    				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+    				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}" ajax="false"
     					rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction}"
     					action="#{parametreStatController.updateAbscisseCoordonne}"/>
-    				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+    				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" ajax="false"
     					rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction}"
     					action="#{parametreStatController.clearObjAbscisse}">
     					<f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}" 
@@ -69,7 +72,7 @@
     		</h:panelGrid>
     		
     		<h:panelGroup />
-    		<p:dataTable var="abscisseItem" styleClass="paginatorData" alternateColors="true"
+    		<p:dataTable var="abscisseItem" styleClass="paginatorData"
     			rendered="#{not empty parametreStatController.listAbscisseCoordonneItems}"
     			value="#{parametreStatController.listAbscisseCoordonneItems}">
     			<p:column>
@@ -80,7 +83,7 @@
     			</p:column>
     			
     			<p:column>
-    				<p:commandButton image="/media/images/cancel.png" styleClass="icone"
+    				<p:commandButton icon="ui-icon-minus" ajax="false" immediate="true"
     					action="#{parametreStatController.delAbscisseCoordonne}">
     					<f:setPropertyActionListener value="#{abscisseItem.value}"
     						target="#{parametreStatController.selectAbscisseCoordonne}" />

@@ -21,7 +21,7 @@
     <jaxws:client id="remoteApoRenAdminMetier" serviceClass="administratifmetier_17062009_impl.servicesmetiers.commun.apogee.education.gouv.AdministratifMetierServiceInterface" address="${remote.administratifMetier.url}"/>
     <jaxws:client id="remoteApoRenEtuMetier" serviceClass="etudiantwebserviceimpl.impl.webservices.commun.apogee.education.gouv.EtudiantMetierServiceInterface" address="${remote.etudiantMetier.url}"/>
     <jaxws:client id="remoteApoRenGeoMetier" serviceClass="geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.GeographieMetierServiceInterface" address="${remote.geographieMetier.url}"/>
-<!--     <jaxws:client id="remoteApoRenOpiMetier" serviceClass="opimetier_24022011_impl.servicesmetiers.commun.apogee.education.gouv.OpiMetierServiceInterface" address="${remote.opiMetier.url}"/> -->
+    <jaxws:client id="remoteApoRenOpiMetier" serviceClass="opimetier_24022011_impl.servicesmetiers.commun.apogee.education.gouv.OpiMetierServiceInterface" address="${remote.opiMetier.url}"/>
     <jaxws:client id="remoteApoRenPedaMetier" serviceClass="pedagogiquemetier_28022011_impl.servicesmetiers.commun.apogee.education.gouv.PedagogiqueMetierServiceInterface" address="${remote.pedagogiqueMetier.url}"/>
     
     </beans>

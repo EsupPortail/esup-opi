@@ -13,7 +13,8 @@
 						<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
 							action="#{individuController.update}"
 							rendered="#{individuController.actionEnum.whatAction == 
-    								individuController.actionEnum.updateAction}" />
+    								individuController.actionEnum.updateAction}"
+    								update=":content_panel" />
 						<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
 							update=":content_panel"
 							immediate="true"
@@ -57,7 +58,7 @@
 						</h:panelGroup>
 					</p:overlayPanel>
 				</h:panelGroup>
-				<h:inputText id="nom" size="32" maxlength="30"
+				<p:inputText id="nom" size="32" maxlength="30"
 					value="#{individuController.pojoIndividu.individu.nomPatronymique}" />
 				<h:panelGroup>
 					<h:outputLabel value="#{msgs['INDIVIDU.NOM_USUEL']}" for="nomUsuel" />
@@ -77,17 +78,17 @@
 						</h:panelGroup>
 					</p:overlayPanel>
 				</h:panelGroup>
-				<h:inputText id="nomUsuel" size="32" maxlength="30"
+				<p:inputText id="nomUsuel" size="32" maxlength="30"
 					value="#{individuController.pojoIndividu.individu.nomUsuel}" />
 				<h:panelGroup>
 					<h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom" />
 					<h:outputText value="*" styleClass="etoileForChpObli" />
 				</h:panelGroup>
-				<h:inputText id="prenom" size="22" maxlength="20"
+				<p:inputText id="prenom" size="22" maxlength="20"
 					value="#{individuController.pojoIndividu.individu.prenom}" />
 				<h:outputLabel value="#{msgs['INDIVIDU.PRENOM_OTHER']}"
 					for="prenom2" />
-				<h:inputText id="prenom2" size="22" maxlength="20"
+				<p:inputText id="prenom2" size="22" maxlength="20"
 					value="#{individuController.pojoIndividu.individu.prenom2}" />
 				<h:panelGroup>
 					<h:outputLabel value="#{msgs['INDIVIDU.DATE_NAI_COURT']}" for="jourNaissance"/>
@@ -157,14 +158,13 @@
 				</h:panelGroup>
 				<h:panelGroup>
 					<p:selectOneMenu id="paysNaissance"
-						onchange="javascript:{simulateLinkClick('addAccountForm:submitSelectPay');}"
 						valueChangeListener="#{individuController.selectPay}"
 						value="#{individuController.pojoIndividu.individu.codPayNaissance}">
 						<f:selectItem itemLabel="" itemValue="" />
 						<f:selectItems var="pays" value="#{adressController.pays}"
 							itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}" />
+							<p:ajax update=":formEtatCivil" />
 					</p:selectOneMenu>
-					<p:commandButton id="submitSelectPay" />
 				</h:panelGroup>
 
 				<h:panelGroup
@@ -187,7 +187,7 @@
 						for="villeNaissance" />
 					<h:outputText value="*" styleClass="etoileForChpObli" />
 				</h:panelGroup>
-				<h:inputText id="villeNaissance" size="32" maxlength="30"
+				<p:inputText id="villeNaissance" size="32" maxlength="30"
 					value="#{individuController.pojoIndividu.individu.villeNaissance}" />
 				<h:panelGroup>
 					<h:outputLabel value="#{msgs['INDIVIDU.NAT']}" for="nationalite" />
@@ -207,14 +207,14 @@
 				<h:panelGroup
 					rendered="#{individuController.actionEnum.whatAction == 
     								individuController.actionEnum.updateAction}">
-					<h:inputText id="numNNE" size="12" maxlength="10"
+					<p:inputText id="numNNE" size="12" maxlength="10"
 						value="#{individuController.pojoIndividu.individu.codeNNE}">
 						<f:validateLength minimum="10" />
-					</h:inputText>
-					<h:inputText size="1" maxlength="1"
+					</p:inputText>
+					<p:inputText size="1" maxlength="1"
 						value="#{individuController.pojoIndividu.individu.codeClefNNE}">
 						<f:validateLength minimum="1" />
-					</h:inputText>
+					</p:inputText>
 				</h:panelGroup>
 			</h:panelGrid>
 		</h:form>

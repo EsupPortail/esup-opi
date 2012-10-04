@@ -168,16 +168,18 @@
     					<p:commandButton value="#{msgs['INDIVIDU.BAC']}"
     						styleClass="form-button-link" immediate="true"
     						action="#{indBacController.goSeeIndBac}"
-    						rendered="#{sessionController.currentInd.canUpdateIndCursusPro}" />
+    						rendered="#{sessionController.currentInd.canUpdateIndCursusPro}" 
+    						ajax="false"/>
     					<h:outputText value="#{msgs['INDIVIDU.BAC']}"
     						rendered="#{!sessionController.currentInd.canUpdateIndCursusPro}" />
     					<h:outputText value="#{sessionController.currentInd.etatIndBac}"/>
     					<h:panelGroup>
-    						<p:commandButton image="/media/images/magnifier.png"
+    						<p:commandButton icon="form-button-image-see"
     							styleClass="form-button-image" immediate="true"
     							action="#{indBacController.goSeeIndBac}"
     							title="#{msgs['_.BUTTON.DISPLAY']}"
-    							rendered="#{sessionController.currentInd.canUpdateBac}" />
+    							rendered="#{sessionController.currentInd.canUpdateBac}"
+    							ajax="false" />
     					</h:panelGroup>
     
     					<p:commandButton value="#{msgs['INDIVIDU.SITUATION']}"
@@ -193,25 +195,27 @@
     					<h:panelGroup
     							rendered="#{sessionController.currentInd.canUpdateIndCursusPro
     								and sessionController.currentInd.regimeInscription.displayInfoSituation}" >
-    						<p:commandButton image="/media/images/magnifier.png"
+    						<p:commandButton icon="form-button-image-see"
     							styleClass="form-button-image" immediate="true"
     							action="#{situationController.goSeeSituation}"
     							title="#{msgs['_.BUTTON.DISPLAY']}"/>
     					</h:panelGroup>
     
     					<h:outputText value="#{msgs['INDIVIDU.CURSUS_UNI']}"
-    						rendered="#{!sessionController.currentInd.canUpdateIndCursusPro}" />
+    						rendered="#{!sessionController.currentInd.canUpdateIndCursusScol}" />
     					<p:commandButton value="#{msgs['INDIVIDU.CURSUS_UNI']}"
     						styleClass="form-button-link" immediate="true"
     						action="#{cursusController.goSeeCursusScol}"
-    						rendered="#{sessionController.currentInd.canUpdateIndCursusPro}" />
+    						rendered="#{sessionController.currentInd.canUpdateIndCursusScol}" 
+    						ajax="false"/>
     					<h:outputText value="#{sessionController.currentInd.etatIndCursusScol}" />
     					<h:panelGroup>
-    						<p:commandButton image="/media/images/magnifier.png"
+    						<p:commandButton icon="form-button-image-see"
     							styleClass="form-button-image" immediate="true"
     							action="#{cursusController.goSeeCursusScol}"
     							title="#{msgs['_.BUTTON.DISPLAY']}"
-    							rendered="#{sessionController.currentInd.canUpdateIndCursusScol}" />
+    							rendered="#{sessionController.currentInd.canUpdateIndCursusScol}" 
+    							ajax="false"/>
     					</h:panelGroup>
     
     					<h:panelGroup>
@@ -220,8 +224,7 @@
     						<p:commandButton value="#{msgs['INDIVIDU.CURSUS_EXT']}"
     							action="#{cursusController.goSeeCursusPro}"
     							styleClass="form-button-link" immediate="true"
-    							rendered="#{sessionController.currentInd.canUpdateIndCursusPro}" />                            <p:graphicImage url="/media/images/informationSmall.png"
-                                style="cursor:pointer;" id="indCursusExt" />
+    							rendered="#{sessionController.currentInd.canUpdateIndCursusPro}" />
                             <p:graphicImage url="/media/images/informationSmall.png"
                                 style="cursor:pointer;" id="helpCursusExt"/>
                             <p:overlayPanel for="helpCursusExt"
@@ -242,7 +245,7 @@
     					</h:panelGroup>
     					<h:outputText value="#{sessionController.currentInd.etatIndCursusPro}" />
     					<h:panelGroup>
-    						<p:commandButton image="/media/images/magnifier.png"
+    						<p:commandButton icon="form-button-image-see"
     							styleClass="form-button-image" immediate="true"
     							action="#{cursusController.goSeeCursusPro}"
     							title="#{msgs['_.BUTTON.DISPLAY']}"
@@ -278,7 +281,7 @@
     					<h:outputText
     						value="#{sessionController.currentInd.etatQualifNonDiplomante}" />
     					<h:panelGroup>
-    						<p:commandButton image="/media/images/magnifier.png"
+    						<p:commandButton icon="form-button-image-see"
     							styleClass="form-button-image" immediate="true"
     							action="#{cursusController.goSeeQualif}"
     							title="#{msgs['_.BUTTON.DISPLAY']}"

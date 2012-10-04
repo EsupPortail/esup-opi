@@ -46,7 +46,7 @@
     <bean id="ticketValidationFilter"
         class="org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter"
         p:serverName="${serverName}"
-        p:redirectAfterValidation="false"
+        p:redirectAfterValidation="true"
         p:ticketValidator-ref="ticketValidator"
         p:proxyGrantingTicketStorage-ref="proxyGrantingTicketStorage" />
 

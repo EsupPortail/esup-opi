@@ -9,7 +9,8 @@
         		<h:outputText value="#{msgs['FIELD_LABEL.LOOK_FOR.IND']}"
         			styleClass="section-smallTitle" />
         		<h:panelGroup>
-        			<p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
+        			<p:commandButton id="search-button" value="#{msgs['_.BUTTON.SEARCH']}"
+                        update="@form"
         				action="#{individuController.goSeeCandidats}" />
         		</h:panelGroup>
         	</h:panelGrid>
@@ -18,7 +19,7 @@
         		<h:panelGroup>
         			<h:outputLabel value="#{msgs['INDIVIDU.NUM_DOSSIER']}" for="numDossierOpi" />
         		</h:panelGroup>
-        		<h:inputText id="numDossierOpi"
+        		<p:inputText id="numDossierOpi"
         			value="#{paginatorIndividu.indRechPojo.numDossierOpiRecherche}" />
         		<h:panelGroup>
         			<h:outputLabel value="#{msgs['COMMISSION.CHOICE']}" for="lesCommissions" />
@@ -36,18 +37,18 @@
         		<h:panelGroup>
         			<h:outputLabel value="#{msgs['INDIVIDU.NOM']}" for="nom" />
         		</h:panelGroup>
-        		<h:inputText id="nom"
+        		<p:inputText id="nom"
         			value="#{paginatorIndividu.indRechPojo.nomRecherche}" />
         		<h:panelGroup>
         			<h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom" />
         		</h:panelGroup>
-        		<h:inputText id="prenom"
+        		<p:inputText id="prenom"
         			value="#{paginatorIndividu.indRechPojo.prenomRecherche}" />
         
         		<h:panelGroup>
         			<h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc" />
         		</h:panelGroup>
-        		<p:selectManyCheckbox value="#{paginatorIndividu.listeRI}" converter="javax.faces.Integer"
+        		<p:selectManyCheckbox id="fc" value="#{paginatorIndividu.listeRI}" converter="javax.faces.Integer"
         			disabled="#{!paginatorIndividu.indRechPojo.canModifyRISearch}"
         			layout="lineDirection">
         			<f:selectItems var="ri" 

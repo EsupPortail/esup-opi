@@ -5,18 +5,17 @@
     <ui:fragment rendered="#{cursusController.confirmeDelete}" styleClass="confirmeDelete">
     	<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
     		styleClass="tableJustWidthMax">
-    		<h:outputText value="#{msgs['INDIVIDU.QUALIF.CONFIRM.DELETE']}">
+    		<h:outputFormat value="#{msgs['INDIVIDU.QUALIF.CONFIRM.DELETE']}">
     			<f:param value="#{cursusController.pojoQualif.cursus.libelle}"/>
-    		</h:outputText>
+    		</h:outputFormat>
     		<h:panelGroup>
     			<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    				action="#{cursusController.removeQualif}">
-    				<f:setPropertyActionListener value="false" target="#{cursusController.confirmeDelete}" />
-    			</p:commandButton>
+    				action="#{cursusController.removeQualif}"
+    				ajax="false"/>
     			<p:commandButton value="#{msgs['_.BUTTON.NO']}"
     				action="#{cursusController.goSeeQualif}"
-    				immediate="true">
-    				<f:setPropertyActionListener value="false" target="#{cursusController.confirmeDelete}" />
+    				immediate="true"
+    				ajax="false">
     			</p:commandButton>
     		</h:panelGroup>
     	</h:panelGrid>
@@ -49,7 +48,8 @@
     		<h:panelGroup>
     			<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
     				action="#{cursusController.addQualifNoDip}" 
-    				rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"/>
+    				rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"
+    				update=":addQualifForm" />
     			<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
     				action="#{cursusController.goSeeQualif}"
     				rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"/>
@@ -59,10 +59,10 @@
     				<f:setPropertyActionListener value="goWelcomeCandidat" target="#{accueilController.methodIfVerified}" />
     				<f:setPropertyActionListener value="#{accueilController}" target="#{accueilController.object}" />
     			</p:commandButton>
-    						
-    						
+    						    						
     		</h:panelGroup>
     	</h:panelGrid>
+    	
     	<h:panelGrid columns="6" styleClass="tableWidthMax"
     		rendered="#{!cursusController.confirmeDelete}">
     		<h:panelGroup>
@@ -103,7 +103,8 @@
     		<h:panelGroup>
     			<h:inputTextarea id="commentQualif" value="#{cursusController.pojoQualif.cursus.comment}" style="width:250px;" />
     		</h:panelGroup>
-    
+    		<h:panelGroup/>
+    		<h:panelGroup/>
     	</h:panelGrid>
     	
     	<br />
@@ -143,7 +144,8 @@
     			<h:panelGroup>
                     <h:outputText value="#{cursusPojo.shortComment}" />
                     <p:graphicImage url="/media/images/informationSmall.png"
-                        style="cursor:pointer;" id="helpNoDipObj" />
+                        style="cursor:pointer;" id="helpNoDipObj" 
+                        rendered="#{cursusPojo.isShortComment}"/>
                     <p:overlayPanel for="helpNoDipObj"
                         showEvent="mouseover"
                         hideEvent="mouseout"
@@ -160,11 +162,13 @@
     		</p:column>
     		<p:column styleClass="buttonTD"
     			rendered="#{!cursusController.confirmeDelete}">
-    			<p:commandButton image="/media/images/cancel.png"
+    			<p:commandButton icon="form-button-image-cancel"
     				styleClass="form-button-image" immediate="true"
     				title="#{msgs['_.BUTTON.DELETE']}"
-    				rendered="#{(sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate)}">
-    				<f:setPropertyActionListener value="true" target="#{cursusController.confirmeDelete}" />
+    				rendered="#{(sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate)}"
+    				update=":addQualifForm"
+    				ajax="false"
+    				action="#{cursusController.setConfirmeDelete}">
     				<f:setPropertyActionListener value="#{cursusPojo.cursus}" target="#{cursusController.pojoQualif.cursus}" />
     			</p:commandButton>
     		</p:column>		

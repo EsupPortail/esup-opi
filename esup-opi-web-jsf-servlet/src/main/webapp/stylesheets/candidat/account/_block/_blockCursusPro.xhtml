@@ -5,21 +5,19 @@
     <ui:fragment rendered="#{cursusController.confirmeDelete}" styleClass="confirmeDelete">
     	<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
     		styleClass="tableJustWidthMax">
-    		<h:outputText value="#{msgs['INDIVIDU.CURSUS_PRO.CONFIRM.DELETE']}">
+    		<h:outputFormat value="#{msgs['INDIVIDU.CURSUS_PRO.CONFIRM.DELETE']}">
     			<f:param value="#{cursusController.indCursusPojo.cursus.annee}"/>
     			<f:param value="#{cursusController.indCursusPojo.cursus.organisme}"/>
     			<f:param value="#{cursusController.indCursusPojo.cursus.duree}"/>
-    		</h:outputText>
+    		</h:outputFormat>
     		<h:panelGroup>
     			<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    				action="#{cursusController.removeCursusPro}">
-    				<f:setPropertyActionListener value="false" target="#{cursusController.confirmeDelete}" />
-    			</p:commandButton>
+    				action="#{cursusController.removeCursusPro}"
+    				ajax="false"/>
     			<p:commandButton value="#{msgs['_.BUTTON.NO']}"
     				action="#{cursusController.goSeeCursusPro}"
-    				immediate="true">
-    				<f:setPropertyActionListener value="false" target="#{cursusController.confirmeDelete}" />
-    			</p:commandButton>
+    				immediate="true"
+    				ajax="false"/>
     		</h:panelGroup>
     	</h:panelGrid>
     </ui:fragment>
@@ -51,7 +49,8 @@
     		<h:panelGroup>
     			<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
     				action="#{cursusController.addCursusPro}" 
-    				rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"/>
+    				rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"
+    				update=":addCursusForm"/>
     			<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
     				action="#{cursusController.goSeeCursusPro}"
     				rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"/>
@@ -64,11 +63,11 @@
     
     		</h:panelGroup>
     	</h:panelGrid>
+    	
     	<h:panelGrid columns="4" styleClass="tableWidthMax"
     		rendered="#{!cursusController.confirmeDelete}">
     		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['FIELD_LABEL.YEAR']}" 
-    				for="anneeCursusPro" />
+    			<h:outputLabel value="#{msgs['FIELD_LABEL.YEAR']}" for="anneeCursusPro" />
     			<h:outputText value="*" styleClass="etoileForChpObli" />
     		</h:panelGroup>
     		<h:panelGroup>
@@ -107,7 +106,8 @@
     		<h:panelGroup>
     			<h:outputLabel value="#{msgs['FIELD_LABEL.DESC_ACTV']}" for="commentCurPro" />
                 <p:graphicImage url="/media/images/informationSmall.png"
-                    style="cursor:pointer;" id="helpDescActv" />
+                    style="cursor:pointer;" id="helpDescActv"
+                    rendered="#{cursusPojo.isShortComment}" />
                 <p:overlayPanel for="helpDescActv"
                     showEvent="mouseover"
                     hideEvent="mouseout"
@@ -127,6 +127,8 @@
     					onkeyup="this.value = this.value.slice(0, 2000)" onchange="this.value = this.value.slice(0, 2000)"
     					rows="3" style="width:250px;" />
     		</h:panelGroup>
+    		<h:panelGroup/>
+    		<h:panelGroup/>
     	</h:panelGrid>
     
     	<br />
@@ -166,7 +168,8 @@
     			<h:panelGroup>
     				<h:outputText value="#{cursusPojo.shortComment}" />
                     <p:graphicImage url="/media/images/informationSmall.png"
-                        style="cursor:pointer;" id="infoAnneeUni" />
+                        style="cursor:pointer;" id="infoAnneeUni"
+                        rendered="#{cursusPojo.isShortComment}" />
                     <p:overlayPanel for="infoAnneeUni"
                         showEvent="mouseover"
                         hideEvent="mouseout"
@@ -181,13 +184,14 @@
                     </p:overlayPanel>	
     			</h:panelGroup>
     		</p:column>
-    		<p:column styleClass="buttonTD"
-    			rendered="#{!cursusController.confirmeDelete}">
-    			<p:commandButton image="/media/images/cancel.png"
+    		<p:column styleClass="buttonTD" rendered="#{!cursusController.confirmeDelete}">
+    			<p:commandButton icon="form-button-image-cancel"
     				styleClass="form-button-image" immediate="true"
     				title="#{msgs['_.BUTTON.DELETE']}"
-    				rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}">
-    				<f:setPropertyActionListener value="true" target="#{cursusController.confirmeDelete}" />
+    				rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"
+    				update=":addCursusForm"
+    				ajax="false"
+    				action="#{cursusController.setConfirmeDelete}">
     				<f:setPropertyActionListener value="#{cursusPojo.cursus}" target="#{cursusController.indCursusPojo.cursus}" />
     			</p:commandButton>
     		</p:column>

@@ -5,6 +5,8 @@
 package org.esupportail.opi.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -62,23 +64,18 @@ import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
 
 import pedagogiquemetier_28022011_impl.servicesmetiers.commun.apogee.education.gouv.PedagogiqueMetierServiceInterface;
-
-//import pedagogiquemetier_28022011_impl.servicesmetiers.commun.apogee.education.gouv.PedagogiqueMetierServiceInterface;
-//import pedagogiquemetier_28022011_impl.servicesmetiers.commun.apogee.education.gouv.PedagogiqueMetierServiceInterfaceService;
 import administratifmetier_17062009_impl.servicesmetiers.commun.apogee.education.gouv.AdministratifMetierServiceInterface;
-//import administratifmetier_17062009_impl.servicesmetiers.commun.apogee.education.gouv.AdministratifMetierServiceInterfaceService;
+import etudiantwebserviceimpl.impl.webservices.commun.apogee.education.gouv.EtudiantMetierServiceInterface;
+import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.GeographieMetierServiceInterface;
+import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.WebBaseException;
 
 import com.googlecode.ehcache.annotations.Cacheable;
 
-import etudiantwebserviceimpl.impl.webservices.commun.apogee.education.gouv.EtudiantMetierServiceInterface;
-//import etudiantwebserviceimpl.impl.webservices.commun.apogee.education.gouv.EtudiantMetierServiceInterfaceService;
 import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip;
 import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDipCorresp;
 import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Domaine2AnnuFormDTO;
 import fr.univ.rennes1.cri.apogee.services.remote.ReadRennes1PortType;
-import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.GeographieMetierServiceInterface;
-//import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.GeographieMetierServiceInterfaceService;
-import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.WebBaseException;
+
 import gouv.education.apogee.commun.transverse.dto.administratif.cursusexternedto.CursusExterneDTO;
 import gouv.education.apogee.commun.transverse.dto.administratif.cursusexternesettransfertsdto.CursusExternesEtTransfertsDTO;
 import gouv.education.apogee.commun.transverse.dto.administratif.insadmetpdto.InsAdmEtpDTO;
@@ -426,8 +423,11 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 		}
 		try {
 			List<Departement> d = remoteCriApogeeRef.getDepartements(TRUE);
-			//TODO : fix that !
-			//Collections.sort(d, new ComparatorString(Departement.class));
+			Collections.sort(d, new Comparator<Departement>() {
+			    public int compare(Departement d1, Departement d2) {
+			        return d1.getCodDep().compareTo(d2.getCodDep());
+			    }
+			});
 			return d;
 		} catch (Exception e) {
 			throw new CommunicationApogeeException(e);
@@ -448,12 +448,7 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 		try {
 			List<CommuneDTO> c = new ArrayList<CommuneDTO>();
 
-//			GeographieMetierServiceInterface geographieMetierService 
-//			= new GeographieMetierServiceInterfaceService().getGeographieMetier();
-
 			String temoinEnService = TRUE;
-//			List<CommuneDTO> commune = geographieMetierService.recupererCommune(
-//					codBdi, temoinEnService, temoinEnService);
 			List<CommuneDTO> commune = remoteApoRenGeoMetier.recupererCommune(
 					codBdi, temoinEnService, temoinEnService);
 			for (CommuneDTO communeDTO : commune) {

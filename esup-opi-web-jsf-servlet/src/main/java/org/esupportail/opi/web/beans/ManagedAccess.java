@@ -12,8 +12,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.el.ExpressionFactory;
+import javax.el.MethodExpression;
+import javax.faces.context.FacesContext;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.ActionListener;
+import javax.faces.event.FacesListener;
+
 import org.esupportail.commons.exceptions.UserNotFoundException;
 import org.esupportail.commons.exceptions.WebFlowException;
+import org.esupportail.commons.services.i18n.I18nService;
+import org.esupportail.commons.services.i18n.I18nUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
@@ -30,6 +40,10 @@ import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorInteger;
 import org.esupportail.opi.web.controllers.SessionController;
 import org.esupportail.opi.web.tag.NavigationMenuItem;
+import org.primefaces.component.menuitem.MenuItem;
+import org.primefaces.component.submenu.Submenu;
+import org.primefaces.model.DefaultMenuModel;
+import org.primefaces.model.MenuModel;
 import org.springframework.beans.factory.InitializingBean;
 
 
@@ -67,6 +81,8 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 	 * The SessionController.
 	 */
 	private SessionController sessionController;
+	
+	private MenuModel menuModel;
 
 	/**
 	 * A logger.
@@ -140,9 +156,14 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 				Gestionnaire g = (Gestionnaire) u;
 				Set<Traitement> l = new TreeSet<Traitement>(new ComparatorInteger(Traitement.class));
 				l.addAll(parameterService.getTraitements(
-						g.getProfile(), Traitement.TYPE_DOMAIN, null)); 
+						g.getProfile(), Traitement.TYPE_DOMAIN, null));
+
+				FacesContext ctx = FacesContext.getCurrentInstance();
 				for (Traitement t : l) {
-					traitementDisplay.add(new NavigationMenuItem(t.getLibelle(), "#{" + t.getAction() + "}", t));
+					MethodExpression me = ctx.getApplication().getExpressionFactory().createMethodExpression(
+							ctx.getELContext(), t.getAction(), String.class, new Class[]{});
+					String action  = (String) me.invoke(ctx.getELContext(), null);
+					traitementDisplay.add(new NavigationMenuItem(t.getLibelle(), action, t));
 				}
 			} else {
 				log.warn("the user is not a manager : " + u);
@@ -162,7 +183,7 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 		l.addAll(parameterService.getTraitements(g.getProfile(),
 				Traitement.TYPE_FUNCTION, (Domain) currentTraitement)); 
 		for (Traitement t : l) {
-			traitementDisplay.add(new NavigationMenuItem(t.getLibelle(), "#{" + t.getAction() + "}", t));
+			traitementDisplay.add(new NavigationMenuItem(t.getLibelle(), t.getAction(), t));
 		}
 
 
@@ -251,6 +272,103 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 		}
 		return false;
 	}
+	
+//	/**
+//	 * Use by deeplinking cf. deepLinking.xml
+//	 * @param codeTrt
+//	 * @return String callback to redirect
+//	 */
+//	public String initCurrentTreatement(final String codeTrt) {
+//
+//		currentTraitement = parameterService.getTraitement(Integer.valueOf(codeTrt));
+//
+//		String elAction = TagUtils.makeELExpression(currentTraitement.getAction());
+//		FacesContext context = FacesContext.getCurrentInstance();
+//		MethodExpression method = context.getApplication()
+//		.getExpressionFactory().createMethodExpression(
+//				context.getELContext(), elAction, String.class, new Class[]{});
+//		//execute the method define to action attributes.
+//		Object navRules = method.invoke(context.getELContext(), null);
+//		return (String) navRules;
+//
+//
+//	}
+//	
+//	/**
+//	 * Generate the URL for to the all treatment in this application.
+//	 * @param t 
+//	 * @return String
+//	 */
+//	private final String treatmentUrl(final Traitement t) {
+//		Map<String, String> params = new HashMap<String, String>();
+//		params.put("treatment", String.valueOf(t.getId()));
+//		String url = urlGenerator.casUrl(params);
+//		return url;
+//	}
+	/**
+	 * Builds the manager's menu.
+	 * @return a menu.
+	 */
+	public MenuModel getMenuGestionnaire() {
+		menuModel = new DefaultMenuModel();
+		I18nService i18nService = I18nUtils.createI18nService();
+		final FacesContext fc = FacesContext.getCurrentInstance();
+		final ExpressionFactory factory = fc.getApplication().getExpressionFactory();
+		MenuItem accueil = new MenuItem();
+		accueil.setValue(i18nService.getString("NAVIGATION.TEXT.WELCOME"));
+		accueil.setActionExpression(factory.createMethodExpression(fc.getELContext(), "#{welcomeController.goWelcomeManager}", String.class, new Class[]{}));
+		menuModel.addMenuItem(accueil);
+		User u = sessionController.getCurrentUser();
+		if (u != null) { 
+			if (u instanceof Gestionnaire) {	
+				Gestionnaire g = (Gestionnaire) u;
+				Set<Traitement> domains = new TreeSet<Traitement>(new ComparatorInteger(Traitement.class));
+				domains.addAll(parameterService.getTraitements(
+						g.getProfile(), Traitement.TYPE_DOMAIN, null));
+				for (Traitement d : domains) {
+					Submenu sub = new Submenu();
+					sub.setLabel(d.getLibelle());
+					Set<Traitement> functions = new TreeSet<Traitement>(new ComparatorInteger(Traitement.class));
+					functions.addAll(parameterService.getTraitements(
+							g.getProfile(), Traitement.TYPE_FUNCTION, (Domain) d));
+					for (final Traitement f : functions) {
+						final MethodExpression me = factory.createMethodExpression(fc.getELContext(), f.getAction(), String.class, new Class[]{});
+						MenuItem item = new MenuItem();
+						item.setValue(f.getLibelle());
+//						item.setActionExpression(me);
+						item.setActionExpression(callFunction(f));
+						sub.getChildren().add(item);
+					}					
+					menuModel.addSubmenu(sub);
+				}
+			}
+		}
+		MenuItem logout = new MenuItem();
+		logout.setRendered(sessionController.getIsServlet());
+		logout.setValue(i18nService.getString("NAVIGATION.TEXT.LOGOUT"));
+		logout.setActionExpression(factory.createMethodExpression(fc.getELContext(), "#{sessionController.logoutGest}", String.class, new Class[]{}));
+		menuModel.addMenuItem(logout);
+		
+		return menuModel;
+	}
+	
+	public void setMenuGestionnaire(final MenuModel menuModel) {
+		this.menuModel = menuModel;  
+	}
+	
+	/**
+	 * 
+	 * @param f
+	 * @return
+	 */
+	private MethodExpression callFunction(final Traitement f) {
+		setCurrentTraitement(f);
+		final FacesContext fc = FacesContext.getCurrentInstance();
+		final ExpressionFactory factory = fc.getApplication().getExpressionFactory();
+		final MethodExpression me = factory.createMethodExpression(fc.getELContext(), f.getAction(), String.class, new Class[]{});
+		
+		return me;
+	}
 
 	/*
 	 ******************* ACCESSORS ******************** */
@@ -299,7 +417,4 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 	public void setSessionController(final SessionController sessionController) {
 		this.sessionController = sessionController;
 	}
-
-
-
 }

@@ -12,7 +12,7 @@
 
     <navigation-rule>
         <display-name>index.xhtml -> welcome.xhtml</display-name>
-        <from-view-id>/*</from-view-id>
+        <from-view-id>*</from-view-id>
         <navigation-case>
             <from-outcome>*</from-outcome>
             <to-view-id>/stylesheets/welcome.xhtml</to-view-id>
@@ -386,7 +386,7 @@
 
 	<navigation-rule>
 		<display-name>domain parameters fonctions</display-name>
-		<from-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</from-view-id>
+		<from-view-id>*</from-view-id>
 		<!-- Parameters and  Classifications -->
 		<navigation-case>
 			<from-outcome>go_managed_profils</from-outcome>

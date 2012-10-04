@@ -551,6 +551,7 @@ public class IndividuController extends AbstractAccessController {
 	public String goSeeCandidats() {
 		//init the filtre
 		individuPaginator.filtreRechercheEtudiants();
+		individuPaginator.forceReload();
 		//comment the 01/04/2009
 		//individuPaginator.reset();
 		return NavigationRulesConst.DISPLAY_FOUND_STUDENT;
@@ -564,6 +565,7 @@ public class IndividuController extends AbstractAccessController {
 	 */
 	public String goSeeAllEtudiants() {
 		individuPaginator.allStudentsFilter();
+		individuPaginator.forceReload();
 		return NavigationRulesConst.DISPLAY_STUDENT;
 	}
 
@@ -1024,9 +1026,7 @@ public class IndividuController extends AbstractAccessController {
 				int codeRI = pojoIndividu.getRegimeInscription().getCode();
 				Campagne campEnCours = getParameterService().getCampagneEnServ(codeRI);
 				Campagne campDel = null;
-				//init hib proxy adresse
-				getDomainService().initOneProxyHib(pojoIndividu.getIndividu(), 
-						pojoIndividu.getIndividu().getCampagnes(), Campagne.class);
+
 				for (Campagne camp : pojoIndividu.getIndividu().getCampagnes()) {
 					if (camp.getCodAnu().equals(campEnCours.getCodAnu())) {
 						campDel = camp;

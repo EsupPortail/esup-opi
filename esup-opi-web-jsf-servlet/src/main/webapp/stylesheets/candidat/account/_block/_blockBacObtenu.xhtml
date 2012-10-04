@@ -37,7 +37,7 @@
     	</div>
     	
     	<h:panelGrid styleClass="tableWidthMax" columns="2"
-    		columnClasses="colUnQuart,colTroisQuart">
+    		columnClasses="colUnQuart,colTroisQuart" id="infobac">
     		<h:panelGroup>
     			<h:outputLabel value="#{msgs['ADRESS.PAY']}"
     				for="paysBac" />
@@ -45,14 +45,13 @@
     		</h:panelGroup>
     		<h:panelGroup>
     			<p:selectOneMenu id="paysBac"
-    				onchange="javascript:{simulateLinkClick('addCursusForm:submitSelectPay');}"
-    					valueChangeListener="#{indBacController.selectPay}"
-    				value="#{indBacController.indBac.codPay}">
+    				value="#{indBacController.indBac.codPay}"
+    				valueChangeListener="#{indBacController.selectPay}">
     				<f:selectItem itemLabel="" itemValue="" />
     				<f:selectItems var="pays" value="#{adressController.pays}"
     					itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}" />
+    				<p:ajax update="infobac" />
     			</p:selectOneMenu>
-    			<p:commandButton id="submitSelectPay"/>
     		</h:panelGroup>
     		<h:panelGroup rendered="#{indBacController.indBac.codPay == adressController.codeFrance}">
     			<h:outputLabel value="#{msgs['FIELD_LABEL.DEPARTEMENT']}" for="depBac" />
@@ -61,14 +60,13 @@
     
     		<h:panelGroup rendered="#{indBacController.indBac.codPay == adressController.codeFrance}">
     			<p:selectOneMenu id="depBac"
-    				onchange="javascript:{simulateLinkClick('addCursusForm:submitSelectDep');}"
     				valueChangeListener="#{indBacController.selectDep}"
     				value="#{indBacController.indBac.codDep}">
     				<f:selectItem itemLabel="" itemValue="" />
     				<f:selectItems var="dept" value="#{adressController.departements}"
     					itemLabel="#{dept.libDep}" itemValue="#{dept.codDep}" />
+    			<p:ajax update="infobac"/>
     			</p:selectOneMenu>
-    			<p:commandButton id="submitSelectDep"/>
     		</h:panelGroup>
     		
     		
@@ -80,15 +78,15 @@
     		<h:panelGroup rendered="#{indBacController.indBac.codPay == adressController.codeFrance}">
 <!--     			/*problème de rafraichissement du au valueChangeListener mais je ne sais pas pourquoi*/  -->
     			<p:selectOneMenu id="commune"
-    					onchange="javascript:{simulateLinkClick('addCursusForm:submitSelectCommune');}"
     					valueChangeListener="#{indBacController.selectCommune}" 
     					value="#{indBacController.indBac.codCom}">
     				<f:selectItem itemLabel="" itemValue=""/>
     				<f:selectItems var="commune" 
     					value="#{indBacController.communes}"
     					itemLabel="#{commune.libCom}" itemValue="#{commune.codCom}"/>
+    				<p:ajax update="infobac"/>
     			</p:selectOneMenu>
-    			<p:commandButton id="submitSelectCommune" />
+    			<!-- <p:commandButton id="submitSelectCommune" /> -->
     		</h:panelGroup>
     		<h:panelGroup rendered="#{indBacController.indBac.codPay == adressController.codeFrance}" >
     			<h:outputLabel value="#{msgs['ETABLISSEMENT']}" for="etabBac" />
@@ -142,9 +140,9 @@
     			</p:overlayPanel>
     		</h:panelGroup>
     		<h:panelGroup>
-    			<h:inputText id="daaObt" size="6" maxlength="4" 
-    				value="#{indBacController.indBac.dateObtention}"/>
-    			<p:commandButton id="submitDaaObt" />
+    			<p:inputText id="daaObt" size="6" maxlength="4" 
+    				value="#{indBacController.indBac.dateObtention}"
+    				immediate="true"/>
     		</h:panelGroup>
     		
     		<h:panelGroup>
