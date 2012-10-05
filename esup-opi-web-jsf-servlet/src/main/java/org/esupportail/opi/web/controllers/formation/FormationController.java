@@ -316,8 +316,7 @@ public class FormationController extends AbstractAccessController {
 		//on ne doit garder que les version Etape rattache a au moins une commission.
 
 		//1. on regarde si c'est rattachee des commissions et on cree une map contenant cmi et vrsEtp.
-		// TODO: remove hashset hack
-		Set<Commission> cmi = new HashSet<Commission>(getParameterService().getCommissions(true));
+		Set<Commission> cmi = getParameterService().getCommissions(true);
 		Map<Commission, Set<VersionEtapeDTO>> mapCmi = Utilitaires.getCmiForVetDTO(cmi, new HashSet<VersionEtapeDTO>(list), camp);
 		
 		if (log.isDebugEnabled()) {
@@ -341,8 +340,7 @@ public class FormationController extends AbstractAccessController {
 		//on ne doit garder que les version Etape rattache a au moins une commission.
 
 		//1. on regarde si c'est rattachee des commissions et on cree une map contenant cmi et vrsEtp.
-		// TODO: remove hashset hack
-		Set<Commission> cmi = new HashSet<Commission>(getParameterService().getCommissions(true));
+		Set<Commission> cmi = getParameterService().getCommissions(true);
 		Map<Commission, Set<VersionEtapeDTO>> mapCmi = Utilitaires.getCmiForVetDTO(cmi, new HashSet<VersionEtapeDTO>(list), camp);
 		
 		if (log.isDebugEnabled()) {
@@ -420,8 +418,7 @@ public class FormationController extends AbstractAccessController {
 					.getVersionDiplomes(getSearchFormationPojo().getCodKeyWordSelected(),
 							getSearchFormationPojo().getGroupTypSelected(),
 							camp.getCodAnu()));
-			// TODO: remove hashset hack
-			Set<Commission> cmi = new HashSet<Commission>(getParameterService().getCommissions(true));
+			Set<Commission> cmi = getParameterService().getCommissions(true);
 			List<VersionDiplomeDTO> vdi = new ArrayList<VersionDiplomeDTO>();
 			//on retire le diplome qui n'ont pas de VET rattachees e des commissions.
 			for (VersionDiplomeDTO v : getSearchFormationPojo().getVersionDiplomes()) {
@@ -457,8 +454,7 @@ public class FormationController extends AbstractAccessController {
 		Campagne camp = getParameterService()
 			.getCampagneEnServ(regimeIns.getCode());
 		//list of all commissions in use
-		// TODO: remove hashset hack
-		Set<Commission> cmi = new HashSet<Commission>(getParameterService().getCommissions(true));
+		Set<Commission> cmi = getParameterService().getCommissions(true);
 
 		//map with the commission and its etapes sur lesquelles le candidat a deposer des voeux
 		Map<Commission, Set<VersionEtapeDTO>> mapCmi = Utilitaires.getCmiForIndVoeux(cmi, indVoeuPojos, camp);
@@ -523,9 +519,8 @@ public class FormationController extends AbstractAccessController {
 		Campagne camp = getParameterService()
 			.getCampagneEnServ(regimeIns.getCode());
 		Boolean sendMail = false;
-		// TODO: remove hashset hack
 		Map<Commission, Set<VersionEtapeDTO>> wishesByCmi = Utilitaires.getCmiForIndVoeux(
-				new HashSet<Commission>(getParameterService().getCommissions(true)),
+				getParameterService().getCommissions(true),
 				indVoeuAdd, camp); 
 		
 //		Map<Commission, Set<VersionEtapeDTO>> wishesVaOrTr = 

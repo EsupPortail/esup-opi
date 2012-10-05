@@ -114,7 +114,8 @@ public class GestionnaireController extends AbstractAccessController {
 	 * @return String 
 	 */
 	public String goSeeAllManagers() {
-		listeGestionnaires =  getDomainService().getManagers();
+		paginator.reset();
+		paginator.forceReload();
 		return NavigationRulesConst.MANAGED_MANAGER;
 	}
 	

@@ -2,7 +2,7 @@
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui">
-    <ui:fragment rendered="#{not empty managedAccess.domainAccueilGest
+    <ui:fragment rendered="#{not empty managedAccess.menuModel.contents
                 and opinionController.actionEnum.whatAction != 
                 opinionController.actionEnum.propositionAction}">
         <div id="blockFormSearch" class="blockForm">
@@ -80,16 +80,15 @@
         					action="#{opinionController.searchStudentsByEtp}"  ajax="false" />
         			</h:panelGroup>
         			<h:panelGroup>
-        				<h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc" />
+                                    <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc" />
         			</h:panelGroup>
-        			<p:selectManyCheckbox value="#{paginatorIndividuPojo.listeRI}" converter="javax.faces.Integer"
-        				disabled="#{!paginatorIndividuPojo.indRechPojo.canModifyRISearch}"
-        				layout="lineDirection">
-        				<f:selectItems var="ri" 
-        						itemLabel="#{ri.shortLabel}" itemValue="#{ri.code}"
-        						value="#{nomenclatureController.allRegimeInscription}"/>
-        			</p:selectManyCheckbox>
-        			
+                                <p:selectManyCheckbox id="fc" value="#{paginatorIndividuPojo.listeRI}" converter="javax.faces.Integer"
+                                                      disabled="#{!paginatorIndividuPojo.indRechPojo.canModifyRISearch}"
+                                                      layout="lineDirection">
+                                    <f:selectItems var="ri" 
+                                                   itemLabel="#{ri.shortLabel}" itemValue="#{ri.code}"
+                                                   value="#{nomenclatureController.allRegimeInscription}"/>
+                                </p:selectManyCheckbox>
         		</h:panelGrid>
         	</h:form>
         </div>

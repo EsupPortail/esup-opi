@@ -112,10 +112,7 @@ public interface DomainApoService extends Serializable {
 	 * @param codVrsVet
 	 * @return VersionEtapeDTO
 	 */
-	/**
-	 * TODO : à supprimer (11/01/2012)
-	 */
-//	VersionEtapeDTO getVersionEtape(String codEtp, Integer codVrsVet);
+	VersionEtapeDTO getVersionEtape(String codEtp, Integer codVrsVet);
 	
 	    /**
     	 * List of the commisions managed by the gestionnaire.
@@ -124,7 +121,7 @@ public interface DomainApoService extends Serializable {
     	 * @param parameterService 
     	 * @return Set< Commission>
     	 */
-	List<Commission> getListCommissionsByRight(final Gestionnaire gest, final Boolean temEnSve);
+	Set<Commission> getListCommissionsByRight(final Gestionnaire gest, final Boolean temEnSve);
 
 	
 	//////////////////////////////////////////////////////////////

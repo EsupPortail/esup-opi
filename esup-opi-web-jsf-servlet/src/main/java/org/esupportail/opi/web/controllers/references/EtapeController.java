@@ -289,9 +289,8 @@ public class EtapeController extends AbstractContextAwareController {
 	 * @return List < BeanTrtCmi>
 	 */
 	public List<BeanTrtCmi> searchEtapeInCmi() {
-		List<Commission> c = getDomainApoService().getListCommissionsByRight(
-									getCurrentGest(), 
-									true);
+		Set<Commission> c = getDomainApoService().getListCommissionsByRight(
+		    getCurrentGest(), true);
 		// on récupère les campagnes en service
 		Set<Campagne> camps = getParameterService().getCampagnes(true, 
 				String.valueOf(getCurrentGest().getProfile().getCodeRI()));

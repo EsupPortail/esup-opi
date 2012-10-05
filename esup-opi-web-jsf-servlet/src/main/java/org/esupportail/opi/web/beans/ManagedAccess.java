@@ -35,7 +35,6 @@ import org.esupportail.opi.domain.beans.user.User;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorInteger;
 import org.esupportail.opi.web.controllers.SessionController;
-import org.esupportail.opi.web.tag.NavigationMenuItem;
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.component.submenu.Submenu;
 import org.primefaces.model.DefaultMenuModel;
@@ -57,11 +56,6 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 
 	/*
 	 ******************* PROPERTIES ******************* */
-
-	/**
-	 * 	Treatment to display of the rights of the current user.
-	 */
-	private List<NavigationMenuItem> traitementDisplay;
 
 	/**
 	 * The current treatement.
@@ -108,82 +102,15 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 		reset();
 	}
 
-	/** 
-	 * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
-	 */
-	@Override
-	public void reset() {
-		traitementDisplay = new ArrayList<NavigationMenuItem>();
-	}
-
 	/*
 	 ******************* CALLBACK ********************** */
 
-	/**
-	 * Callback use by all domain with function.
-	 * @return String 
-	 */
-	public String goDisplayFunction() {
-		if (currentTraitement instanceof Fonction) {
-			//cela signifie que l'on se trouve dans le mecasnisme 
-			//de retour vers la liste des fonctionnalites
-			Fonction f = (Fonction) currentTraitement;
-			currentTraitement = parameterService.getDomain(f.getDomain().getId());
-
-		}
-
-		makeFunction();	
-		return NavigationRulesConst.DISPLAY_FONCTION;
-	}
-
-
+	@Override
+	public void reset() {}
+	
+	
 	/*
 	 ******************* METHODS ********************** */
-
-	/**
-	 * The list of domain for the welcome manager.
-	 * @return List< NavigationMenuItem>
-	 */
-	public List<NavigationMenuItem> getDomainAccueilGest() throws UserNotFoundException {
-		reset();
-		User u = sessionController.getCurrentUser();
-		if (u != null) { 
-			if (u instanceof Gestionnaire) {
-				Gestionnaire g = (Gestionnaire) u;
-				Set<Traitement> l = new TreeSet<Traitement>(new ComparatorInteger(Traitement.class));
-				l.addAll(parameterService.getTraitements(
-						g.getProfile(), Traitement.TYPE_DOMAIN, null));
-
-				FacesContext ctx = FacesContext.getCurrentInstance();
-				for (Traitement t : l) {
-					MethodExpression me = ctx.getApplication().getExpressionFactory().createMethodExpression(
-							ctx.getELContext(), t.getAction(), String.class, new Class[]{});
-					String action  = (String) me.invoke(ctx.getELContext(), null);
-					traitementDisplay.add(new NavigationMenuItem(t.getLibelle(), action, t));
-				}
-			} else {
-				log.warn("the user is not a manager : " + u);
-			}
-		}
-		return traitementDisplay;
-
-	}
-
-	/**
-	 * Make the function to display of the rights of currentUser.
-	 */
-	private void makeFunction() {
-		traitementDisplay = new ArrayList<NavigationMenuItem>();
-		Gestionnaire g = (Gestionnaire) sessionController.getCurrentUser();
-		Set<Traitement> l = new TreeSet<Traitement>(new ComparatorInteger(Traitement.class));
-		l.addAll(parameterService.getTraitements(g.getProfile(),
-				Traitement.TYPE_FUNCTION, (Domain) currentTraitement)); 
-		for (Traitement t : l) {
-			traitementDisplay.add(new NavigationMenuItem(t.getLibelle(), t.getAction(), t));
-		}
-
-
-	}
 
 	/** 
 	 * Permet de definir si un user a le droit sur la fonctionnalite courante.
@@ -198,7 +125,7 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 				Set<AccessRight> accessRights  = gest.getProfile().getAccessRight();
 				for (Iterator<AccessRight> iA = accessRights.iterator(); iA.hasNext();) {
 					AccessRight a = iA.next();
-					if (a.getTraitement().getId().equals(getCurrentTraitement().getId())) {
+					if (a.getTraitement().getCode().equals(getCurrentTraitement().getCode())) {
 						if (codAccess.equals(a.getCodeAccessType())) {
 							return true;
 						}
@@ -388,21 +315,11 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 	 ******************* ACCESSORS ******************** */
 
 
-
-	/**
-	 * @return the traitementDisplay
-	 */
-	public List<NavigationMenuItem> getTraitementDisplay() {
-		return traitementDisplay;
+	public MenuModel getMenuModel() {
+		return menuModel;
 	}
-
-	/**
-	 * @param traitementDisplay the traitementDisplay to set
-	 */
-	public void setTraitementDisplay(final List<NavigationMenuItem> traitementDisplay) {
-		this.traitementDisplay = traitementDisplay;
-	}
-
+	
+	
 	/**
 	 * @return the currentTraitement
 	 */

@@ -138,11 +138,10 @@ public class PMPaginator extends IndividuPaginator {
 			Utilitaires.convertIndInIndPojo(getVisibleItems(), 
 					getSessionController().getParameterService(),
 					getSessionController().getI18nService(),
-					getSessionController().getBusinessCacheService(),
-					// TODO: remove hashset hack					
-					new HashSet<Commission>(domainApoService.getListCommissionsByRight(
+					domainApoService,
+					domainApoService.getListCommissionsByRight(
 							(Gestionnaire) getSessionController().getCurrentUser(), 
-							true)), 
+							true), 
 					null, getSessionController().getParameterService().getTypeTraitements(),
 					getSessionController().getParameterService().getCalendarRdv(), null, false);
 		for (IndividuPojo iP : indPojo) {

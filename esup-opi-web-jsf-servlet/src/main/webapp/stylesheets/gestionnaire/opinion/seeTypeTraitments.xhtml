@@ -8,7 +8,7 @@
     	
     	<div id="maPage" class="div_body">
     		<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
-            <ui:fragment rendered="#{not empty managedAccess.domainAccueilGest}">
+            <ui:fragment rendered="#{not empty managedAccess.menuModel.contents}">
         		<div id="blockFormSearch" class="blockForm">
         			<h:form id="lookForIndForm" styleClass="opiR1_form">
         				<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"

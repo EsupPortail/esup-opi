@@ -573,6 +573,14 @@ autres : pr�coniser d�clinaison � partir de la couleur secondaire.
 	display: table-cell;
 }
 
+/*## p:selectManyCheckbox ##*/
+.esup-opiR1-pselectmany-noborder {
+   border-style: none !important;
+}
+
+.esup-opiR1-pselectmany-noborder td {
+   border-style: inherit !important;
+}
 
 /*## table displayAddRdv ##*/
 table.displayAddRdv {
@@ -852,6 +860,13 @@ table.displayAddRdv tr td.right {
 
 .esup-opiR1 ul.listStyleTypeNone li {
 	list-style-type: none;
+}
+
+/*## p:dataList ## */
+
+.esup-opiR1-pdatalist-noborder .ui-datalist-content {
+   background-color: transparent;
+   border-style: none;
 }
 
 /*########  PAGINATOR ##########*/

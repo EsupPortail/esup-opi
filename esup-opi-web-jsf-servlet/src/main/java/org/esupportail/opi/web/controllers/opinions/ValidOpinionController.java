@@ -387,7 +387,7 @@ public class ValidOpinionController  extends AbstractContextAwareController  {
 					validateStudentsForTheCommission(laCommission);
 				}
 			} else if (this.printOpinionController.getAllChecked()) {
-			    List<Commission> c = commissionController.getCommissionsItemsByRight();
+			    Set<Commission> c = commissionController.getCommissionsItemsByRight();
 				for (Commission laCommission : c) {
 					validateStudentsForTheCommission(laCommission);
 				}

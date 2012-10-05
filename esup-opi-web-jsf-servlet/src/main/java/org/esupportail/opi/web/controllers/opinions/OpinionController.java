@@ -30,6 +30,7 @@ import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
+import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
@@ -126,7 +127,7 @@ public class OpinionController
 	/**
 	 * The all wishes selected.
 	 */
-	private Set<Object> wishSelected;
+	private Map<Individu, List<IndVoeuPojo>> wishSelected;
 
 	/**
 	 * see {@link IndividuPojoPaginator}.
@@ -172,7 +173,7 @@ public class OpinionController
 	 * 
 	 */
 	private Map<VersionEtpOpi, List<Integer>> mapTestRang = new HashMap<VersionEtpOpi, List<Integer>>();
-
+	
 	/*
 	 ******************* INIT ************************* */
 
@@ -194,7 +195,7 @@ public class OpinionController
 		listAvisPojo = new ArrayList<AvisPojo>();
 		avis = new Avis();
 		allChecked = false;
-		wishSelected = new HashSet<Object>();
+		wishSelected = new HashMap<Individu, List<IndVoeuPojo>>();
 		selectedTypeDec = null;
 		idSelectedMotiv = null;
 		selectedMotivation = null;
@@ -241,29 +242,26 @@ public class OpinionController
 	 */
 	public String goEnterAllStudentsOpinions() {
 		reset();
-//		individuPaginator.reset();
-//		individuPaginator.filtreAllCommissionRights(
-//				Utilitaires.getListCommissionsByRight(
-//						getCurrentGest(), 
-//						getDomainApoService(),
-//						getParameterService(), true), false, transfert.getCode());
-//		individuPaginator.forceReload();
+		individuPaginator.reset();
+		individuPaginator.filtreAllCommissionRights(
+				getDomainApoService().getListCommissionsByRight(
+						getCurrentGest(), true), false, transfert.getCode());
+		individuPaginator.forceReload();
 		return NavigationRulesConst.ENTER_ALL_STUDENTS_OPINIONS;
 	}
 
 	/**
 	 * Callback to list of student for the gestion of the opinions.
-	 * @return String 
+	 * @return String 	
 	 */
 	public String goEnterStudentsOpinions() {
 		reset();
 		individuPaginator.reset();
 		individuPaginator.setUseIndividuPojo(true);
 		individuPaginator.filtreAllCommissionRights(
-		    // TODO: remove hashset hack
-		    new HashSet<Commission>(getDomainApoService().getListCommissionsByRight(
+		    getDomainApoService().getListCommissionsByRight(
 						getCurrentGest(), 
-						true)), false, transfert.getCode());
+						true), false, transfert.getCode());
 		individuPaginator.forceReload();
 		return NavigationRulesConst.ENTER_STUDENTS_OPINIONS;
 	}
@@ -421,9 +419,9 @@ public class OpinionController
 //			} else {
 			Map<Integer, IndVoeuPojo> mapIndVoeuPojoNewAvis = new HashMap<Integer, IndVoeuPojo>();
 			//R�cup�ration de tous les nouveaus avis
-			for (Object o : wishSelected) {
-				IndVoeuPojo iPojo = (IndVoeuPojo) o;
-				mapIndVoeuPojoNewAvis.put(iPojo.getIndVoeu().getId(), iPojo);
+			for (List<IndVoeuPojo> li : wishSelected.values()) {
+				for (IndVoeuPojo iPojo : li)
+					mapIndVoeuPojoNewAvis.put(iPojo.getIndVoeu().getId(), iPojo);
 			}
 			//Ajout des nouveaux avis
 //			for (Integer idIndVoeu : mapIndVoeuPojoNewAvis.keySet()) {
@@ -453,7 +451,11 @@ public class OpinionController
 				// rechargement des indVoeuPojo en erreur
 				// pour les cases e cocher
 				for (IndVoeuPojo iPojo : voeuxInError) {
-					wishSelected.add(iPojo);
+					Individu ind = iPojo.getIndVoeu().getIndividu();
+					List<IndVoeuPojo> li = wishSelected.get(ind);
+					if (li == null) li = new ArrayList<IndVoeuPojo>();
+					li.add(iPojo);
+					wishSelected.put(ind, li);
 				}
 				// recharge des voeux en erreur pour nouvelle saisie
 				setVoeuxInErrorInPaginator(voeuxInError);
@@ -466,19 +468,17 @@ public class OpinionController
 				log.debug("leaving saveAll");
 			}
 			//7468 Pbs saisie résultat résultat défavorable (oubli de la motivation)
-			wishSelected.clear();
+			wishSelected = new HashMap<Individu, List<IndVoeuPojo>>();
 		} else { addInfoMessage(null, "AVIS.INFO.TYP_DEC.NOT_SELECT"); } 
 	}
 	
 	/**
 	 * @param value
 	 */
-	public void checkAll(final ValueChangeEvent value) {
-		if (!allChecked) {
+	public void checkAll() {
+		if (allChecked) {
 			for (IndividuPojo ind : individuPaginator.getIndPojosWithWishForOneCmi()) {
-				for (IndVoeuPojo iPojo : ind.getIndVoeuxPojo()) {
-					wishSelected.add(iPojo);
-				}
+				wishSelected.put(ind.getIndividu(), new ArrayList<IndVoeuPojo>(ind.getIndVoeuxPojo()));
 			} 
 		} else {
 			wishSelected.clear();
@@ -787,7 +787,7 @@ public class OpinionController
 				&& (codeCommRech == null || codeTrtCmiRech == null)) {
 			addInfoMessage(null, "AVIS.INFO.LISTE_COMP");
 		}
-		//individuPaginator.forceReload();
+		individuPaginator.forceReload();
 	}
 
 	/**
@@ -1156,17 +1156,34 @@ public class OpinionController
 	}
 
 	/**
+	 * FIXME : a horrible (but hopefully transient) hack to comply with jsf 
+	 * 
 	 * @return the wishSelected
 	 */
-	public Set<Object> getWishSelected() {
-		return wishSelected;
+	public Set<Integer> getWishSelected() {
+		Set<Integer> svp = new HashSet<Integer>();
+		for (List<IndVoeuPojo> li : wishSelected.values())
+			for (IndVoeuPojo ivp : li)
+				svp.add(ivp.getIndVoeu().getId());
+		return svp;
 	}
 
 	/**
+	 * FIXME : a horrible (but hopefully transient) hack to comply with jsf 
+	 * 
 	 * @param wishSelected the wishSelected to set
 	 */
-	public void setWishSelected(final Set<Object> wishSelected) {
-		this.wishSelected = wishSelected;
+	public void setWishSelected(final Set<Integer> wishesIds) {
+		for (IndividuPojo indP : individuPaginator.getIndividuPojos())
+			for (IndVoeuPojo ivp : indP.getIndVoeuxPojo())
+				for (Integer id : wishesIds)
+					if (id.equals(ivp.getIndVoeu().getId())) {
+						Individu ind = ivp.getIndVoeu().getIndividu();
+						List<IndVoeuPojo> vals = wishSelected.get(ind);
+						if (vals == null) vals = new ArrayList<IndVoeuPojo>();
+						vals.add(ivp);
+						wishSelected.put(ind, vals);
+					}
 	}
 
 	/**

@@ -17,7 +17,7 @@
         <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-commons2-hibernate</artifactId>
-            <version>0.3.0</version>
+            <version>${esupcommons.version}</version>
         </dependency>
         <dependency>
             <groupId>org.esupportail</groupId>

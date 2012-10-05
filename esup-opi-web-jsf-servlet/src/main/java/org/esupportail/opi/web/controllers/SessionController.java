@@ -236,7 +236,7 @@ public class SessionController extends AbstractDomainAwareBean {
 				//TODO : does it work without the following ?
 				//regime.getControlField());
 				indPojo = new IndividuPojo(
-						individu, getBusinessCacheService(),
+						individu, getDomainApoService(),
 						getI18nService(), getParameterService(), 
 						getRegimeIns().get(Utilitaires.getCodeRIIndividu(individu,
 								getDomainService())), getParameterService().getTypeTraitements(),

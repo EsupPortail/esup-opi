@@ -104,16 +104,6 @@ public class SelectionController extends AbstractAccessController {
 		return NavigationRulesConst.ENTER_SELECTION;
 	}
 
-	
-	/**
-	 * @return String
-	 */
-	public String goBackFunction() {
-		reset();
-		return getManagedAccess().goDisplayFunction();
-	}
-	
-
 	/*
 	 ******************* METHODS ********************** */
 	

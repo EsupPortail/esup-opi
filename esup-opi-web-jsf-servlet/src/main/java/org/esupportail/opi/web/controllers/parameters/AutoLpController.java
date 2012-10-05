@@ -1375,7 +1375,7 @@ public class AutoLpController extends AbstractContextAwareController {
 	@SuppressWarnings("unchecked")
 	public List<SelectItem> getAllCommItems() {
 		if (allCommItems.isEmpty()) {
-			List<Commission> allCommissions = getDomainApoService().getListCommissionsByRight(
+			Set<Commission> allCommissions = getDomainApoService().getListCommissionsByRight(
 					getCurrentGest(), 
 					true);
 			if (allCommissions != null) {
@@ -1440,10 +1440,9 @@ public class AutoLpController extends AbstractContextAwareController {
 				allVets.addAll(getDomainApoService().getVersionEtapes(
 					null, null, getCurrentGest().getCodeCge(), camp.getCodAnu()));
 			}
-			// TODO: remove hashset hack
-			Set<Commission> cmi = new HashSet<Commission>(getDomainApoService().getListCommissionsByRight(
+			Set<Commission> cmi = getDomainApoService().getListCommissionsByRight(
 					getCurrentGest(), 
-					true));
+					true);
 			
 			Set<VersionEtapeDTO> allVets2 = new HashSet<VersionEtapeDTO>();
 				

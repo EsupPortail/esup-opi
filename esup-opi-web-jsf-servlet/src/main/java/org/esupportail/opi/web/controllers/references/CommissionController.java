@@ -958,7 +958,7 @@ public class CommissionController
 		List<IndividuPojo> listeIndPojo = 
 			Utilitaires.convertIndInIndPojo(listeInd, 
 					getParameterService(), getI18nService(), 
-					getBusinessCacheService(), listComm, null,
+					getDomainApoService(), listComm, null,
 					getParameterService().getTypeTraitements(),
 					getParameterService().getCalendarRdv(), null, false);
 		
@@ -1164,10 +1164,10 @@ public class CommissionController
 	 * Depends to wayfEnum. 
 	 * @return Set< Commission>
 	 */
-	public List<Commission> getCommissionsItems() {
-		//Set<Commission> cmi = new TreeSet<Commission>(new ComparatorString(NormeSI.class));
-		return getParameterService().getCommissions(true);
-		//return cmi;
+	public Set<Commission> getCommissionsItems() {
+	    Set<Commission> cmi = new TreeSet<Commission>(new ComparatorString(NormeSI.class));
+	    cmi.addAll(getParameterService().getCommissions(true));
+		return cmi;		
 	}
 	
 	/**
@@ -1175,13 +1175,11 @@ public class CommissionController
 	 * the list is function the commisions managed by the gestionnaire
 	 * @return Set< Commission>
 	 */
-	public List<Commission> getCommissionsItemsByRight() {
-		//Set<Commission> cmi = new TreeSet<Commission>(new ComparatorString(NormeSI.class));
-		
-		return getDomainApoService().getListCommissionsByRight(
-				getCurrentGest(), 
-				true);
-		//return cmi;		
+	public Set<Commission> getCommissionsItemsByRight() {
+	    Set<Commission> cmi = new TreeSet<Commission>(new ComparatorString(NormeSI.class));
+	    cmi.addAll(getDomainApoService().getListCommissionsByRight(
+		    getCurrentGest(), true));
+		return cmi;		
 	}
 	
 	/**
@@ -1190,7 +1188,7 @@ public class CommissionController
 	 * else return all the commissions
 	 * @return Set< Commission>
 	 */
-	public List<Commission> getCommissionsItemsByRightParametrable() {
+	public Set<Commission> getCommissionsItemsByRightParametrable() {
 
 		if (isListCmiByRight()){
 			return getCommissionsItemsByRight();
@@ -1277,8 +1275,7 @@ public class CommissionController
 	 * @return Set< Commission> All commission in dataBase.
 	 */
 	public Set<Commission> getCommissions() {
-	    // TODO: remove hashset hack
-		return new HashSet<Commission>(getParameterService().getCommissions(null));
+		return getParameterService().getCommissions(null);
 	}
 	
 	/**
@@ -1298,8 +1295,7 @@ public class CommissionController
 	 * @return Set< Commission> commissions in use.
 	 */
 	public Set<Commission> getCommissionsInUse() {
-	    // TODO: remove hashset hack	    
-		return new HashSet<Commission>(getParameterService().getCommissions(true));
+		return getParameterService().getCommissions(true);
 	}
 
 	

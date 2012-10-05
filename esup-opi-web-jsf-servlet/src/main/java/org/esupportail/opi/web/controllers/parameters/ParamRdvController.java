@@ -932,7 +932,7 @@ public class ParamRdvController extends AbstractContextAwareController {
 	@SuppressWarnings("unchecked")
 	public List<SelectItem> getAllCommItems() {
 		if (allCommItems.isEmpty()) {
-			List<Commission> allCommissions = getParameterService().getCommissions(null);
+			Set<Commission> allCommissions = getParameterService().getCommissions(null);
 			if (allCommissions != null) {
 				for (Commission comm : allCommissions) {
 					if (!testExistCommItems(comm.getCode())) {
@@ -991,10 +991,9 @@ public class ParamRdvController extends AbstractContextAwareController {
 			}
 
 			if (!allVets.isEmpty()) {
-			    // TODO: remove hashset hack
-			    Set<Commission> cmi = new HashSet<Commission>(getDomainApoService().getListCommissionsByRight(
+			    Set<Commission> cmi = getDomainApoService().getListCommissionsByRight(
 						getCurrentGest(), 
-						true));
+						true);
 				
 				Set<VersionEtapeDTO> allVets2 = new HashSet<VersionEtapeDTO>();
 					

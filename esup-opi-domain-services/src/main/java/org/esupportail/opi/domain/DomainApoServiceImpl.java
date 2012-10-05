@@ -373,22 +373,25 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	/** 
 	 * @see org.esupportail.opi.domain.DomainApoService#getVersionEtape(java.lang.String, java.lang.Integer)
 	 */
-	/**
-	 * TODO : à supprimer (11/01/2012)
-	 */
-//	@Override
-//	@Cacheable(modelId = CacheModelConst.ENS_APOGEE_MODEL)
-//	public VersionEtapeDTO getVersionEtape(final String codEtp, final Integer codVrsVet) {
-//		if (log.isDebugEnabled()) {
-//			log.debug("entering getVersionEtape(" + codEtp + ", " 
-//					+ codVrsVet + "  )");
-//		}
-//		try {
-//			return remoteCriApogeeEns.getVersionEtape(codEtp, codVrsVet);
-//		} catch (Exception e) {
-//			throw new CommunicationApogeeException(e);
-//		}
-//	}
+	@Override
+	@Cacheable(cacheName = CacheModelConst.ENS_APOGEE_MODEL)
+	public VersionEtapeDTO getVersionEtape(final String codEtp, final Integer codVrsVet) {
+		if (log.isDebugEnabled()) {
+			log.debug("entering getVersionEtape(" + codEtp + ", " 
+					+ codVrsVet + "  )");
+		}
+		try {
+			return remoteCriApogeeEns.getVersionEtape(codEtp, codVrsVet);
+		} catch (Exception e) {
+		    log.warn(e);
+		    return new VersionEtapeDTO().withCodEtp(codEtp)
+		        .withCodVrsVet(codVrsVet)
+		        .withLibCmtVet("DOES NOT EXIST")
+		        .withLibWebVet("DOES NOT EXIST")
+		        .withLicEtp("DOES NOT EXIST");
+			//throw new CommunicationApogeeException(e);
+		}
+	}
 
 	//////////////////////////////////////////////////////////////
 	// Pays
@@ -1249,7 +1252,7 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 			log.debug("entering getRen1GrpTypDip()");
 		}
 		List<Ren1GrpTypDip> listEnd = new ArrayList<Ren1GrpTypDip>();
-		List<Commission> cmi = parameterService.getCommissions(true);
+		Set<Commission> cmi = parameterService.getCommissions(true);
 		try {
 			List<Ren1GrpTypDip> l;
 			// TODO : remove the switch RENNES1 / OPI			
@@ -1858,15 +1861,15 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
     	 * @param parameterService 
     	 * @return Set< Commission>
     	 */
-    	public List<Commission> getListCommissionsByRight(
+    	public Set<Commission> getListCommissionsByRight(
     			final Gestionnaire gest, 
     			final Boolean temEnSve) {
-    		List<Commission> lesCommissions = new ArrayList<Commission>();	
+    		Set<Commission> lesCommissions = new HashSet<Commission>();	
     		if (StringUtils.hasText(gest.getCodeCge())) {
     			Set<VersionEtapeDTO> vet = new HashSet<VersionEtapeDTO>();
     			vet.addAll(getVersionEtapes(null, null, 	gest.getCodeCge(), null));
     			Set<VersionEtpOpi> vOpi = Conversions.convertVetInVetOpi(new HashSet<VersionEtapeDTO>(vet));
-    			List<Commission> lCom = parameterService.getCommissions(temEnSve); 
+    			Set<Commission> lCom = parameterService.getCommissions(temEnSve); 
     			for (Commission c : lCom) {
     				if (!c.getTemoinEnService()) {
     					log.info("cas d'une comm HS");
@@ -1882,7 +1885,7 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
     		} else if (gest.getRightOnCmi()!= null && !gest.getRightOnCmi().isEmpty()) {
     			//si pas cge, renvoie les cmi auxquelles ils ont droit
     		    // TODO: change getRightOnCmi to return a list ?
-    			lesCommissions = new ArrayList<Commission>(gest.getRightOnCmi());
+    			lesCommissions = gest.getRightOnCmi();
     		} else {
     			lesCommissions = parameterService.getCommissions(null);
     		}

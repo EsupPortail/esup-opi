@@ -195,10 +195,6 @@ public class DomainController extends AbstractContextAwareController {
 		if (!StringUtils.hasText(d.getAction())) {
 			addErrorMessage(null, "ERROR.FIELD.EMPTY", getString("FIELD_LABEL.ACTION"));
 			ctrlOk = false;
-		} else if (!UIComponentTag.isValueReference(d.getAction())) {
-			//if action has not the format : #{xxx}
-			addErrorMessage(null, "ERROR.ACTION.TRT");
-			ctrlOk = false;
 		}
 		if (d.getRang() == null || d.getRang() == 0) {
 			addErrorMessage(null, "ERROR.INT_FIELD.EMPTY", getString("FIELD_LABEL.RANG"));

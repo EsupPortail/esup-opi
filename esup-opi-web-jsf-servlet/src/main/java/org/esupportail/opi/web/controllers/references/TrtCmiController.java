@@ -214,18 +214,6 @@ public class TrtCmiController extends AbstractAccessController {
 	/**
 	 * @return String
 	 */
-	public String goBackFunction() {
-		if (log.isDebugEnabled()) {
-			log.debug("entering goBackFunction");
-		}
-
-		reset();
-		return getManagedAccess().goDisplayFunction();
-	}
-	
-	/**
-	 * @return String
-	 */
 	public String managedCamp() {
 		actionEnum.setWhatAction(ActionEnum.READ_ACTION);
 		Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();

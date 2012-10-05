@@ -13,7 +13,7 @@
 			</generator>
 		</id>
 		<property name="codeAccessType" column="cod_ac_typ"/>
-		<many-to-one name="traitement" column="id_trt" not-null="true"/> 
+		<many-to-one name="traitement" column="id_trt" not-null="true" /> 
 		<many-to-one name="profile" column="id_pro" not-null="true"/>  
 	</class>	
 </hibernate-mapping>

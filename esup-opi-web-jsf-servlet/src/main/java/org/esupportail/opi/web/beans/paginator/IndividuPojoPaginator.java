@@ -165,10 +165,9 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 		    Utilitaires.convertIndInIndPojo(getVisibleItems(), 
 					getSessionController().getParameterService(), 
 					getSessionController().getI18nService(), 
-					getSessionController().getBusinessCacheService(),
-					// TODO : remove the hashset hack
-					new HashSet<Commission>(domainApoService.getListCommissionsByRight(
-							(Gestionnaire) getSessionController().getCurrentUser(), true)),
+					domainApoService,
+					domainApoService.getListCommissionsByRight(
+					    (Gestionnaire) getSessionController().getCurrentUser(), true),
 					null, getSessionController().getParameterService().getTypeTraitements(),
 					getSessionController().getParameterService().getCalendarRdv(),
 					null, getIndRechPojo().getExcludeWishProcessed());
@@ -195,7 +194,7 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 			return individuPojos;
 		}
 		// filtrage sur les etapes de la commission
-		List<Commission> cmi = new ArrayList<Commission>();
+		Set<Commission> cmi = new HashSet<Commission>();
 		Commission comm = null;
 		if (getIndRechPojo().getIdCmi() != null) {
 			comm = getSessionController().getParameterService()
@@ -222,7 +221,7 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 					getIndRechPojo().getCodeTrtCmiRecherchee());
 			if (comm.getTraitementCmi().contains(trtCmi)) {
 				VersionEtpOpi vetOpi = trtCmi.getVersionEtpOpi();
-				VersionEtapeDTO vet = getSessionController().getBusinessCacheService().getVersionEtape(
+				VersionEtapeDTO vet = domainApoService.getVersionEtape(
 						vetOpi.getCodEtp(), vetOpi.getCodVrsVet());
 				versionsEtp.add(vet);
 			} else {
@@ -236,12 +235,10 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 			Utilitaires.convertIndInIndPojo(getVisibleItems(), 
 					getSessionController().getParameterService(), 
 					getSessionController().getI18nService(), 
-					getSessionController().getBusinessCacheService(),
-					// TODO: remove hashset hack
-					new HashSet<Commission>(cmi), typeD, getSessionController().getParameterService().getTypeTraitements(), 
+					domainApoService,
+					cmi, typeD, getSessionController().getParameterService().getTypeTraitements(), 
 					getSessionController().getParameterService().getCalendarRdv(),
 					versionsEtp, false);
-
 		// tri sur le rang si on a choisi une vet pour les LC
 		if (getIndRechPojo().getCodeTrtCmiRecherchee() != null) {
 			Collections.sort(indPojo, new ComparatorIndLC());

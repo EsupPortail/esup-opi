@@ -195,7 +195,7 @@ public class MonitorCandidaturesController extends AbstractAccessController {
 						camp.getCodAnu()));
 			}
 			individus = Utilitaires.convertIndInIndPojo(filteredListeInd, getParameterService(),
-					getI18nService(), getBusinessCacheService(), null, null,
+					getI18nService(), getDomainApoService(), null, null,
 					getParameterService().getTypeTraitements(),
 					getParameterService().getCalendarRdv(), v, false);
 			Collections.sort(individus, new ComparatorString(IndividuPojo.class));

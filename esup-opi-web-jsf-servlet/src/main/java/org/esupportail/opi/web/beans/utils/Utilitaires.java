@@ -22,7 +22,6 @@ import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.services.smtp.SmtpService;
-import org.esupportail.opi.domain.BusinessCacheService;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
@@ -319,7 +318,7 @@ public class Utilitaires {
 	 * @param listInd
 	 * @param parameterService
 	 * @param iService
-	 * @param bService 
+	 * @param apoServ 
 	 * @param commissions 
 	 * @param typesDecisions 
 	 * @param versionsEtape 
@@ -329,7 +328,7 @@ public class Utilitaires {
 			final List<Individu> listInd,
 			final ParameterService parameterService,
 			final I18nService iService,
-			final BusinessCacheService bService,
+			final DomainApoService apoServ,
 			final Set<Commission> commissions,
 			final Set<TypeDecision> typesDecisions,
 			final List<TypeTraitement> typeTraitements,
@@ -338,7 +337,7 @@ public class Utilitaires {
 			final boolean excludeWishProcessed) {
 		List<IndividuPojo> indPojo = new ArrayList<IndividuPojo>();
 		for (Individu i : listInd) {
-			IndividuPojo iPojo = new IndividuPojo(i, bService, iService,
+			IndividuPojo iPojo = new IndividuPojo(i, apoServ, iService,
 					parameterService, commissions, typesDecisions, typeTraitements, listCalendrierParam, versionsEtape);
 			if (!excludeWishProcessed || !iPojo.getHasAllVoeuxTraited()) {
 				indPojo.add(iPojo);
@@ -860,8 +859,8 @@ public class Utilitaires {
 		}
 		
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("voeu : ###" + voeu 
-				+ "### --> calendrier de rendez-vous : ###" + calendar + "###");
+			LOGGER.debug("voeu : ###" //+ voeu 
+				+ "### --> calendrier de rendez-vous : ###" );//+ calendar + "###");
 		}
 		
 		return calendar;

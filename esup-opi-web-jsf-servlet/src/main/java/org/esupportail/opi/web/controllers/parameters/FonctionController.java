@@ -210,10 +210,6 @@ public class FonctionController extends AbstractContextAwareController {
 		if (!StringUtils.hasText(f.getAction())) {
 			addErrorMessage(null, "ERROR.FIELD.EMPTY", getString("FIELD_LABEL.ACTION"));
 			ctrlOk = false;
-		} else if (!UIComponentTag.isValueReference(f.getAction())) {
-			//if action has not the format : #{xxx}
-			addErrorMessage(null, "ERROR.ACTION.TRT");
-			ctrlOk = false;
 		}
 		if (f.getRang() == null || f.getRang() == 0) {
 			addErrorMessage(null, "ERROR.INT_FIELD.EMPTY", getString("FIELD_LABEL.RANG"));

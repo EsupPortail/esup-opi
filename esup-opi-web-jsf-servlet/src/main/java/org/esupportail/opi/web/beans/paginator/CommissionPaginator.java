@@ -101,7 +101,7 @@ public class CommissionPaginator extends ListPaginator<CommissionPojo> {
 	protected List<CommissionPojo> getData() {
 		List <Commission> lesCommissions = new ArrayList<Commission>();
 		
-		List<Commission> s = domainApoService.getListCommissionsByRight(currentGest, null);
+		Set<Commission> s = domainApoService.getListCommissionsByRight(currentGest, null);
 		
 		Integer codRI = currentGest.getProfile().getCodeRI();
 		

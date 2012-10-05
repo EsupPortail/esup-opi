@@ -888,11 +888,11 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	/**
 	 * @see org.esupportail.opi.domain.ParameterService#getCommissions(java.lang.Boolean)
 	 */
-	public List<Commission> getCommissions(final Boolean temEnSve) {
+	public Set<Commission> getCommissions(final Boolean temEnSve) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getCommissions( " + temEnSve + " )");
 		}
-		return daoService.getCommissions(temEnSve);
+		return new HashSet<Commission>(daoService.getCommissions(temEnSve));
 	}
 
 	
@@ -912,12 +912,13 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * @see org.esupportail.opi.domain.ParameterService#commissionCodeIsUnique(
 	 * org.esupportail.opi.domain.beans.references.commission.Commission)
 	 */
+	//TODO : get rid of this !
 	public Boolean commissionCodeIsUnique(final Commission commission) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering commissionCodeIsUnique( " + commission + " )");
 		}
 
-		List<Commission> list = getCommissions(null);
+		Set<Commission> list = getCommissions(null);
 		for (Commission c : list) {
 			if (!c.equals(commission)
 					&& c.getCode().equals(commission.getCode())) {
@@ -1205,7 +1206,7 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 		if (log.isDebugEnabled()) {
 			log.debug("entering getCalendars( " + versionEtpOpi + " )");
 		}
-		List<Commission> cmiList = getCommissions(true);
+		Set<Commission> cmiList = getCommissions(true);
 		Set<CalendarIns> cIns = new HashSet<CalendarIns>();
 		for (Commission cmi : cmiList) {
 			for (TraitementCmi trt : cmi.getTraitementCmi()) {

@@ -135,10 +135,8 @@ public class TypeTraitController  extends AbstractContextAwareController  {
 		reset();
 		individuPaginator.setUseIndividuPojo(true);
 		individuPaginator.filtreAllCommissionRights(
-		    // TODO: remove hashset hack
-		    new HashSet<Commission>(getDomainApoService().getListCommissionsByRight(
-						getCurrentGest(), 
-						true)), true, null);
+		    getDomainApoService().getListCommissionsByRight(
+		        getCurrentGest(), true), true, null);
 		individuPaginator.forceReload();
 		return NavigationRulesConst.DISPLAY_TYPE_TRAITEMENT;
 	}
@@ -156,11 +154,8 @@ public class TypeTraitController  extends AbstractContextAwareController  {
 		//init the filtre
 		individuPaginator.setUseIndividuPojo(true);
 		individuPaginator.filterInMannagedCmi(
-		    // TODO: remove hashset hack
-		    new HashSet<Commission>(getDomainApoService().getListCommissionsByRight(
-						getCurrentGest(), 
-						true)),
-						null, true);
+		    getDomainApoService().getListCommissionsByRight(
+						getCurrentGest(),	true),	null, true);
 		individuPaginator.forceReload();
 	}
 
@@ -185,8 +180,7 @@ public class TypeTraitController  extends AbstractContextAwareController  {
 
 		htmlBody = "";
 		Map<Commission, Set<VersionEtapeDTO>> mapCmi = 
-		    // TODO: remove hashset hack
-			Utilitaires.getCmiForIndVoeux(new HashSet<Commission>(getParameterService().getCommissions(true)),
+			Utilitaires.getCmiForIndVoeux(getParameterService().getCommissions(true),
 					indVoeuPojo, camp);
 		Integer codeRI = camp.getCodeRI();
 		for (Map.Entry<Commission, Set<VersionEtapeDTO>> cmiEntry : mapCmi.entrySet()) {

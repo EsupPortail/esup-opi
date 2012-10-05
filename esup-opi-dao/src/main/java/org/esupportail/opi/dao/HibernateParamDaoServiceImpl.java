@@ -600,7 +600,7 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
 	 */
 	public void updateCommission(final Commission commission) {
 		if (log.isDebugEnabled()) {
-			log.debug("entering updateCommission( " + commission + " )");
+ 		    log.debug("entering updateCommission( " + commission + " )");
 		}
 		updateObject(commission);
 

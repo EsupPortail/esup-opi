@@ -456,8 +456,7 @@ public class AccueilController extends AbstractAccessController {
 	private void makePDF(final Commission cmiSelect, final IndDocument indDocument) {
 		Individu i = getCurrentInd().getIndividu().clone();
 		//liste de toutes les commissions en service.
-		// TODO: remove hashset hack
-		Set<Commission> cmi = new HashSet<Commission>(getParameterService().getCommissions(true));
+		Set<Commission> cmi = getParameterService().getCommissions(true);
 		
 		//map contenant la commission et ses etapes sur lesquelles le candidat e deposer des voeux
 		Map<Commission, Set<VersionEtapeDTO>> mapCmi = Utilitaires.getCmiForIndVoeux(cmi, 

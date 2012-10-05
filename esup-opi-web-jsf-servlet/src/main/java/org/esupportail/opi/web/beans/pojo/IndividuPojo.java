@@ -189,12 +189,12 @@ public class IndividuPojo {
 	/**
 	 * Constructor.
 	 * @param individu 
-	 * @param bService 
+	 * @param apoServ 
 	 * @param i18Service
 	 * @param parameterService
 	 * @param commissions 
 	 */
-	public IndividuPojo(final Individu individu, final BusinessCacheService bService,
+	public IndividuPojo(final Individu individu, final DomainApoService apoServ,
 			final I18nService i18Service, final ParameterService parameterService,
 			final RegimeInscription ri,
 			final List<TypeTraitement> typeTraitements,
@@ -205,7 +205,7 @@ public class IndividuPojo {
 		doNotHaveCodeNne = false;
 		regimeInscription = ri;
 		etat = (EtatIndividu) Etat.instanceState(individu.getState(), i18Service);
-		initIndVoeuPojo(bService, i18Service, parameterService, commissions, null, typeTraitements, listCalendrierParam, null);
+		initIndVoeuPojo(apoServ, i18Service, parameterService, commissions, null, typeTraitements, listCalendrierParam, null);
 		i18nService = i18Service;
 		isManager = false;
 		dateCreationDossier = individu.getDateCreaEnr();
@@ -218,13 +218,13 @@ public class IndividuPojo {
 	 * Constructor.
 	 * @param individu 
 	 * @param i18Service
-	 * @param bService 
+	 * @param apoServ 
 	 * @param parameterService
 	 * @param commissions 
 	 * @param typeDecisions 
 	 * @param versionsEtape 
 	 */
-	public IndividuPojo(final Individu individu, final BusinessCacheService bService,
+	public IndividuPojo(final Individu individu, final DomainApoService apoServ,
 			final I18nService i18Service, final ParameterService parameterService,
 			final Set<Commission> commissions, final Set<TypeDecision> typeDecisions,
 			final List<TypeTraitement> typeTraitements, final List<CalendarRDV> listCalendrierParam,
@@ -233,7 +233,7 @@ public class IndividuPojo {
 		this.individu = individu;
 		doNotHaveCodeNne = false;
 		etat = (EtatIndividu) Etat.instanceState(individu.getState(), i18Service);
-		initIndVoeuPojo(bService, i18Service, parameterService,
+		initIndVoeuPojo(apoServ, i18Service, parameterService,
 				commissions, typeDecisions, typeTraitements, listCalendrierParam, versionsEtape);
 		i18nService = i18Service;
 		isManager = false;
@@ -314,14 +314,14 @@ public class IndividuPojo {
 	/**
 	 * Initialize the list of the voeu for the student.
 	 * Avec filtrage des voeux sur les commissions du gestionnaire
-	 * @param bService 
+	 * @param apoServ 
 	 * @param i18Service 
 	 * @param parameterService 
 	 * @param commissions
 	 * @param typeDecisions 
 	 * @param versionsEtp 
 	 */
-	private void initIndVoeuPojo(final BusinessCacheService bService,
+	private void initIndVoeuPojo(final DomainApoService apoServ,
 					final I18nService i18Service,
 					final ParameterService parameterService,
 					final Set<Commission> commissions,
@@ -338,7 +338,7 @@ public class IndividuPojo {
 				for (Commission commission : commissions) {
 					if (commission.getTraitementCmi() != null) {
 						for (TraitementCmi trait : commission.getTraitementCmi()) {
-							listeVersEtp.add(bService.getVersionEtape(
+							listeVersEtp.add(apoServ.getVersionEtape(
 									trait.getVersionEtpOpi().getCodEtp(),
 									trait.getVersionEtpOpi().getCodVrsVet()));
 						}
@@ -348,7 +348,7 @@ public class IndividuPojo {
 			Set<IndVoeu> indVoeu = individu.getVoeux();
 			for (IndVoeu i : indVoeu) {
 				TraitementCmi trtCmi = i.getLinkTrtCmiCamp().getTraitementCmi();
-				VersionEtapeDTO vet = bService.getVersionEtape(
+				VersionEtapeDTO vet = apoServ.getVersionEtape(
 						trtCmi.getVersionEtpOpi().getCodEtp(),
 						trtCmi.getVersionEtpOpi().getCodVrsVet());
 //				VersionEtapeDTO vet = domainApo.getVersionEtape(

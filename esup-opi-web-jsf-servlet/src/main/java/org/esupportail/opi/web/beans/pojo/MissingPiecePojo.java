@@ -105,10 +105,9 @@ public class MissingPiecePojo {
 			final DomainService domainService,
 			final Integer idCommissionCherchee) {
 		Map<Commission, Set<VersionEtapeDTO>> mapCmi = 
-		 // TODO: remove hashset hack
-			Utilitaires.getCmiForIndVoeux(new HashSet<Commission>(parameterService.getCommissions(true))
-					, this.individuPojo.getIndVoeuxPojo(), 
-					this.individuPojo.getCampagneEnServ(domainService));
+		    Utilitaires.getCmiForIndVoeux(parameterService.getCommissions(true)
+		        , this.individuPojo.getIndVoeuxPojo(), 
+		        this.individuPojo.getCampagneEnServ(domainService));
 		for (Commission cmi : mapCmi.keySet()) {
 			if (idCommissionCherchee != null) {
 				if (idCommissionCherchee.compareTo(cmi.getId()) == 0) {
