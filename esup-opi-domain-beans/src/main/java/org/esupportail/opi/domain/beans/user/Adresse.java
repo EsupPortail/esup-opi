@@ -91,6 +91,22 @@ public abstract class Adresse extends NormeSI {
 	}
 
 	
+	public Adresse(final Adresse a) {
+		super();
+		this.adr1 = a.adr1;
+		this.adr2 = a.adr2;
+		this.adr3 = a.adr3;
+		this.codPays = a.codPays;
+		this.codCommune = a.codCommune;
+		this.libComEtr = a.libComEtr;
+		this.codBdi = a.codBdi;
+		this.cedex = a.cedex;
+		this.phoneNumber = a.phoneNumber;
+		this.mail = a.mail;
+		this.faxNumber = a.faxNumber;
+	}
+
+
 	/** 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -288,4 +304,9 @@ public abstract class Adresse extends NormeSI {
 		this.faxNumber = faxNumber;
 	}
 
+
+	@Override
+	public Adresse clone() {
+		return (Adresse) super.clone(this);
+	}
 }

@@ -785,12 +785,13 @@ public class IndividuController extends AbstractAccessController {
 	 * Charge les attributes des individus Pojo.
 	 */
 	public void initIndividuPojo() {
-		pojoIndividu.setDepartement(
-				getBusinessCacheService().getDepartement(
-						pojoIndividu.getIndividu().getCodDepPaysNaissance()));
-		pojoIndividu.setPays(getBusinessCacheService().getPays(
+//		pojoIndividu.setDepartement(
+//				getBusinessCacheService().getDepartement(
+//						pojoIndividu.getIndividu().getCodDepPaysNaissance()));
+		pojoIndividu.setDepartement(getDomainApoService().getDepartement(pojoIndividu.getIndividu().getCodDepPaysNaissance()));
+		pojoIndividu.setPays(getDomainApoService().getPays(
 				pojoIndividu.getIndividu().getCodPayNaissance()));
-		pojoIndividu.setNationalite(getBusinessCacheService().getPays(
+		pojoIndividu.setNationalite(getDomainApoService().getPays(
 				pojoIndividu.getIndividu().getCodPayNationalite()));
 	}
 

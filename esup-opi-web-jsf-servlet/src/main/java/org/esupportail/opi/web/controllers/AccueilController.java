@@ -397,7 +397,7 @@ public class AccueilController extends AbstractAccessController {
 			if (indSituation instanceof SituationSalarie) {
 				indDocument.setAdresseEmployeurPojo(new AdressePojo(
 						((SituationSalarie) indSituation).getAdresseEmployeur(),
-						getBusinessCacheService()));
+						getDomainApoService()));
 			}
 		}
 		
@@ -505,7 +505,7 @@ public class AccueilController extends AbstractAccessController {
 					new AdressePojo(commission.getContactsCommission()
 							.get(Utilitaires.getCodeRIIndividu(i,
 									getDomainService()))
-							.getAdresse(), getBusinessCacheService()),
+							.getAdresse(), getDomainApoService()),
 							commission.getContactsCommission()
 							.get(Utilitaires.getCodeRIIndividu(i,
 									getDomainService())));

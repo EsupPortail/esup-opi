@@ -5,21 +5,19 @@
     <ui:fragment rendered="#{cursusController.confirmeDelete}" styleClass="confirmeDelete">
     	<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
     		styleClass="tableJustWidthMax">
-    		<h:outputText value="#{msgs['INDIVIDU.CURSUS_SCOL.CONFIRM.DELETE']}">
+    		<h:outputFormat value="#{msgs['INDIVIDU.CURSUS_SCOL.CONFIRM.DELETE']}">
     			<f:param value="#{cursusController.pojoCursusScol.cursus.annee}"/>
     			<f:param value="#{cursusController.pojoCursusScol.libEtb}"/>
     			<f:param value="#{cursusController.pojoCursusScol.libCur}"/>
-    		</h:outputText>
+    		</h:outputFormat>
     		<h:panelGroup>
     			<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    				action="#{cursusController.removeCursusScol}">
-    				<f:setPropertyActionListener value="false" target="#{cursusController.confirmeDelete}" />
-    			</p:commandButton>
+    				action="#{cursusController.removeCursusScol}"
+    				ajax="false" />
     			<p:commandButton value="#{msgs['_.BUTTON.NO']}"
     				action="#{cursusController.initCursusScol}"
-    				immediate="true">
-    				<f:setPropertyActionListener value="false" target="#{cursusController.confirmeDelete}" />
-    			</p:commandButton>
+    				immediate="true"
+    				ajax="false"/>
     		</h:panelGroup>
     	</h:panelGrid>
     </ui:fragment>
@@ -58,7 +56,9 @@
         			<h:panelGroup>
         				<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
         					action="#{cursusController.addCursusScol}" 
-        					rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"/>
+        					rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"
+    						update=":addCursusForm"
+    						ajax="false"/>
         				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
         					action="#{cursusController.initCursusScol}"
         					rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}">
@@ -66,7 +66,9 @@
         
         				<p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
         					rendered="#{cursusController.actionEnum.whatAction == cursusController.actionEnum.updateAction}"
-        					action="#{accueilController.verifyCursusScol}">
+        					action="#{accueilController.verifyCursusScol}"
+        					ajax="false"
+        					immediate="true">
         					<f:setPropertyActionListener value="goWelcomeCandidat" target="#{accueilController.methodIfVerified}" />
         					<f:setPropertyActionListener value="#{accueilController}" target="#{accueilController.object}" />
         				</p:commandButton>
@@ -77,7 +79,7 @@
         <ui:fragment rendered="#{!cursusController.confirmeDelete}">
         	<div class="blockTable">
         		<h:panelGrid columns="2" width="100%"
-        			columnClasses="colUnQuart,colTroisQuart">
+        			columnClasses="colUnQuart,colTroisQuart" id="infoscol">
         			<h:panelGroup>
         				<h:outputLabel value="#{msgs['ADRESS.PAY']}" for="paysBac" />
         				<h:outputText value="*" styleClass="etoileForChpObli" />
@@ -89,8 +91,8 @@
         					value="#{cursusController.pojoCursusScol.codPay}">
         					<f:selectItems var="pays" value="#{adressController.pays}"
         						itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}" />
+        					<p:ajax update="infoscol" />
         				</p:selectOneMenu>
-        				<p:commandButton id="submitSelectPay" />
         			</h:panelGroup>
         
         			<h:panelGroup
@@ -101,14 +103,13 @@
         			<h:panelGroup
         				rendered="#{cursusController.pojoCursusScol.codPay == adressController.codeFrance}">
         				<p:selectOneMenu id="depBac"
-        					onchange="javascript:{simulateLinkClick('addCursusForm:submitSelectDep');}"
         					valueChangeListener="#{cursusController.selectDep}"
         					value="#{cursusController.pojoCursusScol.codDep}">
         					<f:selectItem itemLabel="" itemValue="" />
         					<f:selectItems var="dept" value="#{adressController.departements}"
         						itemLabel="#{dept.libDep}" itemValue="#{dept.codDep}" />
+        					<p:ajax update="infoscol" />
         				</p:selectOneMenu>
-        				<p:commandButton id="submitSelectDep" />
         			</h:panelGroup>
         
         			<h:panelGroup
@@ -119,13 +120,12 @@
         				rendered="#{cursusController.pojoCursusScol.codPay == adressController.codeFrance}">
         				<p:selectOneMenu id="commune"
         					valueChangeListener="#{cursusController.selectCommune}"
-        					onchange="javascript:{simulateLinkClick('addCursusForm:submitSelectCommune');}"
         					value="#{cursusController.pojoCursusScol.codCom}">
         					<f:selectItem itemLabel="" itemValue="" />
         					<f:selectItems var="commune" value="#{cursusController.communes}"
         						itemLabel="#{commune.libCom}" itemValue="#{commune.codCom}" />
+        					<p:ajax update="infoscol" />
         				</p:selectOneMenu>
-        				<p:commandButton id="submitSelectCommune" />
         			</h:panelGroup>
         
         
@@ -276,13 +276,15 @@
     		</p:column>
     		<p:column styleClass="buttonTD"
     			rendered="#{!cursusController.confirmeDelete}">
-    			<p:commandButton image="/media/images/cancel.png"
+    			<p:commandButton icon="ui-icon-minus"
     				styleClass="form-button-image" immediate="true"
     				title="#{msgs['_.BUTTON.DELETE']}"
     				rendered="#{!cursusPojo.cursus.temoinFromApogee and
     				(sessionController.currentInd == null 
-    				  || sessionController.currentInd.asRightsToUpdate)}">
-    				<f:setPropertyActionListener value="true" target="#{cursusController.confirmeDelete}" />
+    				  || sessionController.currentInd.asRightsToUpdate)}"
+    				update=":addCursusForm"
+    				ajax="false"
+    				action="#{cursusController.setConfirmeDelete}">
     				<f:setPropertyActionListener value="#{cursusPojo}" target="#{cursusController.pojoCursusScol}" />
     			</p:commandButton>
     		</p:column>

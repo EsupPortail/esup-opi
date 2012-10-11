@@ -401,7 +401,7 @@ public class PJController  extends AbstractContextAwareController  {
 			if (regimeIns.getDossArriveIncomplet() != null) {
 				currentCmiPojo.setAdressePojo(new AdressePojo(currentCmiPojo.getCommission()
 						.getContactsCommission()
-						.get(regimeIns.getCode()).getAdresse(), getBusinessCacheService()));
+						.get(regimeIns.getCode()).getAdresse(), getDomainApoService()));
 				currentCmiPojo.setContactCommission(currentCmiPojo.getCommission().
 					getContactsCommission().get(regimeIns.getCode()));
 				List<Object> list = new ArrayList<Object>();
@@ -419,7 +419,7 @@ public class PJController  extends AbstractContextAwareController  {
 		if (regimeIns.getDossArriveComplet() != null) {
 				currentCmiPojo.setAdressePojo(new AdressePojo(
 					currentCmiPojo.getCommission().getContactsCommission().
-						get(regimeIns.getCode()).getAdresse(), getBusinessCacheService()));
+						get(regimeIns.getCode()).getAdresse(), getDomainApoService()));
 				currentCmiPojo.setContactCommission(currentCmiPojo.getCommission().
 						getContactsCommission().get(regimeIns.getCode()));
 				List<Object> list = new ArrayList<Object>();

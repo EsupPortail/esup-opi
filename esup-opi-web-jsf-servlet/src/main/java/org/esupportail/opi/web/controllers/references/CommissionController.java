@@ -962,7 +962,7 @@ public class CommissionController
 					getParameterService().getCalendarRdv(), null, false);
 		
 		for (IndividuPojo iP : listeIndPojo) {
-			iP.initIndCursusScolPojo(getBusinessCacheService(), getI18nService());
+			iP.initIndCursusScolPojo(getDomainApoService(), getI18nService());
 		}
 
 		// boucle sur la liste des individu et creation de la liste de IndListePrepaPojo

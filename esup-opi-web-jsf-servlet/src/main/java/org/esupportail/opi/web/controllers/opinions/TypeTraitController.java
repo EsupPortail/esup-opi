@@ -192,7 +192,7 @@ public class TypeTraitController  extends AbstractContextAwareController  {
 					cmi, 
 					new AdressePojo(cmi.getContactsCommission()
 							.get(codeRI)
-							.getAdresse(), getBusinessCacheService()),
+							.getAdresse(), getDomainApoService()),
 					cmi.getContactsCommission().get(codeRI));
 			Set<VersionEtapeDTO> vetDTO = cmiEntry.getValue();
 			StringBuffer html = new StringBuffer();

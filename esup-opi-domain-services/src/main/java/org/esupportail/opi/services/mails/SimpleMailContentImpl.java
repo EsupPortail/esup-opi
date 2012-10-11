@@ -213,8 +213,14 @@ public class SimpleMailContentImpl extends AbstractMailContentImpl {
 			log.debug("entering objects = " + objects);
 		}
 		List<String> ad = new ArrayList<String>();
-		ad.add(address);
-		ad.add(address2);
+		if(address != null) {
+			ad.add(address);
+		}
+		if(address2 != null) {
+			ad.add(address2);
+		}
+//		ad.add(address);
+//		ad.add(address2);
 		send(ad, objects);
 
 	}

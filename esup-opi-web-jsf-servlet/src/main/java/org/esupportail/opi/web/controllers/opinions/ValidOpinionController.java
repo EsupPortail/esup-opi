@@ -332,7 +332,7 @@ public class ValidOpinionController  extends AbstractContextAwareController  {
 				printOpinionController.getIdCommissionSelected(), null);
 		CommissionPojo currentCmiPojo = new CommissionPojo(c, 
 				new AdressePojo(c.getContactsCommission().get(regimeIns.getCode())
-						.getAdresse(), getBusinessCacheService()),
+						.getAdresse(), getDomainApoService()),
 						c.getContactsCommission().get(regimeIns.getCode()));
 		if (mail != null) {
 			sendMail(printOpinionController.getIndividuPojoSelected(), a, 
@@ -480,7 +480,7 @@ public class ValidOpinionController  extends AbstractContextAwareController  {
 				CommissionPojo currentCmiPojo = new CommissionPojo(laCommission, 
 						new AdressePojo(laCommission.getContactsCommission()
 								.get(codeRI).getAdresse(),
-								getBusinessCacheService()),
+								getDomainApoService()),
 								laCommission.getContactsCommission()
 								.get(codeRI));
 				if (!avisFavorable.isEmpty()) {

@@ -71,11 +71,6 @@ public class AdressController extends AbstractContextAwareController {
 	 * List of CommuneDTO for the fix adress.
 	 */
 	private List<CommuneDTO> communesEmpl;
-
-	/**
-	 * The current address.
-	 */
-	private AdressePojo currentAdrPojo;
 	
 	/**
 	 * The fix address.
@@ -90,7 +85,7 @@ public class AdressController extends AbstractContextAwareController {
 	/**
 	 * The actionEnum.
 	 */
-	private ActionEnum actionEnum;
+	private ActionEnum actionEnum;	
 	
 	/*
 	 ******************* INIT ************************* */
@@ -114,7 +109,6 @@ public class AdressController extends AbstractContextAwareController {
 		communesFix = new ArrayList<CommuneDTO>();
 		communesCurrent = new ArrayList<CommuneDTO>();
 		communesEmpl = new ArrayList<CommuneDTO>();
-		currentAdrPojo = new AdressePojo(new AdresseFix());
 		fixAdrPojo = new AdressePojo(new AdresseFix());
 		emplAdrPojo = new AdressePojo(new AdresseEmployeur());
 		actionEnum = new ActionEnum();
@@ -135,6 +129,7 @@ public class AdressController extends AbstractContextAwareController {
 	 * Prepare the stuff for the update.
 	 */
 	public void initUpdate() {
+	
 		//not use at the moment (11/09/2008) cf ticket : 36313
 //		communesCurrent = (List<CommuneDTO>) getDomainApoService()
 //				.getCommunesDTO(currentAdrPojo.getAdresse().getCodBdi());
@@ -149,19 +144,6 @@ public class AdressController extends AbstractContextAwareController {
 	
 	/*
 	 ******************* METHODS ********************** */
-	
-	/**
-	 * The select the cities according to the postal code selected.
-	 */
-	public void selectCpCurrent() {
-		String cp = currentAdrPojo.getAdresse().getCodBdi();
-		if (StringUtils.hasText(cp) && Utilitaires.isCodePostalValid(cp)) {
-			communesCurrent = getDomainApoService().getCommunesDTO(cp);
-		} else {
-			addErrorMessage(null, "ERROR.FIELD.INVALID", getString("ADRESS.COD_POST"));
-			communesCurrent = new ArrayList<CommuneDTO>();
-		}
-	}
 	
 	/**
 	 * The select the cities according to the postal code selected.
@@ -217,7 +199,7 @@ public class AdressController extends AbstractContextAwareController {
 		String codePay = (String) event.getNewValue();
 		emplAdrPojo.getAdresse().setCodPays(codePay);
 	}
-	
+
 	/**
 	 * Save the adress for this individu. 
 	 * @param individu may be null
@@ -343,8 +325,12 @@ public class AdressController extends AbstractContextAwareController {
  				adressePojo.getAdresse().setCodBdi(null);
  				adressePojo.getAdresse().setCodCommune(null);
 			} else { adressePojo.getAdresse().setLibComEtr(null); }
+ 			
+ 			AdresseFix adresseFix = (AdresseFix) fixAdrPojo.getAdresse(); 			
+ 			Individu individu = adresseFix.getIndividu();
+ 			individu.getAdresses().put(Constantes.ADR_FIX, adressePojo.getAdresse());
+ 			
 			getDomainService().updateAdresse(adressePojo.getAdresse());
-	
 			reset();
 			actionEnum.setWhatAction(ActionEnum.READ_ACTION);
 			//for init the pojo attributes
@@ -360,17 +346,14 @@ public class AdressController extends AbstractContextAwareController {
 	public void init(final Adresse adresse, final Boolean initTownList) {
 		if (adresse instanceof AdresseEmployeur) {
 			// Fix Adresse
-			emplAdrPojo = new AdressePojo(adresse, getBusinessCacheService());
+			emplAdrPojo = new AdressePojo(adresse, getDomainApoService());
 			if (initTownList) { selectCpEmpl(); }
 		} else {
 			// Fix Adresse
-			fixAdrPojo = new AdressePojo(adresse, getBusinessCacheService());
+			fixAdrPojo = new AdressePojo(adresse, getDomainApoService());
 			if (initTownList) { selectCpFix(); }
 		}
 	}
-	
-	
-	
 
 	/* ### ALL CONTROL ####*/
 	
@@ -506,20 +489,6 @@ public class AdressController extends AbstractContextAwareController {
 	public void setCommunesCurrent(final List<CommuneDTO> communesCurrent) {
 		this.communesCurrent = communesCurrent;
 	}
-
-//	/**
-//	 * @return the currentAdrPojo
-//	 */
-//	public AdressePojo getCurrentAdrPojo() {
-//		return currentAdrPojo;
-//	}
-//
-//	/**
-//	 * @param currentAdrPojo the currentAdrPojo to set
-//	 */
-//	public void setCurrentAdrPojo(final AdressePojo currentAdrPojo) {
-//		this.currentAdrPojo = currentAdrPojo;
-//	}
 
 	/**
 	 * @return the fixAdrPojo

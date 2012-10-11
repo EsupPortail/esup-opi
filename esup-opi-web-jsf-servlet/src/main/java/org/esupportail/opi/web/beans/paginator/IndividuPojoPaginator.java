@@ -169,7 +169,7 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 
 		for (IndividuPojo iP : indPojo) {
 			iP.initIndCursusScolPojo(
-					getSessionController().getBusinessCacheService(),
+					getSessionController().getDomainApoService(),
 					getSessionController().getI18nService());
 		}
 		individuPojos = indPojo;

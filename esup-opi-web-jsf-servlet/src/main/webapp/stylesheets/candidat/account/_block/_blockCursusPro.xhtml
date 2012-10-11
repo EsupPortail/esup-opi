@@ -54,6 +54,7 @@
     			<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
     				action="#{cursusController.goSeeCursusPro}"
     				rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"/>
+    				
     			<p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
     				rendered="#{cursusController.actionEnum.whatAction == cursusController.actionEnum.updateAction}"
     				action="#{accueilController.verifyCursusPro}">
@@ -185,7 +186,7 @@
     			</h:panelGroup>
     		</p:column>
     		<p:column styleClass="buttonTD" rendered="#{!cursusController.confirmeDelete}">
-    			<p:commandButton icon="form-button-image-cancel"
+    			<p:commandButton icon="ui-icon-minus"
     				styleClass="form-button-image" immediate="true"
     				title="#{msgs['_.BUTTON.DELETE']}"
     				rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"

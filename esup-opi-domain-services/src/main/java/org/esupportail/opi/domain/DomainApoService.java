@@ -124,6 +124,13 @@ public interface DomainApoService extends Serializable {
 	 * @return List< Pays>.
 	 */
 	List<Pays> getPays();
+
+	/**
+	 * Returns one pays from the list getPays().
+	 *@param codePays 
+	 * @return Pays.
+	 */
+	Pays getPays(String codePays);
 	
 	/**
 	 * Returns the departements managed by the WS of GeographieApogee.
@@ -131,7 +138,12 @@ public interface DomainApoService extends Serializable {
 	 */
 	List<Departement> getDepartements();
 
-	
+	/**
+	 * Returns one departement from the list getDepartements().
+	 *@param codeDep 
+	 * @return Departement.
+	 */
+	Departement getDepartement(String codeDep);
 
 	/**
 	 * Returns the cities managed by the WS of GeographieApogee.
@@ -139,7 +151,14 @@ public interface DomainApoService extends Serializable {
 	 * @return List< CommuneDTO>.
 	 */
 	List<CommuneDTO> getCommunesDTO(String codeBdi);
-	
+
+	/**
+	 * Returns one pays from the list getCommunesDTO().
+	 *@param codCom 
+	 *@param codBdi 
+	 * @return CommuneDTO.
+	 */
+	CommuneDTO getCommune(String codCom, String codBdi);
 	
 	/**
 	 * Returns all communes in use.
@@ -202,13 +221,11 @@ public interface DomainApoService extends Serializable {
 	List<Etablissement> getEtablissements(String codCom, String codDep);
 	
 	/**
-	 * TODO Deprecated 18/01/2012
 	 * Return the Etablissement according to the codEtb code.
 	 * All the attributes can be null
 	 * @param codEtb 
 	 * @return Etablissement.
 	 */
-	@Deprecated
 	Etablissement getEtablissement(String codEtb);
 	
 	//////////////////////////////////////////////////////////////

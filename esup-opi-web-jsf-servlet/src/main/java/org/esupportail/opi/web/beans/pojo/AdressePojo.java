@@ -11,7 +11,9 @@ package org.esupportail.opi.web.beans.pojo;
 import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
 
 import org.esupportail.opi.domain.BusinessCacheService;
+import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.beans.user.Adresse;
+import org.esupportail.opi.domain.beans.user.AdresseFix;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.wssi.services.remote.Pays;
 import org.springframework.util.StringUtils;
@@ -65,7 +67,7 @@ public class AdressePojo {
 	 */
 	public AdressePojo(final Adresse address) {
 		super();
-		adresse = address;
+		adresse = address.clone();
 		adresse.setCodPays(Constantes.CODEFRANCE);
 		isCedex = false;
 	}
@@ -73,19 +75,18 @@ public class AdressePojo {
 	/**
 	 * Constructor.
 	 */
-	public AdressePojo(final Adresse address, final BusinessCacheService bService) {
+	public AdressePojo(final Adresse address, final DomainApoService apoService) {
 		super();
-		adresse = address;
+		adresse = address.clone();
 		if (!StringUtils.hasText(address.getCodPays())) {
 			adresse.setCodPays(Constantes.CODEFRANCE);
 		}
 		isCedex = false;
-		pays = bService.getPays(adresse.getCodPays());
-		commune = bService.getCommune(adresse.getCodCommune(), adresse.getCodBdi());
+		pays = apoService.getPays(adresse.getCodPays());
+		commune = apoService.getCommune(adresse.getCodCommune(), adresse.getCodBdi());
 		if (adresse.getCedex() != null) {
 			isCedex = true;
-		}
-		
+		}		
 	}
 	
 	

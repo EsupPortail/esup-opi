@@ -424,7 +424,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 						getParameterService().getCalendarRdv(), null, false);
 
 			for (IndividuPojo iPojo : listeIndPojo) {
-				iPojo.initIndCursusScolPojo(getBusinessCacheService(), getI18nService());
+				iPojo.initIndCursusScolPojo(getDomainApoService(), getI18nService());
 				
 				// on enlève les voeux en transfert
 				Set<IndVoeuPojo> voeuxToRemove = new HashSet<IndVoeuPojo>();
@@ -474,7 +474,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 			// on filtre les voeux 
 			
 			for (IndividuPojo iPojo : listeIndPojo) {
-				iPojo.initIndCursusScolPojo(getBusinessCacheService(), getI18nService());
+				iPojo.initIndCursusScolPojo(getDomainApoService(), getI18nService());
 				
 				// on enlève les voeux non en transfert
 				Set<IndVoeuPojo> voeuxToRemove = new HashSet<IndVoeuPojo>();
@@ -527,11 +527,11 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 				Adresse adresse =  ind.getIndividu().getAdresses().get(Constantes.ADR_FIX);
 				if (adresse != null) {
 					if (c == null || !c.getCodeCommune().equals(adresse.getCodCommune())) {
-						c = getBusinessCacheService().getCommune(
+						c = getDomainApoService().getCommune(
 								adresse.getCodCommune(), adresse.getCodBdi());
 					}
 					if (p == null || !p.getCodPay().equals(adresse.getCodPays())) {
-						p = getBusinessCacheService().getPays(
+						p = getDomainApoService().getPays(
 								adresse.getCodPays());
 					}
 				}
@@ -800,7 +800,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 							getBusinessCacheService(), getI18nService(), 
 							getParameterService(), lesCommissions, lesTypeDecisions, lesTypeTrait, listCalendrierParam, null);
 					if (initCursusPojo) {
-						iPojo.initIndCursusScolPojo(getBusinessCacheService(), getI18nService());
+						iPojo.initIndCursusScolPojo(getDomainApoService(), getI18nService());
 					}
 					
 					// on enlève les voeux en transfert
@@ -903,7 +903,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 				getDomainService().initOneProxyHib(iP.getIndividu(), iP.getIndividu().getCursusScol(),
 						IndCursusScol.class);
 				// initialisation des cursus scolaires
-				iP.initIndCursusScolPojo(getBusinessCacheService(), getI18nService());
+				iP.initIndCursusScolPojo(getDomainApoService(), getI18nService());
 				// on boucle sur les listes des avis de chaque individu
 				for (IndVoeuPojo indVoeuPojo : iP.getIndVoeuxPojo()) {
 					Avis unAvis = indVoeuPojo.getAvisEnService();
@@ -1147,7 +1147,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 			AdressePojo aPojo = new AdressePojo(laCommission.getContactsCommission()
 					.get(Utilitaires.getCodeRIIndividu(i.getIndividu(),
 							getDomainService())).getAdresse(), 
-					getBusinessCacheService());
+							getDomainApoService());
 			notificationOpinion.setCoordonneesContact(aPojo);
 			aPojo = null;
 			//init hib proxy adresse
@@ -1156,7 +1156,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 			if (i.getIndividu().getAdresses() != null)	{
 				if (i.getIndividu().getAdresses().get(Constantes.ADR_FIX) != null) { 
 					aPojo = new AdressePojo(i.getIndividu().getAdresses().
-							get(Constantes.ADR_FIX), getBusinessCacheService());
+							get(Constantes.ADR_FIX), getDomainApoService());
 				}
 			}
 			if (laCommission.getCalendarCmi() != null) {

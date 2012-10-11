@@ -468,7 +468,7 @@ public class FormationController extends AbstractAccessController {
 			}
 			SummaryWishesPojo s = new SummaryWishesPojo();
 			CommissionPojo cmiPojo = new CommissionPojo(
-					c, new AdressePojo(contact.getAdresse(), getBusinessCacheService()), contact);
+					c, new AdressePojo(contact.getAdresse(), getDomainApoService()), contact);
 			s.setCommission(cmiPojo);
 			List<PieceJustificative> listPJ = getParameterService().getPiecesJ(
 					Utilitaires.convertVetInVetOpi(cEntry.getValue()),
@@ -530,7 +530,7 @@ public class FormationController extends AbstractAccessController {
 			CommissionPojo cmiPojo = new CommissionPojo(
 					cmi, 
 					new AdressePojo(cmi.getContactsCommission().get(regimeIns.getCode())
-							.getAdresse(), getBusinessCacheService()),
+							.getAdresse(), getDomainApoService()),
 					cmi.getContactsCommission().get(regimeIns.getCode()));
 			TypeTraitement typTrt = null;
 			Set<VersionEtapeDTO> vetDTO = cmiEntry.getValue();

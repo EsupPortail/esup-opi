@@ -13,12 +13,12 @@
 					<h:panelGroup>
 						<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
 							action="#{individuController.update}"
-							rendered="#{adressController.actionEnum.whatAction == 
+							rendered="#{adressController.actionEnum.whatAction eq 
     								adressController.actionEnum.updateAction}"
     						update=":content_panel" />
 						<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
 							immediate="true" action="#{individuController.initAdresse}"
-							rendered="#{adressController.actionEnum.whatAction == 
+							rendered="#{adressController.actionEnum.whatAction eq 
     								adressController.actionEnum.updateAction}"
     						update=":content_panel"
     						ajax="false">
@@ -167,7 +167,7 @@
 						maxlength="70" />
 					<h:panelGroup
 						rendered="#{adressController.fixAdrPojo.adresse.codPays 
-	    					== adressController.codeFrance}">
+	    					eq adressController.codeFrance}">
 						<p:outputLabel value="#{msgs['ADRESS.COD_POST']}"
 							for="codePostalFix" />
 						<h:outputText value="*" styleClass="etoileForChpObli" />
@@ -189,22 +189,22 @@
 					</h:panelGroup>				
 					<h:panelGroup
 						rendered="#{adressController.fixAdrPojo.adresse.codPays 
-	    					== adressController.codeFrance}">
+	    					eq adressController.codeFrance}">
 						<p:inputText id="codePostalFix"
 							value="#{adressController.fixAdrPojo.adresse.codBdi}" size="6"
-							maxlength="5" immediate="true">
-						<p:ajax event="blur" listener="#{adressController.selectCpFix}" update="ville" />
+							maxlength="5">
+						<p:ajax event="change" listener="#{adressController.selectCpFix}" update="ville" />
 						</p:inputText>
 					</h:panelGroup>
 					<h:panelGroup
 						rendered="#{adressController.fixAdrPojo.adresse.codPays 
-	    					== adressController.codeFrance}">
+	    					eq adressController.codeFrance}">
 						<p:outputLabel value="#{msgs['ADRESS.VIL']}" for="ville" />
 						<h:outputText value="*" styleClass="etoileForChpObli" />
 					</h:panelGroup>
 					<p:selectOneMenu id="ville"
 						rendered="#{adressController.fixAdrPojo.adresse.codPays 
-	    					== adressController.codeFrance}"
+	    					eq adressController.codeFrance}"
 						value="#{adressController.fixAdrPojo.adresse.codCommune}">
 						<f:selectItem itemLabel="" itemValue="" />
 						<f:selectItems var="ville" value="#{adressController.communesFix}"

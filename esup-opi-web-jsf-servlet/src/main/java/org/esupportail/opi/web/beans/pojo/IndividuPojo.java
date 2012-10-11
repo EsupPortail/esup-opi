@@ -23,6 +23,7 @@ import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.opi.domain.BusinessCacheService;
 import org.esupportail.opi.domain.BusinessUtil;
+import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.beans.etat.Etat;
@@ -403,15 +404,15 @@ public class IndividuPojo {
 	
 	/**
 	 * Initialize the list of the cursus for the student.
-	 * @param businessCacheService
+	 * @param domainApoService
 	 * @param i18Service 
 	 */
-	public void initIndCursusScolPojo(final BusinessCacheService businessCacheService,
+	public void initIndCursusScolPojo(final DomainApoService domainApoService,
 					final I18nService i18Service) {
 		indCursusScolPojo = new ArrayList<IndCursusScolPojo>();
 		for (IndCursusScol iCur : individu.getCursusScol()) {
 			indCursusScolPojo.add(
-					new IndCursusScolPojo(iCur, i18Service, businessCacheService));
+					new IndCursusScolPojo(iCur, i18Service, domainApoService));
 		}
 		Collections.sort(indCursusScolPojo, new ComparatorString(IndCursusScolPojo.class));
 	}

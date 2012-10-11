@@ -213,18 +213,19 @@ public class IndBacController extends AbstractAccessController {
 			IndBacPojo indBacPojo = new IndBacPojo(myIndBac);
 			if (StringUtils.hasText(myIndBac.getCodEtb())) {
 				indBacPojo.setEtablissement(
-						getBusinessCacheService().getEtablissement(myIndBac.getCodEtb()));
+						getDomainApoService().getEtablissement(myIndBac.getCodEtb()));
 				//indBacPojo.getIndBac().setCodTpe(indBacPojo.getEtablissement().getCodTpe());
 			}
 			if (StringUtils.hasText(myIndBac.getCodPay())) {
-				indBacPojo.setPays(getBusinessCacheService().getPays(myIndBac.getCodPay()));
+				indBacPojo.setPays(getDomainApoService().getPays(myIndBac.getCodPay()));
 			}
 			if (StringUtils.hasText(myIndBac.getCodCom())) {
 				indBacPojo.setCommune(getDomainApoService().getCommune(myIndBac.getCodCom()));
 			}
 			if (StringUtils.hasText(myIndBac.getCodDep())) {
-				indBacPojo.setDepartement(
-						getBusinessCacheService().getDepartement(myIndBac.getCodDep()));
+//				indBacPojo.setDepartement(
+//						getBusinessCacheService().getDepartement(myIndBac.getCodDep()));
+				indBacPojo.setDepartement(getDomainApoService().getDepartement(myIndBac.getCodDep()));
 			}
 			if (StringUtils.hasText(myIndBac.getCodMnb())) {
 				indBacPojo.setMentionNivBac(
@@ -280,7 +281,7 @@ public class IndBacController extends AbstractAccessController {
 				}
 	
 	
-				Etablissement e = getBusinessCacheService().getEtablissement(
+				Etablissement e = getDomainApoService().getEtablissement(
 						indBacPojo.getIndBac().getCodEtb());
 				if (e != null) {
 					indBacPojo.getIndBac().setCodTpe(e.getCodTpe());
@@ -316,7 +317,7 @@ public class IndBacController extends AbstractAccessController {
 				indBac, 
 				Utilitaires.codUserThatIsAction(
 						getCurrentGest(), getCurrentInd()));
-		Etablissement e = getBusinessCacheService().getEtablissement(indBac.getCodEtb());
+		Etablissement e = getDomainApoService().getEtablissement(indBac.getCodEtb());
 		if (e != null) {
 			indBac.setCodTpe(e.getCodTpe());
 		}

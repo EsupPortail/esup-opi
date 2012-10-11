@@ -30,7 +30,7 @@ public interface BusinessCacheService  extends Serializable {
 	 * @param codeDep
 	 * @return Departement
 	 */
-	Departement getDepartement(final String codeDep);
+//	Departement getDepartement(final String codeDep);
 	
 	//////////////////////////////////////////////////////////////
 	// Pays
@@ -42,7 +42,7 @@ public interface BusinessCacheService  extends Serializable {
 	 * @param codePays
 	 * @return Pays
 	 */
-	Pays getPays(final String codePays);
+//	Pays getPays(final String codePays);
 	
 	//////////////////////////////////////////////////////////////
 	// CommuneDTO
@@ -55,7 +55,7 @@ public interface BusinessCacheService  extends Serializable {
 	 * @param codBdi
 	 * @return
 	 */
-	CommuneDTO getCommune(final String codCom, final String codBdi);
+//	CommuneDTO getCommune(final String codCom, final String codBdi);
 	
 	//////////////////////////////////////////////////////////////
 	// VersionEtapeDTO

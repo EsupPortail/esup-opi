@@ -324,7 +324,7 @@ public class CursusController extends AbstractAccessController {
 			//delete all cursus in Apogee
 			if (indCur.getTemoinFromApogee()) {
 				cursusListToDelete.add(new IndCursusScolPojo(
-						indCur, getI18nService(), getBusinessCacheService()));
+						indCur, getI18nService(), getDomainApoService()));
 			} else {
 				cursusExt.add(indCur);
 			}
@@ -541,7 +541,7 @@ public class CursusController extends AbstractAccessController {
 				CommissionPojo cmiPojo = new CommissionPojo(
 						cmi, 
 						new AdressePojo(cmi.getContactsCommission().get(regimeIns.getCode())
-								.getAdresse(), getBusinessCacheService()),
+								.getAdresse(), getDomainApoService()),
 								cmi.getContactsCommission().get(regimeIns.getCode()));
 				cmiPojo.initTreatmentsPojo(cmiEntry.getValue());
 				listCmiPojo.add(cmiPojo);
@@ -563,7 +563,7 @@ public class CursusController extends AbstractAccessController {
 	 */
 	private IndCursusScol addCursus(final IndCursusScol c) {
 		IndCursusScolPojo indCursusScolPojo = new IndCursusScolPojo(
-				c, getI18nService(), getBusinessCacheService());
+				c, getI18nService(), getDomainApoService());
 		cursusList.add(indCursusScolPojo);
 		Collections.sort(cursusList, new ComparatorString(IndCursusScolPojo.class));
 		return indCursusScolPojo.getCursus();
@@ -576,6 +576,7 @@ public class CursusController extends AbstractAccessController {
 	public void initCursusScol() {
 		pojoCursusScol = new IndCursusScolPojo(new CursusExt(), getI18nService());
 		pojoCursusScol.setCodPay(Constantes.CODEFRANCE);
+		confirmeDelete = false;
 	}
 
 	/* ### ALL CONTROL ####*/
@@ -838,7 +839,9 @@ public class CursusController extends AbstractAccessController {
 		this.actionEnum = actionEnum;
 	}
 
-	
+	/**
+	 * @return the confirmeDelete
+	 */	
 	public boolean isConfirmeDelete() {
 	       return confirmeDelete;
 	    }

@@ -49,7 +49,10 @@ public class AdresseFix extends Adresse {
 		setCodPays(codPays);
 	}
 
-	
+	public AdresseFix(final AdresseFix a) {
+		super(a);
+		this.individu = a.individu;
+	}
 	
 	/**
 	 * @see java.lang.Object#toString()
@@ -66,8 +69,7 @@ public class AdresseFix extends Adresse {
 	 */
 	@Override
 	public AdresseFix clone() {
-		AdresseFix a = new AdresseFix();
-		a = (AdresseFix) super.clone(a);
+		AdresseFix a = new AdresseFix((AdresseFix) super.clone(this));
 		return a; 
 	}
 

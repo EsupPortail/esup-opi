@@ -10,6 +10,7 @@ package org.esupportail.opi.web.beans.pojo;
 
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.opi.domain.BusinessCacheService;
+import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.beans.user.indcursus.CursusExt;
 import org.esupportail.opi.domain.beans.user.indcursus.CursusR1;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
@@ -103,7 +104,7 @@ public class IndCursusScolPojo {
 	 * @param domainApoService
 	 */
 	public IndCursusScolPojo(final IndCursusScol cur, final I18nService i18nService, 
-			final BusinessCacheService businessCacheService) {
+			final DomainApoService domainApoService) {
 		super();
 		cursus = cur;
 		codPay = "";
@@ -111,7 +112,7 @@ public class IndCursusScolPojo {
 		codCom = "";
 		this.i18nService = i18nService;
 		if (StringUtils.hasText(cur.getCodEtablissement())) {
-			etablissement = businessCacheService.getEtablissement(cur.getCodEtablissement());
+			etablissement = domainApoService.getEtablissement(cur.getCodEtablissement());
 			cursus.setCodTypeEtab(etablissement.getCodTpe());
 		}
 	}

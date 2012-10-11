@@ -76,7 +76,6 @@
     			<h:outputText value="*" styleClass="etoileForChpObli" />
     		</h:panelGroup>
     		<h:panelGroup rendered="#{indBacController.indBac.codPay == adressController.codeFrance}">
-<!--     			/*problème de rafraichissement du au valueChangeListener mais je ne sais pas pourquoi*/  -->
     			<p:selectOneMenu id="commune"
     					valueChangeListener="#{indBacController.selectCommune}" 
     					value="#{indBacController.indBac.codCom}">
@@ -86,7 +85,6 @@
     					itemLabel="#{commune.libCom}" itemValue="#{commune.codCom}"/>
     				<p:ajax update="infobac"/>
     			</p:selectOneMenu>
-    			<!-- <p:commandButton id="submitSelectCommune" /> -->
     		</h:panelGroup>
     		<h:panelGroup rendered="#{indBacController.indBac.codPay == adressController.codeFrance}" >
     			<h:outputLabel value="#{msgs['ETABLISSEMENT']}" for="etabBac" />
