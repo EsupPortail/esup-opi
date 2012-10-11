@@ -7,19 +7,19 @@
     		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
     			styleClass="tableJustWidthMax">
     			<h:panelGroup>
-    				<h:outputText value="#{msgs['GESTIONNAIRE.CONFIRM.ADD.STUDENT']}">
+    				<h:outputFormat value="#{msgs['GESTIONNAIRE.CONFIRM.ADD.STUDENT']}">
     					<f:param value="#{individuController.pojoIndividu.individu.numDossierOpi}"/>
-    				</h:outputText>
+    				</h:outputFormat>
     			</h:panelGroup>
     			
     			<h:panelGroup>
     				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    					action="#{individuController.add}">
+    					action="#{individuController.add}" ajax="false">
     					<f:setPropertyActionListener value="#{individuController.actionEnum.sendMail}" target="#{individuController.actionEnum.whatAction}" />
     				</p:commandButton>
     				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
     					action="#{individuController.reset}"
-    					immediate="true"/>
+    					ajax="false" immediate="true"/>
     			</h:panelGroup>
     		</h:panelGrid>
     	</div>

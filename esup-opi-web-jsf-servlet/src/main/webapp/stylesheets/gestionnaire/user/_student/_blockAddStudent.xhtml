@@ -10,10 +10,12 @@
     				styleClass="section-smallTitle" />
     			<h:panelGroup>
     				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                        ajax="false"
     					action="#{individuController.update}"
     					rendered="#{individuController.actionEnum.whatAction == 
     								individuController.actionEnum.updateAction}" />
-    				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" immediate="true"
+    				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" 
+                        ajax="false" immediate="true"
     					rendered="#{individuController.actionEnum.whatAction == 
     								individuController.actionEnum.updateAction}">
     					<f:setPropertyActionListener value="#{individuController.currentInd}" target="#{individuController.pojoIndividu}" />
@@ -38,7 +40,7 @@
     			<h:outputText value="*" styleClass="etoileForChpObli" />
     		</h:panelGroup>
     		<h:panelGroup>
-    			<h:inputText id="nom" size="32" maxlength="30"
+    			<p:inputText id="nom" size="32" maxlength="30"
     				value="#{individuController.pojoIndividu.individu.nomPatronymique}" />
     		</h:panelGroup>
     
@@ -47,7 +49,7 @@
     			<h:outputText value="*" styleClass="etoileForChpObli" />
     		</h:panelGroup>
     		<h:panelGroup>
-    			<h:inputText id="prenom" size="22" maxlength="20"
+    			<p:inputText id="prenom" size="22" maxlength="20"
     				value="#{individuController.pojoIndividu.individu.prenom}" />
     		</h:panelGroup>
     		<h:panelGroup>
@@ -118,7 +120,7 @@
     			<h:outputText value="*" styleClass="etoileForChpObli" />
     		</h:panelGroup>
     		<h:panelGroup>
-    			<h:inputText id="email"
+    			<p:inputText id="email"
     				value="#{individuController.pojoIndividu.individu.adressMail}"
     									size="35" maxlength="50" onkeypress="javascript:{return disableCtrlKeyCombination(event);}"
             			onkeydown="javascript:{return disableCtrlKeyCombination(event);}"/>
@@ -129,7 +131,7 @@
     				<h:outputText value="*" styleClass="etoileForChpObli" />
     			</h:panelGroup>
     			<h:panelGroup>
-    				<h:inputText id="emailCheck"
+    				<p:inputText id="emailCheck"
     					value="#{individuController.checkEmail}"
     					size="35" maxlength="50" onkeypress="javascript:{return disableCtrlKeyCombination(event);}"
             			onkeydown="javascript:{return disableCtrlKeyCombination(event);}"/>
@@ -151,9 +153,9 @@
     			<h:outputLabel value="#{msgs['INDIVIDU.NUM_NNE']}" for="numNNE" />
     		</h:panelGroup>
     		<h:panelGroup>
-    			<h:inputText id="numNNE" size="11" maxlength="10"
+    			<p:inputText id="numNNE" size="11" maxlength="10"
     				value="#{individuController.pojoIndividu.individu.codeNNE}" />
-    			<h:inputText id="clefNNE" size="1" maxlength="1"
+    			<p:inputText id="clefNNE" size="1" maxlength="1"
     				value="#{individuController.pojoIndividu.individu.codeClefNNE}" />
     		</h:panelGroup>
     

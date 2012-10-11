@@ -7,7 +7,11 @@
     	
     	
     	<div id="maPage" class="div_body">
-    		<h1><h:outputText value="#{msgs['PROFIL.TITLE.MANAGED']}" /></h1>
+    		<h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['PROFIL.TITLE.MANAGED']}" />
+                </span>
+            </h1>
             <ui:fragment rendered="#{profilController.actionEnum.whatAction == profilController.actionEnum.deleteAction}">
         		<div id="div_subSectionDelete" class="div_subSection">
         			<ui:include src="_delete/_deleteProfil.xhtml" />

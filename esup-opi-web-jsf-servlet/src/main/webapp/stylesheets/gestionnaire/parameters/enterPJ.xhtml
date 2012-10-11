@@ -9,15 +9,27 @@
     	<div id="maPage" class="div_body">
     		<ui:fragment rendered="#{nomenclatureController.actionEnum.whatAction 
     						== nomenclatureController.actionEnum.addAction}">
-    			<h1><h:outputText value="#{msgs['TYP_PJ.TITLE.ADD']}"/></h1>
+    			<h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['TYP_PJ.TITLE.ADD']}"/>
+                </span>
+            </h1>
     		</ui:fragment>
     		<ui:fragment rendered="#{nomenclatureController.actionEnum.whatAction 
     						== nomenclatureController.actionEnum.updateAction}">
-    			<h1><h:outputText value="#{msgs['TYP_PJ.TITLE.UPDATE']}"/></h1>
+    			<h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['TYP_PJ.TITLE.UPDATE']}"/>
+                </span>
+            </h1>
     		</ui:fragment>
     		<ui:fragment rendered="#{nomenclatureController.actionEnum.whatAction 
     						== nomenclatureController.actionEnum.readAction}">
-    			<h1><h:outputText value="#{msgs['TYP_PJ.TITLE.SEE']}"/></h1>
+    			<h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['TYP_PJ.TITLE.SEE']}"/>
+                </span>
+            </h1>
     		</ui:fragment>
     		
     		<div class="messageForUser">

@@ -254,7 +254,7 @@ public class CalendarController extends AbstractContextAwareController {
 			CalendarIns cal = (CalendarIns) beanCalendar.getCalendar();
 			//initialize the proxy hibernate
 			getDomainService().initOneProxyHib(cal, cal.getCommissions(), Set.class);
-			commissionController.setSelectedCommissions(new HashSet<Commission>(cal.getCommissions()));
+			commissionController.setSelectedCommissions(new ArrayList<Commission>(cal.getCommissions()));
 		} else if (beanCalendar.getCalendar() instanceof CalendarCmi) {
 			CalendarCmi cal = (CalendarCmi) beanCalendar.getCalendar();
 			setReunions(new ArrayList<ReunionCmi>(cal.getReunions()));
@@ -294,7 +294,7 @@ public class CalendarController extends AbstractContextAwareController {
 			CalendarIns cal = (CalendarIns) beanCalendar.getCalendar();
 			//initialize the proxy hibernate
 			getDomainService().initOneProxyHib(cal, cal.getCommissions(), Set.class);
-			commissionController.setSelectedCommissions(new HashSet<Commission>(cal.getCommissions()));
+			commissionController.setSelectedCommissions(new ArrayList<Commission>(cal.getCommissions()));
 		
 		} else if (beanCalendar.getCalendar() instanceof CalendarCmi) {
 			CalendarCmi cal = (CalendarCmi) beanCalendar.getCalendar();
@@ -360,7 +360,7 @@ public class CalendarController extends AbstractContextAwareController {
 			
 			if (beanCalendar.getCalendar() instanceof CalendarIns) {
 				CalendarIns c = (CalendarIns) beanCalendar.getCalendar();
-				c.setCommissions(commissionController.getSelectedCommissions());
+				c.setCommissions(new HashSet<Commission>(commissionController.getSelectedCommissions()));
 				
 				
 				getParameterService().addCalendar(beanCalendar.getCalendar());
@@ -419,7 +419,7 @@ public class CalendarController extends AbstractContextAwareController {
 			
 			if (beanCalendar.getCalendar() instanceof CalendarIns) {
 				CalendarIns c = (CalendarIns) beanCalendar.getCalendar();
-				c.setCommissions(commissionController.getSelectedCommissions());
+				c.setCommissions(new HashSet<Commission>(commissionController.getSelectedCommissions()));
 				
 				getParameterService().updateCalendar(beanCalendar.getCalendar());
 				

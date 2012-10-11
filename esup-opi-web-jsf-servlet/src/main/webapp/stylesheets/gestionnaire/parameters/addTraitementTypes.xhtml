@@ -8,7 +8,11 @@ template="/stylesheets/template.xhtml">
 	
 	
 	<div id="maPage" class="div_body">
-		<h1><h:outputText value="#{msgs['TYP_TRT.TITLE.ADD']}" /></h1>
+		<h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['TYP_TRT.TITLE.ADD']}" />
+                </span>
+            </h1>
 		<div class="messageForUser">
 			<p:messages id="messages" showDetail="true" autoUpdate="true" />
 		</div>

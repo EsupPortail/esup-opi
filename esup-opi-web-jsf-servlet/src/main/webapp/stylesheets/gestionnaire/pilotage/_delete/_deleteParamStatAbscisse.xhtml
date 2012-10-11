@@ -5,9 +5,9 @@
     <div style="width:100%;">
     	<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
     		styleClass="tableJustWidthMax">
-    		<h:outputText value="#{msgs['COORDONNE.CONFIRM.DELETE']}">
+    		<h:outputFormat value="#{msgs['COORDONNE.CONFIRM.DELETE']}">
     			<f:param value="#{parametreStatController.selectAbscisseCoordonne}"/>
-    		</h:outputText>
+    		</h:outputFormat>
     		<h:panelGroup>
     			<p:commandButton value="#{msgs['_.BUTTON.YES']}" ajax="false"
     				action="#{parametreStatController.delAbscisseCoordonne}">

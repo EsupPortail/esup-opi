@@ -9,7 +9,11 @@
     	
     	
     	
-    	<h1><h:outputText value="#{msgs['GROUPE.MANAGED']}" /></h1>
+    	<h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['GROUPE.MANAGED']}" />
+                </span>
+            </h1>
     	<p:messages id="messages" showDetail="true" autoUpdate="true" styleClass="messageForUser"/>
     	<h:panelGroup id="div_subSectionDelete" styleClass="div_subSection"
     		rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.deleteAction}">

@@ -4,7 +4,11 @@
     xmlns:p="http://primefaces.org/ui"
     template="/stylesheets/template.xhtml">
     <ui:define name="content">
-    	<h1><h:outputText value="#{msgs['DOMAIN.MANAGED']}" /></h1>
+    	<h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['DOMAIN.MANAGED']}" />
+                </span>
+            </h1>
     	<p:messages id="messages" showDetail="true" autoUpdate="true" styleClass="messageForUser"/>
     	<h:panelGroup id="div_subSectionDelete" styleClass="div_subSection"
     		rendered="#{paramDomainFormationController.actionEnum.whatAction == paramDomainFormationController.actionEnum.deleteAction}">

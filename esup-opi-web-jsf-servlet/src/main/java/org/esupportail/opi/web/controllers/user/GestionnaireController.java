@@ -3,6 +3,8 @@
  */
 package org.esupportail.opi.web.controllers.user;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.faces.event.ValueChangeEvent;
@@ -11,11 +13,11 @@ import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.beans.parameters.accessRight.Profile;
+import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.beanEnum.WayfEnum;
-import org.esupportail.opi.web.beans.paginator.GestionnairePaginator;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.controllers.AbstractAccessController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
@@ -44,9 +46,9 @@ public class GestionnaireController extends AbstractAccessController {
 	private Gestionnaire manager;
 	
 	/**
-	 * The paginator.
+	 * The list of managers.
 	 */
-	private GestionnairePaginator paginator;
+	private List<Gestionnaire> listeGestionnaires;
 	
 	/**
 	 * The actionEnum.
@@ -100,8 +102,6 @@ public class GestionnaireController extends AbstractAccessController {
 	@Override
 	public void afterPropertiesSetInternal() {
 		super.afterPropertiesSetInternal();
-		Assert.notNull(this.paginator, "property paginator of class " 
-				+ this.getClass().getName() + " can not be null");
 		Assert.notNull(this.commissionController, "property commissionController of class " 
 				+ this.getClass().getName() + " can not be null");
 	}
@@ -114,10 +114,7 @@ public class GestionnaireController extends AbstractAccessController {
 	 * @return String 
 	 */
 	public String goSeeAllManagers() {
-		paginator.reset();
-		paginator.forceReload();
-		//make the function into domain user
-		getManagedAccess().goDisplayFunction();
+		listeGestionnaires =  getDomainService().getManagers();
 		return NavigationRulesConst.MANAGED_MANAGER;
 	}
 	
@@ -134,7 +131,8 @@ public class GestionnaireController extends AbstractAccessController {
 			reset();
 			actionEnum.setWhatAction(ActionEnum.ADD_ACTION);
 		} else if (actionEnum.getWhatAction().equals(ActionEnum.UPDATE_ACTION)) {
-			commissionController.setSelectedCommissions(manager.getRightOnCmi());
+			manager = getDomainService().getManager(manager.getLogin());
+			commissionController.setSelectedCommissions(new ArrayList<Commission>(manager.getRightOnCmi()));
 			setIdProfilSelected(manager.getProfile().getId());
 		}
 		commissionController.getWayfEnum().setWhereAreYouFrom(WayfEnum.MANAGER_VALUE);
@@ -147,7 +145,7 @@ public class GestionnaireController extends AbstractAccessController {
 	 */
 	public String goSeeOneManager() {
 		commissionController.reset();
-		commissionController.setSelectedCommissions(manager.getRightOnCmi());
+		commissionController.setSelectedCommissions(new ArrayList<Commission>(manager.getRightOnCmi()));
 		return NavigationRulesConst.SEE_MANAGER;
 	}
 	
@@ -168,7 +166,7 @@ public class GestionnaireController extends AbstractAccessController {
 		Gestionnaire g = getCurrentGest();
 		if (g != null) {
 			commissionController.reset();
-			commissionController.setSelectedCommissions(g.getRightOnCmi());
+			commissionController.setSelectedCommissions(new ArrayList<Commission>(g.getRightOnCmi()));
 			setIdProfilSelected(g.getProfile().getId());
 			return NavigationRulesConst.AFFECT_RIGHT_MANAGER;
 		}
@@ -178,22 +176,15 @@ public class GestionnaireController extends AbstractAccessController {
 	
 	/*
 	 ******************* METHODS ********************** */
-	
-	/**
-	 * Filter gestionnaire paginator. 
-	 */
-	public void filterPaginator() {
-		//init the filtre
-		paginator.filtreSearchGestionnaire();
-	}
 
 	/**
 	 * Add a Manager to the dataBase.
 	 */
-	public void add() {
+	public String add() {
 		if (log.isDebugEnabled()) {
 			log.debug("enterind add with gestionnaire = " + manager);
 		}
+		String result = null;
 		if (ctrlEnter(manager)) {
 			if (!StringUtils.hasText(manager.getCodeCge())) {
 				manager.setCodeCge(null);
@@ -204,7 +195,7 @@ public class GestionnaireController extends AbstractAccessController {
 			
 			//s'il n''est pas rattache e une centre de gestion, il a des droits sur des commissions
 			if (manager.getCodeCge() == null) {
-				manager.setRightOnCmi(commissionController.getSelectedCommissions());
+				manager.setRightOnCmi(new HashSet<Commission>(commissionController.getSelectedCommissions()));
 			}
 			
 			manager = toUpperCase(manager);
@@ -214,11 +205,13 @@ public class GestionnaireController extends AbstractAccessController {
 			reset();
 			commissionController.reset();
 			addInfoMessage(null, "INFO.ENTER.SUCCESS");
+			result = NavigationRulesConst.MANAGED_MANAGER;
 		}
 		if (log.isDebugEnabled()) {
 			log.debug("leaving add");
 		}
 		actionEnum.setWhatAction(ActionEnum.ADD_ACTION);
+		return result;
 	}
 	
 	
@@ -238,7 +231,8 @@ public class GestionnaireController extends AbstractAccessController {
 			
 			//s'il n''est pas rattache e une centre de gestion, il a des droits sur des commissions
 			if (manager.getCodeCge() == null) {
-				manager.setRightOnCmi(commissionController.getSelectedCommissions());
+				manager.setRightOnCmi(new HashSet<Commission>(
+						commissionController.getSelectedCommissions()));
 			} else {
 				manager.setRightOnCmi(null);
 			}
@@ -385,20 +379,6 @@ public class GestionnaireController extends AbstractAccessController {
 	}
 	
 	/**
-	 * @return the paginator
-	 */
-	public GestionnairePaginator getPaginator() {
-		return paginator;
-	}
-
-	/**
-	 * @param paginator the paginator to set
-	 */
-	public void setPaginator(final GestionnairePaginator paginator) {
-		this.paginator = paginator;
-	}
-
-	/**
 	 * @return the manager
 	 */
 	public Gestionnaire getManager() {
@@ -406,6 +386,20 @@ public class GestionnaireController extends AbstractAccessController {
 	}
 
 	
+
+	/**
+	 * @return the listeGestionnaires
+	 */
+	public List<Gestionnaire> getListeGestionnaires() {
+		return listeGestionnaires;
+	}
+
+	/**
+	 * @param listeGestionnaires the listeGestionnaires to set
+	 */
+	public void setListeGestionnaires(final List<Gestionnaire> listeGestionnaires) {
+		this.listeGestionnaires = listeGestionnaires;
+	}
 
 	/**
 	 * @return the actionEnum

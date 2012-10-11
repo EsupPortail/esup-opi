@@ -11,17 +11,17 @@
     			<p:messages id="messages" showDetail="true" autoUpdate="true" />
     		</div>
     
-    		<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
+    		<h1>
+                <span class="section-header">
+                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
+                </span>
+            </h1>
     		<ui:fragment rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.confirmAction}">
         		<div id="div_subSectionPdf" class="div_subSection">
     				<ui:include src="_block/_confirmPdfNotification.xhtml" />
         		</div>
             </ui:fragment>
-            <ui:fragment rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.choiceColExport}">
-        		<div id="choiceColumnExport">
-    				<ui:include src="_block/_choiceColumnExport.xhtml" />
-        		</div>
-    		</ui:fragment>
+			<ui:include src="_block/_choiceColumnExport.xhtml" />
     		<h:form id="lookForOpinionForm" styleClass="opiR1_form"
     			rendered="#{printOpinionController.actionEnum.whatAction != printOpinionController.actionEnum.choiceColExport}">		
     			<div id="blockFormSearch" class="blockForm">
@@ -30,10 +30,7 @@
     						action="#{printOpinionController.seeCandidats}" 
     						rendered="#{printOpinionController.actionEnum.whatAction 
     						!= printOpinionController.actionEnum.confirmAction}" />
-    					<p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" immediate="true">
-    						<f:setPropertyActionListener value="#{printOpinionController.actionEnum.choiceColExport}"
-    							 target="#{printOpinionController.actionEnum.whatAction}" />
-    					</p:commandButton>
+    					<p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="choiceColumnExport.show();" type="button" />
     					<p:commandButton value="#{msgs['_.BUTTON.EXPORT']}" 
     						action="#{printOpinionController.makeCsvValidation}" 
     						rendered="#{printOpinionController.actionEnum.whatAction 

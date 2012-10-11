@@ -126,7 +126,7 @@
 			<set name="rightOnCmi" table="rightOnCmi" lazy="false">
 				<key column="id_usr" />
 				<many-to-many  column="id_cmi"
-						class="org.esupportail.opi.domain.beans.references.commission.Commission"/>
+						class="org.esupportail.opi.domain.beans.references.commission.Commission" />
 			</set>
 			
 			

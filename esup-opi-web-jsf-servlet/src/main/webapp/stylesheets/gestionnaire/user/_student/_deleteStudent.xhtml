@@ -6,15 +6,15 @@
     	<div style="width:100%;">
     		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
     			styleClass="tableJustWidthMax">
-    			<h:outputText value="#{msgs['INDIVIDU.CONFIRM.DELETE']}">
+    			<h:outputFormat value="#{msgs['INDIVIDU.CONFIRM.DELETE']}">
     				<f:param value="#{individuController.pojoIndividu.individu.nomPatronymique} #{individuController.pojoIndividu.individu.prenom}"/>
-    			</h:outputText>
+    			</h:outputFormat>
     			<h:panelGroup>
     				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    					action="#{individuController.delete}"/>
+    					action="#{individuController.delete}" ajax="false"/>
     				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
     					action="#{individuController.reset}"
-    					immediate="true"/>
+    					ajax="false" immediate="true"/>
     			</h:panelGroup>
     		</h:panelGrid>
     	</div>

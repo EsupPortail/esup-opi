@@ -157,7 +157,7 @@ public class CommissionController
 	/**
 	 * This list is used to the selection in the manager user and calendarIns.
 	 */
-	private Set<Commission> selectedCommissions;
+	private List<Commission> selectedCommissions;
 	
 	/**
 	 * The id of the selected commission when no address.
@@ -246,7 +246,7 @@ public class CommissionController
 		actionEnum = new ActionEnum();
 		objectToAdd = new ArrayList<Object>();
 		membersToDisplay = new HashMap<Member, String>();
-		selectedCommissions = new HashSet<Commission>();
+		selectedCommissions = new ArrayList<Commission>();
 		idCmiForAdress = 0;
 		membersSelected = new ArrayList<Object>();
 		wayfEnum = new WayfEnum();
@@ -292,7 +292,7 @@ public class CommissionController
 	 */
 	@Override
 	public String toString() {
-		return "CommissionController#" + hashCode() + "[commission.code =" + commission.getCode() + "]";
+		return "CommissionController#" + hashCode(); //+ "[commission.code =" + commission.getCode() + "]";
 	}
 	/*
 	 ******************* CALLBACK ********************** */
@@ -599,7 +599,8 @@ public class CommissionController
 	 */
 	public void selectCommission() {
 		commission = getParameterService().getCommission(commission.getId(), null);
-		selectedCommissions.add(commission);
+		fj.data.List<Commission> list = fj.data.List.iterableList(selectedCommissions).cons(commission);
+		selectedCommissions = new ArrayList<Commission>(list.nub().toCollection());
 		actionEnum.setWhatAction(ActionEnum.EMPTY_ACTION);
 		commission = new Commission();
 	}
@@ -1306,14 +1307,14 @@ public class CommissionController
 	/**
 	 * @return the selectedCommissions
 	 */
-	public Set<Commission> getSelectedCommissions() {
+	public List<Commission> getSelectedCommissions() {
 		return selectedCommissions;
 	}
 
 	/**
 	 * @param selectedCommissions the selectedCommissions to set
 	 */
-	public void setSelectedCommissions(final Set<Commission> selectedCommissions) {
+	public void setSelectedCommissions(final List<Commission> selectedCommissions) {
 		this.selectedCommissions = selectedCommissions;
 	}
 

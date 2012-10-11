@@ -10,24 +10,24 @@
     		<div class="blockButton">
     			<h:panelGroup>
     				<p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
-    					action="#{ldapSearchController.searchManager}" />
-    				<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
+    					action="#{ldapSearchController.searchManager}" ajax="false" />
+    				<p:commandButton value="#{msgs['_.BUTTON.BACK']}" ajax="false" immediate="true"
     						action="#{ldapSearchController.goBack}"/>
     			</h:panelGroup>
     		</div>
     		<h:panelGrid styleClass="tableWidthMax" columns="4"
     			columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
     			<h:outputLabel value="#{msgs['GESTIONNAIRE.LOGIN']}" for="login" />
-    			<h:inputText id="login" size="35" maxlength="40"
+    			<p:inputText id="login" size="35" maxlength="40"
     				value="#{ldapSearchController.login}" />
     			<h:panelGroup />
     			<h:panelGroup />
     
     			<h:outputLabel value="#{msgs['FIELD_LABEL.NAME']}" for="nom" />
-    			<h:inputText id="nom" size="31" maxlength="30"
+    			<p:inputText id="nom" size="31" maxlength="30"
     				value="#{ldapSearchController.name}" />
     			<h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom" />
-    			<h:inputText id="prenom" size="22" maxlength="20"
+    			<p:inputText id="prenom" size="22" maxlength="20"
     				value="#{ldapSearchController.firstName}" />
     		</h:panelGrid>
     	</div>

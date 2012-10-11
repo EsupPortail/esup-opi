@@ -999,3 +999,11 @@ table.displayAddRdv tr td.right {
 	text-align: left;
 	padding: 20px;
 }
+
+.confirm-dialog-iconless .ui-confirm-dialog-severity {
+	display: none;
+}
+
+.footer-buttons {
+    float: right;
+}

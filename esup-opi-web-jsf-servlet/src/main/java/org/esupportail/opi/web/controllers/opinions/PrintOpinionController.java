@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -118,7 +119,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		/**
 		 * liste des champs selectionnes.
 		 */
-		private List<String> champsChoisis;
+		private Object[] champsChoisis;
 
 		/**
 		 * default value : false.
@@ -225,10 +226,10 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 			this.commissionsSelected = new ArrayList<Object>();
 			this.lesIndividus = new ArrayList<IndividuPojo>();
 			champsDispos = new ArrayList<String>();
-			champsChoisis = new ArrayList<String>();
+			champsChoisis = HEADER_CVS.toArray();
 			for (String champs : HEADER_CVS) {
 				champsDispos.add(champs);
-				champsChoisis.add(champs);
+//				champsChoisis.add(champs);
 			}
 			this.allChecked = false;
 			this.pdfData = new HashMap<Commission, List<NotificationOpinion>>();
@@ -508,21 +509,28 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 			Map<Integer, List<String>> mapCsv = new HashMap<Integer, List<String>>(); 
 			Integer counter = 0;
 			Integer colonne = 0;
-			if (champsChoisis == null || champsChoisis.isEmpty()) {
-				champsChoisis = HEADER_CVS;
+			if (champsChoisis == null || champsChoisis.length == 0) {
+				champsChoisis = HEADER_CVS.toArray();
 			}
 
 			log.info("Champs choisis : " + champsChoisis);
-
-			mapCsv.put(counter, champsChoisis);
+			for (Object o : Arrays.asList(champsChoisis)) {
+				List<String> l = mapCsv.get(counter);
+				if (l == null) {
+					l = new ArrayList<String>();
+				}
+				l.add(String.valueOf(o));
+				mapCsv.put(counter, l);
+			} 
+//			mapCsv.put(counter, champsChoisis);
 			Collections.sort(individus, new ComparatorString(IndividuPojo.class));
 			for (IndividuPojo ind : individus) {
 				Pays p = null;
 				CommuneDTO c = null;
 				
 				//init hib proxy adresse
-				getDomainService().initOneProxyHib(ind.getIndividu(), 
-						ind.getIndividu().getAdresses(), Adresse.class);
+//				getDomainService().initOneProxyHib(ind.getIndividu(), 
+//						ind.getIndividu().getAdresses(), Adresse.class);
 				// récupération de l'adresse
 				Adresse adresse =  ind.getIndividu().getAdresses().get(Constantes.ADR_FIX);
 				if (adresse != null) {
@@ -540,50 +548,51 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 					List<String> ligne = new ArrayList<String>();
 					++counter;
 					colonne = 0;
-					if (champsChoisis.contains(HEADER_CVS.get(colonne))) {
+					List<Object> listChampsChoisis = Arrays.asList(champsChoisis);
+					if (listChampsChoisis.contains(HEADER_CVS.get(colonne))) {
 						ligne.add(this.commissionController.getCommission().getLibelle());
 					}
-					if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 						ligne.add(ind.getIndividu().getNumDossierOpi());
 					}
 
-					if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {	
+					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {	
 						ligne.add(ind.getIndividu().getNomPatronymique());
 					}
 
-					if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 						ligne.add(ind.getIndividu().getPrenom());
 					}
 
-					if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 						ligne.add("" + ind.getIndividu().getDateNaissance());
 					}
-					if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 						String ine = ExportUtils.isNotNull(ind.getIndividu().getCodeNNE()) 
 							+ ExportUtils.isNotNull(ind.getIndividu().getCodeClefNNE());
 						ligne.add(ExportUtils.isNotNull(ine));
 					}
 				
 					if (adresse != null) {
-						if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 							ligne.add(ExportUtils.isNotNull(adresse.getAdr1()));
 						}
-						if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 							ligne.add(ExportUtils.isNotNull(adresse.getAdr2()));
 						}
 
-						if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 							ligne.add(ExportUtils.isNotNull(adresse.getAdr3()));
 						}
 
-						if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 							ligne.add(ExportUtils.isNotNull(adresse.getCedex()));
 						}
 
-						if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 							ligne.add(ExportUtils.isNotNull(adresse.getCodBdi()));
 						}
-						if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 							if (c != null) {
 								ligne.add(c.getLibCommune());
 							} else { 
@@ -591,31 +600,31 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 									adresse.getLibComEtr())); 
 							}
 						}
-						if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 							if (p != null) {
 								ligne.add(p.getLibPay());
 							} else {
 								ligne.add("");
 							}
 						}
-						if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 							ligne.add(ExportUtils.isNotNull(adresse.getPhoneNumber()));
 						}
 					} else {
 						for (int i = 0; i < 8; i++) {
-							if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+							if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 								ligne.addAll(ExportUtils.addBlankList(1));
 							}
 						}
 						//ExportUtils.addBlankList(8);
 					}
-					if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 						ligne.add(ExportUtils.isNotNull(ind.getIndividu().getAdressMail()));
 					}
 
 					// bac
 					boolean hasCodeBac = false;
-					if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 						for (IndBac iB : ind.getIndividu().getIndBac()) {
 							BacOuxEqu b = getBusinessCacheService().getBacOuxEqu(
 									iB.getDateObtention(),
@@ -634,45 +643,45 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 					// dernier cursus
 					IndCursusScolPojo d = ind.getDerniereAnneeEtudeCursus();
 					if (d != null) {
-						if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 							ligne.add(ExportUtils.isNotNull(d.getLibCur()));
 						}
-						if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 							ligne.add(ExportUtils.isNotNull(d.getLibEtb()));
 						}
-						if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 							ligne.add(ExportUtils.isNotNull(d.getResultatExt()));
 						}
 					} else {
 						for (int i = 0; i < 3; i++) {
-							if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+							if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 								ligne.addAll(ExportUtils.addBlankList(1));
 							}
 						}
 					}
 
 					// Voeux
-					if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 						DateFormat sdf = new SimpleDateFormat(Constantes.DATE_HOUR_FORMAT); 
 						ligne.add(sdf.format(v.getIndVoeu().getDateCreaEnr()));
 					}
 
-					if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 						ligne.add(ExportUtils.isNotNull(v.getTypeTraitement().getCode()));
 					}
 
-					if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 						ligne.add(ExportUtils.isNotNull(v.getVrsEtape().getLibWebVet()));
 					}
-					if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+					if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 						ligne.add(ExportUtils.isNotNull(v.getEtat().getLabel()));
 					}
 					if (v.getAvisEnService() != null) {
-						if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 							ligne.add(ExportUtils.isNotNull(v.getAvisEnService().
 									getResult().getLibelle()));
 						}
-						if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 							if (v.getAvisEnService().getRang() != null) {
 								ligne.add(v.getAvisEnService().getRang().toString());
 							} else {
@@ -691,23 +700,23 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 									v.getAvisEnService().getCommentaire()); 
 						}
 
-						if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 							ligne.add(ExportUtils.isNotNull(comm));
 						}
-						if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 							ligne.add(ExportUtils.isNotNull(v.getAvisEnService().
 									getResult().getCode()));
 						}
-						if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 							ligne.add(ExportUtils.isNotNull(v.getAvisEnService().
 									getResult().getCodeApogee()));
 						}
-						if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+						if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 							ligne.add(ExportUtils.isNotNull("" + v.getAvisEnService().
 									getValidation()));
 						}
 						if (v.getAvisEnService().getValidation()) {
-							if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+							if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 								ligne.add(ExportUtils.isNotNull(
 										Utilitaires.convertDateToString(
 											v.getAvisEnService().
@@ -715,24 +724,24 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 											Constantes.DATE_FORMAT)));
 							}
 						} else {
-							if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+							if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 								ligne.add(""); 
 							}
 						}
 					} else {
 						for (int i = 0; i < 7; i++) {
-							if (champsChoisis.contains(HEADER_CVS.get(++colonne))) {
+							if (listChampsChoisis.contains(HEADER_CVS.get(++colonne))) {
 								ligne.addAll(ExportUtils.addBlankList(1));
 							}
 						}
 
 					}
-					if (ligne.size() != champsChoisis.size()) {
+					if (ligne.size() != listChampsChoisis.size()) {
 						throw new ConfigException("Construction du csv avis : " 
 								+ "le nombre de colonne par ligne ("
 								+ ligne.size() + ")est different " 
 								+ "que celui du header("
-								+ champsChoisis.size() + ")(method csvGeneration in " 
+								+ listChampsChoisis.size() + ")(method csvGeneration in " 
 								+ getClass().getName() + " )");
 					}
 
@@ -1270,14 +1279,14 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		/**
 		 * @return the champsChoisis
 		 */
-		public List<String> getChampsChoisis() {
+		public Object[] getChampsChoisis() {
 			return champsChoisis;
 		}
 
 		/**
 		 * @param champsChoisis the champsChoisis to set
 		 */
-		public void setChampsChoisis(final List<String> champsChoisis) {
+		public void setChampsChoisis(final Object[] champsChoisis) {
 			this.champsChoisis = champsChoisis;
 		}
 

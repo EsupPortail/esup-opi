@@ -79,9 +79,6 @@
 		class="org.esupportail.opi.web.controllers.user.GestionnaireController"
 		parent="abstractAccessController" scope="session">
 		<description>A bean to manage the user profil.</description>
-		<property name="paginator" ref="paginatorManager">
-
-		</property>
 		<property name="commissionController" ref="commissionController" />
 	</bean>
 

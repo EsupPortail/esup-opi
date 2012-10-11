@@ -147,11 +147,11 @@ public class LdapSearchController extends AbstractContextAwareController {
 		boolean emptyAllFields = true;
 		if (StringUtils.hasText(login)) {
 			emptyAllFields = false;
-			filter += "&(" + ldapAttributes.getUidAttribute() + "=*" + login + "*)";
+			filter = "&(" + ldapAttributes.getUidAttribute() + "=*" + login + "*)";
 		}
 		if (StringUtils.hasText(name)) {
 			emptyAllFields = false;
-			filter += "&(" + ldapAttributes.getNomUsuelAttribute() + "=*" + name + "*)";
+			filter = "&(" + ldapAttributes.getNomUsuelAttribute() + "=*" + name + "*)";
 		}
 		if (StringUtils.hasText(firstName)) {
 			emptyAllFields = false;

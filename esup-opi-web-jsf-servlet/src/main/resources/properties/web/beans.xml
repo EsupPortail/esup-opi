@@ -365,23 +365,6 @@
 
 	<!-- ****  PAGINATOR **** -->
 
-	<bean id="paginatorManager"
-		class="org.esupportail.opi.web.beans.paginator.GestionnairePaginator"
-		scope="session">
-		<property name="daoService" ref="daoService" />
-		<property name="maxNearPages" value="4" />
-		<property name="defaultPageSize" value="20"/>
-		<property name="pageSize" value="20"/>
-		<property name="pageSizeValues">
-			<set>
-				<value>10</value>
-				<value>20</value>
-				<value>30</value>
-				<value>40</value>
-			</set>
-		</property>
-	</bean>
-
 	<bean id="paginatorIndividu"
 		class="org.esupportail.opi.web.beans.paginator.IndividuPaginator"
 		scope="session">

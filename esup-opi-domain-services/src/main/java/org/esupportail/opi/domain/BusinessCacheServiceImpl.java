@@ -18,6 +18,7 @@ import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.utils.CacheModelConst;
+import org.esupportail.opi.utils.exceptions.CommunicationApogeeException;
 import org.esupportail.wssi.services.remote.BacOuxEqu;
 import org.esupportail.wssi.services.remote.Departement;
 import org.esupportail.wssi.services.remote.Etablissement;
@@ -260,12 +261,19 @@ public class BusinessCacheServiceImpl
 		VersionEtapeDTO result = null;
 		if (StringUtils.hasText(codEtp) && codVrsVet != 0) {
 			//parcours la liste des VET ouvertes au recrutement
-			List<VersionEtapeDTO> v = domainApoService.getVersionEtapes(codEtp, null, null, codAnu);
-			for (VersionEtapeDTO vet : v) {
-				if (codEtp.equals(vet.getCodEtp()) && codVrsVet.equals(vet.getCodVrsVet())) {
-					result = vet;
-					break;
+			try {
+				List<VersionEtapeDTO> v = domainApoService.getVersionEtapes(codEtp, null, null, codAnu);
+				for (VersionEtapeDTO vet : v) {
+					if (codEtp.equals(vet.getCodEtp()) && codVrsVet.equals(vet.getCodVrsVet())) {
+						result = vet;
+						break;
+					}
 				}
+			} catch (CommunicationApogeeException e) {
+				log.error(e);
+				result = new VersionEtapeDTO().withCodEtp(codEtp)
+						.withLibWebVet("DOES NOT EXIST")
+						.withLicEtp("DOES NOT EXIST");
 			}
 		}
 		if (log.isDebugEnabled()) {
