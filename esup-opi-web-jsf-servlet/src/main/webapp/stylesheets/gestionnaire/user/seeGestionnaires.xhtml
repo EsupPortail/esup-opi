@@ -5,131 +5,123 @@
     template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
-    		<h1><h:outputText value="#{msgs['GESTIONNAIRE.TITLE.LIST']}" /></h1>
+            <h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['GESTIONNAIRE.TITLE.LIST']}" />
+                </span>
+            </h1>
             <ui:fragment rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.deleteAction}">
-        		<div id="div_subSectionDelete" class="div_subSection">
-        			<ui:include src="_manager/_deleteManager.xhtml" />
-        		</div>
+                <div id="div_subSectionDelete" class="div_subSection">
+                    <ui:include src="_manager/_deleteManager.xhtml" />
+                </div>
             </ui:fragment>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    		
-    		
-    		<div id="blockFormSearch" class="blockForm">
-    			<h:form id="lookForIndForm" styleClass="opiR1_form">
-    				<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    					styleClass="tableJustWidthMax">
-    					<h:outputText value="#{msgs['FIELD_LABEL.LOOK_FOR.GEST']}"
-    						styleClass="section-smallTitle" />
-    					<h:panelGroup>
-    						<p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
-    							action="#{gestionnaireController.filterPaginator}" />
-    					</h:panelGroup>
-    				</h:panelGrid>
-    				<h:panelGrid styleClass="tableWidthMax" columns="4"
-    					columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-    					<h:panelGroup>
-    						<h:outputLabel value="#{msgs['FIELD_LABEL.NAME']}"
-    							for="nom" />
-    					</h:panelGroup>
-    					<h:inputText id="nom"
-    						value="#{gestionnaireController.paginator.gestRechPojo.nom}" />
-    
-    					<h:panelGroup>
-    						<h:outputLabel value="#{msgs['FIELD_LABEL.FIRST_NAME']}"
-    							for="prenom" />
-    					</h:panelGroup>
-    					<h:inputText id="prenom"
-    						value="#{gestionnaireController.paginator.gestRechPojo.prenom}" />
-    				</h:panelGrid>
-    			</h:form>
-    		</div>
-    
-    		<br />
-    		
-    		
-    		
-    		
     		<h:form id="seeManagersForm">
-    			<br />
-    			<br />
-    			<br />
+                <div class="messageForUser">
+                    <p:messages id="messages" showDetail="true" autoUpdate="true" />
+                </div>
+<!--                 <div id="blockFormSearch" class="blockForm"> -->
+<!--                         <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi" -->
+<!--                             styleClass="tableJustWidthMax"> -->
+<!--                             <h:outputText value="#{msgs['FIELD_LABEL.LOOK_FOR.GEST']}" -->
+<!--                                 styleClass="section-smallTitle" /> -->
+<!--                             <h:panelGroup> -->
+<!--                                 <p:commandButton value="#{msgs['_.BUTTON.SEARCH']}" -->
+<!--                                     ajax="false" -->
+<!--                                     action="#{gestionnaireController.filterPaginator}" /> -->
+<!--                             </h:panelGroup> -->
+<!--                         </h:panelGrid> -->
+<!--                         <h:panelGrid styleClass="tableWidthMax" columns="4" -->
+<!--                             columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart"> -->
+<!--                             <h:panelGroup> -->
+<!--                                 <h:outputLabel value="#{msgs['FIELD_LABEL.NAME']}" -->
+<!--                                     for="nom" /> -->
+<!--                             </h:panelGroup> -->
+<!--                             <h:inputText id="nom" -->
+<!--                                 value="#{gestionnaireController.paginator.gestRechPojo.nom}" /> -->
+        
+<!--                             <h:panelGroup> -->
+<!--                                 <h:outputLabel value="#{msgs['FIELD_LABEL.FIRST_NAME']}" -->
+<!--                                     for="prenom" /> -->
+<!--                             </h:panelGroup> -->
+<!--                             <h:inputText id="prenom" -->
+<!--                                 value="#{gestionnaireController.paginator.gestRechPojo.prenom}" /> -->
+<!--                         </h:panelGrid> -->
+<!--                 </div> -->
+        
+<!--                 <br /> -->
+<!--     			<br /> -->
+<!--     			<br /> -->
+<!--     			<br /> -->
     			<div id="blockFormListDom" class="blockForm">
     				<div class="blockButton">
     					<h:panelGroup>
     						<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-    							styleClass="form-button" immediate="true"
+                                ajax="false" immediate="true"
     							rendered="#{managedAccess.addAuthorized}"
     							action="#{gestionnaireController.goEnterManager}">
     							<f:setPropertyActionListener value="#{gestionnaireController.actionEnum.addAction}" target="#{gestionnaireController.actionEnum.whatAction}" />
     						</p:commandButton>
     						<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-    							immediate="true"
+    							ajax="false" immediate="true"
     							action="#{welcomeController.goWelcomeManager}">
     							<f:setPropertyActionListener value="#{gestionnaireController.actionEnum.emptyAction}" target="#{gestionnaireController.actionEnum.whatAction}" />
     						</p:commandButton>
     					</h:panelGroup>
     				</div>
     				<p:dataTable var="manager" id="managerData"
-    					value="#{gestionnaireController.paginator.visibleItems}"
+    					value="#{gestionnaireController.listeGestionnaires}"
+                        paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40"
+                        paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
+                        currentPageReportTemplate="#{msgs['GESTIONNAIRES']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
                         emptyMessage="#{msgs['GESTIONNAIRE.NOT.FOUND']}"
-                        
-    					styleClass="paginatorData">
-    					<f:facet name="header">
-    						<h:panelGroup >
-<!--     							<e:paginator id="managerPaginator" -->
-<!--     								paginator="#{gestionnaireController.paginator}" -->
-<!--     								itemsName="#{msgs['GESTIONNAIRES']}" -->
-<!--     								onchange="javascript:{simulateLinkClick('seeManagersForm:managerData:submitPageSize');}" /> -->
-    							<p:commandButton id="submitPageSize"
-    								action="#{gestionnaireController.paginator.forceReload}" />
-    						</h:panelGroup>
-    					</f:facet>
+                        filterDelay="1000" styleClass="paginatorData">
+                        <p:columnGroup type="header">
+                            <p:row>
+                                <p:column headerText="#{msgs['GESTIONNAIRE.LOGIN']}" />
+                                <p:column headerText="#{msgs['PROFIL']}" />
+                                <p:column headerText="#{msgs['FIELD_LABEL.FIRST_NAME']}"
+                                    filterBy="#{manager.prenom}"
+                                    filterMatchMode="contains" />
+                                <p:column headerText="#{msgs['FIELD_LABEL.NAME']}"
+                                    filterBy="#{manager.nomUsuel}"
+                                    filterMatchMode="contains" />
+                                <p:column headerText="#{msgs['FIELD_LABEL.MAIL']}" />
+                                <p:column headerText="#{msgs['FIELD_LABEL.IN_USE']}" />
+                                <p:column colspan="3" />
+                            </p:row>
+                        </p:columnGroup>
     					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['GESTIONNAIRE.LOGIN']}" />
-    						</f:facet>
     						<h:outputText value="#{manager.login}" />
     					</p:column>
     					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['PROFIL']}" />
-    						</f:facet>
     						<h:outputText value="#{manager.profile.libelle}" />
     					</p:column>
+                        <p:column>
+                            <h:outputText value="#{manager.prenom}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{manager.nomUsuel}" />
+                        </p:column>
     					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['FIELD_LABEL.NAME']}" />
-    						</f:facet>
-    						<h:outputText value="#{manager.displayName}" />
-    					</p:column>
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['FIELD_LABEL.MAIL']}" />
-    						</f:facet>
     						<h:outputText value="#{manager.adressMail}" />
     					</p:column>
     					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
-    						</f:facet>
     						<p:graphicImage url="/media/images/check2.gif"
     							rendered="#{manager.temoinEnService}" />
     						<p:graphicImage url="/media/images/check0.gif"
     							rendered="#{!manager.temoinEnService}" />
     					</p:column>
     					<p:column>
-    						<p:commandButton image="/media/images/magnifier.png"
-    							styleClass="form-button-image" immediate="true"
+    						<p:commandButton icon="ui-icon-search"
+    							immediate="true" ajax="false"
     							title="#{msgs['_.BUTTON.DISPLAY']}" 
     							action="#{gestionnaireController.goSeeOneManager}">
     							<f:setPropertyActionListener value="#{manager}" target="#{gestionnaireController.manager}" />
     						</p:commandButton>
     					</p:column>
     					<p:column>
-    						<p:commandButton image="/media/images/update.png"
-    							immediate="true" styleClass="form-button-image"
+    						<p:commandButton icon="ui-icon-pencil"
+    							immediate="true" ajax="false"
     							title="#{msgs['BUTTON.UPDATE']}"
     							rendered="#{managedAccess.updateAuthorized}"
     							action="#{gestionnaireController.goEnterManager}">
@@ -138,8 +130,8 @@
     						</p:commandButton>
     					</p:column>
     					<p:column>
-    						<p:commandButton image="/media/images/cancel.png"
-    							styleClass="form-button-image" immediate="true"
+    						<p:commandButton icon="ui-icon-minus"
+                                immediate="true" ajax="false"
     							rendered="#{managedAccess.deleteAuthorized}"
     							title="#{msgs['_.BUTTON.DELETE']}">
     								<f:setPropertyActionListener value="#{gestionnaireController.actionEnum.deleteAction}" target="#{gestionnaireController.actionEnum.whatAction}" />
@@ -147,6 +139,9 @@
     						</p:commandButton>
     					</p:column>
     				</p:dataTable>
+                    <p:blockUI block="seeManagersForm" trigger="managerData">
+                        <p:graphicImage value="/media/images/ajax-loader.gif" />
+                    </p:blockUI>
     			</div>
     		</h:form>
     		
@@ -154,11 +149,5 @@
     		<br />
     		<br />
     	</div>
-    	
-    	<script type="text/javascript">
-    	highlightChildrenLiTags('navigationHeader:navigation');
-    	highlightChildrenLiTags('navigationFooter:navigation');
-    	hideElement('seeManagersForm:managerData:submitPageSize');
-    </script>
     </ui:define>
 </ui:composition>

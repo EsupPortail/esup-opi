@@ -5,34 +5,43 @@
     template="/stylesheets/template.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
-    		<h1><h:outputText value="#{msgs['GESTIONNAIRE.TITLE.SEE']}" /></h1>
-    		<br />
+            <h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['GESTIONNAIRE.TITLE.SEE']}" />
+                </span>
+            </h1>
+            <br />
     		<br />
     		<br />
     
-    		<ui:fragment rendered="#{not empty managedAccess.traitementDisplay}">
-    			<h:form id="updateRightManagerForm" styleClass="opiR1_form">
-    				<opi:menuDynTag id="menuFonction" styleClass="displayTraitement">
-    					<opi:menuDynItems value="#{managedAccess.traitementDisplay}"
-    						styleClass="form-button-link" />
-    				</opi:menuDynTag>
-    			</h:form>
-    		</ui:fragment>
-    		<br />
+<!--     		<ui:fragment rendered="#{not empty managedAccess.traitementDisplay}"> -->
+<!--     			<h:form id="updateRightManagerForm" styleClass="opiR1_form"> -->
+<!--     				<opi:menuDynTag id="menuFonction" styleClass="displayTraitement"> -->
+<!--     					<opi:menuDynItems value="#{managedAccess.traitementDisplay}" -->
+<!--     						styleClass="form-button-link" /> -->
+<!--     				</opi:menuDynTag> -->
+<!--     			</h:form> -->
+<!--     		</ui:fragment> -->
+<!--     		<br /> -->
     		<div id="div_subSection" class="div_subSection">
     
     			<div id="blockFormInfo" class="blockForm">
     				<div class="blockButton">
     					<h:panelGroup>
     						<h:form id="seeOneManagerForm" styleClass="opiR1_form">
-    							<p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
-    								styleClass="form-button" immediate="true"
+                                <p:commandButton
+                                    value="Affecter des droits"
+                                    ajax="false" immediate="true"
+                                    action="#{gestionnaireController.goAffectRightManager}"
+                                    rendered="#{managedAccess.readAuthorized}" />
+                                <p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
+    								ajax="false" immediate="true"
     								rendered="#{managedAccess.updateAuthorized}"
     								action="#{gestionnaireController.goEnterManager}">
     								<f:setPropertyActionListener value="#{gestionnaireController.actionEnum.updateAction}" target="#{gestionnaireController.actionEnum.whatAction}" />
     							</p:commandButton>
     							<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-    								immediate="true"
+    								ajax="false" immediate="true"
     								action="#{gestionnaireController.goSeeAllManagers}">
     								<f:setPropertyActionListener value="#{gestionnaireController.actionEnum.emptyAction}" target="#{gestionnaireController.actionEnum.whatAction}" />
     							</p:commandButton>
@@ -76,7 +85,8 @@
     					</h:panelGroup>
     					<h:outputText id="profil"
     						value="#{gestionnaireController.manager.profile.libelle}" />
-    					<h:outputLabel value="#{msgs['FIELD_LABEL.CGE']}" for="cge" />
+    					<h:outputLabel value="#{msgs['FIELD_LABEL.CGE']}"
+                            styleClass="form-field-label-validator" for="cge" />
     					<h:outputText id="cge" value="#{gestionnaireController.manager.codeCge}" />
     
     					<h:panelGroup>
@@ -90,6 +100,7 @@
     							timeZone="#{sessionController.timezone}" />
     					</h:outputText>
     					<h:outputLabel value="#{msgs['GESTIONNAIRE.END_VALID']}"
+                            styleClass="form-field-label-validator"
     						for="datfinvalid" />
     					<h:outputText id="datfinvalid"
     						value="#{gestionnaireController.manager.dateFinValidite}">
@@ -111,13 +122,13 @@
         					value="#{commissionController.selectedCommissions}"
         					renderedIfEmpty="false" styleClass="displayInfo"
         					alternateColors="false">
-        					<p:column width="30%">
+        					<p:column>
         						<f:facet name="header">
         							<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
         						</f:facet>
         						<h:outputText value="#{commission.code}" />
         					</p:column>
-        					<p:column width="70%">
+        					<p:column>
         						<f:facet name="header">
         							<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
         						</f:facet>

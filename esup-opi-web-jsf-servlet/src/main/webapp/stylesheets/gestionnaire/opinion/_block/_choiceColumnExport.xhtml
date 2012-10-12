@@ -3,21 +3,28 @@
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui">
     <h:form id="choiceColForm" styleClass="opiR1_form">
-    	<div style="text-align:right;">
-    		<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}">
-    			<f:setPropertyActionListener value="#{printOpinionController.actionEnum.emptyAction}" target="#{printOpinionController.actionEnum.whatAction}" />
-    		</p:commandButton>
-    	</div>
-    	<h:outputText value="#{msgs['COMMISSION.EXPORT_LISTE_PREPA_CHAMPS']}" />
-    	<div id="listcolumn">
-    		<p:dataList var="champs" id="titrecom"
-    			value="#{printOpinionController.champsDispos}">
-    			<li>
-    				<jdt:multipleRowsSelector
-    					selectionList="#{printOpinionController.champsChoisis}" />
-    				<h:outputText value="#{champs}" style="padding-right:10px;" />
-    			</li>
-    		</p:dataList>
-    	</div>
+        <p:confirmDialog id="choiceColumnExport" widgetVar="choiceColumnExport" dynamic="true" resizable="false" modal="true" styleClass="confirm-dialog-iconless">
+            <h:panelGroup styleClass="footer-buttons">
+                <p:commandButton id="button-validatecolumns" value="#{msgs['_.BUTTON.VALIDATE']}" oncomplete="choiceColumnExport.hide()">
+                    <f:setPropertyActionListener value="#{printOpinionController.actionEnum.emptyAction}" target="#{printOpinionController.actionEnum.whatAction}" />
+                </p:commandButton>
+                <p:commandButton id="button-cancelcolumns" value="#{msgs['_.BUTTON.CANCEL']}" onclick="choiceColumnExport.hide()" type="button" />
+            </h:panelGroup>
+            <f:facet name="message">
+            	<h:outputText value="#{msgs['COMMISSION.EXPORT_LISTE_PREPA_CHAMPS']}" />
+            	<div id="listcolumn">
+                    <p:dataTable var="champs" id="titrecom"
+                        selection="#{printOpinionController.champsChoisis}"
+                        value="#{printOpinionController.champsDispos}"
+                        rowKey="#{champs}" paginator="true" rows="10">
+                        <p:column selectionMode="multiple" />
+                        <p:column>
+                            <h:outputText value="#{champs}"
+                                style="padding-right:10px;" />
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </f:facet>
+        </p:confirmDialog>
     </h:form>
 </ui:fragment>

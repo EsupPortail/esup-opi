@@ -209,7 +209,7 @@ implements DaoService {
 	 * @see org.esupportail.opi.dao.DaoService#getUser(java.lang.Integer)
 	 */
 	public User getUser(final Integer id) {
-		return (User) getHibernateTemplate().get(User.class, id);
+		return getHibernateTemplate().get(User.class, id);
 	}
 
 
@@ -600,6 +600,25 @@ implements DaoService {
 					Restrictions.ge("dateFinValidite", new Date()),
 					Restrictions.isNull("dateFinValidite")));
 		}
+
+		return getHibernateTemplate().findByCriteria(criteria);
+	}
+	
+	/** 
+	 * @see org.esupportail.opi.dao.DaoService#getManagers()
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Gestionnaire> getManagers() {
+		if (log.isDebugEnabled()) {
+			log.debug("entering getManagers()");
+		}
+
+		DetachedCriteria criteria = DetachedCriteria.forClass(Gestionnaire.class);
+//		criteria.add(Restrictions.le("dateDbtValidite", new Date()));
+//		criteria.add(Restrictions.or(
+//				Restrictions.ge("dateFinValidite", new Date()),
+//				Restrictions.isNull("dateFinValidite")));
+		criteria.add(Restrictions.eq("temoinEnService", true));
 
 		return getHibernateTemplate().findByCriteria(criteria);
 	}

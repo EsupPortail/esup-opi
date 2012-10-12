@@ -8,11 +8,19 @@
     	
     	<div id="maPage" class="div_body">
     		<ui:fragment rendered="#{etapeController.wayfEnum.whereAreYouFrom == etapeController.wayfEnum.memberCmiValue}"> 
-    			<h1><h:outputText value="#{msgs['COMMISSION.SEARCH_ETP.TITLE']}"/></h1> 
+    			<h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['COMMISSION.SEARCH_ETP.TITLE']}"/>
+                </span>
+            </h1> 
     		</ui:fragment>
     		<ui:fragment rendered="#{etapeController.wayfEnum.whereAreYouFrom == etapeController.wayfEnum.PJValue
     		|| etapeController.wayfEnum.whereAreYouFrom == etapeController.wayfEnum.affectPJValue}">
-    			<h1><h:outputText value="#{msgs['PJ.SEARCH_ETP.TITLE']}"/></h1>
+    			<h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['PJ.SEARCH_ETP.TITLE']}"/>
+                </span>
+            </h1>
     		</ui:fragment>
     		<div class="messageForUser">
     			<p:messages id="messages" showDetail="true" autoUpdate="true" />

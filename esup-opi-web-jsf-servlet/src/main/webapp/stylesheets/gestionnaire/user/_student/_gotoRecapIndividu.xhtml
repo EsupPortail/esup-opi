@@ -13,12 +13,13 @@
     			
     			<h:panelGroup>
     				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    					action="#{individuController.goSeeOneIndividu}">
+    					action="#{individuController.goSeeOneIndividu}"
+                        ajax="false">
     					<f:setPropertyActionListener value="#{individuController.actionEnum.emptyAction}" target="#{individuController.actionEnum.whatAction}" />
     				</p:commandButton>
     				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
     					action="#{individuController.reset}"
-    					immediate="true"/>
+    					immediate="true" ajax="false"/>
     			</h:panelGroup>
     		</h:panelGrid>
     	</div>

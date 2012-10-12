@@ -176,6 +176,12 @@ public interface DaoService extends Serializable {
 	 * @return the list of all the managers.
 	 */
 	List<Gestionnaire> getManagers(Date date);
+
+	/**
+	 * Return not expired managers
+	 * @return the list of all the managers.
+	 */
+	List<Gestionnaire> getManagers();
 	
 	/**
 	 * @param commission

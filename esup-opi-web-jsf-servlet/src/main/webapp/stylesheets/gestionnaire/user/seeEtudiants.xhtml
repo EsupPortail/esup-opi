@@ -7,7 +7,11 @@
     	
     	
     	<div id="maPage" class="div_body">
-    		<h1><h:outputText value="#{msgs['INDIVIDU.TITLE.LISTE']}" /></h1>
+    		<h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['INDIVIDU.TITLE.LISTE']}" />
+                </span>
+            </h1>
             <ui:fragment rendered="#{individuController.actionEnum.whatAction == individuController.actionEnum.deleteAction}">
         		<div id="div_subSectionDelete" class="div_subSection">
         			<ui:include src="_student/_deleteStudent.xhtml" />
@@ -27,8 +31,6 @@
     						<p:commandButton value="#{msgs['_.BUTTON.ADD']}" ajax="false"
     							action="#{individuController.goAddEtudiant}"
     							rendered="#{managedAccess.addAuthorized}" />
-    						<p:commandButton value="#{msgs['_.BUTTON.BACK']}" ajax="false" immediate="true"
-    							action="#{managedAccess.goDisplayFunction}" />
     					</h:panelGroup>
     				</div>
     				<p:dataTable var="individu" id="managerData"
@@ -38,45 +40,30 @@
                         paginatorTemplate="#{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
                         currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
                         emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}">
-<!--     					<f:facet name="header"> -->
-<!--     						<h:panelGroup> -->
-<!--     							<e:paginator id="paginatorIndividu" -->
-<!--     								paginator="#{paginatorIndividu}" -->
-<!--     								itemsName="#{msgs['INDIVIDUS']}" -->
-<!--     								onchange="javascript:{simulateLinkClick('seeManagersForm:managerData:submitPageSize');}" /> -->
-<!--     							<p:commandButton id="submitPageSize" -->
-<!--     								action="#{paginatorIndividu.forceReload}" /> -->
-<!--     						</h:panelGroup> -->
-<!--     					</f:facet> -->
+                        <p:columnGroup type="header">
+                            <p:row>
+                                <p:column headerText="#{msgs['INDIVIDU.NUM_DOSSIER']}" />
+                                <p:column headerText="#{msgs['INDIVIDU.NOM']}" />
+                                <p:column headerText="#{msgs['INDIVIDU.PRENOM']}" />
+                                <p:column headerText="#{msgs['INDIVIDU.DATE_NAI_COURT']}" />
+                                <p:column colspan="2" />
+                            </p:row>
+                        </p:columnGroup>
     					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}" />
-    						</f:facet>
     						<h:outputText value="#{individu.numDossierOpi}" />
     					</p:column>
     					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['INDIVIDU.NOM']}" />
-    						</f:facet>
     						<h:outputText value="#{individu.nomPatronymique}" />
     					</p:column>
     					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['INDIVIDU.PRENOM']}" />
-    						</f:facet>
     						<h:outputText value="#{individu.prenom}" />
     					</p:column>
     					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['INDIVIDU.DATE_NAI_COURT']}" />
-    						</f:facet>
     						<h:outputText value="#{individu.dateNaissance}">
     							<f:convertDateTime pattern="dd/MM/yyyy"
     								timeZone="#{sessionController.timezone}" />
     						</h:outputText>
     					</p:column>
-    
-    
     					<p:column>
     						<p:commandButton icon="ui-icon-search" ajax="false" immediate="true"
     							title="#{msgs['_.BUTTON.DISPLAY']}"
@@ -94,6 +81,9 @@
     					</p:column>
     
     				</p:dataTable>
+                    <p:blockUI block="seeManagersForm" trigger="managerData">
+                        <p:graphicImage value="/media/images/ajax-loader.gif" />
+                    </p:blockUI>
     			</div>
     		</h:form>    
     		<br />

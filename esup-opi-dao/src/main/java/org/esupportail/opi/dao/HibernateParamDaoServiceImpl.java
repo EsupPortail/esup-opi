@@ -186,12 +186,13 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
 	/** 
 	 * @see org.esupportail.opi.dao.ParameterDaoService#getProfile(java.lang.Integer, java.lang.String)
 	 */
+	@SuppressWarnings("unchecked")
 	public Profile getProfile(final Integer id, final String code) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getProfile( " + id + ", " + code + " )");
 		}
 		if (id != null) {
-			return (Profile) getHibernateTemplate().get(Profile.class, id);
+			return getHibernateTemplate().get(Profile.class, id);
 		}
 		if (code != null) {
 //			Session s = getHibernateTemplate().getSessionFactory().getCurrentSession();
@@ -488,8 +489,7 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
 		if (log.isDebugEnabled()) {
 			log.debug("entering getNomenclature( " + id + " )");
 		}
-		return (Nomenclature) getHibernateTemplate()
-		.get(Nomenclature.class, id);
+		return getHibernateTemplate().get(Nomenclature.class, id);
 	}
 
 	/**
@@ -557,6 +557,7 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
 	/** 
 	 * @see org.esupportail.opi.dao.ParameterDaoService#getCommission(java.lang.Integer, java.lang.String)
 	 */
+	@SuppressWarnings("unchecked")
 	public Commission getCommission(final Integer id, final String code) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getCommission( " + id + ", " + code + " )");
@@ -757,8 +758,7 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
 		if (log.isDebugEnabled()) {
 			log.debug("entering getNomenclature( " + id + " )");
 		}
-		return (TraitementCmi) getHibernateTemplate()
-		.get(TraitementCmi.class, id);
+		return getHibernateTemplate().get(TraitementCmi.class, id);
 	}
 
 	// ////////////////////////////////////////////////////////////
@@ -792,7 +792,7 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
 	 * @see org.esupportail.opi.dao.ParameterDaoService#getCalendar(java.lang.Integer)
 	 */
 	public Calendar getCalendar(final Integer id) {
- 		return (Calendar) getHibernateTemplate().get(Calendar.class, id);
+ 		return getHibernateTemplate().get(Calendar.class, id);
 	}
 
 	/** 
@@ -1272,6 +1272,7 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
 	 * @see org.esupportail.opi.dao.ParameterDaoService#getMailContent(java.lang.String)
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public MailContent getMailContent(final String code) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getMailContent( " + code + " )");
@@ -1294,7 +1295,6 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
 	/** 
 	 * @see org.esupportail.opi.dao.ParameterDaoService#getMailContents()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<MailContent> getMailContents() {
 		if (log.isDebugEnabled()) {

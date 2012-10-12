@@ -5,7 +5,11 @@
     template="/stylesheets/template.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
-    		<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
+    		<h1>
+                <span class="section-header">
+                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
+                </span>
+            </h1>
     		
     		<h:form id="choiceColFormComp" styleClass="opiR1_form"
     			rendered="#{exportFormOrbeonController.actionEnum.whatAction 

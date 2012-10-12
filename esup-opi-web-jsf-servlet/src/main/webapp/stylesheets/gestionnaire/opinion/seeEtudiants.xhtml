@@ -15,7 +15,11 @@
     			}
     		</script>
     
-    		<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
+    		<h1>
+                <span class="section-header">
+                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
+                </span>
+            </h1>
     		
     		<div class="messageForUser">
     			<p:messages id="messages" showDetail="true" autoUpdate="true" />

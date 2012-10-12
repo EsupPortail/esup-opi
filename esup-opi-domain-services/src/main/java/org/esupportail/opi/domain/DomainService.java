@@ -197,6 +197,12 @@ public interface DomainService extends Serializable {
 	List<Gestionnaire> getManagers(Date date);
 
 	/**
+	 * Return not expired managers
+	 * @return the list of all the managers.
+	 */
+	List<Gestionnaire> getManagers();
+
+	/**
 	 * @param commission
 	 * @return the list of all the managers for the commission.
 	 */
@@ -746,7 +752,6 @@ public interface DomainService extends Serializable {
 	 * Get the indSituation for the ind.
 	 * @param ind
 	 */
-	IndSituation getIndSituation(Individu ind);
-	
+	IndSituation getIndSituation(Individu ind);	
 
 }

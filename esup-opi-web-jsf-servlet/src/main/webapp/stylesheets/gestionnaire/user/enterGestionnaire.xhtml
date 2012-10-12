@@ -2,16 +2,24 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	
     	
     	<div id="maPage" class="div_body">
     		<ui:fragment rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.addAction}">
-    			<h1><h:outputText value="#{msgs['GESTIONNAIRE.TITLE.ADD']}"/></h1>
+    			<h1>
+                    <span class="section-header">
+                        <h:outputText value="#{msgs['GESTIONNAIRE.TITLE.ADD']}"/>
+                    </span>
+                </h1>
     		</ui:fragment>
     		<ui:fragment rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.updateAction}">
-    			<h1><h:outputText value="#{msgs['GESTIONNAIRE.TITLE.UPDATE']}"/></h1>
+    			<h1>
+                    <span class="section-header">
+                        <h:outputText value="#{msgs['GESTIONNAIRE.TITLE.UPDATE']}"/>
+                    </span>
+                </h1>
     		</ui:fragment>
     		<div class="messageForUser">
     			<p:messages id="messages" showDetail="true" autoUpdate="true" />
@@ -21,11 +29,7 @@
     				<h:outputText value="#{msgs['INFO.CHAMP']}" />
     				<h:outputText value="*" styleClass="etoileForChpObli" />
     			</h:panelGroup>
-    		</div>
-    		<br />
-    		<br />
-    		<br />
-    
+    		</div>    
     		<div id="div_subSection" class="div_subSection">
     			<h:form id="enterManagerForm">
     				<div id="blockFormInfo" class="blockForm">
@@ -42,15 +46,15 @@
     								rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.updateAction}" />
     							<h:panelGroup>
     								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    									action="#{gestionnaireController.add}"
+    									action="#{gestionnaireController.add}" ajax="false"
     									rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.addAction
-    											&& managedAccess.addAuthorized}" />
+    											and managedAccess.addAuthorized}" />
     								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    									action="#{gestionnaireController.update}"
+    									action="#{gestionnaireController.update}" ajax="false"
     									rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.updateAction
-    											&& managedAccess.updateAuthorized}" />
+    											and managedAccess.updateAuthorized}" />
     								<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    									onclick="javascript:{clickAnnuler = true;}" immediate="true"
+    									onclick="javascript:{clickAnnuler = true;}" ajax="false" immediate="true"
     									action="#{gestionnaireController.goSeeAllManagers}" />
     							</h:panelGroup>
     						</h:panelGrid>
@@ -62,14 +66,14 @@
     								styleClass="form-field-label-validator" />
     							<h:outputText value="*" styleClass="etoileForChpObli" />
     						</h:panelGroup>
-    						<h:inputText id="nom" size="31" maxlength="30"
+    						<p:inputText id="nom" size="31" maxlength="30"
     							value="#{gestionnaireController.manager.nomUsuel}" />
     						<h:panelGroup>
     							<h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom"
     								styleClass="form-field-label-validator" />
     							<h:outputText value="*" styleClass="etoileForChpObli" />
     						</h:panelGroup>
-    						<h:inputText id="prenom" size="22" maxlength="20"
+    						<p:inputText id="prenom" size="22" maxlength="20"
     							value="#{gestionnaireController.manager.prenom}" />
     
     						<h:panelGroup>
@@ -77,14 +81,14 @@
     								styleClass="form-field-label-validator" />
     							<h:outputText value="*" styleClass="etoileForChpObli" />
     						</h:panelGroup>
-    						<h:inputText id="login" size="35" maxlength="50"
+    						<p:inputText id="login" size="35" maxlength="50"
     							value="#{gestionnaireController.manager.login}" />
     						<h:panelGroup>
     							<h:outputLabel value="#{msgs['FIELD_LABEL.MAIL']}"
     								styleClass="form-field-label-validator" for="adressMail" />
     							<h:outputText value="*" styleClass="etoileForChpObli" />
     						</h:panelGroup>
-    						<h:inputText id="adressMail" size="43" maxlength="50"
+    						<p:inputText id="adressMail" size="43" maxlength="50"
     							value="#{gestionnaireController.manager.adressMail}" />
     
     						<h:panelGroup>
@@ -101,12 +105,10 @@
     								itemLabel="#{beanProfile.profile.libelle}"
     								itemValue="#{beanProfile.profile.id}" />
     						</p:selectOneMenu>
-    						<h:outputLabel value="#{msgs['FIELD_LABEL.CGE']}" for="cge" />
+    						<h:outputLabel value="#{msgs['FIELD_LABEL.CGE']}"
+                                styleClass="form-field-label-validator" for="cge" />
     						<h:panelGroup>
     							<p:selectOneMenu id="cge"
-    								valueChangeListener="#{gestionnaireController.selectCge}"
-    								onclick="javascript:{clickAnnuler = true;}"
-    								onchange="javascript:{simulateLinkClick('enterManagerForm:submitCodCge');}"
     								value="#{gestionnaireController.manager.codeCge}">
     								<f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}"
     									itemValue="" />
@@ -114,9 +116,8 @@
     									value="#{gestionnaireController.centreGestion}"
     									itemLabel="#{centreGestion.libCge}"
     									itemValue="#{centreGestion.codCge}" />
+                                    <p:ajax listener="#{gestionnaireController.selectCge}" update="@all" />
     							</p:selectOneMenu>
-    							<p:commandButton id="submitCodCge"
-    								onclick="javascript:{clickAnnuler = true;}" />
     						</h:panelGroup>
     
     						<h:panelGroup>
@@ -124,18 +125,18 @@
     								styleClass="form-field-label-validator" for="datdbtvalid" />
     							<h:outputText value="*" styleClass="etoileForChpObli" />
     						</h:panelGroup>
-    						<h:inputText id="datdbtvalid" size="10" maxlength="8"
-    							value="#{gestionnaireController.manager.dateDbtValidite}">
-    							<f:convertDateTime pattern="ddMMyyyy" timeZone="#{sessionController.timezone}" />
-    							<f:validateLength minimum="8"/>
-    						</h:inputText>
+                            <p:calendar id="datdbtvalid"
+                                value="#{gestionnaireController.manager.dateDbtValidite}"
+                                pattern="ddMMyyyy" timeZone="#{sessionController.timezone}"
+                                size="10" />
     						<h:outputLabel value="#{msgs['GESTIONNAIRE.END_VALID']}"
+                                styleClass="form-field-label-validator"
     							for="datfinvalid" />
-    						<h:inputText id="datfinvalid" size="10" maxlength="8"
-    							value="#{gestionnaireController.manager.dateFinValidite}">
-    							<f:convertDateTime pattern="ddMMyyyy" timeZone="#{sessionController.timezone}" />
-    							<f:validateLength minimum="8"/>
-    						</h:inputText>
+                            <p:calendar id="datfinvalid"
+                                value="#{gestionnaireController.manager.dateFinValidite}"
+                                mindate="#{gestionnaireController.manager.dateDbtValidite}"
+                                pattern="ddMMyyyy" timeZone="#{sessionController.timezone}"
+                                size="10" />
     					</h:panelGrid>
     				</div>
                     
@@ -144,9 +145,7 @@
     				<br />
                     <ui:fragment rendered="#{gestionnaireController.manager.codeCge == ''
                                 || gestionnaireController.manager.codeCge == null}">
-        				<div id="divSelectCmi">
-        					<ui:include src="../referentiels/_commission/_selectCmi.xhtml" />
-        				</div>
+    					<ui:include src="../referentiels/_commission/_selectCmi.xhtml" />
                     </ui:fragment>
     			</h:form>
     		</div>    
@@ -155,12 +154,6 @@
     		<br />
     	</div>
     	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        	highlightInputAndSelect('enterManagerForm');
-        	hideElement('enterManagerForm:submitCodCge');
-        	hideElement('submitCmi');
-        </script>
+
     </ui:define>
 </ui:composition>

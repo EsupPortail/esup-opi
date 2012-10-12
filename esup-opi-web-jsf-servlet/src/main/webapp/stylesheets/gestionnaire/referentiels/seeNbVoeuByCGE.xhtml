@@ -4,7 +4,11 @@
     xmlns:p="http://primefaces.org/ui"
     template="/stylesheets/template.xhtml">
     <ui:define name="content">
-    	<h1><h:outputText value="#{msgs['VOEU.MANAGED']}" /></h1>
+    	<h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['VOEU.MANAGED']}" />
+                </span>
+            </h1>
     	
     	<p:messages id="messages" showDetail="true" autoUpdate="true" styleClass="messageForUser"/>
     	

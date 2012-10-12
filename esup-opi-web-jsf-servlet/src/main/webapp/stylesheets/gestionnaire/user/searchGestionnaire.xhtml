@@ -6,7 +6,11 @@ xmlns:p="http://primefaces.org/ui"
 template="/stylesheets/template.xhtml">
 <ui:define name="content">
 	<div id="maPage" class="div_body">
-		<h1><h:outputText value="#{msgs['GESTIONNAIRE.SEARCH_LDAP']}" /></h1>
+		<h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['GESTIONNAIRE.SEARCH_LDAP']}" />
+                </span>
+            </h1>
 		<h:form id="searchManagerForm">
 			<ui:include src="_manager/_searchLdap.xhtml" />
 
@@ -14,9 +18,8 @@ template="/stylesheets/template.xhtml">
 			<br />
 			<br />
 			<div id="div_subSectionList" class="div_subSection">
-				<p:dataTable var="manager" id="managerData"
-					value="#{ldapSearchController.managers}" styleClass="paginatorData"
-					alternateColors="true" renderedIfEmpty="false">
+				<p:dataTable var="manager" id="managerData" rendered="#{not empty ldapSearchController.managers}"
+					value="#{ldapSearchController.managers}" styleClass="paginatorData">
 					<p:column>
 						<f:facet name="header">
 							<h:outputText value="#{msgs['GESTIONNAIRE.LOGIN']}" />
@@ -36,8 +39,8 @@ template="/stylesheets/template.xhtml">
 						<h:outputText value="#{manager.adressMail}" />
 					</p:column>
 					<p:column>
-						<p:commandButton image="/media/images/add.png"
-							styleClass="form-button-image" immediate="true"
+						<p:commandButton icon="ui-icon-plus"
+                            ajax="false" immediate="true"
 							action="#{ldapSearchController.goBack}"
 							title="#{_.BUTTON.ADD}">
 							<f:setPropertyActionListener value="#{manager}" target="#{gestionnaireController.manager}" />
@@ -51,11 +54,5 @@ template="/stylesheets/template.xhtml">
 		<br />
 		<br />
 	</div>
-	
-	<script type="text/javascript">
-	highlightChildrenLiTags('navigationHeader:navigation');
-	highlightChildrenLiTags('navigationFooter:navigation');
-	highlightInputAndSelect('searchManagerForm');
-</script>
 </ui:define>
 </ui:composition>

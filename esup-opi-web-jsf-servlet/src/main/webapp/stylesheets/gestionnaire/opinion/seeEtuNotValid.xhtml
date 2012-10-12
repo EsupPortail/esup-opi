@@ -14,7 +14,11 @@
     			  	}
     			}
     		</script>
-    		<h1><h:outputText value="#{msgs['INDIVIDU.TITLE.LISTE_NOT_VALID']}" /></h1>
+    		<h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['INDIVIDU.TITLE.LISTE_NOT_VALID']}" />
+                </span>
+            </h1>
             <h2><h:outputFormat value="#{msgs['COMMISSION.SELECTED']}">
     			<f:param value="#{commissionController.commission.libelle}"/>
             </h:outputFormat></h2>

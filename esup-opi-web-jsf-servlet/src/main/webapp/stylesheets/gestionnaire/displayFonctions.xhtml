@@ -6,7 +6,11 @@
     <ui:define name="content">
     
     	<div id="maPage" class="div_body">
-    		<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
+    		<h1>
+                <span class="section-header">
+                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
+                </span>
+            </h1>
     		<div id="div_subSection" class="div_subSection">
     			<h:form id="fctParamForm" styleClass="opiR1_form">
     				<br />

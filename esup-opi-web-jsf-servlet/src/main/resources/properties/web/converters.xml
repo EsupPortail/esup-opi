@@ -68,4 +68,14 @@
 		</property>
 
 	</bean>
+
+    <bean 
+        id="commissionConverter"
+        class="org.esupportail.opi.web.converter.CommissionConverter"
+        >
+        <description>
+            A converter for Commission.
+        </description>
+        <property name="parameterService" ref="parameterService"/>
+    </bean>
 </beans>

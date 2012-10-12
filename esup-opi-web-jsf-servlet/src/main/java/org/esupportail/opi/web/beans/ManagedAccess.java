@@ -315,23 +315,44 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 		if (u != null) { 
 			if (u instanceof Gestionnaire) {	
 				Gestionnaire g = (Gestionnaire) u;
-				Set<Traitement> domains = new TreeSet<Traitement>(new ComparatorInteger(Traitement.class));
+				Set<Traitement> domains = 
+						new TreeSet<Traitement>(new ComparatorInteger(Traitement.class));
 				domains.addAll(parameterService.getTraitements(
 						g.getProfile(), Traitement.TYPE_DOMAIN, null));
 				for (Traitement d : domains) {
-					Submenu sub = new Submenu();
-					sub.setLabel(d.getLibelle());
-					Set<Traitement> functions = new TreeSet<Traitement>(new ComparatorInteger(Traitement.class));
-					functions.addAll(parameterService.getTraitements(
-							g.getProfile(), Traitement.TYPE_FUNCTION, (Domain) d));
-					for (Traitement f : functions) {
-						MethodExpression me = factory.createMethodExpression(fc.getELContext(), f.getAction(), String.class, new Class[]{});
-						MenuItem item = new MenuItem();
-						item.setValue(f.getLibelle());
-						item.setActionExpression(me);
-						sub.getChildren().add(item);
-					}					
-					menuModel.addSubmenu(sub);
+					Set<Traitement> dFunctions = parameterService.getTraitements(
+							g.getProfile(), Traitement.TYPE_FUNCTION, (Domain) d);
+					if (dFunctions.isEmpty()) {
+						final MethodExpression me = factory
+							.createMethodExpression(
+								fc.getELContext(),
+								"#{managedAccess.callFunction(" + d.getId() + ")}",
+								String.class,
+								new Class[] { Integer.class });
+						MenuItem sub = new MenuItem();
+						sub.setValue(d.getLibelle());
+						sub.setActionExpression(me);
+						menuModel.addMenuItem(sub);
+					} else {
+						Submenu sub = new Submenu();
+						sub.setLabel(d.getLibelle());
+						Set<Traitement> functions = 
+								new TreeSet<Traitement>(new ComparatorInteger(Traitement.class));
+						functions.addAll(dFunctions);
+						for (final Traitement f : functions) {
+							final MethodExpression me = factory
+								.createMethodExpression(
+									fc.getELContext(),
+									"#{managedAccess.callFunction(" + f.getId() + ")}",
+									String.class,
+									new Class[] { Integer.class });
+							MenuItem item = new MenuItem();
+							item.setValue(f.getLibelle());
+							item.setActionExpression(me);
+							sub.getChildren().add(item);
+						}
+						menuModel.addSubmenu(sub);
+					}
 				}
 			}
 		}
@@ -346,6 +367,21 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 	
 	public void setMenuGestionnaire(final MenuModel menuModel) {
 		this.menuModel = menuModel;  
+	}
+	
+	/**
+	 * 
+	 * @param f
+	 * @return
+	 */
+	public String callFunction(final Integer codTrt) {
+		Traitement trt = parameterService.getTraitement(codTrt);
+		setCurrentTraitement(trt);
+		final FacesContext fc = FacesContext.getCurrentInstance();
+		final ExpressionFactory factory = fc.getApplication().getExpressionFactory();
+		final MethodExpression me = factory.createMethodExpression(fc.getELContext(), trt.getAction(), String.class, new Class[]{});
+		
+		return (String) me.invoke(fc.getELContext(), null);
 	}
 
 	/*

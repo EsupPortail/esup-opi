@@ -319,17 +319,13 @@ public class SessionController extends AbstractDomainAwareBean {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = facesContext.getExternalContext();
 		HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
-//		String logoutUrl = externalContext.getInitParameter(LOGOUT_URL_PARAM);
-//		if (logoutUrl == null) {
-//			throw new ConfigException("context parameter '" + LOGOUT_URL_PARAM + "' not found");
-//		}
-		String returnUrl = request.getRequestURL().toString().replaceFirst("/stylesheets/(.*?).faces", 
-				externalContext.getInitParameter(LOGOUT_URL_PARAM_SERVICE));
+		String returnUrl = request.getRequestURL().toString().replaceFirst("/stylesheets/[^/]*$", "");
+		String forwardUrl;
 		Assert.hasText(
 				casLogoutUrl, 
 				"property casLogoutUrl of class " + getClass().getName() + " is null");
-		String forwardUrl = String.format(casLogoutUrl, StringUtils.utf8UrlEncode(returnUrl));
-		// note: the session beans will be kept event when invalidating 
+		forwardUrl = String.format(casLogoutUrl, StringUtils.utf8UrlEncode(returnUrl));
+		// note: the session beans will be kept even when invalidating 
 		// the session so they have to be reset (by the exception controller).
 		// We invalidate the session however for the other attributes.
 		request.getSession().invalidate();

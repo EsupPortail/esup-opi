@@ -361,7 +361,7 @@
 
 	<navigation-rule>
 		<display-name>welcome gestionnaire</display-name>
-		<from-view-id>/stylesheets/cas/accueil.xhtml</from-view-id>
+		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>go_display_fct</from-outcome>
 			<to-view-id>/stylesheets/gestionnaire/displayFonctions.xhtml</to-view-id>
@@ -626,7 +626,7 @@
 
 	<navigation-rule>
 		<display-name>see manager</display-name>
-		<from-view-id>/stylesheets/gestionnaire/user/seeOneGestionnaire.xhtml</from-view-id>
+		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>go_enter_gest</from-outcome>
 			<to-view-id>/stylesheets/gestionnaire/user/enterGestionnaire.xhtml</to-view-id>
@@ -646,7 +646,7 @@
 
 	<navigation-rule>
 		<display-name>affect right manager</display-name>
-		<from-view-id>/stylesheets/gestionnaire/user/affectRightGestionnaire.xhtml</from-view-id>
+		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>go_see_gest</from-outcome>
 			<to-view-id>/stylesheets/gestionnaire/user/seeOneGestionnaire.xhtml</to-view-id>

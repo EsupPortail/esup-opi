@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.exceptions.UserNotFoundException;
 import org.esupportail.commons.services.application.Version;
@@ -237,11 +238,17 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 	 * @return liste de gestionnaire
 	 * @see org.esupportail.opi.domain.DomainService#getManagers
 	 */
+	@SuppressWarnings("deprecation")
 	@Cacheable(cacheName = CacheModelConst.USER_MODEL)
-	@Deprecated 
-		//( le 27/03/2009) 
 	public List<Gestionnaire> getManagers(final Date date) {
 		return this.daoService.getManagers(date);
+	}
+	
+	/**
+	 * @see org.esupportail.opi.domain.DomainService#getManagers()
+	 */
+	public List<Gestionnaire> getManagers() {
+		return this.daoService.getManagers();
 	}
 
 	/**
@@ -419,7 +426,6 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 	 * @see org.esupportail.opi.domain.DomainService#updateUser(
 	 * org.esupportail.opi.domain.beans.user.User)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.USER_MODEL)
 	public void updateUser(final User user) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateUser( " + user + " )");
@@ -428,10 +434,10 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 		if (user instanceof Gestionnaire) {
 			Gestionnaire g = (Gestionnaire) user;
 			// on ne garde que la premiere lettre en majuscule
-			//TODO: Fix this !!
-			String disp = "";
-//			String disp = Utilitaires.upperCaseFirstChar(g.getPrenom(), true) + " "
-//					+ Utilitaires.upperCaseFirstChar(g.getNomUsuel(), true);
+			
+			final String newPrenom = StringUtils.capitalize(g.getPrenom().toLowerCase());
+			final String newNom = StringUtils.capitalize(g.getNomUsuel().toLowerCase());
+			final String disp = newPrenom + " " + newNom;
 			g.setDisplayName(disp);
 		}
 
@@ -519,10 +525,10 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 		if (user instanceof Gestionnaire) {
 			Gestionnaire g = (Gestionnaire) user;
 			// on ne garde que la premiere lettre en majuscule
-			//TODO: Fix this !!
-			String disp = "";
-//			String disp = Utilitaires.upperCaseFirstChar(g.getPrenom(), true) + " "
-//					+ Utilitaires.upperCaseFirstChar(g.getNomUsuel(), true);
+			
+			final String newPrenom = StringUtils.capitalize(g.getPrenom().toLowerCase());
+			final String newNom = StringUtils.capitalize(g.getNomUsuel().toLowerCase());
+			final String disp = newPrenom + " " + newNom;
 			g.setDisplayName(disp);
 		}
 

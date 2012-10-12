@@ -4,7 +4,11 @@
     xmlns:p="http://primefaces.org/ui"
     template="/stylesheets/template.xhtml">
     <ui:define name="content">
-    	<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
+    	<h1>
+                <span class="section-header">
+                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
+                </span>
+            </h1>
     
     	<h:form id="seeRdvForm" styleClass="div_subSection">
     

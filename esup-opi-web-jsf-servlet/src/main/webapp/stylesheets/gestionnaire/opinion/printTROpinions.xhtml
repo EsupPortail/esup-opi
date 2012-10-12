@@ -7,7 +7,11 @@
     	
     	
     	<div id="maPage" class="div_body">
-    		<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
+    		<h1>
+                <span class="section-header">
+                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
+                </span>
+            </h1>
     		
             <ui:fragment rendered="#{printOpinionController.actionEnum.whatAction 
                     == printOpinionController.actionEnum.confirmAction}">
@@ -26,10 +30,7 @@
     					<p:commandButton value="#{msgs['_.BUTTON.EXPORT']}"
     							rendered="#{commissionController.commission.code != null}"
     							action="#{printOpinionController.generateCSVListesTransfert}"/>
-    					<p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" immediate="true">
-    						<f:setPropertyActionListener value="#{printOpinionController.actionEnum.choiceColExport}"
-    							 target="#{printOpinionController.actionEnum.whatAction}" />
-    					</p:commandButton>
+    					<p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="choiceColumnExport.show();" type="button" />
     					<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
     						action="#{managedAccess.goDisplayFunction}" 
     						rendered="#{printOpinionController.actionEnum.whatAction 

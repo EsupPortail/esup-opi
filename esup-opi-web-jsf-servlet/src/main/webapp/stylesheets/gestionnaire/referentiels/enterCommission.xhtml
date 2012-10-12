@@ -8,11 +8,19 @@
     	<div id="maPage" class="div_body">
     		<ui:fragment rendered="#{commissionController.actionEnum.whatAction 
     						== commissionController.actionEnum.addAction}">
-    			<h1><h:outputText value="#{msgs['COMMISSION.TITLE.ADD']}"/></h1>
+    			<h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['COMMISSION.TITLE.ADD']}"/>
+                </span>
+            </h1>
     		</ui:fragment>
     		<ui:fragment rendered="#{commissionController.actionEnum.whatAction 
     						== commissionController.actionEnum.updateAction}">
-    			<h1><h:outputText value="#{msgs['COMMISSION.TITLE.UPDATE']}"/></h1>
+    			<h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['COMMISSION.TITLE.UPDATE']}"/>
+                </span>
+            </h1>
     		</ui:fragment>
     		<div class="messageForUser">
     			<p:messages id="messages" showDetail="true" autoUpdate="true" />
