@@ -30,10 +30,10 @@
     						rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.emptyAction}">
     						<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
     							action="#{nomenclatureController.goAddPJ}" 
-    							rendered="#{nomenclatureController.rightPjForAllVet && managedAccess.addAuthorized}"/>
+    							rendered="#{nomenclatureController.rightPjForAllVet and managedAccess.addAuthorized}"/>
     						<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
     							action="#{nomenclatureController.goAddOrChoicesPJ}" 
-    							rendered="#{!nomenclatureController.rightPjForAllVet && managedAccess.addAuthorized}"/>
+    							rendered="#{!nomenclatureController.rightPjForAllVet and managedAccess.addAuthorized}"/>
     						<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
     								immediate="true"
     								action="#{managedAccess.goDisplayFunction}"/>
@@ -77,14 +77,14 @@
     							</f:facet>
     							<p:selectBooleanCheckbox value="#{nomenclatureController.nomenclature.isForAllVet}"
     								rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction
-    									&& nomenclaturePojo.nomenclature == nomenclatureController.nomenclature}"/>
+    									and nomenclaturePojo.nomenclature == nomenclatureController.nomenclature}"/>
     							<p:graphicImage url="/media/images/check2.gif" 
     								rendered="#{nomenclaturePojo.nomenclature.isForAllVet
-    								&& (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
+    								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
     							<p:graphicImage url="/media/images/check0.gif" 
     								rendered="#{!nomenclaturePojo.nomenclature.isForAllVet
-    								&& (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
+    								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
     						</p:column>
     						<p:column>
@@ -94,7 +94,7 @@
     							<p:selectOneMenu id="regimeInscription"
     								value="#{nomenclatureController.nomenclature.codeRI}"
     								rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction
-    									&& nomenclaturePojo.nomenclature == nomenclatureController.nomenclature}">
+    									and nomenclaturePojo.nomenclature == nomenclatureController.nomenclature}">
     								<f:selectItems value="#{nomenclatureController.regimeInscriptionsItems}"/>
     							</p:selectOneMenu>
     							<p:selectOneMenu id="regimeInscription2" readonly="true"
@@ -110,14 +110,14 @@
     							</f:facet>
     							<p:selectBooleanCheckbox value="#{nomenclatureController.nomenclature.temoinEnService}"
     								rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction
-    									&& nomenclaturePojo.nomenclature == nomenclatureController.nomenclature}"/>
+    									and nomenclaturePojo.nomenclature == nomenclatureController.nomenclature}"/>
     							<p:graphicImage url="/media/images/check2.gif" 
     								rendered="#{nomenclaturePojo.nomenclature.temoinEnService
-    								&& (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
+    								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
     							<p:graphicImage url="/media/images/check0.gif" 
     								rendered="#{!nomenclaturePojo.nomenclature.temoinEnService
-    								&& (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
+    								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
     						</p:column>
     						<p:column styleClass="buttonTD">
@@ -136,7 +136,7 @@
     								immediate="true"
     								styleClass="form-button-image" title="#{msgs['BUTTON.UPDATE']}" 
     								rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.emptyAction
-    										&& managedAccess.updateAuthorized}">
+    										and managedAccess.updateAuthorized}">
     								<f:setPropertyActionListener value="#{nomenclatureController.actionEnum.updateAction}" target="#{nomenclatureController.actionEnum.whatAction}" />
     								<f:setPropertyActionListener value="#{nomenclaturePojo.nomenclature}" target="#{nomenclatureController.nomenclature}" />
     							</p:commandButton>
@@ -147,7 +147,7 @@
     								immediate="true"
     								title="#{msgs['_.BUTTON.DELETE']}"
     								rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.emptyAction
-    									&& managedAccess.deleteAuthorized && nomenclaturePojo.allRight}">
+    									and managedAccess.deleteAuthorized and nomenclaturePojo.allRight}">
     								<f:setPropertyActionListener value="#{nomenclatureController.actionEnum.deleteAction}" target="#{nomenclatureController.actionEnum.whatAction}" />
     								<f:setPropertyActionListener value="#{nomenclaturePojo.nomenclature}" target="#{nomenclatureController.nomenclature}" />
     							</p:commandButton>

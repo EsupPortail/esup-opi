@@ -112,9 +112,9 @@
     			
     			<p:column styleClass="buttonTD"
     				rendered="#{autoLpController.actionEnum.whatAction == autoLpController.actionEnum.emptyAction
-    							&& managedAccess.updateAuthorized}">
+    							and managedAccess.updateAuthorized}">
     				<p:commandButton image="/media/images/update.png"
-    					rendered="#{managedAccess.updateAuthorized && autoLpSelect.right}"
+    					rendered="#{managedAccess.updateAuthorized and autoLpSelect.right}"
     					styleClass="form-button-image" immediate="true"
     					title="#{msgs['BUTTON.UPDATE']}">
     					<f:setPropertyActionListener value="#{autoLpController.actionEnum.updateAction}"
@@ -124,7 +124,7 @@
     				</p:commandButton>
     				
     				<p:commandButton image="/media/images/cancel.png"
-    					rendered="#{managedAccess.deleteAuthorized && autoLpSelect.right}"
+    					rendered="#{managedAccess.deleteAuthorized and autoLpSelect.right}"
     					styleClass="form-button-image" immediate="true"
     					title="#{msgs['_.BUTTON.DELETE']}">
     					<f:setPropertyActionListener value="#{autoLpController.actionEnum.deleteAction}"

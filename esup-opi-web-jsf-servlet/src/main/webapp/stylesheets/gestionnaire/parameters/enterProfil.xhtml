@@ -25,11 +25,11 @@
     							<h:panelGroup>
     								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     									rendered="#{profilController.actionEnum.whatAction == profilController.actionEnum.addAction
-    											&& managedAccess.addAuthorized}"
+    											and managedAccess.addAuthorized}"
     									action="#{profilController.add}" />
     								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     									rendered="#{profilController.actionEnum.whatAction == profilController.actionEnum.updateAction
-    										&& managedAccess.updateAuthorized}"
+    										and managedAccess.updateAuthorized}"
     									action="#{profilController.update}" />
     								<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
     									action="#{profilController.goSeeAllProfil}" immediate="true" />
@@ -135,10 +135,10 @@
     								<p:selectBooleanCheckbox value="#{beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}" rendered="#{!beanAccess.onlyReadDomain}"/>
     								<p:graphicImage url="/media/images/check2.gif" 
     								rendered="#{beanAccess.onlyReadDomain 
-    									&& beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/>
+    									and beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/>
     								<p:graphicImage url="/media/images/check0.gif" 
     									rendered="#{beanAccess.onlyReadDomain 
-    										&& !beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/>
+    										and !beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/>
     							</p:columns>
     							<p:column style="width:5%;">
     								<f:facet name="header">

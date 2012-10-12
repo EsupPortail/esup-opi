@@ -41,7 +41,7 @@
     			styleClass="form-button-image" immediate="true"
     			rendered="#{(nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.readAction
     				|| nomenclatureController.wayfEnum.whereAreYouFrom == nomenclatureController.wayfEnum.affectPJValue)
-    				&& pieceJustiVetPojo.allRight}"
+    				and pieceJustiVetPojo.allRight}"
     			action="#{nomenclatureController.removeTrtEtape}"
     			title="#{msgs['_.BUTTON.DELETE']}">
     			<f:setPropertyActionListener value="#{pieceJustiVetPojo}" target="#{nomenclatureController.etapeTraitee}" />

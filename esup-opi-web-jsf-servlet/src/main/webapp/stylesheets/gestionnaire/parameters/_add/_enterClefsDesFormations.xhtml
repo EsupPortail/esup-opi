@@ -35,7 +35,7 @@
     			<f:selectItems value="#{paramClefFormationController.temEnSveItems}"/>
     		</p:selectOneMenu>
     		<h:panelGroup rendered="#{paramClefFormationController.actionDom.whatAction != paramClefFormationController.actionDom.updateAction
-    								&& paramClefFormationController.cles.ren1DomaineAnnuFormPojo.ren1DomaineAnnuForm != null}">
+    								and paramClefFormationController.cles.ren1DomaineAnnuFormPojo.ren1DomaineAnnuForm != null}">
     			<p:commandButton image="/media/images/update.png" styleClass="espaceIcone"
     				action="#{paramClefFormationController.updateDomaines}">
     				<f:setPropertyActionListener value="#{paramClefFormationController.cles.ren1DomaineAnnuFormPojo.ren1DomaineAnnuForm.codDom}"
@@ -64,7 +64,7 @@
     				<h:panelGrid columns="3" 
     						rendered="#{paramClefFormationController.actionLang.whatAction == paramClefFormationController.actionLang.emptyAction
     								|| (paramClefFormationController.actionLang.whatAction == paramClefFormationController.actionLang.updateAction
-    								&& paramClefFormationController.langueSelected != langueCleSelect.id.codLang)}">
+    								and paramClefFormationController.langueSelected != langueCleSelect.id.codLang)}">
     					<p:commandButton image="/media/images/update.png" styleClass="espaceIcone"
     						action="#{paramClefFormationController.updateLangLib}">
     						<f:setPropertyActionListener value="#{langueCleSelect.id.codLang}"
@@ -82,7 +82,7 @@
     				
     				<h:panelGrid columns="3" 
     						rendered="#{paramClefFormationController.actionLang.whatAction == paramClefFormationController.actionLang.updateAction
-    								&& paramClefFormationController.langueSelected == langueCleSelect.id.codLang}">
+    								and paramClefFormationController.langueSelected == langueCleSelect.id.codLang}">
     					<h:outputLabel value="#{msgs['FIELD_LABEL.LANGUE']}"
     						styleClass="form-field-label-inHeader-validator" for="langue"/>
     					<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"

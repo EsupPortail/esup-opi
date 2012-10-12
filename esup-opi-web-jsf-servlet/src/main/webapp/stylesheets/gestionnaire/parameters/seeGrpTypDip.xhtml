@@ -52,7 +52,7 @@
     				<h:inputText value="#{paramGrpTypDipController.groupe.libGrpTpd}"
     					size="60"
     					rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.updateAction
-    						&& groupeSelect == paramGrpTypDipController.groupe}"/>
+    						and groupeSelect == paramGrpTypDipController.groupe}"/>
     			</p:column>
     			<p:column>
     				<f:facet name="header">
@@ -60,16 +60,16 @@
     				</f:facet>
     				<p:selectOneMenu value="#{paramGrpTypDipController.groupe.temEnSveGrpTpd}"
     					rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.updateAction
-    						&& groupeSelect.codGrpTpd == paramGrpTypDipController.groupe.codGrpTpd}">
+    						and groupeSelect.codGrpTpd == paramGrpTypDipController.groupe.codGrpTpd}">
     						<f:selectItems value="#{paramGrpTypDipController.temEnSveItems}"/>
     				</p:selectOneMenu>
     				<p:graphicImage url="/media/images/check2.gif"
     					rendered="#{groupeSelect.temEnSveGrpTpd == 'O'
-    					&& (paramGrpTypDipController.actionEnum.whatAction != paramGrpTypDipController.actionEnum.updateAction
+    					and (paramGrpTypDipController.actionEnum.whatAction != paramGrpTypDipController.actionEnum.updateAction
     						|| groupeSelect.codGrpTpd != paramGrpTypDipController.groupe.codGrpTpd)}"/>
     				<p:graphicImage url="/media/images/check0.gif"
     					rendered="#{groupeSelect.temEnSveGrpTpd == 'N'
-    					&& (paramGrpTypDipController.actionEnum.whatAction != paramGrpTypDipController.actionEnum.updateAction
+    					and (paramGrpTypDipController.actionEnum.whatAction != paramGrpTypDipController.actionEnum.updateAction
     						|| groupeSelect.codGrpTpd != paramGrpTypDipController.groupe.codGrpTpd)}"/>
     			</p:column>
     			<p:column>
@@ -84,7 +84,7 @@
     				</p:dataList>
     				<h:panelGrid columns="3" id="dips"
     						rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.updateAction
-    						&& groupeSelect.codGrpTpd == paramGrpTypDipController.groupe.codGrpTpd}">
+    						and groupeSelect.codGrpTpd == paramGrpTypDipController.groupe.codGrpTpd}">
     					<p:selectManyMenu styleClass="manyMenu" 
     						value="#{paramGrpTypDipController.selectDipsADI}">
     						<f:selectItems value="#{paramGrpTypDipController.allDipsItems}"/>
@@ -105,7 +105,7 @@
     			</p:column>
     			<p:column styleClass="buttonTD"
     				rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.emptyAction
-    							&& managedAccess.updateAuthorized}">
+    							and managedAccess.updateAuthorized}">
     				<p:commandButton image="/media/images/update.png"
     					rendered="#{managedAccess.updateAuthorized}"
     					styleClass="form-button-image" immediate="true"

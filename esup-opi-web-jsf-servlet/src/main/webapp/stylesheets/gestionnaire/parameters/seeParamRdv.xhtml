@@ -152,7 +152,7 @@
     			</p:column>
     			
     			
-    			<% /*
+    			<!-- 
     			<p:column>
     				<f:facet name="header">
     					<h:outputText value="#{msgs['FIELD_LABEL.MSG_MAIL']}"/>
@@ -175,12 +175,11 @@
     					style="text-align: left;"
     					rendered="#{rdvSelect.participeOK}"/>
     			</p:column>
-    			*/
-    			%>
+    			 -->
     			
     			<p:column styleClass="buttonTD"
     				rendered="#{paramRdvController.actionEnum.whatAction == paramRdvController.actionEnum.emptyAction
-    							&& managedAccess.updateAuthorized}">
+    							and managedAccess.updateAuthorized}">
     				<p:commandButton image="/media/images/Preferences.gif"
     					rendered="#{managedAccess.updateAuthorized}"
     					actionListener="#{paramRdvSupController.initAction}"

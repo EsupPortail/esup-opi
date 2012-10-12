@@ -66,7 +66,7 @@
     							<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
     								action="#{nomenclatureController.goUpdatePJ}"
     								rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.emptyAction
-    										&& managedAccess.updateAuthorized}">
+    										and managedAccess.updateAuthorized}">
     								<f:setPropertyActionListener value="#{nomenclatureController.actionEnum.updateAction}" target="#{nomenclatureController.actionEnum.whatAction}" />
     								<f:setPropertyActionListener value="#{nomenclaturePojo.nomenclature}" target="#{nomenclatureController.nomenclature}" />
     							</p:commandButton>

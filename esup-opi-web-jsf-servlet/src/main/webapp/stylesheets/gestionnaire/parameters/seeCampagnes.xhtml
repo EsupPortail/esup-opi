@@ -74,7 +74,7 @@
     							<h:inputText id="libelleLong"
     								value="#{nomenclatureController.nomenclature.libelle}" size="50" maxlength="500" 
     								rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction
-    									&& nomenclaturePojo.nomenclature == nomenclatureController.nomenclature}"/>
+    									and nomenclaturePojo.nomenclature == nomenclatureController.nomenclature}"/>
     						</p:column>
     						<p:column>
     							<f:facet name="header">
@@ -89,7 +89,7 @@
     							<h:inputText id="dateDeb" size="10" maxlength="8"
     								value="#{nomenclatureController.nomenclature.dateDebCamp}"
     								rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction
-    									&& nomenclaturePojo.nomenclature == nomenclatureController.nomenclature}">
+    									and nomenclaturePojo.nomenclature == nomenclatureController.nomenclature}">
     								<f:convertDateTime pattern="ddMMyyyy"
     									timeZone="#{sessionController.timezone}" />
     								<f:validateLength minimum="8"/>
@@ -108,7 +108,7 @@
     							<h:inputText id="dateFin" size="10" maxlength="8"
     								value="#{nomenclatureController.nomenclature.dateFinCamp}"
     								rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction
-    									&& nomenclaturePojo.nomenclature == nomenclatureController.nomenclature}">
+    									and nomenclaturePojo.nomenclature == nomenclatureController.nomenclature}">
     								<f:convertDateTime pattern="ddMMyyyy"
     									timeZone="#{sessionController.timezone}" />
     								<f:validateLength minimum="8"/>
@@ -143,7 +143,7 @@
     								styleClass="form-button-image"
     								title="#{msgs['BUTTON.UPDATE']}"
     								rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.emptyAction
-    										&& managedAccess.updateAuthorized}">
+    										and managedAccess.updateAuthorized}">
     								<f:setPropertyActionListener value="#{nomenclatureController.actionEnum.updateAction}" target="#{nomenclatureController.actionEnum.whatAction}" />
     								<f:setPropertyActionListener value="#{nomenclaturePojo.nomenclature}" target="#{nomenclatureController.nomenclature}" />
     							</p:commandButton>

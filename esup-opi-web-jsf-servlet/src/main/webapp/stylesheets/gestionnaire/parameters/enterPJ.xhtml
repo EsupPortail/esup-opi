@@ -42,28 +42,28 @@
     									action="#{nomenclatureController.add}"
     									rendered="#{nomenclatureController.actionEnum.whatAction 
     										== nomenclatureController.actionEnum.addAction
-    										&& managedAccess.addAuthorized}"/>
+    										and managedAccess.addAuthorized}"/>
     								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     									action="#{nomenclatureController.update}" 
     									rendered="#{nomenclatureController.actionEnum.whatAction 
     										== commissionController.actionEnum.updateAction
-    										&& managedAccess.updateAuthorized}"/>
+    										and managedAccess.updateAuthorized}"/>
     								<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
     									immediate="true" action="#{nomenclatureController.goSeeAllPJ}"
     									rendered="#{nomenclatureController.actionEnum.whatAction 
     										!= commissionController.actionEnum.readAction
-    										&& managedAccess.updateAuthorized}"	/>
+    										and managedAccess.updateAuthorized}"	/>
     								<p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
     									rendered="#{nomenclatureController.actionEnum.whatAction 
     										== commissionController.actionEnum.readAction
-    										&& managedAccess.updateAuthorized}">
+    										and managedAccess.updateAuthorized}">
     										<f:setPropertyActionListener value="#{nomenclatureController.actionEnum.updateAction}" target="#{nomenclatureController.actionEnum.whatAction}" />
     								</p:commandButton>
     								<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
     									immediate="true" action="#{nomenclatureController.goSeeAllPJ}"
     									rendered="#{nomenclatureController.actionEnum.whatAction 
     										== commissionController.actionEnum.readAction
-    										&& managedAccess.updateAuthorized}"	/>
+    										and managedAccess.updateAuthorized}"	/>
     									
     							</h:panelGroup>
     						</h:panelGrid>

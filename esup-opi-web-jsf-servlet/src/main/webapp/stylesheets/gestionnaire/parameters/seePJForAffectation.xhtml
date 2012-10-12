@@ -29,13 +29,13 @@
     					
     					<p:dataTable var="nomenclaturePojo" value="#{nomenclatureController.pieceJustificatives}"
     						styleClass="displayInfo" alternateColors="false">
-    						<p:column width="10%">
+    						<p:column>
     							<f:facet name="header">
     								<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
     							</f:facet>
     							<h:outputText value="#{nomenclaturePojo.nomenclature.code}" />
     						</p:column>
-    						<p:column width="40%">
+    						<p:column>
     							<f:facet name="header">
     								<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
     							</f:facet>
@@ -59,36 +59,36 @@
     								</f:facet>
     							</t:popup>
     						</p:column>
-    						<p:column width="18%">
+    						<p:column>
     							<f:facet name="header">
     								<h:outputText value="#{msgs['PJ.IS_FOR_ALL_VET']}" />
     							</f:facet>
     							<p:graphicImage url="/media/images/check2.gif" 
     								rendered="#{nomenclaturePojo.nomenclature.isForAllVet
-    								&& (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
+    								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
     							<p:graphicImage url="/media/images/check0.gif" 
     								rendered="#{!nomenclaturePojo.nomenclature.isForAllVet
-    								&& (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
+    								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
     						</p:column>
-    						<p:column width="15%">
+    						<p:column>
     							<f:facet name="header">
     								<h:outputText value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" />
     							</f:facet>
     							<h:outputText value="#{nomenclaturePojo.regimeInscription.label}"/>
     						</p:column>
-    						<p:column width="15%">
+    						<p:column>
     							<f:facet name="header">
     								<h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
     							</f:facet>
     							<p:graphicImage url="/media/images/check2.gif" 
     								rendered="#{nomenclaturePojo.nomenclature.temoinEnService
-    								&& (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
+    								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
     							<p:graphicImage url="/media/images/check0.gif" 
     								rendered="#{!nomenclaturePojo.nomenclature.temoinEnService
-    								&& (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
+    								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
     						</p:column>
     						<p:column styleClass="buttonTD">

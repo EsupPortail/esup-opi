@@ -60,9 +60,9 @@ template="/stylesheets/template.xhtml">
 							</f:facet>
 							<p:selectBooleanCheckbox value="#{typeTraitement.temoinEnService}" rendered="#{typeTraitement.id == 0}" />
 							<p:graphicImage url="/media/images/check2.gif" 
-								rendered="#{typeTraitement.id != 0 && typeTraitement.temoinEnService}"/>
+								rendered="#{typeTraitement.id != 0 and typeTraitement.temoinEnService}"/>
 							<p:graphicImage url="/media/images/check0.gif" 
-								rendered="#{typeTraitement.id != 0 && !typeTraitement.temoinEnService}"/>
+								rendered="#{typeTraitement.id != 0 and !typeTraitement.temoinEnService}"/>
 						</p:column>
 					</p:dataTable>
 

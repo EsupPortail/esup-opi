@@ -8,7 +8,7 @@
     	
     	<p:messages id="messages" showDetail="true" autoUpdate="true" styleClass="messageForUser"/>
     	
-    	<h:panelGroup styleClass="maxDivTextRight" id="div_subSectionDelete" styleClass="div_subSection"
+    	<h:panelGroup styleClass="maxDivTextRight" id="div_subSectionDelete"
     		rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.deleteAction}">
     		<ui:include src="_nbVoeuByCGE/_deleteNbVoeuByCGE.xhtml" />
     	</h:panelGroup>
@@ -49,14 +49,14 @@
     				</h:panelGroup>
     				<h:panelGroup
     						rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.updateAction
-    						&& nbVoeuSelect.codeCge == nbVoeuByCGEController.nbVoeuCge.codeCge}">
+    						and nbVoeuSelect.codeCge == nbVoeuByCGEController.nbVoeuCge.codeCge}">
     					<h:inputText id="nbVoeu" size="11" maxlength="10"
     						value="#{nbVoeuByCGEController.nbVoeuCge.nbVoeu}"/>
     				</h:panelGroup>
     			</p:column>
     			<p:column styleClass="buttonTD"
     				rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.emptyAction
-    							&& managedAccess.updateAuthorized}">
+    							and managedAccess.updateAuthorized}">
     				<p:commandButton image="/media/images/update.png"
     					rendered="#{managedAccess.updateAuthorized}"
     					styleClass="form-button-image" immediate="true"

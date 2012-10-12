@@ -43,16 +43,16 @@
     				</f:facet>
     				<p:selectOneMenu value="#{paramDomainFormationController.domain.ren1DomaineAnnuForm.temSveDom}"
     					rendered="#{paramDomainFormationController.actionEnum.whatAction == paramDomainFormationController.actionEnum.updateAction
-    						&& domainSelect.ren1DomaineAnnuForm.codDom == paramDomainFormationController.domain.ren1DomaineAnnuForm.codDom}">
+    						and domainSelect.ren1DomaineAnnuForm.codDom == paramDomainFormationController.domain.ren1DomaineAnnuForm.codDom}">
     						<f:selectItems value="#{paramDomainFormationController.temEnSveItems}"/>maitre fion
     				</p:selectOneMenu>
     				<p:graphicImage url="/media/images/check2.gif"
     					rendered="#{domainSelect.ren1DomaineAnnuForm.temSveDom == 'O'
-    					&& (paramDomainFormationController.actionEnum.whatAction != paramDomainFormationController.actionEnum.updateAction
+    					and (paramDomainFormationController.actionEnum.whatAction != paramDomainFormationController.actionEnum.updateAction
     						|| domainSelect.ren1DomaineAnnuForm.codDom != paramDomainFormationController.domain.ren1DomaineAnnuForm.codDom)}"/>
     				<p:graphicImage url="/media/images/check0.gif"
     					rendered="#{domainSelect.ren1DomaineAnnuForm.temSveDom == 'N'
-    					&& (paramDomainFormationController.actionEnum.whatAction != paramDomainFormationController.actionEnum.updateAction
+    					and (paramDomainFormationController.actionEnum.whatAction != paramDomainFormationController.actionEnum.updateAction
     						|| domainSelect.ren1DomaineAnnuForm.codDom != paramDomainFormationController.domain.ren1DomaineAnnuForm.codDom)}"/>
     			</p:column>
     			<p:column>
@@ -67,14 +67,14 @@
     				</p:dataList>
     				<h:panelGroup
     						rendered="#{paramDomainFormationController.actionEnum.whatAction == paramDomainFormationController.actionEnum.updateAction
-    						&& domainSelect.ren1DomaineAnnuForm.codDom == paramDomainFormationController.domain.ren1DomaineAnnuForm.codDom}">
+    						and domainSelect.ren1DomaineAnnuForm.codDom == paramDomainFormationController.domain.ren1DomaineAnnuForm.codDom}">
     					<h:panelGroup rendered="#{paramDomainFormationController.actionLang.whatAction != paramDomainFormationController.actionLang.addAction}">
     						<p:dataList var="langueDomSelect" value="#{paramDomainFormationController.domain.ren1Domaine2AnnuForm}">
     							
     							<h:panelGrid columns="3" 
     									rendered="#{paramDomainFormationController.actionLang.whatAction == paramDomainFormationController.actionLang.emptyAction
     											|| (paramDomainFormationController.actionLang.whatAction == paramDomainFormationController.actionLang.updateAction
-    											&& paramDomainFormationController.langueSelected != langueDomSelect.codLang)}">
+    											and paramDomainFormationController.langueSelected != langueDomSelect.codLang)}">
     								<p:commandButton image="/media/images/update.png" styleClass="espaceIcone"
     									action="#{paramDomainFormationController.updateLangLib}">
     									<f:setPropertyActionListener value="#{langueDomSelect.codLang}"
@@ -92,7 +92,7 @@
     							
     							<h:panelGrid columns="3" 
     									rendered="#{paramDomainFormationController.actionLang.whatAction == paramDomainFormationController.actionLang.updateAction
-    											&& paramDomainFormationController.langueSelected == langueDomSelect.codLang}">
+    											and paramDomainFormationController.langueSelected == langueDomSelect.codLang}">
     								<h:outputLabel value="#{msgs['FIELD_LABEL.LANGUE']}"
     									styleClass="form-field-label-inHeader-validator" for="langue"/>
     								<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
@@ -142,7 +142,7 @@
     			</p:column>
     			<p:column styleClass="buttonTD"
     				rendered="#{paramDomainFormationController.actionEnum.whatAction == paramDomainFormationController.actionEnum.emptyAction
-    							&& managedAccess.updateAuthorized}">
+    							and managedAccess.updateAuthorized}">
     				<p:commandButton image="/media/images/update.png"
     					rendered="#{managedAccess.updateAuthorized}"
     					styleClass="form-button-image" immediate="true"

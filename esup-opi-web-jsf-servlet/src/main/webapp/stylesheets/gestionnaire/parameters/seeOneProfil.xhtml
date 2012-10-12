@@ -66,10 +66,10 @@
 							</f:facet>
 							<p:graphicImage url="/media/images/check2.gif"
 								rendered="#{beanAccess.theDroits[accessRController.accessTypes[codeAccess]] != null
-									&& beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/>
+									and beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/>
 							<p:graphicImage url="/media/images/check0.gif"
 								rendered="#{beanAccess.theDroits[accessRController.accessTypes[codeAccess]] != null
-									&& !beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/>
+									and !beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/>
 						</p:columns>
 					</p:dataTable>
 				</div>

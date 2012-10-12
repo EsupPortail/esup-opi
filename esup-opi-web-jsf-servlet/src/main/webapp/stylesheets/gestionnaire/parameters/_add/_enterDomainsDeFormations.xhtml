@@ -37,7 +37,7 @@
     				<h:panelGrid columns="3" 
     						rendered="#{paramDomainFormationController.actionLang.whatAction == paramDomainFormationController.actionLang.emptyAction
     								|| (paramDomainFormationController.actionLang.whatAction == paramDomainFormationController.actionLang.updateAction
-    								&& paramDomainFormationController.langueSelected != langueDomSelect.codLang)}">
+    								and paramDomainFormationController.langueSelected != langueDomSelect.codLang)}">
     					<p:commandButton image="/media/images/update.png" styleClass="espaceIcone"
     						action="#{paramDomainFormationController.updateLangLib}">
     						<f:setPropertyActionListener value="#{langueDomSelect.codLang}"
@@ -55,7 +55,7 @@
     				
     				<h:panelGrid columns="3" 
     						rendered="#{paramDomainFormationController.actionLang.whatAction == paramDomainFormationController.actionLang.updateAction
-    								&& paramDomainFormationController.langueSelected == langueDomSelect.codLang}">
+    								and paramDomainFormationController.langueSelected == langueDomSelect.codLang}">
     					<h:outputLabel value="#{msgs['FIELD_LABEL.LANGUE']}"
     						styleClass="form-field-label-inHeader-validator" for="langue"/>
     					<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
