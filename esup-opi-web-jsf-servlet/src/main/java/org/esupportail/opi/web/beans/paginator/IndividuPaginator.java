@@ -83,8 +83,8 @@ public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu>
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("begin reset() de IndividuPaginator()");
 		}
-		super.reset();
 		initQueryLeft();
+		super.reset();
 		this.indRechPojo = new IndRechPojo();
 	}
 	

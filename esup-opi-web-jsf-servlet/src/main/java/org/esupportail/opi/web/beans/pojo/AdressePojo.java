@@ -10,7 +10,6 @@ package org.esupportail.opi.web.beans.pojo;
 
 import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
 
-import org.esupportail.opi.domain.BusinessCacheService;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.beans.user.Adresse;
 import org.esupportail.opi.domain.beans.user.AdresseFix;
@@ -75,15 +74,15 @@ public class AdressePojo {
 	/**
 	 * Constructor.
 	 */
-	public AdressePojo(final Adresse address, final DomainApoService apoService) {
+	public AdressePojo(final Adresse address, final DomainApoService apo) {
 		super();
 		adresse = address.clone();
 		if (!StringUtils.hasText(address.getCodPays())) {
 			adresse.setCodPays(Constantes.CODEFRANCE);
 		}
 		isCedex = false;
-		pays = apoService.getPays(adresse.getCodPays());
-		commune = apoService.getCommune(adresse.getCodCommune(), adresse.getCodBdi());
+		pays = apo.getPays(adresse.getCodPays());
+		commune = apo.getCommune(adresse.getCodCommune(), adresse.getCodBdi());
 		if (adresse.getCedex() != null) {
 			isCedex = true;
 		}		

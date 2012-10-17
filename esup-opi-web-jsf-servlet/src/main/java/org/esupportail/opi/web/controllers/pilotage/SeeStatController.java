@@ -18,6 +18,7 @@ import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.utils.CoordonneStatistique;
 import org.esupportail.opi.services.export.CastorService;
+import org.esupportail.opi.services.export.ISerializationService;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.pojo.ListeStatPojo;
@@ -58,7 +59,7 @@ public class SeeStatController extends AbstractContextAwareController {
 	/**
 	 * Service to generate Xml.
 	 */
-	private CastorService castorService;
+	private ISerializationService castorService;
 	
 	/**
 	 * resultCamTab.
@@ -195,9 +196,9 @@ public class SeeStatController extends AbstractContextAwareController {
 		 */
 		String fileNameXml = "tabStatistique.xml";
 		castorService.objectToFileXml(list, fileNameXml);
-		
+		CastorService cs = (CastorService) castorService;
 		PDFUtils.exportPDF(fileNameXml, FacesContext.getCurrentInstance(), 
-				castorService.getXslXmlPath(), "tabStatistique.pdf", Constantes.TAB_STATISTIQUE);
+				cs.getXslXmlPath(), "tabStatistique.pdf", Constantes.TAB_STATISTIQUE);
 	}
 	/**
 	 * @return list
@@ -241,14 +242,14 @@ public class SeeStatController extends AbstractContextAwareController {
 	/**
 	 * @return castorService
 	 */
-	public CastorService getCastorService() {
+	public ISerializationService getCastorService() {
 		return castorService;
 	}
 	
 	/**
 	 * @param castorService
 	 */
-	public void setCastorService(final CastorService castorService) {
+	public void setCastorService(final ISerializationService castorService) {
 		this.castorService = castorService;
 	}
 	

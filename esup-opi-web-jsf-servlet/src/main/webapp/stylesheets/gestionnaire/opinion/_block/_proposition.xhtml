@@ -22,24 +22,29 @@
                     <h:outputText value="#{opinionController.indVoeuxPojo.indVoeu.individu.nomPatronymique}"/>
                     <h:outputText value=" "/>
                     <h:outputText value="#{opinionController.indVoeuxPojo.indVoeu.individu.prenom}"/>
-                    <br />
                     <h:outputText value="#{msgs['FIELD_LABEL.AVIS.ETAPE']}" 
                                   styleClass="section-subheader"/>
                     <h:outputText value="#{opinionController.indVoeuxPojo.vrsEtape.libWebVet}"/>
-                    <br />
                 </div>
-                <ui:fragment rendered="#{not empty trtCmiController.allTraitementCmi}"
-                             style="width:100%;text-align:right;">
+                <p:outputPanel id="buttons"
+                               rendered="#{not empty trtCmiController.allTraitementCmi}"
+                               style="width:100%;text-align:right;">
                     <p:commandButton id="savePropositions" value="#{msgs['_.BUTTON.SAVE']}"
-                                     action="#{opinionController.savePropositions}" ajax="false" />
-                    <p:commandButton id="cancelPropositions" value="#{msgs['_.BUTTON.CANCEL']}" ajax="false" >
-                        <f:setPropertyActionListener value="#{opinionController.actionEnum.emptyAction}" target="#{opinionController.actionEnum.whatAction}" />
+                                     action="#{opinionController.savePropositions}" ajax="false">
+                        <p:ajax update="" />
                     </p:commandButton>
-                </ui:fragment>
+                    <p:commandButton id="cancelPropositions" value="#{msgs['_.BUTTON.CANCEL']}" ajax="false"
+                                     action="#{commissionController.reset}">
+                        <f:setPropertyActionListener value="#{opinionController.actionEnum.emptyAction}"
+                                                     target="#{opinionController.actionEnum.whatAction}" />
+                    </p:commandButton>
+                </p:outputPanel>
                 <p:dataTable var="beanTrtCmi" id="versionEtapeData"
                              value="#{trtCmiController.allTraitementCmi}"
                              styleClass="paginatorData" alternateColors="true"
-                             renderedIfEmpty="false" rowKey="#{beanTrtCmi}">
+                             rendered="#{not empty trtCmiController.allTraitementCmi}"
+                             rowKey="#{beanTrtCmi}"
+                             selection="#{commissionController.objectToAdd}">
                     <p:column selectionMode="multiple" />
                     <p:column>
                         <f:facet name="header">
@@ -48,12 +53,7 @@
                         <h:outputText value="#{beanTrtCmi.etape.libWebVet}" />
                     </p:column>
                 </p:dataTable>
-                
-                
                 <ui:fragment rendered="#{empty trtCmiController.allTraitementCmi}">
-                    <p:commandButton id="changeCommission" 
-                                     value="#{msgs['_.BUTTON.CHANGE']}"
-                                     action="#{opinionController.selectCmiForProposition}" ajax="false" />
                     <h:panelGrid styleClass="tableWidthMax" columns="2"
                                  columnClasses="col1UnDemi,col2UnDemi">
                         <h:panelGroup>
@@ -62,19 +62,16 @@
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:selectOneMenu id="lesCommissions" converter="javax.faces.Integer"
-                                             value="#{commissionController.commission.id}"
-                                             onchange="javascript:{simulateLinkClick('enterPropositionForm:changeCommission');}" >
+                                             value="#{commissionController.commission.id}">
                                 <f:selectItem itemLabel="" itemValue="" />
                                 <f:selectItems var="commission" value="#{commissionController.commissionsItemsByRight}"
                                                itemLabel="#{commission.libelle}" itemValue="#{commission.id}" />
+                                <p:ajax listener="#{opinionController.selectCmiForProposition}" update="@form" />
                             </p:selectOneMenu>
                         </h:panelGroup>
                     </h:panelGrid>
                 </ui:fragment>
             </h:form>
         </div>
-        <script type="text/javascript">
-            hideElement('enterPropositionForm:changeCommission');
-        </script>
     </ui:fragment>
 </ui:fragment>

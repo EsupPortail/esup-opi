@@ -381,13 +381,13 @@ public class ValidOpinionController  extends AbstractContextAwareController  {
 		if (regimeIns instanceof FormationContinue && !valideFC) {
 			this.printOpinionController.getActionEnum().setWhatAction(ActionEnum.SEND_MAIL);
 		} else {
-			if (!this.printOpinionController.getCommissionsSelected().isEmpty()) {
+			if (this.printOpinionController.getCommissionsSelected().length != 0) {
 				for (Object c : this.printOpinionController.getCommissionsSelected()) {
 					Commission laCommission = (Commission) c;
 					validateStudentsForTheCommission(laCommission);
 				}
 			} else if (this.printOpinionController.getAllChecked()) {
-			    Set<Commission> c = commissionController.getCommissionsItemsByRight();
+			    List<Commission> c = commissionController.getCommissionsItemsByRight();
 				for (Commission laCommission : c) {
 					validateStudentsForTheCommission(laCommission);
 				}
@@ -397,8 +397,8 @@ public class ValidOpinionController  extends AbstractContextAwareController  {
 			} else {
 				this.printOpinionController.getActionEnum().setWhatAction(ActionEnum.EMPTY_ACTION);
 			}
-			this.printOpinionController.setResultSelected(new ArrayList<Object>());
-			this.printOpinionController.setCommissionsSelected(new ArrayList<Object>());
+			this.printOpinionController.setResultSelected(new Object[0]);
+			this.printOpinionController.setCommissionsSelected(new Object[0]);
 			this.printOpinionController.setAllChecked(false);
 		}
 		return NavigationRulesConst.DISPLAY_VALID_OPINIONS;
@@ -414,7 +414,10 @@ public class ValidOpinionController  extends AbstractContextAwareController  {
 		if (log.isDebugEnabled()) {
 			log.debug("entering validateStudentsForTheCommission() " + laCommission.toString());
 		}
-
+		// hibernate session reattachment
+		Commission com = getParameterService().getCommission(
+				laCommission.getId(), laCommission.getCode());
+		
 		// témoin par défaut à false pour l'envoie de mail informant le gestionnaire FC
 		// de la validation d'un de leurs candidats
 		boolean sendMailValideFC = false;
@@ -424,7 +427,7 @@ public class ValidOpinionController  extends AbstractContextAwareController  {
 		int codeRI = gest.getProfile().getCodeRI();
 		RegimeInscription regimeIns = getSessionController().getRegimeIns().get(codeRI);
 		
-		this.printOpinionController.lookForIndividusPojo(laCommission, false, false, true);
+		this.printOpinionController.lookForIndividusPojo(com, false, false, true);
 		for (IndividuPojo i : this.printOpinionController.getLesIndividus()) {
 			Set <Avis> avisFavorable = new HashSet<Avis>();
 			Set <Avis> avisFavorableAppel = new HashSet<Avis>();
@@ -477,11 +480,11 @@ public class ValidOpinionController  extends AbstractContextAwareController  {
 			}
 			// 4 - Send Mails
 			if (sendMail && regimeIns.getMailTypeConvoc() != null) {
-				CommissionPojo currentCmiPojo = new CommissionPojo(laCommission, 
-						new AdressePojo(laCommission.getContactsCommission()
+				CommissionPojo currentCmiPojo = new CommissionPojo(com, 
+						new AdressePojo(com.getContactsCommission()
 								.get(codeRI).getAdresse(),
 								getDomainApoService()),
-								laCommission.getContactsCommission()
+								com.getContactsCommission()
 								.get(codeRI));
 				if (!avisFavorable.isEmpty()) {
 					MailContentService mail = regimeIns.getMailContentServiceTypeConvoc(
@@ -548,16 +551,16 @@ public class ValidOpinionController  extends AbstractContextAwareController  {
 		}
 		
 		if (sendMailValideFC) {
-			ContactCommission contactCommission = laCommission
-				.getContactsCommission().get(FormationContinue.CODE);
+			ContactCommission contactCommission =
+					com.getContactsCommission().get(FormationContinue.CODE);
 			if (contactCommission != null && contactCommission.getAdresse() != null) {
 				List<Object> list = new ArrayList<Object>();
-				list.add(laCommission);
+				list.add(com);
 				infoValidWishesFC.send(contactCommission.getAdresse().getMail(), list);
 			}
 		}
 		// add data to pdfData
-		this.printOpinionController.makePdfData(this.printOpinionController.getLesIndividus(), laCommission);
+		this.printOpinionController.makePdfData(this.printOpinionController.getLesIndividus(), com);
 		if (sendMail) {
 			addInfoMessage(null, "OPINION.VALIDATION_OK");
 		} else {

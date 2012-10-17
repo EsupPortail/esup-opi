@@ -4,7 +4,6 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-
     	<div id="maPage" class="div_body">
             <h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
             <ui:fragment rendered="#{printOpinionController.actionEnum.whatAction 
@@ -36,21 +35,18 @@
                                  columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
                         <h:panelGroup>
                             <h:outputLabel value="#{msgs['COMMISSIONS']}" for="lacommision" />
-                            <br />
-                            <br />
                             <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc" />
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:selectOneMenu id="lesCommissions" converter="javax.faces.Integer"
+                                             valueChangeListener="#{commissionController.selectCommissionForLists}"
                                              value="#{commissionController.commission.id}">
                                 <f:selectItem itemLabel="" itemValue="" />
                                 <f:selectItems var="commission"
                                                value="#{commissionController.commissionsItemsByRight}"
                                                itemLabel="#{commission.libelle}" itemValue="#{commission.id}" />
-                                <p:ajax listener="#{commissionController.selectCommissionForLists}" update="@form" />
+                                <p:ajax update="@form" />
                             </p:selectOneMenu>
-                            <br />
-                            <br />
                             <p:selectManyCheckbox value="#{commissionController.listeRI}" converter="#{regimeInscriptionConverter}"
                                                   disabled="#{!paginatorIndividu.indRechPojo.canModifyRISearch}"
                                                   layout="lineDirection">
@@ -67,15 +63,12 @@
                             <p:commandButton value="#{msgs['COMMISSION.EDIT_LISTE_PREPA_ALPHA']}"
                                              rendered="#{commissionController.commission.code != null}"
                                              action="#{commissionController.makePDFListesPreparatoireAlpha}" ajax="false" />
-                            <br />
                             <p:commandButton value="#{msgs['COMMISSION.EDIT_LISTE_PREPA_ETAPE']}"
                                              rendered="#{commissionController.commission.code != null}"
                                              action="#{commissionController.makePDFListesPreparatoireEtape}" ajax="false" />
-                            <br />
                             <p:commandButton value="#{msgs['COMMISSION.EDIT_LISTE_PREPA_TITRE']}"
                                              rendered="#{commissionController.commission.code != null}"
                                              action="#{commissionController.makePDFListesPreparatoireTitre}" ajax="false" />
-                            <br />
                             <p:commandButton value="#{msgs['_.BUTTON.EXPORT']}"
                                              rendered="#{commissionController.commission.code != null}"
                                              action="#{printOpinionController.generateCSVListesPreparatoire}" ajax="false" />
@@ -86,10 +79,8 @@
                     <p:graphicImage value="/media/images/ajax-loader.gif" />
                 </p:blockUI>
             </h:form>
-            <br />
-            <br />
-            <br />
     	</div>
     </ui:define>
 </ui:composition>
+
 

@@ -603,7 +603,6 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
  		    log.debug("entering updateCommission( " + commission + " )");
 		}
 		updateObject(commission);
-
 	}
 
 	//////////////////////////////////////////////////////////////
@@ -1057,7 +1056,7 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
 		}
 		
 		DetachedCriteria criteria = DetachedCriteria.forClass(FormulaireCmi.class, "f");
-			criteria.add(Restrictions.eq("f.codeRI", codeRI))
+			criteria.add(Restrictions.eq("f.codeRI", Integer.parseInt(codeRI)))
 					.add(Restrictions.eq("f.versionEtpOpi.codEtp", vet.getCodEtp()))
 					.add(Restrictions.eq("f.versionEtpOpi.codVrsVet", vet.getCodVrsVet()));
 			

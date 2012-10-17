@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.esupportail.commons.exceptions.ConfigException;
@@ -378,7 +379,7 @@ public class VersionningServiceImpl  implements VersionningService {
 	 */
 	private List<Domain> prepareTreatmentDomains() {
 		//ADD traitments
-		Map<String, Object> treatments = BeanUtils.getBeansOfClass(Traitement.class);
+		Map<String, Traitement> treatments = BeanUtils.getBeansOfClass(Traitement.class);
 		List<Domain> domains = new ArrayList<Domain>();
 //		for (String name : treatments.keySet()) {
 //			if (logger.isDebugEnabled()) {
@@ -398,7 +399,7 @@ public class VersionningServiceImpl  implements VersionningService {
 //			if (bean instanceof Domain) { domains.add((Domain) bean); }
 //			
 //		}
-		for (Map.Entry<String, Object> treatment : treatments.entrySet()) {
+		for (Entry<String, Traitement> treatment : treatments.entrySet()) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("get to treatments bean [" + treatment.getKey() + "]...");
 			}
@@ -423,7 +424,7 @@ public class VersionningServiceImpl  implements VersionningService {
 	 */
 	private List<Fonction> prepareTreatmentFonctions() {
 		//ADD traitments
-		Map<String, Object> treatments = BeanUtils.getBeansOfClass(Traitement.class);
+		Map<String, Traitement> treatments = BeanUtils.getBeansOfClass(Traitement.class);
 		List<Fonction> functions = new ArrayList<Fonction>();
 //		for (String name : treatments.keySet()) {
 //			if (logger.isDebugEnabled()) {
@@ -443,7 +444,7 @@ public class VersionningServiceImpl  implements VersionningService {
 //			if (bean instanceof Fonction) { functions.add((Fonction) bean); }
 //			
 //		}
-		for (Map.Entry<String, Object> treatment : treatments.entrySet()) {
+		for (Entry<String, Traitement> treatment : treatments.entrySet()) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("get to treatments bean [" + treatment.getKey() + "]...");
 			}
@@ -508,7 +509,7 @@ public class VersionningServiceImpl  implements VersionningService {
 	 */
 	private Set<MailContentService> prepareMailContent() {
 		//ADD traitments
-		Map<String, Object> mailContentServices = BeanUtils.getBeansOfClass(MailContentService.class);
+		Map<String, MailContentService> mailContentServices = BeanUtils.getBeansOfClass(MailContentService.class);
 		Set<MailContentService> mails = new HashSet<MailContentService>();
 //		for (String name : mailContentServices.keySet()) {
 //			if (logger.isDebugEnabled()) {
@@ -528,7 +529,7 @@ public class VersionningServiceImpl  implements VersionningService {
 //			MailContentService service = (MailContentService) bean;
 //			mails.add(service);
 //		}
-		for (Map.Entry<String, Object> mail : mailContentServices.entrySet()) {
+		for (Entry<String, MailContentService> mail : mailContentServices.entrySet()) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("get to treatments bean [" + mail.getKey() + "]...");
 			}

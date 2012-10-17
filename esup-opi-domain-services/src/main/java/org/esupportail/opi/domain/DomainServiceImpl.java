@@ -238,8 +238,8 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 	 * @return liste de gestionnaire
 	 * @see org.esupportail.opi.domain.DomainService#getManagers
 	 */
-	@SuppressWarnings("deprecation")
-	@Cacheable(cacheName = CacheModelConst.USER_MODEL)
+	@Deprecated 
+		//( le 27/03/2009) 
 	public List<Gestionnaire> getManagers(final Date date) {
 		return this.daoService.getManagers(date);
 	}
@@ -442,39 +442,27 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 		}
 
 		this.daoService.updateUser(user);
-		
-		//flush the other instance
-		executeFlushCache(CacheModelConst.USER_MODEL, "updateUser");
 	}
 
 	/**
 	 * @see org.esupportail.opi.domain.DomainService#deleteUser(
 	 * org.esupportail.opi.domain.beans.user.User)
 	 */
-	@TriggersRemove(cacheName= CacheModelConst.USER_MODEL)
 	public void deleteUser(final User user) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteUser( " + user + " )");
 		}
 		this.daoService.deleteUser(user);
-		
-		//flush the other instance
-		executeFlushCache(CacheModelConst.USER_MODEL, "deleteUser");
 	}
 
 	/**
 	 * @see org.esupportail.opi.domain.DomainService#deleteUserList(java.util.List)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.USER_MODEL)
 	public void deleteUserList(final List<User> users) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteUserList( )");
 		}
 		this.daoService.deleteUserList(users);
-		
-		//flush the other instance
-		executeFlushCache(CacheModelConst.USER_MODEL, "deleteUserList");
-		
 	}
 
 
@@ -517,7 +505,6 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 	/**
 	 * @see org.esupportail.opi.domain.DomainService#addUser(org.esupportail.opi.domain.beans.user.User)
 	 */
-	@TriggersRemove(cacheName= CacheModelConst.USER_MODEL)
 	public void addUser(final User user) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addUser( " + user + " )");
@@ -533,9 +520,6 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 		}
 
 		this.daoService.addUser(user);
-		
-		//flush the other instance
-		executeFlushCache(CacheModelConst.USER_MODEL, "addUser");
 	}
 
 	
@@ -1000,7 +984,6 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 	 * org.esupportail.opi.domain.beans.user.Individu, 
 	 * org.esupportail.opi.domain.beans.references.commission.Commission)
 	 */
-	@Cacheable(cacheName = CacheModelConst.USER_MODEL)
 	public List<MissingPiece> getMissingPiece(final Individu individu, final Commission cmi) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getMissingPiece( " + individu + ", " + cmi + " )");
@@ -1012,7 +995,6 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 	 * @see org.esupportail.opi.domain.DomainService#saveOrUpdateMissingPiece(
 	 * java.util.List, java.lang.String)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.USER_MODEL)
 	public void saveOrUpdateMissingPiece(final List<MissingPiece> listMP, final String loginGest) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering saveOrUpdateMissingPiece( " + listMP + ", " + loginGest + " )");
@@ -1024,10 +1006,6 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 				daoService.updateMissingPiece((MissingPiece) update(mp, loginGest));
 			}
 		}
-		
-		//flush the other instance
-		executeFlushCache(CacheModelConst.USER_MODEL, "saveOrUpdateMissingPiece");
-		
 	}
 
 	
@@ -1035,16 +1013,11 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 	 * @see org.esupportail.opi.domain.DomainService#deleteMissingPiece(
 	 * java.util.List, org.esupportail.opi.domain.beans.parameters.PieceJustificative)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.USER_MODEL)
 	public void deleteMissingPiece(final List<MissingPiece> missingPiece, final PieceJustificative piece) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteMissingPiece( " + missingPiece + ", " + piece + " )");
 		}
 		daoService.deleteMissingPiece(missingPiece, piece);
-		
-		//flush the other instance
-		executeFlushCache(CacheModelConst.USER_MODEL, "deleteMissingPiece");
-		
 	}
 	
 	/**
@@ -1052,16 +1025,11 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 	 * org.esupportail.opi.domain.beans.parameters.Campagne)
 	 */
 	
-	@TriggersRemove(cacheName = CacheModelConst.USER_MODEL)
 	public void purgeMissingPieceCamp(final Campagne camp) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteMissingPiece( " + camp + " )");
 		}
 		daoService.purgeMissingPieceCamp(camp);
-		
-		//flush the other instance
-		executeFlushCache(CacheModelConst.USER_MODEL, "purgeMissingPieceCamp");
-		
 	}	
 
 	//////////////////////////////////////////////////////////////

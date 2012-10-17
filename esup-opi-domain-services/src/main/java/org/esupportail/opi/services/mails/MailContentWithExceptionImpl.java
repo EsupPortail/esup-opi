@@ -166,9 +166,7 @@ public class MailContentWithExceptionImpl extends DynamicMailContentImpl {
 			log.error(e);
 		}
 
-
-
-		return result.toString();
+		return (result != null) ? result.toString() : "";
 	}
 
 	/*

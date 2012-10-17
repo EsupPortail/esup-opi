@@ -8,6 +8,7 @@ package org.esupportail.opi.web.controllers;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -378,13 +379,13 @@ public class SessionController extends AbstractDomainAwareBean {
 	 * @return a String.
 	 */
 	public String restart() {
-		Map<String, Object> resettables = BeanUtils.getBeansOfClass(Resettable.class);
+		Map<String, Resettable> resettables = BeanUtils.getBeansOfClass(Resettable.class);
 		Boolean isManagerConnect = true;
 		Boolean isEnt = isInEnt;
 		if (getCurrentUser() == null && getCurrentInd() != null) {
 			isManagerConnect = false;
 		}
-		for (Map.Entry<String, Object> nameEntry : resettables.entrySet()) {
+		for (Entry<String, Resettable> nameEntry : resettables.entrySet()) {
 			String name = nameEntry.getKey();
 			if (log.isDebugEnabled()) {
 				log.debug("trying to reset bean [" + name + "]...");

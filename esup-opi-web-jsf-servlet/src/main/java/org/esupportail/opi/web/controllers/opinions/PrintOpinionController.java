@@ -41,6 +41,7 @@ import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.services.export.CastorService;
+import org.esupportail.opi.services.export.ISerializationService;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
@@ -127,23 +128,18 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		/**
 		 * default value : false.
 		 */
-		private Boolean isFinal;
-		
-		/**
-		 * default value : false.
-		 */
 		private Boolean selectValid;
 
 		/**
 		 * The result (of type Final or not final) 
 		 * *selectionned or not by the gestionnaire.
 		 */
-		private List <Object> resultSelected;
+		private Object[] resultSelected;
 
 		/**
 		 * List of commissions selected. 
 		 */
-		private List <Object> commissionsSelected;
+		private Object[] commissionsSelected;
 		/**
 		 * Has true if all Commission are selected.
 		 * Default value = false
@@ -198,7 +194,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		/**
 		 * Service to generate Xml.
 		 */
-		private CastorService castorService;
+		private ISerializationService castorService;
 
 		/**
 		 * individuPojoSelected.
@@ -223,10 +219,9 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		public void reset() {
 			super.reset();
 			commissionController.reset();
-			this.isFinal = false;
 			this.selectValid = false;
-			this.resultSelected = new ArrayList<Object>();
-			this.commissionsSelected = new ArrayList<Object>();
+			this.resultSelected = new Object[0];
+			this.commissionsSelected = new Object[0];
 			this.lesIndividus = new ArrayList<IndividuPojo>();
 			champsDispos = new ArrayList<String>();
 			List<String> lChampschoisis = new ArrayList<String>();
@@ -394,33 +389,22 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		 * call in printListsPrepa.jsp
 		 */
 		public void generateCSVListesPreparatoire() {
-			/**
-			 * recuperation de la liste des individus ayant fait un voeu dans la commission
-			 */
-//			String excludeTypeTrt = "'" + transfert.getCode() + "'";
-
+			Commission com = commissionController.getCommission(); 
+			// hibernate session reattachment
+			com = getParameterService().getCommission(com.getId(), com.getCode());
+			
 			List<Individu> listeInd = getDomainService().getIndividusCommission(
-					commissionController.getCommission(), null,
+					com, null,
 					wrap(commissionController.getListeRI()).map(
 					    new F<RegimeInscription, String>() {
                             public String f(RegimeInscription ri) {
                                 return String.valueOf(ri.getCode());
                             }}).toStandardList());
 			log.debug("after list individus");
-			Set<Commission> listComm = new HashSet<Commission>();
-			listComm.add(commissionController.getCommission());
 
-			// on filtre la listeInd selon le choix dans listeRI
-			// TODO : à supprimer 24/01/2012, cas traité dans getIndividusCommission
-//			List<Individu> filteredListeInd = new ArrayList<Individu>();
-//			for (Individu ind : listeInd) {
-//				if (commissionController.getListeRI().contains(getRegimeIns()
-//						.get(Utilitaires.getCodeRIIndividu(ind,
-//								getDomainService())))) {
-//					filteredListeInd.add(ind);
-//				}
-//			}
-			
+			Set<Commission> listComm = new HashSet<Commission>();
+			listComm.add(com);
+
 			List<IndividuPojo> listeIndPojo = 
 				Utilitaires.convertIndInIndPojo(listeInd, 
 						getParameterService(), getI18nService(), 
@@ -886,7 +870,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		 * @return  String
 		 */
 		public String setListTypeOpinions() {
-			this.resultSelected.clear();
+			this.resultSelected = new Object[0];
 			return NavigationRulesConst.DISPLAY_VALID_OPINIONS;
 		}
 
@@ -905,22 +889,20 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 
 			// on boucle sur la liste des individus de la commission avec les avis selectionnes
 			for (IndividuPojo iP : this.lesIndividus) {
-				//init hib proxy cursusScol
-				getDomainService().initOneProxyHib(iP.getIndividu(), iP.getIndividu().getCursusScol(),
-						IndCursusScol.class);
+				// hibernate session reattachment
+				Individu ind = iP.getIndividu(); 
+				iP.setIndividu(getDomainService().getIndividu(
+						ind.getNumDossierOpi(), ind.getDateNaissance()));
+				
 				// initialisation des cursus scolaires
 				iP.initIndCursusScolPojo(getDomainApoService(), getI18nService());
 				// on boucle sur les listes des avis de chaque individu
 				for (IndVoeuPojo indVoeuPojo : iP.getIndVoeuxPojo()) {
 					Avis unAvis = indVoeuPojo.getAvisEnService();
-					//init hib proxy motivationAvis
-					getDomainService().initOneProxyHib(unAvis, unAvis.getMotivationAvis(), 
-							MotivationAvis.class);
-
 					TraitementCmi trtCmi = 
 						unAvis.getIndVoeu().getLinkTrtCmiCamp().getTraitementCmi();
 					// on recupere l'etape de l'avis
-					VersionEtapeDTO vDTO = getBusinessCacheService().getVersionEtape(
+					VersionEtapeDTO vDTO = getDomainApoService().getVersionEtape(
 							trtCmi.getVersionEtpOpi().getCodEtp(), 
 							trtCmi.getVersionEtpOpi().getCodVrsVet());
 					// on cree l'entree de l'etape si elle n'existe pas
@@ -1005,7 +987,6 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 			// on genere le pdf
 			commissionController.generatePDFListePreparatoire(fileNameXsl, fileNameXml, 
 					fileNamePdf, mapIndListByEtapeAndAvis);
-
 		}
 		
 		/**
@@ -1031,17 +1012,18 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 						}
 					}
 					castorService.objectToFileXml(lesNotifs, fileNameXml);
+					CastorService cs = (CastorService) castorService;
 					if (lesCommissions.size() > 1) {
 						// zip file
 						PDFUtils.preparePDFinZip(
 								fileNameXml, zipStream,
-								castorService.getXslXmlPath(),
+								cs.getXslXmlPath(),
 								fileNamePdf, Constantes.NOTIFICATION_IND_XSL);
 
 					} else {
 						// one pdf
 						PDFUtils.exportPDF(fileNameXml, FacesContext.getCurrentInstance(), 
-								castorService.getXslXmlPath(),
+								cs.getXslXmlPath(),
 								fileNamePdf, Constantes.NOTIFICATION_IND_XSL);
 					}
 				}
@@ -1069,6 +1051,10 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		 * @param laCommission 
 		 */
 		public void makePdfData(final List<IndividuPojo> individus, final Commission laCommission) {
+			// hibernate session reattachment
+			Commission com = getParameterService().getCommission(
+					laCommission.getId(), laCommission.getCode());
+			
 			List <NotificationOpinion> dataPDF = new ArrayList<NotificationOpinion>();
 			for (IndividuPojo i : individus) {
 				Set <IndVoeuPojo> indVoeuPojoFav = new HashSet<IndVoeuPojo>();
@@ -1103,7 +1089,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 					NotificationOpinion notificationOpinion = 
 						initNotificationOpinion(
 								i,
-								laCommission,
+								com,
 								indVoeuPojoFav, 
 								indVoeuPojoDef,
 								indVoeuPojoFavAppel, 
@@ -1211,20 +1197,6 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		}
 
 		/**
-		 * @return the isFinal
-		 */
-		public Boolean getIsFinal() {
-			return isFinal;
-		}
-
-		/**
-		 * @param isFinal the isFinal to set
-		 */
-		public void setIsFinal(final Boolean isFinal) {
-			this.isFinal = isFinal;
-		}
-
-		/**
 		 * @return the selectValid
 		 */
 		public Boolean getSelectValid() {
@@ -1241,14 +1213,14 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		/**
 		 * @return the commissionsSelected
 		 */
-		public List<Object> getCommissionsSelected() {
+		public Object[] getCommissionsSelected() {
 			return commissionsSelected;
 		}
 
 		/**
 		 * @param commissionsSelected the commissionsSelected to set
 		 */
-		public void setCommissionsSelected(final List<Object> commissionsSelected) {
+		public void setCommissionsSelected(final Object[] commissionsSelected) {
 			this.commissionsSelected = commissionsSelected;
 		}
 
@@ -1304,14 +1276,14 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		/**
 		 * @return the resultSelected
 		 */
-		public List<Object> getResultSelected() {
+		public Object[] getResultSelected() {
 			return resultSelected;
 		}
 
 		/**
 		 * @param resultSelected the resultSelected to set
 		 */
-		public void setResultSelected(final List<Object> resultSelected) {
+		public void setResultSelected(final Object[] resultSelected) {
 			this.resultSelected = resultSelected;
 		}
 
@@ -1340,7 +1312,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		/**
 		 * @param castorService the castorService to set
 		 */
-		public void setCastorService(final CastorService castorService) {
+		public void setCastorService(final ISerializationService castorService) {
 			this.castorService = castorService;
 		}
 
@@ -1417,7 +1389,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		/**
 		 * @return the castorService
 		 */
-		public CastorService getCastorService() {
+		public ISerializationService getCastorService() {
 			return castorService;
 		}
 

@@ -3,6 +3,8 @@
  */
 package org.esupportail.opi.web.controllers.parameters;
 
+import static fj.data.IterableW.wrap;
+import static fj.data.Stream.iterableStream;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -53,6 +55,7 @@ import org.esupportail.opi.web.controllers.references.EtapeController;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
 
+import fj.F;
 
 /**
  * @author cleprous
@@ -182,13 +185,38 @@ public class NomenclatureController extends AbstractContextAwareController {
 	 */
 	private boolean useUpload;
 
+	private List<TypeDecision> typesDec;
+	private List<TypeDecision> sortedTypesDec;
+	private List<TypeDecision> typesDecInUse;
+	private List<SelectItem> typesDecItems;
+	
+	/**
+	 * default value : false.
+	 */
+	private Boolean isFinal = false;
+	
 	/*
 	 ******************* INIT ************************* */
 	/**
 	 * Constructors.
 	 */
 	public NomenclatureController() {
-		super();
+	}
+	
+	public void initTypesDec() {
+		typesDec = new ArrayList<TypeDecision>(
+				getParameterService().getTypeDecisions(null));
+		sortedTypesDec = new ArrayList<TypeDecision>(typesDec);
+		Collections.sort(sortedTypesDec,
+				new ComparatorString(TypeDecision.class));
+		typesDecInUse = new ArrayList<TypeDecision>(
+				getParameterService().getTypeDecisions(true));
+		typesDecItems = new ArrayList<SelectItem>(
+				iterableStream(typesDec).map(new F<TypeDecision, SelectItem>() {
+					public SelectItem f(TypeDecision t) {
+						return new SelectItem(t, t.getCode() + "-" + t.getShortLabel());
+					}
+				}).cons(new SelectItem(new TypeDecision(), "")).toCollection());
 	}
 	
 	/** 
@@ -389,7 +417,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 		PieceJustificative laPJ = (PieceJustificative) nomenclature;
 		for (PieceJustiVet p : laPJ.getVersionEtapes()) {
 			PieceJustiVetPojo pjv = new PieceJustiVetPojo();
-			pjv.setVersionEtape(getBusinessCacheService().getVersionEtape(
+			pjv.setVersionEtape(getDomainApoService().getVersionEtape(
 					p.getVersionEtpOpi().getCodEtp(), p.getVersionEtpOpi().getCodVrsVet()));
 			pjv.setPieceJustiVet(p);
 			if (getSessionController().isAllViewPJ()) {
@@ -418,7 +446,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 		PieceJustificative laPJ = (PieceJustificative) nomenclature;
 		for (PieceJustiVet p : laPJ.getVersionEtapes()) {
 			PieceJustiVetPojo pjv = new PieceJustiVetPojo();
-			pjv.setVersionEtape(getBusinessCacheService().getVersionEtape(
+			pjv.setVersionEtape(getDomainApoService().getVersionEtape(
 					p.getVersionEtpOpi().getCodEtp(), p.getVersionEtpOpi().getCodVrsVet()));
 			pjv.setPieceJustiVet(p);
 			if (getSessionController().isAllViewPJ()) {
@@ -445,7 +473,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 		Set<VersionEtpOpi> listEtpByRight = Utilitaires.getListEtpByRight(getCurrentGest());
 		for (PieceJustiVet p : laPJ.getVersionEtapes()) {
 			PieceJustiVetPojo pjv = new PieceJustiVetPojo();
-			pjv.setVersionEtape(getBusinessCacheService().getVersionEtape(
+			pjv.setVersionEtape(getDomainApoService().getVersionEtape(
 					p.getVersionEtpOpi().getCodEtp(), p.getVersionEtpOpi().getCodVrsVet()));
 			pjv.setPieceJustiVet(p);
 			if (getSessionController().isAllViewPJ()) {
@@ -1005,14 +1033,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 	 * @return List of SelectItem
 	 */
 	public List<SelectItem> getTypeDecisionItems() {
-		List<SelectItem> s = new ArrayList<SelectItem>();
-		s.add(new SelectItem("", ""));
-		for (TypeDecision t : getTypeDecisionsInUse()) {
-			s.add(new SelectItem(t, t.getCode() + "-" + t.getShortLabel()));
-		}
-		Collections.sort(s, new ComparatorSelectItem());
-		return s;
-		
+		return typesDecItems;
 	}
 	
 	/**
@@ -1107,6 +1128,15 @@ public class NomenclatureController extends AbstractContextAwareController {
 	
 	/*
 	 ******************* ACCESSORS ******************** */
+	
+	public Boolean getIsFinal() {
+		return isFinal;
+	}
+
+	public void setIsFinal(final Boolean isFinal) {
+		this.isFinal = isFinal;
+	}
+
 	/**
 	 * Return all PieceJustificative.
 	 * @return Set< NomenclaturePojo>
@@ -1354,8 +1384,8 @@ public class NomenclatureController extends AbstractContextAwareController {
 	 * Return all Typedecision not sorted.
 	 * @return Set< TypeDecision>
 	 */
-	public Set<TypeDecision> getTypeDecisions() {
-		return getParameterService().getTypeDecisions(null);
+	public List<TypeDecision> getTypeDecisions() {
+		return typesDec;
 	}
 	
 	/**
@@ -1363,21 +1393,26 @@ public class NomenclatureController extends AbstractContextAwareController {
 	 * @return List< TypeDecision>
 	 */
 	public List<TypeDecision> getTypeDecisionsSorted() {
-		List <TypeDecision> l = new ArrayList<TypeDecision>(getTypeDecisions());
-		Collections.sort(l, new ComparatorString(TypeDecision.class));
-		return l;
+		return sortedTypesDec;
 	}
 	
 	/**
 	 * Return all Typedecision in use.
 	 * @return Set< TypeDecision>
 	 */
-	public Set<TypeDecision> getTypeDecisionsInUse() {
-		Set<TypeDecision> t = new TreeSet<TypeDecision>(new ComparatorString(TypeDecision.class));
-		t.addAll(getParameterService().getTypeDecisions(true));
-		return t;
+	public List<TypeDecision> getTypeDecisionsInUse() {
+		return typesDecInUse;
 	}
 
+	public List<TypeDecision> getFinalTypesDecisions() {
+		return new ArrayList<TypeDecision>(
+				iterableStream(sortedTypesDec).filter(
+						new F<TypeDecision, Boolean>() {
+							public Boolean f(TypeDecision t) {
+								return isFinal == t.getIsFinal();
+							}
+						}).toCollection());
+	}
 
 	/**
 	 * @return the nomenclature

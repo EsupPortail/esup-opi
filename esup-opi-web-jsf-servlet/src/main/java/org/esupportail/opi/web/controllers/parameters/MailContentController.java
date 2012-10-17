@@ -7,6 +7,7 @@ package org.esupportail.opi.web.controllers.parameters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
@@ -82,9 +83,9 @@ public class MailContentController extends AbstractContextAwareController {
 	@Override
 	public void afterPropertiesSetInternal() {
 		super.afterPropertiesSetInternal();
-		Map<String, Object> mailContentServices = BeanUtils.getBeansOfClass(MailContentService.class);
+		Map<String, MailContentService> mailContentServices = BeanUtils.getBeansOfClass(MailContentService.class);
 		mailContentService = new ArrayList<MailContentService>();
-		for (Map.Entry<String, Object> nameEntry : mailContentServices.entrySet()) {
+		for (Entry<String, MailContentService> nameEntry : mailContentServices.entrySet()) {
 			String name = nameEntry.getKey();
 			if (log.isDebugEnabled()) {
 				log.debug("get to mailContentService bean [" + name + "]...");

@@ -515,24 +515,17 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 		}
 	}
 	
-	/** 
-	 * @see org.esupportail.opi.domain.BusinessCacheService#
-	 * getCommune(java.lang.String, java.lang.String)
-	 */
 	@Override
 	@Cacheable(cacheName = CacheModelConst.GEO_APOGEE_MODEL)
-	public CommuneDTO getCommune(final String codCom, final String codBdi) {
+	public Pays getPays(final String codePays) {
 		if (log.isDebugEnabled()) {
-			log.debug("entering getCommune(" + codCom + ", " 
-					+ codBdi + "  )");
+			log.debug("entering getPays( " + codePays + " )");
 		}
-		if (StringUtils.hasText(codCom) 
-				&& StringUtils.hasText(codBdi)) {
-			//parcours la liste des VET ouvertes au recrutement
-			List<CommuneDTO> co = getCommunesDTO(codBdi);
-			for (CommuneDTO c : co) {
-				if (c.getCodeCommune().equals(codCom)) {
-					return c;
+		if (StringUtils.hasText(codePays)) {
+			List<Pays> pays = getPays();
+			for (Pays p : pays) {
+				if (codePays.equals(p.getCodPay())) {
+					return p;
 				}
 			}
 		}
@@ -1237,6 +1230,27 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 		return adr;
 	}
 
+	
+	@Override
+	@Cacheable(cacheName = CacheModelConst.GEO_APOGEE_MODEL)
+	public CommuneDTO getCommune(final String codCom, final String codBdi) {
+		if (log.isDebugEnabled()) {
+			log.debug("entering getCommune(" + codCom + ", " 
+					+ codBdi + "  )");
+		}
+		if (StringUtils.hasText(codCom) 
+				&& StringUtils.hasText(codBdi)) {
+			//parcours la liste des VET ouvertes au recrutement
+			List<CommuneDTO> co = getCommunesDTO(codBdi);
+			for (CommuneDTO c : co) {
+				if (c.getCodeCommune().equals(codCom)) {
+					return c;
+				}
+			}
+		}
+		return null;
+	}
+	
 
 	// ////////////////////////////////////////////////////////////
 	// Ren1GrpTypDip

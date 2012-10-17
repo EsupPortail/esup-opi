@@ -11,19 +11,8 @@
 
 
 	<bean id="castorService" class="org.esupportail.opi.services.export.CastorService">
-		<property name="castorMarshaller" ref="castorMarshaller" />
-        <property name="xslXmlPath" value="${xsl_xml.path}" />
+        <constructor-arg index="0" value="${xsl_xml.path}"/>
+        <constructor-arg index="1" value="META-INF/export/castor-mapping.xml"/>
 	</bean>
 
-
-	<bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller">
-        <property name="mappingLocations">
-            <list>
-                <value>classpath*:META-INF/export/castor-mapping.xml</value>
-            </list>
-        </property>
-		<property name="suppressXsiType" value="true" />
-		<property name="encoding" value="UTF-8"/>
-	</bean>
-    
 </beans>

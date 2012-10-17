@@ -1,138 +1,126 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/template.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
-    		<script type="text/javascript">
-    			var userSelected = false;
-    			function selectUser(linkId) {
-    				if (!userSelected) {
-    				  	userSelected = true;
-    					simulateLinkClick(linkId);
-    			  	}
-    			}
-    		</script>
-    		<h1><h:outputText value="#{msgs['INDIVIDU.TITLE.LISTE_NOT_VALID']}" /></h1>
+            <script type="text/javascript">
+                var userSelected = false;
+                function selectUser(linkId) {
+                if (!userSelected) {
+                userSelected = true;
+                simulateLinkClick(linkId);
+                }
+                }
+            </script>
+            <h1><h:outputText value="#{msgs['INDIVIDU.TITLE.LISTE_NOT_VALID']}" /></h1>
             <h2><h:outputFormat value="#{msgs['COMMISSION.SELECTED']}">
-    			<f:param value="#{commissionController.commission.libelle}"/>
+                <f:param value="#{commissionController.commission.libelle}"/>
             </h:outputFormat></h2>
             <ui:fragment rendered="#{empty printOpinionController.resultSelected}">
-               <h2><h:outputText value="#{msgs['OPINION.NO_AVIS_SELECTED']}" /></h2>
+                <h2><h:outputText value="#{msgs['OPINION.NO_AVIS_SELECTED']}" /></h2>
             </ui:fragment>
-            <ui:fragment rendered="#{!printOpinionController.isFinal
-                     and not empty printOpinionController.resultSelected}">
+            <ui:fragment rendered="#{!nomenclatureController.isFinal
+                                   and not empty printOpinionController.resultSelected}">
                 <h2><h:outputFormat value="#{msgs['OPINION.SELECT_NON_DEFINITIF']} ">
-    			     <f:param value="#{printOpinionController.labelResultSelected}"/>
+                    <f:param value="#{printOpinionController.labelResultSelected}"/>
                 </h:outputFormat></h2>
             </ui:fragment>
-            <ui:fragment rendered="#{printOpinionController.isFinal
-                 and not empty printOpinionController.resultSelected}">
+            <ui:fragment rendered="#{nomenclatureController.isFinal
+                                   and not empty printOpinionController.resultSelected}">
                 <h2><h:outputFormat value="#{msgs['OPINION.SELECT_DEFINITIF']}">
                     <f:param value="#{printOpinionController.labelResultSelected}"/>
                 </h:outputFormat></h2>
             </ui:fragment>
-            
-    		<h:form id="seeIndividusForm">
-    
-    			<div class="messageForUser">
-    				<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    			</div>
-    
-    			<div style="width:100%;">
-    				<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    					styleClass="tableJustWidthMax">
-    					<h:panelGroup>
-    						<p:commandButton value="#{msgs['_.BUTTON.EXPORT']}" immediate="true"
-    							action="#{printOpinionController.makeCsvInSeeEtuVal}"  ajax="false" />
-    						<p:commandButton value="#{msgs['OPINION.EDIT.VALIDATION']}"
-    									rendered="#{managedAccess.updateAuthorized}" immediate="true"
-    									action="#{printOpinionController.makePDFValidation}" ajax="false" />
-    						<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
-    							action="go_valid_opinions"  ajax="false" />
-    					</h:panelGroup>
-    				</h:panelGrid>
-    			</div>
-    
-    
-    			<div style="width:100%;">
-    				<p:dataTable var="individuPojo" id="individuData"
-    					value="#{printOpinionController.lesIndividus}"
-    					styleClass="paginatorData" alternateColors="true"
-    					renderedIfEmpty="false" rowIndexVar="variable">
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}" />
-    						</f:facet>
-    						<h:outputText value="#{individuPojo.individu.numDossierOpi}" />
-    					</p:column>
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['INDIVIDU.NOM']}" /> 
-    						</f:facet>
-    						<h:outputText value="#{individuPojo.individu.nomPatronymique}" />
-    					</p:column>
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['INDIVIDU.PRENOM']}" />
-    						</f:facet>
-    						<h:outputText value="#{individuPojo.individu.prenom}" />
-    					</p:column>
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['INDIVIDU.DATE_NAI_COURT']}" />
-    						</f:facet>
-    						<h:outputText value="#{individuPojo.individu.dateNaissance}">
-    							<f:convertDateTime pattern="dd/MM/yyyy"
-    								timeZone="#{sessionController.timezone}" />
-    						</h:outputText>
-    					</p:column>
-    					
-    					<p:column>
-    						<p:dataTable var="indVoeuxPojo" id="indVoeux" 
-    							value="#{individuPojo.indVoeuxPojo}">
-    							<p:column>
+            <h:form id="seeIndividusForm">
+                <div class="messageForUser">
+                    <p:messages id="messages" showDetail="true" autoUpdate="true" />
+                </div>
+                <div style="width:100%;">
+                    <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                                 styleClass="tableJustWidthMax">
+                        <h:panelGroup>
+                            <p:commandButton value="#{msgs['_.BUTTON.EXPORT']}" immediate="true"
+                                             action="#{printOpinionController.makeCsvInSeeEtuVal}"  ajax="false" />
+                            <p:commandButton value="#{msgs['OPINION.EDIT.VALIDATION']}"
+                                             rendered="#{managedAccess.updateAuthorized}" immediate="true"
+                                             action="#{printOpinionController.makePDFValidation}" ajax="false" />
+                            <p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
+                                             action="go_valid_opinions"  ajax="false" />
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </div>
+                <div style="width:100%;">
+                    <p:dataTable var="individuPojo" id="individuData"
+                                 value="#{printOpinionController.lesIndividus}"
+                                 styleClass="paginatorData" alternateColors="true"
+                                 renderedIfEmpty="false" rowIndexVar="variable">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}" />
+                            </f:facet>
+                            <h:outputText value="#{individuPojo.individu.numDossierOpi}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['INDIVIDU.NOM']}" /> 
+                            </f:facet>
+                            <h:outputText value="#{individuPojo.individu.nomPatronymique}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['INDIVIDU.PRENOM']}" />
+                            </f:facet>
+                            <h:outputText value="#{individuPojo.individu.prenom}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['INDIVIDU.DATE_NAI_COURT']}" />
+                            </f:facet>
+                            <h:outputText value="#{individuPojo.individu.dateNaissance}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"
+                                                   timeZone="#{sessionController.timezone}" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <p:dataTable var="indVoeuxPojo" id="indVoeux" 
+                                         value="#{individuPojo.indVoeuxPojoAsList}">
+                                <p:column>
                                     <h:outputText value="#{indVoeuxPojo.shortLibVet}"
-                                        style="cursor:pointer;" id="shortLibVet" />
+                                                  style="cursor:pointer;" id="shortLibVet" />
                                     <p:overlayPanel for="shortLibVet"
-                                        showEvent="mouseover"
-                                        hideEvent="mouseout"
-                                        styleClass="containerPopup">
-    									<h:panelGroup>
-    										<h:panelGrid columns="1">
-    											<h:outputText styleClass="titrePopupAide"
-    												value="#{msgs['FIELD_LABEL.LIBELLE']} #{msgs['FIELD_LABEL.VRS_VET']}" />
-    											<h:outputText styleClass="libellesAide"
-    												value="#{indVoeuxPojo.vrsEtape.libWebVet}" />
-    										</h:panelGrid>
-    									</h:panelGroup>
-    								</p:overlayPanel>
-    							</p:column>
-    							<p:column>
-    								<h:outputText value="#{indVoeuxPojo.avisEnService.result.libelle}" />
-    							</p:column>
-    						</p:dataTable>
-    					</p:column>
-    				</p:dataTable>
-    				
-    				<h:outputFormat value="#{msgs['INDIVIDU.NOT.FOUND']}"
-    					rendered="#{empty printOpinionController.lesIndividus}" />
-    			</div>
-    		</h:form>
-    
-    
-    		<br />
-    		<br />
-    		<br />
-    
+                                                    showEffect="fade" hideEffect="fade" appendToBody="true"
+                                                    showEvent="mouseover"
+                                                    hideEvent="mouseout"
+                                                    styleClass="containerPopup">
+                                        <h:panelGroup>
+                                            <h:panelGrid columns="1">
+                                                <h:outputText styleClass="titrePopupAide"
+                                                              value="#{msgs['FIELD_LABEL.LIBELLE']} #{msgs['FIELD_LABEL.VRS_VET']}" />
+                                                <h:outputText styleClass="libellesAide"
+                                                              value="#{indVoeuxPojo.vrsEtape.libWebVet}" />
+                                            </h:panelGrid>
+                                        </h:panelGroup>
+                                    </p:overlayPanel>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{indVoeuxPojo.avisEnService.result.libelle}" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:column>
+                    </p:dataTable>
+                    <h:outputFormat value="#{msgs['INDIVIDU.NOT.FOUND']}"
+                                    rendered="#{empty printOpinionController.lesIndividus}" />
+                </div>
+            </h:form>
     	</div>
     	
     	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        	hideElement('seeIndividusForm:individuData:submitPageSize');
-        	hideElement('seeIndividusForm:individuData:submitSelectTypeTrt');
+            highlightChildrenLiTags('navigationHeader:navigation');
+            highlightChildrenLiTags('navigationFooter:navigation');
+            hideElement('seeIndividusForm:individuData:submitPageSize');
+            hideElement('seeIndividusForm:individuData:submitSelectTypeTrt');
         </script>
     </ui:define>
 </ui:composition>

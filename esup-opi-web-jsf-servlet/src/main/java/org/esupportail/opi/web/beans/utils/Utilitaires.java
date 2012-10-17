@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -25,7 +24,6 @@ import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
-import org.esupportail.opi.domain.beans.NormeSI;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
@@ -44,7 +42,6 @@ import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 import org.esupportail.opi.web.beans.pojo.CommissionPojo;
 import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
-import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.wssi.services.remote.CentreGestion;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.hibernate.LazyInitializationException;
@@ -918,12 +915,12 @@ public class Utilitaires {
 		return listCalendarRdv;
 	}
 	/**
-	 * Renvoie la liste des commissions contenant une �tape avec un formulaire compl�mentaire.
+	 * Renvoie la liste des commissions contenant une étape avec un formulaire complémentaire.
 	 */
-	public static Set<Commission> getListCommissionExitForm(final Set<Commission> listComm,
+	public static List<Commission> getListCommissionExitForm(final List<Commission> listComm,
 			final List<RegimeInscription> listeRI,
 			final ParameterService parameterService) {
-		Set<Commission> listCommExitForm = new TreeSet<Commission>(new ComparatorString(NormeSI.class));
+		List<Commission> listCommExitForm = new ArrayList<Commission>();
 		
 		for (Commission commission : listComm) {
 			boolean exitForm = false;
@@ -952,6 +949,7 @@ public class Utilitaires {
 		
 		return listCommExitForm;
 	}
+	
 	/**
 	 * Renvoie une map :
 	 * - Voeux contenant un formulaire compl�mentaire en fonction de l'individu.

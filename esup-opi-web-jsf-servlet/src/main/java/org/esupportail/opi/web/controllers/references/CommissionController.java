@@ -3,8 +3,8 @@
  */
 package org.esupportail.opi.web.controllers.references;
 
-
 import static fj.data.IterableW.wrap;
+import static fj.data.Stream.iterableStream;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,13 +27,13 @@ import org.esupportail.commons.exceptions.UserNotFoundException;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.opi.domain.beans.NormeSI;
 import org.esupportail.opi.domain.beans.parameters.Transfert;
 import org.esupportail.opi.domain.beans.parameters.accessRight.Profile;
 import org.esupportail.opi.domain.beans.references.calendar.CalendarCmi;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.ContactCommission;
 import org.esupportail.opi.domain.beans.references.commission.Member;
+import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Adresse;
 import org.esupportail.opi.domain.beans.user.AdresseCommission;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
@@ -41,6 +41,7 @@ import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.services.export.CastorService;
+import org.esupportail.opi.services.export.ISerializationService;
 import org.esupportail.opi.services.mails.MailContentService;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
@@ -73,6 +74,7 @@ import fj.F;
  * @author cleprous
  *
  */
+@SuppressWarnings("serial")
 public class CommissionController 
 		extends AbstractContextAwareController {
 
@@ -129,7 +131,7 @@ public class CommissionController
 	/**
 	 * The manager of the versionEtape to add to the cmi.
 	 */
-	private List<Object> objectToAdd;
+	private Object[] objectToAdd;
 	
 	/**
 	 * key : he member to the cmi.
@@ -182,7 +184,7 @@ public class CommissionController
 	/**
 	 * Service to generate Xml.
 	 */
-	private CastorService castorService;
+	private ISerializationService castorService;
 
 	/**
 	 * mail send to member convocation.
@@ -205,20 +207,14 @@ public class CommissionController
 	 */
 	private boolean listCmiByRight;
 	
-	/**
-	 * @return true si l'on veut que la liste des commissions soit trié par droits
-	 */
-	public boolean isListCmiByRight() {
-		return listCmiByRight;
-	}
-
-	/**
-	 * @param listCmiByRight
-	 */
-	public void setListCmiByRight(boolean listCmiByRight) {
-		this.listCmiByRight = listCmiByRight;
-	}
-
+	
+	private Set<Commission> commissions;
+	private Set<Commission> comsInUse;
+	private List<Commission> comsInUseByRight;
+	private List<Commission> comsWithForms;
+	private Set<Commission> comsNoTrt;
+	
+	
 	/**
 	 * A logger.
 	 */
@@ -235,6 +231,18 @@ public class CommissionController
 		super();
 	}
 	
+	public void initCommissions() {
+		commissions = getParameterService().getCommissions(null);
+		comsInUse= getParameterService().getCommissions(true);
+		comsInUseByRight = new ArrayList<Commission>(
+				getDomainApoService().getListCommissionsByRight(
+						getCurrentGest(), true));
+		comsWithForms = Utilitaires.getListCommissionExitForm(
+				comsInUseByRight, listeRI, getParameterService());
+		comsNoTrt = Utilitaires.getListCommissionsWithoutTrt(
+						getParameterService());
+	}
+	
 	/** 
 	 * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
 	 */
@@ -244,7 +252,7 @@ public class CommissionController
 		commission = new Commission();
 		contactCommission = new ContactCommission();
 		actionEnum = new ActionEnum();
-		objectToAdd = new ArrayList<Object>();
+		objectToAdd = new Object[0];
 		membersToDisplay = new HashMap<Member, String>();
 		selectedCommissions = new ArrayList<Commission>();
 		idCmiForAdress = 0;
@@ -400,7 +408,7 @@ public class CommissionController
 	 * @return String
 	 */
 	public String goSearchMembers() {
-		objectToAdd.clear();
+		objectToAdd = new Object[0];
 		trtCmiController.reset();
 		return NavigationRulesConst.SEARCH_MEMBER;
 	}
@@ -442,7 +450,7 @@ public class CommissionController
 			}
 		}
 		
-		objectToAdd = new ArrayList<Object>();
+		objectToAdd = new Object[0];
 		return NavigationRulesConst.ENTER_CMI;
 	}
 	
@@ -730,9 +738,9 @@ public class CommissionController
 		castorService.objectToFileXml(list, fileNameXml);
 
 		String fileNamePdf = "nomination_" + commission.getCode() + ".pdf";
-
+		CastorService cs = (CastorService) castorService;
 		PDFUtils.exportPDF(fileNameXml, FacesContext.getCurrentInstance(), 
-					castorService.getXslXmlPath(), fileNamePdf, Constantes.NOMINATION_XSL);
+					cs.getXslXmlPath(), fileNamePdf, Constantes.NOMINATION_XSL);
 
 	}
 	
@@ -930,28 +938,18 @@ public class CommissionController
 		if (log.isDebugEnabled()) {
 			log.debug("entering makePDFListesPreparatoire");
 		}
-//		String excludeTypeTrt = "'" + transfert.getCode() + "'";
+		// hibernate session reattachment
+		commission = getParameterService().getCommission(
+				commission.getId(), commission.getCode());
 
-		/**
-		 * recuperation de la liste des individus ayant fait un voeu dans la commission
-		 */
+		 // recuperation de la liste des individus ayant fait un voeu dans la commission
 		List<Individu> listeInd = getDomainService().getIndividusCommission(
 		    commission, null, wrap(listeRI).map(
 		        new F<RegimeInscription, String>() {
                     public String f(RegimeInscription ri) {
                         return String.valueOf(ri.getCode());
                     }}).toStandardList());
-		
-		// TODO : à supprimer 24/01/2012, cas traité dans getIndividusCommission
-		// on filtre la listeInd selon le choix dans listeRI
-//		List<Individu> filteredListeInd = new ArrayList<Individu>();
-//		for (Individu ind : listeInd) {
-//			if (listeRI.contains(getRegimeIns().get(Utilitaires.getCodeRIIndividu(ind,
-//					getDomainService())))) {
-//				filteredListeInd.add(ind);
-//			}
-//		}
-		
+
 		Set<Commission> listComm = new HashSet<Commission>();
 		listComm.add(commission);
 		
@@ -1041,7 +1039,8 @@ public class CommissionController
 		//Bug 7710: récupération dynamique de la date de début dépôt des dossiers
 		list.setDebut(dateFormat.format(getParameterService().getCampagneEnServ(codeRI).getDateDebCamp()).toString());
 		// ajout de la commission pour afficher le libelle
-		list.setCommission(commission);
+		list.setCommission(getParameterService().getCommission(
+				commission.getId(), commission.getCode()));
 		
 		/**
 		 * Repartition selon les trois cas d'affichage de la liste preparatoire :
@@ -1060,9 +1059,10 @@ public class CommissionController
 		 */
 
 		castorService.objectToFileXml(list, fileNameXml);
-
+		
+		CastorService cs = (CastorService) castorService;
 		PDFUtils.exportPDF(fileNameXml, FacesContext.getCurrentInstance(), 
-					castorService.getXslXmlPath(), fileNamePdf, fileNameXsl);
+					cs.getXslXmlPath(), fileNamePdf, fileNameXsl);
 
 	}
 	
@@ -1157,59 +1157,64 @@ public class CommissionController
 	/*
 	 ******************* ACCESSORS ******************** */
 	
-	
+	/**
+	 * @return true si l'on veut que la liste des commissions soit trié par droits
+	 */
+	public boolean isListCmiByRight() {
+		return listCmiByRight;
+	}
+
+	/**
+	 * @param listCmiByRight
+	 */
+	public void setListCmiByRight(boolean listCmiByRight) {
+		this.listCmiByRight = listCmiByRight;
+	}
+
+	/**
+	 * @return List< Commission> All commission in dataBase.
+	 */
+	public Set<Commission> getCommissions() {
+		return commissions;
+	}
+
 	/**
 	 * Commissions items for the select menu.
 	 * This list contains all cmi in use or all cmi in use wihtout cmi with calendar.
 	 * Depends to wayfEnum. 
-	 * @return Set< Commission>
+	 * @return List< Commission>
 	 */
 	public Set<Commission> getCommissionsItems() {
-	    Set<Commission> cmi = new TreeSet<Commission>(new ComparatorString(NormeSI.class));
-	    cmi.addAll(getParameterService().getCommissions(true));
-		return cmi;		
+		return comsInUse;
 	}
 	
 	/**
 	 * Commissions items for the select menu.
 	 * the list is function the commisions managed by the gestionnaire
-	 * @return Set< Commission>
+	 * @return List<Commission>
 	 */
-	public Set<Commission> getCommissionsItemsByRight() {
-	    Set<Commission> cmi = new TreeSet<Commission>(new ComparatorString(NormeSI.class));
-	    cmi.addAll(getDomainApoService().getListCommissionsByRight(
-		    getCurrentGest(), true));
-		return cmi;		
+	public List<Commission> getCommissionsItemsByRight() {
+		return comsInUseByRight;
 	}
 	
 	/**
 	 * Commissions items for the select menu.
 	 * the list is function the commisions managed by the gestionnaire if listCmiByRight is true
 	 * else return all the commissions
-	 * @return Set< Commission>
+	 * @return List<Commission>
 	 */
-	public Set<Commission> getCommissionsItemsByRightParametrable() {
-
-		if (isListCmiByRight()){
-			return getCommissionsItemsByRight();
-		}
-		
-		return getCommissionsItems();	
+	public List<Commission> getCommissionsItemsByRightParametrable() {
+		return new ArrayList<Commission>(
+				(isListCmiByRight()) ? comsInUseByRight : comsInUse);
 	}
 	
 	/**
 	 * Commissions items for the select menu.
 	 * the list is function the commisions managed by the gestionnaire
-	 * @return Set< Commission>
+	 * @return List<Commission>
 	 */
-	public Set<Commission> getCommissionsItemsByRightAndIsFormComp() {
-		Set<Commission> cmi = new TreeSet<Commission>(new ComparatorString(NormeSI.class));
-		
-		cmi.addAll(getDomainApoService().getListCommissionsByRight(
-				getCurrentGest(), 
-				true));
-		return Utilitaires.getListCommissionExitForm(cmi, listeRI, getParameterService());
-		
+	public List<Commission> getCommissionsItemsByRightAndIsFormComp() {
+		return comsWithForms;
 	}
 
 	/**
@@ -1218,10 +1223,7 @@ public class CommissionController
 	 * @return Set< Commission>
 	 */
 	public Set<Commission> getCommissionsItemsWithoutTrt() {
-		Set<Commission> cmi = new TreeSet<Commission>(new ComparatorString(Commission.class));
-		
-		cmi.addAll(Utilitaires.getListCommissionsWithoutTrt(getParameterService()));
-		return cmi;
+		return comsNoTrt;
 	}
 	
 	/**
@@ -1230,10 +1232,10 @@ public class CommissionController
 	 * @return Set< Commission>
 	 */
 	public Set<Commission> getAllCommissionsItemsByRight() {
-		Set<Commission> cmi = new TreeSet<Commission>(new ComparatorString(NormeSI.class));
-		cmi.addAll(getCommissionsItemsByRight());
-		cmi.addAll(getCommissionsItemsWithoutTrt());
-		return cmi;
+		return new TreeSet<Commission>() {{
+			addAll(comsInUseByRight);
+			addAll(comsNoTrt);
+		}};
 	}
 	
 	/**
@@ -1241,21 +1243,15 @@ public class CommissionController
 	 * the list is function the commissions managed by the gestionnaire
 	 * @return Set< Commission>
 	 */
-	public Set<Commission> getCommissionsForAdresses() {
-		Set<Commission> cmi = new TreeSet<Commission>(new ComparatorString(NormeSI.class));
+	public List<Commission> getCommissionsForAdresses() {
 		Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
-		int codeRI = gest.getProfile().getCodeRI();
-		for (Commission comm : getAllCommissionsItemsByRight()) {
-			if (comm.getContactsCommission().get(codeRI) != null) {
-				cmi.add(comm);
-			}
-		}
-//		for (Commission comm : getCommissionsItemsWithoutTrt()) {
-//			if (comm.getContactsCommission().get(codeRI) != null) {
-//				cmi.add(comm);
-//			}
-//		}
-		return cmi;
+		final int codeRI = gest.getProfile().getCodeRI();
+		
+		return new ArrayList<Commission>(iterableStream(comsInUseByRight).filter(
+				new F<Commission, Boolean>() {
+					public Boolean f(Commission c) {
+						return c.getContactsCommission().get(codeRI) != null;
+					}}).toCollection());
 	}
 	
 	/**
@@ -1269,35 +1265,6 @@ public class CommissionController
 		
 		return list;
 	}
-	
-	
-	/**
-	 * @return Set< Commission> All commission in dataBase.
-	 */
-	public Set<Commission> getCommissions() {
-		return getParameterService().getCommissions(null);
-	}
-	
-	/**
-	 * All commission in use in dataBase are been managed by Manager.
-	 * @return Set< Commission> 
-	 */
-	// TODO : à supprimer, méthode identique getCommissionsItemsByRight()
-	public Set<Commission> getCommissionsByRight() {
-		Set<Commission> cmi = new TreeSet<Commission>(new ComparatorString(Commission.class));
-		cmi.addAll(getDomainApoService().getListCommissionsByRight(
-				getCurrentGest(), 
-				true));
-		return cmi;
-	}
-	
-	/**
-	 * @return Set< Commission> commissions in use.
-	 */
-	public Set<Commission> getCommissionsInUse() {
-		return getParameterService().getCommissions(true);
-	}
-
 	
 	/**
 	 * @return the selectedCommissions
@@ -1375,7 +1342,9 @@ public class CommissionController
 		//l'objet sans toucher au CACHE (par reference)
 		//Probleme rencontre lors du modification annule(par exemple),
 		//le cache etait tout de meme modifier
-		this.commission = commission.clone();
+		//this.commission = commission.clone();
+		// TODO : does it still work without clone() ?
+		this.commission = commission;
 	}
 	
 	/**
@@ -1409,14 +1378,14 @@ public class CommissionController
 	/**
 	 * @return the objectToAdd
 	 */
-	public List<Object> getObjectToAdd() {
+	public Object[] getObjectToAdd() {
 		return objectToAdd;
 	}
 
 	/**
 	 * @param objectToAdd the objectToAdd to set
 	 */
-	public void setObjectToAdd(final List<Object> objectToAdd) {
+	public void setObjectToAdd(final Object[] objectToAdd) {
 		this.objectToAdd = objectToAdd;
 	}
 
@@ -1562,14 +1531,14 @@ public class CommissionController
 	/**
 	 * @return the castorService
 	 */
-	public CastorService getCastorService() {
+	public ISerializationService getCastorService() {
 		return castorService;
 	}
 
 	/**
 	 * @param castorService the castorService to set
 	 */
-	public void setCastorService(final CastorService castorService) {
+	public void setCastorService(final ISerializationService castorService) {
 		this.castorService = castorService;
 	}
 
@@ -1612,6 +1581,4 @@ public class CommissionController
 	public void setManagerUsed(final boolean managerUsed) {
 		this.managerUsed = managerUsed;
 	}
-
-	
 }

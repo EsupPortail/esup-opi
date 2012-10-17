@@ -4,16 +4,19 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.faces.model.SelectItem;
 
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
+import org.esupportail.opi.domain.beans.NormeSI;
 import org.esupportail.opi.domain.beans.etat.Etat;
 import org.esupportail.opi.domain.beans.etat.EtatArriveComplet;
 import org.esupportail.opi.domain.beans.etat.EtatArriveIncomplet;
 import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.parameters.Transfert;
+import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.MissingPiece;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
@@ -28,6 +31,7 @@ import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.opi.web.beans.pojo.MissingPiecePojo;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
+import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
 import org.esupportail.opi.web.controllers.user.IndividuController;
@@ -167,12 +171,15 @@ public class PJController  extends AbstractContextAwareController  {
 	 * Callback to see the students in a commission for the PM treatment.
 	 * @return String 
 	 */
+	@SuppressWarnings("serial")
 	public String goSeePM() {
 		reset();
 		//TODO au lieu de NULL on pourrait retirer les personnes de type transfert
 		this.paginatorPM.filterInMannagedCmi(
-				this.commissionController.getCommissionsByRight(), 
-				transfert.getCode(), false);
+				new TreeSet<Commission>(new ComparatorString(NormeSI.class)) {{
+					    addAll(commissionController.getCommissionsItemsByRight());
+					}}, 
+					transfert.getCode(), false);
 		return NavigationRulesConst.DISPLAY_PIECE_MANQUANTE_STUDENTS;
 	}
 	
@@ -198,10 +205,13 @@ public class PJController  extends AbstractContextAwareController  {
 	/**
 	 * search Students.
 	 */
+	@SuppressWarnings("serial")
 	public void searchStudents() {
 		reset();
 		this.paginatorPM.filterInMannagedCmi(
-				this.commissionController.getCommissionsByRight(), 
+				new TreeSet<Commission>(new ComparatorString(NormeSI.class)) {{
+					addAll(commissionController.getCommissionsItemsByRight());
+				}}, 
 				transfert.getCode(), false);
 		paginatorPM.forceReload();
 	}

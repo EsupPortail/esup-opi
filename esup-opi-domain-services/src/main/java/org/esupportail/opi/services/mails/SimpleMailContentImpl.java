@@ -3,6 +3,11 @@
  */
 package org.esupportail.opi.services.mails;
 
+import static fj.data.Option.*;
+import static fj.data.Stream.*;
+import fj.F;
+import fj.data.Option;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,37 +130,21 @@ public class SimpleMailContentImpl extends AbstractMailContentImpl {
 		//test si les adresses sont valide
 		List<String> adresses = testAddressMail(list);
 		if (adresses.isEmpty()) {
-			new ConfigException("this email list is not valid : " + list);
+			throw new ConfigException("this email list is not valid : " + list);
 		}
-		try {
-			if (getInterceptAll() != null && getInterceptAll()) {
-				//interceptAddress@intercept.fr adress fictive
-				InternetAddress i = null;
-
-				i = new InternetAddress("interceptAddress@intercept.fr");
-
-				//to test the mailContent
-				String sjt = makeSubject();
-				String body = makeBody();
-				getSmtpService().send(i, sjt, body, null);
-			} else {
-				InternetAddress[] tab = new InternetAddress[adresses.size()];
-				for (int i = 0; i < adresses.size(); ++i) {
-					tab[i] = new InternetAddress(adresses.get(i));
-				}
-				getSmtpService().sendtocc(
-						tab, null, null, 
-						makeSubject(), 
-						makeBody(), null, null);
+		InternetAddress[] tab = new InternetAddress[adresses.size()];
+		for (int i = 0; i < adresses.size(); ++i) {
+			try {
+				tab[i] = new InternetAddress(adresses.get(i));
+			} catch (AddressException e) {
+				log.error(e);
 			}
-		} catch (AddressException e) {
-			// TODO Auto-generated catch block
-			log.error("probleme création InternetAddress with adr interceptAddress@intercept.fr");
-			log.error("probleme création InternetAddress");
-			new ConfigException(e);
-		} finally {
-			setObjects(null);
 		}
+		getSmtpService().sendtocc(
+				tab, null, null, 
+				makeSubject(), 
+				makeBody(), null, null);
+		setObjects(null);
 	}
 
 	/**
@@ -244,13 +233,14 @@ public class SimpleMailContentImpl extends AbstractMailContentImpl {
 	 * @return True if all email is valid.
 	 */
 	public List<String> testAddressMail(final List<String> addresses) {
-		List<String> list = new ArrayList<String>();
-		for (String s : addresses) {
-			if (s.matches(Constantes.MAILREGEX)) {
-				list.add(s);
-			}
-		}
-		return list;
+		return new ArrayList<String>(
+				somes(iterableStream(addresses).map(
+						Option.<String>fromNull())).filter(
+								new F<String, Boolean>() {
+									public Boolean f(String s) {
+										return s.matches(Constantes.MAILREGEX);
+									}
+								}).toCollection());
 	}
 
 	/**

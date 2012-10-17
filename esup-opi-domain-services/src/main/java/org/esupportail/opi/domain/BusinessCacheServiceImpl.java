@@ -179,58 +179,19 @@ public class BusinessCacheServiceImpl
 //	}
 
 	
-//	//////////////////////////////////////////////////////////////
-//	// Pays
-//	//////////////////////////////////////////////////////////////
-//	
-//	/** 
-//	 * @see org.esupportail.opi.domain.BusinessCacheService#
-//	 * getPays(java.lang.String)
-//	 */
-//	@Override
-//	@Cacheable(cacheName = CacheModelConst.GEO_APOGEE_MODEL)
-//	public Pays getPays(final String codePays) {
-//		if (log.isDebugEnabled()) {
-//			log.debug("entering getPays( " + codePays + " )");
-//		}
-//		if (StringUtils.hasText(codePays)) {
-//			List<Pays> pays = domainApoService.getPays();
-//			for (Pays p : pays) {
-//				if (codePays.equals(p.getCodPay())) {
-//					return p;
-//				}
-//			}
-//		}
-//		return null;
-//	}
+	//////////////////////////////////////////////////////////////
+	// Pays
+	//////////////////////////////////////////////////////////////
+	
+	/** 
+	 * @see org.esupportail.opi.domain.BusinessCacheService#
+	 * getPays(java.lang.String)
+	 */
 
-//	//////////////////////////////////////////////////////////////
-//	// CommuneDTO
-//	//////////////////////////////////////////////////////////////
-//	
-//	/** 
-//	 * @see org.esupportail.opi.domain.BusinessCacheService#
-//	 * getCommune(java.lang.String, java.lang.String)
-//	 */
-//	@Override
-//	@Cacheable(cacheName = CacheModelConst.GEO_APOGEE_MODEL)
-//	public CommuneDTO getCommune(final String codCom, final String codBdi) {
-//		if (log.isDebugEnabled()) {
-//			log.debug("entering getCommune(" + codCom + ", " 
-//					+ codBdi + "  )");
-//		}
-//		if (StringUtils.hasText(codCom) 
-//				&& StringUtils.hasText(codBdi)) {
-//			//parcours la liste des VET ouvertes au recrutement
-//			List<CommuneDTO> co = domainApoService.getCommunesDTO(codBdi);
-//			for (CommuneDTO c : co) {
-//				if (c.getCodeCommune().equals(codCom)) {
-//					return c;
-//				}
-//			}
-//		}
-//		return null;
-//	}
+	//////////////////////////////////////////////////////////////
+	// CommuneDTO
+	//////////////////////////////////////////////////////////////
+	
 
 	//////////////////////////////////////////////////////////////
 	////// ENSEIGNEMENT

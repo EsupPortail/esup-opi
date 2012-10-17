@@ -17,7 +17,7 @@
             expression="execution(* org.esupportail.*.domain.DomainApoServiceImpl.getListCommissionsByRight(..))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="domainMethods" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="paramMethods" />
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="domainApoMethods" />        
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="domainApoMethods" />
     </aop:config>
 
     <tx:advice id="txAdvice" transaction-manager="txManager">

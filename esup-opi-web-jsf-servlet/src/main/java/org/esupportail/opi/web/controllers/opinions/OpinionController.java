@@ -17,6 +17,7 @@ import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
+import org.esupportail.opi.domain.beans.NormeSI;
 import org.esupportail.opi.domain.beans.etat.EtatArriveComplet;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.InscriptionAdm;
@@ -649,10 +650,11 @@ public class OpinionController
 			Avis av = (Avis) getDomainService().add(a, getCurrentGest().getLogin());
 			getDomainService().addAvis(av);
 			
+			indVoeuxPojo.setIndVoeu(indV);
 		}
 		
-		commissionController.getObjectToAdd().clear();
-
+		commissionController.setObjectToAdd(new Object[0]);
+		
 		//updateIndVoeuPojo
 		
 		addInfoMessage(null, "AVIS.INFO.ADD_PROPOSITION");
@@ -777,9 +779,12 @@ public class OpinionController
 	/**
 	 * Search method to list the students with the filter. 
 	 */
+	@SuppressWarnings("serial")
 	public void searchStudents() {
 		individuPaginator.filterInMannagedCmi(
-				commissionController.getCommissionsByRight(), transfert.getCode(), false);
+				new TreeSet<Commission>(new ComparatorString(NormeSI.class)) {{
+					addAll(commissionController.getCommissionsItemsByRight());
+					}}, transfert.getCode(), false);
 		TypeDecision type = individuPaginator.getIndRechPojo().getTypeDecRecherchee();
 		Integer codeCommRech = individuPaginator.getIndRechPojo().getIdCmi();
 		Integer codeTrtCmiRech = individuPaginator.getIndRechPojo().getCodeTrtCmiRecherchee();
@@ -871,7 +876,7 @@ public class OpinionController
 							.getTraitementCmi().getVersionEtpOpi();
 					addErrorMessage(null, "ERROR.FIELD.EXIST.RANG",
 							a.getRang(),
-							getBusinessCacheService().getVersionEtape(
+							getDomainApoService().getVersionEtape(
 								vet.getCodEtp(), vet.getCodVrsVet()).getLibWebVet());
 				}
 				ctrlOk = false;
@@ -987,7 +992,7 @@ public class OpinionController
 			Commission comm = getParameterService().getCommission(codeCommRech, null);
 			for (TraitementCmi trait : comm.getTraitementCmi()) {
 				VersionEtpOpi vetOPI = trait.getVersionEtpOpi();
-				VersionEtapeDTO vetDTO = getBusinessCacheService().getVersionEtape(
+				VersionEtapeDTO vetDTO = getDomainApoService().getVersionEtape(
 						vetOPI.getCodEtp(), vetOPI.getCodVrsVet());
 				vetComm.add(vetDTO);
 			}
@@ -1156,7 +1161,7 @@ public class OpinionController
 	}
 
 	/**
-	 * FIXME : a horrible (but hopefully transient) hack to comply with jsf 
+	 * FIXME : Or not ? A hack to comply with jsf 
 	 * 
 	 * @return the wishSelected
 	 */
@@ -1169,7 +1174,7 @@ public class OpinionController
 	}
 
 	/**
-	 * FIXME : a horrible (but hopefully transient) hack to comply with jsf 
+	 * FIXME : Or not ? A hack to comply with jsf
 	 * 
 	 * @param wishSelected the wishSelected to set
 	 */

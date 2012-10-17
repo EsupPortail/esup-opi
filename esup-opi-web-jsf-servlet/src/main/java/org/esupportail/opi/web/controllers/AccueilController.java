@@ -40,6 +40,7 @@ import org.esupportail.opi.domain.beans.user.indcursus.QualifNonDiplomante;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
 import org.esupportail.opi.domain.beans.user.situation.SituationSalarie;
 import org.esupportail.opi.services.export.CastorService;
+import org.esupportail.opi.services.export.ISerializationService;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.utils.Conversions;
 import org.esupportail.opi.web.beans.parameters.FormationContinue;
@@ -82,7 +83,7 @@ public class AccueilController extends AbstractAccessController {
 	/**
 	 * Service to generate Xml.
 	 */
-	private CastorService castorService;
+	private ISerializationService castorService;
 	
 	/**
 	 * {@link IndividuController}.
@@ -539,12 +540,13 @@ public class AccueilController extends AbstractAccessController {
 				fileNameXsl = Constantes.DOSSIER_IND_FC_XSL;
 			}
 			
+			CastorService cs = (CastorService) castorService;			
 			if (returnOnePdf) {
 				PDFUtils.exportPDF(fileNameXml, FacesContext.getCurrentInstance(), 
-						castorService.getXslXmlPath(), fileNamePdf, fileNameXsl);
+						cs.getXslXmlPath(), fileNamePdf, fileNameXsl);
 			} else {
 				zipStream = PDFUtils.preparePDFinZip(
-						fileNameXml, zipStream, castorService.getXslXmlPath(),
+						fileNameXml, zipStream, cs.getXslXmlPath(),
 						fileNamePdf, fileNameXsl);
 				
 				// For all the etapes avec formulaire, on recupere le PDF et on l'ajoute e l'archive
@@ -602,7 +604,7 @@ public class AccueilController extends AbstractAccessController {
 	/**
 	 * @param castorService the castorService to set
 	 */
-	public void setCastorService(final CastorService castorService) {
+	public void setCastorService(final ISerializationService castorService) {
 		this.castorService = castorService;
 	}
 	

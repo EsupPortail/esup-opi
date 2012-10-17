@@ -17,6 +17,7 @@
   	<field name="codBac"/>
   	<field name="dateObtention"/>
   </class>
+
   <class name="org.esupportail.opi.domain.beans.user.indcursus.IndCursus"
   		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="indCursus"/>
@@ -26,6 +27,7 @@
   	<field name="duree"/>
   	<field name="organisme"/>
   </class>
+
   <class name="org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol"
   		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="indCursusScol"/>
@@ -34,18 +36,21 @@
   	<field name="resultat"/>
   	<field name="libMention"/>
   </class>
+
   <class name="org.esupportail.opi.domain.beans.user.candidature.IndVoeu"
   		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="indVoeu"/>
   	<field name="codTypeTrait"/>
   	<field name="isProp"/>
   </class>
+
   <class name="org.esupportail.opi.web.beans.pojo.IndVoeuPojo">
   	<map-to xml="indVoeuPojo"/>
   	<field name="indVoeu" type="org.esupportail.opi.domain.beans.user.candidature.IndVoeu"/>
   	<field name="vrsEtape"/>
   	<field name="avisEnService"/>
   </class>
+
   <class name="org.esupportail.opi.domain.beans.user.candidature.Avis"
   		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="avis"/>
@@ -55,22 +60,26 @@
    	<field name="validation"/>
    	<field name="rang"/> 	
   </class>
+
   <class name="org.esupportail.opi.domain.beans.user.indcursus.QualifNonDiplomante"
   		extends="org.esupportail.opi.domain.beans.user.indcursus.IndCursus">
   	<map-to xml="qualifNonDiplomante"/>
   </class>
+
   <class name="org.esupportail.opi.domain.beans.user.indcursus.CursusPro"
    		extends="org.esupportail.opi.domain.beans.user.indcursus.IndCursus">
   	<map-to xml="cursusPro"/>
   	<field name="quotite"/>
   	<field name="function"/>
   </class>
+
   <class name="org.esupportail.opi.domain.beans.user.indcursus.CursusExt"
    		extends="org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol">
   	<map-to xml="cursusExt"/>
   	<field name="codDac"/>
   	<field name="libDac"/>
   </class>
+
   <class name="org.esupportail.opi.domain.beans.user.indcursus.CursusR1"
    		extends="org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol">
   	<map-to xml="cursusR1"/>
@@ -80,6 +89,8 @@
   	<field name="codVersionEtape"/>
   	<field name="libEtape"/>
   </class>
+
+  
   <class name="org.esupportail.opi.domain.beans.user.Adresse">
   	<map-to xml="adresse"/>
   	<field name="adr1"/>
@@ -92,6 +103,7 @@
   	<field name="faxNumber"/>
   	<field name="mail"/>
   </class>
+
   <class name="org.esupportail.opi.web.beans.pojo.AdressePojo">
   	<map-to xml="adressePojo"/>
   	<field name="adresse" type="org.esupportail.opi.domain.beans.user.Adresse"/>
@@ -99,6 +111,7 @@
   	<field name="commune"/>
   	<field name="isCedex"/>
   </class>
+
   <class name="org.esupportail.opi.domain.beans.references.commission.TraitementCmi"
   		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="traitementCmi"/>
@@ -106,6 +119,7 @@
   	<field name="codTypeTrait"/>
   	<field name="selection"/>
   </class>
+
   <class name="org.esupportail.opi.domain.beans.references.commission.Member"
   		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="member"/>
@@ -113,6 +127,7 @@
   	<field name="prenom"/>
   	<field name="type"/>
   </class>
+
   <class name="org.esupportail.opi.domain.beans.references.calendar.CalendarCmi"
    		extends="org.esupportail.opi.domain.beans.references.calendar.Calendar">
   	<map-to xml="calendarCmi"/>
@@ -120,6 +135,7 @@
   		handler="org.esupportail.opi.utils.converters.xml.DateHandler"/>
   	<field name="commDatEndBack"/>
   </class>
+
   <class name="org.esupportail.opi.domain.beans.references.commission.ContactCommission"
    		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="contactCommission"/>
@@ -129,6 +145,7 @@
   	<field name="managerPhone"/>
   	<field name="managerMail"/>
   </class>
+
   <class name="org.esupportail.opi.domain.beans.references.commission.Commission"
    		extends="org.esupportail.opi.domain.beans.NormeSI">
   	<map-to xml="commission"/>
@@ -137,6 +154,7 @@
   	<field name="calendarCmi" type="org.esupportail.opi.domain.beans.references.calendar.CalendarCmi"/>
   	<field name="members"/>
   </class>
+
   <class name="org.esupportail.opi.web.beans.pojo.CommissionPojo">
   	<map-to xml="commissionPojo"/>
   	<field name="commission" type="org.esupportail.opi.domain.beans.references.commission.Commission"/>
@@ -158,6 +176,7 @@
   	<field name="handicapTravail"/>
   	<field name="handicapAdulte"/>
   </class>
+
   <class name="org.esupportail.opi.domain.beans.user.situation.SituationSalarie"
    		extends="org.esupportail.opi.domain.beans.user.situation.IndSituation">
   	<map-to xml="situationSalarie"/>
@@ -171,6 +190,7 @@
 		<field name="codeTypeOrga"/>
 		<field name="secteurActivity"/>
   </class>
+
   <class name="org.esupportail.opi.domain.beans.user.situation.SituationProLib"
    		extends="org.esupportail.opi.domain.beans.user.situation.IndSituation">
   	<map-to xml="situationProLib"/>
@@ -179,6 +199,7 @@
 		<field name="dateStartActivity" type="string" 
   			handler="org.esupportail.opi.utils.converters.xml.DateHandler"/>
   </class>
+
   <class name="org.esupportail.opi.domain.beans.user.situation.SituationDE"
    		extends="org.esupportail.opi.domain.beans.user.situation.IndSituation">
   	<map-to xml="situationDE"/>

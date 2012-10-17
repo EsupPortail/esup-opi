@@ -1,111 +1,90 @@
-/**
- * 
- */
 package org.esupportail.opi.services.export;
 
-import java.io.FileOutputStream;
+import static fj.P.p;
+import static fj.Unit.unit;
+
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Serializable;
+import java.io.Writer;
 
-import javax.xml.transform.stream.StreamResult;
+import javax.management.RuntimeErrorException;
 
-import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.utils.exceptions.ExportException;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.oxm.Marshaller;
-import org.springframework.oxm.MarshallingException;
+import org.exolab.castor.mapping.Mapping;
+import org.exolab.castor.xml.Marshaller;
+import org.exolab.castor.xml.XMLContext;
+import org.springframework.core.io.ClassPathResource;
+import org.xml.sax.InputSource;
 
-/**
- * @author cleprous
- *
- */
-public class CastorService implements Serializable, InitializingBean {
+import fj.Effect;
+import fj.F;
+import fj.P2;
+import fj.Unit;
 
-	/*
-	 ******************* PROPERTIES ******************* */
+public class CastorService implements ISerializationService {
+
+	final Marshaller marshaller;
 	
-	/**
-	 * The serialization id.
-	 */
-	private static final long serialVersionUID = -6766275085431294370L;
-	
-	/**
-	 * Object to Xml.
-	 */
-	private Marshaller castorMarshaller;
-	
-	/**
-	 * Xml to Object.
-	 */
-//	private Unmarshaller castorUnMarshaller;	
+	final String xslXmlPath;
 
-	/**
-	 * the path of xml and xsl file. 
-	 */
-	private String xslXmlPath;
-
-
-	/*
-	 ******************* INIT ************************* */
+	final Effect<P2<String, F<Writer, Unit>>> writeToFile = 
+			new Effect<P2<String, F<Writer,Unit>>>() {
+				public void e(P2<String, F<Writer, Unit>> tuple) {
+					Writer w = null;
+					try {
+						w = new FileWriter(tuple._1());
+						tuple._2().f(w);
+						w.flush();
+					} catch (Exception e) {
+						throw new ExportException("Problem opening or using a java.io.Writer : ", e);
+					} finally {
+						try {
+							w.close();
+						} catch (IOException e) {
+							throw new ExportException("Problem closing a java.io.Writer : ", e);
+						}	
+					}}};
+				
 	
-	/**
-	 * Constructors.
-	 */
-	public CastorService() {
-		super();
+	
+	public CastorService(final String xslXmlPath, final String castorMapping) {
+		this.xslXmlPath = xslXmlPath; 
+		final Mapping mp = new Mapping();
+		try {
+			mp.loadMapping(new InputSource(
+					new ClassPathResource(castorMapping).getInputStream()));
+			final XMLContext ctx = new XMLContext();
+			ctx.addMapping(mp);
+			marshaller = ctx.createMarshaller();
+			marshaller.setProperty("org.exolab.castor.indent", "false");
+			marshaller.setProperty("org.exolab.castor.xml.proxyInterfaces",
+					"net.sf.cglib.proxy.Factory, org.hibernate.proxy.HibernateProxy");
+		} catch (Exception e) {
+			throw new RuntimeErrorException(new Error(e));
+		} 
 	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(this.castorMarshaller, 
-				"property castorMarshaller of class " 
-				+ this.getClass().getName() + " can not be null");
-	}
-
-	/*
-	 ******************* METHODS ********************** */
+	
 
 	/**
 	 * Generate the xml in the file.
 	 * @param object 
 	 * @param fileName 
 	 */
-	public void objectToFileXml(final Object object, 
-			final String fileName ) {
-		FileOutputStream out = null;
-		try {
-			out = new FileOutputStream(xslXmlPath + fileName);
-			castorMarshaller.marshal(object, new StreamResult(out));
-			
-		} catch (MarshallingException e) {
-			throw new ExportException("problem marhsalling in getXmlIndividu ", e);
-		} catch (IOException e) {
-			throw new ExportException("problem marhsalling in getXmlIndividu ", e);
-		}
+	public void objectToFileXml(final Object object, final String fileName ) {
+		writeToFile.e(p(xslXmlPath + fileName, (F<Writer, Unit>) new F<Writer, Unit>() {
+			public Unit f(Writer w) {
+				try {
+					marshaller.setWriter(w);
+					marshaller.marshal(object);
+				} catch (Exception e) {
+					throw new ExportException("Problem while marshalling using castor : ", e);					
+				}
+				return unit();
+			}}));
 	}
 	
 	
-	/*
-	 ******************* ACCESSORS ******************** */
-	
-	/**
-	 * @param castorMarshaller the castorMarshaller to set
-	 */
-	public void setCastorMarshaller(final Marshaller castorMarshaller) {
-		this.castorMarshaller = castorMarshaller;
-	}
-
-	/**
-	 * @return the xslXmlPath
-	 */
 	public String getXslXmlPath() {
 		return xslXmlPath;
 	}
-	/**
-	 * @param xslXmlPath the xslXmlPath to set
-	 */
-	public void setXslXmlPath(final String xslXmlPath) {
-		this.xslXmlPath = xslXmlPath;
-	}
-
 }

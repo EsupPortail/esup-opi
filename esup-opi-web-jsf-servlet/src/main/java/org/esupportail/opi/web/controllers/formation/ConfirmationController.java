@@ -285,7 +285,7 @@ public class ConfirmationController extends AbstractAccessController {
 		Commission c = indVoeuLc.getLinkTrtCmiCamp().getTraitementCmi().getCommission();
 		CommissionPojo commissionPojo = new CommissionPojo(c, 
 				new AdressePojo(c.getContactsCommission().get(regimeIns.getCode()).getAdresse(), 
-						getDomainApoService()), c.getContactsCommission().get(regimeIns.getCode()));
+				getDomainApoService()), c.getContactsCommission().get(regimeIns.getCode()));
 		
 		// IndividuPojo
 		// param Set <Commission>

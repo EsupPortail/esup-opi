@@ -8,7 +8,7 @@
  */
 package org.esupportail.opi.web.beans.pojo;
 
-
+import static fj.data.Option.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -335,15 +335,12 @@ public class IndividuPojo {
 			Set<VersionEtapeDTO> listeVersEtp = null;
 			if (commissions != null) {
 				listeVersEtp = new HashSet<VersionEtapeDTO>();
-				for (Commission commission : commissions) {
-					if (commission.getTraitementCmi() != null) {
-						for (TraitementCmi trait : commission.getTraitementCmi()) {
+				for (Commission commission : commissions)
+					for (Set<TraitementCmi> traits : fromNull(commission.getTraitementCmi()))
+						for (TraitementCmi trait : traits)
 							listeVersEtp.add(apoServ.getVersionEtape(
 									trait.getVersionEtpOpi().getCodEtp(),
 									trait.getVersionEtpOpi().getCodVrsVet()));
-						}
-					}
-				}
 			}
 			Set<IndVoeu> indVoeu = individu.getVoeux();
 			for (IndVoeu i : indVoeu) {
@@ -709,6 +706,10 @@ public class IndividuPojo {
 		return indVoeuxPojo;
 	}
 
+	public List<IndVoeuPojo> getIndVoeuxPojoAsList() {
+		return new ArrayList<IndVoeuPojo>(indVoeuxPojo);
+	}
+	
 
 	/**
 	 * @param indVoeuxPojo the indVoeuxPojo to set

@@ -61,12 +61,8 @@ import org.esupportail.opi.domain.beans.user.candidature.IndFormulaire;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.MissingPiece;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
-import org.esupportail.opi.utils.CacheModelConst;
 import org.esupportail.opi.utils.Constantes;
 import org.xml.sax.SAXException;
-
-import com.googlecode.ehcache.annotations.Cacheable;
-import com.googlecode.ehcache.annotations.TriggersRemove;
 
 
 
@@ -274,38 +270,27 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * @see org.esupportail.opi.domain.ParameterService#addTraitement(
 	 * org.esupportail.opi.domain.beans.parameters.accessRight.Traitement)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.ACCESS_RIGHT_DEFAULT)
 	public void addTraitement(final Traitement traitement) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addTraitement( " + traitement + " )");
 		}
 		daoService.addTraitement(traitement);
-
-		//flush the other instance
-		executeFlushCache(CacheModelConst.ACCESS_RIGHT_DEFAULT, "addTraitement");
-
 	}
 
 	/**
 	 * @see org.esupportail.opi.domain.ParameterService#deleteTraitement(
 	 * org.esupportail.opi.domain.beans.parameters.accessRight.Traitement)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.ACCESS_RIGHT_DEFAULT)
 	public void deleteTraitement(final Traitement traitement) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteTraitement( " + traitement + " )");
 		}
 		daoService.deleteTraitement(traitement);
-
-		//flush the other instance
-		executeFlushCache(CacheModelConst.ACCESS_RIGHT_DEFAULT, "deleteTraitement");
-
 	}
 
 	/**
 	 * @see org.esupportail.opi.domain.ParameterService#getTraitement(java.lang.Integer)
 	 */
-	@Cacheable(cacheName = CacheModelConst.ACCESS_RIGHT_DEFAULT)
 	public Traitement getTraitement(final Integer id) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getTraitement( " + id + " )");
@@ -316,7 +301,6 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	/**
 	 * @see org.esupportail.opi.domain.ParameterService#getDomain(java.lang.Integer)
 	 */
-	@Cacheable(cacheName = CacheModelConst.ACCESS_RIGHT_DEFAULT)
 	public Domain getDomain(final Integer id) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getDomain( " + id + " )");
@@ -328,7 +312,6 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * @see org.esupportail.opi.domain.ParameterService#getFonctions(java.lang.Boolean,
 	 *      java.lang.Boolean)
 	 */
-	@Cacheable(cacheName = CacheModelConst.ACCESS_RIGHT_DEFAULT)
 	public Set<Fonction> getFonctions(final Boolean temEnSve, final Boolean initAccess) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getFonction( " + temEnSve + ", " + initAccess
@@ -345,7 +328,6 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 *      java.lang.String,
 	 *      org.esupportail.opi.domain.beans.parameters.accessRight.Domain)
 	 */
-	@Cacheable(cacheName = CacheModelConst.ACCESS_RIGHT_DEFAULT)
 	public Set<Traitement> getTraitements(final Profile p, final String typeTraitement,
 			final Domain domain) {
 		if (log.isDebugEnabled()) {
@@ -360,7 +342,6 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * @see org.esupportail.opi.domain.ParameterService#getDomains(java.lang.Boolean,
 	 *      java.lang.Boolean)
 	 */
-	@Cacheable(cacheName = CacheModelConst.ACCESS_RIGHT_DEFAULT)
 	public Set<Domain> getDomains(final Boolean temEnSve, final Boolean initAccess) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getDomain( " + temEnSve + ", " + initAccess
@@ -383,16 +364,11 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * @see org.esupportail.opi.domain.ParameterService#updateTraitement(
 	 * org.esupportail.opi.domain.beans.parameters.accessRight.Traitement)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.ACCESS_RIGHT_DEFAULT)
 	public void updateTraitement(final Traitement traitement) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateFonction( " + traitement + " )");
 		}
 		daoService.updateTraitement(traitement);
-
-		//flush the other instance
-		executeFlushCache(CacheModelConst.ACCESS_RIGHT_DEFAULT, "updateTraitement");
-
 	}
 
 	/**
@@ -465,26 +441,22 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * @see org.esupportail.opi.domain.ParameterService#addAccessRight(
 	 * org.esupportail.opi.domain.beans.parameters.accessRight.AccessRight)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.ACCESS_RIGHT_DEFAULT)
 	public void addAccessRight(final AccessRight accessRight) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addAccessRight( " + accessRight + " )");
 		}
 		daoService.addAccessRight(accessRight);
-
 	}
 
 	/**
 	 * @see org.esupportail.opi.domain.ParameterService#updateAccessRight(
 	 * org.esupportail.opi.domain.beans.parameters.accessRight.AccessRight)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.ACCESS_RIGHT_DEFAULT)
 	public void updateAccessRight(final AccessRight accessRight) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateAccessRight( " + accessRight + " )");
 		}
 		daoService.updateAccessRight(accessRight);
-
 	}
 
 	// ////////////////////////////////////////////////////////////
@@ -495,32 +467,22 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * @see org.esupportail.opi.domain.ParameterService#addNomenclature(
 	 * org.esupportail.opi.domain.beans.parameters.Nomenclature)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.NOMENCLATURE_MODEL)
 	public void addNomenclature(final Nomenclature nomenclature) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addNomenclature( " + nomenclature + " )");
 		}
 		daoService.addNomenclature(nomenclature);
-
-		//flush the other instance
-		executeFlushCache(CacheModelConst.NOMENCLATURE_MODEL, "addNomenclature");
-
 	}
 
 	/**
 	 * @see org.esupportail.opi.domain.ParameterService#deleteNomenclature(
 	 * org.esupportail.opi.domain.beans.parameters.Nomenclature)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.NOMENCLATURE_MODEL)
 	public void deleteNomenclature(final Nomenclature nomenclature) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteNomenclature( " + nomenclature + " )");
 		}
 		daoService.deleteNomenclature(nomenclature);
-
-		//flush the other instance
-		executeFlushCache(CacheModelConst.NOMENCLATURE_MODEL, "deleteNomenclature");
-
 	}
 
 	
@@ -545,20 +507,17 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	/**
 	 * @see org.esupportail.opi.domain.ParameterService#getNomenclature(java.lang.Integer)
 	 */
-	@Cacheable(cacheName = CacheModelConst.NOMENCLATURE_MODEL)
 	public Nomenclature getNomenclature(final Integer id) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getNomenclature( " + id + " )");
 		}
 		return daoService.getNomenclature(id);
-
 	}
 
 
 	/**
 	 * @see org.esupportail.opi.domain.ParameterService#getPJs(java.lang.Boolean)
 	 */
-	//@Cacheable(cacheName = CacheModelConst.NOMENCLATURE_MODEL)
 	public 	Set<PieceJustificative> getPJs(final Boolean temEnSve) { 
 		if (log.isDebugEnabled()) {
 			log.debug("entering getPJs( " + temEnSve + " )");
@@ -631,7 +590,6 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	/**
 	 * @see org.esupportail.opi.domain.ParameterService#getMotivationsAvis(java.lang.Boolean)
 	 */
-	@Cacheable(cacheName = CacheModelConst.NOMENCLATURE_MODEL)
 	public Set<MotivationAvis> getMotivationsAvis(final Boolean temEnSve) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getMotivationAvis( " + temEnSve + " )");
@@ -744,7 +702,6 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	/** 
 	 * @see org.esupportail.opi.domain.ParameterService#getTypeDecisions(java.lang.Boolean)
 	 */
-	@Cacheable(cacheName = CacheModelConst.NOMENCLATURE_MODEL)
 	public Set<TypeDecision> getTypeDecisions(final Boolean temEnSve) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getTypeDecisions( " + temEnSve + " )");
@@ -763,16 +720,11 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * @see org.esupportail.opi.domain.ParameterService#updateNomenclature(
 	 * org.esupportail.opi.domain.beans.parameters.Nomenclature)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.NOMENCLATURE_MODEL)
 	public void updateNomenclature(final Nomenclature nomenclature) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateNomenclature( " + nomenclature + " )");
 		}
 		daoService.updateNomenclature(nomenclature);
-
-		//flush the other instance
-		executeFlushCache(CacheModelConst.NOMENCLATURE_MODEL, "updateNomenclature");
-
 	}
 
 	/**
@@ -1004,16 +956,11 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * @see org.esupportail.opi.domain.ParameterService#addTraitementCmi(
 	 * org.esupportail.opi.domain.beans.references.commission.TraitementCmi)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public void addTraitementCmi(final TraitementCmi traitementCmi) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addTraitementCmi( " + traitementCmi + " )");
 		}
 		daoService.addTraitementCmi(traitementCmi);
-		
-		//flush the other instance
-		executeFlushCache(CacheModelConst.REFERENCES_MODEL, "addTraitementCmi");
-
 	}
 
 
@@ -1021,22 +968,16 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * @see org.esupportail.opi.domain.ParameterService#updateTraitementCmi(
 	 * org.esupportail.opi.domain.beans.references.commission.TraitementCmi)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public void updateTraitementCmi(final TraitementCmi traitementCmi) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateTraitementCmi( " + traitementCmi + " )");
 		}
 		daoService.updateTraitementCmi(traitementCmi);
-		
-		//flush the other instance
-		executeFlushCache(CacheModelConst.REFERENCES_MODEL, "updateTraitementCmi");
-
 	}
 
 	/** 
 	 * @see org.esupportail.opi.domain.ParameterService#deleteTraitementCmi(java.util.List)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public void deleteTraitementCmi(final List<TraitementCmi> traitementCmi) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteTraitementCmi( " + traitementCmi + " )");
@@ -1044,11 +985,6 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 		for (TraitementCmi t : traitementCmi) {
 			daoService.deleteTraitementCmi(t);
 		}
-		
-		//flush the other instance
-		executeFlushCache(CacheModelConst.REFERENCES_MODEL, "deleteTraitementCmi");
-
-
 	}
 
 	
@@ -1056,7 +992,6 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * @see org.esupportail.opi.domain.ParameterService#
 	 * getTraitementCmi(org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi, java.lang.Boolean)
 	 */
-	@Cacheable(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public TraitementCmi getTraitementCmi(
 			final VersionEtpOpi versionEtpOpi,
 			final Boolean initSelection) {
@@ -1069,13 +1004,11 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	/** 
 	 * @see org.esupportail.opi.domain.ParameterService#getTraitementCmi(java.lang.Integer)
 	 */
-	@Cacheable(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public TraitementCmi getTraitementCmi(final Integer id) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getTraitementCmi( " + id + " )");
 		}
 		return daoService.getTraitementCmi(id);
-
 	}
 	
 	/** 
@@ -1103,35 +1036,28 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * @see org.esupportail.opi.domain.ParameterService#addCalendar(
 	 * org.esupportail.opi.domain.beans.references.calendar.Calendar)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public void addCalendar(final Calendar calendar) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addCalendar( " + calendar + " )");
 		}
 		daoService.addCalendar(calendar);
-		//flush the other instance
-		executeFlushCache(CacheModelConst.REFERENCES_MODEL, "addCalendar");
 	}
 
 	/** 
 	 * @see org.esupportail.opi.domain.ParameterService#updateCalendar(
 	 * org.esupportail.opi.domain.beans.references.calendar.Calendar)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public void updateCalendar(final Calendar calendar) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateCalendar( " + calendar + " )");
 		}
 		daoService.updateCalendar(calendar);
-		//flush the other instance
-		executeFlushCache(CacheModelConst.REFERENCES_MODEL, "updateCalendar");
 	}
 
 
 	/** 
 	 * @see org.esupportail.opi.domain.ParameterService#getCalendars(java.lang.Boolean, java.lang.String)
 	 */
-	@Cacheable(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public List<Calendar> getCalendars(final Boolean temEnSve, final String typeCal) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getCalendars( " + temEnSve + ", " + typeCal + " )");
@@ -1174,7 +1100,6 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * @see org.esupportail.opi.domain.ParameterService#deleteCalendar(
 	 * org.esupportail.opi.domain.beans.references.calendar.Calendar)
 	 */
-	@TriggersRemove(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public void deleteCalendar(final Calendar calendar) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteCalendar( " + calendar + " )");
@@ -1191,8 +1116,6 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 		}
 
 		daoService.deleteCalendar(calendar);
-		//flush the other instance
-		executeFlushCache(CacheModelConst.REFERENCES_MODEL, "deleteCalendar");
 	}
 	
 	
@@ -1201,7 +1124,6 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi)
 	 */
 	@Override
-	@Cacheable(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public Set<CalendarIns> getCalendars(final VersionEtpOpi versionEtpOpi) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getCalendars( " + versionEtpOpi + " )");
@@ -1525,7 +1447,6 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	/** 
 	 * @see org.esupportail.opi.domain.ParameterService#getAllNombreDeVoeuByCge()
 	 */
-	@Cacheable(cacheName = CacheModelConst.NB_VOEU_CGE_MODEL)
 	public List<NombreVoeuCge> getAllNombreDeVoeuByCge() {
 		return daoService.getAllNombreDeVoeuByCge();
 	}
@@ -1538,14 +1459,11 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * org.esupportail.opi.domain.beans.references.NombreVoeuCge)
 	 */
 	@Override
-	@TriggersRemove(cacheName = CacheModelConst.NB_VOEU_CGE_MODEL)
 	public void addNombreVoeuCge(final NombreVoeuCge nombreVoeuCge) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addNombreVoeuCge( " + nombreVoeuCge + " )");
 		}
 		daoService.addNombreVoeuCge(nombreVoeuCge);
-		//flush the other instance
-		executeFlushCache(CacheModelConst.REFERENCES_MODEL, "addNombreVoeuCge");
 	}
 
 
@@ -1554,14 +1472,11 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * org.esupportail.opi.domain.beans.references.NombreVoeuCge)
 	 */
 	@Override
-	@TriggersRemove(cacheName = CacheModelConst.NB_VOEU_CGE_MODEL)
 	public void deleteNombreVoeuCge(final NombreVoeuCge nombreVoeuCge) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteNombreVoeuCge( " + nombreVoeuCge + " )");
 		}
 		daoService.deleteNombreVoeuCge(nombreVoeuCge);
-		//flush the other instance
-		executeFlushCache(CacheModelConst.REFERENCES_MODEL, "deleteNombreVoeuCge");
 	}
 
 	
@@ -1570,14 +1485,11 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * org.esupportail.opi.domain.beans.references.NombreVoeuCge)
 	 */
 	@Override
-	@TriggersRemove(cacheName = CacheModelConst.NB_VOEU_CGE_MODEL)
 	public void updateNombreVoeuCge(final NombreVoeuCge nombreVoeuCge) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateNombreVoeuCge( " + nombreVoeuCge + " )");
 		}
 		daoService.updateNombreVoeuCge(nombreVoeuCge);
-		//flush the other instance
-		executeFlushCache(CacheModelConst.REFERENCES_MODEL, "updateNombreVoeuCge");
 	}
 	
 	//////////////////////////////////////////////////////////////
@@ -1641,7 +1553,6 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	/** 
 	 * @see org.esupportail.opi.domain.ParameterService#getCalendarRdv()
 	 */
-	@Cacheable(cacheName = CacheModelConst.RENDEZ_VOUS)
 	public List<CalendarRDV> getCalendarRdv() {
 		return daoService.getCalendarRdv();
 	}
@@ -1652,14 +1563,11 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV)
 	 */
 	@Override
-	@TriggersRemove(cacheName = CacheModelConst.RENDEZ_VOUS)
 	public void updateCalendarRdv(final CalendarRDV cal) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateCalendarRdv( " + cal + " )");
 		}
 		daoService.updateCalendarRdv(cal);
-		//flush the other instance
-		executeFlushCache(CacheModelConst.REFERENCES_MODEL, "updateCalendarRdv");
 	}
 	
 	/** 
@@ -1667,15 +1575,11 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV)
 	 */
 	@Override
-	@TriggersRemove(cacheName = CacheModelConst.RENDEZ_VOUS)
 	public void deleteCalendarRdv(final CalendarRDV cal) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteCalendarRdv( " + cal + " )");
 		}
 		daoService.deleteCalendarRdv(cal);
-		//flush the other instance
-		executeFlushCache(CacheModelConst.REFERENCES_MODEL, "deleteCalendarRdv");
-		
 	}
 	
 	/** 
@@ -1683,15 +1587,11 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV)
 	 */
 	@Override
-	@TriggersRemove(cacheName = CacheModelConst.RENDEZ_VOUS)
 	public void addCalendarRdv(final CalendarRDV cal) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addCalendarRdv( " + cal + " )");
 		}
 		daoService.addCalendarRdv(cal);
-		//flush the other instance
-		executeFlushCache(CacheModelConst.REFERENCES_MODEL, "addCalendarRdv");
-		
 	}
 	
 	/** 
@@ -1891,15 +1791,11 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * addLinkTrtCmiCamp(org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp)
 	 */
 	@Override
-	@TriggersRemove(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public void addLinkTrtCmiCamp(final LinkTrtCmiCamp linkTrtCmiCamp) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addLinkTrtCmiCamp ( " + linkTrtCmiCamp + ")");
 		}
 		daoService.addLinkTrtCmiCamp(linkTrtCmiCamp);
-		
-		//flush the other instance
-//		executeFlushCache(CacheModelConst.REFERENCES_MODEL, "addLinkTrtCmiCamp");
 	}
 
 	/** 
@@ -1907,15 +1803,11 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * deleteLinkTrtCmiCamp(org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp)
 	 */
 	@Override
-	@TriggersRemove(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public void deleteLinkTrtCmiCamp(final LinkTrtCmiCamp linkTrtCmiCamp) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteLinkTrtCmiCamp ( " + linkTrtCmiCamp + ")");
 		}
 		daoService.deleteLinkTrtCmiCamp(linkTrtCmiCamp);
-		
-		//flush the other instance
-//		executeFlushCache(CacheModelConst.REFERENCES_MODEL, "deleteLinkTrtCmiCamp");
 	}
 
 	/** 
@@ -1924,7 +1816,6 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * org.esupportail.opi.domain.beans.parameters.Campagne)
 	 */
 	@Override
-	@TriggersRemove(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public LinkTrtCmiCamp getLinkTrtCmiCamp(final TraitementCmi traitementCmi,
 			final Campagne campagne) {
 		if (log.isDebugEnabled()) {
@@ -1939,15 +1830,11 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * updateLinkTrtCmiCamp(org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp)
 	 */
 	@Override
-	@TriggersRemove(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public void updateLinkTrtCmiCamp(final LinkTrtCmiCamp linkTrtCmiCamp) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateLinkTrtCmiCamp ( " + linkTrtCmiCamp + ")");
 		}
 		daoService.updateLinkTrtCmiCamp(linkTrtCmiCamp);
-		
-		//flush the other instance
-//		executeFlushCache(CacheModelConst.REFERENCES_MODEL, "updateLinkTrtCmiCamp");
 	}
 	
 	/**
@@ -1956,7 +1843,6 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 */
 	
 	@Override
-	@TriggersRemove(cacheName = CacheModelConst.REFERENCES_MODEL)
 	public void updateLinkTrtCmiCampTemEnServ(final Campagne camp, final boolean temEnServ) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateLinkTrtCmiCampTemEnServ( " + camp + ", " + temEnServ + " )");

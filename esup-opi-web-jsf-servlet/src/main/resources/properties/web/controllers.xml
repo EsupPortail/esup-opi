@@ -267,7 +267,8 @@
 
 	<bean id="nomenclatureController"
 		class="org.esupportail.opi.web.controllers.parameters.NomenclatureController"
-		parent="abstractContextAwareController" scope="session">
+		parent="abstractContextAwareController" scope="session"
+		init-method="initTypesDec">
 		<description>A bean to manage the nomenclature.</description>
 		<property name="etapeController" ref="etapeController" />
 		<property name="inscriptionAdm" ref="inscriptionAdm"/>
@@ -305,7 +306,8 @@
 	<!-- ########  REFERENCES ######### -->
 	<bean id="commissionController"
 		class="org.esupportail.opi.web.controllers.references.CommissionController"
-		parent="abstractContextAwareController" scope="session">
+		parent="abstractContextAwareController" scope="session"
+		init-method="initCommissions">
 		<description>A bean to manage the commissions.</description>
 		<property name="trtCmiController" ref="trtCmiController" />
 		<property name="adressController" ref="adressController"/>
