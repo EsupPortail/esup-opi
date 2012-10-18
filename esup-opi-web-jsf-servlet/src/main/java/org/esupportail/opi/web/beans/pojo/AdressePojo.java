@@ -76,7 +76,7 @@ public class AdressePojo {
 	 */
 	public AdressePojo(final Adresse address, final DomainApoService apo) {
 		super();
-		adresse = address.clone();
+		adresse = address;
 		if (!StringUtils.hasText(address.getCodPays())) {
 			adresse.setCodPays(Constantes.CODEFRANCE);
 		}

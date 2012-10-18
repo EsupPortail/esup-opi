@@ -1,26 +1,26 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <h:form id="choiceColForm" styleClass="opiR1_form">
-        <p:confirmDialog id="choiceColumnExport" widgetVar="choiceColumnExport" dynamic="true" resizable="false" modal="true" styleClass="confirm-dialog-iconless">
+        <p:confirmDialog id="choiceColumnExport" widgetVar="ccExp" dynamic="true" resizable="false" modal="true" appendToBody="true" styleClass="confirm-dialog-iconless">
             <h:panelGroup styleClass="footer-buttons">
-                <p:commandButton id="button-validatecolumns" value="#{msgs['_.BUTTON.VALIDATE']}" oncomplete="choiceColumnExport.hide()">
+                <p:commandButton id="button-validatecolumns" value="#{msgs['_.BUTTON.VALIDATE']}" oncomplete="ccExp.hide()">
                     <f:setPropertyActionListener value="#{printOpinionController.actionEnum.emptyAction}" target="#{printOpinionController.actionEnum.whatAction}" />
                 </p:commandButton>
-                <p:commandButton id="button-cancelcolumns" value="#{msgs['_.BUTTON.CANCEL']}" onclick="choiceColumnExport.hide()" type="button" />
+                <p:commandButton id="button-cancelcolumns" value="#{msgs['_.BUTTON.CANCEL']}" onclick="ccExp.hide()" type="button" />
             </h:panelGroup>
             <f:facet name="message">
-            	<h:outputText value="#{msgs['COMMISSION.EXPORT_LISTE_PREPA_CHAMPS']}" />
-            	<div id="listcolumn">
+                <h:outputText value="#{msgs['COMMISSION.EXPORT_LISTE_PREPA_CHAMPS']}" />
+                <div id="listcolumn">
                     <p:dataTable var="champs" id="titrecom"
-                        selection="#{printOpinionController.champsChoisis}"
-                        value="#{printOpinionController.champsDispos}"
-                        rowKey="#{champs}" paginator="true" rows="10">
+                                 selection="#{printOpinionController.champsChoisis}"
+                                 value="#{printOpinionController.champsDispos}"
+                                 rowKey="#{champs}" paginator="true" rows="10">
                         <p:column selectionMode="multiple" />
                         <p:column>
                             <h:outputText value="#{champs}"
-                                style="padding-right:10px;" />
+                                          style="padding-right:10px;" />
                         </p:column>
                     </p:dataTable>
                 </div>

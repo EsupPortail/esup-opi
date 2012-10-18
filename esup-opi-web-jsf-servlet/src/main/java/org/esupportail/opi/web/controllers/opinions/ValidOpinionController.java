@@ -18,6 +18,7 @@ import org.esupportail.opi.domain.beans.parameters.Refused;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.ContactCommission;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
+import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.services.mails.MailContentService;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
@@ -194,55 +195,6 @@ public class ValidOpinionController  extends AbstractContextAwareController  {
 	 ******************* METHODS ********************** */
 
 	/**
-	 * Html label for list a voeux with comment if exist for mail.
-	 * @param a
-	 * @param detail 
-	 * @param rang
-	 * @param libelleAvis 
-	 * @return String
-	 */
-//	private String libelleVoeu(final Set<Avis> a, 
-//			final Boolean detail,
-//			final Boolean rang,
-//			final Boolean libelleAvis) {
-//		String htmlList = "";
-//		String uneLigne = "";
-//		for (Avis avis : a) {
-//			TraitementCmi trtCmi = avis.getIndVoeu().getLinkTrtCmiCamp().getTraitementCmi();
-//			VersionEtapeDTO vDTO = getDomainApoService().getVersionEtape(
-//					trtCmi.getVersionEtpOpi().getCodEtp(), 
-//					trtCmi.getVersionEtpOpi().getCodVrsVet());
-//			uneLigne = vDTO.getLibWebVet();
-//			if (libelleAvis) {
-//				// specificite autres Non definitifs
-//				uneLigne += " - Avis : " + avis.getResult().getLibelle();
-//			}
-//			if (avis.getMotivationAvis() != null) {
-//				uneLigne += " - " + avis.getMotivationAvis().getLibelle(); 
-//			}
-//			if (StringUtils.hasText(avis.getCommentaire())) {
-//				uneLigne += " (" + avis.getCommentaire() + ")"; 
-//			}
-//			if (detail) {
-//				// sert pour preselection
-//				if (trtCmi.getSelection() != null) {
-//					uneLigne += " " + trtCmi.getSelection().getPlace();
-//					//ne pas afficher dans le mail comment do the 26/05/2009
-////					uneLigne += " " + t.getSelection().getPeriodeAdmissibilite();
-////					uneLigne += " " + t.getSelection().getResultSelection();  
-////					uneLigne += " " + t.getSelection().getComment();
-//				}
-//			} 
-//			if (rang) {
-//				// sert pour LC
-//				uneLigne += getString("MAIL.CANDIDAT_AVIS.LC.RANG", avis.getRang());  
-//			}
-//			htmlList +=  getString("MAIL.LIST_VET", uneLigne);
-//		}
-//		return htmlList; 
-//	}
-
-	/**
 	 * Send Mail to a student.
 	 * @param i
 	 * @param a 
@@ -259,12 +211,18 @@ public class ValidOpinionController  extends AbstractContextAwareController  {
 			final Boolean sendToIndividu,
 			final String sendToMail) {
 
+		// hibernate session reattachment
+		Individu ind = i.getIndividu();
+		ind = getDomainService().getIndividu(
+				ind.getNumDossierOpi(), ind.getDateNaissance());
+
 		List<Object> list = new ArrayList<Object>();
-		list.add(i.getIndividu());
+		list.add(ind);
 		list.add(a);
 		list.add(currentCmiPojo);
 		Campagne camp = null;
-		for (Campagne c : i.getIndividu().getCampagnes()) {
+		
+		for (Campagne c : ind.getCampagnes()) {
 			if (c.getTemoinEnService()) {
 				camp = c;
 			}
@@ -275,11 +233,11 @@ public class ValidOpinionController  extends AbstractContextAwareController  {
 		
 		if (sendToIndividu) {
 			// send mail to the individu
-			if (i.getIndividu().getEmailAnnuaire() != null) {
-				mailContentService.send(i.getIndividu().getAdressMail(), 
-						i.getIndividu().getEmailAnnuaire(), list);
+			if (ind.getEmailAnnuaire() != null) {
+				mailContentService.send(ind.getAdressMail(), 
+						ind.getEmailAnnuaire(), list);
 			} else {
-				mailContentService.send(i.getIndividu().getAdressMail(), 
+				mailContentService.send(ind.getAdressMail(), 
 						null, list);
 			}
 		} else if (sendToMail == null || sendToMail.isEmpty()) {
@@ -312,28 +270,28 @@ public class ValidOpinionController  extends AbstractContextAwareController  {
 	 */
 	private void sendOneMailToCandidatOrCommission(final boolean envCandidat) {
 		// récupération du régime d'inscription  du gestionnaire
-		Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
-		int codeRI = gest.getProfile().getCodeRI();
-		RegimeInscription regimeIns = getSessionController().getRegimeIns().get(codeRI);
+		final Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
+		final int codeRI = gest.getProfile().getCodeRI();
+		final RegimeInscription regimeIns = getSessionController().getRegimeIns().get(codeRI);
 		
-		
-		Set<Avis> a = new HashSet<Avis>();
-		Avis av = indVoeuPojo.getAvisEnService();
+		final Set<Avis> a = new HashSet<Avis>();
+		final Avis av = indVoeuPojo.getAvisEnService();
 		a.add(av);
 
-		MailContentService mail = null;
-		if (regimeIns.getMailTypeConvoc() != null) {
-			mail = regimeIns.getMailContentServiceTypeConvoc(
-				BusinessUtil.getTypeConvocation(
-						getParameterService().getTypeConvocations(),
-						av.getResult().getCodeTypeConvocation()), av.getAppel());
-		}
-		Commission c = getParameterService().getCommission(
+		final MailContentService mail =
+				(regimeIns.getMailTypeConvoc() != null) ?
+						regimeIns.getMailContentServiceTypeConvoc(
+								BusinessUtil.getTypeConvocation(
+										getParameterService().getTypeConvocations(),
+										av.getResult().getCodeTypeConvocation()), av.getAppel()) :
+											null;
+		
+		final Commission c = getParameterService().getCommission(
 				printOpinionController.getIdCommissionSelected(), null);
-		CommissionPojo currentCmiPojo = new CommissionPojo(c, 
-				new AdressePojo(c.getContactsCommission().get(regimeIns.getCode())
-						.getAdresse(), getDomainApoService()),
-						c.getContactsCommission().get(regimeIns.getCode()));
+		final ContactCommission cc = c.getContactsCommission().get(regimeIns.getCode());
+		final CommissionPojo currentCmiPojo = new CommissionPojo(c, 
+				new AdressePojo(cc.getAdresse(), getDomainApoService()), cc);
+		
 		if (mail != null) {
 			sendMail(printOpinionController.getIndividuPojoSelected(), a, 
 					mail, currentCmiPojo, envCandidat, null);

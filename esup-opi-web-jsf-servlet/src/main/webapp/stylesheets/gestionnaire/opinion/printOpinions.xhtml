@@ -14,22 +14,21 @@
                     <ui:include src="_block/_confirmPdfNotification.xhtml" />
                 </div>
             </ui:fragment>
-            <ui:fragment rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.choiceColExport}">
+            <ui:fragment>
                 <div id="choiceColumnExport">
                     <ui:include src="_block/_choiceColumnExport.xhtml" />
                 </div>
             </ui:fragment>
-            <h:form id="lookForOpinionForm" styleClass="opiR1_form"
-                    rendered="#{printOpinionController.actionEnum.whatAction != printOpinionController.actionEnum.choiceColExport}">		
+            <h:form id="lookForOpinionForm" styleClass="opiR1_form">
                 <div id="blockFormSearch" class="blockForm">
                     <div style="text-align:right;">
                         <p:commandButton value="#{msgs['_.BUTTON.DISPLAY']}"
                                          action="#{printOpinionController.seeCandidats}" 
                                          rendered="#{printOpinionController.actionEnum.whatAction 
                                                    != printOpinionController.actionEnum.confirmAction}"  ajax="false" />
-                        <p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" immediate="true" ajax="false" >
-                            <f:setPropertyActionListener value="#{printOpinionController.actionEnum.choiceColExport}"
-    							 target="#{printOpinionController.actionEnum.whatAction}" />
+                        <p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="ccExp.show()" type="button">
+                            <!-- <f:setPropertyActionListener value="#{printOpinionController.actionEnum.choiceColExport}" -->
+    			    <!--     			 target="#{printOpinionController.actionEnum.whatAction}" /> -->
                         </p:commandButton>
                         <p:commandButton value="#{msgs['_.BUTTON.EXPORT']}" 
                                          action="#{printOpinionController.makeCsvValidation}" 
@@ -89,7 +88,7 @@
                     </p:fieldset>
                 </div>
                 <div style="width:100%;">
-                    <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                    <h:panelGrid columns="1" columnClasses="col1UnDemi,col2UnDemi"
                                  styleClass="tableJustWidthMax">
                         <h:panelGroup>
                             <h:outputText value="#{msgs['INDIVIDU.FOUND']}"

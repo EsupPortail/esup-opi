@@ -515,23 +515,6 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 		}
 	}
 	
-	@Override
-	@Cacheable(cacheName = CacheModelConst.GEO_APOGEE_MODEL)
-	public Pays getPays(final String codePays) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering getPays( " + codePays + " )");
-		}
-		if (StringUtils.hasText(codePays)) {
-			List<Pays> pays = getPays();
-			for (Pays p : pays) {
-				if (codePays.equals(p.getCodPay())) {
-					return p;
-				}
-			}
-		}
-		return null;
-	}
-
 	/** 
 	 * @see org.esupportail.opi.domain.DomainApoService#getCommunes(
 	 * java.lang.String, java.lang.Boolean, java.lang.Boolean)

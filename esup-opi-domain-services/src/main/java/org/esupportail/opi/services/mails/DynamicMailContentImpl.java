@@ -81,7 +81,7 @@ public class DynamicMailContentImpl extends SimpleMailContentImpl {
 	@Override
 	public String makeBody() {
 		if (getMailContent() == null) {
-			throw new ConfigException("the getMailContent() does not be null");
+			throw new ConfigException("the getMailContent() should not be null");
 		}
 		String body = super.makeBody();
 		//replace the Expression by this value
@@ -102,7 +102,7 @@ public class DynamicMailContentImpl extends SimpleMailContentImpl {
 	@Override
 	public String makeSubject() {
 		if (getMailContent() == null) {
-			throw new ConfigException("the getMailContent() does not be null");
+			throw new ConfigException("the getMailContent() should not be null");
 		}
 		String subject = super.makeSubject();
 		//replace the Expression by this value

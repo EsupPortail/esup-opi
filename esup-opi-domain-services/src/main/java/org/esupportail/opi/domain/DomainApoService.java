@@ -506,30 +506,4 @@ public interface DomainApoService extends Serializable {
 	 */
 	String getVariableAppli(String var);
 
-
-	//////////////////////////////////////////////////////////////
-	// CommuneDTO
-	//////////////////////////////////////////////////////////////
-	
-	/**
-	 * Not write in domainApo because not use the cache. 
-	 * Returns the CommuneDTO that has the codeCom in the list with this codBdi.
-	 * @param codCom
-	 * @param codBdi
-	 * @return
-	 */
-	CommuneDTO getCommune(final String codCom, final String codBdi);
-
-
-	//////////////////////////////////////////////////////////////
-	// Pays
-	//////////////////////////////////////////////////////////////
-	
-	/**
-	 * Not write in domainApo because not use the cache. 
-	 * Returns the country that has the codePay code.
-	 * @param codePays
-	 * @return Pays
-	 */
-	Pays getPays(final String codePays);
 }
