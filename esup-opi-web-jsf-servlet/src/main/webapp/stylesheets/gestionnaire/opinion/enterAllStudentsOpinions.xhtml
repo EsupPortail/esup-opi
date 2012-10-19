@@ -26,13 +26,9 @@
                     </p:selectOneMenu>
                 </div>
                 <div style="width:100%;text-align:right;">
-                    <h:panelGroup>
-                        <p:commandButton id="saveAll" value="#{msgs['_.BUTTON.SAVE']}"
-                                         action="#{opinionController.saveAll}"
-                                         update=":seeOpinionsForm:individuData" />
-                        <p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
-                                         action="#{managedAccess.goDisplayFunction}"  ajax="false" />
-                    </h:panelGroup>
+                    <p:commandButton id="saveAll" value="#{msgs['_.BUTTON.SAVE']}"
+                                     action="#{opinionController.saveAll}"
+                                     update=":seeOpinionsForm:individuData" />
                 </div>
                 <div style="width:100%;">
                     <p:dataTable var="individuPojo" id="individuData"

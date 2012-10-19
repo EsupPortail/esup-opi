@@ -26,10 +26,7 @@
                                          action="#{printOpinionController.seeCandidats}" 
                                          rendered="#{printOpinionController.actionEnum.whatAction 
                                                    != printOpinionController.actionEnum.confirmAction}"  ajax="false" />
-                        <p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="ccExp.show()" type="button">
-                            <!-- <f:setPropertyActionListener value="#{printOpinionController.actionEnum.choiceColExport}" -->
-    			    <!--     			 target="#{printOpinionController.actionEnum.whatAction}" /> -->
-                        </p:commandButton>
+                        <p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="ccExp.show()" type="button" />
                         <p:commandButton value="#{msgs['_.BUTTON.EXPORT']}" 
                                          action="#{printOpinionController.makeCsvValidation}" 
                                          rendered="#{printOpinionController.actionEnum.whatAction 
@@ -40,10 +37,6 @@
                                                    != printOpinionController.actionEnum.confirmAction}"  ajax="false" />
                         <p:commandButton value="#{msgs['OPINION.EDIT.NOTIFICATION']}" 
                                          action="#{printOpinionController.printPDFAllNotifications}"
-                                         rendered="#{printOpinionController.actionEnum.whatAction 
-                                                   != printOpinionController.actionEnum.confirmAction}"  ajax="false" />
-                        <p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
-                                         action="#{managedAccess.goDisplayFunction}" 
                                          rendered="#{printOpinionController.actionEnum.whatAction 
                                                    != printOpinionController.actionEnum.confirmAction}"  ajax="false" />
                     </div>
