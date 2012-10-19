@@ -6,7 +6,6 @@ package org.esupportail.opi.domain;
 
 import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip;
 import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Domaine2AnnuFormDTO;
-import fr.univ.rennes1.cri.apogee.services.remote.ReadRennes1PortType;
 import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
 
 import java.io.Serializable;
@@ -21,6 +20,7 @@ import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
 import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
+import org.esupportail.opi.services.remote.client.IApogee;
 import org.esupportail.wssi.services.remote.AnneeUniDTO;
 import org.esupportail.wssi.services.remote.BacOuxEqu;
 import org.esupportail.wssi.services.remote.CentreGestion;
@@ -60,33 +60,8 @@ public interface DomainApoService extends Serializable {
 	CentreGestion getCentreGestion(String codCge);
 
 	//////////////////////////////////////////////////////////////
-	// Etape
-	//////////////////////////////////////////////////////////////
-	
-	/**
-	 * Returns Etapes managed by the centreGestion.  
-	 * @param codCge 
-	 * @return List< Etape>
-	 * 
-	 */
-	/**
-	 * TODO : à supprimer (11/01/2012)
-	 */
-	@Deprecated
-	List<Etape> getEtapes(String codCge);
-	
-	/**
-	 * @param codeEtp 
-	 * @return Etape.
-	 */
-//	Etape getEtape(String codeEtp);
-
-	
-	
-	//////////////////////////////////////////////////////////////
 	// Version Etape
 	//////////////////////////////////////////////////////////////
-	
 
 	/**
 	 * 
@@ -256,12 +231,6 @@ public interface DomainApoService extends Serializable {
 	 * @param codBac code du bac
 	 * @return BacOuxEqu.
 	 */
-	/**
-	 * TODO : à supprimer (16/01/2012)
-	 */
-	@Deprecated
-	BacOuxEqu getBacOuxEqu(String daaObt, String codBac);
-
 	
 	//////////////////////////////////////////////////////////////
 	//Diplome
@@ -272,23 +241,6 @@ public interface DomainApoService extends Serializable {
 	 * @return list of the diplome
 	 */
 	List<Diplome> getAllDiplomes();
-	
-	/**
-	 * Returns the diplomes managed by the WS of GeographieApogee.
-	 * @param codSds Code discipline
-	 * @return List< Diplome>.
-	 */
-	@Deprecated
-	List<Diplome> getDiplomes(String codSds);
-	
-	/**
-	 * Returns the diplome managed by the WS of GeographieApogee.
-	 * @param codDip Code diplome
-	 * @param codSds Code discipline
-	 * @return Diplome.
-	 */
-	@Deprecated
-	Diplome getDiplome(String codDip, String codSds);
 	
 	/**
 	 * Returns the DipAutCur managed by the WS of GeographieApogee.
@@ -391,17 +343,6 @@ public interface DomainApoService extends Serializable {
 	 */
 	List<Ren1GrpTypDip> getRen1GrpTypDip(Campagne camp);
 	
-	/**
-	 * Return the group type Diplome in use with this code.
-	 * @param code
-	 * @return Ren1GrpTypDip
-	 * @deprecated car n'utilsait pas le cache de getRen1GrpTypDip() d ou un probleme de perf. (fait le 18/02/2009)
-	 * Si plus besoin : DELETE
-	 */
-	@Deprecated
-	Ren1GrpTypDip getRen1GrpTypDip(String code, Campagne camp);
-	
-	
 	// ////////////////////////////////////////////////////////////
 	// Ren1ClesAnnuFormPojo
 	// ////////////////////////////////////////////////////////////
@@ -421,13 +362,6 @@ public interface DomainApoService extends Serializable {
 	 * @return List< SignataireDTO>
 	 */
 	List<SignataireDTO> getSignataires();
-	
-	
-	/**
-	 * @param codSig (can not be null)
-	 * @return SignataireDTO
-	 */
-//	SignataireDTO getSignataire(String codSig);
 	
 	
 	///////////////////////////////////////////////////////////
@@ -478,7 +412,7 @@ public interface DomainApoService extends Serializable {
 	 * 
 	 * @return ReadRennes1
 	 */
-	ReadRennes1PortType getRemoteCriApogeeRennes1();
+	IApogee getRemoteApo();
 	
 	
 	//////////////////////////////////////////////////////////////

@@ -1,4 +1,4 @@
-package org.esupportail.opi.services.remote.client;
+package org.esupportail.opi.services.cache;
 
 import java.io.Serializable;
 

@@ -120,12 +120,11 @@
 		>
 		<property name="remoteCriApogeeRef" ref="remoteCriApogeeRef" />
 		<property name="remoteCriApogeeEns" ref="remoteCriApogeeEns" />
-		<property name="remoteCriApogeeRennes1" ref="remoteCriApogeeRennes1"/>
+		<property name="remoteApo" ref="${remote.apogee}"/>
 		<property name="remoteCriApogeeEtudiant" ref="remoteCriEtudiant"/>
 		<property name="remoteApoRenAdminMetier" ref="remoteApoRenAdminMetier"/>
     	<property name="remoteApoRenEtuMetier" ref="remoteApoRenEtuMetier"/>
    		<property name="remoteApoRenGeoMetier" ref="remoteApoRenGeoMetier"/>
-<!--     	<property name="remoteApoRenOpiMetier" ref="remoteApoRenOpiMetier"/> -->
     	<property name="remoteApoRenPedaMetier" ref="remoteApoRenPedaMetier"/>
 		<property name="codEtbInt" value="${init.codEtbInt}" />
 		<property name="codDacEtr" value="${init.codDacEtr}" />

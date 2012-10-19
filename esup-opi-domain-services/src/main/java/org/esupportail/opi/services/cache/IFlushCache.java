@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.esupportail.opi.services.remote;
+package org.esupportail.opi.services.cache;
 
 import java.io.Serializable;
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.esupportail.opi.services.remote;
+package org.esupportail.opi.services.cache;
 
 import java.util.Map;
 
@@ -120,7 +120,7 @@ public class FlushCacheImpl implements IFlushCache, InitializingBean {
 	
 
 	/** 
-	 * @see org.esupportail.opi.services.remote.IFlushCache#flushCash(java.lang.String)
+	 * @see org.esupportail.opi.services.cache.IFlushCache#flushCash(java.lang.String)
 	 */
 	@Override
 	public void flushCash(final String cacheModel) {
