@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.esupportail.opi.utils.exceptions.CommunicationApogeeException;
 
-import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip;
-import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Domaine2AnnuFormDTO;
+import fr.univ.rennes1.cri.apogee.domain.beans.GrpTypDip;
+import fr.univ.rennes1.cri.apogee.domain.dto.Domaine2AnnuFormDTO;
 import fr.univ.rennes1.cri.apogee.services.remote.ReadRennes1PortType;
 
 public class WSApogee implements IApogee {
@@ -27,17 +27,17 @@ public class WSApogee implements IApogee {
 	}
 
 	@Override
-	public List<Ren1GrpTypDip> getRen1GrpTypDip(final String bool)
+	public List<GrpTypDip> getGrpTypDip(final String bool)
 			throws CommunicationApogeeException {
-		return wsApo.getRen1GrpTypDip("O").getRen1GrpTypDip();
+		return wsApo.getGrpTypDip("O").getGrpTypDipList();
 	}
 
 	@Override
-	public List<Ren1Domaine2AnnuFormDTO> getRen1Domaine2AnnuFormDTO(
-			final Ren1GrpTypDip ren1GrpTypDip, final String locale)
+	public List<Domaine2AnnuFormDTO> getDomaine2AnnuFormDTO(
+			final GrpTypDip ren1GrpTypDip, final String locale)
 			throws CommunicationApogeeException {
-		return wsApo.getRen1Domaine2AnnuFormDTO(
-				ren1GrpTypDip, locale).getRen1Domaine2AnnuFormDTO();
+		return wsApo.getDomaine2AnnuFormDTO(
+				ren1GrpTypDip, locale).getDomaine2AnnuFormDTOList();
 	}
 
 }

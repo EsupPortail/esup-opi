@@ -57,9 +57,9 @@ import org.esupportail.wssi.services.remote.VersionDiplomeDTO;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
 
-import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip;
+import fr.univ.rennes1.cri.apogee.domain.beans.GrpTypDip;
+import fr.univ.rennes1.cri.apogee.domain.dto.Domaine2AnnuFormDTO;
 import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Cles2AnnuFormDTO;
-import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Domaine2AnnuFormDTO;
 
 
 
@@ -359,8 +359,8 @@ public class FormationController extends AbstractAccessController {
 		List<SelectItem> l = new ArrayList<SelectItem>();
 		if (getSearchFormationPojo().getGroupTypSelected() != null) {
 			String locale = getSessionController().getLocale().getLanguage();
-			Set<Ren1Domaine2AnnuFormDTO> domain = 
-				getDomainApoService().getRen1Domaine2AnnuFormDTO(
+			Set<Domaine2AnnuFormDTO> domain = 
+				getDomainApoService().getDomaine2AnnuFormDTO(
 						getSearchFormationPojo().getGroupTypSelected(), locale.toUpperCase());
 
 			List<SelectItem> listGroup = new ArrayList<SelectItem>();
@@ -370,13 +370,13 @@ public class FormationController extends AbstractAccessController {
 			s = new SelectItem("", "");
 			l.add(s);
 
-			for (Ren1Domaine2AnnuFormDTO ren1 : domain) {
+			for (Domaine2AnnuFormDTO ren1 : domain) {
 				int cpt = 0;
-				listS2 = new SelectItem[ren1.getRen1Cles2AnnuFormDTO().getRen1Cles2AnnuFormDTO().size()];
+				listS2 = new SelectItem[ren1.getCles2AnnuFormDTOArray().getCles2AnnuFormDTOList().size()];
 				//tri de ren1.getRen1Cles2AnnuFormDTO()
 				List<Ren1Cles2AnnuFormDTO> r1cles2 = 
 					new ArrayList<Ren1Cles2AnnuFormDTO>(
-					    ren1.getRen1Cles2AnnuFormDTO().getRen1Cles2AnnuFormDTO());
+					    ren1.getCles2AnnuFormDTOArray().getCles2AnnuFormDTOList());
 				Collections.sort(r1cles2, new ComparatorString(Ren1Cles2AnnuFormDTO.class));
 				for (Ren1Cles2AnnuFormDTO cles : r1cles2) {
 					s = new SelectItem(cles.getCodCles(), cles.getLibCles());
@@ -659,13 +659,13 @@ public class FormationController extends AbstractAccessController {
 	 * The all Ren1GrpTypDip in use wihout LICENCE, MASTER, DOCTORAT.
 	 * @return List< Ren1GrpTypDip>
 	 */
-	public List<Ren1GrpTypDip> getGroupTypeDip() {
+	public List<GrpTypDip> getGroupTypeDip() {
 		Campagne camp = getParameterService()
 			.getCampagneEnServ(getCodeRI());
-		List<Ren1GrpTypDip> l = new ArrayList<Ren1GrpTypDip>();
-		List<Ren1GrpTypDip> group = getDomainApoService().getRen1GrpTypDip(camp);
+		List<GrpTypDip> l = new ArrayList<GrpTypDip>();
+		List<GrpTypDip> group = getDomainApoService().getGrpTypDip(camp);
 
-		for (Ren1GrpTypDip r : group) {
+		for (GrpTypDip r : group) {
 			if (!r.getCodGrpTpd().equals(COD_LICENCE)
 					&& !r.getCodGrpTpd().equals(COD_MASTER)
 					&& !r.getCodGrpTpd().equals(COD_DOCTORAT)) {
@@ -678,12 +678,12 @@ public class FormationController extends AbstractAccessController {
 	/**
 	 * @return the group licence
 	 */
-	public Ren1GrpTypDip getLicence() {
+	public GrpTypDip getLicence() {
 		Campagne camp = getParameterService()
 			.getCampagneEnServ(getCodeRI());
 		
-		List<Ren1GrpTypDip> group = getDomainApoService().getRen1GrpTypDip(camp);
-		for (Ren1GrpTypDip r : group) {
+		List<GrpTypDip> group = getDomainApoService().getGrpTypDip(camp);
+		for (GrpTypDip r : group) {
 			if (r.getCodGrpTpd().equals(COD_LICENCE)) {
 				return r;
 			}
@@ -696,11 +696,11 @@ public class FormationController extends AbstractAccessController {
 	/**
 	 * @return the group Master
 	 */
-	public Ren1GrpTypDip getMaster() {
+	public GrpTypDip getMaster() {
 		Campagne camp = getParameterService()
 			.getCampagneEnServ(getCodeRI());
-		List<Ren1GrpTypDip> group = getDomainApoService().getRen1GrpTypDip(camp);
-		for (Ren1GrpTypDip r : group) {
+		List<GrpTypDip> group = getDomainApoService().getGrpTypDip(camp);
+		for (GrpTypDip r : group) {
 			if (r.getCodGrpTpd().equals(COD_MASTER)) {
 				return r;
 			}
@@ -711,11 +711,11 @@ public class FormationController extends AbstractAccessController {
 	/**
 	 * @return the group Doctorat
 	 */
-	public Ren1GrpTypDip getDoctorat() {
+	public GrpTypDip getDoctorat() {
 		Campagne camp = getParameterService()
 			.getCampagneEnServ(getCodeRI());
-		List<Ren1GrpTypDip> group = getDomainApoService().getRen1GrpTypDip(camp);
-		for (Ren1GrpTypDip r : group) {
+		List<GrpTypDip> group = getDomainApoService().getGrpTypDip(camp);
+		for (GrpTypDip r : group) {
 			if (r.getCodGrpTpd().equals(COD_DOCTORAT)) {
 				return r;
 			}

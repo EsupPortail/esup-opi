@@ -4,8 +4,8 @@
  */
 package org.esupportail.opi.domain;
 
-import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip;
-import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Domaine2AnnuFormDTO;
+import fr.univ.rennes1.cri.apogee.domain.beans.GrpTypDip;
+import fr.univ.rennes1.cri.apogee.domain.dto.Domaine2AnnuFormDTO;
 import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
 
 import java.io.Serializable;
@@ -28,7 +28,6 @@ import org.esupportail.wssi.services.remote.Departement;
 import org.esupportail.wssi.services.remote.DipAutCur;
 import org.esupportail.wssi.services.remote.Diplome;
 import org.esupportail.wssi.services.remote.Etablissement;
-import org.esupportail.wssi.services.remote.Etape;
 import org.esupportail.wssi.services.remote.MentionNivBac;
 import org.esupportail.wssi.services.remote.Pays;
 import org.esupportail.wssi.services.remote.SignataireDTO;
@@ -276,7 +275,7 @@ public interface DomainApoService extends Serializable {
 	 * @param grpTpd groupe Type Diplome
 	 * @return List< VersionDiplome>
 	 */
-	List<VersionDiplomeDTO> getVersionDiplomes(String codeKeyWord, Ren1GrpTypDip grpTpd, String codAnu);
+	List<VersionDiplomeDTO> getVersionDiplomes(String codeKeyWord, GrpTypDip grpTpd, String codAnu);
 	
 	/**
 	 * @param annee 
@@ -339,9 +338,9 @@ public interface DomainApoService extends Serializable {
 
 	/**
 	 * Return the list of group type Diplome in use.
-	 * @return List< Ren1GrpTypDip>.
+	 * @return List< GrpTypDip>.
 	 */
-	List<Ren1GrpTypDip> getRen1GrpTypDip(Campagne camp);
+	List<GrpTypDip> getGrpTypDip(Campagne camp);
 	
 	// ////////////////////////////////////////////////////////////
 	// Ren1ClesAnnuFormPojo
@@ -391,10 +390,10 @@ public interface DomainApoService extends Serializable {
 	 * Retourne les domaines en fonction d'un groupe de type diplome.
 	 * @param ren1GrpTypDip if null return null
 	 * @param locale can be null (Ex: FR)
-	 * @return Set< Ren1Domaine2AnnuFormDTO>
+	 * @return Set< Domaine2AnnuFormDTO>
 	 * 
 	 */
-	Set<Ren1Domaine2AnnuFormDTO> getRen1Domaine2AnnuFormDTO(Ren1GrpTypDip ren1GrpTypDip, String locale);
+	Set<Domaine2AnnuFormDTO> getDomaine2AnnuFormDTO(GrpTypDip ren1GrpTypDip, String locale);
 	
 	/**
 	 * 

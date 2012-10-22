@@ -4,7 +4,7 @@
  */
 package org.esupportail.opi.web.beans.utils.comparator;
 
-import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip;
+import fr.univ.rennes1.cri.apogee.domain.beans.GrpTypDip;
 import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Cles2AnnuFormDTO;
 import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
 
@@ -140,9 +140,9 @@ public class ComparatorString implements Comparator<Object>, Serializable {
 			//tri ascendant (du + gd au + petit) ; 2002,2001,...
 			return sortStr(((IndCursus) o2).getAnnee(), 
 							((IndCursus) o1).getAnnee());
-		} else if (className.equals(Ren1GrpTypDip.class)) {
-			return sortStr(((Ren1GrpTypDip) o1).getLibGrpTpd(), 
-					((Ren1GrpTypDip) o2).getLibGrpTpd());
+		} else if (className.equals(GrpTypDip.class)) {
+			return sortStr(((GrpTypDip) o1).getLibGrpTpd(), 
+					((GrpTypDip) o2).getLibGrpTpd());
 		} else if (className.equals(Ren1Cles2AnnuFormDTO.class)) {
 			return sortStr(((Ren1Cles2AnnuFormDTO) o1).getLibCles(), 
 					((Ren1Cles2AnnuFormDTO) o2).getLibCles());

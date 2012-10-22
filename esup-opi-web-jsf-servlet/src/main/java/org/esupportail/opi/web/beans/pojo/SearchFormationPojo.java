@@ -12,7 +12,7 @@ import java.util.Set;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.wssi.services.remote.VersionDiplomeDTO;
 
-import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip;
+import fr.univ.rennes1.cri.apogee.domain.beans.GrpTypDip;
 
 
 
@@ -41,7 +41,7 @@ public class SearchFormationPojo implements Serializable {
 	/**
 	 * The group selected.
 	 */
-	private Ren1GrpTypDip groupTypSelected;
+	private GrpTypDip groupTypSelected;
 	
 	/**
 	 * Code of key word.
@@ -159,7 +159,7 @@ public class SearchFormationPojo implements Serializable {
 	/**
 	 * @param groupTypSelected the groupTypSelected to set
 	 */
-	public void setGroupTypSelected(final Ren1GrpTypDip groupTypSelected) {
+	public void setGroupTypSelected(final GrpTypDip groupTypSelected) {
 		resetSearch();
 		this.groupTypSelected = groupTypSelected;
 	}
@@ -168,7 +168,7 @@ public class SearchFormationPojo implements Serializable {
 	/**
 	 * @return the groupTypSelected
 	 */
-	public Ren1GrpTypDip getGroupTypSelected() {
+	public GrpTypDip getGroupTypSelected() {
 		return groupTypSelected;
 	}
 

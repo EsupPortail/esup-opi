@@ -49,7 +49,6 @@ import org.esupportail.wssi.services.remote.Departement;
 import org.esupportail.wssi.services.remote.DipAutCur;
 import org.esupportail.wssi.services.remote.Diplome;
 import org.esupportail.wssi.services.remote.Etablissement;
-import org.esupportail.wssi.services.remote.Etape;
 import org.esupportail.wssi.services.remote.IndOpiDTO;
 import org.esupportail.wssi.services.remote.InsertLaisserPasser;
 import org.esupportail.wssi.services.remote.MentionNivBac;
@@ -68,16 +67,15 @@ import org.springframework.util.StringUtils;
 
 import pedagogiquemetier_28022011_impl.servicesmetiers.commun.apogee.education.gouv.PedagogiqueMetierServiceInterface;
 import administratifmetier_17062009_impl.servicesmetiers.commun.apogee.education.gouv.AdministratifMetierServiceInterface;
-import etudiantwebserviceimpl.impl.webservices.commun.apogee.education.gouv.EtudiantMetierServiceInterface;
-import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.GeographieMetierServiceInterface;
-import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.WebBaseException;
 
 import com.googlecode.ehcache.annotations.Cacheable;
 
-import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip;
-import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDipCorresp;
-import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Domaine2AnnuFormDTO;
-
+import etudiantwebserviceimpl.impl.webservices.commun.apogee.education.gouv.EtudiantMetierServiceInterface;
+import fr.univ.rennes1.cri.apogee.domain.beans.GrpTypDip;
+import fr.univ.rennes1.cri.apogee.domain.beans.GrpTypDipCorresp;
+import fr.univ.rennes1.cri.apogee.domain.dto.Domaine2AnnuFormDTO;
+import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.GeographieMetierServiceInterface;
+import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.WebBaseException;
 import gouv.education.apogee.commun.transverse.dto.administratif.cursusexternedto.CursusExterneDTO;
 import gouv.education.apogee.commun.transverse.dto.administratif.cursusexternesettransfertsdto.CursusExternesEtTransfertsDTO;
 import gouv.education.apogee.commun.transverse.dto.administratif.insadmetpdto.InsAdmEtpDTO;
@@ -721,7 +719,7 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	 * java.lang.String, fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip)
 	 */
 	@Override
-	public List<VersionDiplomeDTO> getVersionDiplomes(final String codeKeyWord, final Ren1GrpTypDip grpTpd,
+	public List<VersionDiplomeDTO> getVersionDiplomes(final String codeKeyWord, final GrpTypDip grpTpd,
 			final String codAnu) {
 		if (log.isDebugEnabled()) {
 			log.debug("getVersionDiplomes(" + codeKeyWord + ", " + grpTpd + " )");
@@ -1126,19 +1124,19 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	 */
 	@Override
 	@Cacheable(cacheName = CacheModelConst.RENNES1_APOGEE_MODEL)
-	public List<Ren1GrpTypDip> getRen1GrpTypDip(final Campagne camp) {
+	public List<GrpTypDip> getGrpTypDip(final Campagne camp) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getRen1GrpTypDip()");
 		}
-		List<Ren1GrpTypDip> listEnd = new ArrayList<Ren1GrpTypDip>();
+		List<GrpTypDip> listEnd = new ArrayList<GrpTypDip>();
 		Set<Commission> cmi = parameterService.getCommissions(true);
 		try {
-			List<Ren1GrpTypDip> l = remoteApo.getRen1GrpTypDip(TRUE);
+			List<GrpTypDip> l = remoteApo.getGrpTypDip(TRUE);
 
 			//1.on recupere toutes les VET par groupes
-			for (Ren1GrpTypDip r : l) {
+			for (GrpTypDip r : l) {
 				List<String> codTpdEtb = new ArrayList<String>();
-				for (Ren1GrpTypDipCorresp rCorresp : r.getRen1GrpTypDipCorresps().getRen1GrpTypDipCorresp()) {
+				for (GrpTypDipCorresp rCorresp : r.getGrpTypDipCorrespsArray().getGrpTypDipCorrespList()) {
 					codTpdEtb.add(rCorresp.getCodTpdEtb());
 				}
 				List<Diplome> dip = remoteCriApogeeEns.getDiplomes(null, codTpdEtb);
@@ -1164,7 +1162,7 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 				}
 			}
 			//TODO: fix this !!
-			//Collections.sort(listEnd, new ComparatorString(Ren1GrpTypDip.class));
+			//Collections.sort(listEnd, new ComparatorString(GrpTypDip.class));
 			return listEnd;
 		} catch (Exception e) {
 			throw new CommunicationApogeeException(e);
@@ -1173,23 +1171,23 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 
 
 	// ////////////////////////////////////////////////////////////
-	// Ren1Domaine2AnnuFormDTO
+	// Domaine2AnnuFormDTO
 	// ////////////////////////////////////////////////////////////
 
 	/** 
-	 * @see org.esupportail.opi.domain.DomainApoService#getRen1Domaine2AnnuFormDTO(
-	 * fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip, java.lang.String)
+	 * @see org.esupportail.opi.domain.DomainApoService#getDomaine2AnnuFormDTO(
+	 * fr.univ.rennes1.cri.apogee.domain.beans.GrpTypDip, java.lang.String)
 	 */
 	@Override
 	@Cacheable(cacheName = CacheModelConst.RENNES1_APOGEE_MODEL)
-	public Set<Ren1Domaine2AnnuFormDTO> getRen1Domaine2AnnuFormDTO(
-			final Ren1GrpTypDip ren1GrpTypDip, final String locale) {
+	public Set<Domaine2AnnuFormDTO> getDomaine2AnnuFormDTO(
+			final GrpTypDip ren1GrpTypDip, final String locale) {
 		if (log.isDebugEnabled()) {
-			log.debug("entering getRen1Domaine2AnnuFormDTO( " + ren1GrpTypDip + ", " + locale + " )");
+			log.debug("entering getDomaine2AnnuFormDTO( " + ren1GrpTypDip + ", " + locale + " )");
 		}
 		try {
-			return new HashSet<Ren1Domaine2AnnuFormDTO>(
-					remoteApo.getRen1Domaine2AnnuFormDTO(ren1GrpTypDip, locale));
+			return new HashSet<Domaine2AnnuFormDTO>(
+					remoteApo.getDomaine2AnnuFormDTO(ren1GrpTypDip, locale));
 		} catch (Exception e) {
 			throw new CommunicationApogeeException(e);
 		}

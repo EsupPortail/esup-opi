@@ -10,9 +10,9 @@ import org.esupportail.opi.utils.exceptions.CommunicationApogeeException;
 import org.esupportail.wssi.services.remote.Diplome;
 import org.esupportail.wssi.services.remote.ReadEnseignement;
 
-import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip;
-import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDipCorresp;
-import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Domaine2AnnuFormDTO;
+import fr.univ.rennes1.cri.apogee.domain.beans.GrpTypDip;
+import fr.univ.rennes1.cri.apogee.domain.beans.GrpTypDipCorresp;
+import fr.univ.rennes1.cri.apogee.domain.dto.Domaine2AnnuFormDTO;
 
 public class BDDApogee implements IApogee {
 
@@ -33,18 +33,18 @@ public class BDDApogee implements IApogee {
 	}
 
 	@Override
-	public List<Ren1GrpTypDip> getRen1GrpTypDip(final String bool)
+	public List<GrpTypDip> getGrpTypDip(final String bool)
 			throws CommunicationApogeeException {
 		throw new NotImplementedException("TODO !");
 	}
 
 	@Override
-	public List<Ren1Domaine2AnnuFormDTO> getRen1Domaine2AnnuFormDTO(
-			final Ren1GrpTypDip ren1GrpTypDip, final String locale)
+	public List<Domaine2AnnuFormDTO> getDomaine2AnnuFormDTO(
+			final GrpTypDip grpTypDip, final String locale)
 			throws CommunicationApogeeException {
-				if (ren1GrpTypDip != null) {
+				if (grpTypDip != null) {
 					Set<String> lCodTpdEtb = new HashSet<String>();
-					for (Ren1GrpTypDipCorresp r : ren1GrpTypDip.getRen1GrpTypDipCorresps().getRen1GrpTypDipCorresp()) {
+					for (GrpTypDipCorresp r : grpTypDip.getGrpTypDipCorrespsArray().getGrpTypDipCorrespList()) {
 						lCodTpdEtb.add(r.getCodTpdEtb());
 					}
 					List<Diplome> d = remoteCriApogeeEns.getDiplomes(
@@ -53,7 +53,7 @@ public class BDDApogee implements IApogee {
 					for (Diplome dip : d) {
 						lCodDip.add(dip.getCodDip());
 					}
-//					return TODO.getRen1Domaine2AnnuFormDTO(lCodDip, locale, TRUE);
+//					return TODO.getDomaine2AnnuFormDTO(lCodDip, locale, TRUE);
 				}
 		throw new NotImplementedException("TODO !");		
 	}
