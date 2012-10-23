@@ -2,7 +2,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	
     	
@@ -15,60 +15,14 @@
     		<div class="messageForUser">
     			<p:messages id="messages" showDetail="true" autoUpdate="true" />
     		</div>
-            <ui:fragment rendered="#{calendarController.actionEnum.whatAction == calendarController.actionEnum.deleteAction}">
-        		<div id="div_subSectionDelete" class="div_subSection">
-        			<ui:include src="_calendar/_deleteCal.xhtml" />
-        		</div>
-            </ui:fragment>
-    		<div id="blockFormSearch" class="blockForm">
-    			<h:form id="lookForCmiForm" styleClass="opiR1_form">
-    				<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    					styleClass="tableJustWidthMax">
-    					<h:outputText value="#{msgs['FIELD_LABEL.LOOK_FOR.CAL']}"
-    						styleClass="section-smallTitle" />
-    					<h:panelGroup>
-    						<p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
-    							rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}"
-    							action="#{calendarController.goSearchCalendars}" />
-    					</h:panelGroup>
-    				</h:panelGrid>
-    				<h:panelGrid styleClass="tableWidthMax" columns="4"
-    					columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-    					<h:panelGroup>
-    						<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code" />
-    					</h:panelGroup>
-    					<h:inputText id="code"
-    						value="#{calendarController.calendarRechPojo.code}" />
-    
-    					<h:panelGroup>
-    						<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
-    							for="libelle" />
-    					</h:panelGroup>
-    					<h:inputText id="libelle"
-    						value="#{calendarController.calendarRechPojo.libelle}" />
-    					<h:panelGroup>
-    						<h:outputLabel value="#{msgs['CALENDAR.CHOICE.TYP']}"
-    							for="lesCalendars" />
-    					</h:panelGroup>
-    					<h:panelGroup>
-    						<p:selectOneMenu id="lesCalendars" 
-    							value="#{calendarController.calendarRechPojo.type}"
-    							onchange="javascript:{simulateLinkClick('addCalendarForm:submitTypCal');}">
-    							<f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}"
-    							itemValue="" />
-    							<f:selectItems value="#{calendarController.typeCalItems}"/>
-    						</p:selectOneMenu>
-    					</h:panelGroup>
-    				</h:panelGrid>
-    			</h:form>
-    		</div>
-    
-    		<br />
+            <p:outputPanel id="div_subSectionDelete" 
+                    styleClass="div_subSection"
+                    rendered="#{calendarController.actionEnum.whatAction == calendarController.actionEnum.deleteAction}">
+        		<ui:include src="_calendar/_deleteCal.xhtml" />
+            </p:outputPanel>
+
     		<div id="div_subSection" class="div_subSection">
     			<h:form id="seeCalendrierForm">
-    				<br />
-    				<br />
-    				<br />
     				<div id="blockFormInfo" class="blockForm">
     					<div style="width:100%;">
     						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
@@ -79,56 +33,53 @@
     								<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
     									immediate="true"
     									action="#{calendarController.goAddCall}"/>
-    								<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-    									immediate="true"
-    									action="#{managedAccess.goDisplayFunction}"/>
     							</h:panelGroup>
     						</h:panelGrid>
     					</div>
-    					<p:dataTable var="calendar"
+    					<p:dataTable id="calendarsData" var="calendar"
     						value="#{calendarController.calendars}"
-    						styleClass="paginatorData" alternateColors="true">
-    						<p:column width="14%">
-    							<f:facet name="header">
-    								<h:outputText value="Type" />
-    							</f:facet>
+                            paginator="true" paginatorAlwaysVisible="false"
+                            rows="40" rowsPerPageTemplate="10,20,30,40" 
+                            filteredValue="#{calendarController.filteredCalendars}"
+                            filterDelay="1000" styleClass="paginatorData">
+                            <p:columnGroup type="header">
+                                <p:row>
+                                    <p:column headerText="Type" filterBy="#{calendar.type}" filterOptions="#{calendarController.calendarTypes}" filterMatchMode="contains"/>
+                                    <p:column headerText="#{msgs['FIELD_LABEL.CODE']}" filterBy="#{calendar.code}" filterMatchMode="contains"/>
+                                    <p:column headerText="#{msgs['FIELD_LABEL.LIBELLE']}" filterBy="#{calendar.libelle}" filterMatchMode="contains"/>
+                                    <p:column headerText="#{msgs['FIELD_LABEL.IN_USE']}"/>
+                                    <p:column colspan="3" rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}"/>
+                                </p:row>
+                            </p:columnGroup>
+    						<p:column>
     							<h:outputText value="#{calendarController.calendarType[calendar.type]}" />
     						</p:column>
-    						<p:column width="10%">
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
-    							</f:facet>
+    						<p:column>
     							<h:outputText value="#{calendar.code}" />
     						</p:column>
-    						<p:column width="55%">
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-    							</f:facet>
+    						<p:column>
     							<h:outputText value="#{calendar.libelle}" />
     						</p:column>
-    						<p:column width="15%">
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
-    							</f:facet>
+    						<p:column>
     							<p:graphicImage url="/media/images/check2.gif"
     								rendered="#{calendar.temoinEnService}" />
     							<p:graphicImage url="/media/images/check0.gif"
     								rendered="#{!calendar.temoinEnService}" />
     						</p:column>
-    						<p:column styleClass="buttonTD"
+    						<p:column styleClass="buttonTD" style="width:18px;"
     							rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
-    							<p:commandButton image="/media/images/magnifier.png"
-    								styleClass="form-button-image" immediate="true"
+    							<p:commandButton icon="ui-icon-search"
+    								immediate="true" ajax="false"
     								action="#{calendarController.goSeeOneCal}"
     								title="#{msgs['_.BUTTON.DISPLAY']}">
     								<f:setPropertyActionListener value="#{calendar}" target="#{calendarController.beanCalendar.calendar}" />
     								<f:setPropertyActionListener value="#{calendar.type}" target="#{calendarController.beanCalendar.typeSelected}" />
     							</p:commandButton>
     						</p:column>
-    						<p:column styleClass="buttonTD"
+    						<p:column styleClass="buttonTD" style="width:18px;"
     							rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
-    							<p:commandButton image="/media/images/update.png"
-    								immediate="true" styleClass="form-button-image"
+    							<p:commandButton icon="ui-icon-pencil"
+    								immediate="true" ajax="false"
     								title="#{msgs['BUTTON.UPDATE']}"
     								action="#{calendarController.goUpdateCal}"
     								rendered="#{managedAccess.updateAuthorized}">
@@ -137,10 +88,10 @@
     								<f:setPropertyActionListener value="#{calendar}" target="#{calendarController.beanCalendar.calendar}" />
     							</p:commandButton>
     						</p:column>
-    						<p:column styleClass="buttonTD"
+    						<p:column styleClass="buttonTD" style="width:18px;"
     							rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
-    							<p:commandButton image="/media/images/cancel.png"
-    								styleClass="form-button-image" immediate="true"
+    							<p:commandButton icon="ui-icon-minus"
+    								immediate="true" ajax="false"
     								title="#{msgs['_.BUTTON.DELETE']}"
     								rendered="#{managedAccess.deleteAuthorized}"
     								action="#{calendarController.goDeleteCal}">
@@ -148,16 +99,12 @@
     							</p:commandButton>
     						</p:column>
     					</p:dataTable>
+                        <p:blockUI block="seeCalendrierForm" trigger="calendarsData">
+                            <p:graphicImage value="/media/images/ajax-loader.gif" />
+                        </p:blockUI>
     				</div>
-    				<br />
-    				<br />
-    				<br />
     			</h:form>
     		</div>
-    	</div>    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        </script>
+    	</div>
     </ui:define>
 </ui:composition>

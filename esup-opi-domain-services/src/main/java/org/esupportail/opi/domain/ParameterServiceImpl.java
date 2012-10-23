@@ -961,6 +961,7 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 			log.debug("entering addTraitementCmi( " + traitementCmi + " )");
 		}
 		daoService.addTraitementCmi(traitementCmi);
+		
 	}
 
 
@@ -1030,7 +1031,6 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	// ////////////////////////////////////////////////////////////
 	// Calendar
 	// ////////////////////////////////////////////////////////////
-
 
 	/** 
 	 * @see org.esupportail.opi.domain.ParameterService#addCalendar(

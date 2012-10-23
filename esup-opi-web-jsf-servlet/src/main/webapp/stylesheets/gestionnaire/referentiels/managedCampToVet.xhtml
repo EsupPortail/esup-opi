@@ -38,39 +38,33 @@
     						<p:dataTable id="trtCmi" var="beanTrtCmi"
     							value="#{trtCmiController.allTraitementCmi}"
     							styleClass="displayInfo">
-    							<p:column width="35%">
-    								<f:facet name="header">
-    									<h:outputText value="#{msgs['FIELD_LABEL.ETP']}" />
-    								</f:facet>
-    								<h:outputText value="#{beanTrtCmi.etape.libWebVet}" />
-    							</p:column>
-    							<p:column styleClass="col1UnDemi">
-    								<f:facet name="header">
-    									<h:outputText value="#{msgs['FIELD_LABEL.CAMPAGNES']}" />
-    								</f:facet>
-    								<p:dataList var="link"
-    									value="#{beanTrtCmi.traitementCmi.linkTrtCmiCamp}"
-    									layout="unorderedList">
-    									<p:column width="90%">
-    										<h:outputText value="#{link.campagne.code}"
-    											styleClass="span-text-small" />
-    										<h:outputText value=" : " styleClass="span-text-small" />
-    										<h:outputText value="#{link.campagne.libelle}"
-    											styleClass="span-text-small" />
-    									</p:column>
-    									<p:column width="10%">
-    										<p:commandButton image="/media/images/cancel.png"
-    											styleClass="form-button-image" immediate="true"
-    											action="#{trtCmiController.removeLinkTrtCmiCamp}"
-    											title="#{msgs['_.BUTTON.DELETE']}"
-    											rendered="#{not link.campagne.isArchived && 
-    														link.temoinEnService}">
-    											<f:setPropertyActionListener value="#{link}" target="#{trtCmiController.linkToDel}" />
-    										</p:commandButton>
-    									</p:column>
-    								</p:dataList>
-    	
-    							</p:column>
+                                <p:columnGroup type="header">
+                                    <p:row>
+                                        <p:column headerText="#{msgs['FIELD_LABEL.ETP']}" />
+                                        <p:column headerText="#{msgs['FIELD_LABEL.CAMPAGNES']}" colspan="2" />
+                                    </p:row>
+                                </p:columnGroup>
+                                <p:subTable var="link" value="#{beanTrtCmi.traitementCmi.listLinkTrtCmiCamp}">
+                                    <p:column rowspan="#{beanTrtCmi.traitementCmi.nbLinkTrtCmiCamp}">
+                                        <h:outputText value="#{beanTrtCmi.etape.libWebVet}" />
+                                    </p:column>
+									<p:column>
+										<h:outputText value="#{link.campagne.code}"
+											styleClass="span-text-small" />
+										<h:outputText value=" : " styleClass="span-text-small" />
+										<h:outputText value="#{link.campagne.libelle}"
+											styleClass="span-text-small" />
+									</p:column>
+									<p:column>
+										<p:commandButton icon="ui-icon-minus" immediate="true" update=":campToVetForm:trtCmi"
+											action="#{trtCmiController.removeLinkTrtCmiCamp}"
+											title="#{msgs['_.BUTTON.DELETE']}"
+											rendered="#{not link.campagne.isArchived and 
+														link.temoinEnService}">
+											<f:setPropertyActionListener value="#{link}" target="#{trtCmiController.linkToDel}" />
+										</p:commandButton>
+									</p:column>
+                                </p:subTable>
     						</p:dataTable>
     					</ui:fragment>
     					<div>
@@ -80,11 +74,5 @@
     			</h:form>
     		</div>
     	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        	highlightInputAndSelect('campToVetForm');
-        </script>
     </ui:define>
 </ui:composition>

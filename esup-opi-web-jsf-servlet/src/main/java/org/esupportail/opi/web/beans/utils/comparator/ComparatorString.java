@@ -401,8 +401,15 @@ public class ComparatorString implements Comparator<Object>, Serializable {
 					.compareTo(c2.getLibelle());
 			}
 		}
-		if (!b1.getEtape().getLibWebVet()
-				.equals(b2.getEtape().getLibWebVet())) {
+		org.esupportail.wssi.services.remote.VersionEtapeDTO e1 = b1.getEtape();
+		org.esupportail.wssi.services.remote.VersionEtapeDTO e2 = b2.getEtape();
+		if (e1 == null || e2 == null) {
+			if (e1 != null && e2 == null) {
+				return e1.getLibWebVet().compareTo("");
+			} else if (e1 == null && e2 != null) {
+				return "".compareTo(e2.getLibWebVet());
+			}
+		} else if (!e1.getLibWebVet().equals(e2.getLibWebVet())) {
 			return b1.getEtape().getLibWebVet()
 				.compareTo(b2.getEtape().getLibWebVet());
 		}

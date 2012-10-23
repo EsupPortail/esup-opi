@@ -1,8 +1,7 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:t="http://myfaces.apache.org/tomahawk">
+    xmlns:p="http://primefaces.org/ui">
     <div id="blockFormAdresseFix" class="blockForm">
     	<div style="width:100%;">
     		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
@@ -30,15 +29,15 @@
     			<h:outputLabel value="#{msgs['ADRESS']}" for="adr1" />
     			<h:outputText value="*" styleClass="etoileForChpObli" />
     		</h:panelGroup>
-    		<h:inputText id="adr1"
+    		<p:inputText id="adr1"
     			value="#{adressController.fixAdrPojo.adresse.adr1}" size="32"
     			maxlength="30" />
     		<h:outputLabel value="#{msgs['ADRESS.COMP']}" for="adr2" />
-    		<h:inputText id="adr2"
+    		<p:inputText id="adr2"
     			value="#{adressController.fixAdrPojo.adresse.adr2}" size="40"
     			maxlength="70" />
     		<h:outputLabel value="#{msgs['ADRESS.COMP']}" for="adr3" />
-    		<h:inputText id="adr3"
+    		<p:inputText id="adr3"
     			value="#{adressController.fixAdrPojo.adresse.adr3}" size="40"
     			maxlength="70" />
     		<h:panelGroup>
@@ -46,9 +45,10 @@
     			<h:outputText value="*" styleClass="etoileForChpObli" />
     		</h:panelGroup>
     		<h:panelGroup>
-    			<h:inputText id="codePostalFix" value="#{adressController.fixAdrPojo.adresse.codBdi}" 
-    				size="6" maxlength="5" />
-    			<p:commandButton id="submitSelectCpFix" action="#{adressController.selectCpFix}"/>
+    			<p:inputText id="codePostalFix" value="#{adressController.fixAdrPojo.adresse.codBdi}" 
+    				size="6" maxlength="5">
+                    <p:ajax listener="#{adressController.selectCpFix}" update="ville" />
+                </p:inputText>
     		</h:panelGroup>
     
     		<h:panelGroup>
@@ -71,28 +71,23 @@
     		</h:panelGroup>
     		<h:panelGrid columns="2"
     			columnClasses="td1_ContentMess,td2_ContentMess" style="width: 100%;">
-    			<h:inputText id="cedex" size="4" maxlength="4"
+    			<p:inputText id="cedex" size="4" maxlength="4"
     				value="#{adressController.fixAdrPojo.adresse.cedex}" />
-    			<t:popup styleClass="containerPopup" style="width:200px;"
-    				closePopupOnExitingElement="true" closePopupOnExitingPopup="true"
-    				displayAtDistanceX="-200" displayAtDistanceY="0">
-    				<p:graphicImage url="/media/images/help.png"
-    					title="#{msgs['ADRESS.INFO.POST.CEDEX'] }" style="cursor:pointer;" />
-    
-    				<f:facet name="popup">
-    					<h:panelGroup>
-    						<h:panelGrid columns="1">
-    							<h:outputText styleClass="titrePopupAide"
-    								value="#{msgs['ADRESS.CEDEX']}" />
-    							<h:panelGroup>
-    								<h:outputText styleClass="libellesAide"
-    									value="#{msgs['ADRESS.INFO.POST.CEDEX'] }" />
-    							</h:panelGroup>
-    						</h:panelGrid>
-    					</h:panelGroup>
-    				</f:facet>
-    			</t:popup>
-    
+                <p:graphicImage url="/media/images/help.png" id="icon-help-cedex"
+                    title="#{msgs['ADRESS.INFO.POST.CEDEX'] }" style="cursor:pointer;" />
+                <p:overlayPanel
+                    for="icon-help-cedex"
+                    showEvent="mouseover" hideEvent="mouseout"
+                    styleClass="containerPopup" style="width:200px;">
+					<h:panelGrid columns="1">
+						<h:outputText styleClass="titrePopupAide"
+							value="#{msgs['ADRESS.CEDEX']}" />
+						<h:panelGroup>
+							<h:outputText styleClass="libellesAide"
+								value="#{msgs['ADRESS.INFO.POST.CEDEX'] }" />
+						</h:panelGroup>
+					</h:panelGrid>
+                </p:overlayPanel>
     		</h:panelGrid>
     	</h:panelGrid>
     </div>

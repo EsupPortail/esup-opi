@@ -251,7 +251,7 @@ public class TrtCmiController extends AbstractAccessController {
 	 */
 	public String addEtapes() {
 
-		if (!etapeController.getObjectToAdd().isEmpty()) {
+		if (etapeController.getObjectToAdd().length > 0) {
 			for (Object o : etapeController.getObjectToAdd()) {
 				VersionEtapeDTO v = (VersionEtapeDTO) o;
 				TraitementCmi t = getParameterService().getTraitementCmi(new VersionEtpOpi(v), false);
@@ -553,7 +553,7 @@ public class TrtCmiController extends AbstractAccessController {
 		if (log.isDebugEnabled()) {
 			log.debug("addCampToVet");
 		}
-		if (!etapeController.getObjectToAdd().isEmpty()) {
+		if (etapeController.getObjectToAdd().length > 0) {
 			for (Object o : etapeController.getObjectToAdd()) {
 				BeanTrtCmi bt = (BeanTrtCmi) o;
 				addCampToVet(bt);

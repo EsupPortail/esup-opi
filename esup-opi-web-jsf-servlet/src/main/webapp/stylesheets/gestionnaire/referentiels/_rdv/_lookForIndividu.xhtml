@@ -11,12 +11,12 @@
         				styleClass="section-smallTitle" />
         			<h:panelGroup>
         				<p:commandButton id="cancelLookForIndividu"
-        					value="#{msgs['_.BUTTON.CANCEL']}"
+        					value="#{msgs['_.BUTTON.CANCEL']}" ajax="false"
         					action="#{consultRdvController.searchStudents}">
         					<f:setPropertyActionListener value="#{false}" target="#{consultRdvController.inSearch}" />
         				</p:commandButton>
         				<p:commandButton id="lookForIndividu"
-        					value="#{msgs['_.BUTTON.SEARCH']}"
+        					value="#{msgs['_.BUTTON.SEARCH']}" ajax="false"
         					action="#{consultRdvController.searchStudents}">
         					<f:setPropertyActionListener value="#{true}" target="#{consultRdvController.inSearch}" />
         				</p:commandButton>
@@ -28,7 +28,7 @@
         				<h:outputLabel value="#{msgs['INDIVIDU.NUM_DOSSIER']}"
         					for="numDossierOpi" />
         			</h:panelGroup>
-        			<h:inputText id="numDossierOpi"
+        			<p:inputText id="numDossierOpi"
         				value="#{paginatorIndividuPojo.indRechPojo.numDossierOpiRecherche}" />
         			<h:panelGroup>
         				<h:outputLabel value="#{msgs['COMMISSION.CHOICE']}"
@@ -47,12 +47,12 @@
         			<h:panelGroup>
         				<h:outputLabel value="#{msgs['INDIVIDU.NOM']}" for="nom" />
         			</h:panelGroup>
-        			<h:inputText id="nom"
+        			<p:inputText id="nom"
         				value="#{paginatorIndividuPojo.indRechPojo.nomRecherche}" />
         			<h:panelGroup>
         				<h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom" />
         			</h:panelGroup>
-        			<h:inputText id="prenom"
+        			<p:inputText id="prenom"
         				value="#{paginatorIndividuPojo.indRechPojo.prenomRecherche}" />
         
         			<h:panelGroup>
@@ -70,9 +70,4 @@
         	</h:form>
         </div>
     </ui:fragment>
-    <script type="text/javascript">
-    	hideElement('lookForIndForm:lookForIndividuComm');
-    	hideElement('lookForIndForm:lookForIndividuTypeDec')
-    	hideElement('lookForIndForm:lookForIndividuEtp');
-    </script>
 </ui:fragment>

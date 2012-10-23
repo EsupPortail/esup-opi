@@ -46,8 +46,8 @@ import org.esupportail.opi.services.mails.MailContentService;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.beanEnum.WayfEnum;
-import org.esupportail.opi.web.beans.paginator.CommissionPaginator;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
+import org.esupportail.opi.web.beans.pojo.CommissionPojo;
 import org.esupportail.opi.web.beans.pojo.IndListePrepaPojo;
 import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
@@ -103,10 +103,6 @@ public class CommissionController
 	
 	/*
 	 ******************* PROPERTIES ******************* */
-	/**
-	 * Commission's paginator.
-	 */
-	private CommissionPaginator paginator;
 
 	/**
 	 * The commission.
@@ -169,7 +165,7 @@ public class CommissionController
 	/**
 	 * The list of members selected for the mail send.
 	 */
-	private List<Object> membersSelected;
+	private Object[] membersSelected;
 	
 	/**
 	 * see {@link Transfert}.
@@ -190,7 +186,16 @@ public class CommissionController
 	 * mail send to member convocation.
 	 */
 	private MailContentService convocMember;
-	
+
+	/**
+	 * The list of commitees.
+	 */
+	private List<CommissionPojo> listCmiPojo;
+
+	/**
+	 * The list of commitees.
+	 */
+	private List<CommissionPojo> filteredListCmiPojo;
 
 	/**
 	 * see {@link trtCmiController}.
@@ -256,7 +261,7 @@ public class CommissionController
 		membersToDisplay = new HashMap<Member, String>();
 		selectedCommissions = new ArrayList<Commission>();
 		idCmiForAdress = 0;
-		membersSelected = new ArrayList<Object>();
+		membersSelected = new Object[0];
 		wayfEnum = new WayfEnum();
 		adressController.reset();
 		trtCmiController.reset();
@@ -311,8 +316,7 @@ public class CommissionController
 	 */
 	public String goSeeAllCmi() {
 		reset();
-		this.paginator.reset();
-		this.paginator.setCurrentGest(getCurrentGest());
+		listCmiPojo = getData();
 		return NavigationRulesConst.MANAGED_CMI;
 	}
 	
@@ -379,7 +383,7 @@ public class CommissionController
 			}
 		}
 		
-		membersSelected.addAll(getKeySetMbrToDisplay());
+		membersSelected = getKeySetMbrToDisplay().toArray();
 		
 		initAllTraitementCmi(commission);
 		
@@ -1154,6 +1158,51 @@ public class CommissionController
 		return addOk;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
+	protected List<CommissionPojo> getData() {
+		List<CommissionPojo> result = new ArrayList<CommissionPojo>();
+		Gestionnaire currentGest = getCurrentGest();
+		if (currentGest != null) {
+			List <Commission> lesCommissions = new ArrayList<Commission>();
+			Set<Commission> s =	Utilitaires.getListCommissionsByRight(
+								currentGest, 
+								getDomainApoService(),
+								getParameterService(), null);
+			lesCommissions.addAll(s);
+			Integer codRI = currentGest.getProfile().getCodeRI();
+			
+			// création de la liste de commissionPojo
+			for (Commission comm : lesCommissions) {
+				List<TraitementCmi> trtCmi = new ArrayList<TraitementCmi>();
+				List<TraitementCmi> trtCmiOff = new ArrayList<TraitementCmi>();
+				trtCmi.addAll(comm.getTraitementCmi());
+				
+				/**
+				 * Règle pour les flags :
+				 * - rouge si aucun trt en service (trtCmi vide)
+				 * - orange si certains trt hors service (trtCmi non vide et trtCmiOff non vide)
+				 * - vert sinon (trtCmi non vide et trtCmiOff vide)
+				 */
+				for (TraitementCmi trt : comm.getTraitementCmi()) {
+					if (Utilitaires.isTraitementCmiOff(trt, codRI)) {
+						trtCmi.remove(trt);
+						trtCmiOff.add(trt);
+					}
+				}
+				CommissionPojo commPojo = new CommissionPojo();
+				commPojo.setCommission(comm);
+				commPojo.setFlagWithoutTrtActive(trtCmi.isEmpty());
+				commPojo.setFlagWithSomeTrtInactive(!trtCmi.isEmpty() && !trtCmiOff.isEmpty());
+				result.add(commPojo);
+			}
+			Collections.sort(result, new ComparatorString(CommissionPojo.class));
+		}
+		return result;
+	}
+	
 	/*
 	 ******************* ACCESSORS ******************** */
 	
@@ -1220,10 +1269,13 @@ public class CommissionController
 	/**
 	 * Commissions items for the select menu.
 	 * the list is function the commissions without treatment
-	 * @return Set< Commission>
+	 * @return Set<Commission>
 	 */
-	public Set<Commission> getCommissionsItemsWithoutTrt() {
-		return comsNoTrt;
+	public List<Commission> getCommissionsItemsWithoutTrt() {
+		List<Commission> cmi = new ArrayList<Commission>();
+		cmi.addAll(Utilitaires.getListCommissionsWithoutTrt(getParameterService()));
+		Collections.sort(cmi, new ComparatorString(Commission.class));
+		return cmi;
 	}
 	
 	/**
@@ -1265,6 +1317,24 @@ public class CommissionController
 		
 		return list;
 	}
+
+	/**
+	 * All commission in use in dataBase are been managed by Manager.
+	 * @return Set< Commission> 
+	 */
+	// TODO : à supprimer, méthode identique getCommissionsItemsByRight()
+	public Set<Commission> getCommissionsByRight() {
+		return getCommissionsItemsByRight();
+	}
+	
+	/**
+	 * @return Set< Commission> commissions in use.
+	 */
+	// TODO : à supprimer, méthode identique getCommissionsItems()
+	public Set<Commission> getCommissionsInUse() {
+		return getCommissionsItems();
+	}
+
 	
 	/**
 	 * @return the selectedCommissions
@@ -1283,14 +1353,14 @@ public class CommissionController
 	/**
 	 * @return the membersSelected
 	 */
-	public List<Object> getMembersSelected() {
+	public Object[] getMembersSelected() {
 		return membersSelected;
 	}
 
 	/**
 	 * @param membersSelected the membersSelected to set
 	 */
-	public void setMembersSelected(final List<Object> membersSelected) {
+	public void setMembersSelected(final Object[] membersSelected) {
 		this.membersSelected = membersSelected;
 	}
 
@@ -1312,9 +1382,10 @@ public class CommissionController
 	 * return membersToDisplay.keySet.
 	 * @return Set< Member>
 	 */
-	public Set<Member> getKeySetMbrToDisplay() {
-		Set<Member> members = new TreeSet<Member>(new ComparatorString(Member.class));
+	public List<Member> getKeySetMbrToDisplay() {
+		List<Member> members = new ArrayList<Member>();
 		members.addAll(getMembersToDisplay().keySet());
+		Collections.sort(members, new ComparatorString(Member.class));
 		return members;
 	}
 	
@@ -1542,18 +1613,33 @@ public class CommissionController
 		this.castorService = castorService;
 	}
 
+	
 	/**
-	 * @return the paginator
+	 * @return the listCmiPojo
 	 */
-	public CommissionPaginator getPaginator() {
-		return paginator;
+	public List<CommissionPojo> getListCmiPojo() {
+		return listCmiPojo;
 	}
 
 	/**
-	 * @param paginator the paginator to set
+	 * @param listCmiPojo the listCmiPojo to set
 	 */
-	public void setPaginator(final CommissionPaginator paginator) {
-		this.paginator = paginator;
+	public void setListCmiPojo(List<CommissionPojo> listCmiPojo) {
+		this.listCmiPojo = listCmiPojo;
+	}
+
+	/**
+	 * @return the filteredListCmiPojo
+	 */
+	public List<CommissionPojo> getFilteredListCmiPojo() {
+		return filteredListCmiPojo;
+	}
+
+	/**
+	 * @param filteredListCmiPojo the filteredListCmiPojo to set
+	 */
+	public void setFilteredListCmiPojo(List<CommissionPojo> filteredListCmiPojo) {
+		this.filteredListCmiPojo = filteredListCmiPojo;
 	}
 
 	public void setTrtCmiController(final TrtCmiController trtCmiController) {

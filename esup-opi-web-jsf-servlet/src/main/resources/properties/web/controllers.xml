@@ -313,7 +313,6 @@
 		<property name="adressController" ref="adressController"/>
 		<property name="castorService" ref="castorService"/>
 		<property name="convocMember" ref="convocMember" />
-		<property name="paginator" ref="paginatorCommission" />
 		<property name="transfert" ref="transfert"/>
 		<property name="managerUsed" value="${init.cmi.manager}" />
 		<property name="listCmiByRight" value="${init.listcmi.byright}" />
