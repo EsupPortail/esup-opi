@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -138,7 +139,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 	/**
 	 * The manager or the versionEtape to add to the pj.
 	 */
-	private List<Object> objectToAdd;
+	private Object[] objectToAdd;
 	
 
 	/**
@@ -200,7 +201,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 		nomenclature = null;
 		actionEnum = new ActionEnum();
 		addNomenclatures = new ArrayList<Nomenclature>();
-		objectToAdd = new ArrayList<Object>();
+		objectToAdd = new Object[0];
 		allEtapes = new HashSet<PieceJustiVetPojo>();
 		allPJs = new TreeSet<NomenclaturePojo>(new ComparatorString(NomenclaturePojo.class));
 		addPJs = new HashSet<NomenclaturePojo>();
@@ -218,7 +219,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 		nomenclature = null;
 		actionEnum = new ActionEnum();
 		addNomenclatures = new ArrayList<Nomenclature>();
-		objectToAdd = new ArrayList<Object>();
+		objectToAdd = new Object[0];
 		allEtapes = new HashSet<PieceJustiVetPojo>();
 		allPJs = new TreeSet<NomenclaturePojo>(new ComparatorString(NomenclaturePojo.class));
 		addPJs = new HashSet<NomenclaturePojo>();
@@ -634,7 +635,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 	 */
 	public String addEtapes() {
 		Set<VersionEtpOpi> listEtpByRight = Utilitaires.getListEtpByRight(getCurrentGest());
-		if (!objectToAdd.isEmpty()) {
+		if (objectToAdd.length > 0) {
 			for (Object o : objectToAdd) {
 				VersionEtapeDTO v = (VersionEtapeDTO) o;
 				PieceJustiVetPojo a = new PieceJustiVetPojo(v);
@@ -665,7 +666,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 				
 			}
 		}
-		objectToAdd = new ArrayList<Object>();
+		objectToAdd = new Object[0];
 		this.etapeController.reset();
 		String callback = null;
 		if (wayfEnum.getWhereAreYouFrom().equals(WayfEnum.AFFECT_PJ_VALUE)) {
@@ -683,7 +684,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 	public String addPJs() {
 		allPJs= new TreeSet<NomenclaturePojo>(new ComparatorString(NomenclaturePojo.class));
 //		Set<VersionEtpOpi> listEtpByRight = Utilitaires.getListEtpByRight(getCurrentGest());
-		if (!objectToAdd.isEmpty()) {
+		if (objectToAdd.length > 0) {
 			for (Object o : objectToAdd) {
 				NomenclaturePojo v = (NomenclaturePojo) o;
 				
@@ -701,7 +702,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 		}
 		this.etapeController.reset();
 		getPiecesJToNomenclaturePojo();
-		objectToAdd = new ArrayList<Object>();
+		objectToAdd = new Object[0];
 		
 		return NavigationRulesConst.ENTER_VET;
 		
@@ -1125,7 +1126,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 	 * Return all PieceJustificative.
 	 * @return Set< NomenclaturePojo>
 	 */
-	public Set<NomenclaturePojo> getPieceJustificatives() {
+	public List<NomenclaturePojo> getPieceJustificatives() {
 		Set<NomenclaturePojo> nom = new TreeSet<NomenclaturePojo>(new ComparatorString(NomenclaturePojo.class));
 		Set<VersionEtpOpi> listEtpByRight = Utilitaires.getListEtpByRight(getCurrentGest());
 		
@@ -1166,21 +1167,17 @@ public class NomenclatureController extends AbstractContextAwareController {
 			}
 		}
 		
-		return nom;
+		return new ArrayList<NomenclaturePojo>(nom);
 	}
 	
 	
 	/**
 	 * @return the piece justificatives selected
 	 */
-	public Set<NomenclaturePojo> getPieceJustificativesSelected() {
-		Set<NomenclaturePojo> nom = getPieceJustificatives();
+	public List<NomenclaturePojo> getPieceJustificativesSelected() {
+		List<NomenclaturePojo> nom = getPieceJustificatives();
 		
-		Iterator<NomenclaturePojo> it = nom.iterator();
-		
-		while(it.hasNext()){
-			NomenclaturePojo np = it.next();
-			
+		for (NomenclaturePojo np : nom) {
 			if (!np.getNomenclature().getCode().equals(getCode().getValue()))
 				nom.remove(np);
 		}
@@ -1483,14 +1480,14 @@ public class NomenclatureController extends AbstractContextAwareController {
 	/**
 	 * @return the objectToAdd
 	 */
-	public List<Object> getObjectToAdd() {
+	public Object[] getObjectToAdd() {
 		return objectToAdd;
 	}
 
 	/**
 	 * @param objectToAdd the objectToAdd to set
 	 */
-	public void setObjectToAdd(final List<Object> objectToAdd) {
+	public void setObjectToAdd(final Object[] objectToAdd) {
 		this.objectToAdd = objectToAdd;
 	}
 
@@ -1553,15 +1550,18 @@ public class NomenclatureController extends AbstractContextAwareController {
 	/**
 	 * @return allPJs
 	 */
-	public Set<NomenclaturePojo> getAllPJs() {
-		return allPJs;
+	public List<NomenclaturePojo> getAllPJs() {
+		return new ArrayList<NomenclaturePojo>(allPJs);
 	}
 
 	/**
 	 * @param allPJs
 	 */
-	public void setAllPJs(Set<NomenclaturePojo> allPJs) {
-		this.allPJs = allPJs;
+	public void setAllPJs(Collection<NomenclaturePojo> allPJs) {
+		Set<NomenclaturePojo> set = new TreeSet<NomenclaturePojo>(
+				new ComparatorString(NomenclaturePojo.class));
+		set.addAll(allPJs);
+		this.allPJs = set;
 	}
 	
 	/**

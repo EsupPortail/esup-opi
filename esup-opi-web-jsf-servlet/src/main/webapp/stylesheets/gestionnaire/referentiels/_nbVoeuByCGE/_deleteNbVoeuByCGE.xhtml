@@ -6,15 +6,15 @@
     	<div style="width:100%;">
     		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
     			styleClass="tableJustWidthMax">
-    			<h:outputText value="#{msgs['VOEU.CONFIRM.DELETE']}">
+    			<h:outputFormat value="#{msgs['VOEU.CONFIRM.DELETE']}">
     				<f:param value="#{nbVoeuByCGEController.nbVoeuCge.codeCge}"/>
-    			</h:outputText>
+    			</h:outputFormat>
     			<h:panelGroup>
     				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    					action="#{nbVoeuByCGEController.delete}"/>
+    					action="#{nbVoeuByCGEController.delete}" ajax="false" />
     				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
     					action="#{nbVoeuByCGEController.reset}"
-    					immediate="true"/>
+    					immediate="true" ajax="false" />
     			</h:panelGroup>
     		</h:panelGrid>
     	</div>

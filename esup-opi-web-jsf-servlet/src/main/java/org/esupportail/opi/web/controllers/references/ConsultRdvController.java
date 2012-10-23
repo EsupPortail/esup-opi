@@ -441,7 +441,8 @@ public class ConsultRdvController extends AbstractContextAwareController {
 			weekScheduleModel = new SimpleScheduleModel();
 
 			Date now = new Date();
-			if (now.before(calendarRdv.getDateDebutInsc())) {
+			if (calendarRdv != null && 
+					now.before(calendarRdv.getDateDebutInsc())) {
 				now = calendarRdv.getDateDebutInsc();
 			}
 			weekScheduleModel.setSelectedDate(now);
@@ -449,7 +450,8 @@ public class ConsultRdvController extends AbstractContextAwareController {
 
 			dateSelect = weekScheduleModel.getSelectedDate();
 
-			List<Date> datesDisponibles = calendarRdv.getDatesRdv(false);
+			List<Date> datesDisponibles = (calendarRdv != null) 
+					? calendarRdv.getDatesRdv(false) : new ArrayList<Date>();
 
 			if (!datesDisponibles.isEmpty()) {
 

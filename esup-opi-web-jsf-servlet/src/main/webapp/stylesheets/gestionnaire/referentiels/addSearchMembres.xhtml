@@ -2,7 +2,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
     		<h1>
@@ -35,41 +35,30 @@
         						</h:panelGrid>
         					</div>
         					<p:dataTable var="manager" id="managerData"
-        						value="#{ldapSearchController.managers}"
-        						styleClass="paginatorData" alternateColors="true">
-        						<p:column>
-        							<f:facet name="header">
-        								<h:outputText value="#{msgs['GESTIONNAIRE.LOGIN']}" />
-        							</f:facet>
+        						value="#{ldapSearchController.managers}" rowKey="#{manager.login}"
+                                selection="#{commissionController.objectToAdd}"
+                                 styleClass="paginatorData">
+<!--                                 <p:ajax event="toggleSelect" -->
+<!--                                     update="managerData" /> -->
+<!--                                 <p:ajax event="rowSelectCheckbox" -->
+<!--                                     update="managerData" /> -->
+<!--                                 <p:ajax event="rowUnselectCheckbox" -->
+<!--                                     update="managerData" /> -->
+                                <p:column headerText="#{msgs['GESTIONNAIRE.LOGIN']}">
         							<h:outputText value="#{manager.login}" />
         						</p:column>
-        						<p:column>
-        							<f:facet name="header">
-        								<h:outputText value="#{msgs['FIELD_LABEL.NAME']}" />
-        							</f:facet>
+        						<p:column headerText="#{msgs['FIELD_LABEL.NAME']}">
         							<h:outputText value="#{manager.displayName}" />
         						</p:column>
-        						<p:column>
-        							<f:facet name="header">
-        								<h:outputText value="#{msgs['FIELD_LABEL.MAIL']}" />
-        							</f:facet>
+        						<p:column headerText="#{msgs['FIELD_LABEL.MAIL']}">
         							<h:outputText value="#{manager.adressMail}" />
         						</p:column>
-        						<p:column>
-        							<jdt:multipleRowsSelector
-        										selectionList="#{commissionController.objectToAdd}" />
-        						</p:column>
+        						<p:column selectionMode="multiple" />
         					</p:dataTable>
         				</div>
                     </ui:fragment>
     			</h:form>
     		</div>
     	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        	highlightInputAndSelect('searchMembersForm');
-        </script>
     </ui:define>
 </ui:composition>

@@ -2,7 +2,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
     		<h1>
@@ -30,9 +30,11 @@
         						<div class="blockButton">
         							<h:panelGroup>
         								<p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
+                                            ajax="false"
         									action="#{etapeController.paginator.lookForVets}" />
         								<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-        									immediate="true" action="#{etapeController.goBackSearchEtape}"/>
+                                            ajax="false" immediate="true" 
+                                            action="#{etapeController.goBackSearchEtape}"/>
         							</h:panelGroup>
         						</div>
     						
@@ -44,12 +46,12 @@
     								</h:panelGroup>
                                     
     								<p:selectOneMenu id="lesCommissions"
-    								converter="javax.faces.Integer"
-    								value="#{etapeController.paginator.rvd.idCmi}">
-    								<f:selectItem itemLabel="" itemValue="" />
-    								<f:selectItems var="commission"
-    									value="#{etapeController.commissionsItemsByRight}"
-    									itemLabel="#{commission.libelle}" itemValue="#{commission.id}" />
+        								converter="javax.faces.Integer"
+        								value="#{etapeController.paginator.rvd.idCmi}">
+        								<f:selectItem itemLabel="" itemValue="" />
+        								<f:selectItems var="commission"
+        									value="#{etapeController.commissionsItemsByRight}"
+        									itemLabel="#{commission.libelle}" itemValue="#{commission.id}" />
     								</p:selectOneMenu>
     								<h:panelGroup>
     									<h:outputLabel value="#{msgs['FIELD_LABEL.CGE']}" for="cge" />
@@ -88,11 +90,6 @@
     				<br />
     				<br />
     				<br />
-    
-    
-    				<br />
-    				<br />
-    				<br />
     				<div id="div_subSectionList" class="div_subSection">
     					<div style="width:100%;">
     						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
@@ -114,18 +111,13 @@
     						</h:panelGrid>
     					</div>
     					<div style="width:100%;">
-    						<p:dataTable var="versionEtape" id="versionEtapeData" value="#{etapeController.paginator.visibleItems}"
-    							styleClass="paginatorData" alternateColors="true" rendered="#{not empty etapeController.paginator.visibleItems}">
-    							<f:facet name="header">
-    							<h:panelGroup>
-    								<e:paginator id="paginatorvet"
-    									paginator="#{paginatorVET}"
-    									itemsName="#{msgs['FIELD_LABEL.ETAPES']}"
-    									onchange="javascript:{simulateLinkClick('searchVersEtpForm:versionEtapeData:submitPageSize');}" />
-    								<p:commandButton id="submitPageSize"
-    									action="#{paginatorVET.forceReload}" />
-    							</h:panelGroup>
-    						</f:facet>
+    						<p:dataTable var="versionEtape" id="versionEtapeData" 
+                                value="#{etapeController.paginator.visibleItems}"
+                                paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40"
+                                paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
+                                currentPageReportTemplate="#{msgs['FIELD_LABEL.ETAPES']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
+    							styleClass="paginatorData" 
+                                rendered="#{not empty etapeController.paginator.visibleItems}">
     							<p:column>
     								<f:facet name="header">
     									<h:outputText value="#{msgs['FIELD_LABEL.COD_ETP']}" />
@@ -145,8 +137,8 @@
     								<h:outputText value="#{versionEtape.libWebVet}" />
     							</p:column>
     							<p:column styleClass="buttonTD">
-        							<p:commandButton image="/media/images/magnifier.png"
-        								styleClass="form-button-image" immediate="true"
+        							<p:commandButton icon="ui-icon-search" 
+                                        immediate="true" ajax="false"
         								action="#{etapeController.goEnterVET}"
         								title="#{msgs['_.BUTTON.DISPLAY']}"
         								rendered="#{managedAccess.addAuthorized}">
@@ -161,12 +153,5 @@
     			</h:form>
     		</div>
     	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        	highlightInputAndSelect('searchMembersForm');
-        	hideElement('searchVersEtpForm:versionEtapeData:submitPageSize');
-        </script>
     </ui:define>
 </ui:composition>

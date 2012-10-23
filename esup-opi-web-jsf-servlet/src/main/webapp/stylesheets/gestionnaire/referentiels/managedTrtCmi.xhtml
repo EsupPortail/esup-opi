@@ -2,7 +2,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	
     	
@@ -31,10 +31,8 @@
     					<div id="blockFormInfo" class="blockForm">
     						<div class="blockButton">
     							<h:panelGroup>
-    								<p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
+    								<p:commandButton value="#{msgs['_.BUTTON.SEARCH']}" ajax="false"
     									action="#{trtCmiController.lookForCmi}" />
-    								<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-    									immediate="true" action="#{trtCmiController.goBackFunction}" />
     							</h:panelGroup>
     						</div>
     
@@ -43,7 +41,7 @@
     							<h:outputLabel
     								value="#{msgs['FIELD_LABEL.CODE']} #{msgs['COMMISSIONS']}"
     								for="commissions" />
-    							<h:inputText id="codEtp" size="10" maxlength="10"
+    							<p:inputText id="codEtp" size="10" maxlength="10"
     								value="#{trtCmiController.codeCmi}" />
     
     							<h:outputLabel value="#{msgs['COMMISSIONS']}" for="commissions" />
@@ -70,17 +68,20 @@
         					<div class="blockForm">
         						<div class="blockButton">
         							<h:panelGroup>
-        								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-        									action="#{trtCmiController.update}" />
-        								<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-        									immediate="true" action="#{trtCmiController.reset}" />
-        
-        							</h:panelGroup>
+                                        <p:commandButton ajax="false"
+                                            value="#{msgs['_.BUTTON.VALIDATE']}"
+                                            action="#{trtCmiController.update}" />
+                                        <p:commandButton ajax="false"
+                                            immediate="true"
+                                            value="#{msgs['_.BUTTON.CANCEL']}"
+                                            action="#{trtCmiController.goMangedTrtCmi}" />
+
+                                    </h:panelGroup>
         						</div>
         						<div class="blockTable" style="text-align:center;">
-        							<h:outputText value="#{msgs['COMMISSION.SELECTED']}">
+        							<h:outputFormat value="#{msgs['COMMISSION.SELECTED']}">
         								<f:param value="#{trtCmiController.commission.libelle}" />
-        							</h:outputText>
+        							</h:outputFormat>
         						</div>
         					</div>
         				</div>
@@ -99,37 +100,25 @@
         									action="#{trtCmiController.managedCamp}"/>
         								<p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
         									action="#{etapeController.goSearchEtpForCmi}" />
-        								<p:commandButton id="submitSelectTypeTrt"
-        									value="#{msgs['_.BUTTON.CHANGE_TYP_TRT']}"
-        									action="#{trtCmiController.selectAllTypeTrt}" />
         							</h:panelGroup>
         						</h:panelGrid>
         					</div>
-        					<p:dataTable id="trtCmi" var="beanTrtCmi"
+        					<p:dataTable id="trtCmi" var="beanTrtCmi" 
         						value="#{trtCmiController.allTraitementCmi}" rowIndexVar="rowVar"
-        						styleClass="displayInfo" selection="#{trtCmiController.codeTypeTrtselected}">
-        						<p:column width="10%">
-        							<f:facet name="header">
-        								<h:outputText value="#{msgs['FIELD_LABEL.CGE']}" />
-        							</f:facet>
+        						styleClass="displayInfo">
+
+        						<p:column headerText="#{msgs['FIELD_LABEL.CGE']}">
         							<h:outputText value="#{beanTrtCmi.traitementCmi.versionEtpOpi.codCge}" />
         						</p:column>
-        						<p:column width="35%">
-        							<f:facet name="header">
-        								<h:outputText value="#{msgs['FIELD_LABEL.ETP']}" />
-        							</f:facet>
+        						<p:column headerText="#{msgs['FIELD_LABEL.ETP']}">
         							<h:outputText value="#{beanTrtCmi.etape.libWebVet}" />
         						</p:column>
-        						<p:column width="10%">
-        							<f:facet name="header">
-        								<h:outputText value="#{msgs['FIELD_LABEL.CAMPAGNES']}" />
-        							</f:facet>
+        						<p:column headerText="#{msgs['FIELD_LABEL.CAMPAGNES']}">
                                     <p:graphicImage url="/media/images/informationSmall.png"
                                         style="cursor:pointer;" id="allcampagnes" />
-                                    <p:overlayPanel for="allcampagnes"
-                                        showEvent="mouseover"
-                                        hideEvent="mouseout" 
-                                        style="width:300px;">
+                                    <p:overlayPanel for="allcampagnes" appendToBody="true"
+                                        showEvent="mouseover" hideEvent="mouseout"
+                                        styleClass="containerPopup" style="width:300px;">
         								<h:panelGroup>
         									<h:panelGrid columns="1">
         										<h:outputText styleClass="titrePopupAide"
@@ -139,39 +128,35 @@
         												value="#{msgs['CAMPAGNES.INFO.VET']} : " />
         										</h:panelGroup>
         										<h:panelGroup>
-        											<p:dataList var="link"
-        												value="#{beanTrtCmi.traitementCmi.linkTrtCmiCamp}"
-        												layout="unorderedList">
-        												<p:column>
+        											<ui:repeat var="link"
+        												value="#{beanTrtCmi.traitementCmi.listLinkTrtCmiCamp}">
+                                                        <div>
         													<h:outputText value="#{link.campagne.code}"
         														styleClass="span-text-small" />
         													<h:outputText value=" : " styleClass="span-text-small" />
         													<h:outputText value="#{link.campagne.libelle}"
         														styleClass="span-text-small" />
-        												</p:column>
-        											</p:dataList>
+        												</div>
+        											</ui:repeat>
         										</h:panelGroup>
         									</h:panelGrid>
         								</h:panelGroup>
                                     </p:overlayPanel>    
         						</p:column>
-        						<p:columns var="typeTrt"
-        							value="#{nomenclatureController.typeTrts}">
-        							<f:facet name="header">
-        								<opi:radioButton name="myRadioCol"
-        									onClick="javascript:{simulateLinkClick('enterTrtCmiForm:submitSelectTypeTrt');}"
-        									overrideName="true"
-        									value="#{trtCmiController.codeTypeTrtselected}"
-        									itemValue="#{typeTrt.code}" itemLabel="#{typeTrt.code}" />
-        							</f:facet>
-        							<opi:radioButton name="trtCmiTypTrt#{rowVar}" overrideName="true"
-        								value="#{beanTrtCmi.traitementCmi.codTypeTrait}"
-        								itemValue="#{typeTrt.code}" />
-        						</p:columns>
-                                <p:column selectionMode="single"/>
-        						<p:column width="3%">
-        							<p:commandButton image="/media/images/cancel.png"
-        								styleClass="form-button-image" immediate="true"
+                                <p:column>
+                                    <f:facet name="header">
+                                        <p:selectOneRadio id="checkAll" value="#{trtCmiController.codeTypeTrtselected}" valueChangeListener="#{trtCmiController.selectTypTrt}">
+                                            <f:selectItems value="#{nomenclatureController.typeTrts}" var="typeTrt" itemValue="#{typeTrt.code}" itemLabel="#{typeTrt.code}" />
+                                            <p:ajax update="trtCmi"/>
+                                        </p:selectOneRadio>
+                                    </f:facet>
+                                    <p:selectOneRadio id="trtCmiTypTrt#{rowVar}" value="#{beanTrtCmi.traitementCmi.codTypeTrait}" style="border:none;" >
+                                        <f:selectItems value="#{nomenclatureController.typeTrts}" var="typeTrt" itemValue="#{typeTrt.code}" itemLabel="" />
+                                    </p:selectOneRadio>
+                                </p:column>
+                                <p:column style="width:18px;">
+        							<p:commandButton icon="ui-icon-minus" 
+                                        update="trtCmi" immediate="true"
         								action="#{trtCmiController.removeTrtCmi}"
         								title="#{msgs['_.BUTTON.DELETE']}">
         								<f:setPropertyActionListener value="#{beanTrtCmi}" target="#{trtCmiController.beanTrtCmi}" />
@@ -185,7 +170,7 @@
     				<br />
     				<br />
                     <ui:fragment rendered="#{formulairesController.orbeonBuilderUrl != null 
-                            && trtCmiController.commission != null}">
+                            and trtCmiController.commission != null}">
         				<div id="blockFormOrbeon" class="blockForm">
         					<div style="width:100%;">
         						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
@@ -200,7 +185,7 @@
         						columnClasses="colUnQuart">
         						<h:outputText value="#{msgs['FORMULAIRE.INFO']}" />
         
-        						<p:dataList id="trtCmiForm" var="beanTrtCmi"
+        						<ui:repeat id="trtCmiForm" var="beanTrtCmi"
         							value="#{trtCmiController.allTraitementCmi}">
         
         							<h:panelGrid columns="2">
@@ -226,19 +211,13 @@
         								</h:panelGroup>
         								<h:panelGroup rendered="#{not formulairesController.modifiable}" />
         							</h:panelGrid>
-        						</p:dataList>
+        						</ui:repeat>
         						<h:outputText value="#{msgs['FORMULAIRE.WARN']}" />
         					</h:panelGrid>
         				</div>
                     </ui:fragment>
     			</h:form>
     		</div>
-    	</div>    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        	highlightInputAndSelect('enterTrtCmiForm');
-        	hideElement('enterTrtCmiForm:submitSelectTypeTrt');
-        </script>
+    	</div>
     </ui:define>
 </ui:composition>

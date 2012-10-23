@@ -2,8 +2,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:t="http://myfaces.apache.org/tomahawk"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
     		<h1>
@@ -16,9 +15,6 @@
     		</div>
     		<div id="div_subSectionCmiForm" class="div_subSection">
     			<h:form id="seeCommissionForm">
-    				<br />
-    				<br />
-    				<br />
     				<div id="blockFormInfo" class="blockForm">
     					<div style="width:100%;">
     						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
@@ -60,23 +56,23 @@
     						<h:outputText id="code" value="#{commissionController.commission.code}"/>
     						<h:panelGroup/>
     						<h:panelGroup style="text-align:right;">
-    							<p:commandButton image="/media/images/update.png"
-    							action="#{commissionController.goUpdateCmi}" styleClass="form-button-image"
+    							<p:commandButton icon="ui-icon-pencil"
+    							action="#{commissionController.goUpdateCmi}"
     							title="#{msgs['BUTTON.UPDATE']}" rendered="#{managedAccess.updateAuthorized}">
     								<f:setPropertyActionListener value="#{commissionController.actionEnum.updateAction}" target="#{commissionController.actionEnum.whatAction}" />
     							</p:commandButton>
     							<p:commandButton
-    								image="/media/images/calendar.png"
-    								styleClass="form-button-image" title="#{msgs['CALENDAR.TITLE.CONSULT']}" 
+    								icon="ui-icon-calendar"
+                                    title="#{msgs['CALENDAR.TITLE.CONSULT']}" 
     								action="#{calendarController.goSeeCalCmi}"/>
     							<p:commandButton
-    								image="/media/images/page_white_acrobat.png"
-    								styleClass="form-button-image" title="#{msgs['COMMISSION.EDIT.ARRETE_NOM']}" 
+    								icon="ui-icon-print"
+                                    title="#{msgs['COMMISSION.EDIT.ARRETE_NOM']}" 
     								rendered="#{managedAccess.updateAuthorized}" immediate="true"
     								action="#{commissionController.makePDFNomination}"/>
     							<p:commandButton 
-    								image="/media/images/email.png"
-    								styleClass="form-button-image" title="#{msgs['COMMISSION.SEND_CONVOC_MAIL']}"
+    								icon="ui-icon-mail-closed"
+                                    title="#{msgs['COMMISSION.SEND_CONVOC_MAIL']}"
     								rendered="#{managedAccess.updateAuthorized}" immediate="true"
     								action="#{commissionController.sendMailConvocation}"/>
     						</h:panelGroup>
@@ -193,9 +189,10 @@
     							</h:panelGroup>
     						</h:panelGrid>
     					</div>
-    					<p:dataTable var="member"
-    						value="#{commissionController.keySetMbrToDisplay}"
-    						styleClass="displayInfo" alternateColors="false">
+    					<p:dataTable var="member" rowKey="#{member}" 
+                            value="#{commissionController.keySetMbrToDisplay}"
+                            selection="#{commissionController.membersSelected}"
+    						styleClass="displayInfo">
     						<p:column>
     							<f:facet name="header">
     								<h:outputText value="#{msgs['FIELD_LABEL.NAME']}" />
@@ -220,33 +217,23 @@
     							</f:facet>
     							<h:outputText value="#{member.type}" />
     						</p:column>
-    						<p:column>
+    						<p:column selectionMode="multiple">
     							<f:facet name="header">
-    								<t:popup styleClass="containerPopup" style="width:200px;"
-    									closePopupOnExitingElement="true" closePopupOnExitingPopup="true"
-    									 displayAtDistanceX="-200" displayAtDistanceY="-100">
-    									<p:graphicImage url="/media/images/email.png"
-    										style="cursor:pointer;"   />
-    									<f:facet name="popup">
-    										<h:panelGroup>
-    											<h:outputText value="#{msgs['COMMISSION.SELECT_MEMBERS']}"/>
-    										</h:panelGroup>
-    									</f:facet>
-    								</t:popup>
-    							</f:facet>
-    							<jdt:multipleRowsSelector
-    								selectionList="#{commissionController.membersSelected}" />
-    						
+                                    <p:graphicImage url="/media/images/email.png"
+                                        style="cursor:pointer;" id="icon-select-members" />
+                                    <p:overlayPanel
+                                        for="icon-select-members" appendToBody="true"
+                                        showEvent="mouseover" hideEvent="mouseout"
+                                        styleClass="containerPopup" style="width:200px;">
+                                        <h:outputText
+                                            value="#{msgs['COMMISSION.SELECT_MEMBERS']}" />
+                                    </p:overlayPanel>
+                                </f:facet>
     						</p:column>
     					</p:dataTable>
     				</div>
     			</h:form>
     		</div>
     	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        </script>
     </ui:define>
 </ui:composition>

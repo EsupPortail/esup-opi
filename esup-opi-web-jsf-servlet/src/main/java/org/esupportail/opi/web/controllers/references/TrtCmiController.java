@@ -210,18 +210,6 @@ public class TrtCmiController extends AbstractAccessController {
 		initAllTraitementCmi(commission, null);
 		return NavigationRulesConst.MANAGED_TRT_CMI;
 	}
-
-	/**
-	 * @return String
-	 */
-	public String goBackFunction() {
-		if (log.isDebugEnabled()) {
-			log.debug("entering goBackFunction");
-		}
-
-		reset();
-		return getManagedAccess().goDisplayFunction();
-	}
 	
 	/**
 	 * @return String
@@ -263,7 +251,7 @@ public class TrtCmiController extends AbstractAccessController {
 	 */
 	public String addEtapes() {
 
-		if (!etapeController.getObjectToAdd().isEmpty()) {
+		if (etapeController.getObjectToAdd().length > 0) {
 			for (Object o : etapeController.getObjectToAdd()) {
 				VersionEtapeDTO v = (VersionEtapeDTO) o;
 				TraitementCmi t = getParameterService().getTraitementCmi(new VersionEtpOpi(v), false);
@@ -427,6 +415,7 @@ public class TrtCmiController extends AbstractAccessController {
 	 * Select all the type treatment for beanTrtCmi.
 	 */
 	public void selectAllTypeTrt() {
+		log.debug("enter selectAllTypeTrt");
 		for (BeanTrtCmi b : allTraitementCmi) {
 			b.getTraitementCmi().setCodTypeTrait(codeTypeTrtselected);
 		}
@@ -565,7 +554,7 @@ public class TrtCmiController extends AbstractAccessController {
 		if (log.isDebugEnabled()) {
 			log.debug("addCampToVet");
 		}
-		if (!etapeController.getObjectToAdd().isEmpty()) {
+		if (etapeController.getObjectToAdd().length > 0) {
 			for (Object o : etapeController.getObjectToAdd()) {
 				BeanTrtCmi bt = (BeanTrtCmi) o;
 				addCampToVet(bt);

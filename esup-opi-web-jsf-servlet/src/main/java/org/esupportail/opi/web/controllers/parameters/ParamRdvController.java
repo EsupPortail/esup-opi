@@ -823,10 +823,12 @@ public class ParamRdvController extends AbstractContextAwareController {
 				//CommissionPojo
 				for(Commission comm : calRdv.getCommissions()) {
 					Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
-					int codeRI = gest.getProfile().getCodeRI();
-					CommissionPojo commissionPojo = new CommissionPojo(comm,
-							comm.getContactsCommission().get(codeRI));
-					calendarRDVPojo.getListCommissionPojo().add(commissionPojo);
+					if (gest!=null) {
+						int codeRI = gest.getProfile().getCodeRI();
+						CommissionPojo commissionPojo = new CommissionPojo(comm,
+								comm.getContactsCommission().get(codeRI));
+						calendarRDVPojo.getListCommissionPojo().add(commissionPojo);
+					}
 				}
 				listCalendarRdv.add(calendarRDVPojo);
 			}

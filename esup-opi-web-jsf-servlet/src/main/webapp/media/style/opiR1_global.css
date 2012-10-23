@@ -540,8 +540,9 @@ autres : pr�coniser d�clinaison � partir de la couleur secondaire.
 	padding-bottom: 3px;
 }
 
-.esup-opiR1 table.displayInfo td.buttonTD {
-	width: 2%;
+.esup-opiR1 .displayInfo td.buttonTD,
+.esup-opiR1 .paginatorData td.buttonTD {
+	width: 18px!important;
 }
 
 .esup-opiR1 table.displayInfo td.codeTD {
@@ -1006,4 +1007,8 @@ table.displayAddRdv tr td.right {
 
 .footer-buttons {
     float: right;
+}
+
+.ui-datatable .ui-selectoneradio td {
+	border: 0;
 }

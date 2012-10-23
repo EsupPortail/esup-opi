@@ -652,7 +652,7 @@ public class OpinionController
 			
 		}
 		
-		commissionController.getObjectToAdd().clear();
+		commissionController.setObjectToAdd(new Object[]{});
 
 		//updateIndVoeuPojo
 		

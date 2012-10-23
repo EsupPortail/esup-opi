@@ -19,6 +19,7 @@ import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.wssi.services.remote.CentreGestion;
+import org.primefaces.event.RowEditEvent;
 
 
 /**
@@ -141,6 +142,16 @@ public class NbVoeuByCGEController extends AbstractContextAwareController {
 			log.debug("leaving update");
 		}
 	}
+	
+	/**
+	 * Update a row of the datatable with in-cell editor.
+	 * @param event
+	 */
+    public void onEdit(final RowEditEvent event) {
+    	getParameterService().updateNombreVoeuCge((NombreVoeuCge) event.getObject());
+		reset();
+    }
+    
 	/**
 	 * 
 	 * Delete a nbVoeuCge to the dataBase.
@@ -150,8 +161,8 @@ public class NbVoeuByCGEController extends AbstractContextAwareController {
 			log.debug("enterind delete with nbVoeuCge = " + getNbVoeuCge());
 		}
 		
-		getAllNbVoeuByCge().remove(getNbVoeuCge());
 		getParameterService().deleteNombreVoeuCge(getNbVoeuCge());
+		listNbVoeuByCge = null;
 		reset();
 		
 		if (log.isDebugEnabled()) {
@@ -167,8 +178,8 @@ public class NbVoeuByCGEController extends AbstractContextAwareController {
 	 * @return boolean
 	 */
 	public boolean testExistCge(final String codeCge) {
-		List<NombreVoeuCge> listNbVoeuByCge = getAllNbVoeuByCge();
-		for (NombreVoeuCge nbVCge : listNbVoeuByCge) {
+		List<NombreVoeuCge> list = getAllNbVoeuByCge();
+		for (NombreVoeuCge nbVCge : list) {
 			if (nbVCge.getCodeCge().equals(codeCge)) {
 				return true;
 			}
