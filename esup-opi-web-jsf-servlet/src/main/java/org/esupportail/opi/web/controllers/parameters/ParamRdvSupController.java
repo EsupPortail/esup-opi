@@ -25,7 +25,6 @@ import org.esupportail.opi.domain.beans.references.rendezvous.TrancheFermee;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.components.ExtendedEntry;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
-import org.esupportail.opi.web.validator.DebutAMHourValidator;
 
 
 /**
@@ -108,10 +107,6 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 */
 	private ParamRdvController paramRdvController;
 	
-	/**
-	 * debutAMHourValidator.
-	 */
-	private DebutAMHourValidator debutAMHourValidator;
 	/*
 	 ******************* INIT ************************* */
 	/**
@@ -1542,18 +1537,4 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 		this.jourSelected = jourSelected;
 	}
 	
-	/**
-	 * 
-	 * @return debutAMHourValidator
-	 */
-	public DebutAMHourValidator getDebutAMHourValidator() {
-		return debutAMHourValidator;
-	}
-	/**
-	 * 
-	 * @param debutAMHourValidator
-	 */
-	public void setDebutAMHourValidator(final DebutAMHourValidator debutAMHourValidator) {
-		this.debutAMHourValidator = debutAMHourValidator;
-	}
 }
