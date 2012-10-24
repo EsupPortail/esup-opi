@@ -1167,10 +1167,7 @@ public class CommissionController
 		Gestionnaire currentGest = getCurrentGest();
 		if (currentGest != null) {
 			List <Commission> lesCommissions = new ArrayList<Commission>();
-			Set<Commission> s =	Utilitaires.getListCommissionsByRight(
-								currentGest, 
-								getDomainApoService(),
-								getParameterService(), null);
+			Set<Commission> s =	getDomainApoService().getListCommissionsByRight(currentGest, null);
 			lesCommissions.addAll(s);
 			Integer codRI = currentGest.getProfile().getCodeRI();
 			
@@ -1283,6 +1280,7 @@ public class CommissionController
 	 * the list is function the commissions managed by the gestionnaire
 	 * @return Set< Commission>
 	 */
+	@SuppressWarnings("synthetic-access")
 	public Set<Commission> getAllCommissionsItemsByRight() {
 		return new TreeSet<Commission>() {{
 			addAll(comsInUseByRight);
@@ -1323,7 +1321,7 @@ public class CommissionController
 	 * @return Set< Commission> 
 	 */
 	// TODO : à supprimer, méthode identique getCommissionsItemsByRight()
-	public Set<Commission> getCommissionsByRight() {
+	public List<Commission> getCommissionsByRight() {
 		return getCommissionsItemsByRight();
 	}
 	

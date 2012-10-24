@@ -40,17 +40,13 @@ import org.esupportail.opi.web.beans.utils.Utilitaires;
 /**
  * A bean to memorize the context of the application.
  */
+@SuppressWarnings("deprecation")
 public class SessionController extends AbstractDomainAwareBean {
 
 	/**
 	 * The serialization id.
 	 */
 	private static final long serialVersionUID = -5936434246704000653L;
-
-	/**
-	 * The name of the parameter that gives the logout URL service.
-	 */
-	private static final String LOGOUT_URL_PARAM_SERVICE = "edu.yale.its.tp.cas.client.logoutUrl.service";
 
 	/**
 	 * The name of the request attribute that holds the current individu.
@@ -227,9 +223,6 @@ public class SessionController extends AbstractDomainAwareBean {
 
 			IndividuPojo indPojo = null;
 			if (individu != null) {
-				int codeRI = Utilitaires.getCodeRIIndividu(individu,
-						getDomainService());
-				RegimeInscription regime = getRegimeIns().get(codeRI);
 				//Test l etat de l'individu
 				individu = 
 					getDomainService().updateStateIndividu(
