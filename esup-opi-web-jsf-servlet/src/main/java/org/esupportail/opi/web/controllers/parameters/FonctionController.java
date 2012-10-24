@@ -12,6 +12,7 @@ import javax.faces.webapp.UIComponentTag;
 
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.opi.domain.beans.BeanProfile;
 import org.esupportail.opi.domain.beans.parameters.accessRight.Fonction;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
@@ -245,6 +246,15 @@ public class FonctionController extends AbstractContextAwareController {
 		return f;
 	}
 
+	/**
+	 * List of Fonction in use.
+	 * @return
+	 */
+	public List<Fonction> getFonctionsItems() {
+		List<Fonction> f = new ArrayList<Fonction>();
+		f.addAll(getFonctions());
+		return f;		
+	}
 	
 	/**
 	 * @return the addFonctions

@@ -25,6 +25,7 @@ import org.esupportail.opi.domain.beans.references.rendezvous.TrancheFermee;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.components.ExtendedEntry;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
+import org.esupportail.opi.web.validator.DebutAMHourValidator;
 
 
 /**
@@ -107,7 +108,10 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 */
 	private ParamRdvController paramRdvController;
 	
-	
+	/**
+	 * debutAMHourValidator.
+	 */
+	private DebutAMHourValidator debutAMHourValidator;
 	/*
 	 ******************* INIT ************************* */
 	/**
@@ -815,7 +819,7 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 * @param dateFin
 	 * @return boolean
 	 */
-	private boolean validate(final Date dateSelected,
+	public boolean validate(final Date dateSelected,
 			final Date dateDebut, 
 			final Date dateFin) {
 		calendar.clear();
@@ -845,7 +849,7 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 * @param dateFin
 	 * @return boolean
 	 */
-	private boolean testRdvEtudiant(final int mois, final Date dateDebut, final Date dateFin) {
+	public boolean testRdvEtudiant(final int mois, final Date dateDebut, final Date dateFin) {
 		if (getParameterService().getListEtudiantsParCalendarRdvParPeriode(
 				getCalendarRdv().getId(),
 				mois,
@@ -880,12 +884,13 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 * @return the dateDebutMatin
 	 */
 	public Date getDateDebutAM() {
+		Date dateDebutAM;
 		if (getCalendarRdv() != null && scheduleModel.getSelectedDate() != null) {
 			calendar.clear();
 			calendar.setTime(scheduleModel.getSelectedDate());
-			
-			return getCalendarRdv().getHoraires().get(
-				calendar.get(Calendar.MONTH)).getDateDebutMatin();
+			dateDebutAM = getCalendarRdv().getHoraires().get(
+					calendar.get(Calendar.MONTH)).getDateDebutMatin();
+			return dateDebutAM;
 		}
 		return null;
 	}
@@ -920,12 +925,13 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 * @return the dateFinMatin
 	 */
 	public Date getDateFinAM() {
+		Date dateFinAM;
 		if (getCalendarRdv() != null && scheduleModel.getSelectedDate() != null) {
 			calendar.clear();
 			calendar.setTime(scheduleModel.getSelectedDate());		
-			
-			return getCalendarRdv().getHoraires().get(
+			dateFinAM = getCalendarRdv().getHoraires().get(
 					calendar.get(Calendar.MONTH)).getDateFinMatin();
+			return dateFinAM;
 		}
 		return null;
 	}
@@ -959,12 +965,13 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 * @return the dateDebutAmidi
 	 */
 	public Date getDateDebutPM() {
+		Date dateDebutPM;
 		if (getCalendarRdv() != null && scheduleModel.getSelectedDate() != null) {
 			calendar.clear();
 			calendar.setTime(scheduleModel.getSelectedDate());
-			
-			return getCalendarRdv().getHoraires().get(
+			dateDebutPM = getCalendarRdv().getHoraires().get(
 					calendar.get(Calendar.MONTH)).getDateDebutAmidi();
+			return dateDebutPM;
 		}
 		return null;
 	}
@@ -998,12 +1005,13 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 * @return the dateFinAmidi
 	 */
 	public Date getDateFinPM() {
+		Date dateFinPM;
 		if (getCalendarRdv() != null && scheduleModel.getSelectedDate() != null) {
 			calendar.clear();
 			calendar.setTime(scheduleModel.getSelectedDate());
-			
-			return getCalendarRdv().getHoraires().get(
+			dateFinPM = getCalendarRdv().getHoraires().get(
 					calendar.get(Calendar.MONTH)).getDateFinAmidi();
+			return dateFinPM;
 		}
 		return null;
 	}
@@ -1504,6 +1512,15 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	public void setMonthSelected(final Date monthSelected) {
 		this.monthSelected = monthSelected;
 	}
+	
+	/**
+	 * 
+	 * @return calendar
+	 */
+	public Calendar getCalendar() {
+		return calendar;
+	}
+	
 	/**
 	 * @return the calendarRdv
 	 */
@@ -1523,5 +1540,20 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 */
 	public void setJourSelected(final Date jourSelected) {
 		this.jourSelected = jourSelected;
+	}
+	
+	/**
+	 * 
+	 * @return debutAMHourValidator
+	 */
+	public DebutAMHourValidator getDebutAMHourValidator() {
+		return debutAMHourValidator;
+	}
+	/**
+	 * 
+	 * @param debutAMHourValidator
+	 */
+	public void setDebutAMHourValidator(final DebutAMHourValidator debutAMHourValidator) {
+		this.debutAMHourValidator = debutAMHourValidator;
 	}
 }

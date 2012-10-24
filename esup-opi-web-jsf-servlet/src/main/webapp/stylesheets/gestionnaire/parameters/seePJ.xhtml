@@ -3,7 +3,7 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
     xmlns:t="http://myfaces.apache.org/tomahawk"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	
     	
@@ -16,34 +16,38 @@
     		<div class="messageForUser">
     			<p:messages id="messages" showDetail="true" autoUpdate="true" />
     		</div>
-    
+    		<h:form id="seeNomenclaturesForm">
             <!-- Ligne de delete -->
-            <ui:fragment rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.deleteAction}">
-        		<div id="div_subSectionDelete" class="div_subSection">
-        			<ui:include src="_delete/_deleteNomenclature.xhtml" />
-        		</div>
-            </ui:fragment>
-            
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="seePJForm">
+            	<p:outputPanel id="delete_panel">
+		            <ui:fragment rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.deleteAction}">
+		        		<div id="div_subSectionDelete" class="div_subSection">
+		        			<ui:include src="_delete/_deleteNomenclature.xhtml" />
+		        		</div>
+		            </ui:fragment>
+            	</p:outputPanel>
+    			<div id="div_subSection" class="div_subSection">
+    			
     				<br />
     				<br />
     				<br />
     				<div id="blockFormButton" class="blockForm">
-    					<h:panelGroup class="blockButton"
-    						rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.emptyAction}">
-    						<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-    							action="#{nomenclatureController.goAddPJ}" 
-    							rendered="#{nomenclatureController.rightPjForAllVet and managedAccess.addAuthorized}"/>
-    						<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-    							action="#{nomenclatureController.goAddOrChoicesPJ}" 
-    							rendered="#{!nomenclatureController.rightPjForAllVet and managedAccess.addAuthorized}"/>
-    						<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-    								immediate="true"
-    								action="#{managedAccess.goDisplayFunction}"/>
-    					</h:panelGroup>
-    					
-    					<p:dataTable var="nomenclaturePojo" value="#{nomenclatureController.pieceJustificatives}"
+    					<div class="blockButton">
+	    					<h:panelGroup
+	    						rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.emptyAction}">
+	    						<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+	    							action="#{nomenclatureController.goAddPJ}" 
+	    							rendered="#{nomenclatureController.rightPjForAllVet and managedAccess.addAuthorized}"/>
+	    						<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+	    							action="#{nomenclatureController.goAddOrChoicesPJ}" 
+	    							rendered="#{!nomenclatureController.rightPjForAllVet and managedAccess.addAuthorized}"/>
+	    						<!-- <p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+	    							ajax="false" immediate="true"
+	    							action="#{welcomeController.goWelcomeManager}">
+	    							<f:setPropertyActionListener value="#{gestionnaireController.actionEnum.emptyAction}" target="#{gestionnaireController.actionEnum.whatAction}" />
+	    						</p:commandButton> -->
+	    					</h:panelGroup>
+    					</div>
+    					<p:dataTable var="nomenclaturePojo" value="#{nomenclatureController.pieceJustificativesItems}"
     						styleClass="displayInfo" alternateColors="false">
     						<p:column>
     							<f:facet name="header">
@@ -125,7 +129,7 @@
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
     						</p:column>
     						<p:column styleClass="buttonTD">
-    							<p:commandButton image="/media/images/magnifier.png"
+    							<p:commandButton icon="ui-icon-search"
     								styleClass="form-button-image" immediate="true"
     								action="#{nomenclatureController.goSeeOnePJ}"
     								title="#{msgs['_.BUTTON.DISPLAY']}"
@@ -135,7 +139,7 @@
     							</p:commandButton>
     						</p:column>
     						<p:column styleClass="buttonTD">
-    							<p:commandButton image="/media/images/update.png"
+    							<p:commandButton icon="ui-icon-pencil"
     								action="#{nomenclatureController.goUpdatePJ}"
     								immediate="true"
     								styleClass="form-button-image" title="#{msgs['BUTTON.UPDATE']}" 
@@ -146,12 +150,13 @@
     							</p:commandButton>
     						</p:column>
     						<p:column styleClass="buttonTD">
-    							<p:commandButton image="/media/images/cancel.png"
+    							<p:commandButton icon="ui-icon-minus"
     								styleClass="form-button-image"
     								immediate="true"
     								title="#{msgs['_.BUTTON.DELETE']}"
     								rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.emptyAction
-    									and managedAccess.deleteAuthorized and nomenclaturePojo.allRight}">
+    									and managedAccess.deleteAuthorized and nomenclaturePojo.allRight}"
+	   								ajax="false">
     								<f:setPropertyActionListener value="#{nomenclatureController.actionEnum.deleteAction}" target="#{nomenclatureController.actionEnum.whatAction}" />
     								<f:setPropertyActionListener value="#{nomenclaturePojo.nomenclature}" target="#{nomenclatureController.nomenclature}" />
     							</p:commandButton>
@@ -161,9 +166,9 @@
     				</div>
     				<br />
     				<br />
-    				<br />
-    			</h:form>
-    		</div>
+    				<br />    			
+    			</div>
+    		</h:form>
     	</div>
     	
     	<script type="text/javascript">

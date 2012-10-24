@@ -579,11 +579,13 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	 * @see org.esupportail.opi.domain.ParameterService#getPiecesJ(Set, Integer)
 	 */
 	public List<PieceJustificative> getPiecesJ(final Set<VersionEtpOpi> vet, final String codeRI) {
+		String pcri;
 		List<PieceJustificative> pj = new ArrayList<PieceJustificative>();
 		Set<PieceJustificative> pjInUse = getPJs(true); 
 		for (PieceJustificative p : pjInUse) {
 			// on garde les pièces du régime
-			if (codeRI == null || codeRI.equals(p.getCodeRI())) {
+			pcri = Integer.toString(p.getCodeRI());
+			if (codeRI == null || codeRI.equals(pcri)) {
 				if (p.getIsForAllVet()) {
 					pj.add(p);
 				} else {

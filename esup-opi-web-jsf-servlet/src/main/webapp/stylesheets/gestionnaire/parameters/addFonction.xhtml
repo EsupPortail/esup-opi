@@ -2,7 +2,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
     		<h1>
@@ -36,7 +36,7 @@
     								<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
     							</f:facet>
     							<h:outputText value="#{fonction.code}" rendered="#{fonction.id != 0}" />
-    							<h:inputText id="codeFct" value="#{fonction.code}" size="12" maxlength="11"
+    							<p:inputText id="codeFct" value="#{fonction.code}" size="12" maxlength="11"
     								rendered="#{fonction.id == 0}" />
     						</p:column>
     					
@@ -64,7 +64,7 @@
     							</f:facet>
     							<h:outputText value="#{fonction.libelle}"
     								rendered="#{fonction.id != 0}" />
-    							<h:inputText id="libFct" value="#{fonction.libelle}" size="31" maxlength="60"
+    							<p:inputText id="libFct" value="#{fonction.libelle}" size="31" maxlength="60"
     								rendered="#{fonction.id == 0}" />
     						</p:column>
     						<p:column>
@@ -72,7 +72,7 @@
     								<h:outputText value="#{msgs['FIELD_LABEL.ACTION']}" />
     							</f:facet>
     							<h:outputText value="#{fonction.action}" rendered="#{fonction.id != 0}" />
-    							<h:inputText id="actionFct" value="#{fonction.action}" size="51" maxlength="50"
+    							<p:inputText id="actionFct" value="#{fonction.action}" size="51" maxlength="50"
     								rendered="#{fonction.id == 0}" />
     						</p:column>
     						<p:column>
@@ -80,7 +80,7 @@
     								<h:outputText value="#{msgs['FIELD_LABEL.RANG']}" />
     							</f:facet>
     							<h:outputText value="#{fonction.rang}" rendered="#{fonction.id != 0}" />
-    							<h:inputText id="rangFct" value="#{fonction.rang}" size="3" maxlength="2"
+    							<p:inputText id="rangFct" value="#{fonction.rang}" size="3" maxlength="2"
     								rendered="#{fonction.id == 0}" />
     						</p:column>
     					</p:dataTable>

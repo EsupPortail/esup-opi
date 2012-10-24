@@ -316,37 +316,37 @@ public class BusinessCacheServiceImpl
 	 * @see org.esupportail.opi.domain.BusinessCacheService#
 	 * getVersionEtape(java.lang.String, java.lang.Integer)
 	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public VersionEtapeDTO getVersionEtape(final String codEtp, final Integer codVrsVet) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering getVersionEtape(" + codEtp + ", " 
-					+ codVrsVet + "  )");
-		}
-		
-		// dans le cas ou le cache ne contient pas l'étape ou si le cache a été flushé
-		// on réinitialise le cache
-		if (cacheVet.get(codEtp) == null) {
-			initCacheVet();	
-		}
-		if (cacheVet.get(codEtp) != null) {
-			Element element = cacheVet.get(codEtp);
-			VersionEtapeDTO result = null;
-	//		List<VersionEtapeDTO> v = getMapOfVersionEtapes().get(codEtp);
-			List<VersionEtapeDTO> v = (List<VersionEtapeDTO>) element.getObjectValue();
-			for (VersionEtapeDTO vet : v) {
-				if (codVrsVet.equals(vet.getCodVrsVet())) {
-					result = vet;
-					break;
-				}
-			}
-			if (log.isDebugEnabled()) {
-				log.debug("leanving getVersionEtape with vet =" + result);
-			}
-			return result;
-		}
-		return null;
-	}
+//	@SuppressWarnings("unchecked")
+//	@Override
+//	public VersionEtapeDTO getVersionEtape(final String codEtp, final Integer codVrsVet) {
+//		if (log.isDebugEnabled()) {
+//			log.debug("entering getVersionEtape(" + codEtp + ", " 
+//					+ codVrsVet + "  )");
+//		}
+//		
+//		// dans le cas ou le cache ne contient pas l'étape ou si le cache a été flushé
+//		// on réinitialise le cache
+//		if (cacheVet.get(codEtp) == null) {
+//			initCacheVet();	
+//		}
+//		if (cacheVet.get(codEtp) != null) {
+//			Element element = cacheVet.get(codEtp);
+//			VersionEtapeDTO result = null;
+//	//		List<VersionEtapeDTO> v = getMapOfVersionEtapes().get(codEtp);
+//			List<VersionEtapeDTO> v = (List<VersionEtapeDTO>) element.getObjectValue();
+//			for (VersionEtapeDTO vet : v) {
+//				if (codVrsVet.equals(vet.getCodVrsVet())) {
+//					result = vet;
+//					break;
+//				}
+//			}
+//			if (log.isDebugEnabled()) {
+//				log.debug("leanving getVersionEtape with vet =" + result);
+//			}
+//			return result;
+//		}
+//		return null;
+//	}
 	
 	//////////////////////////////////////////////////////////////
 	// Etablissement

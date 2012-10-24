@@ -21,7 +21,6 @@ import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections.comparators.NullComparator;
 import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.services.i18n.I18nService;
-import org.esupportail.opi.domain.BusinessCacheService;
 import org.esupportail.opi.domain.BusinessUtil;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
@@ -95,6 +94,12 @@ public class IndividuPojo {
 	 * The vows of individu.
 	 */
 	private Set<IndVoeuPojo> indVoeuxPojo;
+	
+	/**
+	 *  The vows of individu.
+	 * Default value : empty
+	 */
+	private List<IndVoeuPojo> indVoeuxPojoAsList;
 	
 	/**
 	 * a true si c'est un gestionnaire.
@@ -194,7 +199,7 @@ public class IndividuPojo {
 	 * @param parameterService
 	 * @param commissions 
 	 */
-	public IndividuPojo(final Individu individu, final BusinessCacheService bService,
+	public IndividuPojo(final Individu individu, final DomainApoService domainApo,
 			final I18nService i18Service, final ParameterService parameterService,
 			final RegimeInscription ri,
 			final List<TypeTraitement> typeTraitements,
@@ -205,7 +210,7 @@ public class IndividuPojo {
 		doNotHaveCodeNne = false;
 		regimeInscription = ri;
 		etat = (EtatIndividu) Etat.instanceState(individu.getState(), i18Service);
-		initIndVoeuPojo(bService, i18Service, parameterService, commissions, null, typeTraitements, listCalendrierParam, null);
+		initIndVoeuPojo(domainApo, i18Service, parameterService, commissions, null, typeTraitements, listCalendrierParam, null);
 		i18nService = i18Service;
 		isManager = false;
 		dateCreationDossier = individu.getDateCreaEnr();
@@ -224,7 +229,7 @@ public class IndividuPojo {
 	 * @param typeDecisions 
 	 * @param versionsEtape 
 	 */
-	public IndividuPojo(final Individu individu, final BusinessCacheService bService,
+	public IndividuPojo(final Individu individu, final DomainApoService domainApo,
 			final I18nService i18Service, final ParameterService parameterService,
 			final Set<Commission> commissions, final Set<TypeDecision> typeDecisions,
 			final List<TypeTraitement> typeTraitements, final List<CalendarRDV> listCalendrierParam,
@@ -233,7 +238,7 @@ public class IndividuPojo {
 		this.individu = individu;
 		doNotHaveCodeNne = false;
 		etat = (EtatIndividu) Etat.instanceState(individu.getState(), i18Service);
-		initIndVoeuPojo(bService, i18Service, parameterService,
+		initIndVoeuPojo(domainApo, i18Service, parameterService,
 				commissions, typeDecisions, typeTraitements, listCalendrierParam, versionsEtape);
 		i18nService = i18Service;
 		isManager = false;
@@ -321,7 +326,7 @@ public class IndividuPojo {
 	 * @param typeDecisions 
 	 * @param versionsEtp 
 	 */
-	private void initIndVoeuPojo(final BusinessCacheService bService,
+	private void initIndVoeuPojo(final DomainApoService domainApo,
 					final I18nService i18Service,
 					final ParameterService parameterService,
 					final Set<Commission> commissions,
@@ -338,7 +343,7 @@ public class IndividuPojo {
 				for (Commission commission : commissions) {
 					if (commission.getTraitementCmi() != null) {
 						for (TraitementCmi trait : commission.getTraitementCmi()) {
-							listeVersEtp.add(bService.getVersionEtape(
+							listeVersEtp.add(domainApo.getVersionEtape(
 									trait.getVersionEtpOpi().getCodEtp(),
 									trait.getVersionEtpOpi().getCodVrsVet()));
 						}
@@ -348,7 +353,7 @@ public class IndividuPojo {
 			Set<IndVoeu> indVoeu = individu.getVoeux();
 			for (IndVoeu i : indVoeu) {
 				TraitementCmi trtCmi = i.getLinkTrtCmiCamp().getTraitementCmi();
-				VersionEtapeDTO vet = bService.getVersionEtape(
+				VersionEtapeDTO vet = domainApo.getVersionEtape(
 						trtCmi.getVersionEtpOpi().getCodEtp(),
 						trtCmi.getVersionEtpOpi().getCodVrsVet());
 //				VersionEtapeDTO vet = domainApo.getVersionEtape(
@@ -709,7 +714,16 @@ public class IndividuPojo {
 		return indVoeuxPojo;
 	}
 
-
+	/**
+	 * @return the indVoeuxPojo
+	 */
+	public List<IndVoeuPojo> getIndVoeuxPojoAsList() {
+		if (!this.indVoeuxPojo.isEmpty()) {
+			this.indVoeuxPojoAsList = new ArrayList<IndVoeuPojo>(indVoeuxPojo);
+		}
+		return indVoeuxPojoAsList;
+	}
+	
 	/**
 	 * @param indVoeuxPojo the indVoeuxPojo to set
 	 */

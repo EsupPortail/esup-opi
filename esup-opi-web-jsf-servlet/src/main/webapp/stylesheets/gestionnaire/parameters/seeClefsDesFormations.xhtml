@@ -2,7 +2,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	<h1>
                 <span class="section-header">
@@ -20,8 +20,8 @@
         			<p:commandButton value="#{msgs['_.BUTTON.ADD']}" immediate="true"
         				rendered="#{managedAccess.addAuthorized}"
         				action="#{paramClefFormationController.goAddKeys}"/>
-        			<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
-        				action="#{managedAccess.goDisplayFunction}"/>
+        			<!-- <p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
+        				action="#{managedAccess.goDisplayFunction}"/> -->
         		</div>
             </ui:fragment>
             <ui:fragment rendered="#{paramClefFormationController.actionEnum.whatAction == paramClefFormationController.actionEnum.updateAction}">
@@ -146,7 +146,7 @@
     									styleClass="form-field-label-inHeader-validator" for="bouton"/>
     								
     								<h:outputText styleClass="textLangLib" value="#{langueCleSelect.id.codLang}"/>
-    								<h:inputText id="ModifLib" size="50" value="#{paramClefFormationController.libSaisi}"/>
+    								<p:inputText id="ModifLib" size="50" value="#{paramClefFormationController.libSaisi}"/>
     								<div class="twoGroupsButton">
     									<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     										action="#{paramClefFormationController.validModLangLib}"/>
@@ -173,7 +173,7 @@
     								value="#{paramClefFormationController.langueSelected}">
     								<f:selectItems value="#{paramClefFormationController.allLangue}"/>
     							</p:selectOneMenu>
-    							<h:inputText id="choixlib" size="50"
+    							<p:inputText id="choixlib" size="50"
     								value="#{paramClefFormationController.libSaisi}"/>
     							<div class="twoGroupsButton">
     								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"

@@ -78,7 +78,7 @@ public interface BusinessCacheService  extends Serializable {
 	 * @param codVrsVet
 	 * @return
 	 */
-	VersionEtapeDTO getVersionEtape(String codEtp, Integer codVrsVet);
+//	VersionEtapeDTO getVersionEtape(String codEtp, Integer codVrsVet);
 	
 	//////////////////////////////////////////////////////////////
 	// Etablissement

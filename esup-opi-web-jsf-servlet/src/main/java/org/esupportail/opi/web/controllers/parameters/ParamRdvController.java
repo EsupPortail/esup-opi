@@ -485,7 +485,7 @@ public class ParamRdvController extends AbstractContextAwareController {
 		}
 		
 		if (testExistCalendarRDV()) {
-			addErrorMessage(FORMULAIRE_ADD_RDV, "ERROR.FIELD.EXISTE", 
+			addErrorMessage(FORMULAIRE_ADD_RDV, "ERROR.FIELD.EXIST", 
 					"Calendrier des rendez-vous", "Titre");
 			return true;
 		}
@@ -816,7 +816,7 @@ public class ParamRdvController extends AbstractContextAwareController {
 				//VetCalendarPojo
 				for (VetCalendar vet : calRdv.getVets()) {
 					VetCalendarPojo vetCalendarPojo = new VetCalendarPojo(vet,
-							getBusinessCacheService().getVersionEtape(vet.getCodEtp(),
+							getDomainApoService().getVersionEtape(vet.getCodEtp(),
 									vet.getCodVrsVet()).getLibWebVet());
 					calendarRDVPojo.getListVetCalendarPojo().add(vetCalendarPojo);
 				}
@@ -872,6 +872,8 @@ public class ParamRdvController extends AbstractContextAwareController {
 			calendarRDV.setJourHoraires(new HashMap<Date, JourHoraire>());
 			calendarRDV.setTranchesFermees(new HashMap<Date, TrancheFermee>());
 			calendarRDV.setParticipeOK(true);
+			calendarRDV.setDateDebutInsc(new Date());
+			calendarRDV.setDateFinInsc(new Date());
 			choix = CGE;
 		}
 		return calendarRDV;
@@ -1033,7 +1035,7 @@ public class ParamRdvController extends AbstractContextAwareController {
 			Set<VetCalendar> listVets = getCalendarRDV().getVets();
 			if (listVets != null) {
 				for (VetCalendar vet : listVets) {
-					String libWebVet = getBusinessCacheService().getVersionEtape(vet.getCodEtp(), vet.getCodVrsVet()).getLibWebVet();
+					String libWebVet = getDomainApoService().getVersionEtape(vet.getCodEtp(), vet.getCodVrsVet()).getLibWebVet();
 					vetItems.add(new SelectItem(vet.getCodEtp(),
 							vet.getCodEtp() + "(" + libWebVet + ")",
 							String.valueOf(vet.getCodVrsVet())));

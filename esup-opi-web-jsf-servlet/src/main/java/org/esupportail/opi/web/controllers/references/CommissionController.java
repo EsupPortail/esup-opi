@@ -958,7 +958,7 @@ public class CommissionController
 		List<IndividuPojo> listeIndPojo = 
 			Utilitaires.convertIndInIndPojo(listeInd, 
 					getParameterService(), getI18nService(), 
-					getBusinessCacheService(), listComm, null,
+					getDomainApoService(), listComm, null,
 					getParameterService().getTypeTraitements(),
 					getParameterService().getCalendarRdv(), null, false);
 		

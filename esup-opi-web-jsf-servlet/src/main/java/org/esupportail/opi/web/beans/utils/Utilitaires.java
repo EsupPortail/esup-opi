@@ -342,7 +342,7 @@ public class Utilitaires {
 			final List<Individu> listInd,
 			final ParameterService parameterService,
 			final I18nService iService,
-			final BusinessCacheService bService,
+			final DomainApoService domainApo,
 			final Set<Commission> commissions,
 			final Set<TypeDecision> typesDecisions,
 			final List<TypeTraitement> typeTraitements,
@@ -351,7 +351,7 @@ public class Utilitaires {
 			final boolean excludeWishProcessed) {
 		List<IndividuPojo> indPojo = new ArrayList<IndividuPojo>();
 		for (Individu i : listInd) {
-			IndividuPojo iPojo = new IndividuPojo(i, bService, iService,
+			IndividuPojo iPojo = new IndividuPojo(i, domainApo, iService,
 					parameterService, commissions, typesDecisions, typeTraitements, listCalendrierParam, versionsEtape);
 			if (!excludeWishProcessed || !iPojo.getHasAllVoeuxTraited()) {
 				indPojo.add(iPojo);

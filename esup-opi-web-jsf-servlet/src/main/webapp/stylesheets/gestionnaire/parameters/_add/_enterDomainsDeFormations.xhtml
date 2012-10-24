@@ -25,7 +25,7 @@
     		<h:outputLabel value="#{msgs['FIELD_LABEL.LIST_LIB_LANGUE']}"
     			styleClass="form-field-label-inHeader-validator" for="doms"/>
     
-    		<h:inputText id="SaisiCode" size="10"
+    		<p:inputText id="SaisiCode" size="10"
     			value="#{paramDomainFormationController.domain.ren1DomaineAnnuForm.codDom}"/>
     		<p:selectOneMenu id="choixEnServ"
     			value="#{paramDomainFormationController.domain.ren1DomaineAnnuForm.temSveDom}">
@@ -64,7 +64,7 @@
     						styleClass="form-field-label-inHeader-validator" for="bouton"/>
     					
     					<h:outputText styleClass="textLangLib" value="#{langueDomSelect.codLang}"/>
-    					<h:inputText id="ModifLib" size="100" value="#{paramDomainFormationController.libSaisi}"/>
+    					<p:inputText id="ModifLib" size="100" value="#{paramDomainFormationController.libSaisi}"/>
     					<div class="twoGroupsButton">
     						<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     							action="#{paramDomainFormationController.validModLangLib}"/>
@@ -91,7 +91,7 @@
     					value="#{paramDomainFormationController.langueSelected}">
     					<f:selectItems value="#{paramDomainFormationController.allLangue}"/>
     				</p:selectOneMenu>
-    				<h:inputText id="choixlib" size="100"
+    				<p:inputText id="choixlib" size="100"
     					value="#{paramDomainFormationController.libSaisi}"/>
     				<div class="twoGroupsButton">
     					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"

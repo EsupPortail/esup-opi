@@ -9,6 +9,9 @@
 package org.esupportail.opi.web.beans.pojo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.opi.domain.beans.etat.Etat;
@@ -108,6 +111,11 @@ public class IndVoeuPojo implements Serializable {
 	 * calendrier de rendez-vous.
 	 */
 	private CalendarRDV calendrierRdv;
+	
+	/**
+	 * The avis du vows.
+	 */
+	private List<Avis> avisAsList;
 	
 	/**
 	 * A logger.
@@ -228,7 +236,7 @@ public class IndVoeuPojo implements Serializable {
 	 * Find and set the avis in use.
 	 */
 	public void initAvisInUse() {
-		if (this.indVoeu.getAvis() != null) {
+		if (!this.indVoeu.getAvis().isEmpty()) {
 			for (Avis a : this.indVoeu.getAvis()) {
 				if (a.getTemoinEnService()) { 
 					this.avisEnService =  a; 
@@ -323,6 +331,16 @@ public class IndVoeuPojo implements Serializable {
 	 */
 	public void setVrsEtape(final VersionEtapeDTO vrsEtape) {
 		this.vrsEtape = vrsEtape;
+	}
+
+	/**
+	 * @return the avis
+	 */
+	public List<Avis> getAvisAsList() {
+		if (!this.indVoeu.getAvis().isEmpty()) {
+			this.avisAsList = new ArrayList<Avis>(indVoeu.getAvis());
+		}
+		return avisAsList;
 	}
 
 	/**

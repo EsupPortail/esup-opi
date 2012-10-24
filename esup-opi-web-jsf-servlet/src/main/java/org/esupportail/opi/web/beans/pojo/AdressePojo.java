@@ -78,6 +78,17 @@ public class AdressePojo {
 	public AdressePojo(final Adresse address, final DomainApoService apoService) {
 		super();
 		adresse = address.clone();
+		adresse.setAdr1(address.getAdr1());
+		adresse.setAdr2(address.getAdr2());
+		adresse.setAdr3(address.getAdr3());
+		adresse.setCedex(address.getCedex());
+		adresse.setCodBdi(address.getCodBdi());
+		adresse.setCodCommune(address.getCodCommune());
+		adresse.setCodPays(address.getCodPays());
+		adresse.setFaxNumber(address.getFaxNumber());
+		adresse.setLibComEtr(address.getLibComEtr());
+		adresse.setMail(address.getMail());
+		adresse.setPhoneNumber(address.getPhoneNumber());
 		if (!StringUtils.hasText(address.getCodPays())) {
 			adresse.setCodPays(Constantes.CODEFRANCE);
 		}
@@ -86,7 +97,7 @@ public class AdressePojo {
 		commune = apoService.getCommune(adresse.getCodCommune(), adresse.getCodBdi());
 		if (adresse.getCedex() != null) {
 			isCedex = true;
-		}		
+		}
 	}
 	
 	

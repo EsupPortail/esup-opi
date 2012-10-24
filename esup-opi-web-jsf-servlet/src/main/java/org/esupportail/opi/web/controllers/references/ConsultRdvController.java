@@ -219,7 +219,7 @@ public class ConsultRdvController extends AbstractContextAwareController {
 			}
 			//Récupération des versionEtpOpi de la liste VetCalendar
 			for (VetCalendar vetCal : calendarRdv.getVets()) {
-				listVetDto.add(getBusinessCacheService().getVersionEtape(
+				listVetDto.add(getDomainApoService().getVersionEtape(
 						vetCal.getCodEtp(), vetCal.getCodVrsVet()));
 			}
 			if (!listVetDto.isEmpty()) {

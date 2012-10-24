@@ -420,7 +420,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 			List<IndividuPojo> listeIndPojo = 
 				Utilitaires.convertIndInIndPojo(listeInd, 
 						getParameterService(), getI18nService(), 
-						getBusinessCacheService(), listComm, null, 
+						getDomainApoService(), listComm, null, 
 						getParameterService().getTypeTraitements(),
 						getParameterService().getCalendarRdv(), null, false);
 
@@ -468,7 +468,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 			List<IndividuPojo> listeIndPojo = 
 				Utilitaires.convertIndInIndPojo(listeInd, 
 						getParameterService(), getI18nService(), 
-						getBusinessCacheService(), listComm, null, 
+						getDomainApoService(), listComm, null, 
 						getParameterService().getTypeTraitements(), 
 						getParameterService().getCalendarRdv(), null, false);
 
@@ -806,7 +806,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 					
 					// converti en indPojo en filtrant sur la liste des type de décisions cochés
 					IndividuPojo iPojo = new IndividuPojo(i,
-							getBusinessCacheService(), getI18nService(), 
+							getDomainApoService(), getI18nService(), 
 							getParameterService(), lesCommissions, lesTypeDecisions, lesTypeTrait, listCalendrierParam, null);
 					if (initCursusPojo) {
 						iPojo.initIndCursusScolPojo(getDomainApoService(), getI18nService());
@@ -923,7 +923,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 					TraitementCmi trtCmi = 
 						unAvis.getIndVoeu().getLinkTrtCmiCamp().getTraitementCmi();
 					// on recupere l'etape de l'avis
-					VersionEtapeDTO vDTO = getBusinessCacheService().getVersionEtape(
+					VersionEtapeDTO vDTO = getDomainApoService().getVersionEtape(
 							trtCmi.getVersionEtpOpi().getCodEtp(), 
 							trtCmi.getVersionEtpOpi().getCodVrsVet());
 					// on cree l'entree de l'etape si elle n'existe pas

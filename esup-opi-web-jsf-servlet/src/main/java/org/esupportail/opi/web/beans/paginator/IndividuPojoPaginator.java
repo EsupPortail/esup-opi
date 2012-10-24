@@ -158,7 +158,7 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 			Utilitaires.convertIndInIndPojo(getVisibleItems(), 
 					getSessionController().getParameterService(), 
 					getSessionController().getI18nService(), 
-					getSessionController().getBusinessCacheService(), 
+					getSessionController().getDomainApoService(), 
 					Utilitaires.getListCommissionsByRight(
 							(Gestionnaire) getSessionController().getCurrentUser(), 
 							getSessionController().getDomainApoService(),
@@ -217,7 +217,7 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 					getIndRechPojo().getCodeTrtCmiRecherchee());
 			if (comm.getTraitementCmi().contains(trtCmi)) {
 				VersionEtpOpi vetOpi = trtCmi.getVersionEtpOpi();
-				VersionEtapeDTO vet = getSessionController().getBusinessCacheService().getVersionEtape(
+				VersionEtapeDTO vet = getSessionController().getDomainApoService().getVersionEtape(
 						vetOpi.getCodEtp(), vetOpi.getCodVrsVet());
 				versionsEtp.add(vet);
 			} else {
@@ -230,7 +230,7 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 			Utilitaires.convertIndInIndPojo(getVisibleItems(), 
 					getSessionController().getParameterService(), 
 					getSessionController().getI18nService(), 
-					getSessionController().getBusinessCacheService(),
+					getSessionController().getDomainApoService(),
 					cmi, typeD, getSessionController().getParameterService().getTypeTraitements(), 
 					getSessionController().getParameterService().getCalendarRdv(),
 					versionsEtp, false);

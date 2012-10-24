@@ -389,7 +389,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 		PieceJustificative laPJ = (PieceJustificative) nomenclature;
 		for (PieceJustiVet p : laPJ.getVersionEtapes()) {
 			PieceJustiVetPojo pjv = new PieceJustiVetPojo();
-			pjv.setVersionEtape(getBusinessCacheService().getVersionEtape(
+			pjv.setVersionEtape(getDomainApoService().getVersionEtape(
 					p.getVersionEtpOpi().getCodEtp(), p.getVersionEtpOpi().getCodVrsVet()));
 			pjv.setPieceJustiVet(p);
 			if (getSessionController().isAllViewPJ()) {
@@ -418,7 +418,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 		PieceJustificative laPJ = (PieceJustificative) nomenclature;
 		for (PieceJustiVet p : laPJ.getVersionEtapes()) {
 			PieceJustiVetPojo pjv = new PieceJustiVetPojo();
-			pjv.setVersionEtape(getBusinessCacheService().getVersionEtape(
+			pjv.setVersionEtape(getDomainApoService().getVersionEtape(
 					p.getVersionEtpOpi().getCodEtp(), p.getVersionEtpOpi().getCodVrsVet()));
 			pjv.setPieceJustiVet(p);
 			if (getSessionController().isAllViewPJ()) {
@@ -445,7 +445,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 		Set<VersionEtpOpi> listEtpByRight = Utilitaires.getListEtpByRight(getCurrentGest());
 		for (PieceJustiVet p : laPJ.getVersionEtapes()) {
 			PieceJustiVetPojo pjv = new PieceJustiVetPojo();
-			pjv.setVersionEtape(getBusinessCacheService().getVersionEtape(
+			pjv.setVersionEtape(getDomainApoService().getVersionEtape(
 					p.getVersionEtpOpi().getCodEtp(), p.getVersionEtpOpi().getCodVrsVet()));
 			pjv.setPieceJustiVet(p);
 			if (getSessionController().isAllViewPJ()) {
@@ -573,19 +573,17 @@ public class NomenclatureController extends AbstractContextAwareController {
 				}
 				PieceJustificative piece = (PieceJustificative) nomenclature;
 				piece.setVersionEtapes(listP);
-				// delete the etapes deleted by the user
-				for (PieceJustiVetPojo p : deleteEtapes) {
-					if (p.getPieceJustiVet().getId() != 0) {
-						getParameterService().deletePieceJustiVet(p.getPieceJustiVet());
-					}
-				}
 			}
 			nomenclature = (Nomenclature) getDomainService().update(
 					nomenclature, getCurrentGest().getLogin());
 			getParameterService().updateNomenclature(nomenclature);
-
+			// delete the etapes deleted by the user
+			for (PieceJustiVetPojo p : deleteEtapes) {
+				if (p.getPieceJustiVet().getId() != 0) {
+					getParameterService().deletePieceJustiVet(p.getPieceJustiVet());
+				}
+			}
 			reset();
-
 
 			addInfoMessage(null, "INFO.ENTER.SUCCESS");
 		}
@@ -614,10 +612,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 			}
 			
 			// delete nomenclature
-			getParameterService().deleteNomenclature(nomenclature);
-			
-	
-	
+			getParameterService().deleteNomenclature(nomenclature);	
 			addInfoMessage(null, "INFO.DELETE.SUCCESS");
 		} else {
 			addErrorMessage(null, "ERROR.NOM.CAN_NOT.DELETE");
@@ -1188,6 +1183,14 @@ public class NomenclatureController extends AbstractContextAwareController {
 		return nom;
 	}
 	
+	/**
+	 * Return all NomenclaturePojo in use.
+	 * @return List< NomenclaturePojo>
+	 */
+	public List<NomenclaturePojo> getPieceJustificativesItems() {
+		List<NomenclaturePojo> pj = new ArrayList<NomenclaturePojo>(getPieceJustificatives());	
+		return pj;
+	}
 	
 	/**
 	 * @return pieces justificative d'une vet sous forme de NomenclaturePojo
@@ -1265,6 +1268,15 @@ public class NomenclatureController extends AbstractContextAwareController {
 	}
 	
 	/**
+	 * Return all MotivationAvis in use.
+	 * @return List< NomenclaturePojo>
+	 */
+	public List<NomenclaturePojo> getAllMotivationsAvisItems() {
+		List<NomenclaturePojo> np = new ArrayList<NomenclaturePojo>(getAllMotivationsAvis());	
+		return np;
+	}
+	
+	/**
 	 * Return all Campagne.
 	 * @return Set< Campagne>
 	 */
@@ -1275,6 +1287,15 @@ public class NomenclatureController extends AbstractContextAwareController {
 			nom.add(new NomenclaturePojo(c, getRegimeIns().get(c.getCodeRI())));
 		}
 		return nom;
+	}
+	
+	/**
+	 * Return all Campagne in use.
+	 * @return List< NomenclaturePojo>
+	 */
+	public List<NomenclaturePojo> getCampagnesInUse() {
+		List<NomenclaturePojo> pj = new ArrayList<NomenclaturePojo>(getCampagnes());	
+		return pj;
 	}
 	
 	/**
@@ -1459,6 +1480,15 @@ public class NomenclatureController extends AbstractContextAwareController {
 		return allEtapes;
 	}
 
+	/**
+	 * Return all PieceJustiVetPojo in use.
+	 * @return List< PieceJustiVetPojo>
+	 */
+	public List<PieceJustiVetPojo> getAllEtapesItems() {
+		List<PieceJustiVetPojo> pj = new ArrayList<PieceJustiVetPojo>(getAllEtapes());	
+		return pj;
+	}
+	
 	/**
 	 * @param allEtapes the allEtapes to set
 	 */

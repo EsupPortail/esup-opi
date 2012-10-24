@@ -128,7 +128,7 @@ public class PMPaginator extends IndividuPaginator {
 			Utilitaires.convertIndInIndPojo(getVisibleItems(), 
 					getSessionController().getParameterService(),
 					getSessionController().getI18nService(),
-					getSessionController().getBusinessCacheService(), 
+					getSessionController().getDomainApoService(), 
 					Utilitaires.getListCommissionsByRight(
 							(Gestionnaire) getSessionController().getCurrentUser(), 
 							getSessionController().getDomainApoService(),

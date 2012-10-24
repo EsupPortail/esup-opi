@@ -6,8 +6,11 @@ package org.esupportail.opi.web.controllers;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -25,12 +28,16 @@ import org.esupportail.commons.utils.ContextUtils;
 import org.esupportail.commons.utils.strings.StringUtils;
 import org.esupportail.commons.web.controllers.ExceptionController;
 import org.esupportail.commons.web.controllers.Resettable;
+import org.esupportail.opi.domain.beans.parameters.accessRight.Fonction;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.User;
+import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.services.authentification.Authenticator;
 import org.esupportail.opi.web.beans.parameters.FormationInitiale;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
+import org.esupportail.opi.web.beans.pojo.AvisPojo;
+import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
@@ -89,7 +96,7 @@ public class SessionController extends AbstractDomainAwareBean {
 	 * The student code.
 	 */
 	private String codEtu;
-
+	
 	/**
 	 * At true if call in ENT.
 	 * Default value : false.
@@ -236,7 +243,7 @@ public class SessionController extends AbstractDomainAwareBean {
 				//TODO : does it work without the following ?
 				//regime.getControlField());
 				indPojo = new IndividuPojo(
-						individu, getBusinessCacheService(),
+						individu, getDomainApoService(),
 						getI18nService(), getParameterService(), 
 						getRegimeIns().get(Utilitaires.getCodeRIIndividu(individu,
 								getDomainService())), getParameterService().getTypeTraitements(),
@@ -253,8 +260,17 @@ public class SessionController extends AbstractDomainAwareBean {
 		return (IndividuPojo) ContextUtils.getRequestAttribute(CURRENT_INDIVIDU_ATTRIBUTE);
 	}
 
+	/**
+	 * List of IndVoeuPojo in use.
+	 * @return
+	 */
+	public List<IndVoeuPojo> getIndVoeuPojosItems() {
+		List<IndVoeuPojo> indVoeuxPojo = new ArrayList<IndVoeuPojo>();
+		indVoeuxPojo.addAll(getCurrentInd().getIndVoeuxPojo());
+		return indVoeuxPojo;		
+	}
 	
-	
+
 	/**
 	 * Initialize the current Individu.
 	 * @param numeroDossier

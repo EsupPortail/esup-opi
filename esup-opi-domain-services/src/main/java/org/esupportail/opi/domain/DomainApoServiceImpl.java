@@ -287,7 +287,6 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	/** 
 	 * @see org.esupportail.opi.domain.DomainApoService#getEtapes(java.lang.String)
 	 */
-	@Deprecated
 	public List<Etape> getEtapes(final String codCge) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getEtapes( " + codCge + " )");
@@ -371,22 +370,19 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	/** 
 	 * @see org.esupportail.opi.domain.DomainApoService#getVersionEtape(java.lang.String, java.lang.Integer)
 	 */
-	/**
-	 * TODO : à supprimer (11/01/2012)
-	 */
-//	@Override
-//	@Cacheable(modelId = CacheModelConst.ENS_APOGEE_MODEL)
-//	public VersionEtapeDTO getVersionEtape(final String codEtp, final Integer codVrsVet) {
-//		if (log.isDebugEnabled()) {
-//			log.debug("entering getVersionEtape(" + codEtp + ", " 
-//					+ codVrsVet + "  )");
-//		}
-//		try {
-//			return remoteCriApogeeEns.getVersionEtape(codEtp, codVrsVet);
-//		} catch (Exception e) {
-//			throw new CommunicationApogeeException(e);
-//		}
-//	}
+	@Override
+	@Cacheable(cacheName = CacheModelConst.ENS_APOGEE_MODEL)
+	public VersionEtapeDTO getVersionEtape(final String codEtp, final Integer codVrsVet) {
+		if (log.isDebugEnabled()) {
+			log.debug("entering getVersionEtape(" + codEtp + ", " 
+					+ codVrsVet + "  )");
+		}
+		try {
+			return remoteCriApogeeEns.getVersionEtape(codEtp, codVrsVet);
+		} catch (Exception e) {
+			throw new CommunicationApogeeException(e);
+		}
+	}
 
 	//////////////////////////////////////////////////////////////
 	// Pays

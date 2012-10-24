@@ -872,7 +872,7 @@ public class OpinionController
 							.getTraitementCmi().getVersionEtpOpi();
 					addErrorMessage(null, "ERROR.FIELD.EXIST.RANG",
 							a.getRang(),
-							getBusinessCacheService().getVersionEtape(
+							getDomainApoService().getVersionEtape(
 								vet.getCodEtp(), vet.getCodVrsVet()).getLibWebVet());
 				}
 				ctrlOk = false;
@@ -988,7 +988,7 @@ public class OpinionController
 			Commission comm = getParameterService().getCommission(codeCommRech, null);
 			for (TraitementCmi trait : comm.getTraitementCmi()) {
 				VersionEtpOpi vetOPI = trait.getVersionEtpOpi();
-				VersionEtapeDTO vetDTO = getBusinessCacheService().getVersionEtape(
+				VersionEtapeDTO vetDTO = getDomainApoService().getVersionEtape(
 						vetOPI.getCodEtp(), vetOPI.getCodVrsVet());
 				vetComm.add(vetDTO);
 			}
