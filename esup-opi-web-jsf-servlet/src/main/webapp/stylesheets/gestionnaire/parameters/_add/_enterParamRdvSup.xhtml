@@ -88,7 +88,7 @@ xmlns:t="http://myfaces.apache.org/tomahawk">
 					validator="#{paramRdvSupController.validateDebutAMHour}" 
 					value="#{paramRdvSupController.dateDebutAM}">
 					<f:selectItems id="debutAMItems" value="#{paramRdvSupController.AMHours}" />
-					<f:convertDateTime type="date" pattern="h:mm" timeZone="Europe/Paris"/>
+					<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/>
 				</p:selectOneMenu>
 				
 				<p:selectOneMenu id="finAM"
@@ -96,30 +96,31 @@ xmlns:t="http://myfaces.apache.org/tomahawk">
 					validator="#{paramRdvSupController.validateFinAMHour}" 
 					value="#{paramRdvSupController.dateFinAM}">
 					<f:selectItems id="finAMItems" value="#{paramRdvSupController.AMHours}"/>					
-					<f:convertDateTime type="date" pattern="h:mm" timeZone="Europe/Paris"/>
-				</p:selectOneMenu>
-				
+ 					<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/>
+ 				</p:selectOneMenu>
+
 				<p:selectOneMenu id="debutPM"
 					immediate="true"
 					validator="#{paramRdvSupController.validateDebutPMHour}"
 					value="#{paramRdvSupController.dateDebutPM}">
 					<f:selectItems id="debutPMItems" value="#{paramRdvSupController.PMHours}" />		
-					<f:convertDateTime type="date" pattern="h:mm" timeZone="Europe/Paris"/>
-				</p:selectOneMenu>
-				
+ 					<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/>
+ 				</p:selectOneMenu>
+
 				<p:selectOneMenu id="finPM"
 					immediate="true" 
 					validator="#{paramRdvSupController.validateFinPMHour}"
 					value="#{paramRdvSupController.dateFinPM}">
 					<f:selectItems id="finPMItems" value="#{paramRdvSupController.PMHours}" />
-					<f:convertDateTime type="date" pattern="h:mm" timeZone="Europe/Paris"/>
-				</p:selectOneMenu>
+ 					<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/>
+ 				</p:selectOneMenu>
+
 			</h:panelGrid>
 
 		</h:column>
 		<h:column>
 		<p:commandLink id="clmoissuiv" immediate="true"
-			actionListener="#{paramRdvSupController.nextMonth}"
+			actionListener="#{paramRdvSupController.nextMonth}" 
 			ajax="false">
 			<p:graphicImage border="0"
 				value="/media/images/forward.png" 

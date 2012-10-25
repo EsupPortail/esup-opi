@@ -3,9 +3,9 @@
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui">
     <h:form id="formAddParamJourHo">
-    	<h:outputText value="#{msgs['CALENDAR_RDV.JOUR_SELECTED']}" styleClass="section-header">
+    	<h:outputFormat value="#{msgs['CALENDAR_RDV.JOUR_SELECTED']}" styleClass="section-header">
     		<f:param value="#{paramRdvSupController.jourSelectedString}" />
-    	</h:outputText>
+    	</h:outputFormat>
     	
     	<h:panelGrid columns="4" 
     		width="100%"

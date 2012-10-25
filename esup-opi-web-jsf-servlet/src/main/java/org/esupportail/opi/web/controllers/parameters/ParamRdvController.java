@@ -551,12 +551,6 @@ public class ParamRdvController extends AbstractContextAwareController {
 				return true;
 			}
 			
-//			if (getCalendarRDV().getMsgMailConfirmation().length() > LENGTH_MSG) {
-//				addErrorMessage(FORMULAIRE_ADD_RDV, "ERROR.FIELD.TOO_LONG", "Mail de confirmation",
-//						LENGTH_MSG);
-//				return true;
-//			}
-			
 			if (getCalendarRDV().getMsgValidation() == null 
 					|| getCalendarRDV().getMsgValidation().isEmpty()) {
 				addErrorMessage(FORMULAIRE_ADD_RDV, ERROR_FIELD_EMPTY, 

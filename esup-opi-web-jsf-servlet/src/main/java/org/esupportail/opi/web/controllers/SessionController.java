@@ -6,11 +6,9 @@ package org.esupportail.opi.web.controllers;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -28,16 +26,12 @@ import org.esupportail.commons.utils.ContextUtils;
 import org.esupportail.commons.utils.strings.StringUtils;
 import org.esupportail.commons.web.controllers.ExceptionController;
 import org.esupportail.commons.web.controllers.Resettable;
-import org.esupportail.opi.domain.beans.parameters.accessRight.Fonction;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.User;
-import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.services.authentification.Authenticator;
 import org.esupportail.opi.web.beans.parameters.FormationInitiale;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
-import org.esupportail.opi.web.beans.pojo.AvisPojo;
-import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
@@ -46,17 +40,13 @@ import org.esupportail.opi.web.beans.utils.Utilitaires;
 /**
  * A bean to memorize the context of the application.
  */
+@SuppressWarnings("deprecation")
 public class SessionController extends AbstractDomainAwareBean {
 
 	/**
 	 * The serialization id.
 	 */
 	private static final long serialVersionUID = -5936434246704000653L;
-
-	/**
-	 * The name of the parameter that gives the logout URL service.
-	 */
-	private static final String LOGOUT_URL_PARAM_SERVICE = "edu.yale.its.tp.cas.client.logoutUrl.service";
 
 	/**
 	 * The name of the request attribute that holds the current individu.
@@ -96,7 +86,7 @@ public class SessionController extends AbstractDomainAwareBean {
 	 * The student code.
 	 */
 	private String codEtu;
-	
+
 	/**
 	 * At true if call in ENT.
 	 * Default value : false.
@@ -233,9 +223,6 @@ public class SessionController extends AbstractDomainAwareBean {
 
 			IndividuPojo indPojo = null;
 			if (individu != null) {
-				int codeRI = Utilitaires.getCodeRIIndividu(individu,
-						getDomainService());
-				RegimeInscription regime = getRegimeIns().get(codeRI);
 				//Test l etat de l'individu
 				individu = 
 					getDomainService().updateStateIndividu(
@@ -260,17 +247,8 @@ public class SessionController extends AbstractDomainAwareBean {
 		return (IndividuPojo) ContextUtils.getRequestAttribute(CURRENT_INDIVIDU_ATTRIBUTE);
 	}
 
-	/**
-	 * List of IndVoeuPojo in use.
-	 * @return
-	 */
-	public List<IndVoeuPojo> getIndVoeuPojosItems() {
-		List<IndVoeuPojo> indVoeuxPojo = new ArrayList<IndVoeuPojo>();
-		indVoeuxPojo.addAll(getCurrentInd().getIndVoeuxPojo());
-		return indVoeuxPojo;		
-	}
 	
-
+	
 	/**
 	 * Initialize the current Individu.
 	 * @param numeroDossier
@@ -394,13 +372,13 @@ public class SessionController extends AbstractDomainAwareBean {
 	 * @return a String.
 	 */
 	public String restart() {
-		Map<String, Object> resettables = BeanUtils.getBeansOfClass(Resettable.class);
+		Map<String, Resettable> resettables = BeanUtils.getBeansOfClass(Resettable.class);
 		Boolean isManagerConnect = true;
 		Boolean isEnt = isInEnt;
 		if (getCurrentUser() == null && getCurrentInd() != null) {
 			isManagerConnect = false;
 		}
-		for (Map.Entry<String, Object> nameEntry : resettables.entrySet()) {
+		for (Entry<String, Resettable> nameEntry : resettables.entrySet()) {
 			String name = nameEntry.getKey();
 			if (log.isDebugEnabled()) {
 				log.debug("trying to reset bean [" + name + "]...");
