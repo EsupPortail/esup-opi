@@ -59,7 +59,7 @@
         </snapshotRepository>
     </distributionManagement>
     <scm>
-        <developerConnection>scm:git:ssh://git@github.com:EsupPortail/esup-opi.git</developerConnection>
+        <developerConnection>scm:git:ssh://git@github.com/EsupPortail/esup-opi</developerConnection>
         <url>http://www.esup-portail.org/display/PROJESUPOPI/Home</url>
     </scm>
     <build>
