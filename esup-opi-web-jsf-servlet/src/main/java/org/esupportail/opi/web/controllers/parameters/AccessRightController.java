@@ -4,6 +4,7 @@
  */
 package org.esupportail.opi.web.controllers.parameters;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Set;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
+import org.esupportail.opi.domain.beans.BeanProfile;
 import org.esupportail.opi.domain.beans.parameters.accessRight.AccessRight;
 import org.esupportail.opi.domain.beans.parameters.accessRight.AccessType;
 import org.esupportail.opi.domain.beans.parameters.accessRight.Fonction;
@@ -25,7 +27,7 @@ import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 
 /**
  * Gere les modfication des droits pour chaque profil
- * et aussi controlle les droits pour chaque actions au sien des pages.
+ * et aussi controlle les droits pour chaque actions au sein des pages.
  * @author cleprous
  *
  */
@@ -270,7 +272,15 @@ public class AccessRightController extends AbstractContextAwareController {
 		return getAccessTypes().keySet();
 	}
 
-
+	/**
+	 * List of BeanProfile in use.
+	 * @return
+	 */
+	public List<String> getCodeAccessItems() {
+		List<String> s = new ArrayList<String>();
+		s.addAll(getCodeAccess());
+		return s;		
+	}
 
 	/**
 	 * @return the accessTypes
@@ -279,6 +289,7 @@ public class AccessRightController extends AbstractContextAwareController {
 		return accessTypes;
 	}
 
+	
 
 
 	/**

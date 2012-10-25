@@ -12,17 +12,20 @@
     	<h:panelGroup>
     		<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     			rendered="#{autoLpController.actionEnum.whatAction == autoLpController.actionEnum.addAction}"
-    			action="#{autoLpController.add}"/>
+    			action="#{autoLpController.add}"
+    			ajax="false"/>
     		<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     			rendered="#{autoLpController.actionEnum.whatAction == autoLpController.actionEnum.updateAction}"
-    			action="#{autoLpController.update}"/>
+    			action="#{autoLpController.update}"
+    			ajax="false"/>
     		<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    			action="#{autoLpController.reset}"/>
+    			action="#{autoLpController.reset}"
+    			ajax="false"/>
     	</h:panelGroup>
     </h:panelGrid>
     
     
-    <h:panelGrid columns="4" styleClass="displayInfo">
+    <h:panelGrid columns="2" columnClasses="colRight,colLeft" styleClass="displayInfo">
     	<h:panelGroup>
     		<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
     			styleClass="form-field-label-inHeader-validator" for="libelle"
@@ -32,24 +35,20 @@
     			rendered="#{autoLpController.actionEnum.whatAction == autoLpController.actionEnum.updateAction}"/>
     	</h:panelGroup>
     	<h:panelGroup>
-    		<h:inputText id="libelle" size="30" value="#{autoLpController.autoListPrincipale.autoLp.libelle}"
+    		<p:inputText id="libelle" size="30" value="#{autoLpController.autoListPrincipale.autoLp.libelle}"
     			rendered="#{autoLpController.actionEnum.whatAction == autoLpController.actionEnum.addAction}"/>
     		<h:outputText id="libelleText" value="#{autoLpController.autoListPrincipale.autoLp.libelle}"
     			rendered="#{autoLpController.actionEnum.whatAction == autoLpController.actionEnum.updateAction}"/>
     	</h:panelGroup>
     	
-    	
+    	<h:outputLabel value="#{msgs['FIELD_LABEL.MAIL']}"
+    			styleClass="form-field-label-inHeader-validator" for="mail"/>
+    	<p:inputText id="mail" size="30" value="#{autoLpController.autoListPrincipale.autoLp.mail}"/>    	
     	
     	
     	<h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}"
     			styleClass="form-field-label-inHeader-validator" for="inUse"/>
     	<p:selectBooleanCheckbox id="inUse" value="#{autoLpController.autoListPrincipale.autoLp.temoinEnService}"/>
-    	
-    	<h:outputLabel value="#{msgs['FIELD_LABEL.MAIL']}"
-    			styleClass="form-field-label-inHeader-validator" for="mail"/>
-    	<h:inputText id="mail" size="30" value="#{autoLpController.autoListPrincipale.autoLp.mail}"/>
-    	
-    	
     	
     	
     	<h:outputLabel value="#{msgs['FIELD_LABEL.CHOIX_CGE_COMMISSION_VET']}"
@@ -59,11 +58,12 @@
     			onclick="javascript:{radioOnchange(this, '#{autoLpController.choix}', 'seeAutoLpForm:selectChoix');}"
     			value="#{autoLpController.choix}">
     		    <f:selectItems value="#{autoLpController.allChoix}"/>
+    		    <p:ajax update="libelleCommission,selectCom"/>
     		</p:selectOneRadio>
-    		<p:commandButton id="selectChoix"/>
+    		<!-- <p:commandButton id="selectChoix"/> -->
     	</h:panelGroup>
     	
-    	<h:panelGroup>
+    	<h:panelGroup id="libelleCommission">
     		<h:outputLabel value="#{msgs['FIELD_LABEL.LIST_CGE']}"
     			styleClass="form-field-label-inHeader-validator" for="listCge"
     			rendered="#{autoLpController.choixCge}"/>
@@ -74,7 +74,7 @@
     			styleClass="form-field-label-inHeader-validator" for="listVet"
     			rendered="#{autoLpController.choixVet}"/>
     	</h:panelGroup>
-    	<h:panelGroup>
+    	<h:panelGroup id="selectCom">
     		<p:selectOneMenu id="listCge"
     			styleClass="oneMenu"
     			rendered="#{autoLpController.choixCge}"
@@ -89,12 +89,14 @@
     				<f:selectItems value="#{autoLpController.allCommItems}"/>
     			</p:selectManyMenu>
     			<h:panelGrid columns="1">
-    				<p:commandButton image="/media/images/fleche_gauche.gif"
+    				<p:commandButton icon="ui-icon-arrowthick-1-w"
     					styleClass="icone"
-    					action="#{autoLpController.suppCommItems}"/>
-    				<p:commandButton image="/media/images/fleche_droite.gif"
+    					action="#{autoLpController.suppCommItems}"
+    					ajax="false"/>
+    				<p:commandButton icon="ui-icon-arrowthick-1-e"
     					styleClass="icone"
-    					action="#{autoLpController.ajouCommItems}"/>
+    					action="#{autoLpController.ajouCommItems}"
+    					ajax="false"/>
     			</h:panelGrid>
     			<p:selectManyMenu styleClass="manyMenu"
     				value="#{autoLpController.selectCommDI}">
@@ -109,21 +111,21 @@
     				<f:selectItems value="#{autoLpController.allVetItems}"/>
     			</p:selectManyMenu>
     			<h:panelGrid columns="1">
-    				<p:commandButton image="/media/images/fleche_gauche.gif"
+    				<p:commandButton icon="ui-icon-arrowthick-1-w"
     					styleClass="icone"
-    					action="#{autoLpController.suppVetItems}"/>
-    				<p:commandButton image="/media/images/fleche_droite.gif"
+    					action="#{autoLpController.suppVetItems}"
+    					ajax="false"/>
+    				<p:commandButton icon="ui-icon-arrowthick-1-e"
     					styleClass="icone"
-    					action="#{autoLpController.ajouVetItems}"/>
+    					action="#{autoLpController.ajouVetItems}"
+    					ajax="false"/>
     			</h:panelGrid>
     			<p:selectManyMenu styleClass="manyMenu"
     				value="#{autoLpController.selectVetDI}">
     				<f:selectItems value="#{autoLpController.vetItems}"/>
     			</p:selectManyMenu>
     		</h:panelGrid>
-    	</h:panelGroup>
-    	
-    	
+    	</h:panelGroup>  	
     	
     	<h:outputLabel value="#{msgs['FIELD_LABEL.TYPE_DECISION_LP']}"
     			styleClass="form-field-label-inHeader-validator" for="typeDecLp"/>

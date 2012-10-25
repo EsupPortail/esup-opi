@@ -119,7 +119,7 @@ public interface DomainApoService extends Serializable {
     	 * @param gest 
     	 * @param domainApoService 
     	 * @param parameterService 
-    	 * @return Set< Commission>
+    	 * @return Set<Commission>
     	 */
 	Set<Commission> getListCommissionsByRight(final Gestionnaire gest, final Boolean temEnSve);
 

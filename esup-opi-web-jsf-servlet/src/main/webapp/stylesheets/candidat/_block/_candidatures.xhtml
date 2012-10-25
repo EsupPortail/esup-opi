@@ -26,7 +26,7 @@
         		</h:panelGrid>
         	</div>
         	<p:dataTable var="indVoeuPojo"
-        		value="#{sessionController.currentInd.indVoeuxPojo}"
+        		value="#{sessionController.indVoeuPojosItems}"
         		alternateColors="false" renderedIfEmpty="false"
         		styleClass="displayInfo">
         		<p:column>
@@ -117,7 +117,7 @@
         				rendered="#{empty indVoeuPojo.indVoeu.avis}" />
         			<p:dataList id="datalistavis" style="myStyle"
         				var="avis"
-          				value="#{indVoeuPojo.indVoeu.avis}"> 	
+          				value="#{indVoeuPojo.avisAsList}"> 	
           				<h:outputText value="#{avis.result.libelle}" 
           					rendered="#{avis.temoinEnService and avis.validation}"/>				
         			</p:dataList>
@@ -128,7 +128,7 @@
         			</f:facet>
         			<p:dataList id="datalistavis2" style="myStyle"
         				var="avis2"
-          				value="#{indVoeuPojo.indVoeu.avis}"> 	
+          				value="#{indVoeuPojo.avisAsList}"> 	
           				<h:outputText value="#{avis2.commentaire}" 
           					rendered="#{avis2.temoinEnService and avis2.validation}"/>				
         			</p:dataList>

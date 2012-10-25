@@ -345,7 +345,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		}
 		
 		return statVetDiplomeCriteria(
-				businessCacheService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
+				domainApoService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
 						n1.getVersionEtpOpi().getCodVrsVet()), n2, c);
 	}
 	/**
@@ -361,7 +361,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		}
 		
 		return statVetEtatIndividuCriteria(
-				businessCacheService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
+				domainApoService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
 						n1.getVersionEtpOpi().getCodVrsVet()), n2, c);
 	}
 	/**
@@ -377,7 +377,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		}
 		
 		return statVetEtatVoeuCriteria(
-				businessCacheService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
+				domainApoService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
 						n1.getVersionEtpOpi().getCodVrsVet()), n2, c);
 	}
 	/**
@@ -393,7 +393,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		}
 		
 		return statVetMotivationCriteria(
-				businessCacheService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
+				domainApoService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
 						n1.getVersionEtpOpi().getCodVrsVet()), n2, c);
 	}
 	/**
@@ -408,7 +408,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		}
 		
 		return statVetPaysCriteria(
-				businessCacheService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
+				domainApoService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
 						n1.getVersionEtpOpi().getCodVrsVet()), n2, c);
 	}
 	/**
@@ -424,7 +424,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		}
 		
 		return statVetTypeConvocationCriteria(
-				businessCacheService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
+				domainApoService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
 						n1.getVersionEtpOpi().getCodVrsVet()), n2, c);
 	}
 	/**
@@ -440,7 +440,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		}
 		
 		return statVetTypeDecisionCriteria(
-				businessCacheService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
+				domainApoService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
 						n1.getVersionEtpOpi().getCodVrsVet()), n2, c);
 	}
 	/**
@@ -454,7 +454,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		}
 		
 		return allIndividuVet(
-				businessCacheService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
+				domainApoService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
 						n1.getVersionEtpOpi().getCodVrsVet()), c);
 	}
 	

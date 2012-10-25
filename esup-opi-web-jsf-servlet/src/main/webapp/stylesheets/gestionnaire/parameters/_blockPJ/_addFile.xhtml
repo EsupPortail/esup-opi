@@ -12,11 +12,15 @@
             <h:outputLabel value="#{msgs['PJ.ADDED_FILE']}" for="file" />	 
         </h:panelGroup>
         <h:panelGroup >
-            <p:fileUpload id="file" mode="simple" value="#{nomenclatureController.uploadedFile}" rendered="#{nomenclatureController.nomenclature.nomDocument==null}" styleClass="form-inputFileUpload-field" />
-    		<h:commandLink value="#{nomenclatureController.nomenclature.nomDocument}" rendered="#{nomenclatureController.nomenclature.nomDocument!=null}" action="#{formulairesController.download}">
+            <p:fileUpload id="file" mode="simple" value="#{nomenclatureController.uploadedFile}" 
+            	rendered="#{nomenclatureController.nomenclature.nomDocument==null}" 
+            	styleClass="form-inputFileUpload-field" />
+    		<h:commandLink value="#{nomenclatureController.nomenclature.nomDocument}" 
+    			rendered="#{nomenclatureController.nomenclature.nomDocument!=null}" 
+    			action="#{formulairesController.download}">
                 <f:setPropertyActionListener value="#{nomenclatureController.nomenclature.nomDocument}" target="#{formulairesController.nomDocument}" />
     		</h:commandLink>
-            <p:commandButton image="/media/images/cancel.png"
+            <p:commandButton icon="ui-icon-minus"
             	styleClass="form-button-image" immediate="true"
             	rendered="#{nomenclatureController.nomenclature.nomDocument!=null}"
             	action="#{nomenclatureController.removeFile}"

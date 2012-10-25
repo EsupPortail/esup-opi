@@ -2,7 +2,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
     		<h1>
@@ -28,12 +28,13 @@
     						<h:panelGroup>
     							<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
     								immediate="true"
-    								rendered="#{managedAccess.addAuthorized}" >
+    								rendered="#{managedAccess.addAuthorized}"
+    								ajax="false" >
     								<f:setPropertyActionListener value="#{mailContentController.actionEnum.addAction}" 
-    										target="#{mailContentController.actionEnum.whatAction}" />
+    								target="#{mailContentController.actionEnum.whatAction}" />
     							</p:commandButton>
-    							<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-    								immediate="true" action="#{managedAccess.goDisplayFunction}" />
+    							<!-- <p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+    								immediate="true" action="#{managedAccess.goDisplayFunction}" /> -->
     						</h:panelGroup>
     					</div>
     
@@ -53,11 +54,12 @@
     							<h:outputText value="#{mailContent.libelle}" />
     						</p:column>
     						<p:column styleClass="buttonTD">
-    							<p:commandButton image="/media/images/update.png"
+    							<p:commandButton icon="ui-icon-pencil"
     								action="#{mailContentController.goUpdate}"
     								immediate="true" styleClass="form-button-image"
     								title="#{msgs['BUTTON.UPDATE']}"
-    								rendered="#{managedAccess.updateAuthorized}">
+    								rendered="#{managedAccess.updateAuthorized}"
+    								ajax="false">
     								<f:setPropertyActionListener value="#{mailContent}" target="#{mailContentController.mailContent}" />
     							</p:commandButton>
     						</p:column>

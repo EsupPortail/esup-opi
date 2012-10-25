@@ -289,7 +289,6 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	/** 
 	 * @see org.esupportail.opi.domain.DomainApoService#getEtapes(java.lang.String)
 	 */
-	@Deprecated
 	public List<Etape> getEtapes(final String codCge) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getEtapes( " + codCge + " )");
@@ -515,6 +514,30 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 		}
 	}
 	
+	/** 
+	 * @see org.esupportail.opi.domain.BusinessCacheService#
+	 * getCommune(java.lang.String, java.lang.String)
+	 */
+	@Override
+	@Cacheable(cacheName = CacheModelConst.GEO_APOGEE_MODEL)
+	public CommuneDTO getCommune(final String codCom, final String codBdi) {
+		if (log.isDebugEnabled()) {
+			log.debug("entering getCommune(" + codCom + ", " 
+					+ codBdi + "  )");
+		}
+		if (StringUtils.hasText(codCom) 
+				&& StringUtils.hasText(codBdi)) {
+			//parcours la liste des VET ouvertes au recrutement
+			List<CommuneDTO> co = getCommunesDTO(codBdi);
+			for (CommuneDTO c : co) {
+				if (c.getCodeCommune().equals(codCom)) {
+					return c;
+				}
+			}
+		}
+		return null;
+	}
+
 	/** 
 	 * @see org.esupportail.opi.domain.DomainApoService#getCommunes(
 	 * java.lang.String, java.lang.Boolean, java.lang.Boolean)
@@ -1211,29 +1234,7 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 		}
 		adr.setPhoneNumber(adrDTO.getNumTel());
 		return adr;
-	}
-
-	
-	@Override
-	@Cacheable(cacheName = CacheModelConst.GEO_APOGEE_MODEL)
-	public CommuneDTO getCommune(final String codCom, final String codBdi) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering getCommune(" + codCom + ", " 
-					+ codBdi + "  )");
-		}
-		if (StringUtils.hasText(codCom) 
-				&& StringUtils.hasText(codBdi)) {
-			//parcours la liste des VET ouvertes au recrutement
-			List<CommuneDTO> co = getCommunesDTO(codBdi);
-			for (CommuneDTO c : co) {
-				if (c.getCodeCommune().equals(codCom)) {
-					return c;
-				}
-			}
-		}
-		return null;
-	}
-	
+	}	
 
 	// ////////////////////////////////////////////////////////////
 	// Ren1GrpTypDip

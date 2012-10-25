@@ -858,8 +858,8 @@ public class Utilitaires {
 		}
 		
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("voeu : ###" //+ voeu 
-				+ "### --> calendrier de rendez-vous : ###" );//+ calendar + "###");
+			LOGGER.debug("voeu : ###" + voeu 
+				+ "### --> calendrier de rendez-vous : ###" + calendar + "###");
 		}
 		
 		return calendar;

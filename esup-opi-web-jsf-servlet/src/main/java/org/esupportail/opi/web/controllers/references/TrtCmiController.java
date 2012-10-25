@@ -355,7 +355,7 @@ public class TrtCmiController extends AbstractAccessController {
 	 */
 	private BeanTrtCmi prepareTrtCmi(final BeanTrtCmi bt) {
 		bt.setEtape(
-				getBusinessCacheService().getVersionEtape(
+				getDomainApoService().getVersionEtape(
 						bt.getTraitementCmi().getVersionEtpOpi().getCodEtp(),
 						bt.getTraitementCmi().getVersionEtpOpi().getCodVrsVet()));
 		return bt;
@@ -517,7 +517,7 @@ public class TrtCmiController extends AbstractAccessController {
 				if (deleteTrt) {
 					trtcmiToDeleteFinal.add(trtCmi);
 				} else {
-					VersionEtapeDTO v = getBusinessCacheService().getVersionEtape(
+					VersionEtapeDTO v = getDomainApoService().getVersionEtape(
 							trtCmi.getVersionEtpOpi().getCodEtp(),
 							trtCmi.getVersionEtpOpi().getCodVrsVet());
 					addErrorMessage(null, "ERROR.TRT.CMI.EXIST_VOEU", 

@@ -34,18 +34,18 @@
     			<h:outputLabel value="#{msgs['FIELD_LABEL.RANG']}" styleClass="form-field-label-inHeader-validator"
     				for="rangDom"/>
     
-    			<h:inputText id="codeDom" size="11" maxlength="10"
+    			<p:inputText id="codeDom" size="11" maxlength="10"
     				rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.addAction}"
     				value="#{domainController.domain.code}" />
     			<h:outputText rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.updateAction}"
     				value="#{domainController.domain.code}" />
-    			<h:inputText id="libDom" size="42" maxlength="40"
+    			<p:inputText id="libDom" size="42" maxlength="40"
     				value="#{domainController.domain.libelle}" />
-    			<h:inputText id="licDom" size="16" maxlength="15"
+    			<p:inputText id="licDom" size="16" maxlength="15"
     				value="#{domainController.domain.shortLabel}" />
-    			<h:inputText id="actionDom" size="51" maxlength="50"
+    			<p:inputText id="actionDom" size="51" maxlength="50"
     				value="#{domainController.domain.action}" />
-    			<h:inputText id="rangDom" size="3" maxlength="2"
+    			<p:inputText id="rangDom" size="3" maxlength="2"
     				value="#{domainController.domain.rang}" />
     
     		</h:panelGrid>

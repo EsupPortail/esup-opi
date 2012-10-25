@@ -36,12 +36,13 @@
     										rendered="#{sessionController.currentInd.etat.canDoChoiceEtape
     											and sessionController.currentInd.regimeInscription.calInsIsOpen
     											and sessionController.currentInd.asRightsToUpdate}"
-    										action="#{formationController.goSearchFormation}" />
+    										action="#{formationController.goSearchFormation}" 
+    										ajax="false"/>
     								</h:panelGroup>
     							</h:panelGrid>
     						</div>
     						<p:dataTable var="indVoeuPojo"
-    							value="#{sessionController.currentInd.indVoeuxPojo}"
+    							value="#{sessionController.indVoeuPojosItems}"
     							alternateColors="false" renderedIfEmpty="false"
     							styleClass="displayInfo">
     							<p:column>
@@ -61,9 +62,9 @@
     									<h:outputText value="#{msgs['FIELD_LABEL.RESULT']}" />
     								</f:facet>
     								<h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
-    									rendered="#{empty indVoeuPojo.indVoeu.avis}" />
+    									rendered="#{empty indVoeuPojo.avisAsList}" />
     								<p:dataList id="datalistavis" style="myStyle" var="avis"
-    									value="#{indVoeuPojo.indVoeu.avis}">
+    									value="#{indVoeuPojo.avisAsList}">
     									<h:outputText value="#{avis.result.libelle}"
     										rendered="#{avis.temoinEnService and avis.validation}" />
     								</p:dataList>
@@ -73,9 +74,9 @@
     									<h:outputText value="#{msgs['FIELD_LABEL.COMMENTAIRE']}" />
     								</f:facet>
     								<h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
-    									rendered="#{empty indVoeuPojo.indVoeu.avis}" />
+    									rendered="#{empty indVoeuPojo.avisAsList}" />
     								<p:dataList id="datalistavis2" style="myStyle" var="avis2"
-    									value="#{indVoeuPojo.indVoeu.avis}">
+    									value="#{indVoeuPojo.avisAsList}">
     									<h:outputText value="#{avis2.commentaire}"
     										rendered="#{avis2.temoinEnService and avis2.validation}" />
     								</p:dataList>
@@ -85,7 +86,8 @@
     									styleClass="form-button-image"
     									rendered="#{indVoeuPojo.calIsOpen
     									|| sessionController.currentInd.isUpdaterOfThisStudent}"
-    									title="#{msgs['_.BUTTON.DELETE']}">
+    									title="#{msgs['_.BUTTON.DELETE']}"
+    									ajax="false">
     									<f:setPropertyActionListener value="#{formationController.action.deleteAction}" target="#{formationController.action.whatAction}" />
     									<f:setPropertyActionListener value="#{indVoeuPojo}" target="#{formationController.indVoeuPojo}" />
     								</p:commandButton>

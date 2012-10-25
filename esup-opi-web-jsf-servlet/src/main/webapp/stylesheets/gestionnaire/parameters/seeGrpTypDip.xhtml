@@ -2,17 +2,12 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
-    <ui:define name="content">
-    	
-    	
-    	
-    	
-    	
+    template="/stylesheets/templateGestionnaire.xhtml">
+    <ui:define name="content">  	
     	<h1>
-                <span class="section-header">
-                    <h:outputText value="#{msgs['GROUPE.MANAGED']}" />
-                </span>
+            <span class="section-header">
+                <h:outputText value="#{msgs['GROUPE.MANAGED']}" />
+            </span>
             </h1>
     	<p:messages id="messages" showDetail="true" autoUpdate="true" styleClass="messageForUser"/>
     	<h:panelGroup id="div_subSectionDelete" styleClass="div_subSection"
@@ -25,8 +20,8 @@
         			<p:commandButton value="#{msgs['_.BUTTON.ADD']}" immediate="true"
         				rendered="#{managedAccess.addAuthorized}"
         				action="#{paramGrpTypDipController.goAddGrp}"/>
-        			<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
-        				action="#{managedAccess.goDisplayFunction}"/>
+        			<!-- <p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
+        				action="#{managedAccess.goDisplayFunction}"/> -->
         		</div>
             </ui:fragment>
             <ui:fragment rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.updateAction}">
@@ -53,7 +48,7 @@
     				<h:outputText value="#{groupeSelect.libGrpTpd}"
     					rendered="#{paramGrpTypDipController.actionEnum.whatAction != paramGrpTypDipController.actionEnum.updateAction
     						|| groupeSelect != paramGrpTypDipController.groupe}"/>
-    				<h:inputText value="#{paramGrpTypDipController.groupe.libGrpTpd}"
+    				<p:inputText value="#{paramGrpTypDipController.groupe.libGrpTpd}"
     					size="60"
     					rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.updateAction
     						and groupeSelect == paramGrpTypDipController.groupe}"/>

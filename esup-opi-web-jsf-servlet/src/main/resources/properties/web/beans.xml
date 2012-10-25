@@ -685,9 +685,6 @@
 		</constructor-arg>
 	</bean>
 	
-	
-	
-	
 	<!-- ****  COMPONENTS **** -->
 	
 	<bean

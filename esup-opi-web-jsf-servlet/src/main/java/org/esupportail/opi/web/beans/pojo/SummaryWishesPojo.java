@@ -9,12 +9,14 @@
 package org.esupportail.opi.web.beans.pojo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.esupportail.opi.domain.beans.parameters.PieceJustificative;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
+import org.esupportail.opi.domain.beans.user.candidature.Avis;
 
 
 
@@ -48,6 +50,12 @@ public class SummaryWishesPojo implements Serializable {
 	 * Default value : empty
 	 */
 	private Set<IndVoeuPojo> vows;
+
+	/**
+	 * The individu's vows managed by this commission and the forms by wish.
+	 * Default value : empty
+	 */
+	private List<IndVoeuPojo> vowsAsList;
 	
 	/**
 	 * documents to be provided with the dossier.
@@ -120,7 +128,15 @@ public class SummaryWishesPojo implements Serializable {
 		return vows;
 	}
 
-
+	/**
+	 * @return the avis
+	 */
+	public List<IndVoeuPojo> getVowsAsList() {
+		if (!this.vows.isEmpty()) {
+			this.vowsAsList = new ArrayList<IndVoeuPojo>(vows);
+		}
+		return vowsAsList;
+	}
 
 	/**
 	 * @param vows the vows to set

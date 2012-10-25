@@ -6,9 +6,9 @@
     	<div style="width:100%;">
     		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
     			styleClass="tableJustWidthMax">
-    			<h:outputText value="#{msgs['GROUPE.CONFIRM.DELETE']}">
+    			<h:outputFormat value="#{msgs['GROUPE.CONFIRM.DELETE']}">
     				<f:param value="#{paramGrpTypDipController.groupe.codGrpTpd}"/>
-    			</h:outputText>
+    			</h:outputFormat>
     			<h:panelGroup>
     				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
     					action="#{paramGrpTypDipController.delete}"/>

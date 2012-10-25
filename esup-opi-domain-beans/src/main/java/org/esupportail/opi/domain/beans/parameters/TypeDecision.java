@@ -18,7 +18,7 @@ public class TypeDecision extends Nomenclature {
 	
 	/*
 	 ******************* PROPERTIES ******************* */
-
+	
 	/**
 	 * Code Apogee.
 	 */
@@ -68,6 +68,7 @@ public class TypeDecision extends Nomenclature {
 		t.setCodeApogee(codeApogee);
 		t.setCodeTypeConvocation(codeTypeConvocation);
 		t.setIsFinal(isFinal);
+		
 		return t; 
 	}
 
@@ -100,14 +101,12 @@ public class TypeDecision extends Nomenclature {
 	}
 
 
-
 	/**
 	 * @return the isFinal
 	 */
 	public Boolean getIsFinal() {
 		return isFinal;
 	}
-
 
 
 	/**

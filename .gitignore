@@ -10,3 +10,4 @@ target/
 /esup-opi-web-jsf-servlet/tabStatistique.xml
 config.properties
 
+/env.sh

@@ -21,7 +21,6 @@ import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections.comparators.NullComparator;
 import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.services.i18n.I18nService;
-import org.esupportail.opi.domain.BusinessCacheService;
 import org.esupportail.opi.domain.BusinessUtil;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
@@ -95,6 +94,12 @@ public class IndividuPojo {
 	 * The vows of individu.
 	 */
 	private Set<IndVoeuPojo> indVoeuxPojo;
+	
+	/**
+	 *  The vows of individu.
+	 * Default value : empty
+	 */
+	private List<IndVoeuPojo> indVoeuxPojoAsList;
 	
 	/**
 	 * a true si c'est un gestionnaire.
@@ -706,10 +711,14 @@ public class IndividuPojo {
 		return indVoeuxPojo;
 	}
 
+	/**
+	 * @return the indVoeuxPojo
+	 */
 	public List<IndVoeuPojo> getIndVoeuxPojoAsList() {
 		return new ArrayList<IndVoeuPojo>(indVoeuxPojo);
 	}	
 
+	
 	/**
 	 * @param indVoeuxPojo the indVoeuxPojo to set
 	 */

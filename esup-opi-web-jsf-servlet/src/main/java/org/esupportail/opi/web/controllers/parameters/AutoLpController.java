@@ -459,7 +459,7 @@ public class AutoLpController extends AbstractContextAwareController {
 				getAutoListPrincipale().getAutoLp().getListVet().add(vetCal);
 				//ajout d'une vetAutoPojo
 				getAutoListPrincipale().getListVetAutoLpPojo().add(
-						new VetAutoLpPojo(vetCal, getBusinessCacheService().
+						new VetAutoLpPojo(vetCal, getDomainApoService().
 								getVersionEtape(vetCal.getCodEtp(), 
 										vetCal.getCodVrsVet()).getLibWebVet()));
 			}
@@ -607,7 +607,7 @@ public class AutoLpController extends AbstractContextAwareController {
 				getAutoListPrincipale().getAutoLp().getListVet().add(vetCal);
 				//ajout d'une vetAutoPojo
 				getAutoListPrincipale().getListVetAutoLpPojo().add(
-						new VetAutoLpPojo(vetCal, getBusinessCacheService().
+						new VetAutoLpPojo(vetCal, getDomainApoService().
 								getVersionEtape(vetCal.getCodEtp(), 
 										vetCal.getCodVrsVet()).getLibWebVet()));
 			}
@@ -654,7 +654,7 @@ public class AutoLpController extends AbstractContextAwareController {
 		}
 		
 		if (testExistAutoListPrincipale()) {
-			addErrorMessage(FORMULAIRE_ADD_AUTO_LP, "ERROR.FIELD.EXISTE", 
+			addErrorMessage(FORMULAIRE_ADD_AUTO_LP, "ERROR.FIELD.EXIST", 
 					"Liste complémentaire automatique", "Libellé");
 			return true;
 		}
@@ -1168,7 +1168,7 @@ public class AutoLpController extends AbstractContextAwareController {
 				
 				for (VetAutoLp vetAutoLp : autoLp.getListVet()) {
 					autoLpPojo.getListVetAutoLpPojo().add(new VetAutoLpPojo(vetAutoLp, 
-							getBusinessCacheService().getVersionEtape(vetAutoLp.getCodEtp(), 
+							getDomainApoService().getVersionEtape(vetAutoLp.getCodEtp(), 
 									vetAutoLp.getCodVrsVet()).getLibWebVet()));
 				}
 				
@@ -1238,7 +1238,7 @@ public class AutoLpController extends AbstractContextAwareController {
 				if (g.getCodeCge() != null && !g.getCodeCge().isEmpty()) {
 					a.setRight(true);
 					for (VetAutoLp v : a.getAutoLp().getListVet()) {
-						VersionEtapeDTO vet = getBusinessCacheService().getVersionEtape(
+						VersionEtapeDTO vet = getDomainApoService().getVersionEtape(
 							v.getCodEtp(), v.getCodVrsVet());
 						TraitementCmi trt = getParameterService().getTraitementCmi(
 							new VersionEtpOpi(vet), null);
