@@ -29,55 +29,91 @@
     			styleClass="panelgrid_header" 
     			value="#{msgs['CALENDAR_RDV.TEXT.FIN_PM']} "/>
     		
-    		<p:selectOneMenu id="jourDebutAM"
-    			validator="#{paramRdvSupController.validateDebutAMHourJourHoraire}" 
-    			value="#{paramRdvSupController.dateDebutAMJourHoraire}"
-    			onchange="submit();">
-    			<f:selectItems id="debutAMItems" value="#{paramRdvSupController.AMHours}" />
-    			<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/>
-    		</p:selectOneMenu>
+<!--     		<p:selectOneMenu id="jourDebutAM" -->
+<!--     			validator="#{paramRdvSupController.validateDebutAMHourJourHoraire}"  -->
+<!--     			value="#{paramRdvSupController.dateDebutAMJourHoraire}" -->
+<!--     			onchange="submit();"> -->
+<!--     			<f:selectItems id="debutAMItems" value="#{paramRdvSupController.AMHours}" /> -->
+<!--     			<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/> -->
+<!--     		</p:selectOneMenu> -->
     		
-    		<p:selectOneMenu id="jourFinAM"
-    			validator="#{paramRdvSupController.validateFinAMHourJourHoraire}" 
-    			value="#{paramRdvSupController.dateFinAMJourHoraire}"
-    			onchange="submit();" >
-    			<f:selectItems id="finAMItems" value="#{paramRdvSupController.AMHours}"/>					
-    			<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/>
-    		</p:selectOneMenu>
+<!--     		<p:selectOneMenu id="jourFinAM" -->
+<!--     			validator="#{paramRdvSupController.validateFinAMHourJourHoraire}"  -->
+<!--     			value="#{paramRdvSupController.dateFinAMJourHoraire}" -->
+<!--     			onchange="submit();" > -->
+<!--     			<f:selectItems id="finAMItems" value="#{paramRdvSupController.AMHours}"/>					 -->
+<!--     			<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/> -->
+<!--     		</p:selectOneMenu> -->
     		
-    		<p:selectOneMenu id="jourDebutPM"
-    			validator="#{paramRdvSupController.validateDebutPMHourJourHoraire}"
-    			value="#{paramRdvSupController.dateDebutPMJourHoraire}"
-    			onchange="submit();" >
-    			<f:selectItems id="debutPMItems" value="#{paramRdvSupController.PMHours}" />		
-    			<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/>
-    		</p:selectOneMenu>
+<!--     		<p:selectOneMenu id="jourDebutPM" -->
+<!--     			validator="#{paramRdvSupController.validateDebutPMHourJourHoraire}" -->
+<!--     			value="#{paramRdvSupController.dateDebutPMJourHoraire}" -->
+<!--     			onchange="submit();" > -->
+<!--     			<f:selectItems id="debutPMItems" value="#{paramRdvSupController.PMHours}" />		 -->
+<!--     			<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/> -->
+<!--     		</p:selectOneMenu> -->
     		
-    		<p:selectOneMenu id="jourFinPM"
-    			validator="#{paramRdvSupController.validateFinPMHourJourHoraire}"
-    			value="#{paramRdvSupController.dateFinPMJourHoraire}"
-    			onchange="submit();" >
-    			<f:selectItems id="finPMItems" value="#{paramRdvSupController.PMHours}" />
-    			<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/>
-    		</p:selectOneMenu>
+<!--     		<p:selectOneMenu id="jourFinPM" -->
+<!--     			validator="#{paramRdvSupController.validateFinPMHourJourHoraire}" -->
+<!--     			value="#{paramRdvSupController.dateFinPMJourHoraire}" -->
+<!--     			onchange="submit();" > -->
+<!--     			<f:selectItems id="finPMItems" value="#{paramRdvSupController.PMHours}" /> -->
+<!--     			<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/> -->
+<!--     		</p:selectOneMenu> -->
+
+                <p:calendar id="jourDebutAM" size="5"
+                    validator="#{paramRdvSupController.validateDebutAMHourJourHoraire}" 
+                    value="#{paramRdvSupController.dateDebutAMJourHoraire}" 
+                    pattern="HH:mm" timeZone="Europe/Paris"
+                    minHour="8" maxHour="12" stepMinute="30" 
+                    readonlyInput="true" timeOnly="true">
+                    <p:ajax event="change" update=":messages" partialSubmit="true" />
+                </p:calendar>
+
+                <p:calendar id="jourFinAM" size="5"
+                    validator="#{paramRdvSupController.validateFinAMHourJourHoraire}" 
+                    value="#{paramRdvSupController.dateFinAMJourHoraire}" 
+                    pattern="HH:mm" timeZone="Europe/Paris"
+                    minHour="8" maxHour="12" stepMinute="30" 
+                    readonlyInput="true" timeOnly="true">
+                    <p:ajax event="change" update=":messages" partialSubmit="true" />
+                </p:calendar>
+                    
+               <p:calendar id="jourDebutPM" size="5"
+                    validator="#{paramRdvSupController.validateDebutPMHourJourHoraire}"
+                    value="#{paramRdvSupController.dateDebutPMJourHoraire}"
+                    pattern="HH:mm" timeZone="Europe/Paris"
+                    minHour="13" maxHour="19" stepMinute="30"
+                    readonlyInput="true" timeOnly="true">
+                    <p:ajax event="change" update=":messages" partialSubmit="true" />
+                </p:calendar>
+        
+               <p:calendar id="jourFinPM" size="5"
+                    validator="#{paramRdvSupController.validateFinPMHourJourHoraire}"
+                    value="#{paramRdvSupController.dateFinPMJourHoraire}"
+                    pattern="HH:mm" timeZone="Europe/Paris"
+                    minHour="13" maxHour="19" stepMinute="30" 
+                    readonlyInput="true" timeOnly="true">
+                    <p:ajax event="change" update=":messages" partialSubmit="true" />
+                </p:calendar>
     	</h:panelGrid>
     
     	<p:commandButton rendered="#{paramRdvSupController.actionEntry.whatAction == paramRdvSupController.actionEntry.addAction}"
-    		styleClass="form-button-image" immediate="true"
+    		immediate="true" ajax="false"
     		action="#{paramRdvSupController.validerAjout}"
     		value="#{msgs['_.BUTTON.VALIDATE']}" />
     		
     	<p:commandButton rendered="#{paramRdvSupController.actionEntry.whatAction == paramRdvSupController.actionEntry.updateAction}"
-    		styleClass="form-button-image" immediate="true"
+    		immediate="true" ajax="false"
     		action="#{paramRdvSupController.validerModif}"
     		value="#{msgs['_.BUTTON.VALIDATE']}" />
     		
     	<p:commandButton rendered="#{paramRdvSupController.actionEntry.whatAction == paramRdvSupController.actionEntry.updateAction}"
-    		styleClass="form-button-image" immediate="true"
+    		immediate="true" ajax="false"
     		action="#{paramRdvSupController.supprimer}"
     		value="#{msgs['_.BUTTON.DELETE']}" />
     		
-    	<p:commandButton styleClass="form-button-image" immediate="true"
+    	<p:commandButton immediate="true" ajax="false"
     		action="#{paramRdvSupController.annulerModif}"
     		value="#{msgs['_.BUTTON.CANCEL']}" />
     	

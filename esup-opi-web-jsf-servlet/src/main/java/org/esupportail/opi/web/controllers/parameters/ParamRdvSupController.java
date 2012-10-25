@@ -879,15 +879,14 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 * @return the dateDebutMatin
 	 */
 	public Date getDateDebutAM() {
-		Date dateDebutAM;
+		Date dateDebutAM = null;
 		if (getCalendarRdv() != null && scheduleModel.getSelectedDate() != null) {
 			calendar.clear();
 			calendar.setTime(scheduleModel.getSelectedDate());
 			dateDebutAM = getCalendarRdv().getHoraires().get(
 					calendar.get(Calendar.MONTH)).getDateDebutMatin();
-			return dateDebutAM;
 		}
-		return null;
+		return dateDebutAM;
 	}
 	
 	/**
@@ -1286,8 +1285,7 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 */
 	public String getJourSelectedString() {
 		if (jourSelected != null) {
-			SimpleDateFormat format = (SimpleDateFormat) DateFormat.getDateInstance();
-			format.applyPattern("dd/mm/yyyy");
+			DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 			return format.format(jourSelected);
 		}
 		return "";

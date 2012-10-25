@@ -195,7 +195,7 @@
 		   				<p:commandButton icon="ui-icon-wrench"
 		   					rendered="#{managedAccess.updateAuthorized}"
 		   					actionListener="#{paramRdvSupController.initAction}"
-		   					styleClass="form-button-image" immediate="true"
+		   					immediate="true"
 		   					title="#{msgs['BUTTON.PREFERENCES']}"
 		   					ajax="false">
 		   					<f:setPropertyActionListener value="#{paramRdvController.actionEnum.confirmAction}"
@@ -208,7 +208,7 @@
 		   				
 		   				<p:commandButton icon="ui-icon-pencil"
 		   					rendered="#{managedAccess.updateAuthorized}"
-		   					styleClass="form-button-image" immediate="true"
+		   					immediate="true"
 		   					title="#{msgs['BUTTON.UPDATE']}"
 		   					ajax="false">
 		   					<f:setPropertyActionListener value="#{paramRdvController.actionEnum.updateAction}"
@@ -221,7 +221,7 @@
 		   				
 		   				<p:commandButton icon="ui-icon-minus"
 		   					rendered="#{managedAccess.deleteAuthorized}"
-		   					styleClass="form-button-image" immediate="true"
+		   					immediate="true"
 		   					title="#{msgs['_.BUTTON.DELETE']}"
 		   					ajax="false">
 		   					<f:setPropertyActionListener value="#{paramRdvController.actionEnum.deleteAction}"
@@ -246,12 +246,5 @@
     		rendered="#{paramRdvSupController.actionEnum.whatAction == paramRdvSupController.actionEnum.updateAction}">
     		<ui:include src="_add/_enterParamRdvSup.xhtml" />
     	</h:panelGroup>
-    	
-    	
-    	
-    	<script type="text/javascript">
-    		highlightChildrenLiTags('navigationHeader:navigation');
-    		highlightChildrenLiTags('navigationFooter:navigation');
-    	</script>
     </ui:define>
 </ui:composition>

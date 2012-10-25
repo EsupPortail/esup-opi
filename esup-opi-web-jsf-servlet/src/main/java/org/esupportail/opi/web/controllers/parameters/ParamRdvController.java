@@ -248,7 +248,7 @@ public class ParamRdvController extends AbstractContextAwareController {
 	public String goAddParamRdv() {
 		reset();
 		getActionEnum().setWhatAction(ActionEnum.ADD_ACTION);
-		return null;
+		return NavigationRulesConst.SEE_PARAM_RDV;
 	}
 	
 	
