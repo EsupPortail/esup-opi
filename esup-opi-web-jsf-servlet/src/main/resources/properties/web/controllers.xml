@@ -23,10 +23,11 @@
 		<property name="authenticator" ref="authenticator">
 			<description>The authentication service.</description>
 		</property>
-		 <property name="casLogoutUrl" value="${cas.url}/logout?service=%s">
+         <property name="casLogoutUrl" value="${cas.url}/logout?service=%s">
             <description>The CAS logout URL.</description>
         </property>
-		<property name="allViewPJ" value="${init.allViewPJ}"/>
+        <property name="serverNameUrl" value="${serverName}" />
+		<property name="allViewPJ" value="${init.allViewPJ}" />
 	</bean>
 
 	<bean id="abstractContextAwareController" abstract="true"

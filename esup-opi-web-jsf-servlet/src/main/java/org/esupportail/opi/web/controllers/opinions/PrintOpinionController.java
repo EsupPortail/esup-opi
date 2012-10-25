@@ -451,7 +451,8 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 					commissionController.getCommission(), null, null);
 			log.debug("after list individus");
 			Set<Commission> listComm = new HashSet<Commission>();
-			listComm.add(commissionController.getCommission());
+			Commission c = getParameterService().getCommission(commissionController.getCommission().getId(), null);
+			listComm.add(c);
 
 			List<IndividuPojo> listeIndPojo = 
 				Utilitaires.convertIndInIndPojo(listeInd, 

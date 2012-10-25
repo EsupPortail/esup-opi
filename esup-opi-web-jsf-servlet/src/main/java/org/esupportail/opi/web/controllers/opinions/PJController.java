@@ -71,7 +71,7 @@ public class PJController  extends AbstractContextAwareController  {
 	/**
 	 * Missing piece selected.
 	 */
-	private List<Object> missingPiece;
+	private Object[] missingPiece;
 	
 	/**
 	 * MissPiece just save.
@@ -135,7 +135,7 @@ public class PJController  extends AbstractContextAwareController  {
 		allChecked = false;
 		stateSelected = "";
 		currentCmiPojo = null;
-		missingPiece = new ArrayList<Object>();
+		missingPiece = new Object[0];
 		actionEnum = new ActionEnum();
 		missPieceForInd = new HashSet<MissingPiece>();
 		
@@ -171,7 +171,7 @@ public class PJController  extends AbstractContextAwareController  {
 	 * Callback to see the students in a commission for the PM treatment.
 	 * @return String 
 	 */
-	@SuppressWarnings("serial")
+	@SuppressWarnings({ "serial", "synthetic-access" })
 	public String goSeePM() {
 		reset();
 		//TODO au lieu de NULL on pourrait retirer les personnes de type transfert
@@ -205,7 +205,7 @@ public class PJController  extends AbstractContextAwareController  {
 	/**
 	 * search Students.
 	 */
-	@SuppressWarnings("serial")
+	@SuppressWarnings({ "serial", "synthetic-access" })
 	public void searchStudents() {
 		reset();
 		this.paginatorPM.filterInMannagedCmi(
@@ -260,7 +260,6 @@ public class PJController  extends AbstractContextAwareController  {
 	 */
 	public void changeState() {
 		changeState(true, mpPojoSelected.getIndividuPojo());
-//		paginatorPM.reset();
 	}
 	
 	/**
@@ -283,6 +282,9 @@ public class PJController  extends AbstractContextAwareController  {
 		} else if (currentCmiPojo.getState() instanceof EtatArriveComplet) {
 			// Arrive Complet
 			//delete all missing pieces
+			Commission c = getParameterService()
+					.getCommission(currentCmiPojo.getCommission().getId(), null);
+			currentCmiPojo.setCommission(c);
 			List<MissingPiece> missP = 
 				getDomainService().getMissingPiece(
 						pojoIndividu.getIndividu(), currentCmiPojo.getCommission());
@@ -325,9 +327,7 @@ public class PJController  extends AbstractContextAwareController  {
 				getDomainService().getMissingPiece(
 						pojoIndividu.getIndividu(), currentCmiPojo.getCommission());
 			if (missP != null) {
-				for (MissingPiece p : missP) {
-					missingPiece.add(p);
-				}
+				missingPiece = missP.toArray();
 			}
 		} else {
 			addInfoMessage(null, "MISSING_PIECE.NOT_EMPTY_STATE", getString("STATE.ARRIVE_INCOMPLET"));
@@ -485,14 +485,14 @@ public class PJController  extends AbstractContextAwareController  {
 	/**
 	 * @return the missingPiece
 	 */
-	public List<Object> getMissingPiece() {
+	public Object[] getMissingPiece() {
 		return missingPiece;
 	}
 
 	/**
 	 * @param missingPiece the missingPiece to set
 	 */
-	public void setMissingPiece(final List<Object> missingPiece) {
+	public void setMissingPiece(final Object[] missingPiece) {
 		this.missingPiece = missingPiece;
 	}
 

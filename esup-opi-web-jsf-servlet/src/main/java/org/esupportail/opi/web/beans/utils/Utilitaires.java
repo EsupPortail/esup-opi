@@ -333,11 +333,13 @@ public class Utilitaires {
 			final Set<VersionEtapeDTO> versionsEtape,
 			final boolean excludeWishProcessed) {
 		List<IndividuPojo> indPojo = new ArrayList<IndividuPojo>();
-		for (Individu i : listInd) {
-			IndividuPojo iPojo = new IndividuPojo(i, apoServ, iService,
-					parameterService, commissions, typesDecisions, typeTraitements, listCalendrierParam, versionsEtape);
-			if (!excludeWishProcessed || !iPojo.getHasAllVoeuxTraited()) {
-				indPojo.add(iPojo);
+		if (listInd != null) {
+			for (Individu i : listInd) {
+				IndividuPojo iPojo = new IndividuPojo(i, apoServ, iService,
+						parameterService, commissions, typesDecisions, typeTraitements, listCalendrierParam, versionsEtape);
+				if (!excludeWishProcessed || !iPojo.getHasAllVoeuxTraited()) {
+					indPojo.add(iPojo);
+				}
 			}
 		}
 		return indPojo;

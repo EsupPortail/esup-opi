@@ -9,6 +9,7 @@
 package org.esupportail.opi.web.beans.pojo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -83,11 +84,12 @@ public class MissingPiecePojo {
 	 ******************* METHODS ********************** */
 	/**
 	 * list of commissions.
-	 * @return  Set<CommissionPojo> 
+	 * @return  List<CommissionPojo> 
 	 **/
-	public Set<CommissionPojo> getCmiKeySet() {
-		Set<CommissionPojo> cmiPojo = new TreeSet<CommissionPojo>(new ComparatorString(CommissionPojo.class));
+	public List<CommissionPojo> getCmiKeySet() {
+		List<CommissionPojo> cmiPojo = new ArrayList<CommissionPojo>();
 		cmiPojo.addAll(commissions.keySet());
+		Collections.sort(cmiPojo,new ComparatorString(CommissionPojo.class));
 		return cmiPojo;
 	}
 

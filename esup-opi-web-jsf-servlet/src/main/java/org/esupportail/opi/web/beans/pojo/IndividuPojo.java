@@ -708,8 +708,7 @@ public class IndividuPojo {
 
 	public List<IndVoeuPojo> getIndVoeuxPojoAsList() {
 		return new ArrayList<IndVoeuPojo>(indVoeuxPojo);
-	}
-	
+	}	
 
 	/**
 	 * @param indVoeuxPojo the indVoeuxPojo to set

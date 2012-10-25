@@ -341,6 +341,7 @@ public class CommissionController
 	 */
 	public String goUpdateCmi() {
 		trtCmiController.reset();
+		commission = getParameterService().getCommission(commission.getId(), null);
 		if (membersToDisplay.isEmpty()) {
 			membersToDisplay = new HashMap<Member, String>();
 			for (Member m : commission.getMembers()) {
@@ -373,7 +374,7 @@ public class CommissionController
 	 * @return String 
 	 */
 	public String goSeeOneCmi() {
-		
+		commission = getParameterService().getCommission(commission.getId(), null);
 		membersToDisplay = new HashMap<Member, String>();
 		for (Member m : commission.getMembers()) {
 			if (m.getGestionnaire() == null) {
@@ -729,6 +730,7 @@ public class CommissionController
 	 * Generate the PDF d'arrete de nomination d'une commission.
 	 */
 	public void makePDFNomination() {
+		commission = getParameterService().getCommission(commission.getId(), null);
 		String fileNameXml = String.valueOf(System.currentTimeMillis()) 
 								+ "_" + commission.getCode() + ".xml";
 		List<Object> list = new ArrayList<Object>();
