@@ -9,10 +9,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.esupportail.opi.domain.beans.formation.GrpTypDip;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.wssi.services.remote.VersionDiplomeDTO;
-
-import fr.univ.rennes1.cri.apogee.domain.beans.GrpTypDip;
 
 
 

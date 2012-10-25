@@ -34,17 +34,6 @@
                             <includes>
                                 <include>*.wsdl</include>
                             </includes>
-                            <excludes>
-                                <exclude>ReadRennes1.wsdl</exclude>
-                            </excludes>
-                            <wsdlOptions>
-                                <wsdlOption>
-                                    <wsdl>${basedir}/src/main/resources/META-INF/wsdl/ReadRennes1.wsdl</wsdl>
-                                    <bindingFiles>
-                                        <bindingFile>${basedir}/src/main/resources/META-INF/jaxb/bindings-rennes1.xml</bindingFile>
-                                    </bindingFiles>
-                                </wsdlOption>
-                            </wsdlOptions>
                         </configuration>
                         <goals>
                             <goal>wsdl2java</goal>

@@ -23,6 +23,10 @@ import org.esupportail.commons.exceptions.ObjectNotFoundException;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
+import org.esupportail.opi.domain.beans.formation.Cles2AnnuForm;
+import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
+import org.esupportail.opi.domain.beans.formation.GrpTypDip;
+import org.esupportail.opi.domain.beans.formation.GrpTypDipCorresp;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
@@ -71,9 +75,6 @@ import administratifmetier_17062009_impl.servicesmetiers.commun.apogee.education
 import com.googlecode.ehcache.annotations.Cacheable;
 
 import etudiantwebserviceimpl.impl.webservices.commun.apogee.education.gouv.EtudiantMetierServiceInterface;
-import fr.univ.rennes1.cri.apogee.domain.beans.GrpTypDip;
-import fr.univ.rennes1.cri.apogee.domain.beans.GrpTypDipCorresp;
-import fr.univ.rennes1.cri.apogee.domain.dto.Domaine2AnnuFormDTO;
 import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.GeographieMetierServiceInterface;
 import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.WebBaseException;
 import gouv.education.apogee.commun.transverse.dto.administratif.cursusexternedto.CursusExterneDTO;
@@ -1123,7 +1124,6 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	 * @see org.esupportail.opi.domain.DomainApoService#getRen1GrpTypDip()
 	 */
 	@Override
-	@Cacheable(cacheName = CacheModelConst.RENNES1_APOGEE_MODEL)
 	public List<GrpTypDip> getGrpTypDip(final Campagne camp) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getRen1GrpTypDip()");
@@ -1134,9 +1134,9 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 			List<GrpTypDip> l = remoteApo.getGrpTypDip(TRUE);
 
 			//1.on recupere toutes les VET par groupes
-			for (GrpTypDip r : l) {
+			for (final GrpTypDip g : l) {
 				List<String> codTpdEtb = new ArrayList<String>();
-				for (GrpTypDipCorresp rCorresp : r.getGrpTypDipCorrespsArray().getGrpTypDipCorrespList()) {
+				for (GrpTypDipCorresp rCorresp : g.getGrpTypDipCorresps()) {
 					codTpdEtb.add(rCorresp.getCodTpdEtb());
 				}
 				List<Diplome> dip = remoteCriApogeeEns.getDiplomes(null, codTpdEtb);
@@ -1152,7 +1152,7 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 						Boolean isAddGrp = false;
 						for (TraitementCmi trt : c.getTraitementCmi()) {
 							if (vetOpi.contains(trt.getVersionEtpOpi())) {
-								listEnd.add(r);
+								listEnd.add(g);
 								isAddGrp = true;
 								break;
 							}
@@ -1169,24 +1169,32 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 		}
 	}
 
+	///////////////////////////////////////////////////////////////
+	// Cles2AnnuForm
+	///////////////////////////////////////////////////////////////
+
+	@Override
+	public List<Cles2AnnuForm> getCles2AnnuForm(final String codDom, final String locale) {
+		return remoteApo.getCles2AnnuForm(codDom, locale);
+	}
+	
 
 	// ////////////////////////////////////////////////////////////
 	// Domaine2AnnuFormDTO
 	// ////////////////////////////////////////////////////////////
 
 	/** 
-	 * @see org.esupportail.opi.domain.DomainApoService#getDomaine2AnnuFormDTO(
+	 * @see org.esupportail.opi.domain.DomainApoService#getDomaine2AnnuForm(
 	 * fr.univ.rennes1.cri.apogee.domain.beans.GrpTypDip, java.lang.String)
 	 */
 	@Override
-	@Cacheable(cacheName = CacheModelConst.RENNES1_APOGEE_MODEL)
-	public Set<Domaine2AnnuFormDTO> getDomaine2AnnuFormDTO(
+	public Set<Domaine2AnnuForm> getDomaine2AnnuForm(
 			final GrpTypDip ren1GrpTypDip, final String locale) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getDomaine2AnnuFormDTO( " + ren1GrpTypDip + ", " + locale + " )");
 		}
 		try {
-			return new HashSet<Domaine2AnnuFormDTO>(
+			return new HashSet<Domaine2AnnuForm>(
 					remoteApo.getDomaine2AnnuFormDTO(ren1GrpTypDip, locale));
 		} catch (Exception e) {
 			throw new CommunicationApogeeException(e);

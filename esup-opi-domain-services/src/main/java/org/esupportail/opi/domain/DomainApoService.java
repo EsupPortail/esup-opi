@@ -4,14 +4,15 @@
  */
 package org.esupportail.opi.domain;
 
-import fr.univ.rennes1.cri.apogee.domain.beans.GrpTypDip;
-import fr.univ.rennes1.cri.apogee.domain.dto.Domaine2AnnuFormDTO;
 import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
+import org.esupportail.opi.domain.beans.formation.Cles2AnnuForm;
+import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
+import org.esupportail.opi.domain.beans.formation.GrpTypDip;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
@@ -332,9 +333,9 @@ public interface DomainApoService extends Serializable {
 	String[] getAnneesIa(Individu individu);
 	
 	
-	// ////////////////////////////////////////////////////////////
-	// Ren1GrpTypDip
-	// ////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////
+	// GrpTypDip
+	///////////////////////////////////////////////////////////////
 
 	/**
 	 * Return the list of group type Diplome in use.
@@ -342,14 +343,20 @@ public interface DomainApoService extends Serializable {
 	 */
 	List<GrpTypDip> getGrpTypDip(Campagne camp);
 	
+	///////////////////////////////////////////////////////////////
+	// Cles2AnnuForm
+	///////////////////////////////////////////////////////////////
+
+	List<Cles2AnnuForm> getCles2AnnuForm(String codDom, String locale);
+	
 	// ////////////////////////////////////////////////////////////
-	// Ren1ClesAnnuFormPojo
+	// ClesAnnuFormPojo
 	// ////////////////////////////////////////////////////////////
 	/**
 	 * @return List
 	 */
 	//TODO : fix this !
-	//List<Ren1ClesAnnuFormPojo> getRen1ClesAnnuForm();
+	//List<ClesAnnuFormPojo> getClesAnnuForm();
 	
 	
 	///////////////////////////////////////////////////////////
@@ -383,17 +390,16 @@ public interface DomainApoService extends Serializable {
 	void deleteTelemLaisserPasser(List<IndVoeu> wishes, Boolean isReins);
 	
 	//////////////////////////////////////////////////////////////
-	// Ren1Domaine2AnnuFormDTO
+	// Domaine2AnnuForm
 	//////////////////////////////////////////////////////////////
 	
 	/**
 	 * Retourne les domaines en fonction d'un groupe de type diplome.
-	 * @param ren1GrpTypDip if null return null
-	 * @param locale can be null (Ex: FR)
+	 *
 	 * @return Set< Domaine2AnnuFormDTO>
 	 * 
 	 */
-	Set<Domaine2AnnuFormDTO> getDomaine2AnnuFormDTO(GrpTypDip ren1GrpTypDip, String locale);
+	Set<Domaine2AnnuForm> getDomaine2AnnuForm(GrpTypDip grpTypDip, String locale);
 	
 	/**
 	 * 

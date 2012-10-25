@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 11 d?c. 2008 15:34:05 by Hibernate Tools 3.2.2.GA -->
+
 <hibernate-mapping>
-    <class name="fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDipCorresp" table="REN1_GRP_TYP_DIP_CORRESP">
+    <class name="org.esupportail.opi.domain.beans.formation.GrpTypDipCorresp" table="GRP_TYP_DIP_CORRESP">
         <composite-id>
             <key-property name="codGrpTpd" type="string">
                 <column name="COD_GRP_TPD" length="10" />

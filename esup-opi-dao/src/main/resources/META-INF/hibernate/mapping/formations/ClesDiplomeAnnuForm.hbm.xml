@@ -2,10 +2,10 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="fr.univ.rennes1.cri.apogee.domain.beans.Ren1ClesDiplomeAnnuForm" table="REN1_CLES_DIPLOME_ANNU_FORM" >
+    <class name="org.esupportail.opi.domain.beans.formation.ClesDiplomeAnnuForm" table="CLES_DIPLOME_ANNU_FORM" >
         <composite-id>
             <key-property name="codCles" column="COD_CLES" type="string" length="10"/>
-			<key-property name="codDip" column="COD_DIP" type="string" length="7"/>
+            <key-property name="codDip" column="COD_DIP" type="string" length="7"/>
         </composite-id>
     </class>
 </hibernate-mapping>

@@ -21,6 +21,9 @@ import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.BusinessUtil;
 import org.esupportail.opi.domain.beans.etat.EtatNonArrive;
+import org.esupportail.opi.domain.beans.formation.Cles2AnnuForm;
+import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
+import org.esupportail.opi.domain.beans.formation.GrpTypDip;
 import org.esupportail.opi.domain.beans.parameters.AccesSelectif;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.Nomenclature;
@@ -56,10 +59,6 @@ import org.esupportail.opi.web.controllers.AbstractAccessController;
 import org.esupportail.wssi.services.remote.VersionDiplomeDTO;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
-
-import fr.univ.rennes1.cri.apogee.domain.beans.GrpTypDip;
-import fr.univ.rennes1.cri.apogee.domain.dto.Domaine2AnnuFormDTO;
-import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Cles2AnnuFormDTO;
 
 
 
@@ -359,8 +358,9 @@ public class FormationController extends AbstractAccessController {
 		List<SelectItem> l = new ArrayList<SelectItem>();
 		if (getSearchFormationPojo().getGroupTypSelected() != null) {
 			String locale = getSessionController().getLocale().getLanguage();
-			Set<Domaine2AnnuFormDTO> domain = 
-				getDomainApoService().getDomaine2AnnuFormDTO(
+			
+			Set<Domaine2AnnuForm> domain = 
+				getDomainApoService().getDomaine2AnnuForm(
 						getSearchFormationPojo().getGroupTypSelected(), locale.toUpperCase());
 
 			List<SelectItem> listGroup = new ArrayList<SelectItem>();
@@ -370,21 +370,20 @@ public class FormationController extends AbstractAccessController {
 			s = new SelectItem("", "");
 			l.add(s);
 
-			for (Domaine2AnnuFormDTO ren1 : domain) {
+			for (Domaine2AnnuForm dom: domain) {
+				List<Cles2AnnuForm> lcles2 = getDomainApoService().getCles2AnnuForm(
+						dom.getCodDom(), locale.toUpperCase()); 
 				int cpt = 0;
-				listS2 = new SelectItem[ren1.getCles2AnnuFormDTOArray().getCles2AnnuFormDTOList().size()];
+				listS2 = new SelectItem[lcles2.size()];
 				//tri de ren1.getRen1Cles2AnnuFormDTO()
-				List<Ren1Cles2AnnuFormDTO> r1cles2 = 
-					new ArrayList<Ren1Cles2AnnuFormDTO>(
-					    ren1.getCles2AnnuFormDTOArray().getCles2AnnuFormDTOList());
-				Collections.sort(r1cles2, new ComparatorString(Ren1Cles2AnnuFormDTO.class));
-				for (Ren1Cles2AnnuFormDTO cles : r1cles2) {
-					s = new SelectItem(cles.getCodCles(), cles.getLibCles());
+				Collections.sort(lcles2, new ComparatorString(Cles2AnnuForm.class));
+				for (Cles2AnnuForm cles : lcles2) {
+					s = new SelectItem(cles.getClesAnnuForm().getCodCles(), cles.getLibCles());
 					listS2[cpt] = s;
 					cpt++;
 				}
 				if (listS2.length != 0) {
-					group = new SelectItemGroup(ren1.getLibDom() , null, false, listS2);
+					group = new SelectItemGroup(dom.getLibDom() , null, false, listS2);
 					listGroup.add(group);
 				}
 

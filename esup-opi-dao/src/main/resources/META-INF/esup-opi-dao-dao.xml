@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<beans 
-	xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:jee="http://www.springframework.org/schema/jee"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
-                        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-                        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd"
-	>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
 
-	<!-- 
-		/properties/dao/dao.xml
-		The configuration file for Data Access Object.
-		This file should not be modified but by the developers.
-		This file is referenced by /properties/applicationContext.xml.
-	-->
-
-	<!-- Database manager store -->
+    <!-- Database manager store -->
 
     <bean id="txManager" class="org.esupportail.commons.dao.HibernateTransactionManager">
         <description>
@@ -28,7 +19,7 @@
     </bean>
 
     <bean id="JDBCdatasource" class="org.apache.commons.dbcp.BasicDataSource"
-        destroy-method="close" lazy-init="true">
+          destroy-method="close" lazy-init="true">
         <property name="driverClassName" value="${hibernate.connection.driver_class}" />
         <property name="url" value="${hibernate.connection.jdbc.url}" />
         <property name="username" value="${hibernate.connection.jdbc.username}" />
@@ -37,259 +28,225 @@
     
     <jee:jndi-lookup id="JNDIDataSource" jndi-name="${hibernate.connection.jndi.datasource}" lookup-on-startup="false" expected-type="javax.sql.DataSource"/>
 
-	<!-- Session factories -->
+    <!-- Session factories -->
 
-	<bean 
-		id="abstractHibernateSessionFactory" 
-		abstract="true" lazy-init="true"
-		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
-		>
-		<description>
-			This bean is common to all the session factories (see below). It allows 
-			a single declaration of the mapping files.
-		</description>
-		<property name="mappingLocations">
-			<list>
-				<value>classpath*:META-INF/hibernate/mapping/VersionManager.hbm.xml</value>
-				<!-- ***** USER  ***** -->
-				<value>classpath*:META-INF/hibernate/mapping/user/User.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/user/IndCursus.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/user/IndCursusScol.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/user/IndBac.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/user/IndVoeu.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/user/Avis.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/user/MissingPiece.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/user/Adresse.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/user/IndSituation.hbm.xml</value>
-				<!-- ***** PARAMETERS  ***** -->
-				<value>classpath*:META-INF/hibernate/mapping/parameters/AutoListPrincipale.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/parameters/Nomenclature.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/parameters/MailContent.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/parameters/PieceJustiVet.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/parameters/VetAutoLp.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/parameters/accessRight/AccessRight.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/parameters/accessRight/Traitement.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/parameters/accessRight/Profile.hbm.xml</value>
-				<!-- ***** FORMULAIRES  ***** -->
-				<value>classpath*:META-INF/hibernate/mapping/references/commissions/FormulaireCmi.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/user/IndFormulaire.hbm.xml</value>
-				<!-- ***** REFERENCES  ***** -->
-				<value>classpath*:META-INF/hibernate/mapping/references/NombreVoeuCge.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/references/commissions/Commission.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/references/commissions/ContactCommission.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/references/commissions/Member.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/references/commissions/TraitementCmi.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/references/commissions/LinkTrtCmiCamp.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/references/calendars/Calendar.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/references/calendars/ReunionCmi.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/references/commissions/Selection.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/references/rendezvous/CalendarRDV.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/references/rendezvous/Horaire.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/references/rendezvous/JourHoraire.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/references/rendezvous/IndividuDate.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/references/rendezvous/TrancheFermee.hbm.xml</value>
-				<value>classpath*:META-INF/hibernate/mapping/references/rendezvous/VetCalendar.hbm.xml</value>
-				<!-- ***** PILOTAGE  ***** -->
-				<value>classpath*:META-INF/hibernate/mapping/pilotage/ArchiveTask.hbm.xml</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean 
-		id="abstractJdbcHibernateSessionFactory" 
-		parent="abstractHibernateSessionFactory"
-		abstract="true" lazy-init="true"
-		>
-		<description>
-			An abstract session factory based on JDBC.
-		</description>
+    <bean id="abstractHibernateSessionFactory" 
+          abstract="true" lazy-init="true"
+          class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <description>
+            This bean is common to all the session factories (see below). It allows 
+            a single declaration of the mapping files.
+        </description>
+        <property name="mappingLocations">
+            <list>
+                <value>classpath*:META-INF/hibernate/mapping/VersionManager.hbm.xml</value>
+                <!-- ***** USER  ***** -->
+                <value>classpath*:META-INF/hibernate/mapping/user/User.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/user/IndCursus.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/user/IndCursusScol.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/user/IndBac.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/user/IndVoeu.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/user/Avis.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/user/MissingPiece.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/user/Adresse.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/user/IndSituation.hbm.xml</value>
+                <!-- ***** PARAMETERS  ***** -->
+                <value>classpath*:META-INF/hibernate/mapping/parameters/AutoListPrincipale.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/parameters/Nomenclature.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/parameters/MailContent.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/parameters/PieceJustiVet.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/parameters/VetAutoLp.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/parameters/accessRight/AccessRight.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/parameters/accessRight/Traitement.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/parameters/accessRight/Profile.hbm.xml</value>
+                <!-- ***** FORMULAIRES  ***** -->
+                <value>classpath*:META-INF/hibernate/mapping/references/commissions/FormulaireCmi.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/user/IndFormulaire.hbm.xml</value>
+                <!-- ***** REFERENCES  ***** -->
+                <value>classpath*:META-INF/hibernate/mapping/references/NombreVoeuCge.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/references/commissions/Commission.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/references/commissions/ContactCommission.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/references/commissions/Member.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/references/commissions/TraitementCmi.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/references/commissions/LinkTrtCmiCamp.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/references/calendars/Calendar.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/references/calendars/ReunionCmi.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/references/commissions/Selection.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/references/rendezvous/CalendarRDV.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/references/rendezvous/Horaire.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/references/rendezvous/JourHoraire.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/references/rendezvous/IndividuDate.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/references/rendezvous/TrancheFermee.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/references/rendezvous/VetCalendar.hbm.xml</value>
+                <!-- ***** PILOTAGE  ***** -->
+                <value>classpath*:META-INF/hibernate/mapping/pilotage/ArchiveTask.hbm.xml</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="abstractJdbcHibernateSessionFactory" 
+          parent="abstractHibernateSessionFactory"
+          abstract="true" lazy-init="true">
+        <description>
+            An abstract session factory based on JDBC.
+        </description>
         <property name="dataSource" ref="JDBCdatasource"/>
-		<property name="configLocation"
-			value="classpath:/META-INF/hibernate/hibernate-jdbc.cfg.xml" />
-	</bean>
+        <property name="configLocation"
+                  value="classpath:/META-INF/hibernate/hibernate-jdbc.cfg.xml" />
+    </bean>
 
-    <bean 
-        id="abstractJndiHibernateSessionFactory" 
-        parent="abstractHibernateSessionFactory"
-        abstract="true" lazy-init="true">
+    <bean id="abstractJndiHibernateSessionFactory" 
+          parent="abstractHibernateSessionFactory"
+          abstract="true" lazy-init="true">
         <description>
             An abstract session factory based on JNDI.
         </description>
         <property name="dataSource" ref="JNDIDataSource" />
         <property name="configLocation"
-            value="classpath:/META-INF/hibernate/hibernate-jndi.cfg.xml" />
+                  value="classpath:/META-INF/hibernate/hibernate-jndi.cfg.xml" />
     </bean>
-	
-	<bean 
-		id="jdbcSessionFactory" 
-		parent="abstractJdbcHibernateSessionFactory" 
-		lazy-init="true"
-		>
-		<description>
-			The 'normal' session factory based on JDBC.
-		</description>
-   	</bean>
+    
+    <bean id="jdbcSessionFactory" 
+          parent="abstractJdbcHibernateSessionFactory" 
+          lazy-init="true">
+        <description>
+            The 'normal' session factory based on JDBC.
+        </description>
+    </bean>
 
-	<bean 
-		id="jndiSessionFactory" 
-		parent="abstractJndiHibernateSessionFactory" 
-		lazy-init="true" abstract="true"
-		>
-		<description>
-			The 'normal' session factory based on JNDI.
-		</description>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
-            </props>
-        </property>
-   	</bean>
+    <bean id="jndiSessionFactory" 
+          parent="abstractJndiHibernateSessionFactory" 
+          lazy-init="true" abstract="true">
+        <description>
+            The 'normal' session factory based on JNDI.
+        </description>
+    </bean>
 
-<!-- 	<bean  -->
-<!-- 		id="createSessionFactory" -->
-<!-- 		parent="abstractJdbcHibernateSessionFactory" -->
-<!-- 		lazy-init="true" -->
-<!-- 		> -->
-<!-- 		<description> -->
-<!-- 			This bean is used to create the database structures.  -->
-<!-- 			Caution: leave inherited attribute lazy-init to true or the database will -->
-<!-- 			be re-created from scratch each time the application starts. -->
-<!-- 		</description> -->
-<!-- 		<property name="hibernateProperties"> -->
-<!-- 			<props> -->
-<!-- 				<prop key="hibernate.hbm2ddl.auto">update</prop> -->
-<!-- 			</props> -->
-<!-- 		</property> -->
-<!-- 	</bean> -->
+    <!-- <bean id="createSessionFactory" -->
+    <!--       parent="abstractJdbcHibernateSessionFactory" -->
+    <!--       lazy-init="true"> -->
+    <!--     <description> -->
+    <!--         This bean is used to create the database structures. -->
+    <!--         Caution: leave inherited attribute lazy-init to true or the database will -->
+    <!--         be re-created from scratch each time the application starts. -->
+    <!--     </description> -->
+    <!--     <property name="hibernateProperties"> -->
+    <!--         <props> -->
+    <!--             <prop key="hibernate.hbm2ddl.auto">create</prop> -->
+    <!--         </props> -->
+    <!--     </property> -->
+    <!-- </bean> -->
 
-	<bean 
-		id="jdbcUpgradeSessionFactory"
-		parent="abstractJdbcHibernateSessionFactory"
-		lazy-init="true"
-		>
-		<description>
-			This bean is used to update the database structure. 
-			Caution: leave inherited attribute lazy-init to true or the database will
-			be updated each time the application starts.
-		</description>
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.hbm2ddl.auto">update</prop>
-			</props>
-		</property>
-	</bean>
+    <!-- <bean id="jdbcUpgradeSessionFactory" -->
+    <!--       parent="abstractJdbcHibernateSessionFactory" -->
+    <!--       lazy-init="true"> -->
+    <!-- 	<description> -->
+    <!-- 		This bean is used to update the database structure.  -->
+    <!-- 		Caution: leave inherited attribute lazy-init to true or the database will -->
+    <!-- 		be updated each time the application starts. -->
+    <!-- 	</description> -->
+    <!-- 	<property name="hibernateProperties"> -->
+    <!-- 		<props> -->
+    <!-- 			<prop key="hibernate.hbm2ddl.auto">update</prop> -->
+    <!-- 		</props> -->
+    <!-- 	</property> -->
+    <!-- </bean> -->
 
-	<bean 
-		id="jndiUpgradeSessionFactory"
-		parent="abstractJndiHibernateSessionFactory"
-		lazy-init="true" abstract="true"
-		>
-		<description>
-			This bean is used to update the database structure. 
-			Caution: leave inherited attribute lazy-init to true or the database will
-			be updated each time the application starts.
-		</description>
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.hbm2ddl.auto">update</prop>
-			</props>
-		</property>
-	</bean>
+    <!-- <bean id="jndiUpgradeSessionFactory" -->
+    <!--       parent="abstractJndiHibernateSessionFactory" -->
+    <!--       lazy-init="true" abstract="true"> -->
+    <!-- 	<description> -->
+    <!-- 		This bean is used to update the database structure.  -->
+    <!-- 		Caution: leave inherited attribute lazy-init to true or the database will -->
+    <!-- 		be updated each time the application starts. -->
+    <!-- 	</description> -->
+    <!-- 	<property name="hibernateProperties"> -->
+    <!-- 		<props> -->
+    <!-- 			<prop key="hibernate.hbm2ddl.auto">update</prop> -->
+    <!-- 		</props> -->
+    <!-- 	</property> -->
+    <!-- </bean> -->
 
-	<!-- end of the session factories -->
+    <!-- end of the session factories -->
 
-	<bean 
-		id="hibernateSessionFactoryContainer" 
-		abstract="true" 
-		>
-		<description>
-			An abstract bean inherited by all the beans that need the session factory
-			(the transaction manager and the the DAO service).
-		</description>
-		<property name="sessionFactory" ref="jdbcSessionFactory" />
-	</bean>
+    <bean id="hibernateSessionFactoryContainer" 
+          abstract="true">
+        <description>
+            An abstract bean inherited by all the beans that need the session factory
+            (the transaction manager and the the DAO service).
+        </description>
+        <property name="sessionFactory" ref="jdbcSessionFactory" />
+    </bean>
 
-	<bean
-		id="jdbcExceptionTranslator" 
-		class="org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator"
-		lazy-init="true"
-		>
-		<description>
-			The bean that translates exceptions thrown by JDBC into Spring exceptions.
-		</description>
-	</bean>
+    <bean id="jdbcExceptionTranslator" 
+          class="org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator"
+          lazy-init="true">
+        <description>
+            The bean that translates exceptions thrown by JDBC into Spring exceptions.
+        </description>
+    </bean>
 
-	<bean 
-		id="jdbcHibernateTemplate"
-		class="org.springframework.orm.hibernate3.HibernateTemplate"
-		lazy-init="true"
-		>
-		<description>
-			The JDBC Hibernate template, 
-			used by the DAO service to access the database from batch commands.
-		</description>
-		<property name="sessionFactory" ref="jdbcSessionFactory" />
-		<property name="jdbcExceptionTranslator" ref="jdbcExceptionTranslator" />
-		<property name="allowCreate" value="false" />
-	</bean>
+    <bean id="jdbcHibernateTemplate"
+          class="org.springframework.orm.hibernate3.HibernateTemplate"
+          lazy-init="true">
+        <description>
+            The JDBC Hibernate template, 
+            used by the DAO service to access the database from batch commands.
+        </description>
+        <property name="sessionFactory" ref="jdbcSessionFactory" />
+        <property name="jdbcExceptionTranslator" ref="jdbcExceptionTranslator" />
+        <property name="allowCreate" value="false" />
+    </bean>
 
-	<bean 
-		id="jndiHibernateTemplate"
-		class="org.springframework.orm.hibernate3.HibernateTemplate"
-		lazy-init="true"
-		>
-		<description>
-			The Hibernate template based on JNDI, 
-			used by the DAO service to access the database from web requests.
-		</description>
-		<property name="sessionFactory" ref="jndiSessionFactory" />
-		<property name="jdbcExceptionTranslator" ref="jdbcExceptionTranslator" />
-		<property name="allowCreate" value="false" />
-	</bean>
+    <bean id="jndiHibernateTemplate"
+          class="org.springframework.orm.hibernate3.HibernateTemplate"
+          lazy-init="true">
+        <description>
+            The Hibernate template based on JNDI, 
+            used by the DAO service to access the database from web requests.
+        </description>
+        <property name="sessionFactory" ref="jndiSessionFactory" />
+        <property name="jdbcExceptionTranslator" ref="jdbcExceptionTranslator" />
+        <property name="allowCreate" value="false" />
+    </bean>
 
-	<bean 
-		id="daoService" 
-		class="org.esupportail.opi.dao.HibernateDaoServiceImpl" 
-		lazy-init="true"
-		>
-		<description>
-			This bean is the DAO service, the interface used by the domain service to access 
-			the database. It must implement interface org.esupportail.opi.dao.DaoService.
-		</description>
-		<property name="useJdbc" value="true" />
-		<property name="useJndi" value="${hibernate.useJndi}" />
-		<property name="jdbcHibernateTemplateBeanName" value="${hibernate.jdbcTemplateBeanName}" />
-		<property name="jndiHibernateTemplateBeanName" value="${hibernate.jndiTemplateBeanName}" />
-	</bean>
-	
-	<bean 
-		id="paramDaoService" 
-		class="org.esupportail.opi.dao.HibernateParamDaoServiceImpl" 
-		lazy-init="true"
-		>
-		<description>
-			This bean is the DAO service for the parameters, the interface used by the parameters domain service to access 
-			the database. It must implement interface org.esupportail.opi.dao.ParamaterDaoService.
-		</description>
-		<property name="useJdbc" value="true" />
-		<property name="useJndi" value="${hibernate.useJndi}" />
-		<property name="jdbcHibernateTemplateBeanName" value="${hibernate.jdbcTemplateBeanName}" />
-		<property name="jndiHibernateTemplateBeanName" value="${hibernate.jndiTemplateBeanName}" />
-	</bean>
-	
-	<bean 
-		id="pilotageDaoService" 
-		class="org.esupportail.opi.dao.HPilotageDaoServiceImpl" 
-		lazy-init="true"
-		>
-		<description>
-			This bean is the DAO service for the parameters, the interface used by the parameters domain service to access 
-			the database. It must implement interface org.esupportail.opi.dao.PilotageDaoService.
-		</description>
-		<property name="useJdbc" value="true" />
-		<property name="useJndi" value="${hibernate.useJndi}" />
-		<property name="jdbcHibernateTemplateBeanName" value="${hibernate.jdbcTemplateBeanName}" />
-		<property name="jndiHibernateTemplateBeanName" value="${hibernate.jndiTemplateBeanName}" />
-	</bean>
-		
+    <bean id="daoService" 
+          class="org.esupportail.opi.dao.HibernateDaoServiceImpl" 
+          lazy-init="true">
+        <description>
+            This bean is the DAO service, the interface used by the domain service to access 
+            the database. It must implement interface org.esupportail.opi.dao.DaoService.
+        </description>
+        <property name="useJdbc" value="true" />
+        <property name="useJndi" value="${hibernate.useJndi}" />
+        <property name="jdbcHibernateTemplateBeanName" value="${hibernate.jdbcTemplateBeanName}" />
+        <property name="jndiHibernateTemplateBeanName" value="${hibernate.jndiTemplateBeanName}" />
+    </bean>
+    
+    <bean id="paramDaoService" 
+          class="org.esupportail.opi.dao.HibernateParamDaoServiceImpl" 
+          lazy-init="true">
+        <description>
+            This bean is the DAO service for the parameters, the interface used by the parameters domain service to access 
+            the database. It must implement interface org.esupportail.opi.dao.ParamaterDaoService.
+        </description>
+        <property name="useJdbc" value="true" />
+        <property name="useJndi" value="${hibernate.useJndi}" />
+        <property name="jdbcHibernateTemplateBeanName" value="${hibernate.jdbcTemplateBeanName}" />
+        <property name="jndiHibernateTemplateBeanName" value="${hibernate.jndiTemplateBeanName}" />
+    </bean>
+    
+    <bean id="pilotageDaoService" 
+          class="org.esupportail.opi.dao.HPilotageDaoServiceImpl" 
+          lazy-init="true">
+        <description>
+            This bean is the DAO service for the parameters, the interface used by the parameters domain service to access 
+            the database. It must implement interface org.esupportail.opi.dao.PilotageDaoService.
+        </description>
+        <property name="useJdbc" value="true" />
+        <property name="useJndi" value="${hibernate.useJndi}" />
+        <property name="jdbcHibernateTemplateBeanName" value="${hibernate.jdbcTemplateBeanName}" />
+        <property name="jndiHibernateTemplateBeanName" value="${hibernate.jndiTemplateBeanName}" />
+    </bean>
+    
 </beans>

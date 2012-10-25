@@ -4,7 +4,6 @@
  */
 package org.esupportail.opi.web.beans.utils.comparator;
 
-import fr.univ.rennes1.cri.apogee.domain.beans.GrpTypDip;
 import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Cles2AnnuFormDTO;
 import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
 
@@ -13,6 +12,7 @@ import java.util.Comparator;
 
 import org.esupportail.apogee.domain.dto.enseignement.VersionEtapeDTO;
 import org.esupportail.opi.domain.beans.NormeSI;
+import org.esupportail.opi.domain.beans.formation.GrpTypDip;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.Nomenclature;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;

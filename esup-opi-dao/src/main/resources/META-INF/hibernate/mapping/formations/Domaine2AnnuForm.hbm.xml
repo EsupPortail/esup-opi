@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="fr.univ.rennes1.cri.apogee.domain.beans.Ren1Domaine2AnnuForm" table="REN1_DOMAINE2_ANNU_FORM">
+    <class name="org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm" table="DOMAINE2_ANNU_FORM">
         <composite-id >
             <key-property name="codLang" type="string">
                 <column name="COD_LANG" length="3" />
@@ -16,7 +16,7 @@
             <column name="LIB_DOM" length="100" not-null="true" />
         </property>
         
-        <many-to-one name="ren1DomaineAnnuForm" class="fr.univ.rennes1.cri.apogee.domain.beans.Ren1DomaineAnnuForm" column="COD_DOM" insert="false" update="false"/>
+        <many-to-one name="domaineAnnuForm" class="org.esupportail.opi.domain.beans.formation.DomaineAnnuForm" column="COD_DOM" insert="false" update="false"/>
         
     </class>
 </hibernate-mapping>
