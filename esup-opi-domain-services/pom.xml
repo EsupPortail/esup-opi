@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>esup-opi</artifactId>
         <groupId>org.esupportail</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>2.0.0-alpha1</version>
     </parent>
     <artifactId>esup-opi-domain-services</artifactId>
     <description>Domain Interface and Impl</description>
@@ -33,7 +29,7 @@
         <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-opi-domain-beans</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>2.0.0-alpha1</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -45,7 +41,7 @@
         <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-opi-dao</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>2.0.0-alpha1</version>
         </dependency>
         <dependency>
             <groupId>opensymphony</groupId>
@@ -55,7 +51,7 @@
         <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-opi-utils</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>2.0.0-alpha1</version>
         </dependency>
         <dependency>
             <groupId>org.esupportail</groupId>
