@@ -18,8 +18,8 @@ import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.web.beans.pojo.CommisionRechPojo;
 import org.esupportail.opi.web.beans.pojo.CommissionPojo;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
-import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
+import org.esupportail.opi.web.utils.Utilitaires;
+import org.esupportail.opi.web.utils.comparator.ComparatorString;
 import org.springframework.util.StringUtils;
 
 /**

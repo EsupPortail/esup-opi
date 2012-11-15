@@ -10,7 +10,6 @@ package org.esupportail.opi.web.beans.pojo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,8 +24,8 @@ import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.candidature.MissingPiece;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
 import org.esupportail.opi.utils.Conversions;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
-import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
+import org.esupportail.opi.web.utils.Utilitaires;
+import org.esupportail.opi.web.utils.comparator.ComparatorString;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
 /**

@@ -22,9 +22,9 @@ import org.esupportail.opi.services.export.ISerializationService;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.pojo.ListeStatPojo;
-import org.esupportail.opi.web.beans.utils.ExportUtils;
-import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
-import org.esupportail.opi.web.beans.utils.PDFUtils;
+import org.esupportail.opi.web.utils.ExportUtils;
+import org.esupportail.opi.web.utils.NavigationRulesConst;
+import org.esupportail.opi.web.utils.PDFUtils;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 
 

@@ -1,6 +1,5 @@
 package org.esupportail.opi.web.controllers.opinions;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -45,12 +44,13 @@ import org.esupportail.opi.web.beans.pojo.AvisPojo;
 import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.opi.web.beans.pojo.NomenclaturePojo;
-import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
-import org.esupportail.opi.web.beans.utils.comparator.ComparatorDate;
-import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
+import org.esupportail.opi.web.utils.NavigationRulesConst;
+import org.esupportail.opi.web.utils.comparator.ComparatorDate;
+import org.esupportail.opi.web.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractAccessController;
 import org.esupportail.opi.web.controllers.parameters.NomenclatureController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
+import org.esupportail.opi.web.utils.paginator.IndividuPojoLDM;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
 
@@ -175,6 +175,8 @@ public class OpinionController
 	 */
 	private Map<VersionEtpOpi, List<Integer>> mapTestRang = new HashMap<VersionEtpOpi, List<Integer>>();
 	
+	private IndividuPojoLDM indPojoLDM;
+	
 	/*
 	 ******************* INIT ************************* */
 
@@ -241,13 +243,13 @@ public class OpinionController
 	 * Callback to list of student for the gestion of the opinions.
 	 * @return String 
 	 */
-	public String goEnterAllStudentsOpinions() {
-		reset();
-		individuPaginator.reset();
-		individuPaginator.filtreAllCommissionRights(
-				getDomainApoService().getListCommissionsByRight(
-						getCurrentGest(), true), false, transfert.getCode());
-		individuPaginator.forceReload();
+    public String goEnterAllStudentsOpinions() {
+//		reset();
+//		individuPaginator.reset();
+//		individuPaginator.filtreAllCommissionRights(
+//				getDomainApoService().getListCommissionsByRight(
+//						getCurrentGest(), true), false, transfert.getCode());
+//		individuPaginator.forceReload();
 		return NavigationRulesConst.ENTER_ALL_STUDENTS_OPINIONS;
 	}
 
@@ -368,7 +370,7 @@ public class OpinionController
 		Set<IndVoeuPojo> voeuxInError = new HashSet<IndVoeuPojo>();
 		//R�cup�ration de tous les nouveaus avis
 		Map<Integer, IndVoeuPojo> mapIndVoeuPojoNewAvis = new HashMap<Integer, IndVoeuPojo>();
-		for (IndividuPojo ind : individuPaginator.getIndPojosWithWishForOneCmi()) {
+		for (IndividuPojo ind : indPojoLDM.getIndPojos()) {
 			//parcours + recup newAvis
 			for (IndVoeuPojo indVoeuPojo : ind.getIndVoeuxPojo()) {
 				if (indVoeuPojo.getNewAvis().getResult() != null) {
@@ -390,7 +392,7 @@ public class OpinionController
 		}
 		reset();
 //		individuPaginator.setForceReload(false);
-		individuPaginator.resetNotSuper(true);
+//		individuPaginator.resetNotSuper(true);
 		// recharge des voeux en erreur pour nouvelle saisie
 		setVoeuxInErrorInPaginator(voeuxInError);
 	}
@@ -473,12 +475,9 @@ public class OpinionController
 		} else { addInfoMessage(null, "AVIS.INFO.TYP_DEC.NOT_SELECT"); } 
 	}
 	
-	/**
-	 * @param value
-	 */
 	public void checkAll() {
 		if (allChecked) {
-			for (IndividuPojo ind : individuPaginator.getIndPojosWithWishForOneCmi()) {
+			for (IndividuPojo ind : indPojoLDM.getIndPojos()) {
 				wishSelected.put(ind.getIndividu(), new ArrayList<IndVoeuPojo>(ind.getIndVoeuxPojo()));
 			} 
 		} else {
@@ -490,7 +489,7 @@ public class OpinionController
 	 * @param voeuxInError
 	 */
 	private void setVoeuxInErrorInPaginator(final Set<IndVoeuPojo> voeuxInError) {
-		for (IndividuPojo ind : individuPaginator.getIndPojosWithWishForOneCmi()) {
+		for (IndividuPojo ind : indPojoLDM.getIndPojos()) {
 			for (IndVoeuPojo iPojo : ind.getIndVoeuxPojo()) {
 				for (IndVoeuPojo iPojoError : voeuxInError) {
 					if (iPojoError.equals(iPojo)) {
@@ -688,7 +687,8 @@ public class OpinionController
 	 */
 	public void selectTypeDecision() {
 		selectTypeDecisionOpinion(null, true);
-		individuPaginator.updateIndPojosWithWishForOneCmi();
+		indPojoLDM.setIndPojos(
+                individuPaginator.updateIndPojos(indPojoLDM.getIndPojos()));
 	}
 
 	/**
@@ -696,9 +696,9 @@ public class OpinionController
 	 * pour un individu
 	 */
 	public void selectTypeDecisionIndividu() {
-		individuPaginator.resetNotSuper(false);
+		//individuPaginator.resetNotSuper(false);
 		//mise a jour des indvoeu pojo
-		for (IndividuPojo iPojo : individuPaginator.getIndPojosWithWishForOneCmi()) {
+		for (IndividuPojo iPojo : indPojoLDM.getIndPojos()) {
 			for (IndVoeuPojo ivPojo : iPojo.getIndVoeuxPojo()) {
 				TypeDecision newDec = ivPojo.getNewAvis().getResult();
 				if (newDec != null
@@ -747,7 +747,7 @@ public class OpinionController
 	 * pour un avis
 	 */
 	private IndVoeuPojo selectTypeDecisionOpinion(final IndVoeuPojo ivPojo, final Boolean doNewList) {
-		individuPaginator.resetNotSuper(doNewList);
+		//individuPaginator.resetNotSuper(doNewList);
 		if (selectedTypeDec != null
 				&& selectedTypeDec.getCodeTypeConvocation()
 				.equals(preSelection.getCode())) {
@@ -777,7 +777,9 @@ public class OpinionController
 
 
 	/**
-	 * Search method to list the students with the filter. 
+	 * Search method to list the students with the filter.
+     *
+     * TODO : Rename that method
 	 */
 	@SuppressWarnings("serial")
 	public void searchStudents() {
@@ -792,11 +794,12 @@ public class OpinionController
 				&& (codeCommRech == null || codeTrtCmiRech == null)) {
 			addInfoMessage(null, "AVIS.INFO.LISTE_COMP");
 		}
-		individuPaginator.forceReload();
 	}
 
 	/**
-	 * Search method to list the students with the filter by type of decision. 
+	 * Search method to list the students with the filter by type of decision.
+     *
+     * TODO : Rename that method
 	 */
 	public void searchStudentsByTypeDec() {
 		individuPaginator.getIndRechPojo().setCodeTrtCmiRecherchee(null);
@@ -808,11 +811,12 @@ public class OpinionController
 			commissionController.initAllTraitementCmi(
 					getParameterService().getCommission(codeCommRech, null));
 		}
-		individuPaginator.forceReload();
 	}
 
 	/**
-	 * Search method to list the students with the filter by commission. 
+	 * Search method to list the students with the filter by commission.
+     *
+     * TODO : Rename that method
 	 */
 	public void searchStudentsByComm() {
 		individuPaginator.getIndRechPojo().setCodeTrtCmiRecherchee(null);
@@ -824,11 +828,12 @@ public class OpinionController
 			commissionController.initAllTraitementCmi(
 					getParameterService().getCommission(codeCommRech, null));
 		}
-		individuPaginator.forceReload();
 	}
 
 	/**
-	 * Search method to list the students with the filter by etape. 
+	 * Search method to list the students with the filter by etape.
+     *
+     * TODO : get rid of that method
 	 */
 	public void searchStudentsByEtp() {
 		searchStudents();
@@ -934,7 +939,8 @@ public class OpinionController
 		if (!mapTestRang.containsKey(vet)) {
 			List<Integer> listRangAvis = new ArrayList<Integer>();
 			for (Avis avis : getDomainService().getAvisByEtp(vet.getCodEtp(), vet.getCodVrsVet())) {
-				boolean avisNotValid = avis.getResult().getCodeTypeConvocation().equals(listeComplementaire.getCode())
+				boolean avisNotValid = avis.getResult().getCodeTypeConvocation().equals(
+                        listeComplementaire.getCode())
 					&& (avisUpdate.getId().intValue() != avis.getId().intValue());
 				if (avis.getTemoinEnService() && avis.getIndVoeu().getTemoinEnService() 
 						&& avis.getRang() != null && avisNotValid) {
@@ -1175,11 +1181,9 @@ public class OpinionController
 
 	/**
 	 * FIXME : Or not ? A hack to comply with jsf
-	 * 
-	 * @param wishSelected the wishSelected to set
 	 */
 	public void setWishSelected(final Set<Integer> wishesIds) {
-		for (IndividuPojo indP : individuPaginator.getIndividuPojos())
+        for (IndividuPojo indP : indPojoLDM.getIndPojos())
 			for (IndVoeuPojo ivp : indP.getIndVoeuxPojo())
 				for (Integer id : wishesIds)
 					if (id.equals(ivp.getIndVoeu().getId())) {
@@ -1239,4 +1243,13 @@ public class OpinionController
 	public void setInscriptionAdm(final InscriptionAdm inscriptionAdm) {
 		this.inscriptionAdm = inscriptionAdm;
 	}
+
+    public IndividuPojoLDM getIndPojoLDM() {
+        return indPojoLDM;
+    }
+
+    public void setIndPojoLDM(IndividuPojoLDM indPojoLDM) {
+        this.indPojoLDM = indPojoLDM;
+    }
+
 }

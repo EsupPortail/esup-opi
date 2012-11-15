@@ -41,8 +41,8 @@ import org.esupportail.opi.utils.Conversions;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.components.ExtendedEntry;
 import org.esupportail.opi.web.beans.paginator.IndividuPaginator;
-import org.esupportail.opi.web.beans.utils.ExportUtils;
-import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
+import org.esupportail.opi.web.utils.ExportUtils;
+import org.esupportail.opi.web.utils.NavigationRulesConst;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 

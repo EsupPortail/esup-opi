@@ -11,6 +11,14 @@
 		/properties/applicationContext.xml.
 	-->
 
+    <bean id="indPojoLDM" class="org.esupportail.opi.web.utils.paginator.IndividuPojoLDM"
+    factory-method="indPojoLdm" scope="session">
+        <constructor-arg ref="sessionController" />
+        <constructor-arg value="#{paginatorIndividuPojo.indRechPojo}" />
+        <constructor-arg value="#{T(fj.data.Option).some(transfert)}" />
+        <constructor-arg value="#{paginatorIndividuPojo.individusToPojos()}" />
+    </bean>
+
 	<bean id="sessionController"
 		class="org.esupportail.opi.web.controllers.SessionController"
 		parent="abstractDomainAwareBean" scope="session">
@@ -436,6 +444,7 @@
 		<property name="listeComplementaire" ref="listeComplementaire"/>
 		<property name="transfert" ref="transfert"/>
 		<property name="inscriptionAdm" ref="inscriptionAdm"/>
+        <property name="indPojoLDM" ref="indPojoLDM" />
 	</bean>
 
 	<bean id="validOpinionController"
@@ -447,7 +456,7 @@
 		<property name="refused" ref="refused" />
 		<property name="intermediary" ref="intermediary" />
 		<property name="listeComplementaire" ref="listeComplementaire" />
-		<property name="printOpinionController" ref="printOpinionController" />	
+		<property name="printOpinionController" ref="printOpinionController" />
 		<property name="infoValidWishesFC" ref="infoValidWishesFC"/>
 		<property name="commissionController" ref="commissionController"/>
 	</bean>
@@ -469,6 +478,7 @@
 		<property name="inscriptionAdm" ref="inscriptionAdm" />
 		<property name="refused" ref="refused" />
 		<property name="transfert" ref="transfert"/>
+        <property name="indPojoLDM" ref="indPojoLDM" />
 	</bean>
 
 

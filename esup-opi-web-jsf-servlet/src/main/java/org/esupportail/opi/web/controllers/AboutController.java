@@ -11,7 +11,7 @@ import java.util.List;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 
-import org.esupportail.opi.web.beans.utils.comparator.ComparatorSelectItem;
+import org.esupportail.opi.web.utils.comparator.ComparatorSelectItem;
 
 
 

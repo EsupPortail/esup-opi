@@ -2,7 +2,7 @@
 * CRI - Universite de Rennes1 - 57SI-CIES - 2007
 * http://sourcesup.cru.fr/projects/57si-cies/
 */
-package org.esupportail.opi.web.beans.utils.comparator;
+package org.esupportail.opi.web.utils.comparator;
 
 import java.io.Serializable;
 import java.util.Comparator;

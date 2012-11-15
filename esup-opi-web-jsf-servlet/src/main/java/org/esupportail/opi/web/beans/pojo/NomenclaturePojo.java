@@ -6,7 +6,7 @@ import java.io.Serializable;
 import org.esupportail.opi.domain.beans.parameters.Nomenclature;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
+import org.esupportail.opi.web.utils.Utilitaires;
 
 
 /**

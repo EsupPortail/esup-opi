@@ -17,7 +17,7 @@ import org.esupportail.opi.domain.beans.user.indcursus.CursusPro;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.QualifNonDiplomante;
 import org.esupportail.opi.utils.Constantes;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
+import org.esupportail.opi.web.utils.Utilitaires;
 
 
 

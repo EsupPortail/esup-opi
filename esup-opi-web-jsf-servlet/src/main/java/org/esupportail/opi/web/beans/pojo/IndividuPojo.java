@@ -8,20 +8,21 @@
  */
 package org.esupportail.opi.web.beans.pojo;
 
-import static fj.data.Option.*;
+import static fj.data.Stream.iterableStream;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import fj.F;
+import fj.data.Stream;
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections.comparators.NullComparator;
 import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.services.i18n.I18nService;
-import org.esupportail.opi.domain.BusinessCacheService;
 import org.esupportail.opi.domain.BusinessUtil;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
@@ -45,8 +46,8 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.beans.user.indcursus.QualifNonDiplomante;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
-import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
+import org.esupportail.opi.web.utils.Utilitaires;
+import org.esupportail.opi.web.utils.comparator.ComparatorString;
 import org.esupportail.wssi.services.remote.Departement;
 import org.esupportail.wssi.services.remote.Pays;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
@@ -156,7 +157,6 @@ public class IndividuPojo {
 	 * Constructor.
 	 */
 	public IndividuPojo() {
-		super();
 		individu = new Individu();
 		doNotHaveCodeNne = false;
 		isManager = false;
@@ -173,7 +173,6 @@ public class IndividuPojo {
 	 * @param i18Service
 	 */
 	public IndividuPojo(final I18nService i18Service) {
-		super();
 		individu = new Individu();
 		doNotHaveCodeNne = false;
 		isManager = false;
@@ -200,7 +199,6 @@ public class IndividuPojo {
 			final List<TypeTraitement> typeTraitements,
 			final List<CalendarRDV> listCalendrierParam,
 			final Set<Commission> commissions) {
-		super();
 		this.individu = individu;
 		doNotHaveCodeNne = false;
 		regimeInscription = ri;
@@ -229,7 +227,6 @@ public class IndividuPojo {
 			final Set<Commission> commissions, final Set<TypeDecision> typeDecisions,
 			final List<TypeTraitement> typeTraitements, final List<CalendarRDV> listCalendrierParam,
 			final Set<VersionEtapeDTO> versionsEtape) {
-		super();
 		this.individu = individu;
 		doNotHaveCodeNne = false;
 		etat = (EtatIndividu) Etat.instanceState(individu.getState(), i18Service);
@@ -331,62 +328,50 @@ public class IndividuPojo {
 					final Set<VersionEtapeDTO> versionsEtp) {
 		indVoeuxPojo = new TreeSet<IndVoeuPojo>(new ComparatorString(IndVoeuPojo.class));
 		if (individu != null) {
-			// recuperation de tous les VET des commissions
-			Set<VersionEtapeDTO> listeVersEtp = null;
-			if (commissions != null) {
-				listeVersEtp = new HashSet<VersionEtapeDTO>();
-				for (Commission commission : commissions)
-					for (Set<TraitementCmi> traits : fromNull(commission.getTraitementCmi()))
-						for (TraitementCmi trait : traits)
-							listeVersEtp.add(apoServ.getVersionEtape(
-									trait.getVersionEtpOpi().getCodEtp(),
-									trait.getVersionEtpOpi().getCodVrsVet()));
-			}
 			Set<IndVoeu> indVoeu = individu.getVoeux();
 			for (IndVoeu i : indVoeu) {
-				TraitementCmi trtCmi = i.getLinkTrtCmiCamp().getTraitementCmi();
-				VersionEtapeDTO vet = apoServ.getVersionEtape(
-						trtCmi.getVersionEtpOpi().getCodEtp(),
-						trtCmi.getVersionEtpOpi().getCodVrsVet());
-//				VersionEtapeDTO vet = domainApo.getVersionEtape(
-//						i.getVersionEtpOpi().getCodEtp(),
-//						i.getVersionEtpOpi().getCodVrsVet());
-				if (vet == null) {
-					System.out.println("NULL ON VET codEtp : " +  trtCmi.getVersionEtpOpi().getCodEtp()
-							+ " codVrsEtp : " + trtCmi.getVersionEtpOpi().getCodVrsVet());
-				}
-				if (listeVersEtp == null || listeVersEtp.contains(vet)) {
+				final TraitementCmi trtCmi = i.getLinkTrtCmiCamp().getTraitementCmi();
+                final boolean trtsMatch = iterableStream(commissions).bind(
+                        new F<Commission, Stream<TraitementCmi>>() {
+                            public Stream<TraitementCmi> f(Commission commission) {
+                                return iterableStream(commission.getTraitementCmi());
+                            }}).exists(
+                        new F<TraitementCmi, Boolean>() {
+                            public Boolean f(TraitementCmi traitementCmi) {
+                                return traitementCmi.equals(trtCmi); }});
+
+                if (trtsMatch) {
 					Boolean calIsOpen = null;
-					if (commissions == null) {
-						//si il y a des commission c'est que 
-						//c'est la vue gestionnaire on n'a donc pas besoin des calendriers.
+                    //si il y a des commission c'est que
+                    //c'est la vue gestionnaire on n'a donc pas besoin des calendriers.
+                    if (commissions == null)
 						calIsOpen = testIfCalIsOpen(i, parameterService);
-					}
+
 					TypeTraitement t = null;
-					if (StringUtils.hasText(i.getCodTypeTrait())) {
+					if (StringUtils.hasText(i.getCodTypeTrait()))
 						t = BusinessUtil.getTypeTraitement(
 								typeTraitements, 
 								i.getCodTypeTrait());
-					}
+
 					Boolean addVoeuType = false;
 					if (typeDecisions != null) {
 						// must be filtred by typeDecision
-						for (Avis a : i.getAvis()) {
-							if (a.getTemoinEnService()) {
+						for (Avis a : i.getAvis())
+							if (a.getTemoinEnService())
 								if (typeDecisions.contains(a.getResult())) {
 									addVoeuType = true;
 									break;
 								}
-							}
-						}
 					} else { addVoeuType = true; }
-					Boolean addVoeuVet = false;
-					if (versionsEtp != null) {
-						// must be filtred by versionEtp
-						if (versionsEtp.contains(vet)) {
-							addVoeuVet = true;
-						}
-					} else { addVoeuVet = true; }
+
+                    Boolean addVoeuVet = true;
+                    final VersionEtapeDTO vet = apoServ.getVersionEtape(
+                            trtCmi.getVersionEtpOpi().getCodEtp(),
+                            trtCmi.getVersionEtpOpi().getCodVrsVet());
+                    // must be filtred by versionEtp
+                    if (versionsEtp != null)
+                        addVoeuVet = versionsEtp.contains(vet);
+
 					if (addVoeuType && addVoeuVet) {
 						CalendarRDV cal = Utilitaires.getRecupCalendarRdv(i, listCalendrierParam);
 						indVoeuxPojo.add(

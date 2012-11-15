@@ -13,8 +13,8 @@ import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
-import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
+import org.esupportail.opi.web.utils.NavigationRulesConst;
+import org.esupportail.opi.web.utils.Utilitaires;
 
 
 /**

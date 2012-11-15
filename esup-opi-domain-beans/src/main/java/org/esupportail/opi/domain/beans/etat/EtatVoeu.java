@@ -7,7 +7,7 @@ package org.esupportail.opi.domain.beans.etat;
 
 /**
  * @author cleprous
- *
+ *  TODO : shouldn't extend Etat which is a Factory
  */
 public abstract class EtatVoeu extends Etat {
 

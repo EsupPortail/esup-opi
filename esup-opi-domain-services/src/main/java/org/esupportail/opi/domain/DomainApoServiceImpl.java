@@ -345,10 +345,6 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 		}
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.DomainApoService#getVersionEtapes(
-	 * org.esupportail.apogee.domain.dto.enseignement.VersionDiplomeDTO)
-	 */
 	@Override
 	@Cacheable(cacheName = CacheModelConst.ENS_APOGEE_MODEL)
 	public List<VersionEtapeDTO> getVersionEtapes(final VersionDiplomeDTO vrsDip, final String codAnu) {
@@ -814,10 +810,6 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	//////////////////////////////////////////////////////////////
 
 
-	/** 
-	 * @see org.esupportail.opi.domain.DomainApoService#getVersionDiplomes(
-	 * java.lang.String, fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip)
-	 */
 	@Override
 	public List<VersionDiplomeDTO> getVersionDiplomes(final String codeKeyWord, final Ren1GrpTypDip grpTpd,
 			final String codAnu) {
@@ -1239,9 +1231,6 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	// Ren1GrpTypDip
 	// ////////////////////////////////////////////////////////////
 
-	/** 
-	 * @see org.esupportail.opi.domain.DomainApoService#getRen1GrpTypDip()
-	 */
 	@Override
 	@Cacheable(cacheName = CacheModelConst.RENNES1_APOGEE_MODEL)
 	public List<Ren1GrpTypDip> getRen1GrpTypDip(final Campagne camp) {
@@ -1297,10 +1286,7 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	}
 
 
-	/** 
-	 * @see org.esupportail.opi.domain.DomainApoService#getRen1GrpTypDip(java.lang.String)
-	 */
-	@Override
+    @Override
 	@Cacheable(cacheName = CacheModelConst.RENNES1_APOGEE_MODEL)
 	@Deprecated
 	public Ren1GrpTypDip getRen1GrpTypDip(final String code, final Campagne camp) {
@@ -1421,9 +1407,6 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	//////////////////////////////////////////////////////////////
 
 
-	/** 
-	 * @see org.esupportail.opi.domain.DomainApoService#getSignataire(java.lang.String)
-	 */
 //	@Override
 	// TODO : à supprimer 18/01/2012
 	public SignataireDTO getSignataire(final String codSig) {
@@ -1852,46 +1835,44 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	}
 
     /**
-    	 * List of the commisions managed by the gestionnaire.
-    	 * @param gest 
-    	 * @param domainApoService 
-    	 * @param parameterService 
-    	 * @return Set< Commission>
-    	 */
-    	public Set<Commission> getListCommissionsByRight(
-    			final Gestionnaire gest, 
-    			final Boolean temEnSve) {
-    		Set<Commission> lesCommissions = new HashSet<Commission>();	
-    		if (StringUtils.hasText(gest.getCodeCge())) {
-    			Set<VersionEtapeDTO> vet = new HashSet<VersionEtapeDTO>();
-    			vet.addAll(getVersionEtapes(null, null, 	gest.getCodeCge(), null));
-    			Set<VersionEtpOpi> vOpi = Conversions.convertVetInVetOpi(new HashSet<VersionEtapeDTO>(vet));
-    			Set<Commission> lCom = parameterService.getCommissions(temEnSve); 
-    			for (Commission c : lCom) {
-    				if (!c.getTemoinEnService()) {
-    					log.info("cas d'une comm HS");
-    				}
-    				for (TraitementCmi trt : c.getTraitementCmi()) {
-    					if (vOpi.contains(trt.getVersionEtpOpi())) {
-    						lesCommissions.add(c);
-    						break;
-    					}
-    				}
-    			}
-    
-    		} else if (gest.getRightOnCmi()!= null && !gest.getRightOnCmi().isEmpty()) {
-    			//si pas cge, renvoie les cmi auxquelles ils ont droit
-    		    // TODO: change getRightOnCmi to return a list ?
-    			lesCommissions = gest.getRightOnCmi();
-    		} else {
-    			lesCommissions = parameterService.getCommissions(null);
-    		}
-    
-    		return lesCommissions;
-    	}
+     * List of the commisions managed by the gestionnaire.
+     * @param gest
+     * @param temEnSve
+     * @return Set< Commission>
+     */
+    public Set<Commission> getListCommissionsByRight(
+            final Gestionnaire gest,
+            final Boolean temEnSve) {
+        Set<Commission> lesCommissions = new HashSet<Commission>();
+        if (StringUtils.hasText(gest.getCodeCge())) {
+            Set<VersionEtapeDTO> vet = new HashSet<VersionEtapeDTO>();
+            vet.addAll(getVersionEtapes(null, null, 	gest.getCodeCge(), null));
+            Set<VersionEtpOpi> vOpi = Conversions.convertVetInVetOpi(new HashSet<VersionEtapeDTO>(vet));
+            Set<Commission> lCom = parameterService.getCommissions(temEnSve);
+            for (Commission c : lCom) {
+                if (!c.getTemoinEnService()) {
+                    log.info("cas d'une comm HS");
+                }
+                for (TraitementCmi trt : c.getTraitementCmi()) {
+                    if (vOpi.contains(trt.getVersionEtpOpi())) {
+                        lesCommissions.add(c);
+                        break;
+                    }
+                }
+            }
 
-	
-	
-	
+        } else if (gest.getRightOnCmi()!= null && !gest.getRightOnCmi().isEmpty()) {
+            //si pas cge, renvoie les cmi auxquelles ils ont droit
+            lesCommissions = gest.getRightOnCmi();
+        } else {
+            lesCommissions = parameterService.getCommissions(null);
+        }
+
+        return lesCommissions;
+    }
+
+
+
+
 
 }

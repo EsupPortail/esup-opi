@@ -124,7 +124,7 @@ public class OpiWebServiceImpl implements OpiWebService {
 			
 //			DonneesOpiDTO2 donneesOPI = initDonneesOpi(serviceOpi, individu, voeux);
 //			DonneesOpiDTO donneesOPI = initDonneesOpiTest();
-			DonneesOpiDTO2 donneesOPI = initDonneesOpi(remoteApoRenOpiMetier, individu, voeux);
+			DonneesOpiDTO2 donneesOPI = initDonneesOpi(individu, voeux);
 			log.info("derversement dans Apo du candidat (numero dossier = " + individu.getNumDossierOpi());
 
 			
@@ -278,13 +278,11 @@ public class OpiWebServiceImpl implements OpiWebService {
 	
 	/**
 	 * charge des donnees OPI.
-	 * @param _opiMetierService 
 	 * @param individu 
 	 * @param wishes 
 	 * @return DonneesOpiDTO
 	 */
 	private DonneesOpiDTO2 initDonneesOpi(
-			final OpiMetierServiceInterface _opiMetierService,
 			final Individu individu,
 			final List<IndVoeu> wishes) {
 

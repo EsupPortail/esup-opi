@@ -5,17 +5,15 @@
 package org.esupportail.opi.web.beans.paginator;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.domain.DomainApoService;
-import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.opi.web.beans.pojo.MissingPiecePojo;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
+import org.esupportail.opi.web.utils.Utilitaires;
 
 /**
  * @author tducreux

@@ -1,101 +1,92 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <ui:fragment rendered="#{not empty managedAccess.menuModel.contents
-                and opinionController.actionEnum.whatAction != 
-                opinionController.actionEnum.propositionAction}">
+                           and opinionController.actionEnum.whatAction != 
+                           opinionController.actionEnum.propositionAction}">
         <div id="blockFormSearch" class="blockForm">
-        	<h:form id="lookForIndForm" styleClass="opiR1_form">
-        		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-        			styleClass="tableJustWidthMax">
-        			<h:outputText value="#{msgs['FIELD_LABEL.LOOK_FOR.IND']}"
-        				styleClass="section-smallTitle" />
-        			<h:panelGroup>
-        				<p:commandButton id="lookForIndividu" value="#{msgs['_.BUTTON.SEARCH']}"
-        					action="#{opinionController.searchStudents}"  ajax="false" />
-        			</h:panelGroup>
-        		</h:panelGrid>
-        		<h:panelGrid styleClass="tableWidthMax" columns="4"
-        			columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-        			<h:panelGroup>
-        				<h:outputLabel value="#{msgs['INDIVIDU.NUM_DOSSIER']}"
-        					for="numDossierOpi" />
-        			</h:panelGroup>
-        			<p:inputText id="numDossierOpi"
-        				value="#{paginatorIndividuPojo.indRechPojo.numDossierOpiRecherche}" />
-        
-        			<h:panelGroup>
-        				<h:outputLabel value="#{msgs['INDIVIDU.NOM']}" for="nom" />
-        			</h:panelGroup>
-        			<p:inputText id="nom"
-        				value="#{paginatorIndividuPojo.indRechPojo.nomRecherche}" />
-        			<h:panelGroup>
-        				<h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom" />
-        			</h:panelGroup>
-        			<p:inputText id="prenom"
-        				value="#{paginatorIndividuPojo.indRechPojo.prenomRecherche}" />
-        
-        			<h:panelGroup>
-        				<h:outputLabel value="#{msgs['COMMISSION.CHOICE']}"
-        					for="lesCommissions" />
-        			</h:panelGroup>
-        			<h:panelGroup>
-        				<p:selectOneMenu id="lesCommissions" converter="javax.faces.Integer"
-        					onchange="javascript:{simulateLinkClick('lookForIndForm:lookForIndividuComm');}"
-        					value="#{paginatorIndividuPojo.indRechPojo.idCmi}">
-        					<f:selectItem itemLabel="" itemValue="" />
-        					<f:selectItems var="commission"
-        						value="#{commissionController.commissionsItemsByRight}"
-        						itemLabel="#{commission.libelle}" itemValue="#{commission.id}" />
-        				</p:selectOneMenu>
-        				<p:commandButton id="lookForIndividuComm" value="#{msgs['_.BUTTON.SEARCH']}"
-        					action="#{opinionController.searchStudentsByComm}"  ajax="false" />
-        			</h:panelGroup>
-        			<h:panelGroup>
-        				<h:outputLabel value="#{msgs['AVIS.LABEL_DECISION']}" for="lesTypesDecision"/>
-        			</h:panelGroup>
-        			<h:panelGroup>
-        				<p:selectOneMenu id="lesTypesDecision" converter="#{typeDecisionConverter}"
-        					onchange="javascript:{simulateLinkClick('lookForIndForm:lookForIndividuTypeDec');}"
-        					value="#{paginatorIndividuPojo.indRechPojo.typeDecRecherchee}">
-        					<f:selectItems value="#{nomenclatureController.typeDecisionItems}" />
-        				</p:selectOneMenu>
-        				<p:commandButton id="lookForIndividuTypeDec" value="#{msgs['_.BUTTON.SEARCH']}"
-        					action="#{opinionController.searchStudentsByTypeDec}"  ajax="false" />
-        			</h:panelGroup>
-        			<h:panelGroup rendered="#{opinionController.isFilterLCAndCommissionOK}">
-        				<h:outputLabel value="#{msgs['FIELD_LABEL.ETAPES']}" for="lesEtapes"/>
-        			</h:panelGroup>
-        			<h:panelGroup rendered="#{opinionController.isFilterLCAndCommissionOK}">
-        				<p:selectOneMenu id="lesEtapes" converter="javax.faces.Integer"
-        					onchange="javascript:{simulateLinkClick('lookForIndForm:lookForIndividuEtp');}"
-        					value="#{paginatorIndividuPojo.indRechPojo.codeTrtCmiRecherchee}">
-        					<f:selectItem itemLabel="" itemValue="" />
-        					<f:selectItems var="beanTrtCmi"
-        						value="#{trtCmiController.allTraitementCmi}"
-        						itemLabel="#{beanTrtCmi.etape.licEtp}" itemValue="#{beanTrtCmi.traitementCmi.id}" />
-        				</p:selectOneMenu>
-        				<p:commandButton id="lookForIndividuEtp" value="#{msgs['_.BUTTON.SEARCH']}"
-        					action="#{opinionController.searchStudentsByEtp}"  ajax="false" />
-        			</h:panelGroup>
-        			<h:panelGroup>
-                                    <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc" />
-        			</h:panelGroup>
-                                <p:selectManyCheckbox id="fc" value="#{paginatorIndividuPojo.listeRI}" converter="javax.faces.Integer"
-                                                      disabled="#{!paginatorIndividuPojo.indRechPojo.canModifyRISearch}"
-                                                      layout="lineDirection">
-                                    <f:selectItems var="ri" 
-                                                   itemLabel="#{ri.shortLabel}" itemValue="#{ri.code}"
-                                                   value="#{nomenclatureController.allRegimeInscription}"/>
-                                </p:selectManyCheckbox>
-        		</h:panelGrid>
-        	</h:form>
+            <h:form id="lookForIndForm" styleClass="opiR1_form">
+                <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                             styleClass="tableJustWidthMax">
+                    <h:outputText value="#{msgs['FIELD_LABEL.LOOK_FOR.IND']}"
+                                  styleClass="section-smallTitle" />
+                    <h:panelGroup>
+                        <p:commandButton id="lookForIndividu" value="#{msgs['_.BUTTON.SEARCH']}"
+                                         action="#{opinionController.searchStudents}"  update="#{toUpdate}" />
+                    </h:panelGroup>
+                </h:panelGrid>
+                <h:panelGrid styleClass="tableWidthMax" columns="4"
+                             columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['INDIVIDU.NUM_DOSSIER']}"
+                                       for="numDossierOpi" />
+                    </h:panelGroup>
+                    <p:inputText id="numDossierOpi"
+                                 value="#{paginatorIndividuPojo.indRechPojo.numDossierOpiRecherche}" />
+                    
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['INDIVIDU.NOM']}" for="nom" />
+                    </h:panelGroup>
+                    <p:inputText id="nom"
+                                 value="#{paginatorIndividuPojo.indRechPojo.nomRecherche}" />
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom" />
+                    </h:panelGroup>
+                    <p:inputText id="prenom"
+                                 value="#{paginatorIndividuPojo.indRechPojo.prenomRecherche}" />
+                    
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['COMMISSION.CHOICE']}"
+                                       for="lesCommissions" />
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:selectOneMenu id="lesCommissions" converter="javax.faces.Integer"
+                                         value="#{paginatorIndividuPojo.indRechPojo.idCmi}">
+                            <f:selectItem itemLabel="" itemValue="" />
+                            <f:selectItems var="commission"
+                                           value="#{commissionController.commissionsItemsByRight}"
+                                           itemLabel="#{commission.libelle}" itemValue="#{commission.id}" />
+                            <p:ajax update="#{toUpdate} @form" listener="#{opinionController.searchStudentsByComm}" />
+                        </p:selectOneMenu>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['AVIS.LABEL_DECISION']}" for="lesTypesDecision"/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:selectOneMenu id="lesTypesDecision" converter="#{typeDecisionConverter}"
+                                         value="#{paginatorIndividuPojo.indRechPojo.typeDecRecherchee}">
+                            <f:selectItems value="#{nomenclatureController.typeDecisionItems}" />
+                            <p:ajax update="#{toUpdate} @form"
+                                    listener="#{opinionController.searchStudentsByTypeDec}" />
+                            <!-- disabled="#{paginatorIndividuPojo.indRechPojo.typeDecRecherchee.codeTypeConvocation == 'LC'}" -->
+                        </p:selectOneMenu>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{opinionController.isFilterLCAndCommissionOK}">
+                        <h:outputLabel value="#{msgs['FIELD_LABEL.ETAPES']}" for="lesEtapes"/>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{opinionController.isFilterLCAndCommissionOK}">
+                        <p:selectOneMenu id="lesEtapes" converter="javax.faces.Integer"
+                                         value="#{paginatorIndividuPojo.indRechPojo.codeTrtCmiRecherchee}">
+                            <f:selectItem itemLabel="" itemValue="" />
+                            <f:selectItems var="beanTrtCmi"
+                                           value="#{trtCmiController.allTraitementCmi}"
+                                           itemLabel="#{beanTrtCmi.etape.licEtp}" itemValue="#{beanTrtCmi.traitementCmi.id}" />
+                            <p:ajax update="#{toUpdate} @form" listener="#{opinionController.searchStudentsByEtp}" />
+                        </p:selectOneMenu>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc" />
+                    </h:panelGroup>
+                    <p:selectManyCheckbox id="fc" value="#{paginatorIndividuPojo.listeRI}" converter="javax.faces.Integer"
+                                          disabled="#{!paginatorIndividuPojo.indRechPojo.canModifyRISearch}"
+                                          layout="lineDirection">
+                        <f:selectItems var="ri" 
+                                       itemLabel="#{ri.shortLabel}" itemValue="#{ri.code}"
+                                       value="#{nomenclatureController.allRegimeInscription}"/>
+                    </p:selectManyCheckbox>
+                </h:panelGrid>
+            </h:form>
         </div>
-        <script type="text/javascript">
-        	hideElement('lookForIndForm:lookForIndividuComm');
-        	hideElement('lookForIndForm:lookForIndividuTypeDec')
-        	hideElement('lookForIndForm:lookForIndividuEtp');
-        </script>
     </ui:fragment>
 </ui:fragment>

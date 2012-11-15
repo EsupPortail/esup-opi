@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import fj.data.Seq;
 import org.apache.commons.lang3.StringUtils;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.exceptions.UserNotFoundException;
@@ -55,11 +56,12 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
-import org.esupportail.opi.utils.CacheModelConst;
 import org.esupportail.opi.utils.ldap.LdapAttributes;
+import org.primefaces.model.SortOrder;
 
-import com.googlecode.ehcache.annotations.Cacheable;
-import com.googlecode.ehcache.annotations.TriggersRemove;
+import fj.P2;
+import fj.data.Option;
+import fj.data.Stream;
 
 
 /**
@@ -348,6 +350,17 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 		return daoService.getIndividus(trt);
 	}
 	
+	@Override
+	public P2<Long, Stream<Individu>> sliceOfInd(
+	        Long offset, Long limit, String sortField, SortOrder sortOrder, Map<String, String> filters,
+            Stream<Option<String>> stringFilters, Option<TypeDecision> typesDec, Option<Boolean> treatedWish,
+            Option<String> codeTypeTrtmt, Set<TraitementCmi> trtCmis, Set<Integer> listCodesRI) {
+	    return daoService.sliceOfInd(
+	            offset, limit, sortField, sortOrder, filters,
+                stringFilters, typesDec, treatedWish, codeTypeTrtmt, trtCmis, listCodesRI);
+	}
+	
+	
 	
 	/** 
 	 * @see org.esupportail.opi.domain.DomainService#getIndividuByMail(java.lang.String)
@@ -370,10 +383,6 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 		
 	}
 	
-	/** 
-	 * @see org.esupportail.opi.domain.DomainService#getIndividusByCampagne(
-	 * org.esupportail.opi.domain.beans.parameters.Campagne)
-	 */
 	public List<Individu> getIndividusByCampagne(final Campagne campagne, final Boolean temSve) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getIndividusByCampagne( )");
@@ -382,10 +391,6 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 		
 	}
 	
-	/** 
-	 * @see org.esupportail.opi.domain.DomainService#getIndividusByCampagne(
-	 * org.esupportail.opi.domain.beans.parameters.Campagne)
-	 */
 	public List<Individu> getIndividuSearch(final String nomPatronymique, final String prenom,
 			final Date dateNaissance, final String codPayNaissance, final String codDepPaysNaissance) {
 		if (log.isDebugEnabled()) {
@@ -1047,10 +1052,6 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 		return daoService.getAvis(indVoeu);
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.DomainService#getAvisByEtp(
-	 * String, String)
-	 */
 	public List<Avis> getAvisByEtp(final String codEtp, final Integer codVrsVet) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getAvis( " + codEtp + " , " + codVrsVet + " )");

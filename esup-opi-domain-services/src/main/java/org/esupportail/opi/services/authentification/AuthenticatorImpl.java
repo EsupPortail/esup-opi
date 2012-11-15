@@ -4,8 +4,6 @@
 package org.esupportail.opi.services.authentification; 
 
 
-import static fj.P.p;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -23,8 +21,6 @@ import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.domain.beans.user.User;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.StringUtils;
-
-import fj.P3;
 
 
 /**
@@ -105,15 +101,12 @@ public class AuthenticatorImpl implements Serializable, InitializingBean, Authen
 	}
 	
 
-	/**
-	 * @see org.esupportail.opi.services.authentification#getUser()
-	 */
 	public User getUser() {
-		AuthInfo authInfo = (AuthInfo) ContextUtils.getRequestAttribute(AUTH_INFO_ATTRIBUTE);
+		AuthInfo authInfo = (AuthInfo) ContextUtils.getSessionAttribute(AUTH_INFO_ATTRIBUTE);
 		if (authInfo != null) {
-			User user = (User) ContextUtils.getRequestAttribute(USER_ATTRIBUTE);
+			User user = (User) ContextUtils.getSessionAttribute(USER_ATTRIBUTE);
 			if (logger.isDebugEnabled()) {
-				logger.debug("found auth info in request: " + user);
+				logger.debug("found auth info in session: " + user);
 			}
 			return user;
 		}
@@ -121,23 +114,20 @@ public class AuthenticatorImpl implements Serializable, InitializingBean, Authen
 			return authClassic();
 		}
 		if (logger.isDebugEnabled()) {
-			logger.debug("no auth info found in request");
+			logger.debug("no auth info found in session");
 		}
 		authInfo = authenticationService.getAuthInfo();
 		if (authInfo == null) {
 			return authClassic();
 		}
 		if (AuthUtils.CAS.equals(authInfo.getType())) {
-		    P3<String, String, String> t3 = p(
-		        authInfo.getId(),
-		        domainService.getCodStudentRegex(),
-		        domainService.getCodStudentPattern());
-		    User user = domainService.getUser(
-			    (t3._1().matches(t3._2())) ? 
-			        t3._1().replaceAll(t3._2(), t3._3()) :
-			            t3._1());
-			storeToRequest(authInfo, user);
-			return user;
+		    String authId = authInfo.getId();
+		    String codStdRegex = domainService.getCodStudentRegex();
+		    String codStdPattern = domainService.getCodStudentPattern();
+		    User user = domainService.getUser((authId.matches(codStdRegex)) ? 
+		            authId.replaceAll(codStdRegex, codStdPattern) : authId);
+		    storeToSession(authInfo, user);
+		    return user;
 		} 
 		return null;
 	}
@@ -152,7 +142,7 @@ public class AuthenticatorImpl implements Serializable, InitializingBean, Authen
 			User user = domainService.getIndividu(numDossier, dateNaissance);
 			if (user != null) {
 				AuthInfo authInfo = new AuthInfoImpl(numDossier, null, null);
-				storeToRequest(authInfo, user);
+				storeToSession(authInfo, user);
 				return user;
 			}
 		}
@@ -180,14 +170,14 @@ public class AuthenticatorImpl implements Serializable, InitializingBean, Authen
 	 * @param authInfo
 	 * @param user
 	 */
-	protected void storeToRequest(
-			final AuthInfo authInfo,
-			final User user) {
+	protected void storeToSession(
+            final AuthInfo authInfo,
+            final User user) {
 		if (logger.isDebugEnabled()) {
-			logger.debug("storing to request: " + authInfo);
+			logger.debug("storing to session: " + authInfo);
 		}
-		ContextUtils.setRequestAttribute(AUTH_INFO_ATTRIBUTE, authInfo);
-		ContextUtils.setRequestAttribute(USER_ATTRIBUTE, user);
+        ContextUtils.setSessionAttribute(AUTH_INFO_ATTRIBUTE, authInfo);
+        ContextUtils.setSessionAttribute(USER_ATTRIBUTE, user);
 	}
 
 	

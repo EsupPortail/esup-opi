@@ -20,7 +20,7 @@ import org.esupportail.opi.domain.beans.mails.MailContent;
 import org.esupportail.opi.services.mails.MailContentService;
 import org.esupportail.opi.services.mails.MailContentUtils;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
-import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
+import org.esupportail.opi.web.utils.NavigationRulesConst;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.springframework.util.StringUtils;
 

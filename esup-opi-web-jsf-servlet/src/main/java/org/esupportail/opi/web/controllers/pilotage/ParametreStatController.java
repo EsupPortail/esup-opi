@@ -19,8 +19,8 @@ import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.pilotage.TypeCoordonneStatistique;
 import org.esupportail.opi.domain.beans.utils.CoordonneStatistique;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
-import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
-import org.esupportail.opi.web.beans.utils.comparator.ComparatorSelectItem;
+import org.esupportail.opi.web.utils.NavigationRulesConst;
+import org.esupportail.opi.web.utils.comparator.ComparatorSelectItem;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 
 

@@ -6,8 +6,7 @@
     xmlns:jee="http://www.springframework.org/schema/jee"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
                         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-                        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd"
-	>
+                        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
 
 	<!-- 
 		/properties/dao/dao.xml
@@ -133,8 +132,7 @@
 	<bean 
 		id="jndiSessionFactory" 
 		parent="abstractJndiHibernateSessionFactory" 
-		lazy-init="true" abstract="true"
-		>
+		lazy-init="true" abstract="true">
 		<description>
 			The 'normal' session factory based on JNDI.
 		</description>
@@ -260,6 +258,7 @@
 		<property name="useJndi" value="${hibernate.useJndi}" />
 		<property name="jdbcHibernateTemplateBeanName" value="${hibernate.jdbcTemplateBeanName}" />
 		<property name="jndiHibernateTemplateBeanName" value="${hibernate.jndiTemplateBeanName}" />
+        <property name="pf" ref="paginatorFactory" />
 	</bean>
 	
 	<bean 
@@ -291,5 +290,10 @@
 		<property name="jdbcHibernateTemplateBeanName" value="${hibernate.jdbcTemplateBeanName}" />
 		<property name="jndiHibernateTemplateBeanName" value="${hibernate.jndiTemplateBeanName}" />
 	</bean>
+    
+    <bean id="paginatorFactory" class="org.esupportail.opi.dao.utils.PaginatorFactory"
+    factory-method="pagFact">
+        <constructor-arg ref="txManager" />
+    </bean>
 		
 </beans>

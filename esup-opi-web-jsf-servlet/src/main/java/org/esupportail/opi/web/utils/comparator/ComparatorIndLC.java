@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.esupportail.opi.web.beans.utils.comparator;
+package org.esupportail.opi.web.utils.comparator;
 
 import java.io.Serializable;
 import java.util.Comparator;

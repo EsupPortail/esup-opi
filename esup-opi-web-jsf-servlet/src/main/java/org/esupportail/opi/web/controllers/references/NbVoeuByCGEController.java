@@ -16,7 +16,7 @@ import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.domain.beans.references.NombreVoeuCge;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
-import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
+import org.esupportail.opi.web.utils.NavigationRulesConst;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.wssi.services.remote.CentreGestion;
 

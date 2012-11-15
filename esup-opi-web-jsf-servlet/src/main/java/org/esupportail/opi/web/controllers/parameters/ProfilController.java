@@ -28,8 +28,8 @@ import org.esupportail.opi.domain.beans.parameters.accessRight.Traitement;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.BeanAccess;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
-import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
-import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
+import org.esupportail.opi.web.utils.NavigationRulesConst;
+import org.esupportail.opi.web.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.springframework.util.StringUtils;
 

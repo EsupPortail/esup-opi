@@ -22,7 +22,7 @@ import org.esupportail.opi.domain.beans.references.rendezvous.IndividuDate;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.utils.Constantes;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
+import org.esupportail.opi.web.utils.Utilitaires;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
 
@@ -109,26 +109,39 @@ public class IndVoeuPojo implements Serializable {
 	 */
 	private CalendarRDV calendrierRdv;
 	
-	/**
-	 * A logger.
-	 */
-	//private final Logger log = new LoggerImpl(getClass());
-	
-	
-	/*
-	 ******************* INIT ************************* */
-	
 
-	
-	/**
+	 // ******************* INIT *************************
+
+    public IndVoeuPojo(final IndVoeu indVoeu, final VersionEtapeDTO vrsEtp,
+                       final EtatVoeu etat, final Boolean calIsopen,
+                       final TypeTraitement typeTraitement, final CalendarRDV calendrierRdv) {
+        this.indVoeu = indVoeu;
+        newAvis = new Avis();
+        this.vrsEtape = vrsEtp;
+        this.calIsOpen = calIsopen;
+        this.etat = etat;
+        this.typeTraitement = typeTraitement;
+        isUsingLC = false;
+        isUsingDEF = false;
+        stateConf = "";
+        initAvisInUse();
+        this.calendrierRdv = calendrierRdv;
+    }
+
+
+    /**
 	 * Constructors.
+     *
 	 * @param indVoeu
 	 * @param vrsEtp
 	 * @param i18Service
 	 * @param calIsopen
 	 * @param typeTraitement
+     *
+     * @deprecated Use {@link IndVoeuPojo#IndVoeuPojo(org.esupportail.opi.domain.beans.user.candidature.IndVoeu, org.esupportail.wssi.services.remote.VersionEtapeDTO, org.esupportail.opi.domain.beans.etat.EtatVoeu, Boolean, org.esupportail.opi.domain.beans.parameters.TypeTraitement, org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV)}
 	 */
-	public IndVoeuPojo(final IndVoeu indVoeu, final VersionEtapeDTO vrsEtp, 
+    @Deprecated
+	public IndVoeuPojo(final IndVoeu indVoeu, final VersionEtapeDTO vrsEtp,
 			final I18nService i18Service, final Boolean calIsopen, 
 			final TypeTraitement typeTraitement, final CalendarRDV calendrierRdv) {
 		super();

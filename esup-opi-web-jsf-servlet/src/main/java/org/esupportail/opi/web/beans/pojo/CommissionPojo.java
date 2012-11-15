@@ -13,7 +13,7 @@ import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.ContactCommission;
 import org.esupportail.opi.utils.Constantes;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
+import org.esupportail.opi.web.utils.Utilitaires;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
 

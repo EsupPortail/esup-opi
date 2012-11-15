@@ -15,7 +15,7 @@ import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.utils.ldap.LdapAttributes;
 import org.esupportail.opi.web.beans.beanEnum.WayfEnum;
-import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
+import org.esupportail.opi.web.utils.NavigationRulesConst;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.springframework.util.StringUtils;
 

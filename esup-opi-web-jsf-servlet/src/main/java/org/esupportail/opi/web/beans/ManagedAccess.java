@@ -6,9 +6,7 @@ package org.esupportail.opi.web.beans;
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -16,7 +14,6 @@ import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
 import javax.faces.context.FacesContext;
 
-import org.esupportail.commons.exceptions.UserNotFoundException;
 import org.esupportail.commons.exceptions.WebFlowException;
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.commons.services.i18n.I18nUtils;
@@ -28,12 +25,10 @@ import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.beans.parameters.accessRight.AccessRight;
 import org.esupportail.opi.domain.beans.parameters.accessRight.AccessType;
 import org.esupportail.opi.domain.beans.parameters.accessRight.Domain;
-import org.esupportail.opi.domain.beans.parameters.accessRight.Fonction;
 import org.esupportail.opi.domain.beans.parameters.accessRight.Traitement;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.domain.beans.user.User;
-import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
-import org.esupportail.opi.web.beans.utils.comparator.ComparatorInteger;
+import org.esupportail.opi.web.utils.comparator.ComparatorInteger;
 import org.esupportail.opi.web.controllers.SessionController;
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.component.submenu.Submenu;

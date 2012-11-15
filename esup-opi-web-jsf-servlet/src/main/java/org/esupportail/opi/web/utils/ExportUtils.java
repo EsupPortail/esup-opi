@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.esupportail.opi.web.beans.utils;
+package org.esupportail.opi.web.utils;
 
 import java.io.IOException;
 import java.util.ArrayList;

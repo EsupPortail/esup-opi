@@ -26,8 +26,8 @@ import org.esupportail.opi.domain.beans.user.situation.SituationSalarie;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
-import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
+import org.esupportail.opi.web.utils.NavigationRulesConst;
+import org.esupportail.opi.web.utils.Utilitaires;
 import org.esupportail.opi.web.controllers.AbstractAccessController;
 import org.springframework.util.StringUtils;
 

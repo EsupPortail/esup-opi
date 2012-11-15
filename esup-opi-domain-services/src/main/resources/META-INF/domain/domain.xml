@@ -13,14 +13,14 @@
             expression="execution(* org.esupportail.*.domain.DomainServiceImpl.*(..))" />
         <aop:pointcut id="paramMethods"
             expression="execution(* org.esupportail.*.domain.ParameterServiceImpl.*(..))" />
-        <aop:pointcut id="domainApoMethods"
+        <aop:pointcut id="domainApoMethods" 
             expression="execution(* org.esupportail.*.domain.DomainApoServiceImpl.getListCommissionsByRight(..))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="domainMethods" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="paramMethods" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="domainApoMethods" />
     </aop:config>
 
-    <tx:advice id="txAdvice" transaction-manager="txManager">
+    <tx:advice id="txAdvice" transaction-manager="txManager"> 
         <tx:attributes>
             <tx:method name="add*" propagation="REQUIRED" />
             <tx:method name="delete*" propagation="REQUIRED" />
@@ -43,8 +43,7 @@
 	<bean
 		id="domainService"
 		parent="abstractDomainService"
-		class="org.esupportail.opi.domain.DomainServiceImpl"
-		>
+		class="org.esupportail.opi.domain.DomainServiceImpl">
 		<property name="daoService" ref="daoService" />
 		<property name="urlGenerator" ref="${urlGeneration.bean}" />
 		<property name="ldapUserService" ref="ldapUserService" /> 
@@ -52,12 +51,11 @@
 		<property name="codStudentRegex" value="${init.codStudent.regex}"/>
 		<property name="codStudentPattern" value="${init.codStudent.pattern}"/>
 	</bean>
-	
+
 	<bean
 		id="parameterService"
 		parent="abstractDomainService"
-		class="org.esupportail.opi.domain.ParameterServiceImpl"
-		>
+		class="org.esupportail.opi.domain.ParameterServiceImpl">
 		<property name="daoService" ref="paramDaoService" />
 		<property name="typeTraitements">
 			<list>

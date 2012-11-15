@@ -3,6 +3,8 @@
  */
 package org.esupportail.opi.web.beans.paginator;
 
+import static fj.Function.curry;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -16,13 +18,20 @@ import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
+import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
 import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
-import org.esupportail.opi.web.beans.utils.comparator.ComparatorIndLC;
+import org.esupportail.opi.web.utils.Utilitaires;
+import org.esupportail.opi.web.utils.comparator.ComparatorIndLC;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+
+import fj.F;
+import fj.data.Stream;
+
+import static fj.data.Stream.iterableStream;
+import static org.esupportail.opi.web.utils.fj.Conversions.*;
 
 /**
  * @author cleprous
@@ -84,7 +93,7 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 	 * Default value false.
 	 */
 	private Boolean useIndividuPojo;
-
+	
 	/*
 	 ******************* INIT ************************* */
 	
@@ -95,10 +104,6 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 		super();
 	}
 	
-	/**
-	 * 
-	 * @see org.esupportail.commons.web.beans.AbstractPaginator#reset()
-	 */
 	@Override
 	public void reset() {
 		if (LOG.isDebugEnabled()) {
@@ -125,9 +130,6 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 	}
 	
 	
-	/** 
-	 * @see org.esupportail.commons.web.beans.AbstractPaginator#forceReload()
-	 */
 	@Override
 	public void forceReload() {
 		super.forceReload();
@@ -150,8 +152,26 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 	/*
 	 ******************* METHODS ********************** */
 
-	/**
+
+    public final F<Stream<Individu>, Stream<IndividuPojo>> individusToPojos() {
+        return new F<Stream<Individu>, Stream<IndividuPojo>>() {
+            public Stream<IndividuPojo> f(Stream<Individu> individus) {
+                return iterableStream(getIndPojosWithWishForOneCmi(
+                        new ArrayList<Individu>(individus.toCollection())));
+            }
+        };
+// TODO : use the below
+//        return individuToPojo(
+//                domainApoService,
+//                getSessionController().getParameterService(),
+//                getSessionController().getI18nService()).mapStream();
+    }
+
+    /**
 	 * Return the list of Individu Converted to IndividuPojo.
+     *
+     * TODO : get rid of that method
+     *
 	 * @return List< IndividuPojo> 
 	 */
 	public List<IndividuPojo> getIndividuPojos() {
@@ -161,8 +181,7 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 		}
 		individuPojos.clear();
 		List<IndividuPojo> indPojo = 
-			// TODO: move convertIndInIndPojo away from web layer
-		    Utilitaires.convertIndInIndPojo(getVisibleItems(), 
+		    Utilitaires.convertIndInIndPojo(getVisibleItems(),
 					getSessionController().getParameterService(), 
 					getSessionController().getI18nService(), 
 					domainApoService,
@@ -181,18 +200,25 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 		forceReload = false;
 		return individuPojos;
 	}
+	
+	public List<IndividuPojo> getIndPojosWithWishForOneCmi() {
+	    return getIndPojosWithWishForOneCmi(getVisibleItems());
+	}
 
 	/**
 	 * Return the list of Individu Converted to IndividuPojo.
 	 * For display just wishes to selected commission.
-	 * IndCursusPojo is not initialized 
+	 * IndCursusPojo is not initialized
+     *
+     * TODO : get rid of that method
+     *
 	 * @return List< IndividuPojo> 
 	 */
-	public List<IndividuPojo> getIndPojosWithWishForOneCmi() {
-		if (!forceReload && !individuPojos.isEmpty()) {
-			//on recharge pas
-			return individuPojos;
-		}
+	public List<IndividuPojo> getIndPojosWithWishForOneCmi(List<Individu> indList) {
+//		if (!forceReload && !individuPojos.isEmpty()) {
+//			//on recharge pas
+//			return individuPojos;
+//		}
 		// filtrage sur les etapes de la commission
 		Set<Commission> cmi = new HashSet<Commission>();
 		Commission comm = null;
@@ -231,8 +257,7 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 			versionsEtp = null;
 		}
 		List<IndividuPojo> indPojo =
-		    // TODO : move convertIndInIndPojo away from web layer
-			Utilitaires.convertIndInIndPojo(getVisibleItems(), 
+			Utilitaires.convertIndInIndPojo(indList,
 					getSessionController().getParameterService(), 
 					getSessionController().getI18nService(), 
 					domainApoService,
@@ -250,6 +275,8 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 
 	/**
 	 * update for the decision type.
+     *
+     * TODO : get rid of that method
 	 */
 	public void updateIndPojosWithWishForOneCmi() {
 		for (IndividuPojo iPojo : getIndPojosWithWishForOneCmi()) {
@@ -288,7 +315,28 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 		}
 	}
 	
-	
+	public List<IndividuPojo> updateIndPojos(List<IndividuPojo> indPojos) {
+        for (IndividuPojo iPojo : indPojos) {
+            iPojo.setIsUsingLC(isUsingLC);
+            iPojo.setIsUsingDEF(isUsingDEF);
+            for (IndVoeuPojo voeuPojo : iPojo.getIndVoeuxPojo()) {
+                Avis a = new Avis();
+                voeuPojo.setNewAvis(a);
+                voeuPojo.setIsUsingLC(isUsingLC);
+                voeuPojo.setIsUsingDEF(isUsingDEF);
+                if (isUsingPreselect) {
+                    // cas de la selection de la preselection
+                    //charge le commentaire
+                    TraitementCmi t = voeuPojo.getIndVoeu().getLinkTrtCmiCamp().getTraitementCmi();
+                    if (t.getSelection() != null) {
+                        voeuPojo.getNewAvis().setCommentaire(
+                                t.getSelection().getComment());
+                    }
+                }
+            }
+        }
+        return indPojos;
+    }
 	
 	/*
 	 ******************* ACCESSORS ******************** */
@@ -378,5 +426,4 @@ public class IndividuPojoPaginator extends IndividuPaginator {
     public void setDomainApoService(DomainApoService domainApoService) {
         this.domainApoService = domainApoService;
     }
-
 }

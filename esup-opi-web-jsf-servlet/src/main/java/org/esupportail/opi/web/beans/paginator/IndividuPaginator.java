@@ -21,7 +21,7 @@ import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 import org.esupportail.opi.web.beans.pojo.IndRechPojo;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
+import org.esupportail.opi.web.utils.Utilitaires;
 import org.esupportail.opi.web.controllers.SessionController;
 import org.springframework.util.StringUtils;
 
@@ -55,7 +55,7 @@ public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu>
 	/**
 	 * Paramters for the search.
 	 */
-	private IndRechPojo indRechPojo;
+	private IndRechPojo indRechPojo = new IndRechPojo();
 	
 	/**
 	 * The SessionController.
@@ -231,7 +231,7 @@ public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu>
 		this.hqlQuery += " order by i.nomPatronymique asc, i.prenom asc";
 
 		if (LOG.isDebugEnabled()) {
-			LOG.debug("leaving filtreAccueilGestionnaire() with hqlQuery = " + hqlQuery);
+			LOG.debug("leaving allStudentsFilter() with hqlQuery = " + hqlQuery);
 		}
 	}
 
@@ -240,7 +240,7 @@ public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu>
 	 */
 	public void filtreRechercheEtudiants() {
 		if (LOG.isDebugEnabled()) {
-			LOG.debug("entering filtreAccueilGestionnaire()");
+			LOG.debug("entering filtreRechercheEtudiants()");
 		}
 		initQueryLeft();
 		StringBuilder hql = new StringBuilder();
@@ -276,7 +276,7 @@ public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu>
 		
 		hqlQuery += hql.toString();
 		if (LOG.isDebugEnabled()) {
-			LOG.debug("end filtreAccueilGestionnaire() with hqlQuery : " + this.hqlQuery);
+			LOG.debug("end filtreRechercheEtudiants() with hqlQuery : " + this.hqlQuery);
 		}
 	}
 
@@ -290,7 +290,7 @@ public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu>
 	public void filterInMannagedCmi(final Set<Commission> lesCommissions,
 			final String codeTypeTreatment, final Boolean filtreIndTraited) {
 		if (LOG.isDebugEnabled()) {
-			LOG.debug("entering filtreTypeTraitementEtudiants()");
+			LOG.debug("entering filterInMannagedCmi()");
 		}
 
 		initQueryInner();
@@ -347,7 +347,7 @@ public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu>
 		hql.append(" order by i.nomPatronymique asc, i.prenom asc");
 		hqlQuery += hql.toString();
 		if (LOG.isDebugEnabled()) {
-			LOG.debug("end filtreTypeTraitementEtudiants() with hqlQuery : " + this.hqlQuery);
+			LOG.debug("end filterInMannagedCmi() with hqlQuery : " + this.hqlQuery);
 		}
 	}
 

@@ -33,7 +33,7 @@ import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.pojo.CalendarRDVPojo;
 import org.esupportail.opi.web.beans.pojo.CommissionPojo;
 import org.esupportail.opi.web.beans.pojo.VetCalendarPojo;
-import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
+import org.esupportail.opi.web.utils.NavigationRulesConst;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.wssi.services.remote.CentreGestion;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;

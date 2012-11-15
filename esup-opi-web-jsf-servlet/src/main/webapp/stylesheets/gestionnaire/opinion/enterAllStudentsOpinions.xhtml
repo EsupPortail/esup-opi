@@ -4,12 +4,17 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-        <p:blockUI block="maPage" trigger=":seeOpinionsForm:choiceTypDecision :seeOpinionsForm:saveAll">
+        <p:blockUI block="maPage" trigger=":seeOpinionsForm:choiceTypDecision :seeOpinionsForm:saveAll
+                                           :seeOpinionsForm:individuData :lookForIndForm:lesCommissions
+                                           :lookForIndForm:lesTypesDecision :lookForIndForm:lesEtapes
+                                           :lookForIndForm:lookForIndividu">
             <p:graphicImage value="/media/images/ajax-loader.gif" />
         </p:blockUI>
     	<p:panel id="maPage" styleClass="div_body">
             <h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
-            <ui:include src="/stylesheets/gestionnaire/opinion/_block/_lookForIndividu.xhtml" />
+            <ui:include src="/stylesheets/gestionnaire/opinion/_block/_lookForIndividu.xhtml">
+                <ui:param name="toUpdate" value=":seeOpinionsForm:individuData" />
+            </ui:include>
             <ui:include src="/stylesheets/gestionnaire/opinion/_block/_proposition.xhtml" />
             <h:form id="seeOpinionsForm">
                 <div class="messageForUser">
@@ -32,9 +37,9 @@
                 </div>
                 <div style="width:100%;">
                     <p:dataTable var="individuPojo" id="individuData"
-                                 value="#{paginatorIndividuPojo.indPojosWithWishForOneCmi}"
-                                 styleClass="paginatorData" paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40"
-                                 rowIndexVar="variable" paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
+                                 value="#{opinionController.indPojoLDM}" styleClass="paginatorData"
+                                 paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40" rowKey="#{individuPojo.individu}"
+                                 paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}" sortBy="#{nomPatronymique}" lazy="true"
                                  currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
                                  emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}">
                         <p:column>
@@ -113,7 +118,7 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <p:selectBooleanCheckbox value="#{opinionController.allChecked}">
+                                <p:selectBooleanCheckbox id="checkAll" value="#{opinionController.allChecked}">
                                     <p:ajax listener="#{opinionController.checkAll}" update="individuData" />
                                 </p:selectBooleanCheckbox>
                             </f:facet>
@@ -132,13 +137,12 @@
                             <f:facet name="header">
                                 <h:outputText value="#{msgs['AVIS.PROPOSITION.SMALL_TITLE']}" />
                             </f:facet>
-                            <ui:repeat var="indVoeuxPojo" id="indVoeux5"
+                            <ui:repeat var="indVoeuxPojo" id="indVoeux5" rendered="#{managedAccess.updateAuthorized}"
                                        value="#{individuPojo.voeuxSortedByLic}">
                                 <div>
                                     <p:commandButton image="/media/images/add.png"
                                                      immediate="true" styleClass="form-button-image"
                                                      title="#{msgs['FIELD_LABEL.PROPOSITION']}"
-                                                     rendered="#{managedAccess.updateAuthorized}"
                                                      action="#{opinionController.addProposition}" ajax="false" >
                                         <f:setPropertyActionListener value="#{indVoeuxPojo}" target="#{opinionController.indVoeuxPojo}" />
                                     </p:commandButton>
@@ -207,13 +211,12 @@
                             </ui:repeat>
                         </p:column>
                         <p:column>
-                            <ui:repeat var="indVoeuxPojo" id="indVoeux9"
+                            <ui:repeat var="indVoeuxPojo" id="indVoeux9" rendered="#{managedAccess.updateAuthorized}"
                                        value="#{individuPojo.voeuxSortedByLic}">
                                 <div>
                                     <p:commandButton icon="ui-icon-pencil"
                                                      immediate="true"
                                                      title="#{msgs['BUTTON.UPDATE']}"
-                                                     rendered="#{managedAccess.updateAuthorized}"
                                                      action="#{opinionController.goSeeOpinionVoeu}" ajax="false">
                                         <f:setPropertyActionListener value="#{indVoeuxPojo}" target="#{opinionController.indVoeuxPojo}" />
                                         <f:setPropertyActionListener value="#{opinionController.wayfEnum.opinionAllValue}"

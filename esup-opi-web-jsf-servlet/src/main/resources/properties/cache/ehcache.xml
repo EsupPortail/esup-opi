@@ -73,8 +73,8 @@
 
 	<!-- *****  RENNES1 APOGEE (2 jours dans le cache) ***** -->
 	<cache name="enseignementApogee"
-		maxElementsInMemory="1000" eternal="false" timeToIdleSeconds="172800"
-		timeToLiveSeconds="172800" overflowToDisk="false" />
+		maxElementsInMemory="1" eternal="false" timeToIdleSeconds="172800"
+		timeToLiveSeconds="172800" overflowToDisk="true" />
 
 	<defaultCache maxElementsInMemory="10000" eternal="false"
 		timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="false"

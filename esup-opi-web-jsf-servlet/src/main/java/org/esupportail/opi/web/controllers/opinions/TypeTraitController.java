@@ -10,7 +10,6 @@ import javax.faces.event.ValueChangeEvent;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.opi.domain.DomainApoServiceImpl;
 import org.esupportail.opi.domain.beans.etat.EtatNull;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.InscriptionAdm;
@@ -26,8 +25,8 @@ import org.esupportail.opi.web.beans.pojo.AdressePojo;
 import org.esupportail.opi.web.beans.pojo.CommissionPojo;
 import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
-import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
+import org.esupportail.opi.web.utils.NavigationRulesConst;
+import org.esupportail.opi.web.utils.Utilitaires;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 

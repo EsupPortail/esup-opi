@@ -45,6 +45,12 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>prime-repo</id>
+            <name>Prime Technology Maven Repository</name>
+            <url>http://repository.primefaces.org</url>
+            <layout>default</layout>
+        </repository>
     </repositories>
     <distributionManagement>
         <repository>
@@ -138,6 +144,12 @@
             <groupId>org.esupportail</groupId>
             <artifactId>esup-commons2-jsf2-exception</artifactId>
             <version>${esupcommons.version}</version>
+            <exclusions>
+            	<exclusion>
+            		<artifactId>ehcache</artifactId>
+            		<groupId>net.sf.ehcache</groupId>
+            	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -165,6 +177,11 @@
             <version>3.0.6.RELEASE</version>
         </dependency>
         <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.10</version>
@@ -178,6 +195,32 @@
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>
             <version>10.2.0.3.0</version>
+        </dependency>
+   		<dependency>
+			<groupId>com.mysema.querydsl</groupId>
+			<artifactId>querydsl-apt</artifactId>
+			<version>2.8.1</version>
+			<scope>provided</scope>
+		</dependency>
+        <dependency>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-hql</artifactId>
+            <version>1.9.7</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+            <version>2.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-core</artifactId>
+            <version>2.8.1</version>
+        </dependency>
+        <dependency>
+        	<groupId>org.primefaces.extensions</groupId>
+        	<artifactId>primefaces-extensions</artifactId>
+        	<version>0.6.1</version>
         </dependency>
     </dependencies>
 </project>

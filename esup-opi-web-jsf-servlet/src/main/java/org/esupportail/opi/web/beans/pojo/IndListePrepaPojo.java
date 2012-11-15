@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
-import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
+import org.esupportail.opi.web.utils.comparator.ComparatorString;
 
 /**
  * @author ylecuyer

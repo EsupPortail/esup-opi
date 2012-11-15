@@ -1,4 +1,4 @@
-package org.esupportail.opi.web.beans.utils;
+package org.esupportail.opi.web.utils;
 
 
 
@@ -16,6 +16,7 @@ import java.util.Set;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
+import fj.F;
 import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.commons.services.logging.Logger;
@@ -58,9 +59,9 @@ public class Utilitaires {
 	/**
 	 * 
 	 */
-	public static final Logger LOGGER = new LoggerImpl(Utilitaires.class);	
+	public static final Logger LOGGER = new LoggerImpl(Utilitaires.class);
 
-	/**
+    /**
 	 * Constructors.
 	 */
 	private Utilitaires() {

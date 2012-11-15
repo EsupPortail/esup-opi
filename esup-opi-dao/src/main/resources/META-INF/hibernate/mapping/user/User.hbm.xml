@@ -46,28 +46,24 @@
 			<property name="state" column="state_ind" length="70" not-null="true"/>
 			<!--<property name="codeRI" column="cod_ri_ind" type="int" not-null="true"/>-->
 			
-			<set name="campagnes" table="ind_camp" lazy="true"
-				>
+			<set name="campagnes" table="ind_camp" lazy="true">
 				<key column="id_usr" not-null="true"/>
 				<many-to-many column="id_nom" class="org.esupportail.opi.domain.beans.parameters.Campagne"/>
 			</set>
 			
 			<set name="cursus" 
-				
 				cascade="delete,delete-orphan" inverse="true">
 				<key column="id_usr"/>
 				<one-to-many class="org.esupportail.opi.domain.beans.user.indcursus.IndCursus"/>
 			</set>
 			
 			<set name="cursusScol" 
-				 
 				cascade="delete,delete-orphan" inverse="true">
 				<key column="id_usr"/>
 				<one-to-many class="org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol"/>
 			</set>
 						
 			<map name="adresses"  cascade="all-delete-orphan" 
-				 
 				inverse="true">
 				<key column="id_usr"/>
 				<map-key type="string" column="type_adr" />
@@ -75,14 +71,13 @@
 			</map>
 				
 			<set name="indBac" inverse="true"
-					  
 					cascade="all-delete-orphan">
 				<key column="id_usr"/>
 				<one-to-many class="org.esupportail.opi.domain.beans.user.indcursus.IndBac"/>
 			</set>	
 			
 			<set name="voeux" 
-				where="tem_en_sve_voeu='Y'"
+				where="tem_en_sve_voeu='Y'" lazy="true"
 				inverse="true" batch-size="5" cascade="all-delete-orphan">
 				<key column="id_usr"/>
 				<one-to-many class="org.esupportail.opi.domain.beans.user.candidature.IndVoeu"/>
