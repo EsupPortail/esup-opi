@@ -26,6 +26,7 @@
 	<import resource="classpath*:META-INF/esup-opi-domain-services-abstractBeans.xml" />
 	<import resource="classpath*:META-INF/esup-opi-domain-services-application.xml" />
 	<import resource="classpath*:META-INF/esup-opi-domain-services-i18n.xml" />
+	<import resource="remote/remote.xml" />
 	<!-- 
 	<import resource="classpath*:META-INF/esup-opi-domain-services-init.xml" />	
 	<import resource="classpath*:META-INF/esup-opi-dao-dao.xml" />

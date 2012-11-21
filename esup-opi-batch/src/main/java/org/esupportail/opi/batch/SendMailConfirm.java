@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.esupportail.apogee.domain.dto.enseignement.VersionEtapeDTO;
+import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.services.application.ApplicationService;
 import org.esupportail.commons.services.application.ApplicationUtils;
 import org.esupportail.commons.services.database.DatabaseUtils;
@@ -14,11 +14,10 @@ import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.services.smtp.SmtpService;
-import org.esupportail.commons.utils.BeanUtils;
-
-import org.esupportail.opi.domain.BusinessCacheService;
+import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
+import org.esupportail.opi.domain.beans.etat.EtatConfirme;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Individu;
@@ -26,8 +25,8 @@ import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
 import org.esupportail.opi.web.beans.pojo.AdressePojo;
 import org.esupportail.opi.web.beans.pojo.CommissionPojo;
-import org.esupportail.opi.web.beans.pojo.etat.EtatConfirme;
-import org.esupportail.opi.web.utils.Utilitaires;
+import org.esupportail.opi.web.beans.utils.Utilitaires;
+import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
 
 /**
@@ -55,13 +54,11 @@ public class SendMailConfirm  {
 	 * send the mail. 
 	 */
 	private static void send() {
-		DomainService domainService = (DomainService) BeanUtils.getBean("domainService");
-//		DomainApoService domainApoService = (DomainApoService) BeanUtils.getBean("domainApoService");
-		ParameterService parameterService = (ParameterService) BeanUtils.getBean("parameterService");
-		BusinessCacheService businessCacheService = (BusinessCacheService) 
-				BeanUtils.getBean("businessCacheService");
-		SmtpService smtpService = (SmtpService) BeanUtils.getBean("smtpService");
-		I18nService i18Service = (I18nService) BeanUtils.getBean("i18nService");
+		DomainService domainService = (DomainService) ApplicationContextHolder.getContext().getBean("domainService");
+		ParameterService parameterService = (ParameterService) ApplicationContextHolder.getContext().getBean("parameterService");
+		SmtpService smtpService = (SmtpService) ApplicationContextHolder.getContext().getBean("smtpService");
+		I18nService i18Service = (I18nService) ApplicationContextHolder.getContext().getBean("i18nService");
+		DomainApoService domainApoService = (DomainApoService) ApplicationContextHolder.getContext().getBean("domainApoService");
 		try {
 
 			DatabaseUtils.open();
@@ -95,8 +92,7 @@ public class SendMailConfirm  {
 						
 						// récupération de la commission
 						CommissionPojo currentCmiPojo = new CommissionPojo(cmi, 
-								new AdressePojo(cmi.getContactsCommission().get(codeRi).getAdresse(), 
-										businessCacheService),
+								new AdressePojo(cmi.getContactsCommission().get(codeRi).getAdresse()),
 								cmi.getContactsCommission().get(codeRi));
 						
 						htmlSubject = i18Service.getString("MAIL.CANDIDAT_AVIS.CONF.SUBJECT");
@@ -107,7 +103,7 @@ public class SendMailConfirm  {
 						StringBuffer htmlList = new StringBuffer();
 						for (IndVoeu voeu : voeuxSendMail) {
 							TraitementCmi trtCmi = voeu.getLinkTrtCmiCamp().getTraitementCmi();
-							VersionEtapeDTO vet = businessCacheService.getVersionEtape(
+							VersionEtapeDTO vet = domainApoService.getVersionEtape(
 									trtCmi.getVersionEtpOpi().getCodEtp(), 
 									trtCmi.getVersionEtpOpi().getCodVrsVet());
 							htmlList.append(i18Service.getString("MAIL.LIST_VET", vet.getLibWebVet()));

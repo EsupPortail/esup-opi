@@ -5,19 +5,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
+import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.services.application.ApplicationService;
 import org.esupportail.commons.services.application.ApplicationUtils;
 import org.esupportail.commons.services.database.DatabaseUtils;
 import org.esupportail.commons.services.exceptionHandling.ExceptionUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.commons.utils.BeanUtils;
-
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.beans.references.calendar.CalendarCmi;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
-import org.esupportail.opi.web.utils.Constantes;
+import org.esupportail.opi.utils.Constantes;
 
 /**
  * @author ylecuyer
@@ -42,8 +41,8 @@ public class CreateMissingCalendarCmi {
 	 * send the mail. 
 	 */
 	private static void createMissingCalendarCmi() {
-		DomainService domainService = (DomainService) BeanUtils.getBean("domainService");
-		ParameterService parameterService = (ParameterService) BeanUtils.getBean("parameterService");
+		DomainService domainService = (DomainService) ApplicationContextHolder.getContext().getBean("domainService");
+		ParameterService parameterService = (ParameterService) ApplicationContextHolder.getContext().getBean("parameterService");
 		
 		try { 
 			DatabaseUtils.open();
