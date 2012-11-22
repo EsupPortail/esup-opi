@@ -23,8 +23,8 @@
             This bean is the transaction manager.
         </description>
         <property name="useJndi" value="${hibernate.useJndi}" />
-        <property name="jdbcSessionFactoryBeanName" value="${hibernate.jdbcSessionFactoryBeanName}" />
-        <property name="jndiSessionFactoryBeanName" value="${hibernate.jndiSessionFactoryBeanName}" />
+        <property name="jdbcSessionFactoryBeanName" value="jdbcSessionFactory" />
+        <property name="jndiSessionFactoryBeanName" value="jndiSessionFactory" />
     </bean>
 
     <bean id="JDBCdatasource" class="org.apache.commons.dbcp.BasicDataSource"
@@ -126,8 +126,13 @@
 		lazy-init="true"
 		>
 		<description>
-			The 'normal' session factory based on JDBC.
+			The session factory based on JDBC.
 		</description>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">#{systemProperties[hbm2ddl]?:validate }</prop>
+            </props>
+        </property>
    	</bean>
 
 	<bean 
@@ -136,65 +141,14 @@
 		lazy-init="true" abstract="true"
 		>
 		<description>
-			The 'normal' session factory based on JNDI.
+			The session factory based on JNDI.
 		</description>
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.hbm2ddl.auto">#{systemProperties[hbm2ddl]?:validate }</prop>
             </props>
         </property>
    	</bean>
-
-<!-- 	<bean  -->
-<!-- 		id="createSessionFactory" -->
-<!-- 		parent="abstractJdbcHibernateSessionFactory" -->
-<!-- 		lazy-init="true" -->
-<!-- 		> -->
-<!-- 		<description> -->
-<!-- 			This bean is used to create the database structures.  -->
-<!-- 			Caution: leave inherited attribute lazy-init to true or the database will -->
-<!-- 			be re-created from scratch each time the application starts. -->
-<!-- 		</description> -->
-<!-- 		<property name="hibernateProperties"> -->
-<!-- 			<props> -->
-<!-- 				<prop key="hibernate.hbm2ddl.auto">update</prop> -->
-<!-- 			</props> -->
-<!-- 		</property> -->
-<!-- 	</bean> -->
-
-	<bean 
-		id="jdbcUpgradeSessionFactory"
-		parent="abstractJdbcHibernateSessionFactory"
-		lazy-init="true"
-		>
-		<description>
-			This bean is used to update the database structure. 
-			Caution: leave inherited attribute lazy-init to true or the database will
-			be updated each time the application starts.
-		</description>
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.hbm2ddl.auto">update</prop>
-			</props>
-		</property>
-	</bean>
-
-	<bean 
-		id="jndiUpgradeSessionFactory"
-		parent="abstractJndiHibernateSessionFactory"
-		lazy-init="true" abstract="true"
-		>
-		<description>
-			This bean is used to update the database structure. 
-			Caution: leave inherited attribute lazy-init to true or the database will
-			be updated each time the application starts.
-		</description>
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.hbm2ddl.auto">update</prop>
-			</props>
-		</property>
-	</bean>
 
 	<!-- end of the session factories -->
 

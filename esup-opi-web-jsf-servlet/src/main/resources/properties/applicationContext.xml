@@ -43,7 +43,7 @@
 
 	<import resource="classpath*:/META-INF/archives/archives.xml" /> 
 	<import resource="classpath*:/META-INF/auth/auth.xml" />
-	<import resource="cache/cache.xml" />
+	<import resource="classpath*:/META-INF/cache/cache.xml" />
 	<import resource="classpath*:/META-INF/esup-opi-dao-dao.xml" />
 	<import resource="classpath*:/META-INF/domain/domain.xml" />
 <!-- 	<import resource="deepLinking/deepLinking.xml" /> -->
@@ -53,7 +53,7 @@
 	<import resource="misc/abstractBeans.xml" />
 	<import resource="classpath*:/META-INF/esup-opi-domain-services-application.xml" />
 	<import resource="portal/portal.xml" />
-	<import resource="remote/remote.xml" />
+	<import resource="classpath*:/META-INF/remote/remote.xml" />
 <!-- 	<import resource="classpath*:org/codehaus/xfire/spring/xfire.xml" /> -->
 	<import resource="classpath*:/META-INF/export/castor.xml" />
 	<import resource="classpath*:/META-INF/export/export.xml" />
@@ -62,10 +62,10 @@
 	<import resource="classpath*:/META-INF/smtp/smtp.xml" />
 	<import resource="classpath*:/META-INF/init/init.xml" />
 	<import resource="classpath*:/META-INF/parameters/accessType.xml" />
-	<import resource="urlGeneration/urlGeneration.xml" />
+	<import resource="classpath*:/META-INF/urlGeneration/urlGeneration.xml" />
 	<import resource="web/controllers.xml" />
 	<import resource="web/converters.xml" />
-	<import resource="web/beans.xml" />
+	<import resource="classpath*:/META-INF/web/beans.xml" />
 <!-- 	<import resource="misc/quartz.xml" /> -->
 	
 </beans>

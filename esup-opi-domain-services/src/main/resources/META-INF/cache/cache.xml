@@ -21,7 +21,7 @@
 		<description>
 			This bean is used to configure EhCache.
 		</description>
-		<property name="configLocation" value="classpath:/properties/cache/ehcache.xml" />
+		<property name="configLocation" value="classpath:/META-INF/cache/ehcache.xml" />
 	</bean>
 
 <!-- 	<bean id="cacheProvider"  -->

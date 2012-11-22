@@ -12,3 +12,7 @@ cd esup-opi-web-jsf-servlet && mvnDebug -Dconfig.location=$configFile jetty:run 
 Création d'une release :
 mvn release:prepare -Darguments="-Dconfig.location=$configFile"
 mvn release:perform -Darguments="-Dconfig.location=$configFile"
+
+Batch :
+Manipulation de la BD:
+java -Dconfig.location=$configFile -cp esup-opi-batch/target/esup-opi-batch-$version.jar org.esupportail.opi.batch.DbAdmin init-db
