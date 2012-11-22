@@ -140,8 +140,7 @@
 	<bean
 		id="businessCacheService"
 		parent="abstractDomainService"
-		class="org.esupportail.opi.domain.BusinessCacheServiceImpl"
-		>
+		class="org.esupportail.opi.domain.BusinessCacheServiceImpl">
 		<property name="domainApoService" ref="domainApoService" />
 		<property name="cacheManager" ref="cacheManager" />
 	</bean>

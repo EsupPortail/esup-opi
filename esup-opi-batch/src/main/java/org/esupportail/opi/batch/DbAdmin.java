@@ -90,7 +90,7 @@ public class DbAdmin {
 		properties.put("hbm2ddl", "create");
 		System.setProperties(properties);
 		VersionningService versionningService = getVersionningService();
-		versionningService.initDatabase();
+//		versionningService.initDatabase();
 	}
 
 	/**

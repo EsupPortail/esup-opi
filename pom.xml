@@ -70,11 +70,6 @@
     </scm>
     <dependencies>
         <dependency>
-            <groupId>org.esupportail</groupId>
-            <artifactId>esup-commons2-jsf2-exception</artifactId>
-            <version>${esupcommons.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.1</version>

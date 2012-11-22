@@ -13,7 +13,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.esupportail.commons.beans.AbstractApplicationAwareBean;
+import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.exceptions.ConfigException;
+import org.esupportail.commons.services.application.ApplicationService;
 import org.esupportail.commons.services.application.Version;
 import org.esupportail.commons.services.application.VersionException;
 import org.esupportail.commons.services.application.VersionningService;
@@ -21,9 +24,7 @@ import org.esupportail.commons.services.database.DatabaseUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.commons.utils.BeanUtils;
 import org.esupportail.opi.domain.DomainService;
-import org.esupportail.opi.domain.DomainServiceImpl;
 import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.ParameterServiceImpl;
 import org.esupportail.opi.domain.beans.mails.MailContent;
@@ -37,9 +38,7 @@ import org.esupportail.opi.services.mails.MailContentService;
 /**
  * A bean for versionning management.
  */
-// TODO: Fix this !!
-//public class VersionningServiceImpl extends AbstractDomainAwareBean implements VersionningService {
-public class VersionningServiceImpl  implements VersionningService {
+public class VersionningServiceImpl implements VersionningService {
 
 	/**
 	 * The serialization id.
@@ -72,6 +71,21 @@ public class VersionningServiceImpl  implements VersionningService {
 	private Profile admin;
 	
 	/**
+	 * The domain service
+	 */
+	private DomainService domainService;
+	
+	/**
+	 * The parameter service
+	 */
+	private ParameterService parameterService;
+	
+	/**
+	 * The Application Service
+	 */
+	private ApplicationService applicationService;
+
+	/**
 	 * Bean constructor.
 	 */
 	public VersionningServiceImpl() {
@@ -79,47 +93,19 @@ public class VersionningServiceImpl  implements VersionningService {
 	}
 	
 	/**
-	 * TODO : Fix this !!
-	 */
-	private class DummyVersServ implements VersionningService {
-	    public void checkVersion() throws VersionException {}
-	    public void checkVersion(boolean throwException,
-	        boolean printLatestVersion) throws VersionException { }
-	    public void initDatabase() {}
-	    public boolean upgradeDatabase() { return false; }
-	    public Version getLatestVersion() { return new Version(); }
-        public Version getVersion() { return new Version(); }
-	}
-
-	/**
-	 * TODO : Fix this !!
-	 */
-	private DummyVersServ getApplicationService() {
-	    return new DummyVersServ();
-	}
-	
-	
-	/**
-	 * TODO : Fix this !!
-	 */
-	private DomainService getDomainService() {
-	    return new DomainServiceImpl();
-	}
-
-	/**
-	 * TODO : Fix this !!
-	 */
-	private ParameterService getParameterService() {
-	    return new ParameterServiceImpl();
-	}
-	
-	
-	
-	/**
 	 * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#afterPropertiesSetInternal()
 	 */
 	//@Override
 	public void afterPropertiesSetInternal() {
+		Assert.notNull(this.applicationService, 
+				"property applicationService of class " + this.getClass().getName() 
+				+ " can not be null");
+		Assert.notNull(this.domainService, 
+				"property domainService of class " + this.getClass().getName() 
+				+ " can not be null");
+		Assert.notNull(this.parameterService, 
+				"property parameterService of class " + this.getClass().getName() 
+				+ " can not be null");
 		Assert.notNull(this.firstAdministratorId, 
 				"property firstAdministratorId of class " + this.getClass().getName() 
 				+ " can not be null");
@@ -177,7 +163,6 @@ public class VersionningServiceImpl  implements VersionningService {
 	 * @see org.esupportail.commons.services.application.VersionningService#initDatabase()
 	 */
 	public void initDatabase() {
-		DatabaseUtils.create();
 		logger.info("creating the first user of the application thanks to " 
 				+ getClass().getName() + ".firstAdministratorId...");
 		//ADD traitments
@@ -379,7 +364,7 @@ public class VersionningServiceImpl  implements VersionningService {
 	 */
 	private List<Domain> prepareTreatmentDomains() {
 		//ADD traitments
-		Map<String, Traitement> treatments = BeanUtils.getBeansOfClass(Traitement.class);
+		Map<String, Traitement> treatments = ApplicationContextHolder.getContext().getBeansOfType(Traitement.class);
 		List<Domain> domains = new ArrayList<Domain>();
 //		for (String name : treatments.keySet()) {
 //			if (logger.isDebugEnabled()) {
@@ -424,7 +409,7 @@ public class VersionningServiceImpl  implements VersionningService {
 	 */
 	private List<Fonction> prepareTreatmentFonctions() {
 		//ADD traitments
-		Map<String, Traitement> treatments = BeanUtils.getBeansOfClass(Traitement.class);
+		Map<String, Traitement> treatments = ApplicationContextHolder.getContext().getBeansOfType(Traitement.class);
 		List<Fonction> functions = new ArrayList<Fonction>();
 //		for (String name : treatments.keySet()) {
 //			if (logger.isDebugEnabled()) {
@@ -509,7 +494,7 @@ public class VersionningServiceImpl  implements VersionningService {
 	 */
 	private Set<MailContentService> prepareMailContent() {
 		//ADD traitments
-		Map<String, MailContentService> mailContentServices = BeanUtils.getBeansOfClass(MailContentService.class);
+		Map<String, MailContentService> mailContentServices = ApplicationContextHolder.getContext().getBeansOfType(MailContentService.class);
 		Set<MailContentService> mails = new HashSet<MailContentService>();
 //		for (String name : mailContentServices.keySet()) {
 //			if (logger.isDebugEnabled()) {
@@ -590,7 +575,35 @@ public class VersionningServiceImpl  implements VersionningService {
 	}
 
 
-    @Override
+    public DomainService getDomainService() {
+		return domainService;
+	}
+
+
+
+	public void setDomainService(DomainService domainService) {
+		this.domainService = domainService;
+	}
+
+
+
+	public ParameterService getParameterService() {
+		return parameterService;
+	}
+
+	public void setParameterService(ParameterService parameterService) {
+		this.parameterService = parameterService;
+	}
+
+	public ApplicationService getApplicationService() {
+		return applicationService;
+	}
+
+	public void setApplicationService(ApplicationService applicationService) {
+		this.applicationService = applicationService;
+	}
+
+	@Override
     public void checkVersion() throws VersionException {
         // TODO Auto-generated method stub
         

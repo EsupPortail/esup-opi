@@ -9,12 +9,6 @@
 		the controller. It should not be modified but by the developers. This
 		file is referenced by /properties/applicationContext.xml.
 	-->
-	<bean id="managedAccess" class="org.esupportail.opi.web.beans.ManagedAccess"
-		scope="session">
-		<property name="parameterService" ref="parameterService" />
-		<property name="sessionController" ref="sessionController" />
-<!--         <property name="urlGenerator" ref="servletUrlGenerator"/> -->
-	</bean>
 
 	<bean id="managedRoadMap" class="org.esupportail.opi.web.beans.ManagedRoadMap"
 		scope="session">
@@ -363,105 +357,7 @@
 		<property name="label" value="Autre"/>
 	</bean>
 
-	<!-- ****  PAGINATOR **** -->
 
-	<bean id="paginatorIndividu"
-		class="org.esupportail.opi.web.beans.paginator.IndividuPaginator"
-		scope="session">
-        <property name="sessionController" ref="sessionController"/>
-		<property name="daoService" ref="daoService" />
-		<property name="maxNearPages" value="4" />
-		<property name="defaultPageSize" value="20"/>
-		<property name="pageSize" value="20"/>
-		<property name="pageSizeValues">
-			<set>
-				<value>10</value>
-				<value>20</value>
-				<value>30</value>
-				<value>40</value>
-			</set>
-		</property>
-	</bean>
-	
-	
-	<bean id="paginatorIndividuPojo"
-		class="org.esupportail.opi.web.beans.paginator.IndividuPojoPaginator"
-		scope="session">
-        <property name="sessionController" ref="sessionController"/>
-        <property name="domainApoService" ref="domainApoService" />
-		<property name="daoService" ref="daoService" />
-		<property name="maxNearPages" value="4" />
-		<property name="defaultPageSize" value="20"/>
-		<property name="pageSizeValues">
-			<set>
-				<value>10</value>
-				<value>20</value>
-				<value>30</value>
-				<value>40</value>
-			</set>
-		</property>
-	</bean>
-	
-
-	<bean id="paginatorPM"
-		class="org.esupportail.opi.web.beans.paginator.PMPaginator"
-		scope="session">
-        <property name="sessionController" ref="sessionController"/>
-        <property name="domainApoService" ref="domainApoService"/>
-		<property name="daoService" ref="daoService" />
-		<property name="maxNearPages" value="4" />
-		<property name="defaultPageSize" value="20"/>
-		<property name="pageSize" value="20"/>
-		<property name="pageSizeValues">
-			<set>
-				<value>10</value>
-				<value>20</value>
-				<value>30</value>
-				<value>40</value>
-			</set>
-		</property>	
-	</bean>
-
-
-	<bean id="paginatorCommission"
-		class="org.esupportail.opi.web.beans.paginator.CommissionPaginator"
-		scope="session">
-        <property name="parameterService" ref="parameterService"/>
-        <property name="domainApoService" ref="domainApoService"/>
-		<property name="maxNearPages" value="4" />
-		<property name="defaultPageSize" value="20"/>
-		<property name="pageSize" value="20"/>
-		<property name="pageSizeValues">
-			<set>
-				<value>10</value>
-				<value>20</value>
-				<value>30</value>
-				<value>40</value>
-			</set>
-		</property>
-	</bean>
-	
-	
-	<bean id="paginatorVET"
-		class="org.esupportail.opi.web.beans.paginator.VETPaginator"
-		scope="session">
-        <property name="parameterService" ref="parameterService"/>
-        <property name="domainApoService" ref="domainApoService"/>
-        <property name="sessionController" ref="sessionController"/>
-		<property name="maxNearPages" value="4" />
-		<property name="defaultPageSize" value="20"/>
-		<property name="pageSize" value="20"/>
-		<property name="pageSizeValues">
-			<set>
-				<value>10</value>
-				<value>20</value>
-				<value>30</value>
-				<value>40</value>
-			</set>
-		</property>
-	</bean>
-	
-	
 	<!-- ****  Type pour l'axes des ordonnées (statistique) **** -->
 	<bean id="commissionStat"
 		class="org.esupportail.opi.domain.beans.pilotage.TypeCoordonneStatistique"
