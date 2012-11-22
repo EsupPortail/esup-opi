@@ -1,6 +1,7 @@
 package org.esupportail.opi.web.beans.pojo;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
@@ -76,7 +77,6 @@ public class IndRechPojo {
 	 * Constructor.
 	 */
 	public IndRechPojo() {
-		super();
 		this.excludeWishProcessed = true;
 		this.listeRI = null;
 	}

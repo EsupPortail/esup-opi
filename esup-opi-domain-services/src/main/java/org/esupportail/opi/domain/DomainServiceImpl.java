@@ -352,12 +352,12 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 	
 	@Override
 	public P2<Long, Stream<Individu>> sliceOfInd(
-	        Long offset, Long limit, String sortField, SortOrder sortOrder, Map<String, String> filters,
-            Stream<Option<String>> stringFilters, Option<TypeDecision> typesDec, Option<Boolean> treatedWish,
+            Long offset, Long limit, String sortField, SortOrder sortOrder, Map<String, String> filters,
+            Set<TypeDecision> typesDec, Option<Boolean> validWish, Option<Boolean> treatedWish,
             Option<String> codeTypeTrtmt, Set<TraitementCmi> trtCmis, Set<Integer> listCodesRI) {
 	    return daoService.sliceOfInd(
 	            offset, limit, sortField, sortOrder, filters,
-                stringFilters, typesDec, treatedWish, codeTypeTrtmt, trtCmis, listCodesRI);
+                typesDec, treatedWish, validWish, codeTypeTrtmt, trtCmis, listCodesRI);
 	}
 	
 	

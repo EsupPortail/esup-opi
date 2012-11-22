@@ -191,9 +191,6 @@ public class CommissionController
 	private MailContentService convocMember;
 	
 
-	/**
-	 * see {@link trtCmiController}.
-	 */
 	private TrtCmiController trtCmiController;
 	
 	/**
@@ -247,7 +244,6 @@ public class CommissionController
 	 */
 	@Override
 	public void reset() {
-		super.reset();
 		commission = new Commission();
 		contactCommission = new ContactCommission();
 		actionEnum = new ActionEnum();

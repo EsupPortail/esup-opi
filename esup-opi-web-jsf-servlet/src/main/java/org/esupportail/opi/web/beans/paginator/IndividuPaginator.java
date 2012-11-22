@@ -74,10 +74,6 @@ public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu>
 		super();
 	}
 
-	/**
-	 * 
-	 * @see org.esupportail.commons.web.beans.AbstractPaginator#reset()
-	 */
 	@Override
 	public void reset() {
 		if (LOG.isDebugEnabled()) {
@@ -91,7 +87,7 @@ public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu>
 	/**
 	 * 
 	 */
-	private void initListeRI() {
+	public void initListeRI() {
 		// on initialise indRechPojo selon le contexte du Gestionnaire connecté 
 		indRechPojo.setListeRI(new HashSet<RegimeInscription>()); 
 		if (sessionController.getCurrentUser() != null 

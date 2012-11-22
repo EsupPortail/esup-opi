@@ -182,10 +182,9 @@ public interface DaoService extends Serializable {
 	 * @param filters
 	 * @return
 	 */
-	P2<Long, Stream<Individu>> sliceOfInd(Long offset, Long limit, String sortField, SortOrder sortOrder,
-	        Map<String, String> filters, Stream<Option<String>> stringFilters, Option<TypeDecision> typeDec,
-            Option<Boolean> treatedWish, Option<String> codeTypeTrtmt, Set<TraitementCmi> trtCmis,
-            Set<Integer> listCodesRI);
+	P2<Long, Stream<Individu>> sliceOfInd(Long offset, Long limit, String sortField, SortOrder sortOrder, Map<String, String> filters,
+                                          Set<TypeDecision> typesDec, Option<Boolean> validWish, Option<Boolean> treatedWish,
+                                          Option<String> codeTypeTrtmt, Set<TraitementCmi> trtCmis, Set<Integer> listCodesRI);
 	
 	/**
 	 * Login gest = uid@domain.

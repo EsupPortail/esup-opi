@@ -5,9 +5,12 @@
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
         <p:blockUI block="maPage" trigger=":seeOpinionsForm:choiceTypDecision :seeOpinionsForm:saveAll
-                                           :seeOpinionsForm:individuData :lookForIndForm:lesCommissions
-                                           :lookForIndForm:lesTypesDecision :lookForIndForm:lesEtapes
-                                           :lookForIndForm:lookForIndividu">
+                                           :seeOpinionsForm:individuData :seeOpinionsForm:individuData:checkAll
+                                           :lookForIndForm:lesCommissions :lookForIndForm:lesTypesDecision
+                                           :lookForIndForm:lesEtapes :lookForIndForm:lookForIndividu">
+            <p:graphicImage value="/media/images/ajax-loader.gif" />
+        </p:blockUI>
+        <p:blockUI block=":seeOpinionsForm:dataPanel" trigger=":seeOpinionsForm:renderTable">
             <p:graphicImage value="/media/images/ajax-loader.gif" />
         </p:blockUI>
     	<p:panel id="maPage" styleClass="div_body">
@@ -17,6 +20,9 @@
             </ui:include>
             <ui:include src="/stylesheets/gestionnaire/opinion/_block/_proposition.xhtml" />
             <h:form id="seeOpinionsForm">
+                <p:remoteCommand id="renderTable" name="renderTable" autoRun="true" async="true"
+                                 update="dataPanel"
+                                 actionListener="#{opinionController.doRenderTable}" />
                 <div class="messageForUser">
                     <p:messages id="messages" showDetail="true" autoUpdate="true" />
                 </div>
@@ -24,209 +30,215 @@
                     <span style="vertical-align: 8px;"><h:outputText value="#{msgs['AVIS.ENTER.DECISION']}" /></span>
                     <p:selectOneMenu id="choiceTypDecision"
                                      converter="#{typeDecisionConverter}"
-                                     value="#{opinionController.selectedTypeDec}" style="width: 140px;">
+                                     value="#{opinionController.selectedTypeDec}" style="width: 10%;">
                         <f:selectItems value="#{nomenclatureController.typeDecisionItems}" />
-                        <p:ajax listener="#{opinionController.selectTypeDecisionOpinion()}"
+                        <p:ajax listener="#{opinionController.selectTypeDecisionOpinion}"
                                 update=":seeOpinionsForm:individuData" />
                     </p:selectOneMenu>
                 </div>
-                <div style="width:100%;text-align:right;">
-                    <p:commandButton id="saveAll" value="#{msgs['_.BUTTON.SAVE']}"
-                                     action="#{opinionController.saveAll}"
-                                     update=":seeOpinionsForm:individuData" />
-                </div>
-                <div style="width:100%;">
-                    <p:dataTable var="individuPojo" id="individuData"
-                                 value="#{opinionController.indPojoLDM}" styleClass="paginatorData"
-                                 paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40" rowKey="#{individuPojo.individu}"
-                                 paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}" sortBy="#{nomPatronymique}" lazy="true"
-                                 currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
-                                 emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}">
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}" />
-                            </f:facet>
-                            <h:outputText value="#{individuPojo.individu.numDossierOpi}" />
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{msgs['INDIVIDU.NOM_PRENOM']}" />
-                            </f:facet>
-                            <h:outputText
-                                value="#{individuPojo.individu.nomPatronymique}
-                                       #{individuPojo.individu.prenom}" />
-                        </p:column>
-                        <p:column>
-                            <ui:repeat var="indVoeuxPojo" id="indVoeux1"
-                                       value="#{individuPojo.voeuxSortedByLic}">
-                                <div>
-                                    <h:outputText value="#{indVoeuxPojo.vrsEtape.licEtp}"
-                                                  style="cursor:pointer;" id="licEtp" />
-                                    <p:overlayPanel showEffect="fade" hideEffect="fade" appendToBody="true"
-                                                    for="licEtp"
-                                                    showEvent="mouseover"
-                                                    hideEvent="mouseout"
-                                                    styleClass="containerPopup">
-                                        <h:panelGroup>
-                                            <h:panelGrid columns="1">
-                                                <h:outputText styleClass="titrePopupAide"
-                                                              value="#{msgs['FIELD_LABEL.LIBELLE']} #{msgs['FIELD_LABEL.VRS_VET']}" />
-                                                <h:outputText styleClass="libellesAide"
-                                                              value="#{indVoeuxPojo.vrsEtape.libWebVet}" />
-                                            </h:panelGrid>
-                                        </h:panelGroup>
-                                    </p:overlayPanel>
-                                </div>
-                            </ui:repeat>
-                        </p:column>
-                        <p:column>
-                            <ui:repeat var="indVoeuxPojo" id="indVoeux2"
-                                       value="#{individuPojo.voeuxSortedByLic}">
-                                <div>
-                                    <h:outputText value="#{indVoeuxPojo.avisEnService.result.code}" />
-                                    <h:outputText value="(#{indVoeuxPojo.avisEnService.rang})"
-                                                  rendered="#{indVoeuxPojo.avisEnService.rang != null}"/>
-                                </div>
-                            </ui:repeat>
-                        </p:column>
-                        <p:column>
-                            <ui:repeat var="indVoeuxPojo" id="indVoeux3"
-                                       value="#{individuPojo.voeuxSortedByLic}">
-                                <div>
-                                    <h:panelGroup rendered="#{indVoeuxPojo.avisEnService.result.code != null}">
-                                        <p:graphicImage url="/media/images/informationSmall.png"
-                                                        style="cursor:pointer;" id="avisEnService" />
+                <p:panel id="dataPanel" layout="block" style="border: none; height: 1000px; width:101.5%; margin-left: -1%;">
+                    <div style="float:right">
+                        <p:commandButton id="saveAll" value="#{msgs['_.BUTTON.SAVE']}"
+                                         action="#{opinionController.saveAll}"
+                                         update=":seeOpinionsForm:individuData" rendered="#{opinionController.renderTable}" />
+                    </div>
+                    <p:panel style="clear: both; border: none; margin: -0.5em -1em;">
+                        <p:effect type="puff" event="load">
+                            <f:param name="mode" value="'show'" />
+                            <f:param name="percent" value="100" />
+                        </p:effect>
+                        <p:dataTable var="individuPojo" id="individuData"
+                                     value="#{opinionController.indPojoLDM}" styleClass="paginatorData"
+                                     paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40" rowKey="#{individuPojo.individu}"
+                                     paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}" sortBy="#{nomPatronymique}" lazy="true"
+                                     currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
+                                     emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}" rendered="#{opinionController.renderTable}">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}" />
+                                </f:facet>
+                                <h:outputText value="#{individuPojo.individu.numDossierOpi}" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['INDIVIDU.NOM_PRENOM']}" />
+                                </f:facet>
+                                <h:outputText
+                                    value="#{individuPojo.individu.nomPatronymique}
+                                           #{individuPojo.individu.prenom}" />
+                            </p:column>
+                            <p:column>
+                                <ui:repeat var="indVoeuxPojo" id="indVoeux1"
+                                           value="#{individuPojo.voeuxSortedByLic}">
+                                    <div>
+                                        <h:outputText value="#{indVoeuxPojo.vrsEtape.licEtp}"
+                                                      style="cursor:pointer;" id="licEtp" />
                                         <p:overlayPanel showEffect="fade" hideEffect="fade" appendToBody="true"
-                                                        for="avisEnService"
+                                                        for="licEtp"
                                                         showEvent="mouseover"
                                                         hideEvent="mouseout"
                                                         styleClass="containerPopup">
                                             <h:panelGroup>
                                                 <h:panelGrid columns="1">
                                                     <h:outputText styleClass="titrePopupAide"
-                                                                  value="#{msgs['AVIS.END']} : #{indVoeuxPojo.avisEnService.result.libelle}" />
+                                                                  value="#{msgs['FIELD_LABEL.LIBELLE']} #{msgs['FIELD_LABEL.VRS_VET']}" />
                                                     <h:outputText styleClass="libellesAide"
-                                                                  value="#{indVoeuxPojo.avisEnService.motivationAvis.libelle}" />
-                                                    <h:outputText styleClass="libellesAide"
-                                                                  value="#{indVoeuxPojo.avisEnService.commentaire}" />
+                                                                  value="#{indVoeuxPojo.vrsEtape.libWebVet}" />
                                                 </h:panelGrid>
                                             </h:panelGroup>
                                         </p:overlayPanel>
-                                    </h:panelGroup>
-                                </div>
-                            </ui:repeat>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <p:selectBooleanCheckbox id="checkAll" value="#{opinionController.allChecked}">
-                                    <p:ajax listener="#{opinionController.checkAll}" update="individuData" />
-                                </p:selectBooleanCheckbox>
-                            </f:facet>
-                            <p:selectManyCheckbox value="#{opinionController.wishSelected}"
-                                                  layout="pageDirection"
-                                                  styleClass="esup-opiR1-wishes esup-opiR1-pselectmany-noborder">
-                                <f:selectItems value="#{individuPojo.voeuxSortedByLic}"
-                                               var="indVoeuxPojo"
-                                               itemValue="#{indVoeuxPojo.indVoeu.id}"
-                                               itemLabel=""
-                                               itemDisabled="#{indVoeuxPojo.avisEnService.result.isFinal
-                                                             and indVoeuxPojo.avisEnService.validation}" />
-                            </p:selectManyCheckbox>
-                        </p:column>
-                        <p:column rendered="#{paginatorIndividuPojo.isUsingDEF}">
-                            <f:facet name="header">
-                                <h:outputText value="#{msgs['AVIS.PROPOSITION.SMALL_TITLE']}" />
-                            </f:facet>
-                            <ui:repeat var="indVoeuxPojo" id="indVoeux5" rendered="#{managedAccess.updateAuthorized}"
-                                       value="#{individuPojo.voeuxSortedByLic}">
-                                <div>
-                                    <p:commandButton image="/media/images/add.png"
-                                                     immediate="true" styleClass="form-button-image"
-                                                     title="#{msgs['FIELD_LABEL.PROPOSITION']}"
-                                                     action="#{opinionController.addProposition}" ajax="false" >
-                                        <f:setPropertyActionListener value="#{indVoeuxPojo}" target="#{opinionController.indVoeuxPojo}" />
-                                    </p:commandButton>
-                                </div>
-                            </ui:repeat>
-                        </p:column>
-                        <p:column rendered="#{paginatorIndividuPojo.isUsingLC}">
-                            <f:facet name="header">
-                                <h:outputText value="#{msgs['AVIS.RANG']}" />
-                            </f:facet>
-                            <ui:repeat var="indVoeuxPojo" id="indVoeux6"
-                                       value="#{individuPojo.voeuxSortedByLic}">
-                                <div>
-                                    <p:inputText id="rang" size="5"
-                                                 value="#{indVoeuxPojo.newAvis.rang}" maxlength="5"
-                                                 disabled="#{indVoeuxPojo.avisEnService.result.isFinal
-                                                           and indVoeuxPojo.avisEnService.validation}" />
-                                </div>
-                            </ui:repeat>
-                        </p:column>
-                        <p:column rendered="#{paginatorIndividuPojo.isUsingDEF}">
-                            <f:facet name="header">
-                                <h:panelGroup>
-                                    <h:outputText value="#{msgs['AVIS.MOTIVATION']}" />
-                                    
-                                    <p:selectOneMenu id="choiceAllMotivAvis"
-                                                     converter="#{motivationAvisConverter}"
-                                                     onchange="javascript:{changeAllMotivAvis('seeOpinionsForm:individuData','classChoiceMotivAvis',this);}">
-                                        <f:selectItem itemLabel="" itemValue="" />
-                                        <f:selectItems var="motivationAllAvis" value="#{nomenclatureController.motivationsAvis}"
-                                                       itemLabel="#{motivationAllAvis.nomenclature.code}-#{motivationAllAvis.nomenclature.shortLabel}"
-                                                       itemValue="#{motivationAllAvis.nomenclature}" />
-                                    </p:selectOneMenu>
-                                </h:panelGroup>
-                            </f:facet>
-                            <ui:repeat var="indVoeuxPojo" id="indVoeux7"
-                                       value="#{individuPojo.voeuxSortedByLic}">
-                                <div>
-                                    <p:selectOneMenu id="choiceMotivAvis"
-                                                     styleClass="classChoiceMotivAvis"
-                                                     converter="#{motivationAvisConverter}"
-                                                     value="#{indVoeuxPojo.newAvis.motivationAvis}"
+                                    </div>
+                                </ui:repeat>
+                            </p:column>
+                            <p:column>
+                                <ui:repeat var="indVoeuxPojo" id="indVoeux2"
+                                           value="#{individuPojo.voeuxSortedByLic}">
+                                    <div>
+                                        <h:outputText value="#{indVoeuxPojo.avisEnService.result.code}" />
+                                        <h:outputText value="(#{indVoeuxPojo.avisEnService.rang})"
+                                                      rendered="#{indVoeuxPojo.avisEnService.rang != null}"/>
+                                    </div>
+                                </ui:repeat>
+                            </p:column>
+                            <p:column>
+                                <ui:repeat var="indVoeuxPojo" id="indVoeux3"
+                                           value="#{individuPojo.voeuxSortedByLic}">
+                                    <div>
+                                        <h:panelGroup rendered="#{indVoeuxPojo.avisEnService.result.code != null}">
+                                            <p:graphicImage url="/media/images/informationSmall.png"
+                                                            style="cursor:pointer;" id="avisEnService" />
+                                            <p:overlayPanel showEffect="fade" hideEffect="fade" appendToBody="true"
+                                                            for="avisEnService"
+                                                            showEvent="mouseover"
+                                                            hideEvent="mouseout"
+                                                            styleClass="containerPopup">
+                                                <h:panelGroup>
+                                                    <h:panelGrid columns="1">
+                                                        <h:outputText styleClass="titrePopupAide"
+                                                                      value="#{msgs['AVIS.END']} : #{indVoeuxPojo.avisEnService.result.libelle}" />
+                                                        <h:outputText styleClass="libellesAide"
+                                                                      value="#{indVoeuxPojo.avisEnService.motivationAvis.libelle}" />
+                                                        <h:outputText styleClass="libellesAide"
+                                                                      value="#{indVoeuxPojo.avisEnService.commentaire}" />
+                                                    </h:panelGrid>
+                                                </h:panelGroup>
+                                            </p:overlayPanel>
+                                        </h:panelGroup>
+                                    </div>
+                                </ui:repeat>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <p:selectBooleanCheckbox id="checkAll" value="#{opinionController.allChecked}">
+                                        <p:ajax listener="#{opinionController.checkAll}" update="individuData" />
+                                    </p:selectBooleanCheckbox>
+                                </f:facet>
+                                <p:selectManyCheckbox value="#{opinionController.wishSelected}"
+                                                      layout="pageDirection"
+                                                      styleClass="esup-opiR1-wishes esup-opiR1-pselectmany-noborder">
+                                    <f:selectItems value="#{individuPojo.voeuxSortedByLic}"
+                                                   var="indVoeuxPojo"
+                                                   itemValue="#{indVoeuxPojo.indVoeu.id}"
+                                                   itemLabel=""
+                                                   itemDisabled="#{indVoeuxPojo.avisEnService.result.isFinal
+                                                                 and indVoeuxPojo.avisEnService.validation}" />
+                                </p:selectManyCheckbox>
+                            </p:column>
+                            <p:column rendered="#{paginatorIndividuPojo.isUsingDEF}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['AVIS.PROPOSITION.SMALL_TITLE']}" />
+                                </f:facet>
+                                <ui:repeat var="indVoeuxPojo" id="indVoeux5" rendered="#{managedAccess.updateAuthorized}"
+                                           value="#{individuPojo.voeuxSortedByLic}">
+                                    <div>
+                                        <p:commandButton image="/media/images/add.png"
+                                                         immediate="true" styleClass="form-button-image"
+                                                         title="#{msgs['FIELD_LABEL.PROPOSITION']}"
+                                                         action="#{opinionController.addProposition}" ajax="false" >
+                                            <f:setPropertyActionListener value="#{indVoeuxPojo}" target="#{opinionController.indVoeuxPojo}" />
+                                        </p:commandButton>
+                                    </div>
+                                </ui:repeat>
+                            </p:column>
+                            <p:column rendered="#{paginatorIndividuPojo.isUsingLC}">
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['AVIS.RANG']}" />
+                                </f:facet>
+                                <ui:repeat var="indVoeuxPojo" id="indVoeux6"
+                                           value="#{individuPojo.voeuxSortedByLic}">
+                                    <div>
+                                        <p:inputText id="rang" size="5"
+                                                     value="#{indVoeuxPojo.newAvis.rang}" maxlength="5"
                                                      disabled="#{indVoeuxPojo.avisEnService.result.isFinal
-                                                               and indVoeuxPojo.avisEnService.validation}">
-                                        <f:selectItem itemLabel="" itemValue="" />
-                                        <f:selectItems var="motivationAvis"
-                                                       value="#{nomenclatureController.motivationsAvis}"
-                                                       itemLabel="#{motivationAvis.nomenclature.code}-#{motivationAvis.nomenclature.shortLabel}"
-                                                       itemValue="#{motivationAvis.nomenclature}" />
-                                    </p:selectOneMenu>
-                                </div>
-                            </ui:repeat>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{msgs['FIELD_LABEL.COMMENTAIRE']}" />
-                            </f:facet>
-                            <ui:repeat  var="indVoeuxPojo" id="indVoeux8"
-                                        value="#{individuPojo.voeuxSortedByLic}">
-                                <div>
-                                    <p:inputText id="commentaire" size="30"
-                                                 value="#{indVoeuxPojo.newAvis.commentaire}" maxlength="500"
-                                                 disabled="#{indVoeuxPojo.avisEnService.result.isFinal
-                                                           and indVoeuxPojo.avisEnService.validation}" />
-                                </div>
-                            </ui:repeat>
-                        </p:column>
-                        <p:column>
-                            <ui:repeat var="indVoeuxPojo" id="indVoeux9" rendered="#{managedAccess.updateAuthorized}"
-                                       value="#{individuPojo.voeuxSortedByLic}">
-                                <div>
-                                    <p:commandButton icon="ui-icon-pencil"
-                                                     immediate="true"
-                                                     title="#{msgs['BUTTON.UPDATE']}"
-                                                     action="#{opinionController.goSeeOpinionVoeu}" ajax="false">
-                                        <f:setPropertyActionListener value="#{indVoeuxPojo}" target="#{opinionController.indVoeuxPojo}" />
-                                        <f:setPropertyActionListener value="#{opinionController.wayfEnum.opinionAllValue}"
-                                                                     target="#{opinionController.wayfEnum.whereAreYouFrom}" />
-                                    </p:commandButton>
-                                </div>
-                            </ui:repeat>
-                        </p:column>
-                    </p:dataTable>
-                </div>
+                                                               and indVoeuxPojo.avisEnService.validation}" />
+                                    </div>
+                                </ui:repeat>
+                            </p:column>
+                            <p:column rendered="#{paginatorIndividuPojo.isUsingDEF}">
+                                <f:facet name="header">
+                                    <h:panelGroup>
+                                        <h:outputText value="#{msgs['AVIS.MOTIVATION']}" />
+                                        
+                                        <p:selectOneMenu id="choiceAllMotivAvis"
+                                                         converter="#{motivationAvisConverter}"
+                                                         onchange="javascript:{changeAllMotivAvis('seeOpinionsForm:individuData','classChoiceMotivAvis',this);}">
+                                            <f:selectItem itemLabel="" itemValue="" />
+                                            <f:selectItems var="motivationAllAvis" value="#{nomenclatureController.motivationsAvis}"
+                                                           itemLabel="#{motivationAllAvis.nomenclature.code}-#{motivationAllAvis.nomenclature.shortLabel}"
+                                                           itemValue="#{motivationAllAvis.nomenclature}" />
+                                        </p:selectOneMenu>
+                                    </h:panelGroup>
+                                </f:facet>
+                                <ui:repeat var="indVoeuxPojo" id="indVoeux7"
+                                           value="#{individuPojo.voeuxSortedByLic}">
+                                    <div>
+                                        <p:selectOneMenu id="choiceMotivAvis"
+                                                         styleClass="classChoiceMotivAvis"
+                                                         converter="#{motivationAvisConverter}"
+                                                         value="#{indVoeuxPojo.newAvis.motivationAvis}"
+                                                         disabled="#{indVoeuxPojo.avisEnService.result.isFinal
+                                                                   and indVoeuxPojo.avisEnService.validation}">
+                                            <f:selectItem itemLabel="" itemValue="" />
+                                            <f:selectItems var="motivationAvis"
+                                                           value="#{nomenclatureController.motivationsAvis}"
+                                                           itemLabel="#{motivationAvis.nomenclature.code}-#{motivationAvis.nomenclature.shortLabel}"
+                                                           itemValue="#{motivationAvis.nomenclature}" />
+                                        </p:selectOneMenu>
+                                    </div>
+                                </ui:repeat>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.COMMENTAIRE']}" />
+                                </f:facet>
+                                <ui:repeat  var="indVoeuxPojo" id="indVoeux8"
+                                            value="#{individuPojo.voeuxSortedByLic}">
+                                    <div>
+                                        <p:inputText id="commentaire" size="30"
+                                                     value="#{indVoeuxPojo.newAvis.commentaire}" maxlength="500"
+                                                     disabled="#{indVoeuxPojo.avisEnService.result.isFinal
+                                                               and indVoeuxPojo.avisEnService.validation}" />
+                                    </div>
+                                </ui:repeat>
+                            </p:column>
+                            <p:column>
+                                <ui:repeat var="indVoeuxPojo" id="indVoeux9" rendered="#{managedAccess.updateAuthorized}"
+                                           value="#{individuPojo.voeuxSortedByLic}">
+                                    <div>
+                                        <p:commandButton icon="ui-icon-pencil"
+                                                         immediate="true"
+                                                         title="#{msgs['BUTTON.UPDATE']}"
+                                                         action="#{opinionController.goSeeOpinionVoeu}" ajax="false">
+                                            <f:setPropertyActionListener value="#{indVoeuxPojo}" target="#{opinionController.indVoeuxPojo}" />
+                                            <f:setPropertyActionListener value="#{opinionController.wayfEnum.opinionAllValue}"
+                                                                         target="#{opinionController.wayfEnum.whereAreYouFrom}" />
+                                        </p:commandButton>
+                                    </div>
+                                </ui:repeat>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </p:panel>
             </h:form>
         </p:panel>
     </ui:define>

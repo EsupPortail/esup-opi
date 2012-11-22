@@ -1,35 +1,18 @@
 package org.esupportail.opi.web.controllers.opinions;
 
-import static fj.data.IterableW.wrap;
-import static fj.data.Array.*;
-import static fj.Equal.*;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.zip.ZipOutputStream;
-
-import javax.faces.context.FacesContext;
-
+import fj.F;
+import fj.F2;
+import fj.F5;
+import fj.P2;
+import fj.data.Array;
+import fj.data.Option;
+import fj.data.Stream;
+import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.opi.domain.beans.parameters.InscriptionAdm;
-import org.esupportail.opi.domain.beans.parameters.Refused;
-import org.esupportail.opi.domain.beans.parameters.Transfert;
-import org.esupportail.opi.domain.beans.parameters.TypeDecision;
-import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
+import org.esupportail.opi.domain.beans.parameters.*;
 import org.esupportail.opi.domain.beans.references.calendar.CalendarCmi;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
@@ -42,30 +25,43 @@ import org.esupportail.opi.services.export.CastorService;
 import org.esupportail.opi.services.export.ISerializationService;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
+import org.esupportail.opi.web.beans.paginator.IndividuPojoPaginator;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
-import org.esupportail.opi.web.beans.pojo.AdressePojo;
-import org.esupportail.opi.web.beans.pojo.IndCursusScolPojo;
-import org.esupportail.opi.web.beans.pojo.IndListePrepaPojo;
-import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
-import org.esupportail.opi.web.beans.pojo.IndividuPojo;
-import org.esupportail.opi.web.beans.pojo.NotificationOpinion;
+import org.esupportail.opi.web.beans.pojo.*;
+import org.esupportail.opi.web.controllers.AbstractContextAwareController;
+import org.esupportail.opi.web.controllers.references.CommissionController;
 import org.esupportail.opi.web.utils.ExportUtils;
 import org.esupportail.opi.web.utils.NavigationRulesConst;
 import org.esupportail.opi.web.utils.PDFUtils;
 import org.esupportail.opi.web.utils.Utilitaires;
 import org.esupportail.opi.web.utils.comparator.ComparatorString;
-import org.esupportail.opi.web.controllers.AbstractContextAwareController;
-import org.esupportail.opi.web.controllers.references.CommissionController;
-import org.esupportail.opi.web.utils.paginator.IndividuPojoLDM;
+import org.esupportail.opi.web.utils.fj.Conversions;
+import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.esupportail.wssi.services.remote.BacOuxEqu;
 import org.esupportail.wssi.services.remote.Pays;
 import org.esupportail.wssi.services.remote.SignataireDTO;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+import org.primefaces.model.SortOrder;
 import org.springframework.util.StringUtils;
 
-import fj.F;
-import fj.data.Array;
-import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
+import javax.faces.context.FacesContext;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.zip.ZipOutputStream;
+
+import static fj.Equal.stringEqual;
+import static fj.data.Array.array;
+import static fj.data.IterableW.wrap;
+import static fj.data.List.list;
+import static fj.data.List.nil;
+import static fj.data.Option.fromNull;
+import static fj.data.Stream.iterableStream;
+import static fj.data.Stream.join;
+import static fj.data.Stream.single;
+import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
 
 /**
@@ -215,12 +211,73 @@ public class PrintOpinionController extends AbstractContextAwareController {
      */
     private ISerializationService castorService;
 
+    private IndividuPojoPaginator individuPojoPaginator;
+
     /**
      * individuPojoSelected.
      */
     private IndividuPojo individuPojoSelected;
 
-    private IndividuPojoLDM indPojoLDM;
+    private LazyDataModel<IndividuPojo> indPojoLDM = lazyModel(
+            new F5<Integer, Integer, String, SortOrder, Map<String, String>, P2<Long, Stream<IndividuPojo>>>() {
+                @Override
+                public P2<Long, Stream<IndividuPojo>> f(Integer first, Integer pageSize, String sortField,
+                                                        SortOrder sortOrder, Map<String, String> filters) {
+                    // les types de décisions
+                    Set<TypeDecision> typesDec = new HashSet<TypeDecision>(
+                            list(resultSelected).map(new F<Object, TypeDecision>() {
+                                public TypeDecision f(Object o) {
+                                    return (TypeDecision) o;
+                                }
+                            }).toCollection());
+
+                    // les étapes de la commission
+                    final Stream<Commission> cmis  = join(fromNull(idCommissionSelected).map(
+                            new F<Integer, Stream<Commission>>() {
+                                public Stream<Commission> f(Integer idCmi) {
+                                    return single(getParameterService().getCommission(idCmi, null));
+                                }}).toStream());
+                    final Set<TraitementCmi> trtCmis = new HashSet<TraitementCmi>(
+                            cmis.bind(new F<Commission, Stream<TraitementCmi>>() {
+                                public Stream<TraitementCmi> f(Commission com) {
+                                    return join(fromNull(com.getTraitementCmi()).toStream().map(
+                                            Conversions.<TraitementCmi>setToStream_()));
+                                }
+                            }).toCollection());
+
+                    // les régimes d'inscription
+                    Set<Integer> listCodesRI = new HashSet<Integer>(
+                            wrap(commissionController.getListeRI()).map(new F<RegimeInscription, Integer>() {
+                                public Integer f(RegimeInscription regimeInscription) {
+                                    return regimeInscription.getCode();
+                                }}).toStandardList());
+
+                    // voeu validé ou non
+                    Option<Boolean> validWish = fromNull(selectValid);
+
+                    // le type de traitement
+                    final Option<String> codeTypeTrtmt = fromNull(transfert).map(new F<Transfert, String>() {
+                        public String f(Transfert t) {
+                            return t.getCode();
+                        }});
+
+                    // le 2-tuple de résultat
+                    final P2<Long, Stream<Individu>> tuple =
+                            getDomainService().sliceOfInd(
+                                    new Long(first), new Long(pageSize), sortField, sortOrder, filters,
+                                    typesDec, Option.<Boolean>none(), validWish, codeTypeTrtmt, trtCmis, listCodesRI);
+
+                    return tuple.map2(individuPojoPaginator.individusToPojos());
+                }
+            },
+            new F2<String, IndividuPojo, Boolean>() {
+                public Boolean f(String rowKey, IndividuPojo individuPojo) {
+                    return individuPojo.getIndividu().getId().equals(rowKey);
+                }
+            }
+    );
+
+    private boolean renderTable;
 
     /*
           ******************* INIT ************************* */
@@ -238,7 +295,6 @@ public class PrintOpinionController extends AbstractContextAwareController {
      */
     @Override
     public void reset() {
-        super.reset();
         commissionController.reset();
         this.selectValid = false;
         this.resultSelected = new Object[0];
@@ -254,7 +310,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
         this.allChecked = false;
         this.pdfData = new HashMap<Commission, List<NotificationOpinion>>();
         this.actionEnum = new ActionEnum();
-
+        renderTable = false;
     }
 
     @Override
@@ -282,7 +338,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
      */
     public String goPrintOpinions() {
         reset();
-        setListTypeOpinions();
+//        setListTypeOpinions();
         return NavigationRulesConst.DISPLAY_PRINT_OPINIONS;
     }
 
@@ -1441,11 +1497,23 @@ public class PrintOpinionController extends AbstractContextAwareController {
         this.exportFormOrbeonController = exportFormOrbeonController;
     }
 
-    public IndividuPojoLDM getIndPojoLDM() {
+    public LazyDataModel getIndPojoLDM() {
         return indPojoLDM;
     }
 
-    public void setIndPojoLDM(IndividuPojoLDM indPojoLDM) {
+    public void setIndPojoLDM(LazyDataModel indPojoLDM) {
         this.indPojoLDM = indPojoLDM;
+    }
+
+    public boolean isRenderTable() {
+        return renderTable;
+    }
+
+    public void doRenderTable() {
+        renderTable = true;
+    }
+
+    public void setIndividuPojoPaginator(IndividuPojoPaginator individuPojoPaginator) {
+        this.individuPojoPaginator = individuPojoPaginator;
     }
 }

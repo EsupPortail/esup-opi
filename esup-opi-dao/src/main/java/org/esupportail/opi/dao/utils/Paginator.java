@@ -1,5 +1,29 @@
 package org.esupportail.opi.dao.utils;
-import static fj.data.Option.*;
+
+import com.mysema.query.jpa.JPQLQuery;
+import com.mysema.query.jpa.hibernate.HibernateQuery;
+import com.mysema.query.jpa.impl.JPAQuery;
+import com.mysema.query.support.Expressions;
+import com.mysema.query.types.*;
+import com.mysema.query.types.path.EntityPathBase;
+import com.mysema.query.types.path.PathBuilder;
+import com.mysema.util.ReflectionUtils;
+import fj.*;
+import fj.data.Either;
+import fj.data.List;
+import fj.data.Option;
+import fj.data.Stream;
+import org.hibernate.Session;
+import org.primefaces.model.SortOrder;
+
+import javax.persistence.EntityManager;
+import java.lang.Class;
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Map;
+
+import static fj.Bottom.error;
 import static fj.Function.curry;
 import static fj.P.p;
 import static fj.P2.tuple;
@@ -7,42 +31,8 @@ import static fj.Unit.unit;
 import static fj.data.Either.left;
 import static fj.data.Either.right;
 import static fj.data.List.iterableList;
+import static fj.data.Option.fromNull;
 import static fj.data.Stream.iterableStream;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.Map;
-
-import javax.persistence.EntityManager;
-
-import org.hibernate.Session;
-import org.primefaces.model.SortOrder;
-
-import com.mysema.query.jpa.JPQLQuery;
-import com.mysema.query.jpa.hibernate.HibernateQuery;
-import com.mysema.query.jpa.impl.JPAQuery;
-import com.mysema.query.support.Expressions;
-import com.mysema.query.types.EntityPath;
-import com.mysema.query.types.Ops;
-import com.mysema.query.types.Order;
-import com.mysema.query.types.OrderSpecifier;
-import com.mysema.query.types.PredicateOperation;
-import com.mysema.query.types.path.EntityPathBase;
-import com.mysema.query.types.path.PathBuilder;
-import com.mysema.util.ReflectionUtils;
-
-import fj.F;
-import fj.F2;
-import fj.F3;
-import fj.Function;
-import fj.P1;
-import fj.P2;
-import fj.P3;
-import fj.data.Either;
-import fj.data.List;
-import fj.data.Option;
-import fj.data.Stream;
 
 /**
  * Une classe utilitaire pour effectuer des requêtes paginées sur une BDD.
@@ -67,7 +57,7 @@ import fj.data.Stream;
  * @param <T> Le type d'entités retournées par les requêtes
  */
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public class Paginator<Q extends JPQLQuery, T> {
+public abstract class Paginator<Q extends JPQLQuery, T> {
 
     private final Class<T> ttype;
     
@@ -76,41 +66,48 @@ public class Paginator<Q extends JPQLQuery, T> {
     private final EntityPathBase<T> ent;
     
     private final PathBuilder<T> tPath;
+
+    private Paginator() {
+        ttype = null;
+        dataProvider = null;
+        ent = null;
+        tPath = null;
+    }
 	    
     /**
      * @param mgr un 1-tuple contenant l' {@link EntityManager} JPA si utilisation conjointe à JPA (donc pour {@link Q} = {@link JPAQuery})
-     * @param mgr un 1-tuple contenant la {@link Session} Hibernate si utilisation conjointe à Hibernate (donc pour {@link Q} = {@link HibernateQuery}) 
+     * ou la {@link Session} Hibernate si utilisation conjointe à Hibernate (donc pour {@link Q} = {@link HibernateQuery})
      */
     public Paginator(P1<?> mgr) {
-        // TODO : untiliser un ADT DataProvider = EntityManager | Session + pattern matching
+        // TODO : untiliser un ADT DataProvider = EntityManager | Session + pattern matching ?
+        Type genParam = getTType(mgr.getClass().getGenericSuperclass(), 0);
         dataProvider = (Either<P1<EntityManager>, P1<Session>>)
-                ((mgr instanceof EntityManager) ? left(mgr) : right(mgr));
-        ttype = (Class<T>) getTType();
+                ((genParam.equals(Session.class)) ? right(mgr) : left(mgr));
+        ttype = (Class<T>) getTType(Paginator.this.getClass().getGenericSuperclass(), 1);
         ent = new EntityPathBase<T>(ttype, "ent");
         tPath = new PathBuilder<T>(ttype, ent.getMetadata());        
     }
-    
-    
+
     // ################ reflection utilities ##############
     
     /**
-     * Méthode utilitaire pour retrouver la valeur du type {@link T} utilisée à l'exécution,
+     * Méthode utilitaire pour retrouver la valeur à l'exécution d'un paramètre de type (i.e un générique),
      * et ce en dépit de l'<a href="http://en.wikipedia.org/wiki/Type_erasure">effacement des types</a>
-     * en vigueur sur la jvm. Le procédé qu'elle emploie nécessite que la classe {@link Paginator} soit
-     * instanciée anonymement
+     * en vigueur sur la jvm. Le procédé qu'elle emploie nécessite que la classe dont le type est passé
+     * en paramètre soit instanciée anonymement
      * (cf. <a href="http://www.jquantlib.org/index.php/Using_TypeTokens_to_retrieve_generic_parameters">ici</a>
      * et <a href="http://www.artima.com/weblogs/viewpost.jsp?thread=208860">là</a>).
-     * 
+     *
+     * @param type le {@link Type} de la classe générique dont on veut identifier le type d'un
+     *             des paramètres
+     * @param typeIndex index du type recherché dans le tableau de paramètres de type
      * @return le {@link Type} correspondant au paramètre {@link T} 
      */
-    private Type getTType() {
-        final Type supertype = Paginator.this.getClass().getGenericSuperclass(); 
-        // WARNING : the below cast will only work if the class is
-        //instantiated anonymously !!
-        if (supertype instanceof Class)
-            throw new RuntimeException("Paginator class must be instantiated anonymously !!");
-        final ParameterizedType superPtype = (ParameterizedType) supertype;
-        return superPtype.getActualTypeArguments()[1];
+    private Type getTType(Type type, int typeIndex) {
+        if (type instanceof Class)
+            throw error("Paginator class and its P1 parameter must be instantiated anonymously !!");
+        final ParameterizedType ptype = (ParameterizedType) type;
+        return ptype.getActualTypeArguments()[typeIndex];
     }
     
     /**
@@ -265,7 +262,7 @@ public class Paginator<Q extends JPQLQuery, T> {
 	 * @return Un 2-tuple constitué du nombre d'éléments correspondant à la requête filtrée mais <b>non</b> paginée
 	 * et de la liste des éléments retournés par la requête complète (paginée, filtrée et ordonnée)
 	 */
-	public P2<Long, java.util.List<T>> sliceOf(Long offset, Long limit, String sortField,
+	public final P2<Long, java.util.List<T>> sliceOf(Long offset, Long limit, String sortField,
 	    SortOrder sortOrder, Map<String,String> filters, Option<F<Q, Q>> optCustomfilter) {
 	    final F<Q, Q> customFilter = optCustomfilter.orSome(Function.<Q>identity());
 	    return p(
@@ -277,7 +274,7 @@ public class Paginator<Q extends JPQLQuery, T> {
 	 * Comme {@link Paginator#sliceOf(Long, Long, String, SortOrder, Map, Option)} mais retourne
 	 * les éléments dans un {@link Stream} par commodité 
 	 */
-	public P2<Long, Stream<T>> lazySliceOf(Long offset, Long limit,
+	public final P2<Long, Stream<T>> lazySliceOf(Long offset, Long limit,
 	    String sortField, SortOrder sortOrder, Map<String,String> filters,
 	    Option<F<Q, Q>> optCustomfilter) {
 	    P2<Long, java.util.List<T>> t = sliceOf(
@@ -289,5 +286,5 @@ public class Paginator<Q extends JPQLQuery, T> {
 	 * Utilité pour la construction de filtres supplémentaires à fournir à {@link Paginator#sliceOf(Long, Long, String, SortOrder, Map, Option)}
 	 * @return un {@link PathBuilder} associé à l'entité courante (de type {@link Q})
 	 */
-	public PathBuilder<T> getTPathBuilder() { return tPath; }
+	public final PathBuilder<T> getTPathBuilder() { return tPath; }
 }

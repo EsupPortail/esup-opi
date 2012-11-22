@@ -2,6 +2,7 @@ package org.esupportail.opi.web.utils.fj;
 
 import fj.F;
 import fj.F4;
+import fj.data.Stream;
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.opi.domain.BusinessUtil;
 import org.esupportail.opi.domain.DomainApoService;
@@ -19,6 +20,7 @@ import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import static fj.Function.curry;
 import static org.esupportail.opi.domain.beans.etat.Etat.instanceState;
@@ -27,6 +29,14 @@ import static org.esupportail.opi.web.utils.Utilitaires.*;
 import static fj.data.Stream.iterableStream;
 
 public class Conversions {
+
+    public static <T> F<Set<T>, Stream<T>> setToStream_() {
+        return new F<Set<T>, Stream<T>>() {
+            public Stream<T> f(Set<T> set) {
+                return iterableStream(set);
+            }
+        };
+    }
 
     /**
      * Transforms a {@link IndVoeu} to a {@link IndVoeuPojo} using the given services.

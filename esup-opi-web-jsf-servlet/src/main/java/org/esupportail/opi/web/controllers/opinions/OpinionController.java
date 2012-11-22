@@ -12,25 +12,25 @@ import java.util.TreeSet;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
+import fj.F;
+import fj.F2;
+import fj.F5;
+import fj.P2;
+import fj.data.Option;
+import fj.data.Stream;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.beans.NormeSI;
 import org.esupportail.opi.domain.beans.etat.EtatArriveComplet;
-import org.esupportail.opi.domain.beans.parameters.Campagne;
-import org.esupportail.opi.domain.beans.parameters.InscriptionAdm;
-import org.esupportail.opi.domain.beans.parameters.ListeComplementaire;
-import org.esupportail.opi.domain.beans.parameters.MotivationAvis;
-import org.esupportail.opi.domain.beans.parameters.Preselection;
-import org.esupportail.opi.domain.beans.parameters.Refused;
-import org.esupportail.opi.domain.beans.parameters.Transfert;
-import org.esupportail.opi.domain.beans.parameters.TypeDecision;
+import org.esupportail.opi.domain.beans.parameters.*;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.domain.beans.user.Individu;
+import org.esupportail.opi.domain.beans.user.User;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
@@ -40,18 +40,27 @@ import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.beanEnum.WayfEnum;
 import org.esupportail.opi.web.beans.paginator.IndividuPojoPaginator;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
-import org.esupportail.opi.web.beans.pojo.AvisPojo;
-import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
-import org.esupportail.opi.web.beans.pojo.IndividuPojo;
-import org.esupportail.opi.web.beans.pojo.NomenclaturePojo;
+import org.esupportail.opi.web.beans.pojo.*;
+import org.esupportail.opi.web.controllers.SessionController;
 import org.esupportail.opi.web.utils.NavigationRulesConst;
 import org.esupportail.opi.web.utils.comparator.ComparatorDate;
 import org.esupportail.opi.web.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractAccessController;
 import org.esupportail.opi.web.controllers.parameters.NomenclatureController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
-import org.esupportail.opi.web.utils.paginator.IndividuPojoLDM;
+import org.esupportail.opi.web.utils.fj.Conversions;
+import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+import org.primefaces.model.SortOrder;
+
+import static fj.data.Option.fromNull;
+import static fj.data.Option.fromString;
+import static fj.data.Option.none;
+import static fj.data.Stream.iterableStream;
+import static fj.data.Stream.join;
+import static fj.data.Stream.single;
+import static org.esupportail.opi.web.utils.fj.Conversions.setToStream_;
+import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
 
 /**
@@ -175,7 +184,78 @@ public class OpinionController
 	 */
 	private Map<VersionEtpOpi, List<Integer>> mapTestRang = new HashMap<VersionEtpOpi, List<Integer>>();
 	
-	private IndividuPojoLDM indPojoLDM;
+	private final LazyDataModel<IndividuPojo> indPojoLDM = lazyModel(
+            new F5<Integer, Integer, String, SortOrder, Map<String, String>, P2<Long, Stream<IndividuPojo>>>() {
+                @Override
+                public P2<Long, Stream<IndividuPojo>> f(
+                        Integer first, Integer pageSize, String sortField, SortOrder sortOrder, Map<String, String> filters) {
+                    // le gestionnaire courant
+                    final SessionController sessionCont = getSessionController();
+                    final User user = sessionCont.getCurrentUser();
+                    final Gestionnaire gest = !(user instanceof Gestionnaire) ?
+                            sessionCont.getManager() : (Gestionnaire) user;
+
+                    // les filtres :
+                    IndRechPojo indRechPojo = individuPaginator.getIndRechPojo();
+                    // 1. les numdossier, nom, prenom
+                    filters.put("numDossierOpi", fromString(indRechPojo.getNumDossierOpiRecherche()).orSome(""));
+                    filters.put("nomPatronymique", fromString(indRechPojo.getNomRecherche()).orSome(""));
+                    filters.put("prenom", fromString(indRechPojo.getPrenomRecherche()).orSome(""));
+
+                    // 2. les types de décision
+                    final Set<TypeDecision> typesDec = new HashSet<TypeDecision>(
+                            fromNull(indRechPojo.getTypeDecRecherchee()).toStream().toCollection());
+
+                    // 3. les étapes (TraitementCmi) de la commission
+                    final Integer idCmi = indRechPojo.getIdCmi();
+                    final Stream<Commission> cmis = (idCmi != null) ?
+                            single(getParameterService().getCommission(idCmi, null)) :
+                            iterableStream(getDomainApoService().getListCommissionsByRight(gest, true));
+
+                    final Set<TraitementCmi> trtCmis = new HashSet<TraitementCmi>(
+                            cmis.bind(new F<Commission, Stream<TraitementCmi>>() {
+                                public Stream<TraitementCmi> f(Commission com) {
+                                    return join(fromNull(com.getTraitementCmi()).toStream().map(
+                                            Conversions.<TraitementCmi>setToStream_()));
+                                }
+                            }).toCollection());
+
+                    // 4. les régimes d'inscription
+                    Set<Integer> listCodesRI = new HashSet<Integer>(
+                            iterableStream(fromNull(indRechPojo.getListeRI()).orSome(
+                                    new HashSet<RegimeInscription>())).map(new F<RegimeInscription, Integer>() {
+                                        public Integer f(RegimeInscription ri) {
+                                            return ri.getCode();
+                                        }}).toCollection());
+
+                    // 5. caractère 'traité' ou non du voeu
+                    // TODO : parameterize the condition on wich we apply this filter
+                    final Option<Boolean> wishTreated = none(); //fromNull(!indRechPojo.getExcludeWishProcessed());
+
+                    // 6. le type de traitement
+                    final Option<String> codeTypeTrtmt = fromNull(transfert).map(new F<Transfert, String>() {
+                        public String f(Transfert t) {
+                            return t.getCode();
+                        }
+                    });
+
+                    // le 2-tuple de résultat
+                    final P2<Long, Stream<Individu>> tuple =
+                            getDomainService().sliceOfInd(
+                                    new Long(first), new Long(pageSize), sortField, sortOrder, filters,
+                                    typesDec, wishTreated, Option.<Boolean>none(), codeTypeTrtmt, trtCmis, listCodesRI);
+
+                    return tuple.map2(individuPaginator.individusToPojos());
+                }
+            },
+            new F2<String, IndividuPojo, Boolean>() {
+                public Boolean f(String rowKey, IndividuPojo individuPojo) {
+                    return individuPojo.getIndividu().getId().equals(rowKey);
+                }
+            }
+    );
+
+    private boolean renderTable;
 	
 	/*
 	 ******************* INIT ************************* */
@@ -192,7 +272,6 @@ public class OpinionController
 	 */
 	@Override
 	public void reset() {
-		super.reset();
 		actionEnum = new ActionEnum();
 		wayfEnum = new WayfEnum();
 		listAvisPojo = new ArrayList<AvisPojo>();
@@ -203,7 +282,10 @@ public class OpinionController
 		idSelectedMotiv = null;
 		selectedMotivation = null;
 		mapTestRang.clear();
-	}
+        individuPaginator.reset();
+        individuPaginator.initListeRI();
+        renderTable = false;
+    }
 
 	/** 
 	 * @see org.esupportail.opi.web.controllers.AbstractContextAwareController#afterPropertiesSetInternal()
@@ -239,18 +321,16 @@ public class OpinionController
 	/*
 	 ******************* CALLBACK ********************** */
 
+    private String resetAndGo(String to) {
+        reset();
+        return to;
+    }
 	/**
 	 * Callback to list of student for the gestion of the opinions.
 	 * @return String 
 	 */
     public String goEnterAllStudentsOpinions() {
-//		reset();
-//		individuPaginator.reset();
-//		individuPaginator.filtreAllCommissionRights(
-//				getDomainApoService().getListCommissionsByRight(
-//						getCurrentGest(), true), false, transfert.getCode());
-//		individuPaginator.forceReload();
-		return NavigationRulesConst.ENTER_ALL_STUDENTS_OPINIONS;
+		return resetAndGo(NavigationRulesConst.ENTER_ALL_STUDENTS_OPINIONS);
 	}
 
 	/**
@@ -258,15 +338,7 @@ public class OpinionController
 	 * @return String 	
 	 */
 	public String goEnterStudentsOpinions() {
-		reset();
-		individuPaginator.reset();
-		individuPaginator.setUseIndividuPojo(true);
-		individuPaginator.filtreAllCommissionRights(
-		    getDomainApoService().getListCommissionsByRight(
-						getCurrentGest(), 
-						true), false, transfert.getCode());
-		individuPaginator.forceReload();
-		return NavigationRulesConst.ENTER_STUDENTS_OPINIONS;
+		return resetAndGo(NavigationRulesConst.ENTER_STUDENTS_OPINIONS);
 	}
 
 	/**
@@ -370,7 +442,7 @@ public class OpinionController
 		Set<IndVoeuPojo> voeuxInError = new HashSet<IndVoeuPojo>();
 		//R�cup�ration de tous les nouveaus avis
 		Map<Integer, IndVoeuPojo> mapIndVoeuPojoNewAvis = new HashMap<Integer, IndVoeuPojo>();
-		for (IndividuPojo ind : indPojoLDM.getIndPojos()) {
+		for (IndividuPojo ind : indPojoLDM.getData()) {
 			//parcours + recup newAvis
 			for (IndVoeuPojo indVoeuPojo : ind.getIndVoeuxPojo()) {
 				if (indVoeuPojo.getNewAvis().getResult() != null) {
@@ -472,12 +544,12 @@ public class OpinionController
 			}
 			//7468 Pbs saisie résultat résultat défavorable (oubli de la motivation)
 			wishSelected = new HashMap<Individu, List<IndVoeuPojo>>();
-		} else { addInfoMessage(null, "AVIS.INFO.TYP_DEC.NOT_SELECT"); } 
+		} else { addInfoMessage(null, "AVIS.INFO.TYP_DEC.NOT_SELECT"); }
 	}
 	
 	public void checkAll() {
 		if (allChecked) {
-			for (IndividuPojo ind : indPojoLDM.getIndPojos()) {
+			for (IndividuPojo ind : indPojoLDM.getData()) {
 				wishSelected.put(ind.getIndividu(), new ArrayList<IndVoeuPojo>(ind.getIndVoeuxPojo()));
 			} 
 		} else {
@@ -489,7 +561,7 @@ public class OpinionController
 	 * @param voeuxInError
 	 */
 	private void setVoeuxInErrorInPaginator(final Set<IndVoeuPojo> voeuxInError) {
-		for (IndividuPojo ind : indPojoLDM.getIndPojos()) {
+		for (IndividuPojo ind : indPojoLDM.getData()) {
 			for (IndVoeuPojo iPojo : ind.getIndVoeuxPojo()) {
 				for (IndVoeuPojo iPojoError : voeuxInError) {
 					if (iPojoError.equals(iPojo)) {
@@ -687,8 +759,8 @@ public class OpinionController
 	 */
 	public void selectTypeDecision() {
 		selectTypeDecisionOpinion(null, true);
-		indPojoLDM.setIndPojos(
-                individuPaginator.updateIndPojos(indPojoLDM.getIndPojos()));
+//		indPojoLDM.setIndPojos(
+//                individuPaginator.updateIndPojos(indPojoLDM.getData()));
 	}
 
 	/**
@@ -698,7 +770,7 @@ public class OpinionController
 	public void selectTypeDecisionIndividu() {
 		//individuPaginator.resetNotSuper(false);
 		//mise a jour des indvoeu pojo
-		for (IndividuPojo iPojo : indPojoLDM.getIndPojos()) {
+		for (IndividuPojo iPojo : indPojoLDM.getData()) {
 			for (IndVoeuPojo ivPojo : iPojo.getIndVoeuxPojo()) {
 				TypeDecision newDec = ivPojo.getNewAvis().getResult();
 				if (newDec != null
@@ -1183,7 +1255,7 @@ public class OpinionController
 	 * FIXME : Or not ? A hack to comply with jsf
 	 */
 	public void setWishSelected(final Set<Integer> wishesIds) {
-        for (IndividuPojo indP : indPojoLDM.getIndPojos())
+        for (IndividuPojo indP : indPojoLDM.getData())
 			for (IndVoeuPojo ivp : indP.getIndVoeuxPojo())
 				for (Integer id : wishesIds)
 					if (id.equals(ivp.getIndVoeu().getId())) {
@@ -1244,12 +1316,15 @@ public class OpinionController
 		this.inscriptionAdm = inscriptionAdm;
 	}
 
-    public IndividuPojoLDM getIndPojoLDM() {
+    public LazyDataModel<IndividuPojo> getIndPojoLDM() {
         return indPojoLDM;
     }
 
-    public void setIndPojoLDM(IndividuPojoLDM indPojoLDM) {
-        this.indPojoLDM = indPojoLDM;
+    public boolean isRenderTable() {
+        return renderTable;
     }
 
+    public void doRenderTable() {
+        this.renderTable = true;
+    }
 }

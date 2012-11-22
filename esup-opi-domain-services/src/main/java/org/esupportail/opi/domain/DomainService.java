@@ -185,10 +185,9 @@ public interface DomainService extends Serializable {
 	 * @param typesDec TODO
 	 * @return
 	 */
-	P2<Long, Stream<Individu>> sliceOfInd(Long offset, Long limit, String sortField, SortOrder sortOrder,
-	        Map<String, String> filters, Stream<Option<String>> stringFilters, Option<TypeDecision> typesDec,
-            Option<Boolean> treatedWish, Option<String> codeTypeTrtmt, Set<TraitementCmi> trtCmis,
-            Set<Integer> listCodesRI);
+	P2<Long, Stream<Individu>> sliceOfInd(Long offset, Long limit, String sortField, SortOrder sortOrder, Map<String, String> filters,
+                                          Set<TypeDecision> typesDec, Option<Boolean> validWish, Option<Boolean> treatedWish,
+                                          Option<String> codeTypeTrtmt, Set<TraitementCmi> trtCmis, Set<Integer> listCodesRI);
 
 	/**
 	 * @param individu
@@ -274,7 +273,6 @@ public interface DomainService extends Serializable {
 	 * update individu's state. 
 	 * @param individu
 	 * @param manager
-	 * @param controlField
 	 * @return Individu.
 	 */
 	//TODO: FIx this !!
