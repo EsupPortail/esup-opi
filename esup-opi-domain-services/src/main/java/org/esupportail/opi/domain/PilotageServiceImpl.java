@@ -52,7 +52,7 @@ import org.springframework.util.StringUtils;
  * 
  * See /properties/domain/domain.xml
  */
-public class PilotageServiceImpl extends AbstractDomainService implements PilotageService {
+public class PilotageServiceImpl implements PilotageService {
 	/*
 	 * ******************* PROPERTIES STATIC ******************* */
 	/**
@@ -136,9 +136,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 	/**
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
-	@Override
 	public void afterPropertiesSet() {
-		super.afterPropertiesSet();
 		Assert.notNull(this.daoService, "property daoService of class "
 				+ this.getClass().getName() + " can not be null");
 		Assert.notNull(this.domainApoService, "property domainApoService of class "

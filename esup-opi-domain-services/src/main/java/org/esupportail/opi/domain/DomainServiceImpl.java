@@ -63,7 +63,7 @@ import org.esupportail.opi.utils.ldap.LdapAttributes;
  * 
  * See /properties/domain/domain-example.xml
  */
-public class DomainServiceImpl extends AbstractDomainService implements DomainService {
+public class DomainServiceImpl implements DomainService {
 
 	
 	/**
@@ -115,9 +115,7 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 	/**
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
-	@Override
 	public void afterPropertiesSet() {
-		super.afterPropertiesSet();
 		Assert.notNull(this.daoService, "property daoService of class "
 				+ this.getClass().getName() + " can not be null");
 		Assert.notNull(this.ldapUserService,

@@ -42,7 +42,6 @@
 	<import resource="portal/portal.xml" />
 	<import resource="classpath*:/META-INF/remote/remote.xml" />
 	<import resource="classpath*:/META-INF/export/castor.xml" />
-	<import resource="classpath*:/META-INF/export/export.xml" />
 	<import resource="classpath*:/META-INF/mails/mails.xml" /> 
 	<import resource="classpath*:/META-INF/mails/mailConvocations.xml" /> 
 	<import resource="classpath*:/META-INF/smtp/smtp.xml" />

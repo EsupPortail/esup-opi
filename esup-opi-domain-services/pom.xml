@@ -73,18 +73,12 @@
             <artifactId>esup-commons2-jsf2-exception</artifactId>
             <version>${esupcommons.version}</version>
         </dependency>
-        <!-- <dependency> -->
-        <!-- <groupId>orbeon</groupId> -->
-        <!-- <artifactId>orbeon-war</artifactId> -->
-        <!-- <version>3.9.0.201105152046-CE</version> -->
-        <!-- <type>war</type> -->
-        <!-- </dependency> -->
-        <!-- <dependency> -->
-        <!-- <groupId>orbeon</groupId> -->
-        <!-- <artifactId>orbeon-war</artifactId> -->
-        <!-- <version>3.9.0.201105152046-CE</version> -->
-        <!-- <type>warpath</type> -->
-        <!-- </dependency> -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>${javax.servlet.version}</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-commons2-annotations</artifactId>

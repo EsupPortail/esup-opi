@@ -24,7 +24,6 @@
 	
 	<import resource="classpath*:/META-INF/remote/remote.xml" />
 	<import resource="classpath*:/META-INF/domain/domain.xml" />
-	<import resource="classpath*:/META-INF/export/export.xml" />
 	<import resource="classpath*:/META-INF/esup-opi-dao-dao.xml" />
 	<import resource="classpath*:/META-INF/urlGeneration/urlGeneration.xml" />
 	<import resource="classpath*:/META-INF/ldap/ldap.xml" />

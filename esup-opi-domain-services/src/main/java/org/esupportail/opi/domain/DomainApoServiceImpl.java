@@ -97,7 +97,7 @@ import gouv.education.apogee.commun.transverse.dto.pedagogique.resultatvetdto.Re
  * See /properties/domain/domain.xml
  */
 @SuppressWarnings("serial")
-public class DomainApoServiceImpl extends AbstractDomainService implements DomainApoService {
+public class DomainApoServiceImpl implements DomainApoService {
 
 	/**
 	 * The serialization id.
@@ -207,9 +207,7 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	/**
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
-	@Override
 	public void afterPropertiesSet() {
-		super.afterPropertiesSet();
 		Assert.notNull(this.remoteCriApogeeRef, 
 				"property remoteCriApogeeRef of class " 
 				+ this.getClass().getName() + " can not be null");

@@ -29,20 +29,8 @@
         </tx:attributes>
     </tx:advice>
     
-	<bean id="abstractDomainService" 
-		abstract="true"
-		>
-		<description>
-			An abstract bean to the all domain service.
-		</description>
-		<property name="jobDetail"><ref bean="flushCacheThread"/></property>
-       <property name="schedulerFlushCache"><ref bean="schedulerFlushCache"/></property> 
-	</bean>
-
-
 	<bean
 		id="domainService"
-		parent="abstractDomainService"
 		class="org.esupportail.opi.domain.DomainServiceImpl"
 		>
 		<property name="daoService" ref="daoService" />
@@ -55,7 +43,6 @@
 	
 	<bean
 		id="parameterService"
-		parent="abstractDomainService"
 		class="org.esupportail.opi.domain.ParameterServiceImpl"
 		>
 		<property name="daoService" ref="paramDaoService" />
@@ -115,7 +102,6 @@
 	
 	<bean
 		id="domainApoService"
-		parent="abstractDomainService"
 		class="org.esupportail.opi.domain.DomainApoServiceImpl"
 		>
 		<property name="remoteCriApogeeRef" ref="remoteCriApogeeRef" />
@@ -139,7 +125,6 @@
 	
 	<bean
 		id="businessCacheService"
-		parent="abstractDomainService"
 		class="org.esupportail.opi.domain.BusinessCacheServiceImpl">
 		<property name="domainApoService" ref="domainApoService" />
 		<property name="cacheManager" ref="cacheManager" />
@@ -148,7 +133,6 @@
 	
 	<bean
 		id="orbeonService"
-		parent="abstractDomainService"
 		class="org.esupportail.opi.domain.OrbeonServiceImpl"
 		>
 		<property name="xslXmlPath" value="${xsl_xml.path}" />
@@ -172,7 +156,6 @@
 	
 	<bean
 		id="pilotageService"
-		parent="abstractDomainService"
 		class="org.esupportail.opi.domain.PilotageServiceImpl"
 		>
 		<property name="daoService" ref="pilotageDaoService" />
