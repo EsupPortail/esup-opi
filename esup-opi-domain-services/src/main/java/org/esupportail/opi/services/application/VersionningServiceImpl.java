@@ -144,7 +144,7 @@ public class VersionningServiceImpl implements VersionningService {
 	public void setDatabaseVersion(
 			final String version, 
 			final boolean silent) {
-		getDomainService().setDatabaseVersion(version);
+		getDomainService().updateDatabaseVersion(version);
 		if (!silent) {
 			logger.info("database version set to " + version + ".");
 		}
@@ -305,14 +305,10 @@ public class VersionningServiceImpl implements VersionningService {
 			logger.info("The database is up to date, no need to upgrade.");
 			return false;
 		}
-		DatabaseUtils.update();
 		upgradeDatabaseIfNeeded("0.1.0");
 		if (!getDatabaseVersion().equals(getApplicationService().getVersion())) {
 			setDatabaseVersion(getApplicationService().getVersion().toString(), false);
 		}
-
-		//UPDATE MailContent
-		updateMailContent();
 		
 		return false;
 	}
@@ -361,24 +357,6 @@ public class VersionningServiceImpl implements VersionningService {
 		//ADD traitments
 		Map<String, Traitement> treatments = ApplicationContextHolder.getContext().getBeansOfType(Traitement.class);
 		List<Domain> domains = new ArrayList<Domain>();
-//		for (String name : treatments.keySet()) {
-//			if (logger.isDebugEnabled()) {
-//				logger.debug("get to treatments bean [" + name + "]...");
-//			}
-//			Object bean = treatments.get(name);
-//			if (bean == null) {
-//				throw new ConfigException("bean [" + name 
-//						+ "] is null, " 
-//						+ "application doesn't init treatment in dataBase.");
-//			}
-//			if (!(bean instanceof Traitement)) {
-//				throw new ConfigException("bean [" + name 
-//						+ "] does not extends Traitement, " 
-//						+ "application doesn't init treatment in dataBase.");
-//			}
-//			if (bean instanceof Domain) { domains.add((Domain) bean); }
-//			
-//		}
 		for (Entry<String, Traitement> treatment : treatments.entrySet()) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("get to treatments bean [" + treatment.getKey() + "]...");
@@ -406,24 +384,6 @@ public class VersionningServiceImpl implements VersionningService {
 		//ADD traitments
 		Map<String, Traitement> treatments = ApplicationContextHolder.getContext().getBeansOfType(Traitement.class);
 		List<Fonction> functions = new ArrayList<Fonction>();
-//		for (String name : treatments.keySet()) {
-//			if (logger.isDebugEnabled()) {
-//				logger.debug("get to treatments bean [" + name + "]...");
-//			}
-//			Object bean = treatments.get(name);
-//			if (bean == null) {
-//				throw new ConfigException("bean [" + name 
-//						+ "] is null, " 
-//						+ "application doesn't init treatment in dataBase.");
-//			}
-//			if (!(bean instanceof Traitement)) {
-//				throw new ConfigException("bean [" + name 
-//						+ "] does not extends Traitement, " 
-//						+ "application doesn't init treatment in dataBase.");
-//			}
-//			if (bean instanceof Fonction) { functions.add((Fonction) bean); }
-//			
-//		}
 		for (Entry<String, Traitement> treatment : treatments.entrySet()) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("get to treatments bean [" + treatment.getKey() + "]...");
@@ -491,24 +451,6 @@ public class VersionningServiceImpl implements VersionningService {
 		//ADD traitments
 		Map<String, MailContentService> mailContentServices = ApplicationContextHolder.getContext().getBeansOfType(MailContentService.class);
 		Set<MailContentService> mails = new HashSet<MailContentService>();
-//		for (String name : mailContentServices.keySet()) {
-//			if (logger.isDebugEnabled()) {
-//				logger.debug("get to mailContentService bean [" + name + "]...");
-//			}
-//			Object bean = mailContentServices.get(name);
-//			if (bean == null) {
-//				throw new ConfigException("bean [" + name 
-//						+ "] is null, " 
-//						+ "application contains not mail.");
-//			}
-//			if (!(bean instanceof MailContentService)) {
-//				throw new ConfigException("bean [" + name 
-//						+ "] does not implement MailContentService, " 
-//						+ "application contains not mail.");
-//			}
-//			MailContentService service = (MailContentService) bean;
-//			mails.add(service);
-//		}
 		for (Entry<String, MailContentService> mail : mailContentServices.entrySet()) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("get to treatments bean [" + mail.getKey() + "]...");

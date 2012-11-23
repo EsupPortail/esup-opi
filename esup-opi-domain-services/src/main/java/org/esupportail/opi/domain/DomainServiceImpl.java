@@ -817,7 +817,7 @@ public class DomainServiceImpl implements DomainService {
 	/**
 	 * @see org.esupportail.opi.domain.DomainService#setDatabaseVersion(java.lang.String)
 	 */
-	public void setDatabaseVersion(final String version) {
+	public void updateDatabaseVersion(final String version) {
 		if (log.isDebugEnabled()) {
 			log.debug("setting database version to '" + version + "'...");
 		}
@@ -833,8 +833,8 @@ public class DomainServiceImpl implements DomainService {
 	 * @see org.esupportail.opi.domain.DomainService#setDatabaseVersion(
 	 * 	org.esupportail.commons.services.application.Version)
 	 */
-	public void setDatabaseVersion(final Version version) {
-		setDatabaseVersion(version.toString());
+	public void updateDatabaseVersion(final Version version) {
+		updateDatabaseVersion(version.toString());
 	}
 
 	// ////////////////////////////////////////////////////////////

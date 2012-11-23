@@ -91,6 +91,7 @@ public class DbAdmin {
 		System.setProperties(properties);
 		VersionningService versionningService = getVersionningService();
 		versionningService.initDatabase();
+		versionningService.upgradeDatabase();
 	}
 
 	/**
