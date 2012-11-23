@@ -10,7 +10,7 @@ Exec du war en mode :
 debug :
 cd esup-opi-web-jsf-servlet ; mvnDebug -Dconfig.location=$configFile jetty:run ; cd -
 nomal :
-cd esup-opi-web-jsf-servlet ; mvnDebug -Dconfig.location=$configFile jetty:run ; cd -
+cd esup-opi-web-jsf-servlet ; mvn -Dconfig.location=$configFile jetty:run ; cd -
 
 Création d'une release :
 mvn release:prepare -Darguments="-Dconfig.location=$configFile"

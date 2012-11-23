@@ -93,7 +93,7 @@
 		</property>
         <property name="hibernateProperties" >
             <props>
-                <prop key="hibernate.hbm2ddl.auto">#{ systemProperties[hbm2ddl]?:validate }</prop>
+                <prop key="hibernate.hbm2ddl.auto">#{ systemProperties[hbm2ddl]?:'validate' }</prop>
             </props>
 		</property>
 	</bean>
@@ -136,11 +136,6 @@
 		<description>
 			The session factory based on JNDI.
 		</description>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.hbm2ddl.auto">#{systemProperties[hbm2ddl]?:validate }</prop>
-            </props>
-        </property>
    	</bean>
 
 	<!-- end of the session factories -->
