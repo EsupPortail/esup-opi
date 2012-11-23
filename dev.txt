@@ -1,6 +1,6 @@
 Commandes utiles :
 
-Positionnement de l'environnement ($configFile) :
+Positionnement de l'environnement ($configFile et $version) :
 env.sh
 
 Installation des modules dans le repo maven local :

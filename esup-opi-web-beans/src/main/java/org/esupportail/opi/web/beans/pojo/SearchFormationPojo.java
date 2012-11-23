@@ -13,15 +13,6 @@ import org.esupportail.opi.domain.beans.formation.GrpTypDip;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.wssi.services.remote.VersionDiplomeDTO;
 
-
-
-
-
-
-
-
-
-
 /**
  * @author cleprous
  *
