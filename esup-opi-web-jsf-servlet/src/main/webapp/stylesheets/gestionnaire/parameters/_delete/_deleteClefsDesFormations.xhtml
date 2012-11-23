@@ -6,9 +6,9 @@
     	<div style="width:100%;">
     		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
     			styleClass="tableJustWidthMax">
-    			<h:outputText value="#{msgs['CLEF.CONFIRM.DELETE']}">
+    			<h:outputFormat value="#{msgs['CLEF.CONFIRM.DELETE']}">
     				<f:param value="#{paramClefFormationController.cles.ren1ClesAnnuForm.codCles}"/>
-    			</h:outputText>
+    			</h:outputFormat>
     			<h:panelGroup>
     				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
     					action="#{paramClefFormationController.delete}"/>

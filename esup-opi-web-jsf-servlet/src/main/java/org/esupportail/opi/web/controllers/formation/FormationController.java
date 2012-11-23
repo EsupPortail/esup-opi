@@ -5,10 +5,13 @@ package org.esupportail.opi.web.controllers.formation;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
@@ -356,34 +359,33 @@ public class FormationController extends AbstractAccessController {
 	 */
 	public List<SelectItem> getKeyWordItems() {
 		List<SelectItem> l = new ArrayList<SelectItem>();
-		if (getSearchFormationPojo().getGroupTypSelected() != null) {
+		if (getSearchFormationPojo().getGroupTypSelected() != null) {			
 			String locale = getSessionController().getLocale().getLanguage();
 			
-			Set<Domaine2AnnuForm> domain = 
+			Map<Domaine2AnnuForm, List<Cles2AnnuForm>> domains = 
 				getDomainApoService().getDomaine2AnnuForm(
 						getSearchFormationPojo().getGroupTypSelected(), locale.toUpperCase());
 
 			List<SelectItem> listGroup = new ArrayList<SelectItem>();
-			SelectItem[] listS2;
 			SelectItemGroup group = null;
-			SelectItem s;
-			s = new SelectItem("", "");
-			l.add(s);
+			l.add(new SelectItem("", ""));
 
-			for (Domaine2AnnuForm dom: domain) {
-				List<Cles2AnnuForm> lcles2 = getDomainApoService().getCles2AnnuForm(
-						dom.getCodDom(), locale.toUpperCase()); 
-				int cpt = 0;
-				listS2 = new SelectItem[lcles2.size()];
-				//tri de ren1.getRen1Cles2AnnuFormDTO()
-				Collections.sort(lcles2, new ComparatorString(Cles2AnnuForm.class));
-				for (Cles2AnnuForm cles : lcles2) {
-					s = new SelectItem(cles.getClesAnnuForm().getCodCles(), cles.getLibCles());
-					listS2[cpt] = s;
-					cpt++;
+			for (Entry<Domaine2AnnuForm, List<Cles2AnnuForm>> entry: domains.entrySet()) {
+				Set<SelectItem> si = new TreeSet<SelectItem>(new Comparator<SelectItem>() {
+					
+					@Override
+					public int compare(SelectItem s1, SelectItem s2) {
+						String cmp1 = s1.getLabel() + s1.getValue();
+						String cmp2 = s2.getLabel() + s2.getValue();
+						return cmp1.compareToIgnoreCase(cmp2);
+					}
+				});
+				for (Cles2AnnuForm cles : entry.getValue()) {
+					SelectItem s = new SelectItem(cles.getClesAnnuForm().getCodCles(), cles.getLibCles());
+					si.add(s);
 				}
-				if (listS2.length != 0) {
-					group = new SelectItemGroup(dom.getLibDom() , null, false, listS2);
+				if (si.size() != 0) {
+					group = new SelectItemGroup(entry.getKey().getLibDom() , null, false, si.toArray(new SelectItem[si.size()]));
 					listGroup.add(group);
 				}
 
@@ -393,17 +395,6 @@ public class FormationController extends AbstractAccessController {
 
 		}
 		return l;
-	}
-
-	/**
-	 * The selected domain.
-	 * @param event
-	 */
-	public void selectKeyWord(final ValueChangeEvent event) {
-		getSearchFormationPojo().setCodKeyWordSelected((String) event.getNewValue());
-		selectKeyWord();
-		FacesContext.getCurrentInstance().renderResponse();
-		searchFormationPojo.setVersionEtapes(null);
 	}
 
 	/**

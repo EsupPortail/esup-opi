@@ -332,7 +332,6 @@ public class SessionController extends AbstractDomainAwareBean {
 		request.getSession().invalidate();
 		request.getSession(true);
 		// calling this method will reset all the beans of the application
-		exceptionController.restart();
 		externalContext.redirect(forwardUrl);
 		facesContext.responseComplete();
 		return null;

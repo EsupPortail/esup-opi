@@ -8,7 +8,8 @@
  */
 package org.esupportail.opi.web.beans.pojo;
 
-import static fj.data.Option.*;
+import static fj.data.Option.fromNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -21,7 +22,6 @@ import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections.comparators.NullComparator;
 import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.services.i18n.I18nService;
-import org.esupportail.opi.domain.BusinessCacheService;
 import org.esupportail.opi.domain.BusinessUtil;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;

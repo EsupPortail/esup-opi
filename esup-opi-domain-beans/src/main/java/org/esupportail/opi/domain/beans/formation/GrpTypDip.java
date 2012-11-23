@@ -7,6 +7,8 @@ package org.esupportail.opi.domain.beans.formation;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -71,54 +73,42 @@ public class GrpTypDip implements Serializable {
 		return "GrpTypDip#" + hashCode() + "[codGrpTpd=[" + codGrpTpd 
 		+ "], libGrpTpd=[" + libGrpTpd + "], temEnSveGrpTpd=[" + temEnSveGrpTpd + "]]";
 	}
-	
-	/** 
-	 * @see java.lang.Object#hashCode()
-	 */
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
 				+ ((codGrpTpd == null) ? 0 : codGrpTpd.hashCode());
-		result = prime * result
-				+ ((libGrpTpd == null) ? 0 : libGrpTpd.hashCode());
-		result = prime
-				* result
-				+ ((GrpTypDipCorresps == null) ? 0 : GrpTypDipCorresps
-						.hashCode());
-		result = prime * result
-				+ ((temEnSveGrpTpd == null) ? 0 : temEnSveGrpTpd.hashCode());
 		return result;
 	}
 
-	/** 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj) { return true; }
-		if (obj == null) { return false; }
-		if (!(obj instanceof GrpTypDip)) { return false; }
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
 		GrpTypDip other = (GrpTypDip) obj;
 		if (codGrpTpd == null) {
-			if (other.codGrpTpd != null) { return false; }
-		} else if (!codGrpTpd.equals(other.codGrpTpd)) { return false; }
-		if (libGrpTpd == null) {
-			if (other.libGrpTpd != null) { return false; }
-		} else if (!libGrpTpd.equals(other.libGrpTpd)) { return false; }
-		if (GrpTypDipCorresps == null) {
-			if (other.GrpTypDipCorresps != null) { return false; }
-		} else if (!GrpTypDipCorresps.equals(other.GrpTypDipCorresps)) { return false; }
-		if (temEnSveGrpTpd == null) {
-			if (other.temEnSveGrpTpd != null) {	return false; }
-		} else if (!temEnSveGrpTpd.equals(other.temEnSveGrpTpd)) { return false; }
+			if (other.codGrpTpd != null) {
+				return false;
+			}
+		} else if (!codGrpTpd.equals(other.codGrpTpd)) {
+			return false;
+		}
 		return true;
 	}
 
 	/*
 	 ******************* ACCESSORS ******************* */
 	
+
 	/**
 	 * @return the codGrpTpd
 	 */
@@ -167,6 +157,10 @@ public class GrpTypDip implements Serializable {
 	public void setGrpTypDipCorresps(
 			final Set<GrpTypDipCorresp> GrpTypDipCorresps) {
 		this.GrpTypDipCorresps = GrpTypDipCorresps;
+	}
+	
+	public List<GrpTypDipCorresp> getListGrpTypDipCorresps() {
+		return new ArrayList<GrpTypDipCorresp>(GrpTypDipCorresps);
 	}
 
 	

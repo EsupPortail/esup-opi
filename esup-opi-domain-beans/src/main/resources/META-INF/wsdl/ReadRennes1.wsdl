@@ -2,6 +2,7 @@
 <wsdl:definitions targetNamespace="http://remote.services.apogee.cri.rennes1.univ.fr" xmlns:ns2="http://dto.domain.apogee.cri.rennes1.univ.fr" xmlns:ns1="http://enseignement.dto.domain.apogee.esupportail.org" xmlns:ns3="http://beans.domain.apogee.cri.rennes1.univ.fr" xmlns:soapenc12="http://www.w3.org/2003/05/soap-encoding" xmlns:tns="http://remote.services.apogee.cri.rennes1.univ.fr" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap11="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc11="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
     <wsdl:types>
         <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://remote.services.apogee.cri.rennes1.univ.fr">
+        
             <xsd:element name="getCodesDiplomes">
                 <xsd:complexType>
                     <xsd:sequence>

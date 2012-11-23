@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
-       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<!-- Interface d'accès à Apogee via web service -->
@@ -14,8 +14,9 @@
 
 	<!-- Interface d'accès à Apogee via bdd -->
 	<bean id="bddApogee" class="org.esupportail.opi.services.remote.client.BDDApogee"
-		factory-method="bddApogee" lazy-init="true">
-		<constructor-arg ref="remoteCriApogeeEns" />
+		factory-method="bddApogee">
+        <constructor-arg ref="remoteCriApogeeEns" />
+        <constructor-arg ref="opiDaoService" />
 	</bean>
 
 

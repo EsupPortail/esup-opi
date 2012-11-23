@@ -235,6 +235,7 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 		FacesContext fc = FacesContext.getCurrentInstance();
 		ExpressionFactory factory = fc.getApplication().getExpressionFactory();
 		MenuItem accueil = new MenuItem();
+		accueil.setAjax(false);
 		accueil.setValue(i18nService.getString("NAVIGATION.TEXT.WELCOME"));
 		accueil.setActionExpression(factory.createMethodExpression(fc.getELContext(), "#{welcomeController.goWelcomeManager}", String.class, new Class[]{}));
 		menuModel.addMenuItem(accueil);
@@ -259,6 +260,7 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 						MenuItem sub = new MenuItem();
 						sub.setValue(d.getLibelle());
 						sub.setActionExpression(me);
+						sub.setAjax(false);
 						menuModel.addMenuItem(sub);
 					} else {
 						Submenu sub = new Submenu();
@@ -276,6 +278,7 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 							MenuItem item = new MenuItem();
 							item.setValue(f.getLibelle());
 							item.setActionExpression(me);
+							item.setAjax(false);
 							sub.getChildren().add(item);
 						}
 						menuModel.addSubmenu(sub);
@@ -287,6 +290,7 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 		logout.setRendered(sessionController.getIsServlet());
 		logout.setValue(i18nService.getString("NAVIGATION.TEXT.LOGOUT"));
 		logout.setActionExpression(factory.createMethodExpression(fc.getELContext(), "#{sessionController.logoutGest}", String.class, new Class[]{}));
+		logout.setAjax(false);
 		menuModel.addMenuItem(logout);
 		
 		return menuModel;

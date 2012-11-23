@@ -2,7 +2,11 @@ package org.esupportail.opi.utils.fj;
 
 import static fj.data.IterableW.wrap;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 import org.esupportail.opi.domain.beans.formation.Cles2AnnuForm;
 import org.esupportail.opi.domain.beans.formation.Cles2AnnuFormId;
@@ -13,6 +17,8 @@ import org.esupportail.opi.domain.beans.formation.GrpTypDip;
 import org.esupportail.opi.domain.beans.formation.GrpTypDipCorresp;
 
 import fj.F;
+import static fj.data.Stream.*;
+import static fj.P.*;
 import fr.univ.rennes1.cri.apogee.domain.beans.ArrayOfRen1GrpTypDipCorresp;
 import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip;
 import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDipCorresp;
@@ -40,7 +46,7 @@ public class Conversions {
 			new F<GrpTypDipCorresp, Ren1GrpTypDipCorresp>() {
 				public Ren1GrpTypDipCorresp f(final GrpTypDipCorresp g) {
 					return new Ren1GrpTypDipCorresp()
-					.withCodGrpTpd(g.getCodGrpTpd())
+					.withCodGrpTpd(g.getGrpTpd().getCodGrpTpd())
 					.withCodTpdEtb(g.getCodTpdEtb());
 				}
 			};
@@ -80,7 +86,7 @@ public class Conversions {
 		    							toR1GrpTypDipCorresp).toStandardList()));
 		    }
 	};
-	
+
 	/**
 	 * A {@link F}unction that converts a {@link Ren1Domaine2AnnuFormDTO} to a
 	 * {@link Domaine2AnnuForm}
@@ -96,6 +102,30 @@ public class Conversions {
 									r1d.getTemSveDom()));
 				}
 			};
+	/**
+	 * A {@link F}unction that converts a {@link Ren1Domaine2AnnuFormDTO} to a
+	 * map of {@link Domaine2AnnuForm} with its {@link Cle}
+	 */
+	public static final F<Ren1Domaine2AnnuFormDTO, Map<Domaine2AnnuForm,List<Cles2AnnuForm>>> toMapDomaine2AnnuForm =
+			new F<Ren1Domaine2AnnuFormDTO, Map<Domaine2AnnuForm,List<Cles2AnnuForm>>>() {
+
+				@Override
+				public Map<Domaine2AnnuForm, List<Cles2AnnuForm>> f(final Ren1Domaine2AnnuFormDTO d) {
+					return new HashMap<Domaine2AnnuForm, List<Cles2AnnuForm>>() {
+						private static final long serialVersionUID = 6589532392643582341L;
+
+						{
+							put(p(d).map(toDomaine2AnnuForm)._1(),
+								new ArrayList<Cles2AnnuForm>(
+									iterableStream(
+										d.getRen1Cles2AnnuFormDTO()
+												.getRen1Cles2AnnuFormDTO()).map(
+										toCles2AnnuForm(d.getCodDom()))
+										.toCollection()));
+						}};
+				}
+
+			};
 	
 	public static final F<Ren1Cles2AnnuFormDTO, Cles2AnnuForm> toCles2AnnuForm(final String codDom){
 			return new F<Ren1Cles2AnnuFormDTO, Cles2AnnuForm>() {
@@ -107,4 +137,22 @@ public class Conversions {
 				}
 			};
 	}
+	
+	public static final F<Map<Domaine2AnnuForm,List<Cles2AnnuForm>>, F<Map<Domaine2AnnuForm,List<Cles2AnnuForm>>,Map<Domaine2AnnuForm,List<Cles2AnnuForm>>>> toMapDomCles =
+		new F<Map<Domaine2AnnuForm,List<Cles2AnnuForm>>, F<Map<Domaine2AnnuForm,List<Cles2AnnuForm>>,Map<Domaine2AnnuForm,List<Cles2AnnuForm>>>>() {
+		@Override
+		public F<Map<Domaine2AnnuForm, List<Cles2AnnuForm>>, Map<Domaine2AnnuForm, List<Cles2AnnuForm>>> f(
+				final Map<Domaine2AnnuForm, List<Cles2AnnuForm>> map1) {
+			return new F<Map<Domaine2AnnuForm, List<Cles2AnnuForm>>, Map<Domaine2AnnuForm, List<Cles2AnnuForm>>>() {
+
+				@Override
+				public Map<Domaine2AnnuForm, List<Cles2AnnuForm>> f(
+						Map<Domaine2AnnuForm, List<Cles2AnnuForm>> map2) {
+					map1.putAll(map2);
+					return map1;
+				}
+				
+			};
+		}
+	};
 }

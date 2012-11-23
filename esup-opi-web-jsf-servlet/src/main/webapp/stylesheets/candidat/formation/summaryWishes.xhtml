@@ -100,154 +100,151 @@
     								</p:dataList>
     							</h:form>
     						</div>
-    					</div>
+                        </ui:fragment>
+					</div>
     
-    					<ui:fragment rendered="#{!summaryWishes.canDonwload}">
-    						<div>
-    							<h:outputFormat value="#{msgs['FORMATION.SUMMARY.LIST_FORM']} " />
-    						</div>
-    						<div class="blockTable">
-    							<h:form id="dossiers" styleClass="opiR1_form">
-    								<p:dataList var="indVoeuPojo" value="#{summaryWishes.vows}"
-    									layout="unorderedList">
-    									<h:panelGrid styleClass="tableJustWidthMax">
-    										<h:panelGroup>
-    											<h:outputText value="#{indVoeuPojo.vrsEtape.libWebVet}" />
-    											<p:commandButton value="#{msgs['FORMULAIRE.ACCESS']}"
-    												style="margin-right:5px;"
-    												action="#{formulairesController.createResponseInRunner}"
-    												rendered="#{formulairesController.indFormulaires[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] == null and formulairesController.indSelectedForms[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null}">
-    												<f:setPropertyActionListener value="#{indVoeuPojo.indVoeu}" target="#{formulairesController.indVoeuSelected}" />
-    											</p:commandButton>
-    											<h:outputLink target="_blank" styleClass="form-button"
-    												style="margin-right:5px;"
-    												value="#{formulairesController.orbeonOpiUrl}#{indVoeuPojo.vrsEtape.codEtp}-#{indVoeuPojo.vrsEtape.codVrsVet}
-    												-#{sessionController.currentInd.regimeInscription.shortLabel}/edit/#{sessionController.currentInd.individu.numDossierOpi}"
-    												rendered="#{formulairesController.indFormulaires[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null}">
-    												<h:outputText value="#{msgs['FORMULAIRE.EDIT2']}" />
-    											</h:outputLink>
-    											<h:outputLink target="_blank" styleClass="form-button-image"
-    												value="#{formulairesController.orbeonOpiUrl}#{indVoeuPojo.vrsEtape.codEtp}-#{indVoeuPojo.vrsEtape.codVrsVet}
-    												-#{sessionController.currentInd.regimeInscription.shortLabel}/view/#{sessionController.currentInd.individu.numDossierOpi}"
-    												rendered="#{formulairesController.indFormulaires[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null}">
-    												<p:graphicImage value="/media/images/magnifier.png"
-    													title="#{msgs['_.BUTTON.DISPLAY']}" />
-    											</h:outputLink>
-    										</h:panelGroup>
-    									</h:panelGrid>
-    								</p:dataList>
-    							</h:form>
-    						</div>
-    						<div>
-    							<h:outputFormat
-    								value="#{msgs['FORMATION.SUMMARY.DOS_PRE_ANALYSE']} "
-    								escape="false" style="font-weight:bold;" />
-    							<ul>
-    								<li>
-    									<h:outputText value="#{msgs['FORMATION.SUMMARY.DOS_PRE_ANALYSE.1']} " />
-    								</li>
-    								<li>
-    									<h:outputText value="#{msgs['FORMATION.SUMMARY.DOS_PRE_ANALYSE.2']} " />
-    									<h:outputText
-    										value="#{summaryWishes.commission.commission.calendarCmi.datEndBackDossier}">
-    										<f:convertDateTime pattern="dd/MM/yyyy"
-    											timeZone="#{sessionController.timeZone}" />
-    									</h:outputText>
-    								</li>
-    							</ul>
-    						</div>
-    					</ui:fragment>
-    					<br />
+					<ui:fragment rendered="#{!summaryWishes.canDonwload}">
+						<div>
+							<h:outputFormat value="#{msgs['FORMATION.SUMMARY.LIST_FORM']} " />
+						</div>
+						<div class="blockTable">
+							<h:form id="dossiers" styleClass="opiR1_form">
+								<p:dataList var="indVoeuPojo" value="#{summaryWishes.vows}"
+									layout="unorderedList">
+									<h:panelGrid styleClass="tableJustWidthMax">
+										<h:panelGroup>
+											<h:outputText value="#{indVoeuPojo.vrsEtape.libWebVet}" />
+											<p:commandButton value="#{msgs['FORMULAIRE.ACCESS']}"
+												style="margin-right:5px;"
+												action="#{formulairesController.createResponseInRunner}"
+												rendered="#{formulairesController.indFormulaires[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] == null and formulairesController.indSelectedForms[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null}">
+												<f:setPropertyActionListener value="#{indVoeuPojo.indVoeu}" target="#{formulairesController.indVoeuSelected}" />
+											</p:commandButton>
+											<h:outputLink target="_blank" styleClass="form-button"
+												style="margin-right:5px;"
+												value="#{formulairesController.orbeonOpiUrl}#{indVoeuPojo.vrsEtape.codEtp}-#{indVoeuPojo.vrsEtape.codVrsVet}
+												-#{sessionController.currentInd.regimeInscription.shortLabel}/edit/#{sessionController.currentInd.individu.numDossierOpi}"
+												rendered="#{formulairesController.indFormulaires[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null}">
+												<h:outputText value="#{msgs['FORMULAIRE.EDIT2']}" />
+											</h:outputLink>
+											<h:outputLink target="_blank" styleClass="form-button-image"
+												value="#{formulairesController.orbeonOpiUrl}#{indVoeuPojo.vrsEtape.codEtp}-#{indVoeuPojo.vrsEtape.codVrsVet}
+												-#{sessionController.currentInd.regimeInscription.shortLabel}/view/#{sessionController.currentInd.individu.numDossierOpi}"
+												rendered="#{formulairesController.indFormulaires[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null}">
+												<p:graphicImage value="/media/images/magnifier.png"
+													title="#{msgs['_.BUTTON.DISPLAY']}" />
+											</h:outputLink>
+										</h:panelGroup>
+									</h:panelGrid>
+								</p:dataList>
+							</h:form>
+						</div>
+						<div>
+							<h:outputFormat
+								value="#{msgs['FORMATION.SUMMARY.DOS_PRE_ANALYSE']} "
+								escape="false" style="font-weight:bold;" />
+							<ul>
+								<li>
+									<h:outputText value="#{msgs['FORMATION.SUMMARY.DOS_PRE_ANALYSE.1']} " />
+								</li>
+								<li>
+									<h:outputText value="#{msgs['FORMATION.SUMMARY.DOS_PRE_ANALYSE.2']} " />
+									<h:outputText
+										value="#{summaryWishes.commission.commission.calendarCmi.datEndBackDossier}">
+										<f:convertDateTime pattern="dd/MM/yyyy"
+											timeZone="#{sessionController.timeZone}" />
+									</h:outputText>
+								</li>
+							</ul>
+						</div>
+					</ui:fragment>
+					<br />
+					<div>
+						<h:outputFormat value="#{msgs['FIELD_LABEL.SEND_TO.THIS_ADR']}" />
+						<div>
+							<div>
+								<h:outputText
+									value="#{summaryWishes.commission.contactCommission.corresponding}" />
+							</div>
+							<div>
+								<h:outputText
+									value="#{summaryWishes.commission.adressePojo.adresse.adr1}" />
+							</div>
+							<div>
+								<h:outputText
+									value="#{summaryWishes.commission.adressePojo.adresse.adr2}"
+									rendered="#{summaryWishes.commission.adressePojo.adresse.adr2 != null 
+										and summaryWishes.commission.adressePojo.adresse.adr2 != ''}" />
+							</div>
+							<div>
+								<h:outputText
+									value="#{summaryWishes.commission.adressePojo.adresse.adr3}"
+									rendered="#{summaryWishes.commission.adressePojo.adresse.adr3 != null 
+										and summaryWishes.commission.adressePojo.adresse.adr3 != ''}" />
+							</div>
+							<div>
+								<h:outputText
+									value="#{summaryWishes.commission.adressePojo.adresse.codBdi} " />
+								<h:outputText
+									value="#{summaryWishes.commission.adressePojo.commune.libCommune} " />
+								<h:outputText value="#{msgs['ADRESS.CEDEX']} "
+									rendered="#{summaryWishes.commission.adressePojo.isCedex}" />
+								<h:outputText
+									value="#{summaryWishes.commission.adressePojo.adresse.cedex}"
+									rendered="#{summaryWishes.commission.adressePojo.isCedex}" />
+							</div>
+							<div>
+								<h:outputText
+									value="#{msgs['FIELD_LABEL.COURRIEL']} : #{summaryWishes.commission.adressePojo.adresse.mail}" />
+							</div>
+							<div>
+								<h:outputText
+									value="#{msgs['FIELD_LABEL.SHORT_TEL']}. : #{summaryWishes.commission.adressePojo.adresse.phoneNumber}" />
+							</div>
+							<div>
+								<h:outputText
+									value="#{msgs['ADRESS.TEL_FAX']}. : #{summaryWishes.commission.adressePojo.adresse.faxNumber}" />
+							</div>
+						</div>
+					</div>
+					<br />
+					<ui:fragment rendered="#{not empty summaryWishes.commission.contactCommission.managerName}" >
+						<h:outputFormat value="#{msgs['FORMATION.SUMMARY.MANAGER']}" />
+						<div>
+							<h:outputText
+								value="#{summaryWishes.commission.contactCommission.managerName}" />
+						</div>
+						<div>
+							<h:outputText
+								value="#{msgs['FIELD_LABEL.COURRIEL']} : #{summaryWishes.commission.contactCommission.managerMail}" />
+						</div>
+						<div>
+							<h:outputText
+								value="#{msgs['FIELD_LABEL.SHORT_TEL']}. : #{summaryWishes.commission.contactCommission.managerPhone}" />
+						</div>
+					</ui:fragment>
+					<br />
+					<h:form id="affichPieces" styleClass="opiR1_form">
     					<div>
-    						<h:outputFormat value="#{msgs['FIELD_LABEL.SEND_TO.THIS_ADR']}" />
-    						<div>
-    							<div>
-    								<h:outputText
-    									value="#{summaryWishes.commission.contactCommission.corresponding}" />
-    							</div>
-    							<div>
-    								<h:outputText
-    									value="#{summaryWishes.commission.adressePojo.adresse.adr1}" />
-    							</div>
-    							<div>
-    								<h:outputText
-    									value="#{summaryWishes.commission.adressePojo.adresse.adr2}"
-    									rendered="#{summaryWishes.commission.adressePojo.adresse.adr2 != null 
-    										and summaryWishes.commission.adressePojo.adresse.adr2 != ''}" />
-    							</div>
-    							<div>
-    								<h:outputText
-    									value="#{summaryWishes.commission.adressePojo.adresse.adr3}"
-    									rendered="#{summaryWishes.commission.adressePojo.adresse.adr3 != null 
-    										and summaryWishes.commission.adressePojo.adresse.adr3 != ''}" />
-    							</div>
-    							<div>
-    								<h:outputText
-    									value="#{summaryWishes.commission.adressePojo.adresse.codBdi} " />
-    								<h:outputText
-    									value="#{summaryWishes.commission.adressePojo.commune.libCommune} " />
-    								<h:outputText value="#{msgs['ADRESS.CEDEX']} "
-    									rendered="#{summaryWishes.commission.adressePojo.isCedex}" />
-    								<h:outputText
-    									value="#{summaryWishes.commission.adressePojo.adresse.cedex}"
-    									rendered="#{summaryWishes.commission.adressePojo.isCedex}" />
-    							</div>
-    							<div>
-    								<h:outputText
-    									value="#{msgs['FIELD_LABEL.COURRIEL']} : #{summaryWishes.commission.adressePojo.adresse.mail}" />
-    							</div>
-    							<div>
-    								<h:outputText
-    									value="#{msgs['FIELD_LABEL.SHORT_TEL']}. : #{summaryWishes.commission.adressePojo.adresse.phoneNumber}" />
-    							</div>
-    							<div>
-    								<h:outputText
-    									value="#{msgs['ADRESS.TEL_FAX']}. : #{summaryWishes.commission.adressePojo.adresse.faxNumber}" />
-    							</div>
+    						<h:outputFormat value="#{msgs['FORMATION.SUMMARY.LIST_PJ']}" />
+    						<div class="blockTable">
+    							<p:dataList var="pieceJ" value="#{summaryWishes.pieces}"
+    								layout="orderedList">
+    								<h:outputText value="#{pieceJ.libelle}" />
+    								
+    								<p:commandButton style="margin-right:5px;"
+    												action="#{formulairesController.download}"
+    												value="#{pieceJ.nomDocument}"
+    												rendered="#{pieceJ.nomDocument!=null}">
+    												<f:setPropertyActionListener value="#{pieceJ.nomDocument}" target="#{formulairesController.nomDocument}" />
+    								</p:commandButton>
+    							</p:dataList>
     						</div>
     					</div>
-    					<br />
-    					<ui:fragment rendered="#{not empty summaryWishes.commission.contactCommission.managerName}" >
-    						<h:outputFormat value="#{msgs['FORMATION.SUMMARY.MANAGER']}" />
-    						<div>
-    							<h:outputText
-    								value="#{summaryWishes.commission.contactCommission.managerName}" />
-    						</div>
-    						<div>
-    							<h:outputText
-    								value="#{msgs['FIELD_LABEL.COURRIEL']} : #{summaryWishes.commission.contactCommission.managerMail}" />
-    						</div>
-    						<div>
-    							<h:outputText
-    								value="#{msgs['FIELD_LABEL.SHORT_TEL']}. : #{summaryWishes.commission.contactCommission.managerPhone}" />
-    						</div>
-    					</ui:fragment>
-    
-    
-    
-    
-    					<br />
-    					<h:form id="affichPieces" styleClass="opiR1_form">
-        					<div>
-        						<h:outputFormat value="#{msgs['FORMATION.SUMMARY.LIST_PJ']}" />
-        						<div class="blockTable">
-        							<p:dataList var="pieceJ" value="#{summaryWishes.pieces}"
-        								layout="orderedList">
-        								<h:outputText value="#{pieceJ.libelle}" />
-        								
-        								<p:commandButton style="margin-right:5px;"
-        												action="#{formulairesController.download}"
-        												value="#{pieceJ.nomDocument}"
-        												rendered="#{pieceJ.nomDocument!=null}">
-        												<f:setPropertyActionListener value="#{pieceJ.nomDocument}" target="#{formulairesController.nomDocument}" />
-        								</p:commandButton>
-        							</p:dataList>
-        						</div>
-        					</div>
-    					</h:form>
-    
-    					<br />
-    					<br />
+					</h:form>
+
+					<br />
+					<br />
     			</p:dataList>
     		</div>
     		<div class="blockImportant" style="margin-top:15px;">

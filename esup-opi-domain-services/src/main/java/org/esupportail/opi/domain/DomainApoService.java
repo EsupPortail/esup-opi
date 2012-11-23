@@ -8,6 +8,7 @@ import gouv.education.apogee.commun.transverse.dto.geographie.communedto.Commune
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.esupportail.opi.domain.beans.formation.Cles2AnnuForm;
@@ -342,13 +343,7 @@ public interface DomainApoService extends Serializable {
 	 * @return List< GrpTypDip>.
 	 */
 	List<GrpTypDip> getGrpTypDip(Campagne camp);
-	
-	///////////////////////////////////////////////////////////////
-	// Cles2AnnuForm
-	///////////////////////////////////////////////////////////////
-
-	List<Cles2AnnuForm> getCles2AnnuForm(String codDom, String locale);
-	
+		
 	// ////////////////////////////////////////////////////////////
 	// ClesAnnuFormPojo
 	// ////////////////////////////////////////////////////////////
@@ -396,10 +391,10 @@ public interface DomainApoService extends Serializable {
 	/**
 	 * Retourne les domaines en fonction d'un groupe de type diplome.
 	 *
-	 * @return Set< Domaine2AnnuFormDTO>
+	 * @return Map<Domaine2AnnuForm, List<Cles2AnnuForm>>
 	 * 
 	 */
-	Set<Domaine2AnnuForm> getDomaine2AnnuForm(GrpTypDip grpTypDip, String locale);
+	Map<Domaine2AnnuForm, List<Cles2AnnuForm>> getDomaine2AnnuForm(GrpTypDip grpTypDip, String locale);
 	
 	/**
 	 * 

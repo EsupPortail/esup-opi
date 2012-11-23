@@ -1,17 +1,24 @@
 package org.esupportail.opi.services.remote.client;
 
 import static fj.data.IterableW.wrap;
-import static org.esupportail.opi.utils.fj.Conversions.*;
+import static org.esupportail.opi.utils.fj.Conversions.toGrpTypDip;
+import static org.esupportail.opi.utils.fj.Conversions.toMapDomCles;
+import static org.esupportail.opi.utils.fj.Conversions.toMapDomaine2AnnuForm;
+import static org.esupportail.opi.utils.fj.Conversions.toR1GrpTypDipCorresp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import fj.F;
-import fj.data.Stream;
-import static fj.data.Stream.*;
+import java.util.Map;
+
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.domain.beans.formation.Cles2AnnuForm;
+import org.esupportail.opi.domain.beans.formation.ClesAnnuForm;
+import org.esupportail.opi.domain.beans.formation.ClesDiplomeAnnuForm;
 import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
+import org.esupportail.opi.domain.beans.formation.DomaineAnnuForm;
 import org.esupportail.opi.domain.beans.formation.GrpTypDip;
 import org.esupportail.opi.utils.CacheModelConst;
 import org.esupportail.opi.utils.exceptions.CommunicationApogeeException;
@@ -20,8 +27,6 @@ import com.googlecode.ehcache.annotations.Cacheable;
 
 import fr.univ.rennes1.cri.apogee.domain.beans.ArrayOfRen1GrpTypDipCorresp;
 import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip;
-import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Cles2AnnuFormDTO;
-import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Domaine2AnnuFormDTO;
 import fr.univ.rennes1.cri.apogee.services.remote.ReadRennes1PortType;
 
 public class WSApogee implements IApogee {
@@ -33,24 +38,7 @@ public class WSApogee implements IApogee {
 	private WSApogee(final ReadRennes1PortType readRennes1){
 		wsApo = readRennes1;
 	}
-	
-	private F<Ren1GrpTypDip, Stream<Ren1Domaine2AnnuFormDTO>> grpTypDipToDomaine(final String locale) {
-			return new F<Ren1GrpTypDip, Stream<Ren1Domaine2AnnuFormDTO>>() {
-				public Stream<Ren1Domaine2AnnuFormDTO> f(Ren1GrpTypDip g) {
-					return iterableStream(
-							wsApo.getRen1Domaine2AnnuFormDTO(
-									g, locale).getRen1Domaine2AnnuFormDTO());
-				}
-			};
-	}
-	
-	private F<Ren1Domaine2AnnuFormDTO, Stream<Ren1Cles2AnnuFormDTO>> getR1Cles2AnnuFormDTO =
-			new F<Ren1Domaine2AnnuFormDTO, Stream<Ren1Cles2AnnuFormDTO>>() {
-				public Stream<Ren1Cles2AnnuFormDTO> f(Ren1Domaine2AnnuFormDTO r1d) {
-					return iterableStream(r1d.getRen1Cles2AnnuFormDTO().getRen1Cles2AnnuFormDTO());
-				}
-			};
-	
+
 	public static final WSApogee wsApogee(final ReadRennes1PortType readRennes1) {
 		return new WSApogee(readRennes1);
 	}
@@ -78,9 +66,14 @@ public class WSApogee implements IApogee {
 		}
 	}
 
-	@Override
+    @Override
+    public void updateGrpTypDip(GrpTypDip grp, List<String> codesTpdEtb) {
+        throw new RuntimeException("Unimplemented method.");
+    }
+
+    @Override
 	@Cacheable(cacheName = CacheModelConst.RENNES1_APOGEE_MODEL)
-	public List<Domaine2AnnuForm> getDomaine2AnnuFormDTO(final GrpTypDip grpTypDip,
+	public Map<Domaine2AnnuForm, List<Cles2AnnuForm>> getDomaine2AnnuFormDTO(final GrpTypDip grpTypDip,
 			final String locale) {
 		final Ren1GrpTypDip r1g =
 				new Ren1GrpTypDip().withCodGrpTpd(grpTypDip.getCodGrpTpd())
@@ -92,19 +85,61 @@ public class WSApogee implements IApogee {
 		try {
 			return wrap(wsApo.getRen1Domaine2AnnuFormDTO(
 					r1g, locale).getRen1Domaine2AnnuFormDTO()).map(
-							toDomaine2AnnuForm).toStandardList();
+							toMapDomaine2AnnuForm).foldLeft(toMapDomCles, new HashMap<Domaine2AnnuForm,List<Cles2AnnuForm>>());
 		} catch (Exception e) {
 			log.error(new CommunicationApogeeException(e));
-			return new ArrayList<Domaine2AnnuForm>();
+			return new HashMap<Domaine2AnnuForm,List<Cles2AnnuForm>>();
 		}
 	}
 
 	@Override
-	public List<Cles2AnnuForm> getCles2AnnuForm(final String codDom, final String locale) {
-		return new ArrayList<Cles2AnnuForm>(
-				iterableStream(getGrpTypDip(null)).map(toR1GrpTypDip).bind(
-						grpTypDipToDomaine(locale)).bind(getR1Cles2AnnuFormDTO).map(
-								toCles2AnnuForm(codDom)).toCollection());
+	public List<ClesAnnuForm> getClesAnnuForm() {
+		throw new RuntimeException("Unimplemented method.");
+	}
+
+	@Override
+	public List<DomaineAnnuForm> getDomaineAnnuForm() {
+		throw new RuntimeException("Unimplemented method.");
+	}
+
+	@Override
+	public List<Cles2AnnuForm> getCles2AnnuForm(String codCle) {
+		throw new RuntimeException("Unimplemented method.");
+	}
+
+	@Override
+	public List<ClesDiplomeAnnuForm> getClesDiplomeAnnuForm(String codCle) {
+		throw new RuntimeException("Unimplemented method.");
+	}
+
+	@Override
+	public List<Domaine2AnnuForm> getDomaine2AnnuForm(String codDom) {
+		throw new RuntimeException("Unimplemented method.");
+	}
+
+	@Override
+	public DomaineAnnuForm getDomaineAnnuForm(String codDom) {
+		throw new RuntimeException("Unimplemented method.");
+	}
+
+	@Override
+	public <T> Serializable save(T o) {
+		throw new RuntimeException("Unimplemented method.");
+	}
+
+	@Override
+	public <T> void saveOrUpdate(T o) {
+		throw new RuntimeException("Unimplemented method.");
+	}
+
+	@Override
+	public <T> void update(T o) {
+		throw new RuntimeException("Unimplemented method.");
+	}
+
+	@Override
+	public <T> void delete(T o) {
+		throw new RuntimeException("Unimplemented method.");
 	}
 
 	

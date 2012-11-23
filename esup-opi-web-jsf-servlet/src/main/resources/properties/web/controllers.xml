@@ -165,28 +165,31 @@
 		<property name="smtpService" ref="smtpService"/>
 	</bean>
 	
-<!-- 	<bean id="paramGrpTypDipController" -->
-<!-- 		class="org.esupportail.opi.web.controllers.formation.ParamGrpTypDipController" -->
-<!-- 		parent="abstractAccessController" -->
-<!-- 		scope="session"> -->
-<!-- 		<description>A bean to manage the formation presentation.</description> -->
-<!-- 	</bean> -->
+	<bean id="paramGrpTypDipController"
+		class="org.esupportail.opi.web.controllers.formation.ParamGrpTypDipController"
+		parent="abstractAccessController"
+		scope="session">
+		<description>A bean to manage the formation presentation.</description>
+        <property name="IApogee" ref="bddApogee"/>
+	</bean>
 	
-<!-- 	<bean id="paramClefFormationController" -->
-<!-- 		class="org.esupportail.opi.web.controllers.formation.ParamClefFormationController" -->
-<!-- 		parent="abstractAccessController" -->
-<!-- 		scope="session"> -->
-<!-- 		<description>A bean to manage the formation presentation.</description> -->
-<!-- 		<property name="preferencesController" ref="preferencesController"/> -->
-<!-- 	</bean> -->
+	<bean id="paramClefFormationController"
+		class="org.esupportail.opi.web.controllers.formation.ParamClefFormationController"
+		parent="abstractAccessController"
+		scope="session">
+		<description>A bean to manage the formation presentation.</description>
+		<property name="preferencesController" ref="preferencesController"/>
+        <property name="IApogee" ref="bddApogee"/>
+	</bean>
 	
-<!-- 	<bean id="paramDomainFormationController" -->
-<!-- 		class="org.esupportail.opi.web.controllers.formation.ParamDomainFormationController" -->
-<!-- 		parent="abstractAccessController" -->
-<!-- 		scope="session"> -->
-<!-- 		<description>A bean to manage the formation presentation.</description> -->
-<!-- 		<property name="preferencesController" ref="preferencesController"/> -->
-<!-- 	</bean> -->
+	<bean id="paramDomainFormationController"
+		class="org.esupportail.opi.web.controllers.formation.ParamDomainFormationController"
+		parent="abstractAccessController"
+		scope="session">
+		<description>A bean to manage the formation presentation.</description>
+		<property name="preferencesController" ref="preferencesController"/>
+        <property name="IApogee" ref="bddApogee"/>
+	</bean>
 	
 	<bean id="saisieRdvEtuController"
 		class="org.esupportail.opi.web.controllers.formation.SaisieRdvEtuController"

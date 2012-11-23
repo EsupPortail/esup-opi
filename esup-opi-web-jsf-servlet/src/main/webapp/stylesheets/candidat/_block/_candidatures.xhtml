@@ -15,35 +15,34 @@
         			</h:panelGroup>
         			
         			<h:panelGroup>
-        				<p:commandButton value="#{msgs['_.BUTTON.CONFIRMER_DESISTER']}"
+        				<p:commandButton value="#{msgs['_.BUTTON.CONFIRMER_DESISTER']}" ajax="false"
         					immediate="true" action="#{confirmationController.goConfirmCandidatures}"
         					rendered="#{confirmationController.canConfirmVoeux}"/>
-        				<p:commandButton value="#{msgs['_.BUTTON.DOWNLOAD.DOSSIER']}"
+        				<p:commandButton value="#{msgs['_.BUTTON.DOWNLOAD.DOSSIER']}" ajax="false"
         					immediate="true" action="#{accueilController.validatePrintDossier}" />
-        				<p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
+        				<p:commandButton value="#{msgs['_.BUTTON.UPDATE']}" ajax="false"
         					immediate="true" action="#{formationController.goSeeVoeux}" />
         			</h:panelGroup>
         		</h:panelGrid>
         	</div>
         	<p:dataTable var="indVoeuPojo"
-        		value="#{sessionController.currentInd.indVoeuxPojo}"
+        		value="#{sessionController.currentInd.indVoeuxPojoAsList}"
         		alternateColors="false" renderedIfEmpty="false"
         		styleClass="displayInfo">
         		<p:column>
         			<f:facet name="header">
         				<h:outputText value="#{msgs['FIELD_LABEL.FORMATION_ASK']}" />
         			</f:facet>
-        			<p:commandButton styleClass="form-button-link" immediate="true"
+        			<p:commandLink styleClass="form-button-link" immediate="true"
         				action="#{formationController.goSummaryWishes}"
         				value="#{indVoeuPojo.vrsEtape.libWebVet}">
         				<f:setPropertyActionListener value="#{indVoeuPojo}" target="#{formationController.indVoeuPojo}" />
-        			</p:commandButton>
-        			<p:commandButton icon="ui-icon-search"
-        							styleClass="form-button-image" immediate="true"
-        								action="#{formationController.goSummaryWishes}"
-        							title="#{msgs['_.BUTTON.DISPLAY']}">
-        				<f:setPropertyActionListener value="#{indVoeuPojo}" target="#{formationController.indVoeuPojo}" />
-        			</p:commandButton>
+        			</p:commandLink>
+<!--         			<p:commandButton icon="ui-icon-search" immediate="true" -->
+<!--         								action="#{formationController.goSummaryWishes}" -->
+<!--         							title="#{msgs['_.BUTTON.DISPLAY']}"> -->
+<!--         				<f:setPropertyActionListener value="#{indVoeuPojo}" target="#{formationController.indVoeuPojo}" /> -->
+<!--         			</p:commandButton> -->
         		</p:column>
         		<p:column>
         			<f:facet name="header">
@@ -115,23 +114,27 @@
         			</f:facet>
         			<h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
         				rendered="#{empty indVoeuPojo.indVoeu.avis}" />
-        			<p:dataList id="datalistavis" style="myStyle"
+        			<ui:repeat id="datalistavis" style="myStyle"
         				var="avis"
-          				value="#{indVoeuPojo.indVoeu.avis}"> 	
+          				value="#{indVoeuPojo.indVoeu.avisAsList}">
+                        <div> 	
           				<h:outputText value="#{avis.result.libelle}" 
-          					rendered="#{avis.temoinEnService and avis.validation}"/>				
-        			</p:dataList>
+          					rendered="#{avis.temoinEnService and avis.validation}"/>
+                        </div>				
+        			</ui:repeat>
         		</p:column>
         		<p:column>
         			<f:facet name="header">
         				<h:outputText value="#{msgs['FIELD_LABEL.COMMENTAIRE']}" />
         			</f:facet>
-        			<p:dataList id="datalistavis2" style="myStyle"
+        			<ui:repeat id="datalistavis2" style="myStyle"
         				var="avis2"
-          				value="#{indVoeuPojo.indVoeu.avis}"> 	
-          				<h:outputText value="#{avis2.commentaire}" 
-          					rendered="#{avis2.temoinEnService and avis2.validation}"/>				
-        			</p:dataList>
+          				value="#{indVoeuPojo.indVoeu.avisAsList}">
+                        <div> 	
+              				<h:outputText value="#{avis2.commentaire}" 
+              					rendered="#{avis2.temoinEnService and avis2.validation}"/>
+                        </div>				
+        			</ui:repeat>
         		</p:column>
         	</p:dataTable>
         </div>

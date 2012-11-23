@@ -14,7 +14,7 @@
         <property name="temEnSveGrpTpd" type="string">
             <column name="TEM_EN_SVE_GRP_TPD" length="1" not-null="true" />
         </property>
-        <set name="grpTypDipCorresps" cascade="all,delete-orphan">
+        <set name="grpTypDipCorresps" cascade="all-delete-orphan">
             <key>
                 <column name="COD_GRP_TPD" length="10" not-null="true" />
             </key>

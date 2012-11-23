@@ -9,6 +9,7 @@ import static fj.data.Stream.iterableStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,7 +34,6 @@ import org.esupportail.opi.domain.beans.references.calendar.CalendarCmi;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.ContactCommission;
 import org.esupportail.opi.domain.beans.references.commission.Member;
-import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Adresse;
 import org.esupportail.opi.domain.beans.user.AdresseCommission;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
@@ -193,7 +193,7 @@ public class CommissionController
 	
 
 	/**
-	 * see {@link trtCmiController}.
+	 * see {@link TrtCmiController}.
 	 */
 	private TrtCmiController trtCmiController;
 	
@@ -214,6 +214,13 @@ public class CommissionController
 	private List<Commission> comsWithForms;
 	private Set<Commission> comsNoTrt;
 	
+
+	private final Comparator<Commission> comparatorCmi = new Comparator<Commission>() {
+		@Override
+		public int compare(final Commission c1, final Commission c2) {
+			return c1.getLibelle().compareToIgnoreCase(c2.getLibelle());
+		}
+	};
 	
 	/**
 	 * A logger.
@@ -231,16 +238,24 @@ public class CommissionController
 		super();
 	}
 	
-	public void initCommissions() {
-		commissions = getParameterService().getCommissions(null);
-		comsInUse= getParameterService().getCommissions(true);
-		comsInUseByRight = new ArrayList<Commission>(
-				getDomainApoService().getListCommissionsByRight(
-						getCurrentGest(), true));
+	public void initCommissions() {		
+		commissions = new TreeSet<Commission>(comparatorCmi);
+		commissions.addAll(getParameterService().getCommissions(null));
+		
+		comsInUse = new TreeSet<Commission>(comparatorCmi);
+		comsInUse.addAll(getParameterService().getCommissions(true));
+        Set<Commission> cmi =
+                getDomainApoService().getListCommissionsByRight(
+                        getCurrentGest(), true);
+		comsInUseByRight = new ArrayList<Commission>();
+        if (cmi != null) {
+            comsInUseByRight.addAll(cmi);
+        }
+        Collections.sort(comsInUseByRight, comparatorCmi);
 		comsWithForms = Utilitaires.getListCommissionExitForm(
 				comsInUseByRight, listeRI, getParameterService());
-		comsNoTrt = Utilitaires.getListCommissionsWithoutTrt(
-						getParameterService());
+		comsNoTrt = new TreeSet<Commission>(comparatorCmi);
+		comsNoTrt.addAll(Utilitaires.getListCommissionsWithoutTrt(getParameterService()));
 	}
 	
 	/** 
@@ -1231,6 +1246,7 @@ public class CommissionController
 	 * the list is function the commissions managed by the gestionnaire
 	 * @return Set< Commission>
 	 */
+	@SuppressWarnings("synthetic-access")
 	public Set<Commission> getAllCommissionsItemsByRight() {
 		return new TreeSet<Commission>() {{
 			addAll(comsInUseByRight);

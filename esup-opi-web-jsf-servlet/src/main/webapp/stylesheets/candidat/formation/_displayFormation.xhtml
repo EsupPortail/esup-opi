@@ -6,13 +6,13 @@
     	<h:outputText value="#{msgs['FORMATION.LIST_DIPLOMES']}" styleClass="section-smallTitle" />
     </div>
     <div id="blockFormVdi" class="blockForm">
-    	<p:dataList var="versionDiplome" value="#{formationController.searchFormationPojo.versionDiplomes}" layout="unorderedList">
-    		<p:commandButton value="#{versionDiplome.libWebVdi}" styleClass="form-button-link"
+    	<ui:repeat var="versionDiplome" value="#{formationController.searchFormationPojo.versionDiplomes}" layout="unorderedList">
+    		<p:commandLink value="#{versionDiplome.libWebVdi}" styleClass="form-button-link"
     				action="#{formationController.selectEtape}">
     			<f:setPropertyActionListener value="#{versionDiplome}" 
     						target="#{formationController.searchFormationPojo.vrsDipSelected}" />
-    		</p:commandButton>
-    	</p:dataList>
+    		</p:commandLink>
+    	</ui:repeat>
     	<ui:fragment id="div_sectionEtpEmpty"
             rendered="#{empty formationController.searchFormationPojo.versionDiplomes and formationController.searchFormationPojo.versionDiplomes != null}">
         	<div id="blockFormEtpEmpty" class="blockForm">

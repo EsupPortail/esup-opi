@@ -13,16 +13,17 @@
             expression="execution(* org.esupportail.*.domain.DomainServiceImpl.*(..))" />
         <aop:pointcut id="paramMethods"
             expression="execution(* org.esupportail.*.domain.ParameterServiceImpl.*(..))" />
-        <aop:pointcut id="domainApoMethods"
-            expression="execution(* org.esupportail.*.domain.DomainApoServiceImpl.getListCommissionsByRight(..))" />
+        <aop:pointcut id="bddApoMethods"
+            expression="execution(* org.esupportail.*.services.remote.client.BDDApogee.*(..))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="domainMethods" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="paramMethods" />
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="domainApoMethods" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="bddApoMethods" />
     </aop:config>
 
     <tx:advice id="txAdvice" transaction-manager="txManager">
         <tx:attributes>
             <tx:method name="add*" propagation="REQUIRED" />
+            <tx:method name="save*" propagation="REQUIRED" />
             <tx:method name="delete*" propagation="REQUIRED" />
             <tx:method name="update*" propagation="REQUIRED" />
             <tx:method name="*" propagation="SUPPORTS" read-only="true" />

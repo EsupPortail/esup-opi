@@ -22,33 +22,37 @@
     						</div>
     						<div class="blockTable">
     							<div class="blockCenterWidthMax">
-    								<p:commandButton image="/media/images/LMD-Licence.png"
+    								<p:commandLink update="@form"
     									rendered="#{formationController.licence != null}"
-    									immediate="true">
+    									immediate="true" partialSubmit="true">
+                                        <p:graphicImage value="/media/images/LMD-Licence.png" />
     									<f:setPropertyActionListener value="#{formationController.licence}" target="#{formationController.searchFormationPojo.groupTypSelected}" />
-    								</p:commandButton>
-    								<p:commandButton image="/media/images/LMD-Master.png"
+    								</p:commandLink>
+    								<p:commandLink update="@form"
     									rendered="#{formationController.master != null}"
-    									immediate="true">
+    									immediate="true" partialSubmit="true">
+                                        <p:graphicImage value="/media/images/LMD-Master.png" />
     									<f:setPropertyActionListener value="#{formationController.master}" target="#{formationController.searchFormationPojo.groupTypSelected}" />
-    								</p:commandButton>
-    								<p:commandButton image="/media/images/LMD-Doctorat.png"
+    								</p:commandLink>
+    								<p:commandLink update="@form"
     										rendered="#{formationController.doctorat != null}"
-    										immediate="true">
+    										immediate="true" partialSubmit="true">
+                                        <p:graphicImage value="/media/images/LMD-Doctorat.png" />
     									<f:setPropertyActionListener value="#{formationController.doctorat}" target="#{formationController.searchFormationPojo.groupTypSelected}" />
-    								</p:commandButton>
+    								</p:commandLink>
     							</div>
     							<div class="blockCenterWidthMax">
     								<ul class="listeTypeDiplome">
-    									<p:dataList var="grpTypDip" value="#{formationController.groupTypeDip}">
+    									<ui:repeat var="grpTypDip" value="#{formationController.groupTypeDip}">
     										<li>
-    											<p:commandButton value="#{grpTypDip.libGrpTpd}"
-    												immediate="true"
+    											<p:commandLink update="@form"
+                                                    value="#{grpTypDip.libGrpTpd}"
+    												immediate="true" partialSubmit="true"
     												styleClass="form-button-link-small">
     												<f:setPropertyActionListener value="#{grpTypDip}" target="#{formationController.searchFormationPojo.groupTypSelected}" />
-    											</p:commandButton>
+    											</p:commandLink>
     										</li>
-    									</p:dataList>
+    									</ui:repeat>
     								</ul>
     							</div>
     						</div>
@@ -57,55 +61,41 @@
     					<br />
     					<br />
     					<br />
-                        <ui:fragment 
-                            rendered="#{formationController.searchFormationPojo.groupTypSelected != null}">
-        					<div id="blockFormMotClef" class="blockForm">
-        						<div style="width:100%;">
-        							<h:outputText value="#{msgs['FORMATION.ACCESS.KEY_WORD']}" styleClass="section-smallTitle" />
-        						</div>
-        
-        						<h:panelGrid styleClass="tableWidthMax" columns="2"
-        							columnClasses="col1UnDemi,col2UnDemi">
-        							<h:panelGroup>
-        								<h:outputLabel value="#{msgs['FORMATION.SELECT.KEY_WORD']}" for="motClef" />
-        							</h:panelGroup>
-        							<h:panelGroup>
-        								<p:selectOneMenu
-        									valueChangeListener="#{formationController.selectKeyWord}"
-        									value="#{formationController.searchFormationPojo.codKeyWordSelected}"
-        									onchange="javascript:{simulateLinkClick('searchFormationForm:submitKeyWord');}">
-        									<f:selectItems value="#{formationController.keyWordItems}" />
-        								</p:selectOneMenu>
-        								<p:commandButton id="submitKeyWord" action="#{formationController.selectKeyWord}" />
-        							</h:panelGroup>
-        						</h:panelGrid>
-        					</div>
-                        </ui:fragment>
+    					<p:outputPanel id="blockFormMotClef" layout="block" styleClass="blockForm"
+                                rendered="#{formationController.searchFormationPojo.groupTypSelected != null}">
+    						<div style="width:100%;">
+    							<h:outputText value="#{msgs['FORMATION.ACCESS.KEY_WORD']}" styleClass="section-smallTitle" />
+    						</div>
+    
+    						<h:panelGrid styleClass="tableWidthMax" columns="2"
+    							columnClasses="col1UnDemi,col2UnDemi">
+    							<h:panelGroup>
+    								<h:outputLabel value="#{msgs['FORMATION.SELECT.KEY_WORD']}" for="motClef" />
+    							</h:panelGroup>
+    							<h:panelGroup>
+    								<h:selectOneMenu
+    									value="#{formationController.searchFormationPojo.codKeyWordSelected}">
+    									<f:selectItems value="#{formationController.keyWordItems}" />
+                                        <p:ajax listener="#{formationController.selectKeyWord}" partialSubmit="true" update="@form"/>
+    								</h:selectOneMenu>
+    							</h:panelGroup>
+    						</h:panelGrid>
+    					</p:outputPanel>
     					<br />
     					<br />
     					<br />
-                        <ui:fragment
+    					<p:outputPanel id="blockFormFormation" layout="block" styleClass="blockForm"
                             rendered="#{formationController.searchFormationPojo.versionDiplomes != null 
                             and formationController.searchFormationPojo.versionEtapes == null}">
-        					<div id="blockFormFormation" class="blockForm">
-        						<ui:include src="_displayFormation.xhtml" />
-        						<br />
-        						<br />
-        						<br />
-        					</div>
-                        </ui:fragment>
+    						<ui:include src="_displayFormation.xhtml" />
+    						<br />
+    						<br />
+    						<br />
+    					</p:outputPanel>
     				</div>
     			</h:form>
     			<ui:include src="_selectVrsEtape.xhtml" />
     		</div>
     	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigationLogin');
-        	highlightChildrenLiTags('navigationFooter:navigationLogin');
-        	highlightInputAndSelect('searchFormationForm');
-        	hideButton('searchFormationForm:submitKeyWord');
-        	hideButton('searchFormationForm:submitTypeDiplome');
-        </script>
     </ui:define>
 </ui:composition>

@@ -16,7 +16,6 @@ import org.esupportail.commons.services.application.VersionningUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.domain.beans.VersionManager;
-import org.esupportail.opi.domain.beans.formation.Cles2AnnuForm;
 import org.esupportail.opi.domain.beans.formation.ClesAnnuForm;
 import org.esupportail.opi.domain.beans.formation.ClesDiplomeAnnuForm;
 import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
@@ -68,8 +67,7 @@ import fj.data.Option;
 /**
  * The Hibernate implementation of the DAO service.
  */
-public class HibernateDaoServiceImpl  extends AbstractJdbcJndiHibernateDaoService
-implements DaoService {
+public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService implements DaoService {
 
 	/**
 	 * The serialization id.
@@ -85,16 +83,6 @@ implements DaoService {
 	 * The name of the 'temoinEnService' attribute.
 	 */
 	private static final String IN_USE_ATTRIBUTE = "temoinEnService";
-	
-	/**
-	 * False value for character witness.
-	 */
-	private static final String FALSE = "N";
-
-	/**
-	 * True value for character witness.
-	 */
-	private static final String TRUE = "O";
 
 	/**
 	 * A logger.
@@ -1601,213 +1589,5 @@ implements DaoService {
 
 		return null;
 	
-	}
-
-	// ////////////////////////////////////////////////////////////
-	// ClesDiplomeAnnuForm
-	// ////////////////////////////////////////////////////////////
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<ClesDiplomeAnnuForm> getCodesDiplomes(final String codeMotClef) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering getCodesDiplomes( " + codeMotClef + " )");
-		}
-		DetachedCriteria criteria = DetachedCriteria.forClass(ClesDiplomeAnnuForm.class);
-		criteria.add(Restrictions.eq("codCles", codeMotClef));
-
-		return getHibernateTemplate().findByCriteria(criteria);
-	}
-	
-	// ////////////////////////////////////////////////////////////
-	// Domaine2AnnuForm
-	// ////////////////////////////////////////////////////////////
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Domaine2AnnuForm> getDomaine2AnnuForm(final List<String> listCodDom,
-					final Option<String> codLang, final Option<String> temSveDom) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering getDomaine2AnnuFormm( " + listCodDom + ", " 
-								+ codLang + ", " + temSveDom + " )");
-		}
-		
-		DetachedCriteria criteria = DetachedCriteria.forClass(Domaine2AnnuForm.class);
-		if (!listCodDom.isEmpty()) {
-			criteria.add(Restrictions.in("codDom", listCodDom));
-		}
-		for (String cl : codLang)
-			criteria.add(Restrictions.eq("codLang", cl));
-		for (String tm : temSveDom) {
-			DetachedCriteria criteria2 = criteria.createCriteria("ren1DomaineAnnuForm");
-			criteria2.add(Restrictions.eq("temSveDom", tm));
-		}
-		
-		return getHibernateTemplate().findByCriteria(criteria);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<Domaine2AnnuForm> getDomaine2AnnuForm(final Option<String> codDom) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering getDomaine2AnnuFormm( " + codDom + " )");
-		}
-		
-		DetachedCriteria criteria = DetachedCriteria.forClass(Domaine2AnnuForm.class);
-		for (String cd : codDom)
-			criteria.add(Restrictions.eq("codDom", cd));
-		
-		return getHibernateTemplate().findByCriteria(criteria);
-	}
-
-	//////////////////////////////////////////////////////////////
-	// GrpTypDip
-	//////////////////////////////////////////////////////////////
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<GrpTypDip> getGrpTypDip(final Option<String> temEnSveGrpTpd) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering getGrpTypDip( " + temEnSveGrpTpd + " )");
-		}
-		DetachedCriteria criteria = DetachedCriteria.forClass(GrpTypDip.class);
-		for (String tm : temEnSveGrpTpd)
-			if (tm.equals(TRUE) || tm.equals(FALSE))
-				criteria.add(Restrictions.eq("temEnSveGrpTpd", tm));
-
-		return getHibernateTemplate().findByCriteria(criteria);
-	}
-
-
-	//////////////////////////////////////////////////////////////
-	// ClesDiplomeAnnuForm
-	//////////////////////////////////////////////////////////////
-
-	@SuppressWarnings("unchecked")
-	public List<ClesDiplomeAnnuForm> getClesDiplomeAnnuForm(
-			final List<String> listCodDip) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering getClesDiplomeAnnuForm( " + listCodDip + " )");
-		}
-		DetachedCriteria criteria = DetachedCriteria.forClass(ClesDiplomeAnnuForm.class);
-		if (!listCodDip.isEmpty()) {
-			criteria.add(Restrictions.in("codDip", listCodDip));
-		}
-		return getHibernateTemplate().findByCriteria(criteria);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<ClesDiplomeAnnuForm> getClesDiplomeAnnuForm(final Option<String> codCle) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering getClesDiplomeAnnuForm( " + codCle + " )");
-		}
-		DetachedCriteria criteria = DetachedCriteria.forClass(ClesDiplomeAnnuForm.class);
-		for (String cod : codCle)
-			criteria.add(Restrictions.eq("codCles", cod));
-
-		return getHibernateTemplate().findByCriteria(criteria);
-	}
-	
-	//////////////////////////////////////////////////////////////
-	// Cles2AnnuForm
-	//////////////////////////////////////////////////////////////
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Cles2AnnuForm> getCles2AnnuForm(final List<String> listCodCle,
-					final Option<String> codLang, final Option<String> temEnSveCles) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering getCles2AnnuForm( " + listCodCle + ", " + codLang + " )");
-		}
-		DetachedCriteria criteria = DetachedCriteria.forClass(Cles2AnnuForm.class);
-		if (!listCodCle.isEmpty()) {
-			criteria.add(Restrictions.in("id.codCles", listCodCle));
-		}
-		for (String cod : codLang)
-			criteria.add(Restrictions.eq("id.codLang", cod));
-		for (String tm : temEnSveCles) {
-			DetachedCriteria criteria2 = criteria.createCriteria("ren1ClesAnnuForm");
-			criteria2.add(Restrictions.eq("temSveCles", tm));
-		}
-		
-		return getHibernateTemplate().findByCriteria(criteria);
-	}
-	
-	@SuppressWarnings("unchecked")
-	private List<Cles2AnnuForm> getCles2AnnuForm(String field, Option<String> value, Option<String> lang) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering getCles2AnnuForm( " + value.toString() + " )");
-		}
-		DetachedCriteria criteria = DetachedCriteria.forClass(Cles2AnnuForm.class);
-		for (String cod : value)
-			criteria.add(Restrictions.eq(field, cod));
-		for (String cod : lang)
-			criteria.add(Restrictions.eq("id.codLang", cod));
-
-		return getHibernateTemplate().findByCriteria(criteria);
-	}
-	
-	@Override
-	public List<Cles2AnnuForm> getCles2AnnuForm(Option<String> codCle) {
-		return getCles2AnnuForm("id.codCles", codCle, Option.<String>none());
-	}
-
-	@Override
-	public List<Cles2AnnuForm> getCles2AnnuFormByCodDom(Option<String> codDom, Option<String> locale) {
-		return getCles2AnnuForm("clesAnnuForm.codDom", codDom, locale);
-	}
-	
-	/**
-	 * 
-	 * @return liste de diplomes correspondants
-	 */
-	@SuppressWarnings("unchecked")
-	public List<GrpTypDipCorresp> getGrpTypDipCorresp() {
-		DetachedCriteria criteria = DetachedCriteria.forClass(GrpTypDipCorresp.class);
-		criteria.addOrder(Order.asc("codTpdEtb"));
-		return getHibernateTemplate().findByCriteria(criteria);
-	}
-	
-	/**
-	 * 
-	 * @return liste de groupes diplomes
-	 */
-	@SuppressWarnings("unchecked")
-	public List<GrpTypDip> getGrpTypDip() {
-		DetachedCriteria criteria = DetachedCriteria.forClass(GrpTypDip.class);
-		return getHibernateTemplate().findByCriteria(criteria);
-	}
-	
-	/**
-	 * 
-	 * @return liste de domaines de formations
-	 */
-	@SuppressWarnings("unchecked")
-	public List<DomaineAnnuForm> getDomaineAnnuForm() {
-		DetachedCriteria criteria = DetachedCriteria.forClass(DomaineAnnuForm.class);
-		return getHibernateTemplate().findByCriteria(criteria);
-	}
-	
-	/**
-	 * 
-	 * @return domaines de formations
-	 */
-	@SuppressWarnings("unchecked")
-	public Option<DomaineAnnuForm> getDomaineAnnuForm(Option<String> codDom) {
-		DetachedCriteria criteria = DetachedCriteria.forClass(DomaineAnnuForm.class);
-		for (String cod : codDom)
-			criteria.add(Restrictions.eq("codDom", cod));
-
-		List<DomaineAnnuForm> listDom = getHibernateTemplate().findByCriteria(criteria);
-		return iif(listDom != null && !listDom.isEmpty(), listDom.get(0));
-	}
-	
-	/**
-	 * 
-	 * @return liste de cles des formations
-	 */
-	@SuppressWarnings("unchecked")
-	public List<ClesAnnuForm> getClesAnnuForm() {
-		DetachedCriteria criteria = DetachedCriteria.forClass(ClesAnnuForm.class);
-		return getHibernateTemplate().findByCriteria(criteria);
 	}
 }

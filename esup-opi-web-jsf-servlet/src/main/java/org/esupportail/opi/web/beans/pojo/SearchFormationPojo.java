@@ -223,6 +223,13 @@ public class SearchFormationPojo implements Serializable {
 	}
 
 	/**
+	 * @return the versionEtapes
+	 */
+	public List<VersionEtapePojo> getVersionEtapesAsList() {
+		return new ArrayList<VersionEtapePojo>(versionEtapes);
+	}
+
+	/**
 	 * @param versionEtapes the versionEtapes to set
 	 */
 	public void setVersionEtapes(final Set<VersionEtapePojo> versionEtapes) {

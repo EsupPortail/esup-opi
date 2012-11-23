@@ -10,13 +10,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.esupportail.opi.domain.beans.VersionManager;
-import org.esupportail.opi.domain.beans.formation.Cles2AnnuForm;
-import org.esupportail.opi.domain.beans.formation.ClesAnnuForm;
-import org.esupportail.opi.domain.beans.formation.ClesDiplomeAnnuForm;
-import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
-import org.esupportail.opi.domain.beans.formation.DomaineAnnuForm;
-import org.esupportail.opi.domain.beans.formation.GrpTypDip;
-import org.esupportail.opi.domain.beans.formation.GrpTypDipCorresp;
 import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.PieceJustificative;
@@ -44,8 +37,6 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
-
-import fj.data.Option;
 
 
 
@@ -647,57 +638,5 @@ public interface DaoService extends Serializable {
 	 * @param ind
 	 */
 	IndSituation getIndSituation(Individu ind);
-
-	//////////////////////////////////////////////////////////////
-	// ClesDiplomeAnnuForm
-	//////////////////////////////////////////////////////////////
-	
-	List<ClesDiplomeAnnuForm> getCodesDiplomes(String codeMotClef);
-	
-    //////////////////////////////////////////////////////////////
-	// Domaine2AnnuFormm
-	//////////////////////////////////////////////////////////////
-	
-	List<Domaine2AnnuForm> getDomaine2AnnuForm(List<String> listCodDom, Option<String> codLang, Option<String> temSveDom);	
-	
-	List<Domaine2AnnuForm> getDomaine2AnnuForm(Option<String> codDom);
-
-	//////////////////////////////////////////////////////////////
-	// GrpTypDip
-	//////////////////////////////////////////////////////////////
-	
-	List<GrpTypDip> getGrpTypDip(Option<String> temEnSveGrpTpd);
-	
-	List<GrpTypDipCorresp> getGrpTypDipCorresp();
-	
-	List<GrpTypDip> getGrpTypDip();
-	
-	//////////////////////////////////////////////////////////////
-	// ClesDiplomeAnnuForm
-	//////////////////////////////////////////////////////////////
-	
-	List<ClesDiplomeAnnuForm> getClesDiplomeAnnuForm(List<String> listCodDip);	
-	
-	List<ClesDiplomeAnnuForm> getClesDiplomeAnnuForm(Option<String> codCle);	
-	
-	//////////////////////////////////////////////////////////////
-	// Cles2AnnuForm
-	//////////////////////////////////////////////////////////////
-	
-	List<Cles2AnnuForm> getCles2AnnuForm(List<String> listCodCle, Option<String> codLang, Option<String> temEnSveCles);
-	
-	List<Cles2AnnuForm> getCles2AnnuForm(Option<String> codCle);
-	
-	List<Cles2AnnuForm> getCles2AnnuFormByCodDom(Option<String> codDom, Option<String> locale);
-	
-    //////////////////////////////////////////////////////////////
-	// DomaineAnnuFormm
-	//////////////////////////////////////////////////////////////
-
-	List<DomaineAnnuForm> getDomaineAnnuForm();
-	
-	Option<DomaineAnnuForm> getDomaineAnnuForm(Option<String> cle);
-	
-	List<ClesAnnuForm> getClesAnnuForm();
 
 }

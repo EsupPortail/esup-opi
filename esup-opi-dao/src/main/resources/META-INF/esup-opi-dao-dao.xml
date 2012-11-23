@@ -80,6 +80,15 @@
                 <value>classpath*:META-INF/hibernate/mapping/references/rendezvous/VetCalendar.hbm.xml</value>
                 <!-- ***** PILOTAGE  ***** -->
                 <value>classpath*:META-INF/hibernate/mapping/pilotage/ArchiveTask.hbm.xml</value>
+                <!-- ***** FORMATIONS  ***** -->
+                <value>classpath*:META-INF/hibernate/mapping/formations/Cles2AnnuForm.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/formations/ClesAnnuForm.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/formations/ClesDiplomeAnnuForm.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/formations/Cles2AnnuForm.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/formations/Domaine2AnnuForm.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/formations/DomaineAnnuForm.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/formations/GrpTypDip.hbm.xml</value>
+                <value>classpath*:META-INF/hibernate/mapping/formations/GrpTypDipCorresp.hbm.xml</value>
             </list>
         </property>
     </bean>
@@ -112,6 +121,12 @@
         <description>
             The 'normal' session factory based on JDBC.
         </description>
+<!--         <property name="hibernateProperties"> -->
+<!--            <props> -->
+<!--                <prop key="hibernate.hbm2ddl.auto">update</prop> -->
+<!--                <prop key="hibernate.dialect">${hibernate.dialect}</prop> -->
+<!--            </props> -->
+<!--         </property> -->
     </bean>
 
     <bean id="jndiSessionFactory" 
@@ -249,4 +264,16 @@
         <property name="jndiHibernateTemplateBeanName" value="${hibernate.jndiTemplateBeanName}" />
     </bean>
     
+    <bean id="opiDaoService" 
+          class="org.esupportail.opi.dao.HibernateOpiDaoServiceImpl" 
+          lazy-init="true">
+        <description>
+            This bean is the DAO service, the interface used by the domain service to access 
+            the database. It must implement interface org.esupportail.opi.dao.DaoService.
+        </description>
+        <property name="useJdbc" value="true" />
+        <property name="useJndi" value="${hibernate.useJndi}" />
+        <property name="jdbcHibernateTemplateBeanName" value="${hibernate.jdbcTemplateBeanName}" />
+        <property name="jndiHibernateTemplateBeanName" value="${hibernate.jndiTemplateBeanName}" />
+    </bean>
 </beans>
