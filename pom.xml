@@ -164,6 +164,7 @@
                 <configuration>
                     <tagNameFormat>@{project.version}</tagNameFormat>
                     <goals>deploy</goals>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
                 </configuration>
             </plugin>
         </plugins>
