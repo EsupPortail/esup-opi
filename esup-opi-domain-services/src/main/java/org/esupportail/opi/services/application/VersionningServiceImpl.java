@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.esupportail.commons.beans.AbstractApplicationAwareBean;
 import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.application.ApplicationService;
@@ -26,7 +25,6 @@ import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
-import org.esupportail.opi.domain.ParameterServiceImpl;
 import org.esupportail.opi.domain.beans.mails.MailContent;
 import org.esupportail.opi.domain.beans.parameters.accessRight.AccessRight;
 import org.esupportail.opi.domain.beans.parameters.accessRight.Domain;
@@ -182,10 +180,7 @@ public class VersionningServiceImpl implements VersionningService {
 			getParameterService().addAccessRight(a);
 		}
 		
-		
 		getDomainService().addFirstAdmin(firstAdministratorId, admin);
-		
-		
 		
 		logger.info("the database has been created.");
 		setDatabaseVersion("0.0.0", true);
