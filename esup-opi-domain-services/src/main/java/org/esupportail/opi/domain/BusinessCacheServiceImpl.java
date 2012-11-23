@@ -34,7 +34,7 @@ import com.googlecode.ehcache.annotations.Cacheable;
  *
  */
 public class BusinessCacheServiceImpl 
-		extends AbstractDomainService implements BusinessCacheService {
+		 implements BusinessCacheService {
 
 	
 	/*
@@ -106,9 +106,7 @@ public class BusinessCacheServiceImpl
 	/**
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
-	@Override
 	public void afterPropertiesSet() {
-		super.afterPropertiesSet();
 		Assert.notNull(this.domainApoService, "property domainApoService of class " 
 				+ this.getClass().getName() + " can not be null");
 		Assert.notNull(this.cacheManager, "property cacheManager of class " 

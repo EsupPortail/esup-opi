@@ -12,14 +12,9 @@ import gouv.education.apogee.commun.transverse.dto.geographie.communedto.Commune
 
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.beans.user.Adresse;
-import org.esupportail.opi.domain.beans.user.AdresseFix;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.wssi.services.remote.Pays;
 import org.springframework.util.StringUtils;
-
-
-
-
 
 /**
  * @author leproust cedric

@@ -55,11 +55,7 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
-import org.esupportail.opi.utils.CacheModelConst;
 import org.esupportail.opi.utils.ldap.LdapAttributes;
-
-import com.googlecode.ehcache.annotations.Cacheable;
-import com.googlecode.ehcache.annotations.TriggersRemove;
 
 
 /**
@@ -67,7 +63,7 @@ import com.googlecode.ehcache.annotations.TriggersRemove;
  * 
  * See /properties/domain/domain-example.xml
  */
-public class DomainServiceImpl extends AbstractDomainService implements DomainService {
+public class DomainServiceImpl implements DomainService {
 
 	
 	/**
@@ -119,9 +115,7 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 	/**
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
-	@Override
 	public void afterPropertiesSet() {
-		super.afterPropertiesSet();
 		Assert.notNull(this.daoService, "property daoService of class "
 				+ this.getClass().getName() + " can not be null");
 		Assert.notNull(this.ldapUserService,
@@ -823,7 +817,7 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 	/**
 	 * @see org.esupportail.opi.domain.DomainService#setDatabaseVersion(java.lang.String)
 	 */
-	public void setDatabaseVersion(final String version) {
+	public void updateDatabaseVersion(final String version) {
 		if (log.isDebugEnabled()) {
 			log.debug("setting database version to '" + version + "'...");
 		}
@@ -839,8 +833,8 @@ public class DomainServiceImpl extends AbstractDomainService implements DomainSe
 	 * @see org.esupportail.opi.domain.DomainService#setDatabaseVersion(
 	 * 	org.esupportail.commons.services.application.Version)
 	 */
-	public void setDatabaseVersion(final Version version) {
-		setDatabaseVersion(version.toString());
+	public void updateDatabaseVersion(final Version version) {
+		updateDatabaseVersion(version.toString());
 	}
 
 	// ////////////////////////////////////////////////////////////

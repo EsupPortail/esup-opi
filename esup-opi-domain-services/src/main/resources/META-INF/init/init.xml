@@ -16,8 +16,7 @@
 
 	<bean 
 		id="versionningService"
-		class="org.esupportail.opi.services.application.VersionningServiceImpl"
-		>
+		class="org.esupportail.opi.services.application.VersionningServiceImpl" >
 		<property name="firstAdministratorId" value="${init.firstAdministratorId}" />
 		<property name="accessAdmin">
 			<list>
@@ -33,9 +32,10 @@
 				<ref bean="profil_membre"/>
 			</list>
 		</property>
-		
 		<property name="admin" ref="profil_admin"/>
-		
+		<property name="domainService" ref="domainService" />
+        <property name="parameterService" ref="parameterService" />		
+		<property name="applicationService" ref="applicationService" />
 	</bean>
 	
 	<bean 

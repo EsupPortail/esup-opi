@@ -6,6 +6,15 @@
     <version>2.0.0-alpha3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>An Blank Application to start your project</description>
+    <modules>
+        <module>esup-opi-batch</module>
+        <module>esup-opi-dao</module>
+        <module>esup-opi-utils</module>
+        <module>esup-opi-domain-beans</module>
+        <module>esup-opi-domain-services</module>
+        <module>esup-opi-web-jsf-servlet</module>
+        <module>esup-opi-web-beans</module>
+    </modules>
     <repositories>
         <repository>
             <id>esup-snapshots</id>
@@ -59,6 +68,48 @@
         <developerConnection>scm:git:ssh://git@github.com/EsupPortail/esup-opi</developerConnection>
         <url>http://www.esup-portail.org/display/PROJESUPOPI/Home</url>
     </scm>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.functionaljava</groupId>
+            <artifactId>functionaljava</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.ehcache-spring-annotations</groupId>
+            <artifactId>ehcache-spring-annotations</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.esupportail</groupId>
+            <artifactId>esup-commons2-annotations</artifactId>
+            <version>${esupcommons.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>3.0.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc14</artifactId>
+            <version>10.2.0.3.0</version>
+        </dependency>
+    </dependencies>
     <build>
         <defaultGoal>install</defaultGoal>
         <plugins>
@@ -122,59 +173,4 @@
         <esupcommons.version>0.3.1</esupcommons.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <modules>
-<!--         <module>esup-opi-batch</module> -->
-        <module>esup-opi-dao</module>
-        <module>esup-opi-utils</module>
-        <module>esup-opi-domain-beans</module>
-        <module>esup-opi-domain-services</module>
-        <module>esup-opi-web-jsf-servlet</module>
-    </modules>
-    <dependencies>
-        <dependency>
-            <groupId>org.esupportail</groupId>
-            <artifactId>esup-commons2-jsf2-exception</artifactId>
-            <version>${esupcommons.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.functionaljava</groupId>
-            <artifactId>functionaljava</artifactId>
-            <version>3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.googlecode.ehcache-spring-annotations</groupId>
-            <artifactId>ehcache-spring-annotations</artifactId>
-            <version>1.2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.esupportail</groupId>
-            <artifactId>esup-commons2-annotations</artifactId>
-            <version>${esupcommons.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>3.0.6.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.10</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>1.3.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc14</artifactId>
-            <version>10.2.0.3.0</version>
-        </dependency>
-    </dependencies>
 </project>

@@ -14,7 +14,7 @@
 			<list>
 				<value>classpath:/properties/defaults.properties</value>
 				<value>classpath:/properties/config.properties</value>
-				<value>file:${conf}</value>
+				<value>file:${config.location}</value>
 			</list>
 		</property>
 		<property name = "ignoreResourceNotFound" value="true" />
@@ -22,12 +22,18 @@
 	
 	<bean id="app_context" class="org.esupportail.commons.context.ApplicationContextHolder"/>
 	
-	<import resource="classpath*:META-INF/esup-opi-domain-services-domain.xml" />
-	<import resource="classpath*:META-INF/esup-opi-domain-services-abstractBeans.xml" />
-	<import resource="classpath*:META-INF/esup-opi-domain-services-application.xml" />
-	<import resource="classpath*:META-INF/esup-opi-domain-services-i18n.xml" />
-	<!-- 
-	<import resource="classpath*:META-INF/esup-opi-domain-services-init.xml" />	
-	<import resource="classpath*:META-INF/esup-opi-dao-dao.xml" />
-	 -->
+	<import resource="classpath*:/META-INF/remote/remote.xml" />
+	<import resource="classpath*:/META-INF/domain/domain.xml" />
+	<import resource="classpath*:/META-INF/esup-opi-dao-dao.xml" />
+	<import resource="classpath*:/META-INF/urlGeneration/urlGeneration.xml" />
+	<import resource="classpath*:/META-INF/ldap/ldap.xml" />
+	<import resource="classpath*:/META-INF/i18n/i18n.xml" />
+	<import resource="classpath*:/META-INF/cache/cache.xml" />
+	<import resource="classpath*:/META-INF/web/beans.xml" />
+	<import resource="classpath*:/META-INF/mails/mails.xml" />
+	<import resource="classpath*:/META-INF/smtp/smtp.xml" />
+	<import resource="classpath*:/META-INF/mails/mailConvocations.xml" />
+	<import resource="classpath*:/META-INF/init/init.xml" />
+	<import resource="classpath*:/META-INF/misc/abstractBeans.xml" />
+	<import resource="classpath*:/META-INF/esup-opi-domain-services-application.xml" />
 </beans>

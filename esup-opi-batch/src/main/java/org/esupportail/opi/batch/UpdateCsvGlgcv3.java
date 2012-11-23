@@ -9,17 +9,13 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.esupportail.apogee.domain.beans.referentiel.BacOuxEqu;
-import org.esupportail.apogee.domain.beans.referentiel.etablissement.Etablissement;
-import org.esupportail.apogee.domain.beans.referentiel.geographie.Departement;
-import org.esupportail.apogee.domain.dto.referentiel.geographie.CommuneDTO;
+import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.services.application.ApplicationService;
 import org.esupportail.commons.services.application.ApplicationUtils;
 import org.esupportail.commons.services.database.DatabaseUtils;
 import org.esupportail.commons.services.exceptionHandling.ExceptionUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.commons.utils.BeanUtils;
 import org.springframework.util.StringUtils;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Collection;
@@ -32,6 +28,9 @@ import org.esupportail.opi.domain.BusinessCacheService;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
+import org.esupportail.opi.domain.beans.etat.EtatArriveComplet;
+import org.esupportail.opi.domain.beans.etat.EtatArriveIncomplet;
+import org.esupportail.opi.domain.beans.etat.EtatNonArrive;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Adresse;
 import org.esupportail.opi.domain.beans.user.Individu;
@@ -41,11 +40,11 @@ import org.esupportail.opi.domain.beans.user.indcursus.CursusExt;
 import org.esupportail.opi.domain.beans.user.indcursus.CursusR1;
 import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
-import org.esupportail.opi.web.beans.pojo.etat.EtatArriveComplet;
-import org.esupportail.opi.web.beans.pojo.etat.EtatArriveIncomplet;
-import org.esupportail.opi.web.beans.pojo.etat.EtatNonArrive;
-import org.esupportail.opi.web.utils.Constantes;
-
+import org.esupportail.opi.utils.Constantes;
+import org.esupportail.wssi.services.remote.BacOuxEqu;
+import org.esupportail.wssi.services.remote.CommuneDTO;
+import org.esupportail.wssi.services.remote.Departement;
+import org.esupportail.wssi.services.remote.Etablissement;
 
 
 /**
@@ -177,10 +176,10 @@ public class UpdateCsvGlgcv3  {
 	 * 
 	 */
 	private static void scriptOrtho() {
-		DomainService domainService = (DomainService) BeanUtils.getBean("domainService");
-		DomainApoService domainApoService = (DomainApoService) BeanUtils.getBean("domainApoService");
-		ParameterService parameterService = (ParameterService) BeanUtils.getBean("parameterService");
-		BusinessCacheService businessCacheService = (BusinessCacheService) BeanUtils.getBean("businessCacheService");
+		DomainService domainService = (DomainService) ApplicationContextHolder.getContext().getBean("domainService");
+		DomainApoService domainApoService = (DomainApoService) ApplicationContextHolder.getContext().getBean("domainApoService");
+		ParameterService parameterService = (ParameterService) ApplicationContextHolder.getContext().getBean("parameterService");
+		BusinessCacheService businessCacheService = (BusinessCacheService) ApplicationContextHolder.getContext().getBean("businessCacheService");
 		//
 		List<Departement> listDep = domainApoService.getDepartements();
 		
@@ -216,60 +215,6 @@ public class UpdateCsvGlgcv3  {
 			Collection root = DatabaseManager.getCollection(uri + "/db", "admin", "");
 			XPathQueryService service = (XPathQueryService) root.getService("XPathQueryService", "1.0");
 			service.setProperty("indent", "yes");
-			
-			
-			
-			////////////////////////////////////////////////////////////////
-			/////////////////////////   TEST  //////////////////////////////
-			
-//			String numDossier = "21RHHKTM";
-//			String requeteTest = ""
-//				+ "for $x in doc('/db/OPI/" + COD_ETP + "-" + COD_VRS_VET + "-FI/data/"
-//						+ numDossier + "/data.xml') "
-//				+ "return concat("
-//						+ "replace($x/form/section-1/control-2, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-1/control-29, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-1/control-30, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-1/control-31, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-1/control-28, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-4, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-22, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-23, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-5, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-24, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-25, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-26, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-6, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-19, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-20, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-21, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-8, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-16, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-17, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-18, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-9, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-15, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-10, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-35, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-14, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-11, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-12, '\"', \"'\"),'" + S + "',"
-//						+ "replace($x/form/section-2/control-13, '\"', \"'\"))";
-//
-//			ResourceSet resultTest = service.query(requeteTest);
-//			ResourceIterator iteratorTest = resultTest.getIterator();
-//			
-//			String resultChaineTest = "";
-//			while (iteratorTest.hasMoreResources()) {
-//				resultChaineTest = (String) iteratorTest.nextResource().getContent();
-//				LOG.info("numDossier : " + numDossier + " --> Resultat DB XML : " + resultChaineTest);
-//			}
-			
-			///////////////////////   TEST  //////////////////////////////
-			//////////////////////////////////////////////////////////////
-			
-			
-			
 			
 			//Parcours des individus 
 			initChaineInfos();
