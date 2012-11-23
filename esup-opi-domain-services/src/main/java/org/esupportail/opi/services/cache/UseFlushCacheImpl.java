@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.esupportail.opi.services.remote.client;
+package org.esupportail.opi.services.cache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +94,7 @@ public class UseFlushCacheImpl implements UseFlushCache, InitializingBean {
 
 
 	/** 
-	 * @see org.esupportail.opi.services.remote.client.UseFlushCache#flushCache(java.lang.String)
+	 * @see org.esupportail.opi.services.cache.UseFlushCache#flushCache(java.lang.String)
 	 */
 	@Override
 	public void flushCache(final String cacheName) {

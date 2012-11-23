@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+    <class name="org.esupportail.opi.domain.beans.formation.GrpTypDipCorresp" table="GRP_TYP_DIP_CORRESP">
+        <id name="id"> 
+            <column name="ID_GRP_TYP_DIP_CORRESP" sql-type="integer" not-null="true"/>
+            <generator class="native" >
+                <param name="sequence">grp_typ_dip_corresp_seq</param>
+            </generator>
+        </id>
+        <properties name="uniqueConstraint" unique="true">
+            <many-to-one name="grpTpd" class="org.esupportail.opi.domain.beans.formation.GrpTypDip">
+                <column name="COD_GRP_TPD" length="10" />
+            </many-to-one>
+            <property name="codTpdEtb" type="string">
+                <column name="COD_TPD_ETB" length="2" />
+            </property>
+        </properties>
+    </class>
+</hibernate-mapping>

@@ -11,9 +11,11 @@
     			</h:outputFormat>
     			<h:panelGroup>
     				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    					action="#{paramGrpTypDipController.delete}"/>
+    					action="#{paramGrpTypDipController.delete}" 
+                        ajax="false"/>
     				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
-    					action="#{paramGrpTypDipController.reset}"
+    					action="#{paramGrpTypDipController.reset}" 
+                        ajax="false"
     					immediate="true"/>
     			</h:panelGroup>
     		</h:panelGrid>

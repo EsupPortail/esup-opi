@@ -11,26 +11,9 @@
 		the developers.
 	-->
 
-
-<!-- 	<bean id="abstractXFire" class="org.codehaus.xfire.spring.remoting.XFireExporter" -->
-<!-- 		abstract="true"> -->
-<!-- 		<property name="serviceFactory" ref="xfire.serviceFactory" /> -->
-<!-- 		<property name="xfire" ref="xfire" /> -->
-<!-- 	</bean> -->
-
-
-<!-- 	<bean id="flushCacheXFire" parent="abstractXFire"> -->
-<!-- 		<property name="serviceBean" ref="flushCache" /> -->
-<!-- 		<property name="serviceClass" -->
-<!-- 			value="org.esupportail.opi.services.remote.IFlushCache" /> -->
-<!-- 	</bean> -->
-
-
-	<bean id="flushCache" class="org.esupportail.opi.services.remote.FlushCacheImpl">
+	<bean id="flushCache" class="org.esupportail.opi.services.cache.FlushCacheImpl">
 		<property name="flushingModels" ref="cachePropertyConfigurer"/>
 	</bean>
-
-
 
 	<bean id="schedulerFlushCache"
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
@@ -45,10 +28,9 @@
 		</property>
 	</bean>
 
-
 	<bean id="flushCacheThread" class="org.springframework.scheduling.quartz.JobDetailBean">
 		<property name="jobClass"
-			value="org.esupportail.opi.services.remote.client.FlushCacheThread" />
+			value="org.esupportail.opi.services.cache.FlushCacheThread" />
 		<property name="jobDataAsMap">
 			<map>
 				<entry key="useFlushCache">
@@ -58,10 +40,8 @@
 		</property>
 	</bean>
 	
-	<bean id="useFlushCache" class="org.esupportail.opi.services.remote.client.UseFlushCacheImpl">
+	<bean id="useFlushCache" class="org.esupportail.opi.services.cache.UseFlushCacheImpl">
 		<property name="serversString" value="${remote.flushCache.servers}"/>
 	</bean>
-	
-	
 
 </beans>

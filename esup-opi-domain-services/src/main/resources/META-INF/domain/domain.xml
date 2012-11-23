@@ -13,16 +13,17 @@
             expression="execution(* org.esupportail.*.domain.DomainServiceImpl.*(..))" />
         <aop:pointcut id="paramMethods"
             expression="execution(* org.esupportail.*.domain.ParameterServiceImpl.*(..))" />
-        <aop:pointcut id="domainApoMethods"
-            expression="execution(* org.esupportail.*.domain.DomainApoServiceImpl.getListCommissionsByRight(..))" />
+        <aop:pointcut id="bddApoMethods"
+            expression="execution(* org.esupportail.*.services.remote.client.BDDApogee.*(..))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="domainMethods" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="paramMethods" />
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="domainApoMethods" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="bddApoMethods" />
     </aop:config>
 
     <tx:advice id="txAdvice" transaction-manager="txManager">
         <tx:attributes>
             <tx:method name="add*" propagation="REQUIRED" />
+            <tx:method name="save*" propagation="REQUIRED" />
             <tx:method name="delete*" propagation="REQUIRED" />
             <tx:method name="update*" propagation="REQUIRED" />
             <tx:method name="*" propagation="SUPPORTS" read-only="true" />
@@ -120,12 +121,11 @@
 		>
 		<property name="remoteCriApogeeRef" ref="remoteCriApogeeRef" />
 		<property name="remoteCriApogeeEns" ref="remoteCriApogeeEns" />
-		<property name="remoteCriApogeeRennes1" ref="remoteCriApogeeRennes1"/>
+		<property name="remoteApo" ref="${remote.apogee}"/>
 		<property name="remoteCriApogeeEtudiant" ref="remoteCriEtudiant"/>
 		<property name="remoteApoRenAdminMetier" ref="remoteApoRenAdminMetier"/>
     	<property name="remoteApoRenEtuMetier" ref="remoteApoRenEtuMetier"/>
    		<property name="remoteApoRenGeoMetier" ref="remoteApoRenGeoMetier"/>
-<!--     	<property name="remoteApoRenOpiMetier" ref="remoteApoRenOpiMetier"/> -->
     	<property name="remoteApoRenPedaMetier" ref="remoteApoRenPedaMetier"/>
 		<property name="codEtbInt" value="${init.codEtbInt}" />
 		<property name="codDacEtr" value="${init.codDacEtr}" />

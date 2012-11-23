@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 11 d?c. 2008 15:34:05 by Hibernate Tools 3.2.2.GA -->
 <hibernate-mapping>
-    <class name="fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip" table="REN1_GRP_TYP_DIP" >
+    <class name="org.esupportail.opi.domain.beans.formation.GrpTypDip" table="GRP_TYP_DIP" >
         <id name="codGrpTpd" type="string">
             <column name="COD_GRP_TPD" length="10" />
             <generator class="assigned" />
@@ -14,11 +14,11 @@
         <property name="temEnSveGrpTpd" type="string">
             <column name="TEM_EN_SVE_GRP_TPD" length="1" not-null="true" />
         </property>
-        <set name="ren1GrpTypDipCorresps" cascade="all,delete-orphan" lazy="false" inverse="true" fetch="subselect">
+        <set name="grpTypDipCorresps" cascade="all-delete-orphan">
             <key>
                 <column name="COD_GRP_TPD" length="10" not-null="true" />
             </key>
-            <one-to-many class="fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDipCorresp" />
+            <one-to-many class="org.esupportail.opi.domain.beans.formation.GrpTypDipCorresp" />
         </set>
     </class>
 </hibernate-mapping>

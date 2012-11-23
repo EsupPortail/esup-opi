@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.esupportail.opi.services.remote.client;
+package org.esupportail.opi.services.cache;
 
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;

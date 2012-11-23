@@ -9,7 +9,7 @@ import java.util.Date;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.opi.services.remote.client.FlushCacheThread;
+import org.esupportail.opi.services.cache.FlushCacheThread;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;

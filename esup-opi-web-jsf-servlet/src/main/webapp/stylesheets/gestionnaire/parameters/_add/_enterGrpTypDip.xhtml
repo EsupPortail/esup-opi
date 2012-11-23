@@ -8,12 +8,12 @@
     		<h:panelGroup>
     			<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     				rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.addAction}"
-    				action="#{paramGrpTypDipController.add}"/>
+    				action="#{paramGrpTypDipController.add}" ajax="false"/>
     			<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     				rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.updateAction}"
-    				action="#{paramGrpTypDipController.update}"/>
+    				action="#{paramGrpTypDipController.update}" ajax="false"/>
     			<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    				action="#{paramGrpTypDipController.reset}"/>
+    				action="#{paramGrpTypDipController.reset}" ajax="false"/>
     		</h:panelGroup>
     	</h:panelGrid>
     	<h:panelGrid columns="4" styleClass="displayInfo">
@@ -30,7 +30,7 @@
     			value="#{paramGrpTypDipController.groupe.codGrpTpd}"/>
     		<p:inputText id="lib" size="60"
     			value="#{paramGrpTypDipController.groupe.libGrpTpd}"/>
-    		<p:selectOneMenu id="inUse"
+    		<p:selectOneMenu id="inUse" style="text-align:left;"
     			value="#{paramGrpTypDipController.groupe.temEnSveGrpTpd}">
     			<f:selectItems value="#{paramGrpTypDipController.temEnSveItems}"/>
     		</p:selectOneMenu>
@@ -40,12 +40,10 @@
     				<f:selectItems value="#{paramGrpTypDipController.allDipsItems}"/>
     			</p:selectManyMenu>
     			<h:panelGrid columns="1">
-    				<p:commandButton image="/media/images/fleche_gauche.gif"
-    					styleClass="icone"
-    					action="#{paramGrpTypDipController.suppDipsItems}"/>
-    				<p:commandButton image="/media/images/fleche_droite.gif"
-    					styleClass="icone"
-    					action="#{paramGrpTypDipController.ajouDipsItems}"/>
+                    <p:commandButton icon="ui-icon-arrowthick-1-e"
+                        action="#{paramGrpTypDipController.ajouDipsItems}" ajax="false"/>
+    				<p:commandButton icon="ui-icon-arrowthick-1-w"
+    					action="#{paramGrpTypDipController.suppDipsItems}" ajax="false"/>
     			</h:panelGrid>
     			<p:selectManyMenu styleClass="manyMenu"
     				value="#{paramGrpTypDipController.selectDipsDI}">

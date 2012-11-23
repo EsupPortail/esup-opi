@@ -8,7 +8,8 @@
  */
 package org.esupportail.opi.web.beans.pojo;
 
-import static fj.data.Option.*;
+import static fj.data.Option.fromNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -94,12 +95,6 @@ public class IndividuPojo {
 	 * The vows of individu.
 	 */
 	private Set<IndVoeuPojo> indVoeuxPojo;
-	
-	/**
-	 *  The vows of individu.
-	 * Default value : empty
-	 */
-	private List<IndVoeuPojo> indVoeuxPojoAsList;
 	
 	/**
 	 * a true si c'est un gestionnaire.

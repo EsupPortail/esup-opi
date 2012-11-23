@@ -10,10 +10,9 @@
         			<h:outputText value="#{msgs['FORMULAIRE']}" styleClass="section-smallTitle" />
         		</h:panelGrid>
         	</div>
-        	<p:dataTable var="indVoeuPojo"
-        		value="#{sessionController.currentInd.indVoeuxPojo}"
-        		alternateColors="false" renderedIfEmpty="false"
-        		styleClass="displayInfo">
+        	<p:dataTable var="indVoeuPojo" styleClass="displayInfo" 
+        		value="#{sessionController.currentInd.indVoeuxPojoAsList}"
+        		rendered="#{not empty sessionController.currentInd.indVoeuxPojo}">
         		<p:column>
         			<f:facet name="header">
         				<h:outputText value="#{msgs['INFO.SAISIE']}" />
@@ -33,13 +32,13 @@
         			<h:panelGroup
         				rendered="#{formulairesController.formulairesCmi[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null
         							and indVoeuPojo.etat.displayForms}">
-        				<p:commandButton value="#{msgs['FORMULAIRE.ACCESS']}"
+        				<p:commandLink value="#{msgs['FORMULAIRE.ACCESS']}"
         					style="font-size:14px;"
         					action="#{formulairesController.createResponseInRunner}"
         					rendered="#{formulairesController.indFormulaires[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] == null and formulairesController.indSelectedForms[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null}">
         					<f:setPropertyActionListener value="#{indVoeuPojo.indVoeu}" target="#{formulairesController.indVoeuSelected}" />
-        				</p:commandButton>
-        				<h:outputLink target="_blank" styleClass="form-button"
+        				</p:commandLink>
+        				<h:outputLink target="_blank"
         					style="font-size:14px;"
         					value="#{formulairesController.orbeonOpiUrl}#{indVoeuPojo.vrsEtape.codEtp}-#{indVoeuPojo.vrsEtape.codVrsVet}
         							-#{sessionController.currentInd.regimeInscription.shortLabel}/edit/#{indVoeuPojo.indVoeu.individu.numDossierOpi}"
@@ -47,7 +46,7 @@
         					and sessionController.currentInd.asRightsToUpdate}">
         					<h:outputText value="#{msgs['FORMULAIRE.EDIT2']}"/>
         				</h:outputLink>
-        				<h:outputLink target="_blank" styleClass="form-button-image"
+        				<h:outputLink target="_blank"
         					value="#{formulairesController.orbeonOpiUrl}#{indVoeuPojo.vrsEtape.codEtp}-#{indVoeuPojo.vrsEtape.codVrsVet}
         							-#{sessionController.currentInd.regimeInscription.shortLabel}/view/#{indVoeuPojo.indVoeu.individu.numDossierOpi}"
         					rendered="#{formulairesController.indFormulaires[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null}">

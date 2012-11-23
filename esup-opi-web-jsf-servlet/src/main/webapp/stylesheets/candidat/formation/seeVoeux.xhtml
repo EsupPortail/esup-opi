@@ -42,7 +42,7 @@
     							</h:panelGrid>
     						</div>
     						<p:dataTable var="indVoeuPojo"
-    							value="#{sessionController.indVoeuPojosItems}"
+    							value="#{sessionController.currentInd.indVoeuxPojoAsList}"
     							alternateColors="false" renderedIfEmpty="false"
     							styleClass="displayInfo">
     							<p:column>
@@ -62,7 +62,7 @@
     									<h:outputText value="#{msgs['FIELD_LABEL.RESULT']}" />
     								</f:facet>
     								<h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
-    									rendered="#{empty indVoeuPojo.avisAsList}" />
+    									rendered="#{empty indVoeuPojo.indVoeu.avis}" />
     								<p:dataList id="datalistavis" style="myStyle" var="avis"
     									value="#{indVoeuPojo.avisAsList}">
     									<h:outputText value="#{avis.result.libelle}"
@@ -75,11 +75,11 @@
     								</f:facet>
     								<h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
     									rendered="#{empty indVoeuPojo.avisAsList}" />
-    								<p:dataList id="datalistavis2" style="myStyle" var="avis2"
-    									value="#{indVoeuPojo.avisAsList}">
+    								<ui:repeat id="datalistavis2" styleClass="myStyle" var="avis2"
+    									value="#{indVoeuPojo.indVoeu.avis}">
     									<h:outputText value="#{avis2.commentaire}"
     										rendered="#{avis2.temoinEnService and avis2.validation}" />
-    								</p:dataList>
+    								</ui:repeat>
     							</p:column>
     							<p:column>
     								<p:commandButton icon="ui-icon-minus"
@@ -100,11 +100,5 @@
     			</h:form>
     		</div>
     	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigationLogin');
-        	highlightChildrenLiTags('navigationFooter:navigationLogin');
-        	highlightInputAndSelect('seeVoeuxForm');
-        </script>
     </ui:define>
 </ui:composition>
