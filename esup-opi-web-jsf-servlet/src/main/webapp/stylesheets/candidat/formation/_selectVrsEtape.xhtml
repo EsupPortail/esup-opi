@@ -17,18 +17,17 @@
     				</h:panelGrid>
     			</div>
     			<p:dataTable var="versionEtapePojo" id="versionEtapeData"
-    				value="#{formationController.searchFormationPojo.versionEtapes}"
+    				value="#{formationController.searchFormationPojo.versionEtapesAsList}"
                     selectionMode="multiple" selection="#{formationController.searchFormationPojo.objectToAdd}"
                     rowKey="#{versionEtapePojo}"
     				styleClass="paginatorData">
-    				<p:column>
+    				<p:column rendered="#{versionEtapePojo.isAlReadyChoice}">
                         <p:graphicImage url="/media/images/flag_red.png"
                             style="cursor:pointer;" id="alreadyInscription" />
-                        <p:overlayPanel for="infoAnneeUni"
+                        <p:overlayPanel for="alreadyInscription" 
                             showEvent="mouseover"
                             hideEvent="mouseout"
-                            styleClass="containerPopup"
-                            rendered="#{versionEtapePojo.isAlReadyChoice}">
+                            styleClass="containerPopup">
 							<h:panelGroup>
 								<h:panelGrid columns="1">
 									<h:outputText styleClass="titrePopupAide"
@@ -40,7 +39,6 @@
 								</h:panelGrid>
 							</h:panelGroup>
     					</p:overlayPanel>
-    
     				</p:column>
     				<p:column>
     					<f:facet name="header">
@@ -56,7 +54,7 @@
     					<h:panelGroup 
     						rendered="#{versionEtapePojo.calPeriod != null}">
     		                <h:outputText value="#{versionEtapePojo.shortCalPeriod}" />
-                            <p:graphicImage url="../../../media/images/informationSmall.png"
+                            <p:graphicImage url="/media/images/informationSmall.png"
                                 style="cursor:pointer;" id="infoAnneeUni" />
                             <p:overlayPanel for="infoAnneeUni"
                                 showEvent="mouseover"

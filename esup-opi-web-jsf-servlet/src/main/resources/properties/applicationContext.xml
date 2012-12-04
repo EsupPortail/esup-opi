@@ -50,6 +50,8 @@
 	<import resource="classpath*:/META-INF/urlGeneration/urlGeneration.xml" />
 	<import resource="web/controllers.xml" />
 	<import resource="web/converters.xml" />
+    <import resource="web/managedAccess.xml" />
+    <import resource="web/paginators.xml" />
 	<import resource="classpath*:/META-INF/web/beans.xml" />
 	
 </beans>

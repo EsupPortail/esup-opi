@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="org.esupportail.opi.domain.beans.references.commission">
  <class name="Commission" table="commission">
   <id name="id">
-   <column name="id_cmi" not-null="true" sql-type="integer"/>
+   <column name="id_cmi" not-null="true"/>
    <generator class="native">
     <param name="sequence">commission_seq</param>
    </generator>

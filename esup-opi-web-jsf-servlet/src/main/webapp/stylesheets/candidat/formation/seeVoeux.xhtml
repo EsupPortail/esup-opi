@@ -2,7 +2,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateCandidat.xhtml">
     <ui:define name="content">
     	
     	
@@ -63,11 +63,13 @@
     								</f:facet>
     								<h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
     									rendered="#{empty indVoeuPojo.indVoeu.avis}" />
-    								<p:dataList id="datalistavis" style="myStyle" var="avis"
+    								<ui:repeat id="datalistavis" style="myStyle" var="avis"
     									value="#{indVoeuPojo.avisAsList}">
-    									<h:outputText value="#{avis.result.libelle}"
-    										rendered="#{avis.temoinEnService and avis.validation}" />
-    								</p:dataList>
+                                        <div>
+        									<h:outputText value="#{avis.result.libelle}"
+        										rendered="#{avis.temoinEnService and avis.validation}" />
+                                        </div>
+    								</ui:repeat>
     							</p:column>
     							<p:column>
     								<f:facet name="header">
@@ -76,9 +78,11 @@
     								<h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
     									rendered="#{empty indVoeuPojo.avisAsList}" />
     								<ui:repeat id="datalistavis2" styleClass="myStyle" var="avis2"
-    									value="#{indVoeuPojo.indVoeu.avis}">
-    									<h:outputText value="#{avis2.commentaire}"
-    										rendered="#{avis2.temoinEnService and avis2.validation}" />
+    									value="#{indVoeuPojo.indVoeu.avisAsList}">
+                                        <div>
+        									<h:outputText value="#{avis2.commentaire}"
+        										rendered="#{avis2.temoinEnService and avis2.validation}" />
+                                        </div>
     								</ui:repeat>
     							</p:column>
     							<p:column>

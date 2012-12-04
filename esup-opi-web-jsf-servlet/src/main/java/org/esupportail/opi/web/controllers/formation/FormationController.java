@@ -451,7 +451,7 @@ public class FormationController extends AbstractAccessController {
 
 		summaryWishes = new ArrayList<SummaryWishesPojo>();
 		for (Map.Entry<Commission, Set<VersionEtapeDTO>> cEntry : mapCmi.entrySet()) {
-			Commission c = cEntry.getKey();
+			Commission c = getParameterService().getCommission(null, cEntry.getKey().getCode());
 			ContactCommission contact = new ContactCommission();
 			if (c.getContactsCommission().get(regimeIns.getCode()) != null) {
 				contact = c.getContactsCommission().get(regimeIns.getCode());

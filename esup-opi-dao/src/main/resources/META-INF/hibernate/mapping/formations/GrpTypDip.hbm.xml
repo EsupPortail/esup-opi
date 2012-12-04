@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 11 d?c. 2008 15:34:05 by Hibernate Tools 3.2.2.GA -->
 <hibernate-mapping>
     <class name="org.esupportail.opi.domain.beans.formation.GrpTypDip" table="GRP_TYP_DIP" >

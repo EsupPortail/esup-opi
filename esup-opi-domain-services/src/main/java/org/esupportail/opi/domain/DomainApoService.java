@@ -232,10 +232,6 @@ public interface DomainApoService extends Serializable {
 	 * @param codBac code du bac
 	 * @return BacOuxEqu.
 	 */
-	/**
-	 * TODO : à supprimer (16/01/2012)
-	 */
-	@Deprecated
 	BacOuxEqu getBacOuxEqu(String daaObt, String codBac);
 
 	

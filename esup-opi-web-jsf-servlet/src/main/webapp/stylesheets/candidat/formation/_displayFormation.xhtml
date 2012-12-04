@@ -7,11 +7,13 @@
     </div>
     <div id="blockFormVdi" class="blockForm">
     	<ui:repeat var="versionDiplome" value="#{formationController.searchFormationPojo.versionDiplomes}" layout="unorderedList">
-    		<p:commandLink value="#{versionDiplome.libWebVdi}" styleClass="form-button-link"
-    				action="#{formationController.selectEtape}">
-    			<f:setPropertyActionListener value="#{versionDiplome}" 
-    						target="#{formationController.searchFormationPojo.vrsDipSelected}" />
-    		</p:commandLink>
+    		<div>
+                <p:commandLink value="#{versionDiplome.libWebVdi}" styleClass="form-button-link"
+        				action="#{formationController.selectEtape}" partialSubmit="true" update="@form,:div_sectionSelectEtape,:div_sectionEtpEmpty">
+        			<f:setPropertyActionListener value="#{versionDiplome}" 
+        						target="#{formationController.searchFormationPojo.vrsDipSelected}" />
+        		</p:commandLink>
+            </div>
     	</ui:repeat>
     	<ui:fragment id="div_sectionEtpEmpty"
             rendered="#{empty formationController.searchFormationPojo.versionDiplomes and formationController.searchFormationPojo.versionDiplomes != null}">

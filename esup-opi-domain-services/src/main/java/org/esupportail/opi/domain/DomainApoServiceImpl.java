@@ -694,10 +694,6 @@ public class DomainApoServiceImpl implements DomainApoService {
 	/** 
 	 * @see org.esupportail.opi.domain.DomainApoService#getBacOuxEqu(java.lang.String, java.lang.String)
 	 */
-	/**
-	 * TODO : à supprimer (16/01/2012)
-	 */
-	@Deprecated
 	public BacOuxEqu getBacOuxEqu(final String daaObt, final String codBac) {
 		if (log.isDebugEnabled()) {
 			log.debug("getBacOuxEqu( " + daaObt + ", " + codBac + " )");

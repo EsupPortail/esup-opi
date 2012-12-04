@@ -65,8 +65,7 @@
     						</div>
     						<div class="blockTable">
     							<h:form id="dossiersSelect" styleClass="opiR1_form">
-    								<p:dataList var="indVoeuPojo" value="#{summaryWishes.vowsAsList}"
-    									layout="unorderedList">
+    								<ui:repeat var="indVoeuPojo" value="#{summaryWishes.vowsAsList}">
     									<h:panelGrid styleClass="tableJustWidthMax"
     										columnClasses="portlet-table-text-left">
     										<h:panelGroup>
@@ -97,7 +96,7 @@
     											</h:panelGroup>
     										</h:panelGroup>
     									</h:panelGrid>
-    								</p:dataList>
+    								</ui:repeat>
     							</h:form>
     						</div>
                         </ui:fragment>
@@ -109,8 +108,7 @@
     						</div>
     						<div class="blockTable">
     							<h:form id="dossiers" styleClass="opiR1_form">
-    								<p:dataList var="indVoeuPojo" value="#{summaryWishes.vows}"
-    									layout="unorderedList">
+    								<ui:repeat var="indVoeuPojo" value="#{summaryWishes.vowsAsList}">
     									<h:panelGrid styleClass="tableJustWidthMax">
     										<h:panelGroup>
     											<h:outputText value="#{indVoeuPojo.vrsEtape.libWebVet}" />
@@ -136,7 +134,7 @@
     											</h:outputLink>
     										</h:panelGroup>
     									</h:panelGrid>
-    								</p:dataList>
+    								</ui:repeat>
     							</h:form>
     						</div>
     						<div>

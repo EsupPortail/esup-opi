@@ -67,7 +67,7 @@ public class SearchFormationPojo implements Serializable {
 	/**
 	 * The versionEtape to select for indivudu's inscription.
 	 */
-	private List<Object> objectToAdd;
+	private Object[] objectToAdd;
 	
 	/**
 	 * Has true if all VersionEtape in etapes is selected.
@@ -106,7 +106,7 @@ public class SearchFormationPojo implements Serializable {
 		versiontEtpToDelete = null;
 		versionEtapes = null;
 		vrsDipSelected = null;
-		objectToAdd = new ArrayList<Object>();
+		objectToAdd = new Object[]{};
 		allChecked = false;
 	}
 	
@@ -119,7 +119,7 @@ public class SearchFormationPojo implements Serializable {
 	 * @return callback to recap formation.
 	 */
 	public String addEtapeChoice() {
-		if (!objectToAdd.isEmpty()) {
+		if (objectToAdd.length > 0) {
 			for (Object o : objectToAdd) {
 				vrsEtpSelected.add((VersionEtapePojo) o);
 			}
@@ -235,6 +235,13 @@ public class SearchFormationPojo implements Serializable {
 	}
 
 	/**
+	 * @return the vrsEtpSelected
+	 */
+	public List<VersionEtapePojo> getVrsEtpSelectedAsList() {
+		return new ArrayList<VersionEtapePojo>(vrsEtpSelected);
+	}
+
+	/**
 	 * @param vrsEtpSelected the vrsEtpSelected to set
 	 */
 	public void setVrsEtpSelected(final Set<VersionEtapePojo> vrsEtpSelected) {
@@ -244,14 +251,14 @@ public class SearchFormationPojo implements Serializable {
 	/**
 	 * @return the objectToAdd
 	 */
-	public List<Object> getObjectToAdd() {
+	public Object[] getObjectToAdd() {
 		return objectToAdd;
 	}
 
 	/**
 	 * @param objectToAdd the objectToAdd to set
 	 */
-	public void setObjectToAdd(final List<Object> objectToAdd) {
+	public void setObjectToAdd(final Object[] objectToAdd) {
 		this.objectToAdd = objectToAdd;
 	}
 
