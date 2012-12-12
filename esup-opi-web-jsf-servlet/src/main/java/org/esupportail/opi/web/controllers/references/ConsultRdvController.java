@@ -219,7 +219,7 @@ public class ConsultRdvController extends AbstractContextAwareController {
 			}
 			//Récupération des versionEtpOpi de la liste VetCalendar
 			for (VetCalendar vetCal : calendarRdv.getVets()) {
-				listVetDto.add(getBusinessCacheService().getVersionEtape(
+				listVetDto.add(getDomainApoService().getVersionEtape(
 						vetCal.getCodEtp(), vetCal.getCodVrsVet()));
 			}
 			if (!listVetDto.isEmpty()) {
@@ -441,7 +441,8 @@ public class ConsultRdvController extends AbstractContextAwareController {
 			weekScheduleModel = new SimpleScheduleModel();
 
 			Date now = new Date();
-			if (now.before(calendarRdv.getDateDebutInsc())) {
+			if (calendarRdv != null && 
+					now.before(calendarRdv.getDateDebutInsc())) {
 				now = calendarRdv.getDateDebutInsc();
 			}
 			weekScheduleModel.setSelectedDate(now);
@@ -449,7 +450,8 @@ public class ConsultRdvController extends AbstractContextAwareController {
 
 			dateSelect = weekScheduleModel.getSelectedDate();
 
-			List<Date> datesDisponibles = calendarRdv.getDatesRdv(false);
+			List<Date> datesDisponibles = (calendarRdv != null) 
+					? calendarRdv.getDatesRdv(false) : new ArrayList<Date>();
 
 			if (!datesDisponibles.isEmpty()) {
 

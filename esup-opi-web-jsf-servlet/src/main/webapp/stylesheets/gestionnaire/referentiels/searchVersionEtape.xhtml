@@ -36,145 +36,152 @@
     				<br />
     				<br />
     				<br />
-    				<div id="div_subSection" class="div_subSection"
-    					rendered="#{!etapeController.rightOneEtp || (etapeController.rightOneEtp && etapeController.rightOnCge)}">
+    				<p:outputPanel id="div_subSection" styleClass="div_subSection"
+    					rendered="#{!etapeController.rightOneEtp || (etapeController.rightOneEtp and etapeController.rightOnCge)}">
     					<div id="blockFormInfo" class="blockForm">
-    						<div styleClass="blockButton">
+    						<div class="blockButton">
     							<h:panelGroup>
-    								<p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
+    								<p:commandButton id="searchButton" value="#{msgs['_.BUTTON.SEARCH']}" update="@form"
     									action="#{etapeController.searchEtape}" />
     								<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
     									immediate="true" action="#{etapeController.goBackSearchEtape}"/>
     							</h:panelGroup>
     						</div>
     						
-    							<h:panelGrid styleClass="tableWidthMax" columns="4"
-    								columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-    								<h:panelGroup>
-    									<h:outputLabel value="#{msgs['FIELD_LABEL.CAMPAGNES']}" for="campagnes" />
-    									<h:outputText value="*" styleClass="etoileForChpObli" />
-    								</h:panelGroup>
-    							
-    								<p:selectOneMenu id="campagnes"
-    									value="#{etapeController.codAnu}">
-    									<f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}" itemValue="" />
-    									<f:selectItems var="campagne"
-    										value="#{etapeController.campagnes}"
-    										itemLabel="#{campagne.code} - #{campagne.libelle}"
-    										itemValue="#{campagne.codAnu}" />
-    								</p:selectOneMenu>
-    								<h:panelGroup>
-    									<h:outputLabel value="#{msgs['FIELD_LABEL.CGE']}" for="cge" />
-    									<h:outputText value="*" styleClass="etoileForChpObli" />
-    								</h:panelGroup>
-    							
-    								<p:selectOneMenu id="oneCge"
-    									rendered="#{etapeController.rightOnCge}"
-    									value="#{etapeController.codCge}">
-    									<f:selectItems var="centreGestion"
-    										value="#{etapeController.centreGestion}"
-    										itemLabel="#{centreGestion.libCge}"
-    										itemValue="#{centreGestion.codCge}" />
-    								</p:selectOneMenu>
-    								<p:selectOneMenu id="cge"
-    									rendered="#{!etapeController.rightOnCge}"
-    									value="#{etapeController.codCge}">
-    									<f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}" itemValue="" />
-    									<f:selectItems var="centreGestion"
-    										value="#{etapeController.centreGestion}"
-    										itemLabel="#{centreGestion.libCge}"
-    										itemValue="#{centreGestion.codCge}" />
-    								</p:selectOneMenu>
-    								<h:outputLabel value="#{msgs['FIELD_LABEL.COD_ETP']}" for="codEtp" />
-    								<h:inputText id="codEtp" size="10" maxlength="10"
-    									value="#{etapeController.codEtp}"/>
-    								
-    								
-    								<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']} #{msgs['FIELD_LABEL.VRS_VET']}" for="libWebVet" />
-    								<h:inputText id="libWebVet" size="40" maxlength="60"
-    									value="#{etapeController.libWebVet}"/>
-    								<h:panelGroup />
-    								<h:panelGroup />
-    							</h:panelGrid>
-    						
+							<h:panelGrid styleClass="tableWidthMax" columns="4"
+								columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+								<h:panelGroup>
+									<h:outputLabel value="#{msgs['FIELD_LABEL.CAMPAGNES']}" for="campagnes" />
+									<h:outputText value="*" styleClass="etoileForChpObli" />
+								</h:panelGroup>
+							
+								<p:selectOneMenu id="campagnes"
+									value="#{etapeController.codAnu}">
+									<f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}" itemValue="" />
+									<f:selectItems var="campagne"
+										value="#{etapeController.campagnes}"
+										itemLabel="#{campagne.code} - #{campagne.libelle}"
+										itemValue="#{campagne.codAnu}" />
+								</p:selectOneMenu>
+								<h:panelGroup>
+									<h:outputLabel value="#{msgs['FIELD_LABEL.CGE']}" for="cge" />
+									<h:outputText value="*" styleClass="etoileForChpObli" />
+								</h:panelGroup>
+							
+								<p:selectOneMenu id="oneCge"
+									rendered="#{etapeController.rightOnCge}"
+									value="#{etapeController.codCge}">
+									<f:selectItems var="centreGestion"
+										value="#{etapeController.centreGestion}"
+										itemLabel="#{centreGestion.libCge}"
+										itemValue="#{centreGestion.codCge}" />
+								</p:selectOneMenu>
+								<p:selectOneMenu id="cge"
+									rendered="#{!etapeController.rightOnCge}"
+									value="#{etapeController.codCge}">
+									<f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}" itemValue="" />
+									<f:selectItems var="centreGestion"
+										value="#{etapeController.centreGestion}"
+										itemLabel="#{centreGestion.libCge}"
+										itemValue="#{centreGestion.codCge}" />
+								</p:selectOneMenu>
+								<h:outputLabel value="#{msgs['FIELD_LABEL.COD_ETP']}" for="codEtp" />
+								<h:inputText id="codEtp" size="10" maxlength="10"
+									value="#{etapeController.codEtp}"/>
+								
+								
+								<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']} #{msgs['FIELD_LABEL.VRS_VET']}" for="libWebVet" />
+								<h:inputText id="libWebVet" size="40" maxlength="60"
+									value="#{etapeController.libWebVet}"/>
+								<h:panelGroup />
+								<h:panelGroup />
+							</h:panelGrid>
     					</div>
-    				</div>
+    				</p:outputPanel>
     				<br />
     				<br />
     				<br />
-    
-    
-    				<br />
-    				<br />
-    				<br />
-                    <ui:fragment rendered="#{not empty etapeController.etapes}">
-        				<div id="div_subSectionList" class="div_subSection">
-        					<div style="width:100%;">
-        						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-        							styleClass="tableJustWidthMax">
-        							<h:outputText value="#{msgs['FIELD_LABEL.LIST_ETPS']}"
-        								styleClass="section-smallTitle" />
-        							<h:panelGroup>
-        								<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-        									action="#{trtCmiController.addEtapes}" 
-        									rendered="#{etapeController.wayfEnum.whereAreYouFrom == etapeController.wayfEnum.memberCmiValue}"/>
-        								<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-        									action="#{nomenclatureController.addEtapes}" 
-        									rendered="#{etapeController.wayfEnum.whereAreYouFrom == etapeController.wayfEnum.PJValue
-        									|| etapeController.wayfEnum.whereAreYouFrom == etapeController.wayfEnum.affectPJValue}"/>
-        								<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-        									rendered="#{etapeController.rightOneEtp && !etapeController.rightOnCge}"
-        									immediate="true" action="#{etapeController.goBackSearchEtape}"/>
-        							</h:panelGroup>
-        						</h:panelGrid>
-        					</div>
-        					<div style="width:100%;">
-        						<p:dataTable var="versionEtape" id="versionEtapeData"
-        							value="#{etapeController.etapes}"
-        							styleClass="paginatorData" alternateColors="true">
-        							<p:column>
-        								<f:facet name="header">
-        									<h:outputText value="#{msgs['FIELD_LABEL.COD_ETP']}" />
-        								</f:facet>
-        								<h:outputText value="#{versionEtape.codEtp}" />
-        							</p:column>
-        							<p:column>
-        								<f:facet name="header">
-        									<h:outputText value="#{msgs['FIELD_LABEL.CODE']} #{msgs['FIELD_LABEL.VRS_VET']}" />
-        								</f:facet>
-        								<h:outputText value="#{versionEtape.codVrsVet}" />
-        							</p:column>
-        							<p:column>
-        								<f:facet name="header">
-        									<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']} #{msgs['FIELD_LABEL.VRS_VET']}" />
-        								</f:facet>
-        								<h:outputText value="#{versionEtape.libWebVet}" />
-        							</p:column>
-        							<p:column>
-        								<f:facet name="header">
-        									<p:selectBooleanCheckbox value="#{etapeController.allChecked}" 
-        									onclick="checkAllInElement('searchVersEtpForm:versionEtapeData' ,this.checked)" />
-        								</f:facet>
-        								<jdt:multipleRowsSelector
-        									selectionList="#{etapeController.objectToAdd}" 
-        									rendered="#{etapeController.wayfEnum.whereAreYouFrom == etapeController.wayfEnum.memberCmiValue}"/>
-        								<jdt:multipleRowsSelector
-        									selectionList="#{nomenclatureController.objectToAdd}" 
-        									rendered="#{etapeController.wayfEnum.whereAreYouFrom == etapeController.wayfEnum.PJValue
-        									|| etapeController.wayfEnum.whereAreYouFrom == etapeController.wayfEnum.affectPJValue}"/>
-        							</p:column>
-        						</p:dataTable>
-        					</div>
+                    <p:outputPanel id="div_subSectionList" styleClass="div_subSection" rendered="#{not empty etapeController.etapes}">
+    					<div style="width:100%;">
+    						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+    							styleClass="tableJustWidthMax">
+    							<h:outputText value="#{msgs['FIELD_LABEL.LIST_ETPS']}"
+    								styleClass="section-smallTitle" />
+    							<h:panelGroup>
+    								<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+    									action="#{trtCmiController.addEtapes}" 
+    									rendered="#{etapeController.wayfEnum.whereAreYouFrom == etapeController.wayfEnum.memberCmiValue}"/>
+    								<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+    									action="#{nomenclatureController.addEtapes}" 
+    									rendered="#{etapeController.wayfEnum.whereAreYouFrom == etapeController.wayfEnum.PJValue
+    									|| etapeController.wayfEnum.whereAreYouFrom == etapeController.wayfEnum.affectPJValue}"/>
+    								<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+    									rendered="#{etapeController.rightOneEtp and !etapeController.rightOnCge}"
+    									immediate="true" action="#{etapeController.goBackSearchEtape}"/>
+    							</h:panelGroup>
+    						</h:panelGrid>
+    					</div>
+    					<div style="width:100%;">
+                            <ui:fragment rendered="#{etapeController.wayfEnum.whereAreYouFrom == etapeController.wayfEnum.memberCmiValue}">
+                                <p:dataTable var="versionEtape" id="versionEtapeData"
+                                    selection="#{etapeController.objectToAdd}" rowKey="#{versionEtape}"
+                                    value="#{etapeController.etapes}"
+                                    styleClass="paginatorData">
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msgs['FIELD_LABEL.COD_ETP']}" />
+                                        </f:facet>
+                                        <h:outputText value="#{versionEtape.codEtp}" />
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msgs['FIELD_LABEL.CODE']} #{msgs['FIELD_LABEL.VRS_VET']}" />
+                                        </f:facet>
+                                        <h:outputText value="#{versionEtape.codVrsVet}" />
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']} #{msgs['FIELD_LABEL.VRS_VET']}" />
+                                        </f:facet>
+                                        <h:outputText value="#{versionEtape.libWebVet}" />
+                                    </p:column>
+                                    <p:column selectionMode="multiple" />
+                                </p:dataTable>
+                            </ui:fragment>
+                            <ui:fragment rendered="#{etapeController.wayfEnum.whereAreYouFrom == etapeController.wayfEnum.PJValue
+                                        || etapeController.wayfEnum.whereAreYouFrom == etapeController.wayfEnum.affectPJValue}">
+                                <p:dataTable var="versionEtape" id="versionEtapeData2"
+                                    selection="#{nomenclatureController.objectToAdd}" rowKey="#{versionEtape}"
+                                    value="#{etapeController.etapes}"
+                                    styleClass="paginatorData">
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msgs['FIELD_LABEL.COD_ETP']}" />
+                                        </f:facet>
+                                        <h:outputText value="#{versionEtape.codEtp}" />
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msgs['FIELD_LABEL.CODE']} #{msgs['FIELD_LABEL.VRS_VET']}" />
+                                        </f:facet>
+                                        <h:outputText value="#{versionEtape.codVrsVet}" />
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']} #{msgs['FIELD_LABEL.VRS_VET']}" />
+                                        </f:facet>
+                                        <h:outputText value="#{versionEtape.libWebVet}" />
+                                    </p:column>
+                                    <p:column selectionMode="multiple" />
+                                </p:dataTable>
+                            </ui:fragment>
         				</div>
-                    </ui:fragment>
+                    </p:outputPanel>
+                    <p:blockUI block="searchVersEtpForm" trigger="searchButton">
+                        <p:graphicImage value="/media/images/ajax-loader.gif" />
+                    </p:blockUI>
     			</h:form>
     		</div>
     	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        	highlightInputAndSelect('searchMembersForm');
-        </script>
     </ui:define>
 </ui:composition>

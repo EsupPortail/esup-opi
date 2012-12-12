@@ -9,6 +9,7 @@ import static fj.data.Stream.iterableStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -46,8 +47,8 @@ import org.esupportail.opi.services.mails.MailContentService;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.beanEnum.WayfEnum;
-import org.esupportail.opi.web.beans.paginator.CommissionPaginator;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
+import org.esupportail.opi.web.beans.pojo.CommissionPojo;
 import org.esupportail.opi.web.beans.pojo.IndListePrepaPojo;
 import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
@@ -103,10 +104,6 @@ public class CommissionController
 	
 	/*
 	 ******************* PROPERTIES ******************* */
-	/**
-	 * Commission's paginator.
-	 */
-	private CommissionPaginator paginator;
 
 	/**
 	 * The commission.
@@ -169,7 +166,7 @@ public class CommissionController
 	/**
 	 * The list of members selected for the mail send.
 	 */
-	private List<Object> membersSelected;
+	private Object[] membersSelected;
 	
 	/**
 	 * see {@link Transfert}.
@@ -190,10 +187,19 @@ public class CommissionController
 	 * mail send to member convocation.
 	 */
 	private MailContentService convocMember;
-	
 
 	/**
-	 * see {@link trtCmiController}.
+	 * The list of commitees.
+	 */
+	private List<CommissionPojo> listCmiPojo;
+
+	/**
+	 * The list of commitees.
+	 */
+	private List<CommissionPojo> filteredListCmiPojo;
+
+	/**
+	 * see {@link TrtCmiController}.
 	 */
 	private TrtCmiController trtCmiController;
 	
@@ -214,6 +220,13 @@ public class CommissionController
 	private List<Commission> comsWithForms;
 	private Set<Commission> comsNoTrt;
 	
+
+	private final Comparator<Commission> comparatorCmi = new Comparator<Commission>() {
+		@Override
+		public int compare(final Commission c1, final Commission c2) {
+			return c1.getLibelle().compareToIgnoreCase(c2.getLibelle());
+		}
+	};
 	
 	/**
 	 * A logger.
@@ -231,16 +244,24 @@ public class CommissionController
 		super();
 	}
 	
-	public void initCommissions() {
-		commissions = getParameterService().getCommissions(null);
-		comsInUse= getParameterService().getCommissions(true);
-		comsInUseByRight = new ArrayList<Commission>(
-				getDomainApoService().getListCommissionsByRight(
-						getCurrentGest(), true));
+	public void initCommissions() {		
+		commissions = new TreeSet<Commission>(comparatorCmi);
+		commissions.addAll(getParameterService().getCommissions(null));
+		
+		comsInUse = new TreeSet<Commission>(comparatorCmi);
+		comsInUse.addAll(getParameterService().getCommissions(true));
+        Set<Commission> cmi =
+                getDomainApoService().getListCommissionsByRight(
+                        getCurrentGest(), true);
+		comsInUseByRight = new ArrayList<Commission>();
+        if (cmi != null) {
+            comsInUseByRight.addAll(cmi);
+        }
+        Collections.sort(comsInUseByRight, comparatorCmi);
 		comsWithForms = Utilitaires.getListCommissionExitForm(
 				comsInUseByRight, listeRI, getParameterService());
-		comsNoTrt = Utilitaires.getListCommissionsWithoutTrt(
-						getParameterService());
+		comsNoTrt = new TreeSet<Commission>(comparatorCmi);
+		comsNoTrt.addAll(Utilitaires.getListCommissionsWithoutTrt(getParameterService()));
 	}
 	
 	/** 
@@ -256,7 +277,7 @@ public class CommissionController
 		membersToDisplay = new HashMap<Member, String>();
 		selectedCommissions = new ArrayList<Commission>();
 		idCmiForAdress = 0;
-		membersSelected = new ArrayList<Object>();
+		membersSelected = new Object[0];
 		wayfEnum = new WayfEnum();
 		adressController.reset();
 		trtCmiController.reset();
@@ -311,8 +332,7 @@ public class CommissionController
 	 */
 	public String goSeeAllCmi() {
 		reset();
-		this.paginator.reset();
-		this.paginator.setCurrentGest(getCurrentGest());
+		listCmiPojo = getData();
 		return NavigationRulesConst.MANAGED_CMI;
 	}
 	
@@ -337,6 +357,7 @@ public class CommissionController
 	 */
 	public String goUpdateCmi() {
 		trtCmiController.reset();
+		commission = getParameterService().getCommission(commission.getId(), null);
 		if (membersToDisplay.isEmpty()) {
 			membersToDisplay = new HashMap<Member, String>();
 			for (Member m : commission.getMembers()) {
@@ -369,7 +390,7 @@ public class CommissionController
 	 * @return String 
 	 */
 	public String goSeeOneCmi() {
-		
+		commission = getParameterService().getCommission(commission.getId(), null);
 		membersToDisplay = new HashMap<Member, String>();
 		for (Member m : commission.getMembers()) {
 			if (m.getGestionnaire() == null) {
@@ -379,7 +400,7 @@ public class CommissionController
 			}
 		}
 		
-		membersSelected.addAll(getKeySetMbrToDisplay());
+		membersSelected = getKeySetMbrToDisplay().toArray();
 		
 		initAllTraitementCmi(commission);
 		
@@ -725,6 +746,7 @@ public class CommissionController
 	 * Generate the PDF d'arrete de nomination d'une commission.
 	 */
 	public void makePDFNomination() {
+		commission = getParameterService().getCommission(commission.getId(), null);
 		String fileNameXml = String.valueOf(System.currentTimeMillis()) 
 								+ "_" + commission.getCode() + ".xml";
 		List<Object> list = new ArrayList<Object>();
@@ -981,7 +1003,7 @@ public class CommissionController
 			unIndPrepa.setPrenom(iP.getIndividu().getPrenom());
 			// bac de l'individu from IndividuPojo.individu.indBac (premier element de la liste)
 			for (IndBac i : iP.getIndividu().getIndBac()) {
-				BacOuxEqu b = getBusinessCacheService().getBacOuxEqu(
+				BacOuxEqu b = getDomainApoService().getBacOuxEqu(
 						i.getDateObtention(),
 						ExportUtils.isNotNull(i.getCodBac()));
 				if (b != null) {
@@ -1154,6 +1176,48 @@ public class CommissionController
 		return addOk;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
+	protected List<CommissionPojo> getData() {
+		List<CommissionPojo> result = new ArrayList<CommissionPojo>();
+		Gestionnaire currentGest = getCurrentGest();
+		if (currentGest != null) {
+			List <Commission> lesCommissions = new ArrayList<Commission>();
+			Set<Commission> s =	getDomainApoService().getListCommissionsByRight(currentGest, null);
+			lesCommissions.addAll(s);
+			Integer codRI = currentGest.getProfile().getCodeRI();
+			
+			// création de la liste de commissionPojo
+			for (Commission comm : lesCommissions) {
+				List<TraitementCmi> trtCmi = new ArrayList<TraitementCmi>();
+				List<TraitementCmi> trtCmiOff = new ArrayList<TraitementCmi>();
+				trtCmi.addAll(comm.getTraitementCmi());
+				
+				/**
+				 * Règle pour les flags :
+				 * - rouge si aucun trt en service (trtCmi vide)
+				 * - orange si certains trt hors service (trtCmi non vide et trtCmiOff non vide)
+				 * - vert sinon (trtCmi non vide et trtCmiOff vide)
+				 */
+				for (TraitementCmi trt : comm.getTraitementCmi()) {
+					if (Utilitaires.isTraitementCmiOff(trt, codRI)) {
+						trtCmi.remove(trt);
+						trtCmiOff.add(trt);
+					}
+				}
+				CommissionPojo commPojo = new CommissionPojo();
+				commPojo.setCommission(comm);
+				commPojo.setFlagWithoutTrtActive(trtCmi.isEmpty());
+				commPojo.setFlagWithSomeTrtInactive(!trtCmi.isEmpty() && !trtCmiOff.isEmpty());
+				result.add(commPojo);
+			}
+			Collections.sort(result, new ComparatorString(CommissionPojo.class));
+		}
+		return result;
+	}
+	
 	/*
 	 ******************* ACCESSORS ******************** */
 	
@@ -1220,7 +1284,7 @@ public class CommissionController
 	/**
 	 * Commissions items for the select menu.
 	 * the list is function the commissions without treatment
-	 * @return Set< Commission>
+	 * @return Set<Commission>
 	 */
 	public Set<Commission> getCommissionsItemsWithoutTrt() {
 		return comsNoTrt;
@@ -1231,6 +1295,7 @@ public class CommissionController
 	 * the list is function the commissions managed by the gestionnaire
 	 * @return Set< Commission>
 	 */
+	@SuppressWarnings("synthetic-access")
 	public Set<Commission> getAllCommissionsItemsByRight() {
 		return new TreeSet<Commission>() {{
 			addAll(comsInUseByRight);
@@ -1265,6 +1330,24 @@ public class CommissionController
 		
 		return list;
 	}
+
+	/**
+	 * All commission in use in dataBase are been managed by Manager.
+	 * @return Set< Commission> 
+	 */
+	// TODO : à supprimer, méthode identique getCommissionsItemsByRight()
+	public List<Commission> getCommissionsByRight() {
+		return getCommissionsItemsByRight();
+	}
+	
+	/**
+	 * @return Set< Commission> commissions in use.
+	 */
+	// TODO : à supprimer, méthode identique getCommissionsItems()
+	public Set<Commission> getCommissionsInUse() {
+		return getCommissionsItems();
+	}
+
 	
 	/**
 	 * @return the selectedCommissions
@@ -1283,14 +1366,14 @@ public class CommissionController
 	/**
 	 * @return the membersSelected
 	 */
-	public List<Object> getMembersSelected() {
+	public Object[] getMembersSelected() {
 		return membersSelected;
 	}
 
 	/**
 	 * @param membersSelected the membersSelected to set
 	 */
-	public void setMembersSelected(final List<Object> membersSelected) {
+	public void setMembersSelected(final Object[] membersSelected) {
 		this.membersSelected = membersSelected;
 	}
 
@@ -1312,9 +1395,10 @@ public class CommissionController
 	 * return membersToDisplay.keySet.
 	 * @return Set< Member>
 	 */
-	public Set<Member> getKeySetMbrToDisplay() {
-		Set<Member> members = new TreeSet<Member>(new ComparatorString(Member.class));
+	public List<Member> getKeySetMbrToDisplay() {
+		List<Member> members = new ArrayList<Member>();
 		members.addAll(getMembersToDisplay().keySet());
+		Collections.sort(members, new ComparatorString(Member.class));
 		return members;
 	}
 	
@@ -1542,18 +1626,33 @@ public class CommissionController
 		this.castorService = castorService;
 	}
 
+	
 	/**
-	 * @return the paginator
+	 * @return the listCmiPojo
 	 */
-	public CommissionPaginator getPaginator() {
-		return paginator;
+	public List<CommissionPojo> getListCmiPojo() {
+		return listCmiPojo;
 	}
 
 	/**
-	 * @param paginator the paginator to set
+	 * @param listCmiPojo the listCmiPojo to set
 	 */
-	public void setPaginator(final CommissionPaginator paginator) {
-		this.paginator = paginator;
+	public void setListCmiPojo(List<CommissionPojo> listCmiPojo) {
+		this.listCmiPojo = listCmiPojo;
+	}
+
+	/**
+	 * @return the filteredListCmiPojo
+	 */
+	public List<CommissionPojo> getFilteredListCmiPojo() {
+		return filteredListCmiPojo;
+	}
+
+	/**
+	 * @param filteredListCmiPojo the filteredListCmiPojo to set
+	 */
+	public void setFilteredListCmiPojo(List<CommissionPojo> filteredListCmiPojo) {
+		this.filteredListCmiPojo = filteredListCmiPojo;
 	}
 
 	public void setTrtCmiController(final TrtCmiController trtCmiController) {

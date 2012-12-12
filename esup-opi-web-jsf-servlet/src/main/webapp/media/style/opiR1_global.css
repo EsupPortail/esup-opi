@@ -479,6 +479,9 @@ autres : pr�coniser d�clinaison � partir de la couleur secondaire.
 
 /*## For use e:dataTable ##*/
 .esup-opiR1 .paginatorData table {
+    border: none;
+}
+.esup-opiR1 .paginatorData table[role="grid"] {
 	width: 100%;
 	border: none;
 	padding: 0px 0px 2px 0px;
@@ -487,7 +490,7 @@ autres : pr�coniser d�clinaison � partir de la couleur secondaire.
     border-collapse: separate;
 }
 
-.esup-opiR1 .paginatorData table th {
+.esup-opiR1 .paginatorData table[role="grid"] th {
 	color: #a71817;
 /* 	background-color: #e6e6e6; */
 	text-align: center;
@@ -497,7 +500,11 @@ autres : pr�coniser d�clinaison � partir de la couleur secondaire.
 	padding-bottom: 3px;
 }
 
-.esup-opiR1 .paginatorData table tr {
+.esup-opiR1 table th.thWrap {
+	white-space: wrap;
+}
+
+.esup-opiR1 .paginatorData > table[role="grid"] tr {
 /* 	background-color: #f9f9f9; */
 	text-align: center;
 	font-weight: normal;
@@ -531,10 +538,12 @@ autres : pr�coniser d�clinaison � partir de la couleur secondaire.
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	padding-bottom: 3px;
+	white-space: wrap;
 }
 
-.esup-opiR1 table.displayInfo td.buttonTD {
-	width: 2%;
+.esup-opiR1 .displayInfo td.buttonTD,
+.esup-opiR1 .paginatorData td.buttonTD {
+	width: 18px!important;
 }
 
 .esup-opiR1 table.displayInfo td.codeTD {
@@ -1014,4 +1023,8 @@ table.displayAddRdv tr td.right {
 
 .footer-buttons {
     float: right;
+}
+
+.ui-datatable .ui-selectoneradio td {
+	border: 0;
 }

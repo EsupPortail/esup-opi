@@ -9,7 +9,7 @@
     		<h:outputText value="*" styleClass="etoileForChpObli" />
     	</h:panelGroup>
     	<h:panelGroup>
-    		<h:inputText id="code"
+    		<p:inputText id="code"
     			value="#{nomenclatureController.nomenclature.code}" size="5"
     			maxlength="5"
     			rendered="#{nomenclatureController.actionEnum.whatAction 
@@ -29,18 +29,17 @@
     			rendered="#{nomenclatureController.actionEnum.whatAction 
     								!= nomenclatureController.actionEnum.readAction}" />
     		<p:selectBooleanCheckbox id="isForAllVet2"
-    			disabled="#{!nomenclatureController.rightPjForAllVet}"
+    			disabled="true"
     			value="#{nomenclatureController.nomenclature.isForAllVet}"
     			rendered="#{nomenclatureController.actionEnum.whatAction 
-    								== nomenclatureController.actionEnum.readAction}"
-    			readonly="true" />
+    								== nomenclatureController.actionEnum.readAction}"/>
     	</h:panelGroup>
     	<h:panelGroup>
     		<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}" for="libelle" />
     		<h:outputText value="*" styleClass="etoileForChpObli" />
     	</h:panelGroup>
     	<h:panelGroup>
-    		<h:inputText id="libelle"
+    		<p:inputText id="libelle"
     			value="#{nomenclatureController.nomenclature.libelle}" size="70"
     			maxlength="500"
     			rendered="#{nomenclatureController.actionEnum.whatAction 
@@ -63,7 +62,7 @@
     			value="#{nomenclatureController.nomenclature.temoinEnService}"
     			rendered="#{nomenclatureController.actionEnum.whatAction 
     								== nomenclatureController.actionEnum.readAction}"
-    			readonly="true" />
+    			disabled="true" />
     	</h:panelGroup>
     
     	<h:panelGroup>
@@ -81,7 +80,8 @@
     		<p:selectOneMenu id="regimeInscription2" readonly="true"
     			value="#{nomenclatureController.nomenclature.codeRI}"
     			rendered="#{nomenclatureController.actionEnum.whatAction 
-    								== nomenclatureController.actionEnum.readAction}">
+    								== nomenclatureController.actionEnum.readAction}"
+    			disabled="true">
     			<f:selectItems value="#{nomenclatureController.regimeInscriptionsItems}"/>
     		</p:selectOneMenu>
     	</h:panelGroup>

@@ -444,11 +444,6 @@
 			<redirect />
 		</navigation-case>
 		<navigation-case>
-			<from-outcome>go_see_param_rdv</from-outcome>
-			<to-view-id>/stylesheets/gestionnaire/parameters/seeParamRdv.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-		<navigation-case>
 			<from-outcome>go_managed_mail_content</from-outcome>
 			<to-view-id>/stylesheets/gestionnaire/parameters/seeMailContent.xhtml</to-view-id>
 			<redirect />

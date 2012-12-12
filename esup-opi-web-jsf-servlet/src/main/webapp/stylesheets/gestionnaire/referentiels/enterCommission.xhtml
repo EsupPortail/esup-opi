@@ -3,11 +3,11 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
     xmlns:t="http://myfaces.apache.org/tomahawk"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
     		<ui:fragment rendered="#{commissionController.actionEnum.whatAction 
-    						== commissionController.actionEnum.addAction}">
+    						eq commissionController.actionEnum.addAction}">
     			<h1>
                 <span class="section-header">
                     <h:outputText value="#{msgs['COMMISSION.TITLE.ADD']}"/>
@@ -15,7 +15,7 @@
             </h1>
     		</ui:fragment>
     		<ui:fragment rendered="#{commissionController.actionEnum.whatAction 
-    						== commissionController.actionEnum.updateAction}">
+    						eq commissionController.actionEnum.updateAction}">
     			<h1>
                 <span class="section-header">
                     <h:outputText value="#{msgs['COMMISSION.TITLE.UPDATE']}"/>
@@ -40,13 +40,13 @@
     								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     									action="#{commissionController.add}"
     									rendered="#{commissionController.actionEnum.whatAction 
-    										== commissionController.actionEnum.addAction
-    										&& managedAccess.addAuthorized}" />
+    										eq commissionController.actionEnum.addAction
+    										and managedAccess.addAuthorized}" />
     								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     									action="#{commissionController.update}"
     									rendered="#{commissionController.actionEnum.whatAction 
-    										== commissionController.actionEnum.updateAction
-    										&& managedAccess.updateAuthorized}" />
+    										eq commissionController.actionEnum.updateAction
+    										and managedAccess.updateAuthorized}" />
     								<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
     									immediate="true" action="#{commissionController.goSeeAllCmi}" />
     							</h:panelGroup>
@@ -58,7 +58,7 @@
     							<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code" />
     							<h:outputText value="*" styleClass="etoileForChpObli" />
     						</h:panelGroup>
-    						<h:inputText id="code"
+    						<p:inputText id="code"
     							value="#{commissionController.commission.code}" size="11"
     							maxlength="10" />
     						<h:panelGroup>
@@ -74,7 +74,7 @@
     								for="libelle" />
     							<h:outputText value="*" styleClass="etoileForChpObli" />
     						</h:panelGroup>
-    						<h:inputText id="libelle"
+    						<p:inputText id="libelle"
     							value="#{commissionController.commission.libelle}" size="40"
     							maxlength="60" />
     					</h:panelGrid>
@@ -82,30 +82,27 @@
     				<br />
     				<br />
     				<br />
-    				<div id="blockFormContact" class="blockForm">
+    				<p:outputPanel id="blockFormContact" styleClass="blockForm">
     					<div style="width:100%;">
     						<h:panelGrid columns="2" columnClasses="col1UnDemi,col1UnDemi"
     							styleClass="tableJustWidthMax">
     							<h:outputText value="#{msgs['COMMISSION.CONTACT']}"
     								styleClass="section-smallTitle" />
     							<h:panelGroup/>
-    							<h:panelGroup rendered="#{commissionController.contactCommission.adresse == null}">
+    							<h:panelGroup rendered="#{commissionController.contactCommission.adresse eq null}">
     								<h:outputLabel value="#{msgs['COMMISSION.SELECT_ADRESS']}"
     									for="selectAdress" />
     							</h:panelGroup>		
-    							<h:panelGroup rendered="#{commissionController.contactCommission.adresse == null}">
+    							<h:panelGroup rendered="#{commissionController.contactCommission.adresse eq null}">
     								<p:selectOneMenu id="selectAdress"
-    									onchange="javascript:{simulateLinkClick('enterCommissionForm:selectCommAdress');}"
     									converter="javax.faces.Integer"
     									value="#{commissionController.idCmiForAdress}">
     									<f:selectItem itemLabel="" itemValue="" />
     									<f:selectItems var="commission"
     										value="#{commissionController.commissionsForAdresses}"
     										itemLabel="#{commission.libelle}" itemValue="#{commission.id}" />
+                                        <p:ajax listener="#{commissionController.selectCommAdress}" update="blockFormContact" />
     								</p:selectOneMenu>
-    								<p:commandButton id="selectCommAdress"
-    										action="#{commissionController.selectCommAdress}"
-    										onclick="javascript:{clickAnnuler = true;}"/>
     							</h:panelGroup>
     						</h:panelGrid>
     					</div>
@@ -116,13 +113,13 @@
     								<h:outputLabel value="#{msgs['FIELD_LABEL.MAIL']}" for="mail" />
     							</h:panelGroup>
     	
-    							<h:inputText id="mail" value="#{adressController.fixAdrPojo.adresse.mail}" 
+    							<p:inputText id="mail" value="#{adressController.fixAdrPojo.adresse.mail}" 
     										size="35" maxlength="50" />
     							<h:panelGroup>
     								<h:outputLabel value="#{msgs['COMMISSION.CORRESPONDING']}"
     									for="corresponding" />
     							</h:panelGroup>
-    							<h:inputText id="corresponding"
+    							<p:inputText id="corresponding"
     								value="#{commissionController.contactCommission.corresponding}"
     								size="35" />
     							<h:panelGroup>
@@ -131,14 +128,14 @@
     								<h:outputText value="*" styleClass="etoileForChpObli" />
     							</h:panelGroup>
     	
-    							<h:inputText id="phoneNumber" value="#{adressController.fixAdrPojo.adresse.phoneNumber}" 
+    							<p:inputText id="phoneNumber" value="#{adressController.fixAdrPojo.adresse.phoneNumber}" 
     										size="12" maxlength="10" />	
     										
     							<h:panelGroup>
     								<h:outputLabel value="#{msgs['ADRESS.TEL_FAX']}"
     									for="faxNumber" />
     							</h:panelGroup>
-    							<h:inputText id="faxNumber" value="#{adressController.fixAdrPojo.adresse.faxNumber}" 
+    							<p:inputText id="faxNumber" value="#{adressController.fixAdrPojo.adresse.faxNumber}" 
     										size="12" maxlength="10" />		
     							<h:panelGroup>
     								<h:outputLabel value="#{msgs['COMMISSION.SIGNATAIRE']}"
@@ -169,28 +166,31 @@
         									<h:outputLabel value="#{msgs['COMMISSION.MANAGER.NAME']}"
         										for="manager" />
         								</h:panelGroup>
-        								<h:inputText id="manager"
+        								<p:inputText id="manager"
         									value="#{commissionController.contactCommission.managerName}"
         									size="35" maxlength="255" />
         								<h:panelGroup>
         									<h:outputLabel value="#{msgs['COMMISSION.MANAGER.PHONE']}"
         										for="phoneManager" />
         								</h:panelGroup>
-        								<h:inputText id="phoneManager"
+        								<p:inputText id="phoneManager"
         									value="#{commissionController.contactCommission.managerPhone}"
         									size="12" maxlength="10" />
         								<h:panelGroup>
         									<h:outputLabel value="#{msgs['COMMISSION.MANAGER.MAIL']}"
         										for="mailManager" />
         								</h:panelGroup>
-        								<h:inputText id="mailManager"
+        								<p:inputText id="mailManager"
         									value="#{commissionController.contactCommission.managerMail}"
         									size="35" maxlength="50" />
         							</h:panelGrid>
         						</div>
                             </ui:fragment>
     					</div>
-    				</div>
+                        <p:blockUI block="blockFormContact" trigger="selectAdress">
+                            <p:graphicImage value="/media/images/ajax-loader.gif"/>
+                        </p:blockUI>
+    				</p:outputPanel>
     				<br />
     				<br />
     				<br />
@@ -201,38 +201,32 @@
     							<h:panelGroup>
     								<h:outputText value="#{msgs['MEMBERS']}"
     									styleClass="section-smallTitle" />
-    								<t:popup styleClass="containerPopup" style="width:400px;"
-    									closePopupOnExitingElement="true"
-    									closePopupOnExitingPopup="true" displayAtDistanceX="01"
-    									displayAtDistanceY="0">
-    									<p:graphicImage url="/media/images/informationSmall.png"
-    										style="cursor:pointer;" id="infoAnneeUni" />
-    
-    									<f:facet name="popup">
-    										<h:panelGroup>
-    											<h:panelGrid columns="1">
-    												<h:outputText styleClass="titrePopupAide"
-    													value="#{msgs['MEMBERS']}" />
-    												<h:panelGroup>
-    													<p:graphicImage url="/media/images/flag_green.png" />
-    													<h:outputText styleClass="libellesAide"
-    														value="#{msgs['MEMBERS.INFO.ALLREADY_USER']}" />
-    												</h:panelGroup>
-    												<h:panelGroup>
-    													<p:graphicImage url="/media/images/flag_orange.png" />
-    													<h:outputText styleClass="libellesAide"
-    														value="#{msgs['MEMBERS.INFO.NOT_USER']}" />
-    												</h:panelGroup>
-    												<h:panelGroup>
-    													<p:graphicImage url="/media/images/flag_red.png" />
-    													<h:outputText styleClass="libellesAide"
-    														value="#{msgs['MEMBERS.NEVER.USER']}" />
-    												</h:panelGroup>
-    											</h:panelGrid>
-    										</h:panelGroup>
-    									</f:facet>
-    								</t:popup>
-    
+                                    <p:graphicImage url="/media/images/informationSmall.png"
+                                        style="cursor:pointer;" id="infoAnneeUni" />
+                                    <p:overlayPanel
+                                        for="infoAnneeUni"
+                                        showEvent="mouseover" hideEvent="mouseout"
+                                        styleClass="containerPopup" style="width:400px;">
+										<h:panelGrid columns="1">
+											<h:outputText styleClass="titrePopupAide"
+												value="#{msgs['MEMBERS']}" />
+											<h:panelGroup>
+												<p:graphicImage url="/media/images/flag_green.png" />
+												<h:outputText styleClass="libellesAide"
+													value="#{msgs['MEMBERS.INFO.ALLREADY_USER']}" />
+											</h:panelGroup>
+											<h:panelGroup>
+												<p:graphicImage url="/media/images/flag_orange.png" />
+												<h:outputText styleClass="libellesAide"
+													value="#{msgs['MEMBERS.INFO.NOT_USER']}" />
+											</h:panelGroup>
+											<h:panelGroup>
+												<p:graphicImage url="/media/images/flag_red.png" />
+												<h:outputText styleClass="libellesAide"
+													value="#{msgs['MEMBERS.NEVER.USER']}" />
+											</h:panelGroup>
+										</h:panelGrid>
+                                    </p:overlayPanel>
     							</h:panelGroup>
     
     							<h:panelGroup>
@@ -240,33 +234,34 @@
     									action="#{commissionController.goSearchMembers}">
     									<f:setPropertyActionListener value="#{ldapSearchController.ldapEnum.memberCmiValue}" target="#{ldapSearchController.ldapEnum.whereAreYouFrom}" />
     								</p:commandButton>
-    								<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+    								<p:commandButton value="#{msgs['_.BUTTON.ADD']}" 
+                                        update="membres-datatable"
     									action="#{commissionController.addOneMember}">
     								</p:commandButton>
     							</h:panelGroup>
     						</h:panelGrid>
     					</div>
-    					<p:dataTable var="member"
+    					<p:dataTable id="membres-datatable" var="member"
     						value="#{commissionController.keySetMbrToDisplay}"
-    						styleClass="displayInfo" alternateColors="false">
-    						<p:column styleClass="buttonTD">
+    						styleClass="displayInfo">
+    						<p:column styleClass="buttonTD" style="width:18px;">
     							<p:graphicImage url="/media/images/flag_green.png"
-    								rendered="#{commissionController.membersToDisplay[member] == commissionController.isGestionnaire}" />
+    								rendered="#{commissionController.membersToDisplay[member] eq commissionController.isGestionnaire}" />
     							<p:graphicImage url="/media/images/flag_orange.png"
-    								rendered="#{commissionController.membersToDisplay[member] == commissionController.mustBeGest}" />
+    								rendered="#{commissionController.membersToDisplay[member] eq commissionController.mustBeGest}" />
     							<!-- /*TODO probleme d'affichage flag pour les membres sasie a voir*/ -->
     							<p:graphicImage url="/media/images/flag_red.png"
-    								rendered="#{commissionController.membersToDisplay[member] == commissionController.enterMbr
+    								rendered="#{commissionController.membersToDisplay[member] eq commissionController.enterMbr
     									|| (commissionController.membersToDisplay[member] != commissionController.mustBeGest
-    										&& commissionController.membersToDisplay[member] != commissionController.isGestionnaire)}" />
+    										and commissionController.membersToDisplay[member] != commissionController.isGestionnaire)}" />
     						</p:column>
     						<p:column>
     							<f:facet name="header">
     								<h:outputText value="#{msgs['FIELD_LABEL.NAME']}" />
     							</f:facet>
     							<h:outputText value="#{member.nom}" rendered="#{member.nom != null}" />
-    							<h:inputText value="#{member.nom}" size="31" maxlength="30"
-    								rendered="#{member.nom == null}" />
+    							<p:inputText value="#{member.nom}" size="31" maxlength="30"
+    								rendered="#{member.nom eq null}" />
     						</p:column>
     						<p:column>
     							<f:facet name="header">
@@ -274,8 +269,8 @@
     							</f:facet>
     							<h:outputText value="#{member.prenom}"
     								rendered="#{member.prenom != null}" />
-    							<h:inputText value="#{member.prenom}" size="21" maxlength="20"
-    								rendered="#{member.prenom == null}" />
+    							<p:inputText value="#{member.prenom}" size="21" maxlength="20"
+    								rendered="#{member.prenom eq null}" />
     						</p:column>
     						<p:column>
     							<f:facet name="header">
@@ -283,49 +278,36 @@
     							</f:facet>
     							<h:outputText value="#{member.adressMail}"
     								rendered="#{member.adressMail != null}" />
-    							<h:inputText value="#{member.adressMail}" size="42"
-    								maxlength="50" rendered="#{member.adressMail == null}" />
+    							<p:inputText value="#{member.adressMail}" size="42"
+    								maxlength="50" rendered="#{member.adressMail eq null}" />
     
     						</p:column>
     						<p:column>
     							<f:facet name="header">
     								<h:outputText value="#{msgs['FIELD_LABEL.TYPE']}" />
     							</f:facet>
-    							<p:selectOneMenu value="#{member.type}">
+                                <h:outputText value="#{member.type}"
+                                    rendered="#{member.type != null}" />
+    							<p:selectOneMenu value="#{member.type}"
+                                    rendered="#{empty member.type}">
     								<f:selectItems value="#{commissionController.typMbrItems}" />
     							</p:selectOneMenu>
     						</p:column>
-    						<p:column styleClass="buttonTD">
-    							<p:commandButton image="/media/images/cancel.png"
-    								styleClass="form-button-image" immediate="true"
-    								rendered="#{member.adressMail != null}"
+    						<p:column styleClass="buttonTD" style="width:18px;">
+    							<p:commandButton icon="ui-icon-minus" immediate="true"
+    								rendered="#{member.adressMail != null}" update="membres-datatable"
     								action="#{commissionController.removeMember}"
     								title="#{msgs['_.BUTTON.DELETE']}">
     								<f:setPropertyActionListener value="#{member}" target="#{commissionController.memberToDelete}" />
     							</p:commandButton>
-    							<p:commandButton image="/media/images/add.png"
-    								styleClass="form-button-image"
-    								rendered="#{member.adressMail == null}"
+    							<p:commandButton icon="ui-icon-plus" update="membres-datatable"
+    								rendered="#{member.adressMail eq null}"
     								title="#{msgs['_.BUTTON.VALIDATE']}" />
     						</p:column>
     					</p:dataTable>
     				</div>
-    
-    				<br />
-    				<br />
-    				<br />
     			</h:form>
     		</div>
     	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        	highlightInputAndSelect('enterCommissionForm');
-        	hideElement('enterCommissionForm:submitSelectCpFix');
-        	hideElement('enterCommissionForm:selectCommAdress');
-        	onblurInput('enterCommissionForm:codePostalFix',
-        			'enterCommissionForm:submitSelectCpFix');
-        </script>
     </ui:define>
 </ui:composition>

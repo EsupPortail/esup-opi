@@ -7,12 +7,15 @@
     		<h:outputText value="#{msgs['CLEF.TITLE.ENTER']}" styleClass="section-smallTitle"/>
     		<h:panelGroup>
     			<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                    ajax="false"
     				rendered="#{paramClefFormationController.actionEnum.whatAction == paramClefFormationController.actionEnum.addAction}"
     				action="#{paramClefFormationController.add}"/>
     			<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                    ajax="false"
     				rendered="#{paramClefFormationController.actionEnum.whatAction == paramClefFormationController.actionEnum.updateAction}"
     				action="#{paramClefFormationController.update}"/>
     			<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                    ajax="false"
     				action="#{paramClefFormationController.reset}"/>
     		</h:panelGroup>
     	</h:panelGrid>
@@ -28,51 +31,55 @@
     		<h:outputLabel value="#{msgs['FIELD_LABEL.LIST_DIPLOME']}"
     			styleClass="form-field-label-inHeader-validator" for="dips"/>
     
-    		<h:inputText id="code" size="10"
-    			value="#{paramClefFormationController.cles.ren1ClesAnnuForm.codCles}"/>
+    		<p:inputText id="code" size="10"
+    			value="#{paramClefFormationController.cles.clesAnnuForm.codCles}"/>
     		<p:selectOneMenu id="inUse"
-    			value="#{paramClefFormationController.cles.ren1ClesAnnuForm.temSveCles}">
+    			value="#{paramClefFormationController.cles.clesAnnuForm.temSveCles}">
     			<f:selectItems value="#{paramClefFormationController.temEnSveItems}"/>
     		</p:selectOneMenu>
     		<h:panelGroup rendered="#{paramClefFormationController.actionDom.whatAction != paramClefFormationController.actionDom.updateAction
-    								and paramClefFormationController.cles.ren1DomaineAnnuFormPojo.ren1DomaineAnnuForm != null}">
-    			<p:commandButton image="/media/images/update.png" styleClass="espaceIcone"
+    								and paramClefFormationController.cles.domaineAnnuFormPojo.domaineAnnuForm != null}">
+    			<p:commandButton icon="ui-icon-pencil" ajax="false"
     				action="#{paramClefFormationController.updateDomaines}">
-    				<f:setPropertyActionListener value="#{paramClefFormationController.cles.ren1DomaineAnnuFormPojo.ren1DomaineAnnuForm.codDom}"
+    				<f:setPropertyActionListener value="#{paramClefFormationController.cles.domaineAnnuFormPojo.domaineAnnuForm.codDom}"
     					target="#{paramClefFormationController.selectDoms}" />
     			</p:commandButton>
     			<h:outputText id="doms"
-    				value="#{paramClefFormationController.cles.ren1DomaineAnnuFormPojo.ren1DomaineAnnuForm.codDom}"/>
+    				value="#{paramClefFormationController.cles.domaineAnnuFormPojo.domaineAnnuForm.codDom}"/>
     		</h:panelGroup>
-    		<h:panelGrid columns="2"
+    		<p:panelGrid columns="1"
     				rendered="#{paramClefFormationController.actionDom.whatAction == paramClefFormationController.actionDom.updateAction
-    						|| paramClefFormationController.cles.ren1DomaineAnnuFormPojo.ren1DomaineAnnuForm == null}">
+    						|| paramClefFormationController.cles.domaineAnnuFormPojo.domaineAnnuForm == null}">
     			<p:selectOneMenu id="inDoms"
     				value="#{paramClefFormationController.selectDoms}">
     				<f:selectItems value="#{paramClefFormationController.itemDomaine}"/>
     			</p:selectOneMenu>
-    			<div class="twoGroupsButton">
-    				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    					action="#{paramClefFormationController.validDomaines}"/>
-    				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    					action="#{paramClefFormationController.annulDomaines}"/>
-    			</div>
-    		</h:panelGrid>
+                <f:facet name="footer">
+        			<div class="twoGroupsButton">
+        				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                            ajax="false"
+        					action="#{paramClefFormationController.validDomaines}"/>
+        				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                            ajax="false"
+        					action="#{paramClefFormationController.annulDomaines}"/>
+        			</div>
+                </f:facet>
+    		</p:panelGrid>
     		<h:panelGroup rendered="#{paramClefFormationController.actionLang.whatAction != paramClefFormationController.actionLang.addAction}">
-    			<p:dataList var="langueCleSelect" value="#{paramClefFormationController.cles.ren1Cles2AnnuForm}">
+    			<ui:repeat var="langueCleSelect" value="#{paramClefFormationController.cles.cles2AnnuForm}">
     				
     				<h:panelGrid columns="3" 
     						rendered="#{paramClefFormationController.actionLang.whatAction == paramClefFormationController.actionLang.emptyAction
     								|| (paramClefFormationController.actionLang.whatAction == paramClefFormationController.actionLang.updateAction
     								and paramClefFormationController.langueSelected != langueCleSelect.id.codLang)}">
-    					<p:commandButton image="/media/images/update.png" styleClass="espaceIcone"
+    					<p:commandButton icon="ui-icon-pencil" ajax="false"
     						action="#{paramClefFormationController.updateLangLib}">
     						<f:setPropertyActionListener value="#{langueCleSelect.id.codLang}"
     							target="#{paramClefFormationController.langueSelected}" />
     						<f:setPropertyActionListener value="#{langueCleSelect.libCles}"
     							target="#{paramClefFormationController.libSaisi}" />
     					</p:commandButton>
-    					<p:commandButton image="/media/images/cancel.png" styleClass="espaceIcone"
+        					<p:commandButton icon="ui-icon-minus" ajax="false"
     						action="#{paramClefFormationController.suppLangLib}">
     						<f:setPropertyActionListener value="#{langueCleSelect.id.codLang}"
     							target="#{paramClefFormationController.langueSelected}" />
@@ -80,7 +87,7 @@
     					<h:outputText styleClass="textLangLib" value="#{langueCleSelect.libCles} (#{langueCleSelect.id.codLang})"/>
     				</h:panelGrid>
     				
-    				<h:panelGrid columns="3" 
+    				<p:panelGrid columns="3" 
     						rendered="#{paramClefFormationController.actionLang.whatAction == paramClefFormationController.actionLang.updateAction
     								and paramClefFormationController.langueSelected == langueCleSelect.id.codLang}">
     					<h:outputLabel value="#{msgs['FIELD_LABEL.LANGUE']}"
@@ -91,61 +98,64 @@
     						styleClass="form-field-label-inHeader-validator" for="bouton"/>
     					
     					<h:outputText styleClass="textLangLib" value="#{langueCleSelect.id.codLang}"/>
-    					<h:inputText id="ModifLib" size="50" value="#{paramClefFormationController.libSaisi}"/>
+    					<p:inputText id="ModifLib" size="50" value="#{paramClefFormationController.libSaisi}"/>
     					<div class="twoGroupsButton">
     						<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                ajax="false"
     							action="#{paramClefFormationController.validModLangLib}"/>
     						<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                                ajax="false"
     							action="#{paramClefFormationController.annulLangLib}"/>
     					</div>
-    				</h:panelGrid>
+    				</p:panelGrid>
     				
-    			</p:dataList>
-    			<p:commandButton image="/media/images/add.png" styleClass="espaceIcone"
+    			</ui:repeat>
+    			<p:commandButton icon="ui-icon-plus" ajax="false"
     					rendered="#{not empty paramClefFormationController.allLangue}"
     					action="#{paramClefFormationController.addLangLib}"/>
     		</h:panelGroup>
     		<h:panelGroup rendered="#{paramClefFormationController.actionLang.whatAction == paramClefFormationController.actionLang.addAction}">
-    			<h:panelGrid columns="3">
-    				<h:outputLabel value="#{msgs['FIELD_LABEL.LANGUE']}"
-    					styleClass="form-field-label-inHeader-validator" for="langue"/>
-    				<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
-    					styleClass="form-field-label-inHeader-validator" for="libele"/>
-    				<h:outputLabel value=""
-    					styleClass="form-field-label-inHeader-validator" for="bouton"/>
-    				
+    			<p:panelGrid columns="2">
+                    <p:outputLabel value="#{msgs['FIELD_LABEL.LANGUE']}"
+                        styleClass="form-field-label-inHeader-validator" for="choixLang"/>
+                    <p:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
+                        styleClass="form-field-label-inHeader-validator" for="choixlib"/>
     				<p:selectOneMenu id="choixLang"
     					value="#{paramClefFormationController.langueSelected}">
     					<f:selectItems value="#{paramClefFormationController.allLangue}"/>
     				</p:selectOneMenu>
-    				<h:inputText id="choixlib" size="50"
+    				<p:inputText id="choixlib" size="50"
     					value="#{paramClefFormationController.libSaisi}"/>
-    				<div class="twoGroupsButton">
-    					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    						action="#{paramClefFormationController.validAddLangLib}"/>
-    					<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    						action="#{paramClefFormationController.annulLangLib}"/>
-    				</div>
-    			</h:panelGrid>
+                    <f:facet name="footer">
+        				<h:panelGroup styleClass="twoGroupsButton">
+        					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                ajax="false"
+        						action="#{paramClefFormationController.validAddLangLib}"/>
+        					<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                                ajax="false"
+        						action="#{paramClefFormationController.annulLangLib}"/>
+        				</h:panelGroup>
+                    </f:facet>
+    			</p:panelGrid>
     		</h:panelGroup>
-    		<h:panelGrid columns="3" id="dips">
+    		<p:panelGrid columns="3" id="dips">
     			<p:selectManyMenu styleClass="manyMenu"
     				value="#{paramClefFormationController.selectDipsADI}">
     				<f:selectItems value="#{paramClefFormationController.allDipsItems}"/>
     			</p:selectManyMenu>
-    			<h:panelGrid columns="1">
-    				<p:commandButton image="/media/images/fleche_gauche.gif"
-    					styleClass="icone"
+    			<p:panelGrid columns="1">
+                    <p:commandButton icon="ui-icon-arrowthick-1-e"
+                        ajax="false"
+                        action="#{paramClefFormationController.ajouDipsItems}"/>
+    				<p:commandButton icon="ui-icon-arrowthick-1-w"
+                        ajax="false"
     					action="#{paramClefFormationController.suppDipsItems}"/>
-    				<p:commandButton image="/media/images/fleche_droite.gif"
-    					styleClass="icone"
-    					action="#{paramClefFormationController.ajouDipsItems}"/>
-    			</h:panelGrid>
+    			</p:panelGrid>
     			<p:selectManyMenu styleClass="manyMenu"
     				value="#{paramClefFormationController.selectDipsDI}">
     				<f:selectItems value="#{paramClefFormationController.dipsItems}"/>
     			</p:selectManyMenu>
-    		</h:panelGrid>
+    		</p:panelGrid>
     	</h:panelGrid>
     	<p:message for="formAddClef"/>
     </h:form>

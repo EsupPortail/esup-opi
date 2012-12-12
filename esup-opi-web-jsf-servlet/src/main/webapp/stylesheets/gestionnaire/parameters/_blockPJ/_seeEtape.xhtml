@@ -16,34 +16,35 @@
     	</h:panelGrid>
     </div>
     <p:dataTable id="trtpj" var="pieceJustiVetPojo"
-    	value="#{nomenclatureController.allEtapes}"
+    	value="#{nomenclatureController.allEtapesItems}"
     	styleClass="paginatorData" alternateColors="true">
-    	<p:column width="15%">
+    	<p:column style="width:15%;">
     		<f:facet name="header">
     			<h:outputText value="#{msgs['FIELD_LABEL.CODE']} #{msgs['FIELD_LABEL.VRS_VET']}" />
     		</f:facet>
     		<h:outputText value="#{pieceJustiVetPojo.pieceJustiVet.versionEtpOpi.codVrsVet}" />
     	</p:column>
-    	<p:column width="8%">
+    	<p:column style="width:8%;">
     		<f:facet name="header">
     			<h:outputText value="#{msgs['FIELD_LABEL.CODE']} #{msgs['FIELD_LABEL.ETP']}" />
     		</f:facet>
     		<h:outputText value="#{pieceJustiVetPojo.pieceJustiVet.versionEtpOpi.codEtp}" />
     	</p:column>
-    	<p:column width="74%">
+    	<p:column wstyle="width:74%;">
     		<f:facet name="header">
     			<h:outputText value="#{msgs['FIELD_LABEL.ETP']}" />
     		</f:facet>
     		<h:outputText value="#{pieceJustiVetPojo.versionEtape.libWebVet}" />
     	</p:column>
-    	<p:column width="3%">
-    		<p:commandButton image="/media/images/cancel.png"
+    	<p:column style="width:3%;">
+    		<p:commandButton icon="ui-icon-minus"
     			styleClass="form-button-image" immediate="true"
     			rendered="#{(nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.readAction
     				|| nomenclatureController.wayfEnum.whereAreYouFrom == nomenclatureController.wayfEnum.affectPJValue)
     				and pieceJustiVetPojo.allRight}"
     			action="#{nomenclatureController.removeTrtEtape}"
-    			title="#{msgs['_.BUTTON.DELETE']}">
+    			title="#{msgs['_.BUTTON.DELETE']}"
+    			ajax="false">
     			<f:setPropertyActionListener value="#{pieceJustiVetPojo}" target="#{nomenclatureController.etapeTraitee}" />
     		</p:commandButton>
     	</p:column>

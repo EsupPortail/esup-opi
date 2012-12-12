@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC
       "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+          "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
           
 <hibernate-mapping package="org.esupportail.opi.domain.beans.user.indcursus">
 
 	<class name="IndCursusScol" table="ind_cur_scol" >
 		<id name="id"> 
-			<column name="id_cur_scol" sql-type="integer" not-null="true"/>
+			<column name="id_cur_scol" not-null="true"/>
 			<generator class="native" >
 				<param name="sequence">ind_cur_scol_seq</param>
 			</generator>

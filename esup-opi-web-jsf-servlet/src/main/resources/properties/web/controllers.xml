@@ -23,10 +23,11 @@
 		<property name="authenticator" ref="authenticator">
 			<description>The authentication service.</description>
 		</property>
-		 <property name="casLogoutUrl" value="${cas.url}/logout?service=%s">
+         <property name="casLogoutUrl" value="${cas.url}/logout?service=%s">
             <description>The CAS logout URL.</description>
         </property>
-		<property name="allViewPJ" value="${init.allViewPJ}"/>
+        <property name="serverNameUrl" value="${serverName}" />
+		<property name="allViewPJ" value="${init.allViewPJ}" />
 	</bean>
 
 	<bean id="abstractContextAwareController" abstract="true"
@@ -165,28 +166,31 @@
 		<property name="smtpService" ref="smtpService"/>
 	</bean>
 	
-<!-- 	<bean id="paramGrpTypDipController" -->
-<!-- 		class="org.esupportail.opi.web.controllers.formation.ParamGrpTypDipController" -->
-<!-- 		parent="abstractAccessController" -->
-<!-- 		scope="session"> -->
-<!-- 		<description>A bean to manage the formation presentation.</description> -->
-<!-- 	</bean> -->
+	<bean id="paramGrpTypDipController"
+		class="org.esupportail.opi.web.controllers.formation.ParamGrpTypDipController"
+		parent="abstractAccessController"
+		scope="session">
+		<description>A bean to manage the formation presentation.</description>
+        <property name="IApogee" ref="bddApogee"/>
+	</bean>
 	
-<!-- 	<bean id="paramClefFormationController" -->
-<!-- 		class="org.esupportail.opi.web.controllers.formation.ParamClefFormationController" -->
-<!-- 		parent="abstractAccessController" -->
-<!-- 		scope="session"> -->
-<!-- 		<description>A bean to manage the formation presentation.</description> -->
-<!-- 		<property name="preferencesController" ref="preferencesController"/> -->
-<!-- 	</bean> -->
+	<bean id="paramClefFormationController"
+		class="org.esupportail.opi.web.controllers.formation.ParamClefFormationController"
+		parent="abstractAccessController"
+		scope="session">
+		<description>A bean to manage the formation presentation.</description>
+		<property name="preferencesController" ref="preferencesController"/>
+        <property name="IApogee" ref="bddApogee"/>
+	</bean>
 	
-<!-- 	<bean id="paramDomainFormationController" -->
-<!-- 		class="org.esupportail.opi.web.controllers.formation.ParamDomainFormationController" -->
-<!-- 		parent="abstractAccessController" -->
-<!-- 		scope="session"> -->
-<!-- 		<description>A bean to manage the formation presentation.</description> -->
-<!-- 		<property name="preferencesController" ref="preferencesController"/> -->
-<!-- 	</bean> -->
+	<bean id="paramDomainFormationController"
+		class="org.esupportail.opi.web.controllers.formation.ParamDomainFormationController"
+		parent="abstractAccessController"
+		scope="session">
+		<description>A bean to manage the formation presentation.</description>
+		<property name="preferencesController" ref="preferencesController"/>
+        <property name="IApogee" ref="bddApogee"/>
+	</bean>
 	
 	<bean id="saisieRdvEtuController"
 		class="org.esupportail.opi.web.controllers.formation.SaisieRdvEtuController"
@@ -313,7 +317,6 @@
 		<property name="adressController" ref="adressController"/>
 		<property name="castorService" ref="castorService"/>
 		<property name="convocMember" ref="convocMember" />
-		<property name="paginator" ref="paginatorCommission" />
 		<property name="transfert" ref="transfert"/>
 		<property name="managerUsed" value="${init.cmi.manager}" />
 		<property name="listCmiByRight" value="${init.listcmi.byright}" />

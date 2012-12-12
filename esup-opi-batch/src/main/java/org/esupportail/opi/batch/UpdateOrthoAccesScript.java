@@ -2,21 +2,6 @@ package org.esupportail.opi.batch;
 
 
 
-import org.esupportail.opi.domain.BusinessCacheService;
-import org.esupportail.opi.domain.DomainApoService;
-import org.esupportail.opi.domain.DomainService;
-import org.esupportail.opi.domain.ParameterService;
-import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
-import org.esupportail.opi.domain.beans.user.Adresse;
-import org.esupportail.opi.domain.beans.user.Individu;
-import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
-import org.esupportail.opi.domain.beans.user.indcursus.CursusExt;
-import org.esupportail.opi.domain.beans.user.indcursus.CursusR1;
-import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
-import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
-import org.esupportail.opi.web.beans.pojo.etat.EtatArriveComplet;
-import org.esupportail.opi.web.utils.Constantes;
-
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
@@ -26,18 +11,31 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Properties;
 
-import org.esupportail.apogee.domain.beans.referentiel.BacOuxEqu;
-import org.esupportail.apogee.domain.beans.referentiel.etablissement.Etablissement;
-import org.esupportail.apogee.domain.beans.referentiel.geographie.Departement;
-import org.esupportail.apogee.domain.dto.referentiel.geographie.CommuneDTO;
+import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.services.application.ApplicationService;
 import org.esupportail.commons.services.application.ApplicationUtils;
 import org.esupportail.commons.services.database.DatabaseUtils;
 import org.esupportail.commons.services.exceptionHandling.ExceptionUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.commons.utils.BeanUtils;
-import org.jfree.util.Log;
+import org.esupportail.opi.domain.BusinessCacheService;
+import org.esupportail.opi.domain.DomainApoService;
+import org.esupportail.opi.domain.DomainService;
+import org.esupportail.opi.domain.ParameterService;
+import org.esupportail.opi.domain.beans.etat.EtatArriveComplet;
+import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
+import org.esupportail.opi.domain.beans.user.Adresse;
+import org.esupportail.opi.domain.beans.user.Individu;
+import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
+import org.esupportail.opi.domain.beans.user.indcursus.CursusExt;
+import org.esupportail.opi.domain.beans.user.indcursus.CursusR1;
+import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
+import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
+import org.esupportail.opi.utils.Constantes;
+import org.esupportail.wssi.services.remote.BacOuxEqu;
+import org.esupportail.wssi.services.remote.CommuneDTO;
+import org.esupportail.wssi.services.remote.Departement;
+import org.esupportail.wssi.services.remote.Etablissement;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
@@ -179,10 +177,10 @@ public class UpdateOrthoAccesScript  {
 	 * 
 	 */
 	private static void scriptOrtho() {
-		DomainService domainService = (DomainService) BeanUtils.getBean("domainService");
-		DomainApoService domainApoService = (DomainApoService) BeanUtils.getBean("domainApoService");
-		ParameterService parameterService = (ParameterService) BeanUtils.getBean("parameterService");
-		BusinessCacheService businessCacheService = (BusinessCacheService) BeanUtils.getBean("businessCacheService");
+		DomainService domainService = (DomainService) ApplicationContextHolder.getContext().getBean("domainService");
+		DomainApoService domainApoService = (DomainApoService) ApplicationContextHolder.getContext().getBean("domainApoService");
+		ParameterService parameterService = (ParameterService) ApplicationContextHolder.getContext().getBean("parameterService");
+		BusinessCacheService businessCacheService = (BusinessCacheService) ApplicationContextHolder.getContext().getBean("businessCacheService");
 		//
 		List<Departement> listDep = domainApoService.getDepartements();
 		
@@ -220,69 +218,6 @@ public class UpdateOrthoAccesScript  {
 			Collection root = DatabaseManager.getCollection(uri + "/db", "admin", "");
 			XPathQueryService service = (XPathQueryService) root.getService("XPathQueryService", "1.0");
 			service.setProperty("indent", "yes");
-			
-			
-			
-			////////////////////////////////////////////////////////////////
-			/////////////////////////   TEST  //////////////////////////////
-			
-//			String numDossier = "ABPRNSA5";
-//			String numDossier = "E6BJZ4B1";
-//			String requeteTest = "" +
-//					"declare function local:ouiNonReplace($text as xs:string) \n " +
-//					"as xs:string { \n " +
-//					"if(fn:compare($text, 'Oui') = 0) \n " +
-//					"then fn:string('true') \n "+
-//					"else fn:string('false') \n " +
-//					"}; \n " +
-//					
-//					"declare function local:ouiNonHandicap($text as xs:string) \n " +
-//					"as xs:string { \n " +
-//					"if(fn:compare($text, '') = 0) \n " +
-//					"then fn:string('false') \n "+
-//					"else fn:string('true') \n " +
-//					"}; \n " +
-//					
-//					"declare function local:zeroUnHandicap($text as xs:string) \n " +
-//					"as xs:string { \n " +
-//					"if(fn:compare($text, '') = 0) \n " +
-//					"then fn:string('0') \n "+
-//					"else fn:string('1') \n " +
-//					"}; \n " +
-//					
-//					"for $x in doc('/db/OPI/MCORT1-40/data/"+numDossier+"/data.xml') " +
-//					"return concat(" +
-//							"replace($x/form/section-1/control-1, '\"', \"'\"),'"+s+"'," +
-//							"replace($x/form/section-1/control-2, '\"', \"'\"),'"+s+"'," +
-//							"replace($x/form/section-1/control-3, '\"', \"'\"),'"+s+"'," +
-//							"replace($x/form/section-1/control-4, '\"', \"'\"),'"+s+"'," +
-//							"local:ouiNonReplace($x/form/section-3/control-7),'"+s+"'," +
-//							"replace($x/form/section-3/control-8, '\"', \"'\"),'"+s+"'," +
-//							"replace($x/form/section-3/control-9, '-', '/'),'"+s+"'," +
-//							"local:ouiNonReplace($x/form/section-3/control-10),'"+s+"'," +
-//							"replace($x/form/section-3/control-11, '\"', \"'\"),'"+s+"'," +
-//							"replace($x/form/section-3/control-12, '\"', \"'\"),'"+s+"'," +
-//							"local:ouiNonReplace($x/form/section-3/control-13),'"+s+"'," +
-//							"replace($x/form/section-3/control-14, '\"', \"'\"),'"+s+"'," +
-//							"replace($x/form/section-3/control-15, '\"', \"'\"),'"+s+"'," +
-//							//Handicap
-//							"local:ouiNonHandicap($x/form/section-4/control-18),'"+s+"'," +
-//							"local:zeroUnHandicap($x/form/section-4/control-18))";
-//
-//			ResourceSet resultTest = service.query(requeteTest);
-//			ResourceIterator iteratorTest = resultTest.getIterator();
-//			
-//			String resultChaineTest = "";
-//			while (iteratorTest.hasMoreResources()) {
-//				resultChaineTest = (String) iteratorTest.nextResource().getContent();
-//				LOG.info("numDossier : "+numDossier+" --> Resultat DB XML : "+resultChaineTest);
-//			}
-			
-			///////////////////////   TEST  //////////////////////////////
-			//////////////////////////////////////////////////////////////
-			
-			
-			
 			
 			//Parcours des individus 
 			initChaineInfos();
@@ -528,7 +463,7 @@ public class UpdateOrthoAccesScript  {
 						//Orbeon
 						+ resultOrbeon + F;
 				} else {
-					Log.info("Dossiser sans formulaire complémentaire:" + ind.getNumDossierOpi());
+					LOG.info("Dossiser sans formulaire complémentaire:" + ind.getNumDossierOpi());
 					chaineInfos = chaineInfos
 					+ ind.getNumDossierOpi() + S
 					+ "1" + S

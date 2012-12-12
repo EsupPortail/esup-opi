@@ -2,14 +2,13 @@ package org.esupportail.opi.batch;
 
 import java.util.Set;
 
-import org.esupportail.apogee.domain.dto.enseignement.VersionDiplomeDTO;
+import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.services.application.ApplicationService;
 import org.esupportail.commons.services.application.ApplicationUtils;
 import org.esupportail.commons.services.database.DatabaseUtils;
 import org.esupportail.commons.services.exceptionHandling.ExceptionUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.commons.utils.BeanUtils;
 
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
@@ -18,6 +17,7 @@ import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.web.beans.parameters.FormationInitiale;
+import org.esupportail.wssi.services.remote.VersionDiplomeDTO;
 
 
 /**
@@ -44,9 +44,9 @@ public class SetTrtCmi  {
 	 * send the mail. 
 	 */
 	private static void setTrtCmi() {
-		DomainService domainService = (DomainService) BeanUtils.getBean("domainService");
-		DomainApoService domainApoService = (DomainApoService) BeanUtils.getBean("domainApoService");
-		ParameterService parameterService = (ParameterService) BeanUtils.getBean("parameterService");
+		DomainService domainService = (DomainService) ApplicationContextHolder.getContext().getBean("domainService");
+		DomainApoService domainApoService = (DomainApoService) ApplicationContextHolder.getContext().getBean("domainApoService");
+		ParameterService parameterService = (ParameterService) ApplicationContextHolder.getContext().getBean("parameterService");
 		
 		try { 
 			DatabaseUtils.open();

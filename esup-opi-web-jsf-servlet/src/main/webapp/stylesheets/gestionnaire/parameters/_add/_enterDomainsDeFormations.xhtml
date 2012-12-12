@@ -7,45 +7,48 @@
     		<h:outputText value="#{msgs['DOMAIN.TITLE.ENTER']}" styleClass="section-smallTitle"/>
     		<h:panelGroup>
     			<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                    ajax="false"
     				rendered="#{paramDomainFormationController.actionEnum.whatAction == paramDomainFormationController.actionEnum.addAction}"
     				action="#{paramDomainFormationController.add}"/>
     			<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                    ajax="false"
     				rendered="#{paramDomainFormationController.actionEnum.whatAction == paramDomainFormationController.actionEnum.updateAction}"
     				action="#{paramDomainFormationController.update}"/>
     			<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                    ajax="false"
     				action="#{paramDomainFormationController.reset}"/>
     		</h:panelGroup>
     	</h:panelGrid>
     	
     	<h:panelGrid columns="3" styleClass="displayInfo">
-    		<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}"
-    			styleClass="form-field-label-inHeader-validator" for="code"/>
-    		<h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}"
-    			styleClass="form-field-label-inHeader-validator" for="inUse"/>
-    		<h:outputLabel value="#{msgs['FIELD_LABEL.LIST_LIB_LANGUE']}"
-    			styleClass="form-field-label-inHeader-validator" for="doms"/>
+    		<p:outputLabel value="#{msgs['FIELD_LABEL.CODE']}"
+    			styleClass="form-field-label-inHeader-validator" for="SaisiCode"/>
+    		<p:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}"
+    			styleClass="form-field-label-inHeader-validator" for="choixEnServ"/>
+
+            <p:outputPanel />
     
-    		<h:inputText id="SaisiCode" size="10"
-    			value="#{paramDomainFormationController.domain.ren1DomaineAnnuForm.codDom}"/>
+    		<p:inputText id="SaisiCode" size="10"
+    			value="#{paramDomainFormationController.domain.domaineAnnuForm.codDom}"/>
     		<p:selectOneMenu id="choixEnServ"
-    			value="#{paramDomainFormationController.domain.ren1DomaineAnnuForm.temSveDom}">
+    			value="#{paramDomainFormationController.domain.domaineAnnuForm.temSveDom}">
     			<f:selectItems value="#{paramDomainFormationController.temEnSveItems}"/>
     		</p:selectOneMenu>
     		<h:panelGroup rendered="#{paramDomainFormationController.actionLang.whatAction != paramDomainFormationController.actionLang.addAction}">
-    			<p:dataList var="langueDomSelect" value="#{paramDomainFormationController.domain.ren1Domaine2AnnuForm}">
+    			<ui:repeat var="langueDomSelect" value="#{paramDomainFormationController.domain.domaine2AnnuForm}">
     				
     				<h:panelGrid columns="3" 
     						rendered="#{paramDomainFormationController.actionLang.whatAction == paramDomainFormationController.actionLang.emptyAction
     								|| (paramDomainFormationController.actionLang.whatAction == paramDomainFormationController.actionLang.updateAction
     								and paramDomainFormationController.langueSelected != langueDomSelect.codLang)}">
-    					<p:commandButton image="/media/images/update.png" styleClass="espaceIcone"
+    					<p:commandButton icon="ui-icon-pencil" ajax="false"
     						action="#{paramDomainFormationController.updateLangLib}">
     						<f:setPropertyActionListener value="#{langueDomSelect.codLang}"
     							target="#{paramDomainFormationController.langueSelected}" />
     						<f:setPropertyActionListener value="#{langueDomSelect.libDom}"
     							target="#{paramDomainFormationController.libSaisi}" />
     					</p:commandButton>
-    					<p:commandButton image="/media/images/cancel.png" styleClass="espaceIcone"
+    					<p:commandButton icon="ui-icon-minus" ajax="false"
     						action="#{paramDomainFormationController.suppLangLib}">
     						<f:setPropertyActionListener value="#{langueDomSelect.codLang}"
     							target="#{paramDomainFormationController.langueSelected}" />
@@ -56,15 +59,15 @@
     				<h:panelGrid columns="3" 
     						rendered="#{paramDomainFormationController.actionLang.whatAction == paramDomainFormationController.actionLang.updateAction
     								and paramDomainFormationController.langueSelected == langueDomSelect.codLang}">
-    					<h:outputLabel value="#{msgs['FIELD_LABEL.LANGUE']}"
+    					<p:outputLabel value="#{msgs['FIELD_LABEL.LANGUE']}"
     						styleClass="form-field-label-inHeader-validator" for="langue"/>
-    					<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
+    					<p:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
     						styleClass="form-field-label-inHeader-validator" for="libele"/>
-    					<h:outputLabel value=""
+    					<p:outputLabel value=""
     						styleClass="form-field-label-inHeader-validator" for="bouton"/>
     					
     					<h:outputText styleClass="textLangLib" value="#{langueDomSelect.codLang}"/>
-    					<h:inputText id="ModifLib" size="100" value="#{paramDomainFormationController.libSaisi}"/>
+    					<p:inputText id="ModifLib" size="100" value="#{paramDomainFormationController.libSaisi}"/>
     					<div class="twoGroupsButton">
     						<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     							action="#{paramDomainFormationController.validModLangLib}"/>
@@ -73,30 +76,31 @@
     					</div>
     				</h:panelGrid>
     				
-    			</p:dataList>
-    			<p:commandButton image="/media/images/add.png" styleClass="espaceIcone"
+    			</ui:repeat>
+    			<p:commandButton icon="ui-icon-plus" ajax="false"
     					rendered="#{not empty paramDomainFormationController.allLangue}"
     					action="#{paramDomainFormationController.addLangLib}"/>
     		</h:panelGroup>
     		<h:panelGroup rendered="#{paramDomainFormationController.actionLang.whatAction == paramDomainFormationController.actionLang.addAction}">
     			<h:panelGrid columns="3">
-    				<h:outputLabel value="#{msgs['FIELD_LABEL.LANGUE']}"
-    					styleClass="form-field-label-inHeader-validator" for="langue"/>
-    				<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
-    					styleClass="form-field-label-inHeader-validator" for="libele"/>
-    				<h:outputLabel value=""
-    					styleClass="form-field-label-inHeader-validator" for="bouton"/>
+    				<p:outputLabel value="#{msgs['FIELD_LABEL.LANGUE']}"
+    					styleClass="form-field-label-inHeader-validator" for="choixLang"/>
+    				<p:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
+    					styleClass="form-field-label-inHeader-validator" for="choixlib"/>
+    				<p:outputPanel />
     				
     				<p:selectOneMenu id="choixLang"
     					value="#{paramDomainFormationController.langueSelected}">
     					<f:selectItems value="#{paramDomainFormationController.allLangue}"/>
     				</p:selectOneMenu>
-    				<h:inputText id="choixlib" size="100"
+    				<p:inputText id="choixlib" size="100"
     					value="#{paramDomainFormationController.libSaisi}"/>
     				<div class="twoGroupsButton">
     					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                            ajax="false"
     						action="#{paramDomainFormationController.validAddLangLib}"/>
     					<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                            ajax="false"
     						action="#{paramDomainFormationController.annulLangLib}"/>
     				</div>
     			</h:panelGrid>

@@ -3,6 +3,7 @@ package org.esupportail.opi.batch;
 import java.util.List;
 import java.util.Set;
 
+import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.application.ApplicationService;
 import org.esupportail.commons.services.application.ApplicationUtils;
@@ -10,16 +11,15 @@ import org.esupportail.commons.services.database.DatabaseUtils;
 import org.esupportail.commons.services.exceptionHandling.ExceptionUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.commons.utils.BeanUtils;
 
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
+import org.esupportail.opi.domain.beans.parameters.InscriptionAdm;
+import org.esupportail.opi.domain.beans.parameters.Transfert;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
-import org.esupportail.opi.web.beans.parameters.InscriptionAdm;
-import org.esupportail.opi.web.beans.parameters.Transfert;
 
 
 /**
@@ -46,8 +46,8 @@ public class UpdateTransfertInd  {
 	 * update wishes of type transfert. 
 	 */
 	private static void updateTransfert() {
-		DomainService domainService = (DomainService) BeanUtils.getBean("domainService");
-		Transfert transfert = (Transfert) BeanUtils.getBean("transfert");
+		DomainService domainService = (DomainService) ApplicationContextHolder.getContext().getBean("domainService");
+		Transfert transfert = (Transfert) ApplicationContextHolder.getContext().getBean("transfert");
 		try {
 
 			DatabaseUtils.open();
@@ -93,8 +93,8 @@ public class UpdateTransfertInd  {
 
 
 	private static TypeDecision getFavorable() {
-		ParameterService parameterService = (ParameterService) BeanUtils.getBean("parameterService");
-		InscriptionAdm inscriptionAdm = (InscriptionAdm) BeanUtils.getBean("inscriptionAdm");
+		ParameterService parameterService = (ParameterService) ApplicationContextHolder.getContext().getBean("parameterService");
+		InscriptionAdm inscriptionAdm = (InscriptionAdm) ApplicationContextHolder.getContext().getBean("inscriptionAdm");
 		Set<TypeDecision> dec = parameterService.getTypeDecisions(true);
 		for (TypeDecision d : dec) {
 			if (d.getIsFinal() && d.getCodeTypeConvocation().equals(inscriptionAdm.getCode())) {

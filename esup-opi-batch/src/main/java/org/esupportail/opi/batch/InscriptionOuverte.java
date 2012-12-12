@@ -4,9 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.esupportail.apogee.domain.dto.enseignement.VersionEtapeDTO;
-import org.esupportail.apogee.services.remote.ReadEnseignement;
-import org.esupportail.apogee.services.remote.ReadReferentiel;
+import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.services.application.ApplicationService;
 import org.esupportail.commons.services.application.ApplicationUtils;
 import org.esupportail.commons.services.exceptionHandling.ExceptionUtils;
@@ -14,16 +12,17 @@ import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.services.smtp.SmtpService;
-import org.esupportail.commons.utils.BeanUtils;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.springframework.scheduling.quartz.QuartzJobBean;
-
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
-import org.esupportail.opi.web.utils.Constantes;
-import org.esupportail.opi.web.utils.Utilitaires;
+import org.esupportail.opi.utils.Constantes;
+import org.esupportail.opi.web.beans.utils.Utilitaires;
+import org.esupportail.wssi.services.remote.ReadEnseignement;
+import org.esupportail.wssi.services.remote.ReadReferentiel;
+import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 
 
 /**
@@ -73,8 +72,8 @@ public class InscriptionOuverte extends QuartzJobBean {
 	 */
 	public InscriptionOuverte() {
 		super();
-		smtpService = (SmtpService) BeanUtils.getBean("smtpService");
-		i18nService = (I18nService) BeanUtils.getBean("i18nService");
+		smtpService = (SmtpService) ApplicationContextHolder.getContext().getBean("smtpService");
+		i18nService = (I18nService) ApplicationContextHolder.getContext().getBean("i18nService");
 
 	}
 	/**
@@ -109,7 +108,7 @@ public class InscriptionOuverte extends QuartzJobBean {
 	 */
 	protected void inscriptionOuverte() {
 		// On recupere le WS referentiel
-		ReadEnseignement remoteCriApogeeEns = (ReadEnseignement) BeanUtils.getBean("remoteCriApogeeEns");
+		ReadEnseignement remoteCriApogeeEns = (ReadEnseignement) ApplicationContextHolder.getContext().getBean("remoteCriApogeeEns");
 
 		// Date d'aujourd'hui
 		Date tmp = new Date();
@@ -127,7 +126,7 @@ public class InscriptionOuverte extends QuartzJobBean {
 			iawebOpen = dateOuvertureReins.equals(affichage);
 		} else {
 			// On recupere le WS referentiel
-			ReadReferentiel remoteCriApogeeRef = (ReadReferentiel) BeanUtils.getBean("remoteCriApogeeRef");
+			ReadReferentiel remoteCriApogeeRef = (ReadReferentiel) ApplicationContextHolder.getContext().getBean("remoteCriApogeeRef");
 
 			// Sous la forme '01-01-2002 00:00:00'
 			SimpleDateFormat sdf = new SimpleDateFormat(Constantes.ENGLISH_DATE_FORMAT);

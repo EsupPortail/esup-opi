@@ -1,7 +1,8 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
 xmlns:ui="http://java.sun.com/jsf/facelets"
 xmlns:h="http://java.sun.com/jsf/html"
-xmlns:p="http://primefaces.org/ui">
+xmlns:p="http://primefaces.org/ui"
+xmlns:t="http://myfaces.apache.org/tomahawk">
 <h:form id="formAddParamRdvSup">
     <h2>
     	<h:outputFormat value="#{msgs['CALENDAR_RDV.CALENDAR_SELECTED']}">
@@ -11,31 +12,43 @@ xmlns:p="http://primefaces.org/ui">
 	<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
 		rendered="#{managedAccess.updateAuthorized}"
 		actionListener="#{paramRdvSupController.initAction}"
-		styleClass="form-button-image" immediate="true">
+		immediate="true" ajax="false">
 		<f:setPropertyActionListener value="#{paramRdvController.actionEnum.emptyAction}"
 			target="#{paramRdvController.actionEnum.whatAction}" />
 		<f:setPropertyActionListener value="#{paramRdvSupController.actionEnum.emptyAction}"
 			target="#{paramRdvSupController.actionEnum.whatAction}" />
 	</p:commandButton>
 	
+	<div style="text-align:center; width:850px;">
 	<h:panelGrid columns="3" cellpadding="0" cellspacing="1" styleClass="calendrierRdv"
-		columnClasses="colRDVLeft,colRDVCenter,colRDVRight">
-		<p:commandLink id="clmoisprec" immediate="true"
-			actionListener="#{paramRdvSupController.precMonth}">
-			<p:graphicImage border="0"
-				value="/media/images/backward.png"
-				alt="#{msgs['CALENDAR_RDV.BUTTON.PREC_MONTH']}"/>
-		</p:commandLink>
-		
-		<div style="text-align:center; width:850px;">
-			<h2><h:outputFormat 
-                rendered="#{paramRdvSupController.scheduleModel != null}"
-				style="text-transform: uppercase;" 
-				value="#{paramRdvSupController.monthSelected}">
-				<f:convertDateTime type="date" pattern="MMMM yyyy" timeZone="Europe/Paris"/>
-			</h:outputFormat></h2>
+		columnClasses="colRDVLeft,colRDVCenter,colRDVRight">	
+		<h:column> </h:column>
+		<h:column>
+			<h2>
+				<h:outputFormat 
+	                rendered="#{paramRdvSupController.scheduleModel != null}"
+					style="text-transform: uppercase;" 
+					value="#{paramRdvSupController.monthSelected}">
+					<f:convertDateTime type="date" pattern="MMMM yyyy" timeZone="Europe/Paris"/>
+				</h:outputFormat>
+			</h2>
+		 </h:column>
+		 <h:column> </h:column>
+		 <h:column>
+			<p:commandLink id="clmoisprec" immediate="true"
+				actionListener="#{paramRdvSupController.precMonth}"
+				ajax="false">
+				<p:graphicImage border="0"
+					value="/media/images/backward.png"
+					alt="#{msgs['CALENDAR_RDV.BUTTON.PREC_MONTH']}"/>
+			</p:commandLink>
+		 </h:column>
+		 
+		 <h:column>
 			
-			<t:schedule id="scalendar"
+			
+			
+		<t:schedule id="scalendar"
 				value="#{paramRdvSupController.scheduleModel}"
 				headerClass="schedule_header"
 				entryRenderer="#{extendedEntryRenderer}"
@@ -69,52 +82,89 @@ xmlns:p="http://primefaces.org/ui">
 					styleClass="panelgrid_header" 
 					value="#{msgs['CALENDAR_RDV.TEXT.FIN_PM']} "/>
 				
-				<p:selectOneMenu id="debutAM"
-					immediate="true"
-					validator="#{paramRdvSupController.validateDebutAMHour}" 
-					value="#{paramRdvSupController.dateDebutAM}"
-					onchange="submit();">
-					<f:selectItems id="debutAMItems" value="#{paramRdvSupController.AMHours}" />
-					<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/>
-				</p:selectOneMenu>
+<!-- 				<p:selectOneMenu id="debutAM" -->
+<!-- 					immediate="true" -->
+<!-- 					validator="#{paramRdvSupController.validateDebutAMHour}"  -->
+<!-- 					value="#{paramRdvSupController.dateDebutAM}"> -->
+<!-- 					<f:selectItems id="debutAMItems" value="#{paramRdvSupController.AMHours}" /> -->
+<!-- 					<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/> -->
+<!-- 				</p:selectOneMenu> -->
 				
-				<p:selectOneMenu id="finAM"
-					immediate="true"
-					validator="#{paramRdvSupController.validateFinAMHour}" 
-					value="#{paramRdvSupController.dateFinAM}"
-					onchange="submit();" >
-					<f:selectItems id="finAMItems" value="#{paramRdvSupController.AMHours}"/>					
-					<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/>
-				</p:selectOneMenu>
-				
-				<p:selectOneMenu id="debutPM"
-					immediate="true"
-					validator="#{paramRdvSupController.validateDebutPMHour}"
-					value="#{paramRdvSupController.dateDebutPM}"
-					onchange="submit();" >
-					<f:selectItems id="debutPMItems" value="#{paramRdvSupController.PMHours}" />		
-					<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/>
-				</p:selectOneMenu>
-				
-				<p:selectOneMenu id="finPM"
-					immediate="true" 
-					validator="#{paramRdvSupController.validateFinPMHour}"
-					value="#{paramRdvSupController.dateFinPM}"
-					onchange="submit();" >
-					<f:selectItems id="finPMItems" value="#{paramRdvSupController.PMHours}" />
-					<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/>
-				</p:selectOneMenu>
+<!-- 				<p:selectOneMenu id="finAM" -->
+<!-- 					immediate="true" -->
+<!-- 					validator="#{paramRdvSupController.validateFinAMHour}"  -->
+<!-- 					value="#{paramRdvSupController.dateFinAM}"> -->
+<!-- 					<f:selectItems id="finAMItems" value="#{paramRdvSupController.AMHours}"/>					 -->
+<!--  					<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/> -->
+<!--  				</p:selectOneMenu> -->
+
+<!-- 				<p:selectOneMenu id="debutPM" -->
+<!-- 					immediate="true" -->
+<!-- 					validator="#{paramRdvSupController.validateDebutPMHour}" -->
+<!-- 					value="#{paramRdvSupController.dateDebutPM}"> -->
+<!-- 					<f:selectItems id="debutPMItems" value="#{paramRdvSupController.PMHours}" />		 -->
+<!--  					<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/> -->
+<!--  				</p:selectOneMenu> -->
+
+<!-- 				<p:selectOneMenu id="finPM" -->
+<!-- 					immediate="true"  -->
+<!-- 					validator="#{paramRdvSupController.validateFinPMHour}" -->
+<!-- 					value="#{paramRdvSupController.dateFinPM}"> -->
+<!-- 					<f:selectItems id="finPMItems" value="#{paramRdvSupController.PMHours}" /> -->
+<!--  					<f:convertDateTime type="date" pattern="k:mm" timeZone="Europe/Paris"/> -->
+<!--  				</p:selectOneMenu> -->
+                
+                <p:calendar id="debutAM" size="5"
+                    validator="#{paramRdvSupController.validateDebutAMHour}" 
+                    value="#{paramRdvSupController.dateDebutAM}" 
+                    pattern="HH:mm" timeZone="Europe/Paris"
+                    minHour="8" maxHour="12" stepMinute="30" 
+                    readonlyInput="true" timeOnly="true">
+                    <p:ajax event="change" update="@this,:messages" partialSubmit="true" />
+                </p:calendar>
+
+                <p:calendar id="finAM" size="5"
+                    validator="#{paramRdvSupController.validateFinAMHour}" 
+                    value="#{paramRdvSupController.dateFinAM}" 
+                    pattern="HH:mm" timeZone="Europe/Paris"
+                    minHour="8" maxHour="12" stepMinute="30" 
+                    readonlyInput="true" timeOnly="true">
+                    <p:ajax event="change" update=":messages" partialSubmit="true" />
+                </p:calendar>
+                    
+               <p:calendar id="debutPM" size="5"
+                    validator="#{paramRdvSupController.validateDebutPMHour}"
+                    value="#{paramRdvSupController.dateDebutPM}"
+                    pattern="HH:mm" timeZone="Europe/Paris"
+                    minHour="13" maxHour="19" stepMinute="30"
+                    readonlyInput="true" timeOnly="true">
+                    <p:ajax event="change" update=":messages" partialSubmit="true" />
+                </p:calendar>
+        
+               <p:calendar id="finPM" size="5"
+                    validator="#{paramRdvSupController.validateFinPMHour}"
+                    value="#{paramRdvSupController.dateFinPM}"
+                    pattern="HH:mm" timeZone="Europe/Paris"
+                    minHour="13" maxHour="19" stepMinute="30" 
+                    readonlyInput="true" timeOnly="true">
+                    <p:ajax event="change" update=":messages" partialSubmit="true" />
+                </p:calendar>
+                
+
 			</h:panelGrid>
-		</div>
-		
+
+		</h:column>
+		<h:column>
 		<p:commandLink id="clmoissuiv" immediate="true"
-			actionListener="#{paramRdvSupController.nextMonth}">
+			actionListener="#{paramRdvSupController.nextMonth}" 
+			ajax="false">
 			<p:graphicImage border="0"
 				value="/media/images/forward.png" 
 				alt="#{msgs['CALENDAR_RDV.BUTTON.NEXT_MONTH']}"/>
 		</p:commandLink>
+		</h:column>
 	</h:panelGrid>
-				
+		</div>				
 	<p:message for="formAddParamRdvSup"/>
 </h:form>
 

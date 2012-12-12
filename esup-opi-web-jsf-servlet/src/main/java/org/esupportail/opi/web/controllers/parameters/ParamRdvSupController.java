@@ -107,7 +107,6 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 */
 	private ParamRdvController paramRdvController;
 	
-	
 	/*
 	 ******************* INIT ************************* */
 	/**
@@ -187,18 +186,18 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 				// Tranche fermee existe			
 				TrancheFermee tf = getCalendarRdv().getTranchesFermees().get(calendar.getTime());
 				
-				// Matin� s�lectionn�e
+				// Matiné sélectionnée
 				if (scheduleModel.getSelectedEntry().getId().contains("AM")) {
 					if (tf.isJourFerme()) {
-						// Jour ferm� -> Ouverture matin�
+						// Jour fermé -> Ouverture matiné
 						tf.setMatin(false);
 						revertEntry((ExtendedEntry) scheduleModel.getSelectedEntry(), 
 								true, true);
-						//mise � jour de trancheFermee
+						//mise à jour de trancheFermee
 						getDomainService().updateTrancheFermee(tf);
 						
 					} else if (tf.isMatin()) {
-						// Matin� ferm� -> Ouverture matin�
+						// Matiné fermée -> Ouverture matiné
 						getCalendarRdv().getTranchesFermees().remove(calendar.getTime());
 						revertEntry((ExtendedEntry) scheduleModel.getSelectedEntry(), 
 								true, true);
@@ -206,7 +205,7 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 						getDomainService().deleteTrancheFermee(tf);
 						
 					} else {
-						// Matin� ouverte -> Fermeture matin�
+						// Matiné ouverte -> Fermeture matiné
 						if (getParameterService().getListEtudiantsParCalendarRdvParDemiJournee(
 								getCalendarRdv().getId(),
 								calendar.get(Calendar.MONTH),
@@ -221,21 +220,21 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 						tf.setMatin(true);
 						revertEntry((ExtendedEntry) scheduleModel.getSelectedEntry(), 
 								false, true);
-						//mise � jour de trancheFermee
+						//mise à jour de trancheFermee
 						getDomainService().updateTrancheFermee(tf);
 					}
 				} else {
-					// Apr�s midi s�lectionn�e
+					// Après midi sélectionnée
 					if (tf.isJourFerme()) {
-						// Jour ferm� -> Ouverture apr�s midi
+						// Jour fermé -> Ouverture apràs midi
 						tf.setAprem(false);
 						revertEntry((ExtendedEntry) scheduleModel.getSelectedEntry(), 
 								true, false);
-						//mise � jour de trancheFermee
+						//mise à jour de trancheFermee
 						getDomainService().updateTrancheFermee(tf);
 						
 					} else if (tf.isAprem()) {
-						// Apr�s midi ferm�e -> Ouverture apr�s midi
+						// Après midi fermée -> Ouverture après midi
 						getCalendarRdv().getTranchesFermees().remove(calendar.getTime());
 						revertEntry((ExtendedEntry) scheduleModel.getSelectedEntry(), 
 								true, false);
@@ -243,7 +242,7 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 						getDomainService().deleteTrancheFermee(tf);
 						
 					} else {						
-						// Apr�s midi ouverte -> fermeture apr�s midi
+						// Après midi ouverte -> fermeture après midi
 						if (getParameterService().getListEtudiantsParCalendarRdvParDemiJournee(
 								getCalendarRdv().getId(),
 								calendar.get(Calendar.MONTH),
@@ -269,14 +268,14 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 				calendar.clear();
 				calendar.setTime(scheduleModel.getSelectedEntry().getStartTime());
 				
-				// Nouvelle tranche ferm�e
+				// Nouvelle tranche fermée
 				TrancheFermee tf = new TrancheFermee();
 				tf.setCalendrierRdv(getCalendarRdv());
 				tf.setDateFermeture(scheduleModel.getSelectedEntry().getStartTime());
 				
-				//mise � jour de la nouvelle tranche
+				//mise à jour de la nouvelle tranche
 				if (scheduleModel.getSelectedEntry().getId().contains("AM")) {
-					// Matin� s�lectionn�e -> fermeture matin�
+					// Matiné sélectionnée -> fermeture matiné
 					if (getParameterService().getListEtudiantsParCalendarRdvParDemiJournee(
 							getCalendarRdv().getId(),
 							calendar.get(Calendar.MONTH),
@@ -292,7 +291,7 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 					revertEntry((ExtendedEntry) scheduleModel.getSelectedEntry(), false, true);
 					
 				} else {
-					// Apr�s midi s�lectionn�e -> fermeture apr�s midi
+					// Après midi sélectionnée -> fermeture après midi
 					if (getParameterService().getListEtudiantsParCalendarRdvParDemiJournee(
 							getCalendarRdv().getId(),
 							calendar.get(Calendar.MONTH),
@@ -485,7 +484,7 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 			entry.setId("NOTHORAIRE" + calendar.getTimeInMillis());
 			entry.setStartTime(calendar.getTime());
 			
-			entry.setTitle("Ajouter une horaire");
+			entry.setTitle("Ajouter un horaire");
 			entry.setColor("#b2ff00");
 		} else {
 			Calendar cal = new GregorianCalendar();
@@ -815,7 +814,7 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 * @param dateFin
 	 * @return boolean
 	 */
-	private boolean validate(final Date dateSelected,
+	public boolean validate(final Date dateSelected,
 			final Date dateDebut, 
 			final Date dateFin) {
 		calendar.clear();
@@ -845,7 +844,7 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 * @param dateFin
 	 * @return boolean
 	 */
-	private boolean testRdvEtudiant(final int mois, final Date dateDebut, final Date dateFin) {
+	public boolean testRdvEtudiant(final int mois, final Date dateDebut, final Date dateFin) {
 		if (getParameterService().getListEtudiantsParCalendarRdvParPeriode(
 				getCalendarRdv().getId(),
 				mois,
@@ -880,14 +879,14 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 * @return the dateDebutMatin
 	 */
 	public Date getDateDebutAM() {
+		Date dateDebutAM = null;
 		if (getCalendarRdv() != null && scheduleModel.getSelectedDate() != null) {
 			calendar.clear();
 			calendar.setTime(scheduleModel.getSelectedDate());
-			
-			return getCalendarRdv().getHoraires().get(
-				calendar.get(Calendar.MONTH)).getDateDebutMatin();
+			dateDebutAM = getCalendarRdv().getHoraires().get(
+					calendar.get(Calendar.MONTH)).getDateDebutMatin();
 		}
-		return null;
+		return dateDebutAM;
 	}
 	
 	/**
@@ -920,12 +919,13 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 * @return the dateFinMatin
 	 */
 	public Date getDateFinAM() {
+		Date dateFinAM;
 		if (getCalendarRdv() != null && scheduleModel.getSelectedDate() != null) {
 			calendar.clear();
 			calendar.setTime(scheduleModel.getSelectedDate());		
-			
-			return getCalendarRdv().getHoraires().get(
+			dateFinAM = getCalendarRdv().getHoraires().get(
 					calendar.get(Calendar.MONTH)).getDateFinMatin();
+			return dateFinAM;
 		}
 		return null;
 	}
@@ -959,12 +959,13 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 * @return the dateDebutAmidi
 	 */
 	public Date getDateDebutPM() {
+		Date dateDebutPM;
 		if (getCalendarRdv() != null && scheduleModel.getSelectedDate() != null) {
 			calendar.clear();
 			calendar.setTime(scheduleModel.getSelectedDate());
-			
-			return getCalendarRdv().getHoraires().get(
+			dateDebutPM = getCalendarRdv().getHoraires().get(
 					calendar.get(Calendar.MONTH)).getDateDebutAmidi();
+			return dateDebutPM;
 		}
 		return null;
 	}
@@ -998,12 +999,13 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 * @return the dateFinAmidi
 	 */
 	public Date getDateFinPM() {
+		Date dateFinPM;
 		if (getCalendarRdv() != null && scheduleModel.getSelectedDate() != null) {
 			calendar.clear();
 			calendar.setTime(scheduleModel.getSelectedDate());
-			
-			return getCalendarRdv().getHoraires().get(
+			dateFinPM = getCalendarRdv().getHoraires().get(
 					calendar.get(Calendar.MONTH)).getDateFinAmidi();
+			return dateFinPM;
 		}
 		return null;
 	}
@@ -1283,8 +1285,7 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	 */
 	public String getJourSelectedString() {
 		if (jourSelected != null) {
-			SimpleDateFormat format = (SimpleDateFormat) DateFormat.getDateInstance();
-			format.applyPattern("dd/mm/yyyy");
+			DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 			return format.format(jourSelected);
 		}
 		return "";
@@ -1504,6 +1505,15 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	public void setMonthSelected(final Date monthSelected) {
 		this.monthSelected = monthSelected;
 	}
+	
+	/**
+	 * 
+	 * @return calendar
+	 */
+	public Calendar getCalendar() {
+		return calendar;
+	}
+	
 	/**
 	 * @return the calendarRdv
 	 */
@@ -1524,4 +1534,5 @@ public class ParamRdvSupController extends AbstractContextAwareController {
 	public void setJourSelected(final Date jourSelected) {
 		this.jourSelected = jourSelected;
 	}
+	
 }

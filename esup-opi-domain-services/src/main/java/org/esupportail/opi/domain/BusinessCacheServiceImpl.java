@@ -34,7 +34,7 @@ import com.googlecode.ehcache.annotations.Cacheable;
  *
  */
 public class BusinessCacheServiceImpl 
-		extends AbstractDomainService implements BusinessCacheService {
+		 implements BusinessCacheService {
 
 	
 	/*
@@ -106,9 +106,7 @@ public class BusinessCacheServiceImpl
 	/**
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
-	@Override
 	public void afterPropertiesSet() {
-		super.afterPropertiesSet();
 		Assert.notNull(this.domainApoService, "property domainApoService of class " 
 				+ this.getClass().getName() + " can not be null");
 		Assert.notNull(this.cacheManager, "property cacheManager of class " 
@@ -266,30 +264,6 @@ public class BusinessCacheServiceImpl
 //			log.debug("leanving initCacheVet");
 //		}
 //	}
-
-	/**
-	 * @see org.esupportail.opi.domain.BusinessCacheService#
-	 * getVersionEtape(java.lang.String, java.lang.Integer)
-	 */
-	@Override
-	@Deprecated
-	public VersionEtapeDTO getVersionEtape(final String codEtp, final Integer codVrsVet) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering getVersionEtape(" + codEtp + ", " 
-					+ codVrsVet + "  )");
-		}
-		VersionEtapeDTO result = null;
-		List<VersionEtapeDTO> v = domainApoService.getVersionEtapes(codEtp, null, null, null);
-		for (VersionEtapeDTO vet : v) {
-		    if (codVrsVet.equals(vet.getCodVrsVet())) {
-		        return vet;
-		    }
-		}
-		if (log.isDebugEnabled()) {
-		    log.debug("leanving getVersionEtape with vet =" + result);
-		}
-		return result;
-	}
 	
 	//////////////////////////////////////////////////////////////
 	// Etablissement

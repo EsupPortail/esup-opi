@@ -3,7 +3,7 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
     xmlns:t="http://myfaces.apache.org/tomahawk"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	
     	
@@ -23,15 +23,15 @@
     				<br />
     				<br />
     				<div id="blockFormButton" class="blockForm">
-    					<div class="blockButton">
+    					<!-- <div class="blockButton">
     						<h:panelGroup>
     							<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
     									immediate="true"
     									action="#{managedAccess.goDisplayFunction}"/>
     						</h:panelGroup>
-    					</div>
+    					</div> -->
     					
-    					<p:dataTable var="nomenclaturePojo" value="#{nomenclatureController.pieceJustificatives}"
+    					<p:dataTable var="nomenclaturePojo" value="#{nomenclatureController.pieceJustificativesItems}"
     						styleClass="displayInfo" alternateColors="false">
     						<p:column>
     							<f:facet name="header">
@@ -96,11 +96,12 @@
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
     						</p:column>
     						<p:column styleClass="buttonTD">
-    							<p:commandButton image="/media/images/magnifier.png"
+    							<p:commandButton icon="ui-icon-search"
     								styleClass="form-button-image" immediate="true"
     								action="#{nomenclatureController.goSeeAffectPJ}"
     								title="#{msgs['_.BUTTON.DISPLAY']}"
-    								rendered="#{!nomenclaturePojo.nomenclature.isForAllVet}">
+    								rendered="#{!nomenclaturePojo.nomenclature.isForAllVet}"
+    								ajax="false">
     								<f:setPropertyActionListener value="#{nomenclatureController.actionEnum.readAction}" target="#{nomenclatureController.actionEnum.whatAction}" />
     								<f:setPropertyActionListener value="#{nomenclaturePojo.nomenclature}" target="#{nomenclatureController.nomenclature}" />
     							</p:commandButton>

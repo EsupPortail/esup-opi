@@ -12,16 +12,11 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.services.database.DatabaseUtils;
 import org.esupportail.commons.services.exceptionHandling.ExceptionUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.commons.utils.BeanUtils;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.springframework.scheduling.quartz.QuartzJobBean;
-import org.xml.sax.SAXException;
-
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.OrbeonService;
 import org.esupportail.opi.domain.ParameterService;
@@ -31,9 +26,13 @@ import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
 import org.esupportail.opi.services.archives.ArchiveService;
+import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
-import org.esupportail.opi.web.utils.Constantes;
-import org.esupportail.opi.web.utils.Utilitaires;
+import org.esupportail.opi.web.beans.utils.Utilitaires;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.springframework.scheduling.quartz.QuartzJobBean;
+import org.xml.sax.SAXException;
 
 
 /**
@@ -72,11 +71,10 @@ public class ArchiveTaskBatch extends QuartzJobBean {
 	 * Launch the archive task(s) of the day.
 	 */
 	private static void launchArchiveTasks() {
-		DomainService domainService = (DomainService) BeanUtils.getBean("domainService");
-		ParameterService parameterService = (ParameterService) BeanUtils.getBean("parameterService");
-		ArchiveService archiveService = (ArchiveService) BeanUtils.getBean("archiveService");
-		OrbeonService orbeonService = (OrbeonService) BeanUtils.getBean("orbeonService");
-//		SessionController sessionController = (SessionController) BeanUtils.getBean("sessionController");
+		DomainService domainService = (DomainService) ApplicationContextHolder.getContext().getBean("domainService");
+		ParameterService parameterService = (ParameterService) ApplicationContextHolder.getContext().getBean("parameterService");
+		ArchiveService archiveService = (ArchiveService) ApplicationContextHolder.getContext().getBean("archiveService");
+		OrbeonService orbeonService = (OrbeonService) ApplicationContextHolder.getContext().getBean("orbeonService");
 
 		try { 
 			DatabaseUtils.open();
@@ -125,7 +123,7 @@ public class ArchiveTaskBatch extends QuartzJobBean {
 				// Récupération de la liste des indFormulaire 
 				// pour faire la liste des formName pour orbeon
 				Map<String, List<String>> mapFormName = parameterService
-										.getAllFormNamesMap(campToArch, regime);
+										.getAllFormNamesMap(campToArch, regime.getShortLabel());
 				
 				archiveService.purgeTablesCamp(campToArch);
 				

@@ -17,10 +17,11 @@
         		</div>
         		<p:dataTable var="missingPiece" id="pjData"
         			value="#{pjController.mpPojoSelected.piecesForCmi[pjController.currentCmiPojo.commission]}"
-        			styleClass="paginatorData" alternateColors="true">
-        			<p:column width="2%">
+                    selection="#{pjController.missingPiece}" rowKey="#{missingPiece}"
+        			styleClass="paginatorData">
+        			<p:column>
                         <p:graphicImage url="/media/images/informationSmall.png"
-                            style="cursor:pointer;" id="infoAnneeUni" />
+                            style="cursor:pointer;" id="helpMotivation" />
                         <p:overlayPanel for="helpMotivation"
                             showEvent="mouseover"
                             hideEvent="mouseout"
@@ -35,26 +36,19 @@
     						</h:panelGroup>
         				</p:overlayPanel>
         			</p:column>
-        			<p:column width="68%">
+        			<p:column>
         				<f:facet name="header">
         					<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
         				</f:facet>
         				<h:outputText value="#{missingPiece.piece.libelle}" />
         			</p:column>
-        			<p:column width="28%">
+        			<p:column>
         				<f:facet name="header">
         					<h:outputText value="#{msgs['FIELD_LABEL.COMMENTAIRE']}" />
         				</f:facet>
-        				<h:inputText value="#{missingPiece.libelle}" size="40" maxlength="500"/>
+        				<p:inputText value="#{missingPiece.libelle}" size="40" maxlength="500"/>
         			</p:column>
-        			<p:column width="2%">
-        				<f:facet name="header">
-        					<p:selectBooleanCheckbox value="#{pjController.allChecked}"
-        						onclick="checkAllInElement('listePieceManquante:pjData' ,this.checked)" />
-        				</f:facet>
-        				<jdt:multipleRowsSelector
-        					selectionList="#{pjController.missingPiece}" />
-        			</p:column>
+        			<p:column selectionMode="multiple"/>
         		</p:dataTable>
         	</h:form>
     </ui:fragment>

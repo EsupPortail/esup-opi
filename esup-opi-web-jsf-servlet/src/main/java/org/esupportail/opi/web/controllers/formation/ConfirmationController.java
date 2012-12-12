@@ -296,7 +296,7 @@ public class ConfirmationController extends AbstractAccessController {
 		lesTypeDecisions.add(avis.getResult());
 		// param Set <VersionEtapeDTO>
 		Set<VersionEtapeDTO> versionsEtape = new HashSet<VersionEtapeDTO>();
-		versionsEtape.add(getBusinessCacheService().getVersionEtape(
+		versionsEtape.add(getDomainApoService().getVersionEtape(
 				indVoeuLc.getLinkTrtCmiCamp().getTraitementCmi().getVersionEtpOpi().getCodEtp(),
 				indVoeuLc.getLinkTrtCmiCamp().getTraitementCmi().getVersionEtpOpi().getCodVrsVet()));
 		// new IndividuPojo()
@@ -727,6 +727,15 @@ public class ConfirmationController extends AbstractAccessController {
 		this.indVoeuxPojoFav = indVoeuxPojoFav;
 	}
 
+	/**
+	 * List of IndVoeuPojo in use.
+	 * @return
+	 */
+	public List<IndVoeuPojo> getIndVoeuxPojoFavItems() {
+		List<IndVoeuPojo> indVoeuxPojo = new ArrayList<IndVoeuPojo>();
+		indVoeuxPojo.addAll(indVoeuxPojoFav);
+		return indVoeuxPojo;		
+	}
 	/**
 	 * @return the addressIAPrimo
 	 */

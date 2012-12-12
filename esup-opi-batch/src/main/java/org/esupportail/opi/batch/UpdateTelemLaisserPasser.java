@@ -4,25 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.services.application.ApplicationService;
 import org.esupportail.commons.services.application.ApplicationUtils;
 import org.esupportail.commons.services.database.DatabaseUtils;
 import org.esupportail.commons.services.exceptionHandling.ExceptionUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.commons.utils.BeanUtils;
-import org.springframework.util.StringUtils;
-
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.OpiWebService;
 import org.esupportail.opi.domain.ParameterService;
+import org.esupportail.opi.domain.beans.etat.EtatConfirme;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
-import org.esupportail.opi.web.beans.pojo.etat.EtatConfirme;
+import org.springframework.util.StringUtils;
 
 
 /**
@@ -49,10 +48,10 @@ public class UpdateTelemLaisserPasser  {
 	 * send the mail. 
 	 */
 	private static void update() {
-		DomainService domainService = (DomainService) BeanUtils.getBean("domainService");
-		DomainApoService domainApoService = (DomainApoService) BeanUtils.getBean("domainApoService");
-		ParameterService parameterService = (ParameterService) BeanUtils.getBean("parameterService");
-		OpiWebService opiWebService = (OpiWebService) BeanUtils.getBean("opiWebService");
+		DomainService domainService = (DomainService) ApplicationContextHolder.getContext().getBean("domainService");
+		DomainApoService domainApoService = (DomainApoService) ApplicationContextHolder.getContext().getBean("domainApoService");
+		ParameterService parameterService = (ParameterService) ApplicationContextHolder.getContext().getBean("parameterService");
+		OpiWebService opiWebService = (OpiWebService) ApplicationContextHolder.getContext().getBean("opiWebService");
 		try {
 
 			DatabaseUtils.open();

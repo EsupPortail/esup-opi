@@ -2,7 +2,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
     		<h1>
@@ -47,7 +47,7 @@
     							<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code" />
     							<h:outputText value="*" styleClass="etoileForChpObli" />
     						</h:panelGroup>
-    						<h:inputText id="code" size="11" maxlength="10"
+    						<p:inputText id="code" size="11" maxlength="10"
     							value="#{profilController.profil.code}" />
     						<h:panelGroup>	
     							<h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}"
@@ -62,7 +62,7 @@
     								for="libelle" />
     							<h:outputText value="*" styleClass="etoileForChpObli" />
     						</h:panelGroup>
-    						<h:inputText id="libelle" size="51" maxlength="50"
+    						<p:inputText id="libelle" size="51" maxlength="50"
     							value="#{profilController.profil.libelle}" />
     						<h:panelGroup>
     							<h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"
@@ -85,23 +85,25 @@
     						<h:panelGroup>
     								<p:selectOneMenu id="choiceDomain" converter="javax.faces.Integer"
     									valueChangeListener="#{profilController.selectDomain}"
-    									value="#{profilController.idDomainSelected}"
-    									onchange="javascript:{simulateLinkClick('enterProfilForm:submitSelectDomain');}">
+    									value="#{profilController.idDomainSelected}">
+    									<!-- onchange="javascript:{simulateLinkClick('enterProfilForm:submitSelectDomain');}" -->
     									<f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}"
     										itemValue="" />
     									<f:selectItems var="domain" value="#{domainController.domains}"
     										itemLabel="#{domain.libelle}" itemValue="#{domain.id}" />
     									<f:selectItem itemLabel="#{msgs['DOMAIN.SELECTED.ALL']}"
     										itemValue="#{profilController.selectAllDomain}" />
+    									<p:ajax update="access" />
     								</p:selectOneMenu>
-    								<p:commandButton id="submitSelectDomain" 
+    								<!-- <p:commandButton id="submitSelectDomain" 
     										value="#{msgs['_.BUTTON.CHANGE']}"
-    										action="#{profilController.selectDomain}"/>
+    										action="#{profilController.selectDomain}"/> -->
     						</h:panelGroup>
     					</h:panelGrid>
     				
     				</div>
     				<div id="displayAccess">
+    				<p:panel id="access">
     					<br />
     					<br />
     					<br />
@@ -109,7 +111,7 @@
     						<p:dataTable id="domainData"  var="beanAccess" value="#{profilController.accessDomain }"
     							styleClass="paginatorData" alternateColors="true"
     							rowIndexVar="variable"  renderedIfEmpty="false" >
-    							<p:column width="80%">
+    							<p:column style="width:80%;">
     								<f:facet name="header">
     									<h:outputText value="#{msgs['DOMAIN']}" />
     								</f:facet>
@@ -132,23 +134,23 @@
     									</p:overlayPanel>
     								</h:panelGroup>    								
     							</p:column>
-    							<p:columns var="codeAccess" value="#{accessRController.codeAccess}" style="width:5%;">
+    							<p:columns var="codeAccess" value="#{accessRController.codeAccessItems}" style="width:5%;">
     								<f:facet name="header">
     									<h:outputText value="#{accessRController.accessTypes[codeAccess].libelle} " />
     								</f:facet>
     								<p:selectBooleanCheckbox value="#{beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}" rendered="#{!beanAccess.onlyReadDomain}"/>
-    								<p:graphicImage url="/media/images/check2.gif" 
+<!--     								<p:graphicImage url="/media/images/check2.gif" 
     								rendered="#{beanAccess.onlyReadDomain 
     									and beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/>
     								<p:graphicImage url="/media/images/check0.gif" 
     									rendered="#{beanAccess.onlyReadDomain 
-    										and !beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/>
+    										and !beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/> -->
     							</p:columns>
     							<p:column style="width:5%;">
     								<f:facet name="header">
     									<h:outputText value="#{msgs['FIELD_LABEL.ALL']}" />
     								</f:facet>
-    								<p:selectBooleanCheckbox onclick="javascript:{checkRows('enterProfilForm:domainData',#{variable}, this.checked);}"
+    								<p:selectBooleanCheckbox onchange="checkRows('enterProfilForm:domainData',#{variable}, this.checked);"
     									rendered="#{!beanAccess.onlyReadDomain}"/>
     							</p:column>
     						</p:dataTable>
@@ -173,7 +175,7 @@
     								</f:facet>
     								<h:outputText value="#{beanAccess.traitement.libelle }" />
     							</p:column>
-    							<p:columns var="codeAccess" value="#{accessRController.codeAccess}" style="width:5%;">
+    							<p:columns var="codeAccess" value="#{accessRController.codeAccessItems}" style="width:5%;">
     								<f:facet name="header">
     									<h:outputText value="#{accessRController.accessTypes[codeAccess].libelle} " />
     								</f:facet>
@@ -183,10 +185,11 @@
     								<f:facet name="header">
     									<h:outputText value="#{msgs['FIELD_LABEL.ALL']}" />
     								</f:facet>
-    								<p:selectBooleanCheckbox onclick="javascript:{checkRows('enterProfilForm:functionData',#{variable}, this.checked);}"/>
+    								<p:selectBooleanCheckbox onchange="checkRows('enterProfilForm:functionData',#{variable}, this.checked);"/>
     							</p:column>
     						</p:dataTable>
     					</div>
+    					</p:panel>
     				</div>
     			</h:form>
     		</div>

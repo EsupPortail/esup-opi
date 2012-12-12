@@ -29,7 +29,7 @@
 	    		The name of the application.
 	    	</description>
     	</property>
-    	<property name="versionMajorNumber" value="0" >
+    	<property name="versionMajorNumber" value="2" >
 	    	<description>
 	    		The major number of the application (1 for version 1.2.3).
 	    	</description>
@@ -39,7 +39,7 @@
 	    		The minor number of the application (2 for version 1.2.3).
 	    	</description>
     	</property>
-    	<property name="versionUpdate" value="1" >
+    	<property name="versionUpdate" value="0" >
 	    	<description>
 	    		The update of the application (3 for version 1.2.3).
 	    	</description>
@@ -54,7 +54,7 @@
 	    		The vendor.
 	    	</description>
     	</property>
-    	<property name="latestVersionBaseUrl" value="http://sourcesup.cru.fr/esup-opi" >
+    	<property name="latestVersionBaseUrl" value="https://github.com/EsupPortail/esup-opi" >
 	    	<description>
 	    		The base URL where the latest version number should be found.
 	    	</description>

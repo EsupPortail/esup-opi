@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC
       "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+          "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="org.esupportail.opi.domain.beans.references.rendezvous">
 	<class name="CalendarRDV" table="RDV_CALENDAR">
 		<id name="id" unsaved-value="null">
-			<column name="id_rdv_calendar" sql-type="integer" not-null="true"/>
+			<column name="id_rdv_calendar" not-null="true"/>
 			<generator class="native" >
 				<param name="sequence">rdv_calendar_seq</param>
 			</generator>
@@ -14,7 +14,7 @@
 		
 		<property name="titre" column="TITRE" unique="true" not-null="true"/>
 		<property name="codeCge" column="CODE_CGE" unique="true" />
-		<property name="msgMailConfirmation" column="MAIL" type="text"/>
+		<property name="msgMailConfirmation" column="MAIL" type="text" />
 		<property name="msgEtudiant" column="MSG_ETUDIANT" />
 		<property name="msgValidation" column="MSG_VALIDATION" />
 		<property name="nbreMaxEtud" column="NBETUDCRENEAU" />

@@ -2,7 +2,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
     		<h1>
@@ -23,10 +23,8 @@
     					<div id="blockFormInfo" class="blockForm">
     						<div class="blockButton">
     							<h:panelGroup>
-    								<p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
+    								<p:commandButton value="#{msgs['_.BUTTON.SEARCH']}" ajax="false"
     									action="#{selectionController.lookForBeanTrtCmi}" />
-    								<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-    									immediate="true" action="#{selectionController.goBackFunction}" />
     							</h:panelGroup>
     						</div>
     
@@ -34,12 +32,12 @@
     							columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
     							<h:outputLabel value="#{msgs['FIELD_LABEL.COD_ETP']}"
     								for="codEtp" />
-    							<h:inputText id="codEtp" size="10" maxlength="10"
+    							<p:inputText id="codEtp" size="10" maxlength="10"
     								value="#{etapeController.codEtp}" />
     							<h:outputLabel
     								value="#{msgs['FIELD_LABEL.LIBELLE']} #{msgs['FIELD_LABEL.VRS_VET']}"
     								for="libWebVet" />
-    							<h:inputText id="libWebVet" size="40" maxlength="60"
+    							<p:inputText id="libWebVet" size="40" maxlength="60"
     								value="#{etapeController.libWebVet}" />
     							<h:outputLabel value="#{msgs['COMMISSIONS']}" for="commissions" />
     							<p:selectOneMenu id="lesCommissions"
@@ -63,54 +61,54 @@
     				<div id="blockFormSeeEtape" class="blockForm">
     					<div class="blockButton">
     						<h:panelGroup>
-    							<p:commandButton value="#{msgs['_.BUTTON.SAVE']}"
+    							<p:commandButton value="#{msgs['_.BUTTON.SAVE']}" update="trtCmi"
     								action="#{selectionController.saveUpdate}" />
-    							<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+    							<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" ajax="false"
     								immediate="true" action="#{selectionController.reset}" />
     						</h:panelGroup>
     					</div>
     					<p:dataTable id="trtCmi" var="beanTrtCmi"
     						value="#{selectionController.beansTrt}" rowIndexVar="rowVar"
     						styleClass="displayInfo" alternateColors="false">
-    						<p:column width="10%">
+    						<p:column>
     							<f:facet name="header">
     								<h:outputText value="#{msgs['COMMISSIONS']}" />
     							</f:facet>
     							<h:outputText value="#{beanTrtCmi.traitementCmi.commission.libelle}" />
     						</p:column>
-    						<p:column width="35%">
+    						<p:column>
     							<f:facet name="header">
     								<h:outputText value="#{msgs['FIELD_LABEL.ETP']}" />
     							</f:facet>
     							<h:outputText value="#{beanTrtCmi.etape.libWebVet}" />
     
     						</p:column>
-    						<p:column width="15%">
+    						<p:column>
     							<f:facet name="header">
     								<h:outputText value="#{msgs['COMMISSION.TRT_CMI.DAT_RES_ADMI']}" />
     							</f:facet>
-    							<h:inputText id="dateDbtres" size="20" maxlength="60"
+    							<p:inputText id="dateDbtres" size="20" maxlength="60"
     								value="#{selectionController.selections[beanTrtCmi].resultSelection}" />
     						</p:column>
-    						<p:column width="15%">
+    						<p:column>
     							<f:facet name="header">
     								<h:outputText value="#{msgs['COMMISSION.TRT_CMI.DAT_ADMI']}" />
     							</f:facet>
-    							<h:inputText id="periodeAdmissibilite" size="20" maxlength="60"
+    							<p:inputText id="periodeAdmissibilite" size="20" maxlength="60"
     								value="#{selectionController.selections[beanTrtCmi].periodeAdmissibilite}" />
     						</p:column>
-    						<p:column width="15%">
+    						<p:column>
     							<f:facet name="header">
     								<h:outputText value="#{msgs['REUNION_CMI.PLACE']}" />
     							</f:facet>
-    							<h:inputText id="place" size="25" maxlength="80"
+    							<p:inputText id="place" size="25" maxlength="80"
     								value="#{selectionController.selections[beanTrtCmi].place}" />
     						</p:column>
-    						<p:column width="15%">
+    						<p:column>
     							<f:facet name="header">
     								<h:outputText value="#{msgs['FIELD_LABEL.COMMENTAIRE']}" />
     							</f:facet>
-    							<h:inputText id="comment" size="30" maxlength="500"
+    							<p:inputText id="comment" size="30" maxlength="500"
     								value="#{selectionController.selections[beanTrtCmi].comment}" />
     						</p:column>
     					</p:dataTable>
@@ -121,11 +119,5 @@
     			</h:form>
     		</div>
     	</div>
-    	
-    	<script type="text/javascript">
-    	highlightChildrenLiTags('navigationHeader:navigation');
-    	highlightChildrenLiTags('navigationFooter:navigation');
-    	highlightInputAndSelect('enterSelectionForm');
-    </script>
     </ui:define>
 </ui:composition>

@@ -3,6 +3,8 @@
  */
 package org.esupportail.opi.domain.beans.user.candidature;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.esupportail.opi.domain.beans.NormeSI;
@@ -222,6 +224,13 @@ public class IndVoeu extends NormeSI {
 	 */
 	public Set<Avis> getAvis() {
 		return avis;
+	}
+	
+	/**
+	 * @return the avis
+	 */
+	public List<Avis> getAvisAsList() {
+		return new ArrayList<Avis>(avis);
 	}
 
 	/**

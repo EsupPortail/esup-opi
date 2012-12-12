@@ -2,7 +2,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
     		<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
@@ -34,8 +34,6 @@
     					<p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" immediate="true" ajax="false" >
     						<f:setPropertyActionListener value="#{exportFormOrbeonController.actionEnum.choiceColExport}" target="#{exportFormOrbeonController.actionEnum.whatAction}" />
     					</p:commandButton>
-    					<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
-    						action="#{managedAccess.goDisplayFunction}" ajax="false" />
     				</div>
     				
     				<h:panelGrid styleClass="tableWidthMax" columns="3"
@@ -78,10 +76,5 @@
     		<br />
     		<br />
     	</div>
-    	<script type="text/javascript">
-    		highlightChildrenLiTags('navigationHeader:navigation');
-    		highlightChildrenLiTags('navigationFooter:navigation');
-    		hideElement('printListsFormComp:selectCommission');
-    	</script>
     </ui:define>
 </ui:composition>

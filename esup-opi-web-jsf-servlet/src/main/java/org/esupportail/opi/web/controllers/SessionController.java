@@ -40,17 +40,13 @@ import org.esupportail.opi.web.beans.utils.Utilitaires;
 /**
  * A bean to memorize the context of the application.
  */
+@SuppressWarnings("deprecation")
 public class SessionController extends AbstractDomainAwareBean {
 
 	/**
 	 * The serialization id.
 	 */
 	private static final long serialVersionUID = -5936434246704000653L;
-
-	/**
-	 * The name of the parameter that gives the logout URL service.
-	 */
-	private static final String LOGOUT_URL_PARAM_SERVICE = "edu.yale.its.tp.cas.client.logoutUrl.service";
 
 	/**
 	 * The name of the request attribute that holds the current individu.
@@ -66,6 +62,11 @@ public class SessionController extends AbstractDomainAwareBean {
 	 * The CAS logout URL.
 	 */
 	private String casLogoutUrl;
+	
+	/**
+	 * The url to go after logout.
+	 */
+	private String serverNameUrl;
 
 	/**
 	 * a true si c'est un gestionnaire.
@@ -227,9 +228,6 @@ public class SessionController extends AbstractDomainAwareBean {
 
 			IndividuPojo indPojo = null;
 			if (individu != null) {
-				int codeRI = Utilitaires.getCodeRIIndividu(individu,
-						getDomainService());
-				RegimeInscription regime = getRegimeIns().get(codeRI);
 				//Test l etat de l'individu
 				individu = 
 					getDomainService().updateStateIndividu(
@@ -320,19 +318,17 @@ public class SessionController extends AbstractDomainAwareBean {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = facesContext.getExternalContext();
 		HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
-		String returnUrl = request.getRequestURL().toString().replaceFirst("/stylesheets/[^/]*$", "");
-		String forwardUrl;
-		Assert.hasText(
-				casLogoutUrl, 
+		Assert.hasText(casLogoutUrl, 
 				"property casLogoutUrl of class " + getClass().getName() + " is null");
-		forwardUrl = String.format(casLogoutUrl, StringUtils.utf8UrlEncode(returnUrl));
+		Assert.hasText(serverNameUrl, 
+				"property serverNameUrl of class " + getClass().getName() + " is null");
+		String forwardUrl = String.format(casLogoutUrl, StringUtils.utf8UrlEncode(serverNameUrl));
 		// note: the session beans will be kept even when invalidating 
 		// the session so they have to be reset (by the exception controller).
 		// We invalidate the session however for the other attributes.
 		request.getSession().invalidate();
 		request.getSession(true);
 		// calling this method will reset all the beans of the application
-		exceptionController.restart();
 		externalContext.redirect(forwardUrl);
 		facesContext.responseComplete();
 		return null;
@@ -506,6 +502,13 @@ public class SessionController extends AbstractDomainAwareBean {
 	 */
 	public void setCasLogoutUrl(final String casLogoutUrl) {
 		this.casLogoutUrl = casLogoutUrl;
+	}
+
+	/**
+	 * @param serverNameUrl the serverNameUrl to set
+	 */
+	public void setServerNameUrl(String serverNameUrl) {
+		this.serverNameUrl = serverNameUrl;
 	}
 
 	/**

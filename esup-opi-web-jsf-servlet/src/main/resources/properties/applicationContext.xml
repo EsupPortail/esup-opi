@@ -29,43 +29,29 @@
     
     <bean id="app_context" class="org.esupportail.commons.context.ApplicationContextHolder"/>
 
-	<bean id="cachePropertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-		<property name="location" value="classpath:/properties/cache.properties" />
-	</bean>
-	 
-	<bean
-	    id="requestCacheBean"
-	    class="org.esupportail.commons.annotations.cache.RequestCachingMethodInterceptor" />
-	<bean
-	    id="sessionCacheBean"
-	    class="org.esupportail.commons.annotations.cache.SessionCachingMethodInterceptor" />
-
 	<import resource="classpath*:/META-INF/archives/archives.xml" /> 
 	<import resource="classpath*:/META-INF/auth/auth.xml" />
-	<import resource="cache/cache.xml" />
+	<import resource="classpath*:/META-INF/cache/cache.xml" />
 	<import resource="classpath*:/META-INF/esup-opi-dao-dao.xml" />
 	<import resource="classpath*:/META-INF/domain/domain.xml" />
-<!-- 	<import resource="deepLinking/deepLinking.xml" /> -->
 	<import resource="exceptionHandling/exceptionHandling.xml" />
 	<import resource="classpath*:/META-INF/i18n/i18n.xml" />
 	<import resource="classpath*:/META-INF/ldap/ldap.xml" />
-	<import resource="misc/abstractBeans.xml" />
+	<import resource="classpath*:/META-INF/misc/abstractBeans.xml" />
 	<import resource="classpath*:/META-INF/esup-opi-domain-services-application.xml" />
 	<import resource="portal/portal.xml" />
-	<import resource="remote/remote.xml" />
-<!-- 	<import resource="classpath*:org/codehaus/xfire/spring/xfire.xml" /> -->
+	<import resource="classpath*:/META-INF/remote/remote.xml" />
 	<import resource="classpath*:/META-INF/export/castor.xml" />
-	<import resource="classpath*:/META-INF/export/export.xml" />
 	<import resource="classpath*:/META-INF/mails/mails.xml" /> 
 	<import resource="classpath*:/META-INF/mails/mailConvocations.xml" /> 
 	<import resource="classpath*:/META-INF/smtp/smtp.xml" />
 	<import resource="classpath*:/META-INF/init/init.xml" />
 	<import resource="classpath*:/META-INF/parameters/accessType.xml" />
-	<import resource="urlGeneration/urlGeneration.xml" />
+	<import resource="classpath*:/META-INF/urlGeneration/urlGeneration.xml" />
 	<import resource="web/controllers.xml" />
 	<import resource="web/converters.xml" />
-	<import resource="web/beans.xml" />
-<!-- 	<import resource="misc/quartz.xml" /> -->
+    <import resource="web/managedAccess.xml" />
+    <import resource="web/paginators.xml" />
+	<import resource="classpath*:/META-INF/web/beans.xml" />
 	
 </beans>

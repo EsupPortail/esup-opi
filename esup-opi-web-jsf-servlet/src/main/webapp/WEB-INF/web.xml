@@ -113,13 +113,6 @@
             org.springframework.web.context.request.RequestContextListener
         </listener-class>
    </listener>
-<!--    Listener Jetty -->
-    <listener>
-        <listener-class>
-            org.apache.myfaces.webapp.StartupServletContextListener
-        </listener-class>
-    </listener>
-    
 
     <filter>
         <display-name>Hibernate Filter</display-name>
@@ -480,3 +473,4 @@
 <!--         <url-pattern>/exist/atom/*</url-pattern> -->
 <!--     </servlet-mapping> -->
 </web-app>
+

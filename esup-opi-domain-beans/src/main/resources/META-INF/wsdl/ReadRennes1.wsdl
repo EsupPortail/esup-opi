@@ -1,614 +1,615 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions targetNamespace="http://remote.services.apogee.cri.rennes1.univ.fr" xmlns:ns2="http://dto.domain.apogee.cri.rennes1.univ.fr" xmlns:ns1="http://enseignement.dto.domain.apogee.esupportail.org" xmlns:ns3="http://beans.domain.apogee.cri.rennes1.univ.fr" xmlns:soapenc12="http://www.w3.org/2003/05/soap-encoding" xmlns:tns="http://remote.services.apogee.cri.rennes1.univ.fr" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap11="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc11="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
-  <wsdl:types>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://remote.services.apogee.cri.rennes1.univ.fr">
-<xsd:element name="getCodesDiplomes">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:complexType name="ArrayOfString">
-<xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="string" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:element name="getCodesDiplomesResponse">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="tns:ArrayOfString"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="controlDroitProfilAppliApo">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
-<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:string"/>
-<xsd:element maxOccurs="1" minOccurs="1" name="in2" nillable="true" type="xsd:string"/>
-<xsd:element maxOccurs="1" minOccurs="1" name="in3" nillable="true" type="xsd:string"/>
-<xsd:element maxOccurs="1" minOccurs="1" name="in4" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="controlDroitProfilAppliApoResponse">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:boolean"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1CalendRentree">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="ns1:ArrayOfVersionEtapeDTO"/>
-<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:int"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1CalendRentreeResponse">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns2:ArrayOfRen1CalendRentreeDTO"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1GrpTypDip">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1GrpTypDipResponse">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns3:ArrayOfRen1GrpTypDip"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1CalendRent">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="ns1:ArrayOfVersionEtapeDTO"/>
-<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:int"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1CalendRentResponse">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns2:ArrayOfRen1CalendRentreeDTO"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1CalendRentInfo">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
-<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:int"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1CalendRentInfoResponse">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns3:Ren1CalendRentInfo"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1Domaine2AnnuFormDTO">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="ns3:Ren1GrpTypDip"/>
-<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1Domaine2AnnuFormDTOResponse">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns2:ArrayOfRen1Domaine2AnnuFormDTO"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1PageInfosExam">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1PageInfosExamResponse">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns3:Ren1PageInfosExam"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="verifProfilAppliApo">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
-<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:string"/>
-<xsd:element maxOccurs="1" minOccurs="1" name="in2" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="verifProfilAppliApoResponse">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:boolean"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1CalendExam">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
-<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="ns1:ArrayOfVersionEtapeDTO"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1CalendExamResponse">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns2:ArrayOfRen1CalendExamDTO"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1CalendEprInfo">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1CalendEprInfoResponse">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns3:Ren1CalendEprInfo"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1PageInfosRentree">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
-<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:int"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1PageInfosRentreeResponse">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns3:Ren1PageInfosRentree"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1CalendEpr">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
-<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="ns1:ArrayOfVersionEtapeDTO"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-<xsd:element name="getRen1CalendEprResponse">
-<xsd:complexType>
-<xsd:sequence>
-<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns2:ArrayOfRen1CalendExamDTO"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:element>
-</xsd:schema>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://enseignement.dto.domain.apogee.esupportail.org">
-<xsd:complexType name="ArrayOfVersionEtapeDTO">
-<xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="VersionEtapeDTO" nillable="true" type="ns1:VersionEtapeDTO"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="VersionEtapeDTO">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="codCgeMinVet" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="codCgeMinpVet" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="codEtp" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="codVrsVet" nillable="true" type="xsd:int"/>
-<xsd:element minOccurs="0" name="datDebMinVet" type="xsd:dateTime"/>
-<xsd:element minOccurs="0" name="datDebMinpVet" type="xsd:dateTime"/>
-<xsd:element minOccurs="0" name="datFinMinVet" type="xsd:dateTime"/>
-<xsd:element minOccurs="0" name="datFinMinpVet" type="xsd:dateTime"/>
-<xsd:element minOccurs="0" name="libCmtVet" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="libWebVet" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="licEtp" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:schema>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://dto.domain.apogee.cri.rennes1.univ.fr">
-<xsd:complexType name="ArrayOfRen1CalendRentreeDTO">
-<xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="Ren1CalendRentreeDTO" nillable="true" type="ns2:Ren1CalendRentreeDTO"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="Ren1CalendRentreeDTO">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="codCge" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="codEtp" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="codVrsVet" nillable="true" type="xsd:int"/>
-<xsd:element minOccurs="0" name="commentaire" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="date" nillable="true" type="xsd:dateTime"/>
-<xsd:element minOccurs="0" name="heure" nillable="true" type="xsd:int"/>
-<xsd:element minOccurs="0" name="lieu" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="minute" nillable="true" type="xsd:int"/>
-<xsd:element minOccurs="0" name="pageInfos" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="ArrayOfRen1Domaine2AnnuFormDTO">
-<xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="Ren1Domaine2AnnuFormDTO" nillable="true" type="ns2:Ren1Domaine2AnnuFormDTO"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="Ren1Domaine2AnnuFormDTO">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="codDom" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="codLang" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="libDom" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="ren1Cles2AnnuFormDTO" nillable="true" type="ns2:ArrayOfRen1Cles2AnnuFormDTO"/>
-<xsd:element minOccurs="0" name="temSveDom" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="ArrayOfRen1Cles2AnnuFormDTO">
-<xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="Ren1Cles2AnnuFormDTO" nillable="true" type="ns2:Ren1Cles2AnnuFormDTO"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="Ren1Cles2AnnuFormDTO">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="codCles" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="codLang" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="libCles" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="temSveCles" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="ArrayOfRen1CalendExamDTO">
-<xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="Ren1CalendExamDTO" nillable="true" type="ns2:Ren1CalendExamDTO"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="Ren1CalendExamDTO">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="codAnu" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="codCln" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="codEpr" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="codEtp" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="codNep" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="codPes" nillable="true" type="xsd:int"/>
-<xsd:element minOccurs="0" name="codPxa" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="codVrsVet" nillable="true" type="xsd:int"/>
-<xsd:element minOccurs="0" name="dateDebAff" type="xsd:dateTime"/>
-<xsd:element minOccurs="0" name="dateDebPes" type="xsd:dateTime"/>
-<xsd:element minOccurs="0" name="dateFinAff" type="xsd:dateTime"/>
-<xsd:element minOccurs="0" name="dateMaj" type="xsd:dateTime"/>
-<xsd:element minOccurs="0" name="dureeExam" nillable="true" type="xsd:int"/>
-<xsd:element minOccurs="0" name="heurePes" nillable="true" type="xsd:int"/>
-<xsd:element minOccurs="0" name="libBatiment" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="libEpr" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="libPxa" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="libSalle" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="minutePes" nillable="true" type="xsd:int"/>
-<xsd:element minOccurs="0" name="nbrEtuInsPes" nillable="true" type="xsd:int"/>
-<xsd:element minOccurs="0" name="pageInfos" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="temTrsPes" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:schema>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://beans.domain.apogee.cri.rennes1.univ.fr">
-<xsd:complexType name="ArrayOfRen1GrpTypDip">
-<xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="Ren1GrpTypDip" nillable="true" type="ns3:Ren1GrpTypDip"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="Ren1GrpTypDip">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="codGrpTpd" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="libGrpTpd" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="ren1GrpTypDipCorresps" nillable="true" type="ns3:ArrayOfRen1GrpTypDipCorresp"/>
-<xsd:element minOccurs="0" name="temEnSveGrpTpd" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="ArrayOfRen1GrpTypDipCorresp">
-<xsd:sequence>
-<xsd:element maxOccurs="unbounded" minOccurs="0" name="Ren1GrpTypDipCorresp" nillable="true" type="ns3:Ren1GrpTypDipCorresp"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="Ren1GrpTypDipCorresp">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="codGrpTpd" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="codTpdEtb" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="Ren1CalendRentInfo">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="codCge" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="info" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="Ren1PageInfosExam">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="codCin" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="texte" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="Ren1CalendEprInfo">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="codCin" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="info" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="Ren1PageInfosRentree">
-<xsd:sequence>
-<xsd:element minOccurs="0" name="codCge" nillable="true" type="xsd:string"/>
-<xsd:element minOccurs="0" name="texte" nillable="true" type="xsd:string"/>
-</xsd:sequence>
-</xsd:complexType>
-</xsd:schema>
-  </wsdl:types>
-  <wsdl:message name="getRen1CalendEprInfoResponse">
-    <wsdl:part name="parameters" element="tns:getRen1CalendEprInfoResponse"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1GrpTypDipResponse">
-    <wsdl:part name="parameters" element="tns:getRen1GrpTypDipResponse"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1PageInfosExamRequest">
-    <wsdl:part name="parameters" element="tns:getRen1PageInfosExam"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1Domaine2AnnuFormDTORequest">
-    <wsdl:part name="parameters" element="tns:getRen1Domaine2AnnuFormDTO"/>
-  </wsdl:message>
-  <wsdl:message name="verifProfilAppliApoRequest">
-    <wsdl:part name="parameters" element="tns:verifProfilAppliApo"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1CalendRentRequest">
-    <wsdl:part name="parameters" element="tns:getRen1CalendRent"/>
-  </wsdl:message>
-  <wsdl:message name="verifProfilAppliApoResponse">
-    <wsdl:part name="parameters" element="tns:verifProfilAppliApoResponse"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1Domaine2AnnuFormDTOResponse">
-    <wsdl:part name="parameters" element="tns:getRen1Domaine2AnnuFormDTOResponse"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1CalendRentResponse">
-    <wsdl:part name="parameters" element="tns:getRen1CalendRentResponse"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1CalendRentreeResponse">
-    <wsdl:part name="parameters" element="tns:getRen1CalendRentreeResponse"/>
-  </wsdl:message>
-  <wsdl:message name="controlDroitProfilAppliApoRequest">
-    <wsdl:part name="parameters" element="tns:controlDroitProfilAppliApo"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1CalendEprInfoRequest">
-    <wsdl:part name="parameters" element="tns:getRen1CalendEprInfo"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1CalendRentreeRequest">
-    <wsdl:part name="parameters" element="tns:getRen1CalendRentree"/>
-  </wsdl:message>
-  <wsdl:message name="getCodesDiplomesResponse">
-    <wsdl:part name="parameters" element="tns:getCodesDiplomesResponse"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1CalendEprResponse">
-    <wsdl:part name="parameters" element="tns:getRen1CalendEprResponse"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1CalendEprRequest">
-    <wsdl:part name="parameters" element="tns:getRen1CalendEpr"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1CalendRentInfoResponse">
-    <wsdl:part name="parameters" element="tns:getRen1CalendRentInfoResponse"/>
-  </wsdl:message>
-  <wsdl:message name="controlDroitProfilAppliApoResponse">
-    <wsdl:part name="parameters" element="tns:controlDroitProfilAppliApoResponse"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1CalendRentInfoRequest">
-    <wsdl:part name="parameters" element="tns:getRen1CalendRentInfo"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1PageInfosRentreeResponse">
-    <wsdl:part name="parameters" element="tns:getRen1PageInfosRentreeResponse"/>
-  </wsdl:message>
-  <wsdl:message name="getCodesDiplomesRequest">
-    <wsdl:part name="parameters" element="tns:getCodesDiplomes"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1CalendExamResponse">
-    <wsdl:part name="parameters" element="tns:getRen1CalendExamResponse"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1PageInfosExamResponse">
-    <wsdl:part name="parameters" element="tns:getRen1PageInfosExamResponse"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1CalendExamRequest">
-    <wsdl:part name="parameters" element="tns:getRen1CalendExam"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1PageInfosRentreeRequest">
-    <wsdl:part name="parameters" element="tns:getRen1PageInfosRentree"/>
-  </wsdl:message>
-  <wsdl:message name="getRen1GrpTypDipRequest">
-    <wsdl:part name="parameters" element="tns:getRen1GrpTypDip"/>
-  </wsdl:message>
-  <wsdl:portType name="ReadRennes1PortType">
-    <wsdl:operation name="getCodesDiplomes">
-      <wsdl:input name="getCodesDiplomesRequest" message="tns:getCodesDiplomesRequest"/>
-      <wsdl:output name="getCodesDiplomesResponse" message="tns:getCodesDiplomesResponse"/>
-    </wsdl:operation>
-    <wsdl:operation name="controlDroitProfilAppliApo">
-      <wsdl:input name="controlDroitProfilAppliApoRequest" message="tns:controlDroitProfilAppliApoRequest"/>
-      <wsdl:output name="controlDroitProfilAppliApoResponse" message="tns:controlDroitProfilAppliApoResponse"/>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1CalendRentree">
-      <wsdl:input name="getRen1CalendRentreeRequest" message="tns:getRen1CalendRentreeRequest"/>
-      <wsdl:output name="getRen1CalendRentreeResponse" message="tns:getRen1CalendRentreeResponse"/>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1GrpTypDip">
-      <wsdl:input name="getRen1GrpTypDipRequest" message="tns:getRen1GrpTypDipRequest"/>
-      <wsdl:output name="getRen1GrpTypDipResponse" message="tns:getRen1GrpTypDipResponse"/>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1CalendRent">
-      <wsdl:input name="getRen1CalendRentRequest" message="tns:getRen1CalendRentRequest"/>
-      <wsdl:output name="getRen1CalendRentResponse" message="tns:getRen1CalendRentResponse"/>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1CalendRentInfo">
-      <wsdl:input name="getRen1CalendRentInfoRequest" message="tns:getRen1CalendRentInfoRequest"/>
-      <wsdl:output name="getRen1CalendRentInfoResponse" message="tns:getRen1CalendRentInfoResponse"/>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1Domaine2AnnuFormDTO">
-      <wsdl:input name="getRen1Domaine2AnnuFormDTORequest" message="tns:getRen1Domaine2AnnuFormDTORequest"/>
-      <wsdl:output name="getRen1Domaine2AnnuFormDTOResponse" message="tns:getRen1Domaine2AnnuFormDTOResponse"/>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1PageInfosExam">
-      <wsdl:input name="getRen1PageInfosExamRequest" message="tns:getRen1PageInfosExamRequest"/>
-      <wsdl:output name="getRen1PageInfosExamResponse" message="tns:getRen1PageInfosExamResponse"/>
-    </wsdl:operation>
-    <wsdl:operation name="verifProfilAppliApo">
-      <wsdl:input name="verifProfilAppliApoRequest" message="tns:verifProfilAppliApoRequest"/>
-      <wsdl:output name="verifProfilAppliApoResponse" message="tns:verifProfilAppliApoResponse"/>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1CalendExam">
-      <wsdl:input name="getRen1CalendExamRequest" message="tns:getRen1CalendExamRequest"/>
-      <wsdl:output name="getRen1CalendExamResponse" message="tns:getRen1CalendExamResponse"/>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1CalendEprInfo">
-      <wsdl:input name="getRen1CalendEprInfoRequest" message="tns:getRen1CalendEprInfoRequest"/>
-      <wsdl:output name="getRen1CalendEprInfoResponse" message="tns:getRen1CalendEprInfoResponse"/>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1PageInfosRentree">
-      <wsdl:input name="getRen1PageInfosRentreeRequest" message="tns:getRen1PageInfosRentreeRequest"/>
-      <wsdl:output name="getRen1PageInfosRentreeResponse" message="tns:getRen1PageInfosRentreeResponse"/>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1CalendEpr">
-      <wsdl:input name="getRen1CalendEprRequest" message="tns:getRen1CalendEprRequest"/>
-      <wsdl:output name="getRen1CalendEprResponse" message="tns:getRen1CalendEprResponse"/>
-    </wsdl:operation>
-  </wsdl:portType>
-  <wsdl:binding name="ReadRennes1HttpBinding" type="tns:ReadRennes1PortType">
-    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="getCodesDiplomes">
-      <wsdlsoap:operation soapAction=""/>
-      <wsdl:input name="getCodesDiplomesRequest">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getCodesDiplomesResponse">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="controlDroitProfilAppliApo">
-      <wsdlsoap:operation soapAction=""/>
-      <wsdl:input name="controlDroitProfilAppliApoRequest">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="controlDroitProfilAppliApoResponse">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1CalendRentree">
-      <wsdlsoap:operation soapAction=""/>
-      <wsdl:input name="getRen1CalendRentreeRequest">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getRen1CalendRentreeResponse">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1GrpTypDip">
-      <wsdlsoap:operation soapAction=""/>
-      <wsdl:input name="getRen1GrpTypDipRequest">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getRen1GrpTypDipResponse">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1CalendRent">
-      <wsdlsoap:operation soapAction=""/>
-      <wsdl:input name="getRen1CalendRentRequest">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getRen1CalendRentResponse">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1CalendRentInfo">
-      <wsdlsoap:operation soapAction=""/>
-      <wsdl:input name="getRen1CalendRentInfoRequest">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getRen1CalendRentInfoResponse">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1Domaine2AnnuFormDTO">
-      <wsdlsoap:operation soapAction=""/>
-      <wsdl:input name="getRen1Domaine2AnnuFormDTORequest">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getRen1Domaine2AnnuFormDTOResponse">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1PageInfosExam">
-      <wsdlsoap:operation soapAction=""/>
-      <wsdl:input name="getRen1PageInfosExamRequest">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getRen1PageInfosExamResponse">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="verifProfilAppliApo">
-      <wsdlsoap:operation soapAction=""/>
-      <wsdl:input name="verifProfilAppliApoRequest">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="verifProfilAppliApoResponse">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1CalendExam">
-      <wsdlsoap:operation soapAction=""/>
-      <wsdl:input name="getRen1CalendExamRequest">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getRen1CalendExamResponse">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1CalendEprInfo">
-      <wsdlsoap:operation soapAction=""/>
-      <wsdl:input name="getRen1CalendEprInfoRequest">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getRen1CalendEprInfoResponse">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1PageInfosRentree">
-      <wsdlsoap:operation soapAction=""/>
-      <wsdl:input name="getRen1PageInfosRentreeRequest">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getRen1PageInfosRentreeResponse">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getRen1CalendEpr">
-      <wsdlsoap:operation soapAction=""/>
-      <wsdl:input name="getRen1CalendEprRequest">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getRen1CalendEprResponse">
-        <wsdlsoap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-  </wsdl:binding>
-  <wsdl:service name="ReadRennes1">
-    <wsdl:port name="ReadRennes1HttpPort" binding="tns:ReadRennes1HttpBinding">
-      <wsdlsoap:address location="http://apo-cri-webservices.univ-rennes1.fr/xfire/ReadRennes1"/>
-    </wsdl:port>
-  </wsdl:service>
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://remote.services.apogee.cri.rennes1.univ.fr">
+        
+            <xsd:element name="getCodesDiplomes">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:complexType name="ArrayOfString">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="string" nillable="true" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:element name="getCodesDiplomesResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="tns:ArrayOfString"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="controlDroitProfilAppliApo">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in2" nillable="true" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in3" nillable="true" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in4" nillable="true" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="controlDroitProfilAppliApoResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:boolean"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1CalendRentree">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="ns1:ArrayOfVersionEtapeDTO"/>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1CalendRentreeResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns2:ArrayOfRen1CalendRentreeDTO"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1GrpTypDip">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1GrpTypDipResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns3:ArrayOfRen1GrpTypDip"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1CalendRent">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="ns1:ArrayOfVersionEtapeDTO"/>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1CalendRentResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns2:ArrayOfRen1CalendRentreeDTO"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1CalendRentInfo">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1CalendRentInfoResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns3:Ren1CalendRentInfo"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1Domaine2AnnuFormDTO">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="ns3:Ren1GrpTypDip"/>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1Domaine2AnnuFormDTOResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns2:ArrayOfRen1Domaine2AnnuFormDTO"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1PageInfosExam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1PageInfosExamResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns3:Ren1PageInfosExam"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="verifProfilAppliApo">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in2" nillable="true" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="verifProfilAppliApoResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:boolean"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1CalendExam">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="ns1:ArrayOfVersionEtapeDTO"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1CalendExamResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns2:ArrayOfRen1CalendExamDTO"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1CalendEprInfo">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1CalendEprInfoResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns3:Ren1CalendEprInfo"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1PageInfosRentree">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1PageInfosRentreeResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns3:Ren1PageInfosRentree"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1CalendEpr">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="ns1:ArrayOfVersionEtapeDTO"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getRen1CalendEprResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="ns2:ArrayOfRen1CalendExamDTO"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://enseignement.dto.domain.apogee.esupportail.org">
+            <xsd:complexType name="ArrayOfVersionEtapeDTO">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="VersionEtapeDTO" nillable="true" type="ns1:VersionEtapeDTO"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="VersionEtapeDTO">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="codCgeMinVet" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="codCgeMinpVet" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="codEtp" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="codVrsVet" nillable="true" type="xsd:int"/>
+                    <xsd:element minOccurs="0" name="datDebMinVet" type="xsd:dateTime"/>
+                    <xsd:element minOccurs="0" name="datDebMinpVet" type="xsd:dateTime"/>
+                    <xsd:element minOccurs="0" name="datFinMinVet" type="xsd:dateTime"/>
+                    <xsd:element minOccurs="0" name="datFinMinpVet" type="xsd:dateTime"/>
+                    <xsd:element minOccurs="0" name="libCmtVet" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="libWebVet" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="licEtp" nillable="true" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://dto.domain.apogee.cri.rennes1.univ.fr">
+            <xsd:complexType name="ArrayOfRen1CalendRentreeDTO">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Ren1CalendRentreeDTO" nillable="true" type="ns2:Ren1CalendRentreeDTO"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Ren1CalendRentreeDTO">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="codCge" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="codEtp" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="codVrsVet" nillable="true" type="xsd:int"/>
+                    <xsd:element minOccurs="0" name="commentaire" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="date" nillable="true" type="xsd:dateTime"/>
+                    <xsd:element minOccurs="0" name="heure" nillable="true" type="xsd:int"/>
+                    <xsd:element minOccurs="0" name="lieu" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="minute" nillable="true" type="xsd:int"/>
+                    <xsd:element minOccurs="0" name="pageInfos" nillable="true" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfRen1Domaine2AnnuFormDTO">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Ren1Domaine2AnnuFormDTO" nillable="true" type="ns2:Ren1Domaine2AnnuFormDTO"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Ren1Domaine2AnnuFormDTO">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="codDom" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="codLang" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="libDom" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="ren1Cles2AnnuFormDTO" nillable="true" type="ns2:ArrayOfRen1Cles2AnnuFormDTO"/>
+                    <xsd:element minOccurs="0" name="temSveDom" nillable="true" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfRen1Cles2AnnuFormDTO">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Ren1Cles2AnnuFormDTO" nillable="true" type="ns2:Ren1Cles2AnnuFormDTO"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Ren1Cles2AnnuFormDTO">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="codCles" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="codLang" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="libCles" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="temSveCles" nillable="true" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfRen1CalendExamDTO">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Ren1CalendExamDTO" nillable="true" type="ns2:Ren1CalendExamDTO"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Ren1CalendExamDTO">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="codAnu" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="codCln" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="codEpr" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="codEtp" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="codNep" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="codPes" nillable="true" type="xsd:int"/>
+                    <xsd:element minOccurs="0" name="codPxa" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="codVrsVet" nillable="true" type="xsd:int"/>
+                    <xsd:element minOccurs="0" name="dateDebAff" type="xsd:dateTime"/>
+                    <xsd:element minOccurs="0" name="dateDebPes" type="xsd:dateTime"/>
+                    <xsd:element minOccurs="0" name="dateFinAff" type="xsd:dateTime"/>
+                    <xsd:element minOccurs="0" name="dateMaj" type="xsd:dateTime"/>
+                    <xsd:element minOccurs="0" name="dureeExam" nillable="true" type="xsd:int"/>
+                    <xsd:element minOccurs="0" name="heurePes" nillable="true" type="xsd:int"/>
+                    <xsd:element minOccurs="0" name="libBatiment" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="libEpr" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="libPxa" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="libSalle" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="minutePes" nillable="true" type="xsd:int"/>
+                    <xsd:element minOccurs="0" name="nbrEtuInsPes" nillable="true" type="xsd:int"/>
+                    <xsd:element minOccurs="0" name="pageInfos" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="temTrsPes" nillable="true" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://beans.domain.apogee.cri.rennes1.univ.fr">
+            <xsd:complexType name="ArrayOfRen1GrpTypDip">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Ren1GrpTypDip" nillable="true" type="ns3:Ren1GrpTypDip"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Ren1GrpTypDip">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="codGrpTpd" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="libGrpTpd" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="ren1GrpTypDipCorresps" nillable="true" type="ns3:ArrayOfRen1GrpTypDipCorresp"/>
+                    <xsd:element minOccurs="0" name="temEnSveGrpTpd" nillable="true" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ArrayOfRen1GrpTypDipCorresp">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Ren1GrpTypDipCorresp" nillable="true" type="ns3:Ren1GrpTypDipCorresp"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Ren1GrpTypDipCorresp">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="codGrpTpd" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="codTpdEtb" nillable="true" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Ren1CalendRentInfo">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="codCge" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="info" nillable="true" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Ren1PageInfosExam">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="codCin" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="texte" nillable="true" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Ren1CalendEprInfo">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="codCin" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="info" nillable="true" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Ren1PageInfosRentree">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="codCge" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="0" name="texte" nillable="true" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="getRen1CalendEprInfoResponse">
+        <wsdl:part name="parameters" element="tns:getRen1CalendEprInfoResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1GrpTypDipResponse">
+        <wsdl:part name="parameters" element="tns:getRen1GrpTypDipResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1PageInfosExamRequest">
+        <wsdl:part name="parameters" element="tns:getRen1PageInfosExam"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1Domaine2AnnuFormDTORequest">
+        <wsdl:part name="parameters" element="tns:getRen1Domaine2AnnuFormDTO"/>
+    </wsdl:message>
+    <wsdl:message name="verifProfilAppliApoRequest">
+        <wsdl:part name="parameters" element="tns:verifProfilAppliApo"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1CalendRentRequest">
+        <wsdl:part name="parameters" element="tns:getRen1CalendRent"/>
+    </wsdl:message>
+    <wsdl:message name="verifProfilAppliApoResponse">
+        <wsdl:part name="parameters" element="tns:verifProfilAppliApoResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1Domaine2AnnuFormDTOResponse">
+        <wsdl:part name="parameters" element="tns:getRen1Domaine2AnnuFormDTOResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1CalendRentResponse">
+        <wsdl:part name="parameters" element="tns:getRen1CalendRentResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1CalendRentreeResponse">
+        <wsdl:part name="parameters" element="tns:getRen1CalendRentreeResponse"/>
+    </wsdl:message>
+    <wsdl:message name="controlDroitProfilAppliApoRequest">
+        <wsdl:part name="parameters" element="tns:controlDroitProfilAppliApo"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1CalendEprInfoRequest">
+        <wsdl:part name="parameters" element="tns:getRen1CalendEprInfo"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1CalendRentreeRequest">
+        <wsdl:part name="parameters" element="tns:getRen1CalendRentree"/>
+    </wsdl:message>
+    <wsdl:message name="getCodesDiplomesResponse">
+        <wsdl:part name="parameters" element="tns:getCodesDiplomesResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1CalendEprResponse">
+        <wsdl:part name="parameters" element="tns:getRen1CalendEprResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1CalendEprRequest">
+        <wsdl:part name="parameters" element="tns:getRen1CalendEpr"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1CalendRentInfoResponse">
+        <wsdl:part name="parameters" element="tns:getRen1CalendRentInfoResponse"/>
+    </wsdl:message>
+    <wsdl:message name="controlDroitProfilAppliApoResponse">
+        <wsdl:part name="parameters" element="tns:controlDroitProfilAppliApoResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1CalendRentInfoRequest">
+        <wsdl:part name="parameters" element="tns:getRen1CalendRentInfo"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1PageInfosRentreeResponse">
+        <wsdl:part name="parameters" element="tns:getRen1PageInfosRentreeResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getCodesDiplomesRequest">
+        <wsdl:part name="parameters" element="tns:getCodesDiplomes"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1CalendExamResponse">
+        <wsdl:part name="parameters" element="tns:getRen1CalendExamResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1PageInfosExamResponse">
+        <wsdl:part name="parameters" element="tns:getRen1PageInfosExamResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1CalendExamRequest">
+        <wsdl:part name="parameters" element="tns:getRen1CalendExam"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1PageInfosRentreeRequest">
+        <wsdl:part name="parameters" element="tns:getRen1PageInfosRentree"/>
+    </wsdl:message>
+    <wsdl:message name="getRen1GrpTypDipRequest">
+        <wsdl:part name="parameters" element="tns:getRen1GrpTypDip"/>
+    </wsdl:message>
+    <wsdl:portType name="ReadRennes1PortType">
+        <wsdl:operation name="getCodesDiplomes">
+            <wsdl:input name="getCodesDiplomesRequest" message="tns:getCodesDiplomesRequest"/>
+            <wsdl:output name="getCodesDiplomesResponse" message="tns:getCodesDiplomesResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="controlDroitProfilAppliApo">
+            <wsdl:input name="controlDroitProfilAppliApoRequest" message="tns:controlDroitProfilAppliApoRequest"/>
+            <wsdl:output name="controlDroitProfilAppliApoResponse" message="tns:controlDroitProfilAppliApoResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1CalendRentree">
+            <wsdl:input name="getRen1CalendRentreeRequest" message="tns:getRen1CalendRentreeRequest"/>
+            <wsdl:output name="getRen1CalendRentreeResponse" message="tns:getRen1CalendRentreeResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1GrpTypDip">
+            <wsdl:input name="getRen1GrpTypDipRequest" message="tns:getRen1GrpTypDipRequest"/>
+            <wsdl:output name="getRen1GrpTypDipResponse" message="tns:getRen1GrpTypDipResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1CalendRent">
+            <wsdl:input name="getRen1CalendRentRequest" message="tns:getRen1CalendRentRequest"/>
+            <wsdl:output name="getRen1CalendRentResponse" message="tns:getRen1CalendRentResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1CalendRentInfo">
+            <wsdl:input name="getRen1CalendRentInfoRequest" message="tns:getRen1CalendRentInfoRequest"/>
+            <wsdl:output name="getRen1CalendRentInfoResponse" message="tns:getRen1CalendRentInfoResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1Domaine2AnnuFormDTO">
+            <wsdl:input name="getRen1Domaine2AnnuFormDTORequest" message="tns:getRen1Domaine2AnnuFormDTORequest"/>
+            <wsdl:output name="getRen1Domaine2AnnuFormDTOResponse" message="tns:getRen1Domaine2AnnuFormDTOResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1PageInfosExam">
+            <wsdl:input name="getRen1PageInfosExamRequest" message="tns:getRen1PageInfosExamRequest"/>
+            <wsdl:output name="getRen1PageInfosExamResponse" message="tns:getRen1PageInfosExamResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="verifProfilAppliApo">
+            <wsdl:input name="verifProfilAppliApoRequest" message="tns:verifProfilAppliApoRequest"/>
+            <wsdl:output name="verifProfilAppliApoResponse" message="tns:verifProfilAppliApoResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1CalendExam">
+            <wsdl:input name="getRen1CalendExamRequest" message="tns:getRen1CalendExamRequest"/>
+            <wsdl:output name="getRen1CalendExamResponse" message="tns:getRen1CalendExamResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1CalendEprInfo">
+            <wsdl:input name="getRen1CalendEprInfoRequest" message="tns:getRen1CalendEprInfoRequest"/>
+            <wsdl:output name="getRen1CalendEprInfoResponse" message="tns:getRen1CalendEprInfoResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1PageInfosRentree">
+            <wsdl:input name="getRen1PageInfosRentreeRequest" message="tns:getRen1PageInfosRentreeRequest"/>
+            <wsdl:output name="getRen1PageInfosRentreeResponse" message="tns:getRen1PageInfosRentreeResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1CalendEpr">
+            <wsdl:input name="getRen1CalendEprRequest" message="tns:getRen1CalendEprRequest"/>
+            <wsdl:output name="getRen1CalendEprResponse" message="tns:getRen1CalendEprResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="ReadRennes1HttpBinding" type="tns:ReadRennes1PortType">
+        <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="getCodesDiplomes">
+            <wsdlsoap:operation soapAction=""/>
+            <wsdl:input name="getCodesDiplomesRequest">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getCodesDiplomesResponse">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="controlDroitProfilAppliApo">
+            <wsdlsoap:operation soapAction=""/>
+            <wsdl:input name="controlDroitProfilAppliApoRequest">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="controlDroitProfilAppliApoResponse">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1CalendRentree">
+            <wsdlsoap:operation soapAction=""/>
+            <wsdl:input name="getRen1CalendRentreeRequest">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getRen1CalendRentreeResponse">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1GrpTypDip">
+            <wsdlsoap:operation soapAction=""/>
+            <wsdl:input name="getRen1GrpTypDipRequest">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getRen1GrpTypDipResponse">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1CalendRent">
+            <wsdlsoap:operation soapAction=""/>
+            <wsdl:input name="getRen1CalendRentRequest">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getRen1CalendRentResponse">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1CalendRentInfo">
+            <wsdlsoap:operation soapAction=""/>
+            <wsdl:input name="getRen1CalendRentInfoRequest">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getRen1CalendRentInfoResponse">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1Domaine2AnnuFormDTO">
+            <wsdlsoap:operation soapAction=""/>
+            <wsdl:input name="getRen1Domaine2AnnuFormDTORequest">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getRen1Domaine2AnnuFormDTOResponse">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1PageInfosExam">
+            <wsdlsoap:operation soapAction=""/>
+            <wsdl:input name="getRen1PageInfosExamRequest">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getRen1PageInfosExamResponse">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="verifProfilAppliApo">
+            <wsdlsoap:operation soapAction=""/>
+            <wsdl:input name="verifProfilAppliApoRequest">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="verifProfilAppliApoResponse">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1CalendExam">
+            <wsdlsoap:operation soapAction=""/>
+            <wsdl:input name="getRen1CalendExamRequest">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getRen1CalendExamResponse">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1CalendEprInfo">
+            <wsdlsoap:operation soapAction=""/>
+            <wsdl:input name="getRen1CalendEprInfoRequest">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getRen1CalendEprInfoResponse">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1PageInfosRentree">
+            <wsdlsoap:operation soapAction=""/>
+            <wsdl:input name="getRen1PageInfosRentreeRequest">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getRen1PageInfosRentreeResponse">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getRen1CalendEpr">
+            <wsdlsoap:operation soapAction=""/>
+            <wsdl:input name="getRen1CalendEprRequest">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getRen1CalendEprResponse">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="ReadRennes1">
+        <wsdl:port name="ReadRennes1HttpPort" binding="tns:ReadRennes1HttpBinding">
+            <wsdlsoap:address location="http://apo-cri-webservices.univ-rennes1.fr/xfire/ReadRennes1"/>
+        </wsdl:port>
+    </wsdl:service>
 </wsdl:definitions>

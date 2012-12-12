@@ -1,8 +1,7 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:t="http://myfaces.apache.org/tomahawk">
+    xmlns:p="http://primefaces.org/ui">
     <div style="width:100%;">
     	<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
     		styleClass="tableJustWidthMax">
@@ -19,53 +18,49 @@
     
     <p:dataTable var="nomenclaturePojo" value="#{nomenclatureController.allPJs}"
     						styleClass="displayInfo" alternateColors="false">
-		<p:column width="10%">
+		<p:column>
 			<f:facet name="header">
 				<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
 			</f:facet>
 			<h:outputText value="#{nomenclaturePojo.nomenclature.code}" />
 		</p:column>
-		<p:column width="40%">
+		<p:column>
 			<f:facet name="header">
 				<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
 			</f:facet>
 			<h:outputText value="#{nomenclaturePojo.shortLabel}" />
-			<t:popup styleClass="containerPopup" style="width:350px;"
-				closePopupOnExitingElement="true"
-				closePopupOnExitingPopup="true" displayAtDistanceX="-50"
-				displayAtDistanceY="0"
-				rendered="#{nomenclaturePojo.isShortLabel}">
-				<p:graphicImage url="/media/images/informationSmall.png"
-					style="cursor:pointer;" />
-				<f:facet name="popup">
-					<h:panelGroup>
-						<h:panelGrid columns="1">
-							<h:outputText styleClass="titrePopupAide"
-								value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-							<h:outputText styleClass="libellesAide"
-								value="#{nomenclaturePojo.nomenclature.libelle}" />
-						</h:panelGrid>
-					</h:panelGroup>
-				</f:facet>
-			</t:popup>
+            <h:panelGroup rendered="#{nomenclaturePojo.isShortLabel}">
+                <p:graphicImage url="/media/images/informationSmall.png"
+                    id="infoLibelle" style="cursor:pointer;" />
+                <p:overlayPanel for="infoLibelle" appendToBody="true" 
+                    showEffect="mouseover" hideEffect="mouseout"
+                    styleClass="containerPopup" style="width:350px;">
+                    <h:panelGrid columns="1">
+                        <h:outputText styleClass="titrePopupAide"
+                            value="#{msgs['FIELD_LABEL.LIBELLE']}" />
+                        <h:outputText styleClass="libellesAide"
+                            value="#{nomenclaturePojo.nomenclature.libelle}" />
+                    </h:panelGrid>
+                </p:overlayPanel>
+            </h:panelGroup>
 		</p:column>
-		<p:column width="15%">
+		<p:column>
 			<f:facet name="header">
 				<h:outputText value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" />
 			</f:facet>
 			<h:outputText value="#{nomenclaturePojo.regimeInscription.label}"/>
 		</p:column>
-		<p:column width="15%">
+		<p:column>
 			<f:facet name="header">
 				<h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
 			</f:facet>
 			<p:graphicImage url="/media/images/check2.gif" 
 				rendered="#{nomenclaturePojo.nomenclature.temoinEnService
-				&& (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
+				and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
 					|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
 			<p:graphicImage url="/media/images/check0.gif" 
 				rendered="#{!nomenclaturePojo.nomenclature.temoinEnService
-				&& (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
+				and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
 					|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
 		</p:column>
 		<p:column styleClass="buttonTD" style="text-align: right;">

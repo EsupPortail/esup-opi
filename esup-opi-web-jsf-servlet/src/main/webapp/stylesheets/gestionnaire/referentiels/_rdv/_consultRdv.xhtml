@@ -4,7 +4,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:t="http://myfaces.apache.org/tomahawk">
     <div class="twoGroupsButton">
-    	<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true">
+    	<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true" ajax="false">
     		<f:setPropertyActionListener value="#{consultRdvController.actionEnum.emptyAction}" target="#{consultRdvController.actionEnum.whatAction}" />
     	</p:commandButton>
     </div>
@@ -17,68 +17,44 @@
     	<div style="width:100%;">
     		<p:dataTable var="individuPojo" id="individuData"
     			value="#{paginatorIndividuPojo.indPojosWithWishForOneCmi}"
-    			styleClass="paginatorData" alternateColors="true"
-    			renderedIfEmpty="false" rowIndexVar="variable">
-    			<f:facet name="header">
-    				<h:panelGroup>
-    					<e:paginator id="paginatorIndividuPojo"
-    						paginator="#{paginatorIndividuPojo}"
-    						itemsName="#{msgs['INDIVIDUS']}"
-    						onchange="javascript:{simulateLinkClick('seeRdvForm:individuData:submitPageSize');}" />
-    					<p:commandButton id="submitPageSize"
-    						action="#{paginatorIndividuPojo.forceReload}" />
-    				</h:panelGroup>
-    			</f:facet>
-    			<p:column width="10%">
-    				<f:facet name="header">
-    					<h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}" />
-    				</f:facet>
+                paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40"
+                paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
+                currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
+                emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}"
+                styleClass="paginatorData" rowIndexVar="variable" 
+                rendered="#{not empty paginatorIndividuPojo.indPojosWithWishForOneCmi}">
+    			<p:column headerText="#{msgs['INDIVIDU.NUM_DOSSIER']}">
     				<h:outputText value="#{individuPojo.individu.numDossierOpi}" />
     			</p:column>
-    			<p:column width="20%">
-    				<f:facet name="header">
-    					<h:outputText value="#{msgs['INDIVIDU.NOM_PRENOM']}" />
-    				</f:facet>
+    			<p:column headerText="#{msgs['INDIVIDU.NOM_PRENOM']}">
     				<h:outputText
     					value="#{individuPojo.individu.nomPatronymique} 
     						#{individuPojo.individu.prenom}" />
     			</p:column>
-    			<p:column style="text-align: center;">
-    				<f:facet name="header">
-    					<h:outputText value="#{msgs['_.BUTTON.ADD']}" />
-    				</f:facet>
-    				<h:commandButton id="addEtudiant" styleClass="save"
-    					action="#{consultRdvController.ajouter}" 
+    			<p:column headerText="#{msgs['_.BUTTON.ADD']}" style="text-align: center;">
+    				<p:commandButton id="addEtudiant" styleClass="save"
+    					action="#{consultRdvController.ajouter}" ajax="false"
     					rendered="#{consultRdvController.calendarRdv.dateParCandidat[individuPojo.individu] == null}"
     					image="/media/images/add.gif" alt="#{msgs['_.BUTTON.ADD']}">
     					<f:setPropertyActionListener value="#{individuPojo.individu}" target="#{consultRdvController.candidat}" />
-    				</h:commandButton>
+    				</p:commandButton>
     			</p:column>
-    			<p:column style="text-align: center;">
-    				<f:facet name="header">
-    					<h:outputText value="#{msgs['CALENDAR_RDV.REMOVE_ENTRY']}" />
-    				</f:facet>
-    				<h:commandButton action="#{consultRdvController.supprimer}"
-    					image="/media/images/delete.gif" alt="#{msgs['CALENDAR_RDV.REMOVE_ENTRY']}"
+    			<p:column headerText="#{msgs['CALENDAR_RDV.REMOVE_ENTRY']}" style="text-align: center;">
+    				<p:commandButton action="#{consultRdvController.supprimer}" ajax="false"
+    					icon="ui-icon-minus" alt="#{msgs['CALENDAR_RDV.REMOVE_ENTRY']}"
     					rendered="#{consultRdvController.calendarRdv.dateParCandidat[individuPojo.individu] != null}"
     					onclick="if (!confirm('#{msgs['CALENDAR_RDV.REMOVE_ENTRY.WARNING']}')) return false;">
     					<f:setPropertyActionListener value="#{individuPojo.individu}" target="#{consultRdvController.candidat}" />
-    				</h:commandButton>
+    				</p:commandButton>
     			</p:column>
-    			<p:column style="text-align: center;">
-    				<f:facet name="header">
-    					<h:outputText value="#{msgs['CALENDAR_RDV.MOVE_ENTRY']}" />
-    				</f:facet>
-    				<h:commandButton action="#{consultRdvController.moveEntry}"
+    			<p:column headerText="#{msgs['CALENDAR_RDV.MOVE_ENTRY']}" style="text-align: center;">
+    				<p:commandButton action="#{consultRdvController.moveEntry}"
     					rendered="#{consultRdvController.calendarRdv.dateParCandidat[individuPojo.individu] != null}"
     					image="/media/images/move.gif" alt="#{msgs['CALENDAR_RDV.MOVE_ENTRY']}">
     					<f:setPropertyActionListener value="#{individuPojo.individu}" target="#{consultRdvController.candidat}" />
-    				</h:commandButton>
+    				</p:commandButton>
     			</p:column>
-    			<p:column style="text-align: center;">
-    				<f:facet name="header">
-    					<h:outputText value="#{msgs['CALENDAR_RDV.TEXT.RDV.TEXT']}" />
-    				</f:facet>
+    			<p:column headerText="#{msgs['CALENDAR_RDV.TEXT.RDV.TEXT']}" style="text-align: center;">
     				<h:outputText value="#{consultRdvController.calendarRdv.dateParCandidat[individuPojo.individu]}"
     					rendered="#{consultRdvController.calendarRdv.dateParCandidat[individuPojo.individu] != null}">
     					<f:convertDateTime pattern="dd/MM HH:mm" timeZone="Europe/Paris" />
@@ -105,19 +81,13 @@
     		</h:panelGrid>
     		<p:dataTable id="etudiants" renderedIfEmpty="false"
     			value="#{consultRdvController.calendarRdv.dateParCandidat.key}" var="etudiant">
-    			<p:column sortable="true">
-    					<f:facet name="header">
-    						<h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}" />
-    					</f:facet>
-    					<h:outputText value="#{etudiant.numDossierOpi}" />
+    			<p:column headerText="#{msgs['INDIVIDU.NUM_DOSSIER']}" sortBy="#{etudiant.numDossierOpi}">
+					<h:outputText value="#{etudiant.numDossierOpi}" />
     			</p:column>
-    			<p:column sortable="true">
-    				<f:facet name="header">
-    					<h:outputText value="#{msgs['INDIVIDU.PRENOM']}" />
-    				</f:facet>
+    			<p:column headerText="#{msgs['INDIVIDU.PRENOM']}" sortBy="#{etudiant.prenom}">
     				<h:outputText value="#{etudiant.prenom}" />
     			</p:column>
-    			<p:column sortable="true">
+    			<p:column headerText="#{msgs['INDIVIDU.NOM']}" sortBy="#{etudiant.nomPatronymique}">
     				<f:facet name="header">
     					<h:outputText value="#{msgs['INDIVIDU.NOM']}" />
     				</f:facet>
@@ -125,25 +95,19 @@
     					<h:outputText value="#{etudiant.nomPatronymique}" />
     				</h:outputLink>
     			</p:column>
-    			<p:column style="text-align: center;">
-    				<f:facet name="header">
-    					<h:outputText value="#{msgs['CALENDAR_RDV.REMOVE_ENTRY']}" />
-    				</f:facet>
-    				<h:commandButton action="#{consultRdvController.supprimer}"
-    					image="/media/images/delete.gif" alt="Supprimer"
+    			<p:column headerText="#{msgs['CALENDAR_RDV.REMOVE_ENTRY']}" style="text-align: center;">
+    				<p:commandButton action="#{consultRdvController.supprimer}"
+    					icon="ui-icon-minus" alt="Supprimer"
     					onclick="if (!confirm('#{msgs['CALENDAR_RDV.REMOVE_ENTRY.WARNING']}')) return false;">
     					<f:setPropertyActionListener value="#{etudiant}" target="#{consultRdvController.candidat}" />
-    				</h:commandButton>
+    				</p:commandButton>
     			</p:column>
     
-    			<p:column style="text-align: center;">
-    				<f:facet name="header">
-    					<h:outputText value="#{msgs['CALENDAR_RDV.MOVE_ENTRY']}" />
-    				</f:facet>
-    				<h:commandButton action="#{consultRdvController.moveEntry}"
-    					image="/media/images/move.gif" alt="#{msgs['CALENDAR_RDV.MOVE_ENTRY']}">
+    			<p:column headerText="#{msgs['CALENDAR_RDV.MOVE_ENTRY']}" style="text-align: center;">
+    				<p:commandButton action="#{consultRdvController.moveEntry}"
+    					icon="ui-icon-arrow-4" alt="#{msgs['CALENDAR_RDV.MOVE_ENTRY']}">
     					<f:setPropertyActionListener value="#{etudiant}" target="#{consultRdvController.candidat}" />
-    				</h:commandButton>
+    				</p:commandButton>
     			</p:column>
     		</p:dataTable>
     		<h:panelGrid columns="2"
@@ -160,19 +124,21 @@
     <p:messages id="messages" showDetail="true" autoUpdate="true" />
     <h:panelGrid columns="3" cellpadding="0" cellspacing="1"
     	columnClasses="colRDVLeft,colRDVCenter,colRDVRight">
-    	<p:commandLink id="clmoisprec" immediate="true"
+    	<p:commandLink id="clmoisprec" immediate="true" ajax="false"
     		actionListener="#{consultRdvController.before}">
     		<p:graphicImage border="0" value="/media/images/backward.png"
     			alt="#{msgs['CALENDAR_RDV.BUTTON.PREC_MONTH']}" />
     	</p:commandLink>
     
-    	<div style="text-align:center; width:850px;">
-    		<h2><h:outputFormat style="text-transform: uppercase;"
-    			value="#{consultRdvController.weekScheduleModel.selectedDate}">
-    			<f:convertDateTime type="date" pattern="MMMM yyyy"
-    				timeZone="Europe/Paris" />
-    		</h:outputFormat></h2>
-    
+    	<h:panelGroup style="text-align:center; width:850px;">
+    		<h2>
+                <span class="section-subheader" style="text-transform: uppercase;">
+                    <h:outputFormat value="#{consultRdvController.weekScheduleModel.selectedDate}">
+                        <f:convertDateTime type="date" pattern="MMMM yyyy" timeZone="Europe/Paris" />
+                    </h:outputFormat>
+                </span>
+            </h2>
+            
     		<t:schedule id="weekCalendar"
     			value="#{consultRdvController.weekScheduleModel}"
     			binding="#{consultRdvController.uiSchedule}" theme="evolution"
@@ -184,14 +150,16 @@
     			action="#{consultRdvController.scheduleAction}"
     			mouseListener="#{consultRdvController.scheduleClicked}" />
     
-    		<p:commandButton value="#{msgs['CALENDAR_RDV.EXPORT_LISTE']}"
-    			rendered="#{consultRdvController.weekScheduleModel.selectedDate != null && managedAccess.updateAuthorized}"
+    		<p:commandLink ajax="false"
+    			rendered="#{consultRdvController.weekScheduleModel.selectedDate != null and managedAccess.updateAuthorized}"
     			action="#{consultRdvController.csvGeneration}">
-    			<f:param value="#{consultRdvController.selectedDay}" />
-    		</p:commandButton>
-    	</div>
+                <h:outputFormat value="#{msgs['CALENDAR_RDV.EXPORT_LISTE']}">
+                    <f:param value="#{consultRdvController.selectedDay}" />
+                </h:outputFormat>
+    		</p:commandLink>
+    	</h:panelGroup>
     
-    	<p:commandLink id="clmoissuiv" immediate="true"
+    	<p:commandLink id="clmoissuiv" immediate="true" ajax="false"
     		actionListener="#{consultRdvController.next}">
     		<p:graphicImage border="0" value="/media/images/forward.png"
     			alt="#{msgs['CALENDAR_RDV.BUTTON.NEXT_MONTH']}" />

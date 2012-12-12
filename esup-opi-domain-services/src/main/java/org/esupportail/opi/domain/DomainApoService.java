@@ -4,15 +4,16 @@
  */
 package org.esupportail.opi.domain;
 
-import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip;
-import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Domaine2AnnuFormDTO;
-import fr.univ.rennes1.cri.apogee.services.remote.ReadRennes1PortType;
 import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.esupportail.opi.domain.beans.formation.Cles2AnnuForm;
+import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
+import org.esupportail.opi.domain.beans.formation.GrpTypDip;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
@@ -21,6 +22,7 @@ import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
 import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
+import org.esupportail.opi.services.remote.client.IApogee;
 import org.esupportail.wssi.services.remote.AnneeUniDTO;
 import org.esupportail.wssi.services.remote.BacOuxEqu;
 import org.esupportail.wssi.services.remote.CentreGestion;
@@ -28,7 +30,6 @@ import org.esupportail.wssi.services.remote.Departement;
 import org.esupportail.wssi.services.remote.DipAutCur;
 import org.esupportail.wssi.services.remote.Diplome;
 import org.esupportail.wssi.services.remote.Etablissement;
-import org.esupportail.wssi.services.remote.Etape;
 import org.esupportail.wssi.services.remote.MentionNivBac;
 import org.esupportail.wssi.services.remote.Pays;
 import org.esupportail.wssi.services.remote.SignataireDTO;
@@ -60,33 +61,8 @@ public interface DomainApoService extends Serializable {
 	CentreGestion getCentreGestion(String codCge);
 
 	//////////////////////////////////////////////////////////////
-	// Etape
-	//////////////////////////////////////////////////////////////
-	
-	/**
-	 * Returns Etapes managed by the centreGestion.  
-	 * @param codCge 
-	 * @return List< Etape>
-	 * 
-	 */
-	/**
-	 * TODO : à supprimer (11/01/2012)
-	 */
-	@Deprecated
-	List<Etape> getEtapes(String codCge);
-	
-	/**
-	 * @param codeEtp 
-	 * @return Etape.
-	 */
-//	Etape getEtape(String codeEtp);
-
-	
-	
-	//////////////////////////////////////////////////////////////
 	// Version Etape
 	//////////////////////////////////////////////////////////////
-	
 
 	/**
 	 * 
@@ -119,7 +95,7 @@ public interface DomainApoService extends Serializable {
     	 * @param gest 
     	 * @param domainApoService 
     	 * @param parameterService 
-    	 * @return Set< Commission>
+    	 * @return Set<Commission>
     	 */
 	Set<Commission> getListCommissionsByRight(final Gestionnaire gest, final Boolean temEnSve);
 
@@ -256,10 +232,6 @@ public interface DomainApoService extends Serializable {
 	 * @param codBac code du bac
 	 * @return BacOuxEqu.
 	 */
-	/**
-	 * TODO : à supprimer (16/01/2012)
-	 */
-	@Deprecated
 	BacOuxEqu getBacOuxEqu(String daaObt, String codBac);
 
 	
@@ -324,7 +296,7 @@ public interface DomainApoService extends Serializable {
 	 * @param grpTpd groupe Type Diplome
 	 * @return List< VersionDiplome>
 	 */
-	List<VersionDiplomeDTO> getVersionDiplomes(String codeKeyWord, Ren1GrpTypDip grpTpd, String codAnu);
+	List<VersionDiplomeDTO> getVersionDiplomes(String codeKeyWord, GrpTypDip grpTpd, String codAnu);
 	
 	/**
 	 * @param annee 
@@ -381,35 +353,24 @@ public interface DomainApoService extends Serializable {
 	String[] getAnneesIa(Individu individu);
 	
 	
-	// ////////////////////////////////////////////////////////////
-	// Ren1GrpTypDip
-	// ////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////
+	// GrpTypDip
+	///////////////////////////////////////////////////////////////
 
 	/**
 	 * Return the list of group type Diplome in use.
-	 * @return List< Ren1GrpTypDip>.
+	 * @return List< GrpTypDip>.
 	 */
-	List<Ren1GrpTypDip> getRen1GrpTypDip(Campagne camp);
-	
-	/**
-	 * Return the group type Diplome in use with this code.
-	 * @param code
-	 * @return Ren1GrpTypDip
-	 * @deprecated car n'utilsait pas le cache de getRen1GrpTypDip() d ou un probleme de perf. (fait le 18/02/2009)
-	 * Si plus besoin : DELETE
-	 */
-	@Deprecated
-	Ren1GrpTypDip getRen1GrpTypDip(String code, Campagne camp);
-	
-	
+	List<GrpTypDip> getGrpTypDip(Campagne camp);
+		
 	// ////////////////////////////////////////////////////////////
-	// Ren1ClesAnnuFormPojo
+	// ClesAnnuFormPojo
 	// ////////////////////////////////////////////////////////////
 	/**
 	 * @return List
 	 */
 	//TODO : fix this !
-	//List<Ren1ClesAnnuFormPojo> getRen1ClesAnnuForm();
+	//List<ClesAnnuFormPojo> getClesAnnuForm();
 	
 	
 	///////////////////////////////////////////////////////////
@@ -421,13 +382,6 @@ public interface DomainApoService extends Serializable {
 	 * @return List< SignataireDTO>
 	 */
 	List<SignataireDTO> getSignataires();
-	
-	
-	/**
-	 * @param codSig (can not be null)
-	 * @return SignataireDTO
-	 */
-//	SignataireDTO getSignataire(String codSig);
 	
 	
 	///////////////////////////////////////////////////////////
@@ -450,17 +404,16 @@ public interface DomainApoService extends Serializable {
 	void deleteTelemLaisserPasser(List<IndVoeu> wishes, Boolean isReins);
 	
 	//////////////////////////////////////////////////////////////
-	// Ren1Domaine2AnnuFormDTO
+	// Domaine2AnnuForm
 	//////////////////////////////////////////////////////////////
 	
 	/**
 	 * Retourne les domaines en fonction d'un groupe de type diplome.
-	 * @param ren1GrpTypDip if null return null
-	 * @param locale can be null (Ex: FR)
-	 * @return Set< Ren1Domaine2AnnuFormDTO>
+	 *
+	 * @return Map<Domaine2AnnuForm, List<Cles2AnnuForm>>
 	 * 
 	 */
-	Set<Ren1Domaine2AnnuFormDTO> getRen1Domaine2AnnuFormDTO(Ren1GrpTypDip ren1GrpTypDip, String locale);
+	Map<Domaine2AnnuForm, List<Cles2AnnuForm>> getDomaine2AnnuForm(GrpTypDip grpTypDip, String locale);
 	
 	/**
 	 * 
@@ -478,7 +431,7 @@ public interface DomainApoService extends Serializable {
 	 * 
 	 * @return ReadRennes1
 	 */
-	ReadRennes1PortType getRemoteCriApogeeRennes1();
+	IApogee getRemoteApo();
 	
 	
 	//////////////////////////////////////////////////////////////

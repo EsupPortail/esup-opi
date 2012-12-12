@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="org.esupportail.opi.domain.beans.formation.ClesAnnuForm" table="CLES_ANNU_FORM">
+        <id name="codCles" type="string">
+            <column name="COD_CLES" length="10" />
+            <generator class="assigned" />
+        </id>
+        
+        <property name="codDom" type="string">
+            <column name="COD_DOM" length="10" not-null="true" />
+        </property>
+        
+        <property name="temSveCles" type="string">
+            <column name="TEM_SVE_CLES" length="1" />
+        </property>
+    </class>
+</hibernate-mapping>

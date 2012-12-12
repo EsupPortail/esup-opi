@@ -10,9 +10,11 @@
     		<div style="width:100%;text-align:right;">
     			<h:panelGroup>
     				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    					action="#{mailContentController.add}" />
+    					action="#{mailContentController.add}" 
+    					ajax="false"/>
     				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" immediate="true"
-    					action="#{mailContentController.reset}" />
+    					action="#{mailContentController.reset}"
+    					ajax="false" />
     			</h:panelGroup>
     		</div>
     		<h:panelGrid styleClass="tableWidthMax" columns="4"
@@ -21,14 +23,14 @@
     				<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code" />
     				<h:outputText value="*" styleClass="etoileForChpObli" />
     			</h:panelGroup>
-    			<h:inputText id="code" size="16" maxlength="15" required="true"
+    			<p:inputText id="code" size="16" maxlength="15" required="true"
     				value="#{mailContentController.mailContent.code}" />
     
     			<h:panelGroup>
     				<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}" for="libelle" />
     				<h:outputText value="*" styleClass="etoileForChpObli" />
     			</h:panelGroup>
-    			<h:inputText id="libelle" size="41" maxlength="40" required="true"
+    			<p:inputText id="libelle" size="41" maxlength="40" required="true"
     				value="#{mailContentController.mailContent.libelle}" />
     		</h:panelGrid>
     	</div>

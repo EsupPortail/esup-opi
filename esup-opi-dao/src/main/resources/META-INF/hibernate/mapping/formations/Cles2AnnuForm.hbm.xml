@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="org.esupportail.opi.domain.beans.formation.Cles2AnnuForm" table="CLES2_ANNU_FORM" >
+        <composite-id name="id" class="org.esupportail.opi.domain.beans.formation.Cles2AnnuFormId">
+            <key-property name="codLang" type="string">
+                <column name="COD_LANG" length="3" />
+            </key-property>
+            <key-property name="codCles" type="string">
+                <column name="COD_CLES" length="10" />
+            </key-property>
+        </composite-id>
+       
+        <many-to-one name="clesAnnuForm" class="org.esupportail.opi.domain.beans.formation.ClesAnnuForm" column="COD_CLES" update="false" insert="false" />
+       
+       <property name="libCles" type="string">
+            <column name="LIB_CLES" length="50" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

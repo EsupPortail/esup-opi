@@ -71,7 +71,7 @@ import org.xml.sax.SAXException;
  * 
  * See /properties/domain/domain.xml
  */
-public class ParameterServiceImpl extends AbstractDomainService implements ParameterService {
+public class ParameterServiceImpl implements ParameterService {
 
 
 	/**
@@ -155,9 +155,7 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	/**
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
-	@Override
 	public void afterPropertiesSet() {
-		super.afterPropertiesSet();
 		Assert.notNull(this.daoService, "property daoService of class "
 				+ this.getClass().getName() + " can not be null");
 		Assert.notNull(this.typeTraitements, "property typeTraitements of class " 
@@ -961,6 +959,7 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 			log.debug("entering addTraitementCmi( " + traitementCmi + " )");
 		}
 		daoService.addTraitementCmi(traitementCmi);
+		
 	}
 
 
@@ -1030,7 +1029,6 @@ public class ParameterServiceImpl extends AbstractDomainService implements Param
 	// ////////////////////////////////////////////////////////////
 	// Calendar
 	// ////////////////////////////////////////////////////////////
-
 
 	/** 
 	 * @see org.esupportail.opi.domain.ParameterService#addCalendar(

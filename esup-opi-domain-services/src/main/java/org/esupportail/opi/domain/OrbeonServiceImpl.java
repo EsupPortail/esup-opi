@@ -63,7 +63,7 @@ import sun.misc.BASE64Encoder;
  * 
  * See /properties/domain/domain.xml
  */
-public class OrbeonServiceImpl extends AbstractDomainService implements OrbeonService {
+public class OrbeonServiceImpl implements OrbeonService {
 
 	/**
 	 * 
@@ -153,9 +153,7 @@ public class OrbeonServiceImpl extends AbstractDomainService implements OrbeonSe
 	/**
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
-	@Override
 	public void afterPropertiesSet() {
-		super.afterPropertiesSet();
 		Assert.notNull(this.uri, 
 				"property uri of class " + this.getClass().getName() 
 				+ " can not be null");

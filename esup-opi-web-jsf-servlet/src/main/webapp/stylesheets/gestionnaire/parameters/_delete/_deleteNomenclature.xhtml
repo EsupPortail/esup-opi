@@ -2,22 +2,22 @@
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui">
-    <h:form id="formDeleteNomenclature">
     	<div style="width:100%;">
     		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
     			styleClass="tableJustWidthMax">
-    			<h:outputText value="#{msgs['NOMENCLATURE.CONFIRM.DELETE']}" escape="false">
+    			<h:outputFormat value="#{msgs['NOMENCLATURE.CONFIRM.DELETE']}" escape="false">
     				<f:param value="#{nomenclatureController.nomenclature.code}"/>
     				<f:param value="#{nomenclatureController.nomenclature.libelle}"/>
-    			</h:outputText>
+    			</h:outputFormat>
     			<h:panelGroup>
     				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    					action="#{nomenclatureController.delete}"/>
+    					action="#{nomenclatureController.delete}"
+    					ajax="false"/>
     				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
     					action="#{nomenclatureController.reset}"
-    					immediate="true"/>
+    					immediate="true"
+    					ajax="false"/>
     			</h:panelGroup>
     		</h:panelGrid>
     	</div>
-    </h:form>
 </ui:fragment>

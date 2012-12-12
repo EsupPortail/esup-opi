@@ -11,13 +11,16 @@
     				<h:panelGroup>
     					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     						rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.addAction}"
-    						action="#{nomenclatureController.add}" />
+    						action="#{nomenclatureController.add}" 
+        					ajax="false" />
     					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     						rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction}"
-    						action="#{nomenclatureController.update}" />
+    						action="#{nomenclatureController.update}" 
+        					ajax="false" />
     					<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
     						action="#{nomenclatureController.reset}"
-    						onclick="javascript:{clickAnnuler = true;}"/>
+    						onclick="javascript:{clickAnnuler = true;}" 
+        					ajax="false"/>
     				</h:panelGroup>
     			</h:panelGrid>
     			<h:panelGrid styleClass="tableWidthMax" columns="4"
@@ -28,7 +31,7 @@
     					<h:outputText value="*" styleClass="etoileForChpObli" />
     				</h:panelGroup>
     				<h:panelGroup>
-    					<h:inputText id="code"
+    					<p:inputText id="code"
     						value="#{nomenclatureController.nomenclature.code}" size="10"
     						maxlength="9"/>
     				</h:panelGroup>
@@ -37,7 +40,7 @@
     					<h:outputText value="*" styleClass="etoileForChpObli" />
     				</h:panelGroup>
     				<h:panelGroup>
-    					<h:inputText id="codAnu"
+    					<p:inputText id="codAnu"
     						value="#{nomenclatureController.nomenclature.codAnu}" size="5"
     						maxlength="4"/>
     				</h:panelGroup>
@@ -46,7 +49,7 @@
     					<h:outputText value="*" styleClass="etoileForChpObli" />
     				</h:panelGroup>
     				<h:panelGroup>
-    					<h:inputText id="libelleLong"
+    					<p:inputText id="libelleLong"
     						value="#{nomenclatureController.nomenclature.libelle}" size="50"
     						maxlength="500"/>
     				</h:panelGroup>
@@ -67,12 +70,12 @@
     					<h:outputText value="*" styleClass="etoileForChpObli" />
     				</h:panelGroup>
     				<h:panelGroup>
-    					<h:inputText id="dateDeb" size="10" maxlength="8"
+    					<p:inputText id="dateDeb" size="10" maxlength="8"
     						value="#{nomenclatureController.nomenclature.dateDebCamp}">
     						<f:convertDateTime pattern="ddMMyyyy"
     							timeZone="#{sessionController.timezone}" />
     						<f:validateLength minimum="8"/>
-    					</h:inputText>
+    					</p:inputText>
     				</h:panelGroup>
     				<h:panelGroup>
     					<h:outputLabel value="#{msgs['FIELD_LABEL.DATE_FIN']}" for="dateFin" />
@@ -80,12 +83,12 @@
     					<h:outputText value="*" styleClass="etoileForChpObli" />
     				</h:panelGroup>
     				<h:panelGroup>
-    					<h:inputText id="dateFin" size="10" maxlength="8"
+    					<p:inputText id="dateFin" size="10" maxlength="8"
     						value="#{nomenclatureController.nomenclature.dateFinCamp}">
     						<f:convertDateTime pattern="ddMMyyyy"
     							timeZone="#{sessionController.timezone}" />
     						<f:validateLength minimum="8"/>
-    					</h:inputText>
+    					</p:inputText>
     				</h:panelGroup>
     				<h:panelGroup>
     					<h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}"

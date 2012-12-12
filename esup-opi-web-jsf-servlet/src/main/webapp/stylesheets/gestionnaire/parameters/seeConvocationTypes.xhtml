@@ -2,7 +2,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">	
     	
     	<div id="maPage" class="div_body">
@@ -20,13 +20,13 @@
     				<br />
     				<br />
     				<div id="blockFormAdresse" class="blockForm">
-    					<div class="blockButton">
+    					<!-- <div class="blockButton">
     						<h:panelGroup>
     							<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
     									immediate="true"
     									action="#{managedAccess.goDisplayFunction}"/>
     						</h:panelGroup>
-    					</div>
+    					</div> -->
     					<p:dataTable var="typeConvocation" value="#{nomenclatureController.typeConvocations}"
     						styleClass="displayInfo" alternateColors="false">
     						<p:column>

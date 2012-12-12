@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC
       "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+          "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="org.esupportail.opi.domain.beans.references.rendezvous">
 	<class name="VetCalendar" table="RDV_VET_CALENDAR">
 		<id name="id" unsaved-value="null"> 
-			<column name="ID_VET_CALENDAR" sql-type="integer" not-null="true"/>
+			<column name="ID_VET_CALENDAR" not-null="true"/>
 			<generator class="native" >
 				<param name="sequence">rdv_vet_calendar_seq</param>
 			</generator>

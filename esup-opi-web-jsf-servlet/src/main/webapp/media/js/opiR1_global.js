@@ -67,11 +67,6 @@ function highlightInputAndSelect(formId) {
 	
 }
 
-
-
-
-
-
 /**
  * Check all checkBox a row based the attribute checked.
  * @param dataTableId
@@ -91,19 +86,19 @@ function checkRows(dataTableId, indexRow, checked) {
     }
     //car il existe un ligne header qui n'est pas compte dans l'indexage JSF
     var row = rows[indexRow + 1];
-    var inputs = row.getElementsByTagName("input");
+    var inputs = row.getElementsByTagName("span");
     if (inputs == null) {
-      if (debug) alert("no inputs found in the row.");
+      if (debug) alert("no checkbox span found in the row.");
       return;
     }
     for (i = 0; i < inputs.length; i++) {
-    	if (inputs[i].getAttribute("type") == "checkbox") {
+    	if ($(inputs[i]).addClass("ui-chkbox-box")) {
     		if (checked) {
-				inputs[i].value='true';
-	    		inputs[i].checked = 'checked';
+    			$(inputs[i]).parent("div").addClass('ui-state-active');
+                $(inputs[i]).addClass('ui-icon ui-icon-check');
     		} else {
-    			inputs[i].value='false';
-				inputs[i].checked = false;
+    			$(inputs[i]).parent("div").removeClass('ui-state-active');
+                $(inputs[i]).removeClass('ui-icon ui-icon-check');
     		}
     	}
     }
