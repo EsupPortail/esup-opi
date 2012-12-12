@@ -39,8 +39,7 @@ public final class LazyDataModel<T> extends org.primefaces.model.LazyDataModel<T
     }
     
     @Override
-    public List<T> load(int first, int pageSize, String sortField,
-            SortOrder sortOrder, Map<String, String> filters) {
+    public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, String> filters) {
         // le 2-tuple de résultat
         final P2<Long, Stream<T>> resTuple = getData.f(first, pageSize, sortField, sortOrder, filters);
         // le nombre total d'enregistrements

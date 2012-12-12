@@ -17,6 +17,12 @@ import java.util.Set;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
+import fj.F;
+import fj.F2;
+import fj.F5;
+import fj.P2;
+import fj.data.Option;
+import fj.data.Stream;
 import org.apache.commons.lang.StringUtils;
 import org.esupportail.commons.services.ldap.LdapUser;
 import org.esupportail.commons.services.ldap.LdapUserService;
@@ -26,11 +32,14 @@ import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.beans.etat.EtatComplet;
 import org.esupportail.opi.domain.beans.etat.EtatInComplet;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
+import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
+import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.references.rendezvous.IndividuDate;
 import org.esupportail.opi.domain.beans.user.Adresse;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.domain.beans.user.Individu;
+import org.esupportail.opi.domain.beans.user.User;
 import org.esupportail.opi.domain.beans.user.candidature.IndFormulaire;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
@@ -44,14 +53,24 @@ import org.esupportail.opi.web.beans.paginator.IndividuPaginator;
 import org.esupportail.opi.web.beans.parameters.FormationContinue;
 import org.esupportail.opi.web.beans.parameters.FormationInitiale;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
+import org.esupportail.opi.web.beans.pojo.IndRechPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
+import org.esupportail.opi.web.controllers.SessionController;
 import org.esupportail.opi.web.utils.NavigationRulesConst;
 import org.esupportail.opi.web.utils.Utilitaires;
 import org.esupportail.opi.web.controllers.AbstractAccessController;
 import org.esupportail.opi.web.controllers.formation.FormulairesController;
+import org.esupportail.opi.web.utils.fj.Conversions;
+import org.esupportail.opi.web.utils.paginator.LazyDataModel;
+import org.primefaces.model.SortOrder;
 
-
-
+import static fj.data.Option.fromNull;
+import static fj.data.Option.fromString;
+import static fj.data.Option.none;
+import static fj.data.Stream.iterableStream;
+import static fj.data.Stream.join;
+import static fj.data.Stream.single;
+import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
 
 /**
@@ -198,7 +217,58 @@ public class IndividuController extends AbstractAccessController {
 	 */
 	private String checkEmail;
 
+    private final LazyDataModel<Individu> indLDM = lazyModel(
+            new F5<Integer, Integer, String, SortOrder, Map<String, String>, P2<Long, Stream<Individu>>>() {
+                public P2<Long, Stream<Individu>> f(
+                        Integer first, Integer pageSize, String sortField, SortOrder sortOrder, Map<String, String> filters) {
+                    // le gestionnaire courant
+                    final SessionController sessionCont = getSessionController();
+                    final User user = sessionCont.getCurrentUser();
+                    final Gestionnaire gest = !(user instanceof Gestionnaire) ?
+                            sessionCont.getManager() : (Gestionnaire) user;
 
+                    // les filtres :
+                    IndRechPojo indRechPojo = individuPaginator.getIndRechPojo();
+                    // 1. les numdossier, nom, prenom
+                    filters.put("numDossierOpi", fromString(indRechPojo.getNumDossierOpiRecherche()).orSome(""));
+                    filters.put("nomPatronymique", fromString(indRechPojo.getNomRecherche()).orSome(""));
+                    filters.put("prenom", fromString(indRechPojo.getPrenomRecherche()).orSome(""));
+
+                    // 3. les étapes (TraitementCmi) de la commission
+                    final Integer idCmi = indRechPojo.getIdCmi();
+                    final Stream<Commission> cmis = (idCmi != null) ?
+                            single(getParameterService().getCommission(idCmi, null)) :
+                            iterableStream(getDomainApoService().getListCommissionsByRight(gest, true));
+
+                    final Set<TraitementCmi> trtCmis = new HashSet<TraitementCmi>(
+                            cmis.bind(new F<Commission, Stream<TraitementCmi>>() {
+                                public Stream<TraitementCmi> f(Commission com) {
+                                    return join(fromNull(com.getTraitementCmi()).toStream().map(
+                                            Conversions.<TraitementCmi>setToStream_()));
+                                }
+                            }).toCollection());
+
+                    // 4. les régimes d'inscription
+                    Set<Integer> listCodesRI = new HashSet<Integer>(
+                            iterableStream(fromNull(indRechPojo.getListeRI()).orSome(
+                                    new HashSet<RegimeInscription>())).map(new F<RegimeInscription, Integer>() {
+                                public Integer f(RegimeInscription ri) {
+                                    return ri.getCode();
+                                }}).toCollection());
+
+                    Option<Boolean> boolNone = none();
+
+                    return getDomainService().sliceOfInd(
+                            new Long(first), new Long(pageSize), sortField, sortOrder, filters,
+                            new HashSet<TypeDecision>(), boolNone, boolNone, Option.<String>none(), trtCmis, listCodesRI);
+                }
+            },
+            new F2<String, Individu, Boolean>() {
+                public Boolean f(String rowKey, Individu individu) {
+                    return individu.getId().equals(rowKey);
+                }
+            }
+    );
 
 	/*
 	 ******************* INIT ************************* */
@@ -1616,6 +1686,8 @@ public class IndividuController extends AbstractAccessController {
 	public void setLdapUserService(LdapUserService ldapUserService) {
 		this.ldapUserService = ldapUserService;
 	}
-	
-	
+
+    public LazyDataModel<Individu> getIndLDM() {
+        return indLDM;
+    }
 }

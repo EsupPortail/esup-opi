@@ -14,6 +14,9 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import fj.F;
+import fj.P2;
+import fj.data.Option;
 import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.exceptions.UserNotFoundException;
@@ -36,6 +39,9 @@ import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.opi.web.utils.NavigationRulesConst;
 import org.esupportail.opi.web.utils.Utilitaires;
 
+import static fj.data.Option.fromNull;
+import static fj.data.Option.fromString;
+
 
 /**
  * A bean to memorize the context of the application.
@@ -55,7 +61,7 @@ public class SessionController extends AbstractDomainAwareBean {
 	/**
 	 * The name of the request attribute that holds the current individu.
 	 */
-	private static final String CURRENT_INDIVIDU_ATTRIBUTE = SessionController.class.getName() + ".currentIndividu";
+	private static final String CURRENT_INDPOJO_ATTRIBUTE = SessionController.class.getName() + ".currentIndPojo";
 
 	/**
 	 * A logger.
@@ -212,19 +218,17 @@ public class SessionController extends AbstractDomainAwareBean {
 
 
 	/**
-	 * @return the current individu.
+	 * @return the current {@link IndividuPojo}
 	 */
 	@Override
 	public IndividuPojo getCurrentInd() {
-		if (ContextUtils.getRequestAttribute(CURRENT_INDIVIDU_ATTRIBUTE) == null) {	
+		if (ContextUtils.getSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE) == null) {
 			Individu individu = null;
 			User u = getCurrentUser();
 			if (u != null && u instanceof Individu) {
 				//individu = getDomainService().getIndividu(numDossier, dateNaissance);
 				individu = (Individu) u;
 			}
-
-
 			IndividuPojo indPojo = null;
 			if (individu != null) {
 				int codeRI = Utilitaires.getCodeRIIndividu(individu,
@@ -249,15 +253,15 @@ public class SessionController extends AbstractDomainAwareBean {
 				indPojo.setIsUpdaterOfThisStudent(canUpdateStudent);
 			}
 			resetSessionLocale();
-			ContextUtils.setRequestAttribute(CURRENT_INDIVIDU_ATTRIBUTE, indPojo);
+			ContextUtils.setSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE, indPojo);
 		}
-		return (IndividuPojo) ContextUtils.getRequestAttribute(CURRENT_INDIVIDU_ATTRIBUTE);
+		return (IndividuPojo) ContextUtils.getRequestAttribute(CURRENT_INDPOJO_ATTRIBUTE);
 	}
 
 	
 	
 	/**
-	 * Initialize the current Individu.
+	 * Initialize the current {@link IndividuPojo}
 	 * @param numeroDossier
 	 * @param dateDeNaissance
 	 * @param isManager 
@@ -426,20 +430,39 @@ public class SessionController extends AbstractDomainAwareBean {
 	 * @return String
 	 */
 	public String getCurrentDisplayName() {
-		String disp = "";
-		try {
-		if (getCurrentInd() != null) {
-			Individu i = getCurrentInd().getIndividu();
-			disp = Utilitaires.upperCaseFirstChar(i.getPrenom(), true) + " "
-			+ Utilitaires.upperCaseFirstChar(i.getNomPatronymique(), true);
-		} else if (getCurrentUser() != null) {
-			Gestionnaire g = (Gestionnaire) getCurrentUser();
-			disp = g.getDisplayName();
-		}
-		} catch (UserNotFoundException e) {
-			log.warn("don't display name because UserNotFoundException");
-		}
-		return disp;
+        return fromNull(getCurrentUser()).bind(new F<User, Option<String>>() {
+            public Option<String> f(User user) {
+                return fromString(user.getPrenom()).bindProduct(
+                        fromString(user.getNomPatronymique()).orElse(
+                                fromString(user.getNomUsuel()))).map(
+                        new F<P2<String, String>, String>() {
+                            public String f(P2<String, String> tupleStr) {
+                                return tupleStr._1() + " " + tupleStr._2();
+                            }
+                        });
+            }
+        }).orSome("Unknown User");
+
+//        return fromNull(getCurrentUser()).map(new F<User, String>() {
+//            public String f(User user) {
+//                return Utilitaires.upperCaseFirstChar(user.getPrenom(), true) + " "
+//                        + Utilitaires.upperCaseFirstChar(user.getNomPatronymique(), true);
+//            }}).orSome("");
+//
+//		String disp = "";
+//		try {
+//		if (getCurrentInd() != null) {
+//			Individu i = getCurrentInd().getIndividu();
+//			disp = Utilitaires.upperCaseFirstChar(i.getPrenom(), true) + " "
+//			+ Utilitaires.upperCaseFirstChar(i.getNomPatronymique(), true);
+//		} else if (getCurrentUser() != null) {
+//			Gestionnaire g = (Gestionnaire) getCurrentUser();
+//			disp = g.getDisplayName();
+//		}
+//		} catch (UserNotFoundException e) {
+//			log.warn("don't display name because UserNotFoundException");
+//		}
+//		return disp;
 	}
 
 
