@@ -3,18 +3,18 @@
  */
 package org.esupportail.opi.web.beans.pojo;
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.opi.domain.beans.etat.Etat;
 import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.ContactCommission;
 import org.esupportail.opi.utils.Constantes;
-import org.esupportail.opi.web.utils.Utilitaires;
+import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -167,8 +167,8 @@ public class CommissionPojo implements Serializable {
 	 * @return String
 	 */
 	public String getShortLibCom() {
-		return Utilitaires.limitStrLength(commission.getLibelle(), 
-									Constantes.STR_LENGTH_LIMIT_SMALL);
+		return Utilitaires.limitStrLength(commission.getLibelle(),
+                Constantes.STR_LENGTH_LIMIT_SMALL);
 	}
 	
 	/**

@@ -1,87 +1,90 @@
-
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-xmlns:ui="http://java.sun.com/jsf/facelets"
-xmlns:h="http://java.sun.com/jsf/html"
-xmlns:p="http://primefaces.org/ui"
-template="/stylesheets/templateGestionnaire.xhtml">
-<ui:define name="content">
-	
-	
-	<div id="maPage" class="div_body">
-		<h1>
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
+    <ui:define name="content">
+
+
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{msgs['TYP_TRT.TITLE.ADD']}" />
+                    <h:outputText value="#{msgs['TYP_TRT.TITLE.ADD']}"/>
                 </span>
             </h1>
-		<div class="messageForUser">
-			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-		</div>
-		<div id="div_subSection" class="div_subSection">
-			<h:form id="addTraitementTypesForm">
-				<br />
-				<br />
-				<br />
-				<div id="blockFormInfo" class="blockForm">
-					<div class="blockButton">
-						<h:panelGroup>
-							<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-								action="#{nomenclatureController.add}" />
-							<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-								immediate="true"
-								action="#{nomenclatureController.goSeeAllTypTrt}" />
-						</h:panelGroup>
-					</div>
-					<p:dataTable var="typeTraitement" 
-							value="#{nomenclatureController.addNomenclatures}"
-							styleClass="displayInfo" alternateColors="false">
-						<p:column>
-							<f:facet name="header">
-								<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
-							</f:facet>
-							<h:outputText value="#{typeTraitement.code}" rendered="#{typeTraitement.id != 0}" />
-							<p:inputText id="codeTypTrt" value="#{typeTraitement.code}" size="6" maxlength="5"
-								rendered="#{typeTraitement.id == 0}" />
-						</p:column>
-						<p:column>
-							<f:facet name="header">
-								<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-							</f:facet>
-							<h:outputText value="#{typeTraitement.libelle}" rendered="#{typeTraitement.id != 0}" />
-							<p:inputText id="libTypTrt" value="#{typeTraitement.libelle}" size="31" maxlength="30"
-								rendered="#{typeTraitement.id == 0}" />
-						</p:column>
-						<p:column>
-							<f:facet name="header">
-								<h:outputText value="#{msgs['FIELD_LABEL.SHORT_LIB']}" />
-							</f:facet>
-							<h:outputText value="#{typeTraitement.shortLabel}" rendered="#{typeTraitement.id != 0}" />
-							<p:inputText id="licTypTrt" value="#{typeTraitement.shortLabel}" size="11" maxlength="10"
-								rendered="#{typeTraitement.id == 0}" />
-						</p:column>
-						<p:column>
-							<f:facet name="header">
-								<h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
-							</f:facet>
-							<p:selectBooleanCheckbox value="#{typeTraitement.temoinEnService}" rendered="#{typeTraitement.id == 0}" />
-							<p:graphicImage url="/media/images/check2.gif" 
-								rendered="#{typeTraitement.id != 0 and typeTraitement.temoinEnService}"/>
-							<p:graphicImage url="/media/images/check0.gif" 
-								rendered="#{typeTraitement.id != 0 and !typeTraitement.temoinEnService}"/>
-						</p:column>
-					</p:dataTable>
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
+            <div id="div_subSection" class="div_subSection">
+                <h:form id="addTraitementTypesForm">
+                    <br/>
+                    <br/>
+                    <br/>
 
-				</div>
-				<br />
-				<br />
-				<br />
-			</h:form>
-		</div>
-	</div>
-	
-	<script type="text/javascript">
-	highlightChildrenLiTags('navigationHeader:navigation');
-	highlightChildrenLiTags('navigationFooter:navigation');
-	highlightInputAndSelect('addTraitementTypesForm');
-</script>
-</ui:define>
+                    <div id="blockFormInfo" class="blockForm">
+                        <div class="blockButton">
+                            <h:panelGroup>
+                                <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                                 action="#{nomenclatureController.add}"/>
+                                <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                                                 immediate="true"
+                                                 action="#{nomenclatureController.goSeeAllTypTrt}"/>
+                            </h:panelGroup>
+                        </div>
+                        <p:dataTable var="typeTraitement"
+                                     value="#{nomenclatureController.addNomenclatures}"
+                                     styleClass="displayInfo" alternateColors="false">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>
+                                </f:facet>
+                                <h:outputText value="#{typeTraitement.code}" rendered="#{typeTraitement.id != 0}"/>
+                                <p:inputText id="codeTypTrt" value="#{typeTraitement.code}" size="6" maxlength="5"
+                                             rendered="#{typeTraitement.id == 0}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+                                </f:facet>
+                                <h:outputText value="#{typeTraitement.libelle}" rendered="#{typeTraitement.id != 0}"/>
+                                <p:inputText id="libTypTrt" value="#{typeTraitement.libelle}" size="31" maxlength="30"
+                                             rendered="#{typeTraitement.id == 0}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.SHORT_LIB']}"/>
+                                </f:facet>
+                                <h:outputText value="#{typeTraitement.shortLabel}"
+                                              rendered="#{typeTraitement.id != 0}"/>
+                                <p:inputText id="licTypTrt" value="#{typeTraitement.shortLabel}" size="11"
+                                             maxlength="10"
+                                             rendered="#{typeTraitement.id == 0}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{typeTraitement.temoinEnService}"
+                                                         rendered="#{typeTraitement.id == 0}"/>
+                                <p:graphicImage url="/media/images/check2.gif"
+                                                rendered="#{typeTraitement.id != 0 and typeTraitement.temoinEnService}"/>
+                                <p:graphicImage url="/media/images/check0.gif"
+                                                rendered="#{typeTraitement.id != 0 and !typeTraitement.temoinEnService}"/>
+                            </p:column>
+                        </p:dataTable>
+
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                </h:form>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            highlightChildrenLiTags('navigationHeader:navigation');
+            highlightChildrenLiTags('navigationFooter:navigation');
+            highlightInputAndSelect('addTraitementTypesForm');
+        </script>
+    </ui:define>
 </ui:composition>

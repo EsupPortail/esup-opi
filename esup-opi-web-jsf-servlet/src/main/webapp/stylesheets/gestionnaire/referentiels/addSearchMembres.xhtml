@@ -1,64 +1,65 @@
-<ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+<ui:composition
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	<div id="maPage" class="div_body">
-    		<h1>
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{msgs['COMMISSION.SEARCH_MBR.TITLE']}" />
+                    <h:outputText value="#{msgs['COMMISSION.SEARCH_MBR.TITLE']}"/>
                 </span>
             </h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="searchMembersForm">
-    				<ui:include src="../user/_manager/_searchLdap.xhtml" />
-    				<br />
-    				<br />
-    				<br />
-    				<br />
-    				<br />
-    				<br />
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
+            <div id="div_subSection" class="div_subSection">
+                <h:form id="searchMembersForm">
+                    <ui:include src="../user/_manager/_searchLdap.xhtml"/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
                     <ui:fragment rendered="#{not empty ldapSearchController.managers}">
-        				<div id="div_subSectionList" class="div_subSection">
-        					<div style="width:100%;">
-        						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-        							styleClass="tableJustWidthMax">
-        							<h:outputText value="#{msgs['COMMISSION.ADD_MBR.TITLE']}"
-        								styleClass="section-smallTitle" />
-        							<h:panelGroup>
-        								<p:commandButton value="#{msgs['_.BUTTON.ADD']}" action="#{commissionController.addMembers}" />
-        							</h:panelGroup>
-        						</h:panelGrid>
-        					</div>
-        					<p:dataTable var="manager" id="managerData"
-        						value="#{ldapSearchController.managers}" rowKey="#{manager.login}"
-                                selection="#{commissionController.objectToAdd}"
-                                 styleClass="paginatorData">
-<!--                                 <p:ajax event="toggleSelect" -->
-<!--                                     update="managerData" /> -->
-<!--                                 <p:ajax event="rowSelectCheckbox" -->
-<!--                                     update="managerData" /> -->
-<!--                                 <p:ajax event="rowUnselectCheckbox" -->
-<!--                                     update="managerData" /> -->
+                        <div id="div_subSectionList" class="div_subSection">
+                            <div style="width:100%;">
+                                <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                                             styleClass="tableJustWidthMax">
+                                    <h:outputText value="#{msgs['COMMISSION.ADD_MBR.TITLE']}"
+                                                  styleClass="section-smallTitle"/>
+                                    <h:panelGroup>
+                                        <p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+                                                         action="#{commissionController.addMembers}"/>
+                                    </h:panelGroup>
+                                </h:panelGrid>
+                            </div>
+                            <p:dataTable var="manager" id="managerData"
+                                         value="#{ldapSearchController.managers}" rowKey="#{manager.login}"
+                                         selection="#{commissionController.objectToAdd}"
+                                         styleClass="paginatorData">
+                                <!--                                 <p:ajax event="toggleSelect" -->
+                                <!--                                     update="managerData" /> -->
+                                <!--                                 <p:ajax event="rowSelectCheckbox" -->
+                                <!--                                     update="managerData" /> -->
+                                <!--                                 <p:ajax event="rowUnselectCheckbox" -->
+                                <!--                                     update="managerData" /> -->
                                 <p:column headerText="#{msgs['GESTIONNAIRE.LOGIN']}">
-        							<h:outputText value="#{manager.login}" />
-        						</p:column>
-        						<p:column headerText="#{msgs['FIELD_LABEL.NAME']}">
-        							<h:outputText value="#{manager.displayName}" />
-        						</p:column>
-        						<p:column headerText="#{msgs['FIELD_LABEL.MAIL']}">
-        							<h:outputText value="#{manager.adressMail}" />
-        						</p:column>
-        						<p:column selectionMode="multiple" />
-        					</p:dataTable>
-        				</div>
+                                    <h:outputText value="#{manager.login}"/>
+                                </p:column>
+                                <p:column headerText="#{msgs['FIELD_LABEL.NAME']}">
+                                    <h:outputText value="#{manager.displayName}"/>
+                                </p:column>
+                                <p:column headerText="#{msgs['FIELD_LABEL.MAIL']}">
+                                    <h:outputText value="#{manager.adressMail}"/>
+                                </p:column>
+                                <p:column selectionMode="multiple"/>
+                            </p:dataTable>
+                        </div>
                     </ui:fragment>
-    			</h:form>
-    		</div>
-    	</div>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>

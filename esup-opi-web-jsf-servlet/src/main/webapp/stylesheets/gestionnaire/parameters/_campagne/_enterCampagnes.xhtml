@@ -1,106 +1,106 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
-    <h:form id="formEnterMotivation" >
-    	<div id="blockFormEnterMotivation" class="blockForm">
-    		<div style="width:100%;">
-    			<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    				styleClass="tableJustWidthMax">
-    				<h:outputText value="#{msgs['CAMPAGNES.TITLE.ENTER']}" styleClass="section-smallTitle" />
-    				<h:panelGroup>
-    					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    						rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.addAction}"
-    						action="#{nomenclatureController.add}" 
-        					ajax="false" />
-    					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    						rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction}"
-    						action="#{nomenclatureController.update}" 
-        					ajax="false" />
-    					<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    						action="#{nomenclatureController.reset}"
-    						onclick="javascript:{clickAnnuler = true;}" 
-        					ajax="false"/>
-    				</h:panelGroup>
-    			</h:panelGrid>
-    			<h:panelGrid styleClass="tableWidthMax" columns="4"
-    				columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-    				<h:panelGroup>
-    					<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code" />
-    					<h:outputText value="#{msgs['FIELD_LABEL.FORMAT_CAMP']}" />
-    					<h:outputText value="*" styleClass="etoileForChpObli" />
-    				</h:panelGroup>
-    				<h:panelGroup>
-    					<p:inputText id="code"
-    						value="#{nomenclatureController.nomenclature.code}" size="10"
-    						maxlength="9"/>
-    				</h:panelGroup>
-    				<h:panelGroup>
-    					<h:outputLabel value="#{msgs['INDIVIDU.CURSUS.ANNEE_UNI']}" for="codAnu" />
-    					<h:outputText value="*" styleClass="etoileForChpObli" />
-    				</h:panelGroup>
-    				<h:panelGroup>
-    					<p:inputText id="codAnu"
-    						value="#{nomenclatureController.nomenclature.codAnu}" size="5"
-    						maxlength="4"/>
-    				</h:panelGroup>
-    				<h:panelGroup>
-    					<h:outputLabel value="#{msgs['FIELD_LABEL.LONG_LIB']}" for="libelleLong" />
-    					<h:outputText value="*" styleClass="etoileForChpObli" />
-    				</h:panelGroup>
-    				<h:panelGroup>
-    					<p:inputText id="libelleLong"
-    						value="#{nomenclatureController.nomenclature.libelle}" size="50"
-    						maxlength="500"/>
-    				</h:panelGroup>
-    				<h:panelGroup>
-    					<h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"
-    						for="regimeInscription" />
-    					<h:outputText value="*" styleClass="etoileForChpObli" />
-    				</h:panelGroup>
-    				<h:panelGroup>
-    					<p:selectOneMenu id="regimeInscription"
-    						value="#{nomenclatureController.nomenclature.codeRI}">
-    						<f:selectItems value="#{nomenclatureController.regimeInscriptionsItems}"/>
-    					</p:selectOneMenu>
-    				</h:panelGroup>
-    				<h:panelGroup>
-    					<h:outputLabel value="#{msgs['FIELD_LABEL.DATE_DEBUT']}" for="dateDeb" />
-    					<h:outputLabel value="#{msgs['FIELD_LABEL.FORMAT_DATE']}" />
-    					<h:outputText value="*" styleClass="etoileForChpObli" />
-    				</h:panelGroup>
-    				<h:panelGroup>
-    					<p:inputText id="dateDeb" size="10" maxlength="8"
-    						value="#{nomenclatureController.nomenclature.dateDebCamp}">
-    						<f:convertDateTime pattern="ddMMyyyy"
-    							timeZone="#{sessionController.timezone}" />
-    						<f:validateLength minimum="8"/>
-    					</p:inputText>
-    				</h:panelGroup>
-    				<h:panelGroup>
-    					<h:outputLabel value="#{msgs['FIELD_LABEL.DATE_FIN']}" for="dateFin" />
-    					<h:outputLabel value="#{msgs['FIELD_LABEL.FORMAT_DATE']}" />
-    					<h:outputText value="*" styleClass="etoileForChpObli" />
-    				</h:panelGroup>
-    				<h:panelGroup>
-    					<p:inputText id="dateFin" size="10" maxlength="8"
-    						value="#{nomenclatureController.nomenclature.dateFinCamp}">
-    						<f:convertDateTime pattern="ddMMyyyy"
-    							timeZone="#{sessionController.timezone}" />
-    						<f:validateLength minimum="8"/>
-    					</p:inputText>
-    				</h:panelGroup>
-    				<h:panelGroup>
-    					<h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}"
-    						for="temoinEnService" />
-    				</h:panelGroup>
-    				<h:panelGroup>
-    					<p:selectBooleanCheckbox id="temoinEnService"
-    						value="#{nomenclatureController.nomenclature.temoinEnService}" />
-    				</h:panelGroup>
-    			</h:panelGrid>
-    		</div>
-    		
-    	</div>
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
+    <h:form id="formEnterMotivation">
+        <div id="blockFormEnterMotivation" class="blockForm">
+            <div style="width:100%;">
+                <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                             styleClass="tableJustWidthMax">
+                    <h:outputText value="#{msgs['CAMPAGNES.TITLE.ENTER']}" styleClass="section-smallTitle"/>
+                    <h:panelGroup>
+                        <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                         rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.addAction}"
+                                         action="#{nomenclatureController.add}"
+                                         ajax="false"/>
+                        <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                         rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction}"
+                                         action="#{nomenclatureController.update}"
+                                         ajax="false"/>
+                        <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                                         action="#{nomenclatureController.reset}"
+                                         onclick="javascript:{clickAnnuler = true;}"
+                                         ajax="false"/>
+                    </h:panelGroup>
+                </h:panelGrid>
+                <h:panelGrid styleClass="tableWidthMax" columns="4"
+                             columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code"/>
+                        <h:outputText value="#{msgs['FIELD_LABEL.FORMAT_CAMP']}"/>
+                        <h:outputText value="*" styleClass="etoileForChpObli"/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:inputText id="code"
+                                     value="#{nomenclatureController.nomenclature.code}" size="10"
+                                     maxlength="9"/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['INDIVIDU.CURSUS.ANNEE_UNI']}" for="codAnu"/>
+                        <h:outputText value="*" styleClass="etoileForChpObli"/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:inputText id="codAnu"
+                                     value="#{nomenclatureController.nomenclature.codAnu}" size="5"
+                                     maxlength="4"/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['FIELD_LABEL.LONG_LIB']}" for="libelleLong"/>
+                        <h:outputText value="*" styleClass="etoileForChpObli"/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:inputText id="libelleLong"
+                                     value="#{nomenclatureController.nomenclature.libelle}" size="50"
+                                     maxlength="500"/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"
+                                       for="regimeInscription"/>
+                        <h:outputText value="*" styleClass="etoileForChpObli"/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:selectOneMenu id="regimeInscription"
+                                         value="#{nomenclatureController.nomenclature.codeRI}">
+                            <f:selectItems value="#{nomenclatureController.regimeInscriptionsItems}"/>
+                        </p:selectOneMenu>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['FIELD_LABEL.DATE_DEBUT']}" for="dateDeb"/>
+                        <h:outputLabel value="#{msgs['FIELD_LABEL.FORMAT_DATE']}"/>
+                        <h:outputText value="*" styleClass="etoileForChpObli"/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:inputText id="dateDeb" size="10" maxlength="8"
+                                     value="#{nomenclatureController.nomenclature.dateDebCamp}">
+                            <f:convertDateTime pattern="ddMMyyyy"
+                                               timeZone="#{sessionController.timezone}"/>
+                            <f:validateLength minimum="8"/>
+                        </p:inputText>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['FIELD_LABEL.DATE_FIN']}" for="dateFin"/>
+                        <h:outputLabel value="#{msgs['FIELD_LABEL.FORMAT_DATE']}"/>
+                        <h:outputText value="*" styleClass="etoileForChpObli"/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:inputText id="dateFin" size="10" maxlength="8"
+                                     value="#{nomenclatureController.nomenclature.dateFinCamp}">
+                            <f:convertDateTime pattern="ddMMyyyy"
+                                               timeZone="#{sessionController.timezone}"/>
+                            <f:validateLength minimum="8"/>
+                        </p:inputText>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}"
+                                       for="temoinEnService"/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:selectBooleanCheckbox id="temoinEnService"
+                                                 value="#{nomenclatureController.nomenclature.temoinEnService}"/>
+                    </h:panelGroup>
+                </h:panelGrid>
+            </div>
+
+        </div>
     </h:form>
 </ui:fragment>

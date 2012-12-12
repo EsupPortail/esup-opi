@@ -2,31 +2,31 @@
              xmlns:ui="http://java.sun.com/jsf/facelets"
              xmlns:h="http://java.sun.com/jsf/html"
              xmlns:p="http://primefaces.org/ui">
-    <h:form id="formEnterOpinion" >
-    	<div id="blockFormEnterOpinion" class="blockForm">
+    <h:form id="formEnterOpinion">
+        <div id="blockFormEnterOpinion" class="blockForm">
             <div style="width:100%;">
                 <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
                              styleClass="tableJustWidthMax">
-                    <h:outputText value="#{msgs['AVIS.TITLE.ENTER']}" styleClass="section-smallTitle" />
+                    <h:outputText value="#{msgs['AVIS.TITLE.ENTER']}" styleClass="section-smallTitle"/>
                     <h:panelGroup>
                         <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
                                          rendered="#{opinionController.actionEnum.whatAction == opinionController.actionEnum.addAction}"
-                                         action="#{opinionController.add}"  ajax="false" />
+                                         action="#{opinionController.add}" ajax="false"/>
                         <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
                                          rendered="#{opinionController.actionEnum.whatAction == opinionController.actionEnum.updateAction}"
-                                         action="#{opinionController.update}"  ajax="false" />
+                                         action="#{opinionController.update}" ajax="false"/>
                         <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-                                         action="#{opinionController.goSeeOpinionVoeu}" ajax="false" >
+                                         action="#{opinionController.goSeeOpinionVoeu}" ajax="false">
                             <f:setPropertyActionListener value="#{opinionController.actionEnum.emptyAction}"
-                                                         target="#{opinionController.actionEnum.whatAction}" />
+                                                         target="#{opinionController.actionEnum.whatAction}"/>
                         </p:commandButton>
                     </h:panelGroup>
                 </h:panelGrid>
                 <h:panelGrid styleClass="tableWidthMax" columns="2"
                              columnClasses="colUnQuart,colTroisQuart">
                     <h:panelGroup>
-                        <h:outputLabel value="#{msgs['AVIS.LABEL_DECISION']}" for="code" />
-                        <h:outputText value="*" styleClass="etoileForChpObli" />
+                        <h:outputLabel value="#{msgs['AVIS.LABEL_DECISION']}" for="code"/>
+                        <h:outputText value="*" styleClass="etoileForChpObli"/>
                     </h:panelGroup>
                     <h:panelGroup>
                         <p:selectOneMenu id="choiceTypDecision"
@@ -34,35 +34,37 @@
                                          onchange="javascript:{simulateLinkClick('formEnterOpinion:submitChangeTypeDecision');}"
                                          rendered="#{opinionController.actionEnum.whatAction == opinionController.actionEnum.addAction}"
                                          value="#{opinionController.selectedTypeDec}">
-                            <f:selectItems value="#{nomenclatureController.typeDecisionItems}" />
+                            <f:selectItems value="#{nomenclatureController.typeDecisionItems}"/>
                         </p:selectOneMenu>
                         <h:outputText value="#{opinionController.avis.result.libelle}"/>
                         <p:commandButton id="submitChangeTypeDecision"
                                          value="#{msgs[_.BUTTON.CHANGE]}"
-                                         action="#{opinionController.selectTypeDecisionOpinion}"  ajax="false" />
+                                         action="#{opinionController.selectTypeDecisionOpinion}" ajax="false"/>
                     </h:panelGroup>
                     <h:panelGroup rendered="#{paginatorIndividuPojo.isUsingLC}">
-                        <h:outputLabel value="#{msgs['AVIS.RANG']}" />
+                        <h:outputLabel value="#{msgs['AVIS.RANG']}"/>
                     </h:panelGroup>
                     <h:panelGroup rendered="#{paginatorIndividuPojo.isUsingLC}">
                         <h:inputText id="rang"
                                      value="#{opinionController.avis.rang}" size="5"
-                                     maxlength="5" />
+                                     maxlength="5"/>
                     </h:panelGroup>
                     <h:panelGroup rendered="#{paginatorIndividuPojo.isUsingDEF}">
-                        <h:outputLabel value="#{msgs['AVIS.MOTIVATION']}" />
+                        <h:outputLabel value="#{msgs['AVIS.MOTIVATION']}"/>
                     </h:panelGroup>
                     <h:panelGroup rendered="#{paginatorIndividuPojo.isUsingDEF}">
                         <p:selectOneMenu id="choiceMotivAvis" converter="javax.faces.Integer"
                                          onchange="javascript:{simulateLinkClick('formEnterOpinion:submitChangeMotiv');}"
                                          value="#{opinionController.idSelectedMotiv}">
-                            <f:selectItem itemLabel="" itemValue="" />
+                            <f:selectItem itemLabel="" itemValue=""/>
                             <f:selectItems var="motivationAvis" value="#{nomenclatureController.motivationsAvis}"
-                                           itemLabel="#{motivationAvis.shortLabel}" itemValue="#{motivationAvis.nomenclature.id}" />
+                                           itemLabel="#{motivationAvis.shortLabel}"
+                                           itemValue="#{motivationAvis.nomenclature.id}"/>
                         </p:selectOneMenu>
-                        <p:commandButton id="submitChangeMotiv" action="#{opinionController.setSelectedMotivation}" ajax="false" />
+                        <p:commandButton id="submitChangeMotiv" action="#{opinionController.setSelectedMotivation}"
+                                         ajax="false"/>
                         <p:graphicImage url="/media/images/informationSmall.png"
-                                        style="cursor:pointer;" id="helpMotivation" />
+                                        style="cursor:pointer;" id="helpMotivation"/>
                         <p:overlayPanel for="helpMotivation"
                                         showEvent="mouseover"
                                         hideEvent="mouseout"
@@ -72,28 +74,28 @@
                             <h:panelGroup>
                                 <h:panelGrid columns="1">
                                     <h:outputText styleClass="titrePopupAide"
-                                                  value="#{msgs['FIELD_LABEL.LIBELLE']}" />
+                                                  value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
                                     <h:outputText styleClass="libellesAide"
-                                                  value="#{opinionController.selectedMotivation.nomenclature.libelle}" />
+                                                  value="#{opinionController.selectedMotivation.nomenclature.libelle}"/>
                                 </h:panelGrid>
                             </h:panelGroup>
                         </p:overlayPanel>
                     </h:panelGroup>
                     <h:panelGroup>
-                        <h:outputLabel value="#{msgs['FIELD_LABEL.COMMENTAIRE']}" />
+                        <h:outputLabel value="#{msgs['FIELD_LABEL.COMMENTAIRE']}"/>
                     </h:panelGroup>
                     <h:panelGroup>
                         <h:inputText id="commentaire"
                                      value="#{opinionController.avis.commentaire}" size="80"
-                                     maxlength="500" />
+                                     maxlength="500"/>
                     </h:panelGroup>
                 </h:panelGrid>
             </div>
-            
-    	</div>
+
+        </div>
     </h:form>
     <script type="text/javascript">
-    	hideElement('formEnterOpinion:submitChangeTypeDecision');
-    	hideElement('formEnterOpinion:submitChangeMotiv');
+        hideElement('formEnterOpinion:submitChangeTypeDecision');
+        hideElement('formEnterOpinion:submitChangeMotiv');
     </script>
 </ui:fragment>

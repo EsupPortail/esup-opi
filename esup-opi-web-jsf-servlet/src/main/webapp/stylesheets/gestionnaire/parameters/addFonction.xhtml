@@ -1,105 +1,107 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	<div id="maPage" class="div_body">
-    		<h1>
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{msgs['FUNCTION.TITLE.ADD']}" />
+                    <h:outputText value="#{msgs['FUNCTION.TITLE.ADD']}"/>
                 </span>
             </h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="addFonctionForm">
-    				<br />
-    				<br />
-    				<br />
-    				<div id="blockFormInfo" class="blockForm">
-    					<div class="blockButton">
-    						<h:panelGroup>
-    							<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    								rendered="#{managedAccess.addAuthorized}"
-    								action="#{fonctionController.add}" />
-    							<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    								immediate="true" action="#{fonctionController.goSeeAllFonction}" />
-    						</h:panelGroup>
-    					</div>
-    					<p:dataTable var="fonction"
-    						value="#{fonctionController.addFonctions}"
-    						styleClass="displayInfo" alternateColors="false">
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
-    							</f:facet>
-    							<h:outputText value="#{fonction.code}" rendered="#{fonction.id != 0}" />
-    							<p:inputText id="codeFct" value="#{fonction.code}" size="12" maxlength="11"
-    								rendered="#{fonction.id == 0}" />
-    						</p:column>
-    					
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['DOMAIN']}" />
-    							</f:facet>
-    							<h:outputText value="#{fonction.domain.libelle}"
-    								rendered="#{fonction.id != 0}" />
-    							<h:panelGroup rendered="#{fonction.id == 0}">
-    								<p:selectOneMenu id="domain" converter="javax.faces.Integer"
-    									value="#{fonctionController.selectedDomId}">
-    									<f:selectItems var="domain" value="#{domainController.domains}"
-    										itemLabel="#{domain.shortLabel}" itemValue="#{domain.id}" />
-    								</p:selectOneMenu>
-    								<p:commandButton image="/media/images/add.png"
-    									styleClass="form-button-image" title="#{_.BUTTON.ADD}">
-    									<f:setPropertyActionListener value="#{domainController.actionEnum.addAction}" target="#{domainController.actionEnum.whatAction}" />
-    								</p:commandButton>
-    							</h:panelGroup>
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-    							</f:facet>
-    							<h:outputText value="#{fonction.libelle}"
-    								rendered="#{fonction.id != 0}" />
-    							<p:inputText id="libFct" value="#{fonction.libelle}" size="31" maxlength="60"
-    								rendered="#{fonction.id == 0}" />
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.ACTION']}" />
-    							</f:facet>
-    							<h:outputText value="#{fonction.action}" rendered="#{fonction.id != 0}" />
-    							<p:inputText id="actionFct" value="#{fonction.action}" size="51" maxlength="50"
-    								rendered="#{fonction.id == 0}" />
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.RANG']}" />
-    							</f:facet>
-    							<h:outputText value="#{fonction.rang}" rendered="#{fonction.id != 0}" />
-    							<p:inputText id="rangFct" value="#{fonction.rang}" size="3" maxlength="2"
-    								rendered="#{fonction.id == 0}" />
-    						</p:column>
-    					</p:dataTable>
-    				</div>
-    				<br />
-    				<br />
-    				<br />
-    				<h:panelGroup id="addDomain"
-    					rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.addAction}">
-    					<ui:include src="_domain/_enterDomain.xhtml" />
-    				</h:panelGroup>
-    			</h:form>
-    		</div>
-    	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        	highlightInputAndSelect('addFonctionForm');
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
+            <div id="div_subSection" class="div_subSection">
+                <h:form id="addFonctionForm">
+                    <br/>
+                    <br/>
+                    <br/>
+
+                    <div id="blockFormInfo" class="blockForm">
+                        <div class="blockButton">
+                            <h:panelGroup>
+                                <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                                 rendered="#{managedAccess.addAuthorized}"
+                                                 action="#{fonctionController.add}"/>
+                                <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                                                 immediate="true" action="#{fonctionController.goSeeAllFonction}"/>
+                            </h:panelGroup>
+                        </div>
+                        <p:dataTable var="fonction"
+                                     value="#{fonctionController.addFonctions}"
+                                     styleClass="displayInfo" alternateColors="false">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>
+                                </f:facet>
+                                <h:outputText value="#{fonction.code}" rendered="#{fonction.id != 0}"/>
+                                <p:inputText id="codeFct" value="#{fonction.code}" size="12" maxlength="11"
+                                             rendered="#{fonction.id == 0}"/>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['DOMAIN']}"/>
+                                </f:facet>
+                                <h:outputText value="#{fonction.domain.libelle}"
+                                              rendered="#{fonction.id != 0}"/>
+                                <h:panelGroup rendered="#{fonction.id == 0}">
+                                    <p:selectOneMenu id="domain" converter="javax.faces.Integer"
+                                                     value="#{fonctionController.selectedDomId}">
+                                        <f:selectItems var="domain" value="#{domainController.domains}"
+                                                       itemLabel="#{domain.shortLabel}" itemValue="#{domain.id}"/>
+                                    </p:selectOneMenu>
+                                    <p:commandButton image="/media/images/add.png"
+                                                     styleClass="form-button-image" title="#{_.BUTTON.ADD}">
+                                        <f:setPropertyActionListener value="#{domainController.actionEnum.addAction}"
+                                                                     target="#{domainController.actionEnum.whatAction}"/>
+                                    </p:commandButton>
+                                </h:panelGroup>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+                                </f:facet>
+                                <h:outputText value="#{fonction.libelle}"
+                                              rendered="#{fonction.id != 0}"/>
+                                <p:inputText id="libFct" value="#{fonction.libelle}" size="31" maxlength="60"
+                                             rendered="#{fonction.id == 0}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.ACTION']}"/>
+                                </f:facet>
+                                <h:outputText value="#{fonction.action}" rendered="#{fonction.id != 0}"/>
+                                <p:inputText id="actionFct" value="#{fonction.action}" size="51" maxlength="50"
+                                             rendered="#{fonction.id == 0}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.RANG']}"/>
+                                </f:facet>
+                                <h:outputText value="#{fonction.rang}" rendered="#{fonction.id != 0}"/>
+                                <p:inputText id="rangFct" value="#{fonction.rang}" size="3" maxlength="2"
+                                             rendered="#{fonction.id == 0}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <h:panelGroup id="addDomain"
+                                  rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.addAction}">
+                        <ui:include src="_domain/_enterDomain.xhtml"/>
+                    </h:panelGroup>
+                </h:form>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            highlightChildrenLiTags('navigationHeader:navigation');
+            highlightChildrenLiTags('navigationFooter:navigation');
+            highlightInputAndSelect('addFonctionForm');
         </script>
     </ui:define>
 </ui:composition>

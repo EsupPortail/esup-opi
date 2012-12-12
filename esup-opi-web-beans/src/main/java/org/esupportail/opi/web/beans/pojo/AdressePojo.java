@@ -9,7 +9,6 @@
 package org.esupportail.opi.web.beans.pojo;
 
 import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
-
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.beans.user.Adresse;
 import org.esupportail.opi.utils.Constantes;

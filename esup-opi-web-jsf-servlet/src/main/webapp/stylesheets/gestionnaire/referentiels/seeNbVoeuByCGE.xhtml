@@ -1,78 +1,78 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
         <h1>
             <span class="section-header">
-                <h:outputText value="#{msgs['VOEU.MANAGED']}" />
+                <h:outputText value="#{msgs['VOEU.MANAGED']}"/>
             </span>
         </h1>
 
         <p:messages id="messages" showDetail="true" autoUpdate="true" styleClass="messageForUser"/>
 
-    	<h:panelGroup id="div_subSectionDelete" styleClass="div_subSection maxDivTextRight"
-    		rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.deleteAction}">
-    		<ui:include src="_nbVoeuByCGE/_deleteNbVoeuByCGE.xhtml" />
-    	</h:panelGroup>
-    	
-    	<h:form id="seeNbVoeuForm" styleClass="div_subSection">
-    		<h:panelGroup class="twoGroupsButton"
-    			rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.emptyAction}">
-    			<p:commandButton value="#{msgs['_.BUTTON.ADD']}" immediate="true" ajax="false"
-    				rendered="#{managedAccess.addAuthorized}"
-    				action="#{nbVoeuByCGEController.goAddNbVoeu}"/>
-    		</h:panelGroup>
-    		<h:panelGroup class="twoGroupsButton"
-    			rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.updateAction}">
-    			<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}" ajax="false"
-    				action="#{nbVoeuByCGEController.update}"/>
-    			<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" immediate="true" ajax="false"
-    				action="#{nbVoeuByCGEController.reset}"/>
-    		</h:panelGroup>
-    		<p:dataTable id="nbVoeuxData" var="nbVoeuSelect" editable="true"
-    			value="#{nbVoeuByCGEController.allNbVoeuByCge}"
-    			styleClass="paginatorData">
-                
-                <p:ajax event="rowEdit" listener="#{nbVoeuByCGEController.onEdit}" update="nbVoeuxData" />
-    			<p:column headerText="#{msgs['FIELD_LABEL.CODE_CGE']}">
-                    <h:outputText value="#{nbVoeuSelect.codeCge}" />
-    			</p:column>
-    			<p:column headerText="#{msgs['FIELD_LABEL.NB_VOEU']}">
+        <h:panelGroup id="div_subSectionDelete" styleClass="div_subSection maxDivTextRight"
+                      rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.deleteAction}">
+            <ui:include src="_nbVoeuByCGE/_deleteNbVoeuByCGE.xhtml"/>
+        </h:panelGroup>
+
+        <h:form id="seeNbVoeuForm" styleClass="div_subSection">
+            <h:panelGroup class="twoGroupsButton"
+                          rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.emptyAction}">
+                <p:commandButton value="#{msgs['_.BUTTON.ADD']}" immediate="true" ajax="false"
+                                 rendered="#{managedAccess.addAuthorized}"
+                                 action="#{nbVoeuByCGEController.goAddNbVoeu}"/>
+            </h:panelGroup>
+            <h:panelGroup class="twoGroupsButton"
+                          rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.updateAction}">
+                <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}" ajax="false"
+                                 action="#{nbVoeuByCGEController.update}"/>
+                <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" immediate="true" ajax="false"
+                                 action="#{nbVoeuByCGEController.reset}"/>
+            </h:panelGroup>
+            <p:dataTable id="nbVoeuxData" var="nbVoeuSelect" editable="true"
+                         value="#{nbVoeuByCGEController.allNbVoeuByCge}"
+                         styleClass="paginatorData">
+
+                <p:ajax event="rowEdit" listener="#{nbVoeuByCGEController.onEdit}" update="nbVoeuxData"/>
+                <p:column headerText="#{msgs['FIELD_LABEL.CODE_CGE']}">
+                    <h:outputText value="#{nbVoeuSelect.codeCge}"/>
+                </p:column>
+                <p:column headerText="#{msgs['FIELD_LABEL.NB_VOEU']}">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{nbVoeuSelect.nbVoeu}"
-                            rendered="#{nbVoeuByCGEController.actionEnum.whatAction != nbVoeuByCGEController.actionEnum.updateAction
-                            || nbVoeuSelect.codeCge != nbVoeuByCGEController.nbVoeuCge.codeCge}" />
+                                          rendered="#{nbVoeuByCGEController.actionEnum.whatAction != nbVoeuByCGEController.actionEnum.updateAction
+                            || nbVoeuSelect.codeCge != nbVoeuByCGEController.nbVoeuCge.codeCge}"/>
                         </f:facet>
                         <f:facet name="input">
-                            <p:spinner value="#{nbVoeuSelect.nbVoeu}" min="0" max="100" size="5" />
+                            <p:spinner value="#{nbVoeuSelect.nbVoeu}" min="0" max="100" size="5"/>
                         </f:facet>
                     </p:cellEditor>
-    			</p:column>
-    			<p:column styleClass="buttonTD" style="width:52px!important"
-                    rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.emptyAction
+                </p:column>
+                <p:column styleClass="buttonTD" style="width:52px!important"
+                          rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.emptyAction
                                 and managedAccess.updateAuthorized}">
-                        <p:rowEditor />
+                    <p:rowEditor/>
                 </p:column>
                 <p:column styleClass="buttonTD"
-                    rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.emptyAction
+                          rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.emptyAction
                                 and managedAccess.deleteAuthorized}">
                     <p:commandButton icon="ui-icon-minus"
-                        rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.emptyAction and managedAccess.deleteAuthorized}" 
-                        immediate="true" ajax="false" title="#{msgs['_.BUTTON.DELETE']}">
+                                     rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.emptyAction and managedAccess.deleteAuthorized}"
+                                     immediate="true" ajax="false" title="#{msgs['_.BUTTON.DELETE']}">
                         <f:setPropertyActionListener value="#{nbVoeuByCGEController.actionEnum.deleteAction}"
-                            target="#{nbVoeuByCGEController.actionEnum.whatAction}" />
+                                                     target="#{nbVoeuByCGEController.actionEnum.whatAction}"/>
                         <f:setPropertyActionListener value="#{nbVoeuSelect}"
-                            target="#{nbVoeuByCGEController.nbVoeuCge}" />
+                                                     target="#{nbVoeuByCGEController.nbVoeuCge}"/>
                     </p:commandButton>
                 </p:column>
-    		</p:dataTable>
+            </p:dataTable>
             <h:panelGroup id="addNbVoeu"
-                rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.addAction}">
-                <ui:include src="_nbVoeuByCGE/_enterNbVoeuByCGE.xhtml" />
+                          rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.addAction}">
+                <ui:include src="_nbVoeuByCGE/_enterNbVoeuByCGE.xhtml"/>
             </h:panelGroup>
-		</h:form>
+        </h:form>
     </ui:define>
 </ui:composition>

@@ -1,95 +1,96 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <h:panelGrid columns="1" styleClass="displayInfo">
-    	<h:outputLabel value="#{msgs['FIELD_LABEL.MODIF_ORDONNE']}" styleClass="formHeader"/>
-    	
-    	<h:panelGrid columns="2">
-    		<h:outputLabel value="#{msgs['FIELD_LABEL.TYPE_ORDONNE']}" styleClass="formHeader" for="typeOrdonne"/>
-    		
-    		<h:outputLabel value="#{parametreStatController.typeCoordonneOrdonneSelected.libelle}"
-    			rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction}"/>
-    			
-    		<h:panelGroup rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction}">
-    			<p:selectOneMenu id="typeOrdonne"
-    				value="#{parametreStatController.selectTypeOrdonne}">
-    				<f:selectItems value="#{parametreStatController.allTypeOrdonneItems}" />
-                    <p:ajax listener="#{parametreStatController.clearObjOrdonne}" update="manageOrdonnees,@(.paginatorData)" />
-    			</p:selectOneMenu>
-    		</h:panelGroup>
-    		
-    		
-    		
-    		<h:outputLabel value="#{msgs['FIELD_LABEL.CHOIX_ORDONNE']}" styleClass="formHeader" for="ordonneModif"/>
-    		
-    		<h:panelGrid columns="2">
-    			<h:panelGrid id="manageOrdonnees" columns="1">
-    				<h:panelGroup>
-    					<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE_COORDONNE']} "/>
-    					<p:inputText id="libelleOrdonnees" value="#{parametreStatController.libelleCoordonne}">
+        <h:outputLabel value="#{msgs['FIELD_LABEL.MODIF_ORDONNE']}" styleClass="formHeader"/>
+
+        <h:panelGrid columns="2">
+            <h:outputLabel value="#{msgs['FIELD_LABEL.TYPE_ORDONNE']}" styleClass="formHeader" for="typeOrdonne"/>
+
+            <h:outputLabel value="#{parametreStatController.typeCoordonneOrdonneSelected.libelle}"
+                           rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction}"/>
+
+            <h:panelGroup
+                    rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction}">
+                <p:selectOneMenu id="typeOrdonne"
+                                 value="#{parametreStatController.selectTypeOrdonne}">
+                    <f:selectItems value="#{parametreStatController.allTypeOrdonneItems}"/>
+                    <p:ajax listener="#{parametreStatController.clearObjOrdonne}"
+                            update="manageOrdonnees,@(.paginatorData)"/>
+                </p:selectOneMenu>
+            </h:panelGroup>
+
+
+            <h:outputLabel value="#{msgs['FIELD_LABEL.CHOIX_ORDONNE']}" styleClass="formHeader" for="ordonneModif"/>
+
+            <h:panelGrid columns="2">
+                <h:panelGrid id="manageOrdonnees" columns="1">
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE_COORDONNE']} "/>
+                        <p:inputText id="libelleOrdonnees" value="#{parametreStatController.libelleCoordonne}">
                             <f:validateRequired/>
                         </p:inputText>
-    				</h:panelGroup>
-    				<h:panelGrid columns="4" id="ordonneModif">
-    					<p:selectManyMenu id="selectObjOrdonneAdd" styleClass="manyMenu"
-    						value="#{parametreStatController.selectObjOrdonneAdd}">
-    						<f:selectItems value="#{parametreStatController.allObjOrdonneItems}"/>
-    					</p:selectManyMenu>
-    					<h:panelGrid columns="1">
-    						<p:commandButton icon="ui-icon-arrowthick-1-w" 
-                                process="ordonneModif"
-                                update="selectObjOrdonneAdd,selectObjOrdonneDel"
-    							action="#{parametreStatController.delOrdonneItems}"/>
-    						<p:commandButton icon="ui-icon-arrowthick-1-e" 
-                                process="ordonneModif"
-    							update="selectObjOrdonneAdd,selectObjOrdonneDel"
-    							action="#{parametreStatController.addOrdonneItems}"/>
-    					</h:panelGrid>
-    					<h:panelGroup>
-    						<p:selectManyMenu id="selectObjOrdonneDel" styleClass="manyMenu"
-    							value="#{parametreStatController.selectObjOrdonneDel}">
-    							<f:selectItems value="#{parametreStatController.objOrdonneItems}"/>
-    						</p:selectManyMenu>
-    					</h:panelGroup>
-    				</h:panelGrid>
-    			</h:panelGrid>
-    			
-    			<h:panelGroup>
-    				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}" ajax="false"
-    					rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction}"
-    					action="#{parametreStatController.addOrdonneCoordonne}"/>
-    				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}" ajax="false"
-    					rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction}"
-    					action="#{parametreStatController.updateOrdonneCoordonne}"/>
-    				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" ajax="false"
-    					rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction}"
-    					action="#{parametreStatController.clearObjOrdonne}">
-    					<f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}" 
-    						target="#{parametreStatController.actionEnum.whatAction}" />
-    				</p:commandButton>
-    			</h:panelGroup>
-    		</h:panelGrid>
-    		
-    		<h:panelGroup />
-    		<p:dataTable var="ordonneItem" styleClass="paginatorData"
-    			rendered="#{not empty parametreStatController.listOrdonneCoordonneItems}"
-    			value="#{parametreStatController.listOrdonneCoordonneItems}">
-    			<p:column>
-    				<f:facet name="header">
-    					<h:outputText value="#{msgs['FIELD_LABEL.ORDONNE']}"/>
-    				</f:facet>
-    				<h:outputText value="#{ordonneItem.label}"/>
-    			</p:column>
-    			
-    			<p:column>
-    				<p:commandButton icon="ui-icon-minus" ajax="false" immediate="true"
-    					action="#{parametreStatController.delOrdonneCoordonne}">
-    					<f:setPropertyActionListener value="#{ordonneItem.value}"
-    						target="#{parametreStatController.selectOrdonneCoordonne}" />
-    				</p:commandButton>
-    			</p:column>
-    		</p:dataTable>
-    	</h:panelGrid>
+                    </h:panelGroup>
+                    <h:panelGrid columns="4" id="ordonneModif">
+                        <p:selectManyMenu id="selectObjOrdonneAdd" styleClass="manyMenu"
+                                          value="#{parametreStatController.selectObjOrdonneAdd}">
+                            <f:selectItems value="#{parametreStatController.allObjOrdonneItems}"/>
+                        </p:selectManyMenu>
+                        <h:panelGrid columns="1">
+                            <p:commandButton icon="ui-icon-arrowthick-1-w"
+                                             process="ordonneModif"
+                                             update="selectObjOrdonneAdd,selectObjOrdonneDel"
+                                             action="#{parametreStatController.delOrdonneItems}"/>
+                            <p:commandButton icon="ui-icon-arrowthick-1-e"
+                                             process="ordonneModif"
+                                             update="selectObjOrdonneAdd,selectObjOrdonneDel"
+                                             action="#{parametreStatController.addOrdonneItems}"/>
+                        </h:panelGrid>
+                        <h:panelGroup>
+                            <p:selectManyMenu id="selectObjOrdonneDel" styleClass="manyMenu"
+                                              value="#{parametreStatController.selectObjOrdonneDel}">
+                                <f:selectItems value="#{parametreStatController.objOrdonneItems}"/>
+                            </p:selectManyMenu>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </h:panelGrid>
+
+                <h:panelGroup>
+                    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}" ajax="false"
+                                     rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction}"
+                                     action="#{parametreStatController.addOrdonneCoordonne}"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}" ajax="false"
+                                     rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction}"
+                                     action="#{parametreStatController.updateOrdonneCoordonne}"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" ajax="false"
+                                     rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction}"
+                                     action="#{parametreStatController.clearObjOrdonne}">
+                        <f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}"
+                                                     target="#{parametreStatController.actionEnum.whatAction}"/>
+                    </p:commandButton>
+                </h:panelGroup>
+            </h:panelGrid>
+
+            <h:panelGroup/>
+            <p:dataTable var="ordonneItem" styleClass="paginatorData"
+                         rendered="#{not empty parametreStatController.listOrdonneCoordonneItems}"
+                         value="#{parametreStatController.listOrdonneCoordonneItems}">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msgs['FIELD_LABEL.ORDONNE']}"/>
+                    </f:facet>
+                    <h:outputText value="#{ordonneItem.label}"/>
+                </p:column>
+
+                <p:column>
+                    <p:commandButton icon="ui-icon-minus" ajax="false" immediate="true"
+                                     action="#{parametreStatController.delOrdonneCoordonne}">
+                        <f:setPropertyActionListener value="#{ordonneItem.value}"
+                                                     target="#{parametreStatController.selectOrdonneCoordonne}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:panelGrid>
     </h:panelGrid>
 </ui:fragment>

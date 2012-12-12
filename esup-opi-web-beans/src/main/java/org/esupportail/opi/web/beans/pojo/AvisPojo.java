@@ -2,7 +2,7 @@ package org.esupportail.opi.web.beans.pojo;
 
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.utils.Constantes;
-import org.esupportail.opi.web.utils.Utilitaires;
+import org.esupportail.opi.web.beans.utils.Utilitaires;
 
 /**
  * @author ylecuyer
@@ -57,8 +57,8 @@ public class AvisPojo {
 	 * @return the short commentaire ou motivation 
 	 */
 	public String getShortCommentaireMotiv() {
-		return Utilitaires.limitStrLength(getCommentaireMotiv(), 
-				Constantes.STR_LENGTH_LIMIT);
+		return Utilitaires.limitStrLength(getCommentaireMotiv(),
+                Constantes.STR_LENGTH_LIMIT);
 	}
 	
 	/**

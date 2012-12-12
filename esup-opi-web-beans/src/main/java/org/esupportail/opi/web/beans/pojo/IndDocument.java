@@ -4,15 +4,15 @@
 package org.esupportail.opi.web.beans.pojo;
 
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.esupportail.opi.domain.beans.parameters.PieceJustificative;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 

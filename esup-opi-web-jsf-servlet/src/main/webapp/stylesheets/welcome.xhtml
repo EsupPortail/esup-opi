@@ -1,114 +1,132 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/template.xhtml">
     <ui:define name="content">
-    	
-    	
-    	<div id="maPage" class="div_body">    		<div style="width:100%;text-align:center;">
-    			<h:outputFormat value="#{msgs['WELCOME.WELCOME']}" styleClass="section-header-blue"/>
-    			<h2 class="section-header-two-black">
-                    <h:outputText value="#{msgs['WELCOME.INFO']}" escape="false" />
+
+
+        <div id="maPage" class="div_body">
+            <div style="width:100%;text-align:center;">
+                <h:outputFormat value="#{msgs['WELCOME.WELCOME']}" styleClass="section-header-blue"/>
+                <h2 class="section-header-two-black">
+                    <h:outputText value="#{msgs['WELCOME.INFO']}" escape="false"/>
                 </h2>
-    		</div>
-    		<p:messages id="messages" showDetail="true" autoUpdate="true" styleClass="messageForUser"/>
-    		
-    		<div class="welcomeBackSalamander">
-    			<h:panelGrid columns="3" columnClasses="blockColLeft, blockColCenter, blockColRight" styleClass="welcomeConnexion">
-    				<h:panelGroup>
+            </div>
+            <p:messages id="messages" showDetail="true" autoUpdate="true" styleClass="messageForUser"/>
+
+            <div class="welcomeBackSalamander">
+                <h:panelGrid columns="3" columnClasses="blockColLeft, blockColCenter, blockColRight"
+                             styleClass="welcomeConnexion">
+                    <h:panelGroup>
                         <div class="welcomeInfoFirstConnexion">
-        					<h2 style="text-align:center;">
+                            <h2 style="text-align:center;">
                                 <h:panelGroup styleClass="section-subheader">
-                                    <h:outputText value="#{msgs['WELCOME.SUB_TITLE.ONE_CANDI']}" />
+                                    <h:outputText value="#{msgs['WELCOME.SUB_TITLE.ONE_CANDI']}"/>
                                 </h:panelGroup>
                             </h2>
-                            
+
                             <dl>
-                                <dt><h:outputText value="#{msgs['WELCOME.CREATE.DOS']}" /></dt>
-        						<dd><h:outputText value="#{msgs['WELCOME.CREATE.ONE']}" /></dd>
-        						<dd><h:outputText value="#{msgs['WELCOME.CREATE.TWO']}" /></dd>
-        						<dd><h:outputText value="#{msgs['WELCOME.CREATE.THREE']}" /></dd>
+                                <dt>
+                                    <h:outputText value="#{msgs['WELCOME.CREATE.DOS']}"/>
+                                </dt>
+                                <dd>
+                                    <h:outputText value="#{msgs['WELCOME.CREATE.ONE']}"/>
+                                </dd>
+                                <dd>
+                                    <h:outputText value="#{msgs['WELCOME.CREATE.TWO']}"/>
+                                </dd>
+                                <dd>
+                                    <h:outputText value="#{msgs['WELCOME.CREATE.THREE']}"/>
+                                </dd>
                             </dl>
-        				</div>
-    				</h:panelGroup>
-    				<p:graphicImage url="/media/images/go-next-red.png" />
-    				<h:panelGroup>
-        				<div class="welcomeGotoFirstConnexion">
-        					<h2 style="font-size:16px;">
+                        </div>
+                    </h:panelGroup>
+                    <p:graphicImage url="/media/images/go-next-red.png"/>
+                    <h:panelGroup>
+                        <div class="welcomeGotoFirstConnexion">
+                            <h2 style="font-size:16px;">
                                 <h:panelGroup styleClass="section-subheader">
-                                    <h:outputText value="#{msgs['WELCOME.CREATE']}" />
+                                    <h:outputText value="#{msgs['WELCOME.CREATE']}"/>
                                 </h:panelGroup>
                             </h2>
-        					<div style="text-align:right;">
-        						<h:form id="firstConnexion">
-        							<p:commandButton 
-        								action="#{individuController.goSearchEtuR1}"
-        								value="#{msgs['_.BUTTON.ASK']}" />
-        						</h:form>
-        					</div>
-        				</div>
-    				</h:panelGroup>
-    				<h:panelGroup>
-        				<div class="welcomeInfoUpdateCandi">
-        					<div>
-        						<h2 class="section-header-red" style="text-align:center;">
-                                    <h:outputText value="#{msgs['WELCOME.SUB_TITLE.UPDATE_CANDI']}" />
+                            <div style="text-align:right;">
+                                <h:form id="firstConnexion">
+                                    <p:commandButton
+                                            action="#{individuController.goSearchEtuR1}"
+                                            value="#{msgs['_.BUTTON.ASK']}"/>
+                                </h:form>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <div class="welcomeInfoUpdateCandi">
+                            <div>
+                                <h2 class="section-header-red" style="text-align:center;">
+                                    <h:outputText value="#{msgs['WELCOME.SUB_TITLE.UPDATE_CANDI']}"/>
                                 </h2>
                                 <dl>
-            						<dt><h:outputText value="#{msgs['WELCOME.CONNECT_FOR']}" /></dt>
-            						<dd><h:outputText value="#{msgs['WELCOME.CONNECT_FOR.ONE']}" /></dd>
-            						<dd><h:outputText value="#{msgs['WELCOME.CONNECT_FOR.TWO']}" /></dd>
-            						<dd><h:outputText value="#{msgs['WELCOME.CONNECT_FOR.THREE']}" /></dd>
-        						</dl>
-        					</div>
-        				</div>
-    				</h:panelGroup>
-    				<p:graphicImage url="/media/images/go-next-red.png" />
-    				<h:panelGroup>
-        				<div class="welcomeGotoAccueilCandi">
-        					<h2 class="section-header-red">
-                                <h:outputText value="#{msgs['WELCOME.SUB_TITLE.GOTO_DOSSIER']}" />
-                            </h2>
-        					<h:form id="loginCandidatForm">
-        						<h:panelGrid columns="2"
-        							columnClasses="colTroisQuart,colUnQuartTextRight">
-        							<h:outputLabel value="#{msgs['INDIVIDU.NUM_DOSSIER']}"
-        								for="numDossier" />
-         							<p:password id="numDossier" size="12" maxlength="8"
-         								value="#{authenticator.numDossier}" />
-        
-        							<h:outputLabel value="#{msgs['INDIVIDU.DATE_NAI']}"
-        								for="dateNaissance" />
-         							<p:inputText id="dateNaissance" size="10" maxlength="8"
-         								value="#{authenticator.dateNaissance}">
-         								<f:convertDateTime pattern="ddMMyyyy"
-         									timeZone="#{sessionController.timezone}" />
-         								<f:validateLength minimum="8"/>
-         							</p:inputText>
-        						</h:panelGrid>
-        						<div style="text-align:right;">
-        							<p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
-        								action="#{accueilController.goLoginCandidat}" />
-        						</div>
-        						<div style="text-align:right;">
-        							<p:commandLink value="#{msgs['WELCOME.FORGET_NUM_DOS']}"
-        									action="#{welcomeController.goForgetNumDos}"
-        									styleClass="form-button-link-small-red"/>
-        						</div>
-        					</h:form>
-        				</div>
+                                    <dt>
+                                        <h:outputText value="#{msgs['WELCOME.CONNECT_FOR']}"/>
+                                    </dt>
+                                    <dd>
+                                        <h:outputText value="#{msgs['WELCOME.CONNECT_FOR.ONE']}"/>
+                                    </dd>
+                                    <dd>
+                                        <h:outputText value="#{msgs['WELCOME.CONNECT_FOR.TWO']}"/>
+                                    </dd>
+                                    <dd>
+                                        <h:outputText value="#{msgs['WELCOME.CONNECT_FOR.THREE']}"/>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
                     </h:panelGroup>
-    			</h:panelGrid>
-    		</div>
-    		
-    		<div style="width:100%;text-align:center;">
-    			<h:outputFormat value="#{msgs['LOGIN_CANDIDAT.WARNING_TITLE']}" styleClass="section-header-blue"/>
-    			<h2 class="section-header-two-black">
-                    <h:outputText value="#{msgs['LOGIN_CANDIDAT.WARNING_ETR']}" escape="false" />
+                    <p:graphicImage url="/media/images/go-next-red.png"/>
+                    <h:panelGroup>
+                        <div class="welcomeGotoAccueilCandi">
+                            <h2 class="section-header-red">
+                                <h:outputText value="#{msgs['WELCOME.SUB_TITLE.GOTO_DOSSIER']}"/>
+                            </h2>
+                            <h:form id="loginCandidatForm">
+                                <h:panelGrid columns="2"
+                                             columnClasses="colTroisQuart,colUnQuartTextRight">
+                                    <h:outputLabel value="#{msgs['INDIVIDU.NUM_DOSSIER']}"
+                                                   for="numDossier"/>
+                                    <p:password id="numDossier" size="12" maxlength="8"
+                                                value="#{authenticator.numDossier}"/>
+
+                                    <h:outputLabel value="#{msgs['INDIVIDU.DATE_NAI']}"
+                                                   for="dateNaissance"/>
+                                    <p:inputText id="dateNaissance" size="10" maxlength="8"
+                                                 value="#{authenticator.dateNaissance}">
+                                        <f:convertDateTime pattern="ddMMyyyy"
+                                                           timeZone="#{sessionController.timezone}"/>
+                                        <f:validateLength minimum="8"/>
+                                    </p:inputText>
+                                </h:panelGrid>
+                                <div style="text-align:right;">
+                                    <p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
+                                                     action="#{accueilController.goLoginCandidat}"/>
+                                </div>
+                                <div style="text-align:right;">
+                                    <p:commandLink value="#{msgs['WELCOME.FORGET_NUM_DOS']}"
+                                                   action="#{welcomeController.goForgetNumDos}"
+                                                   styleClass="form-button-link-small-red"/>
+                                </div>
+                            </h:form>
+                        </div>
+                    </h:panelGroup>
+                </h:panelGrid>
+            </div>
+
+            <div style="width:100%;text-align:center;">
+                <h:outputFormat value="#{msgs['LOGIN_CANDIDAT.WARNING_TITLE']}" styleClass="section-header-blue"/>
+                <h2 class="section-header-two-black">
+                    <h:outputText value="#{msgs['LOGIN_CANDIDAT.WARNING_ETR']}" escape="false"/>
                 </h2>
-    		</div>
-    		
-     	</div>
+            </div>
+
+        </div>
     </ui:define>
 </ui:composition>

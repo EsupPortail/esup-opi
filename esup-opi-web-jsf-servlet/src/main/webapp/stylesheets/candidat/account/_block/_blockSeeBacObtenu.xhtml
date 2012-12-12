@@ -1,103 +1,105 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <p:dataList var="indBacPojo" value="#{indBacController.indBacPojos}"
-    	rowIndexVar="row">
-    	<div class="blockForm">
-    		<div style="width:100%;">
-    			<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    				styleClass="tableJustWidthMax">
-    				<h:panelGroup>
-    					<h:outputText value="#{indBacPojo.indBac.dateObtention}"
-    						styleClass="section-smallTitle" />
-    				</h:panelGroup>
-    				<h:panelGroup>
-    					<p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
-    						action="#{indBacController.goUpdateIndBac}"
-    						rendered="#{!indBacPojo.indBac.temoinFromApogee 
+                rowIndexVar="row">
+        <div class="blockForm">
+            <div style="width:100%;">
+                <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                             styleClass="tableJustWidthMax">
+                    <h:panelGroup>
+                        <h:outputText value="#{indBacPojo.indBac.dateObtention}"
+                                      styleClass="section-smallTitle"/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
+                                         action="#{indBacController.goUpdateIndBac}"
+                                         rendered="#{!indBacPojo.indBac.temoinFromApogee
     							and sessionController.currentInd.asRightsToUpdate}">
-    						<f:setPropertyActionListener value="#{indBacPojo.indBac}" target="#{indBacController.indBac}" />
-    						<f:setPropertyActionListener value="#{indBacController.actionEnum.updateAction}" target="#{indBacController.actionEnum.whatAction}" />
-    					</p:commandButton>
-    					<p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
-    						immediate="true" 
-    						rendered="#{sessionController.whoIsConnectInPortlet != 'individu.not_exist'}"
-    						action="#{accueilController.goWelcomeCandidat}" />
-    
-    				</h:panelGroup>
-    			</h:panelGrid>
-    		</div>
-    		<h:panelGrid styleClass="tableWidthMax" columns="2"
-    			columnClasses="colUnQuart,colTroisQuart">
-    			<h:panelGroup rendered="#{indBacPojo.indBac.codPay != null}">
-    				<h:outputLabel value="#{msgs['ADRESS.PAY']}" for="paysBac" />
-    				<h:outputText value="*" styleClass="etoileForChpObli" />
-    			</h:panelGroup>
-    			<h:panelGroup rendered="#{indBacPojo.indBac.codPay != null}">
-    				<h:outputText value="#{indBacPojo.pays.libPay}" />
-    			</h:panelGroup>
-    
-    			<h:panelGroup rendered="#{indBacPojo.departement != null}">
-    				<h:outputLabel value="#{msgs['FIELD_LABEL.DEPARTEMENT']}"
-    					for="depBac" />
-    				<h:outputText value="*" styleClass="etoileForChpObli" />
-    			</h:panelGroup>
-    			<h:panelGroup rendered="#{indBacPojo.departement != null}">
-    				<h:outputText value="#{indBacPojo.departement.libDep}" />
-    			</h:panelGroup>
-    
-    			<h:panelGroup rendered="#{indBacPojo.indBac.codCom != null}">
-    				<h:outputLabel value="#{msgs['ADRESS.VIL']}" for="commune" />
-    				<h:outputText value="*" styleClass="etoileForChpObli" />
-    			</h:panelGroup>
-    			<h:panelGroup rendered="#{indBacPojo.indBac.codCom != null}">
-    				<h:outputText value="#{indBacPojo.commune.libCom}" />
-    			</h:panelGroup>
-    
-    			<h:panelGroup rendered="#{indBacPojo.indBac.codEtb != null}">
-    				<h:outputLabel value="#{msgs['ETABLISSEMENT']}" for="etabBac" />
-    				<h:outputText value="*" styleClass="etoileForChpObli" />
-    			</h:panelGroup>
-    			<h:panelGroup rendered="#{indBacPojo.indBac.codEtb != null}">
-    				<h:outputText value="#{indBacPojo.etablissement.libEtb}" />
-    			</h:panelGroup>
-    
-    			<h:panelGroup>
-    				<h:outputLabel value="#{msgs['INDIVIDU.BAC.DAA_OBT']}" for="daaObt" />
-    				<h:outputText value="*" styleClass="etoileForChpObli" />
-    			</h:panelGroup>
-    			<h:panelGroup>
-    				<h:outputText value="#{indBacPojo.indBac.dateObtention}" />
-    			</h:panelGroup>
-    
-    			<h:panelGroup>
-    				<h:outputLabel value="#{msgs['INDIVIDU.CURSUS.SERIE_BAC']}"
-    					for="serieBac" />
-    				<h:outputText value="*" styleClass="etoileForChpObli" />
-    			</h:panelGroup>
-    			<h:outputText value="#{indBacPojo.bacOuxEqu.libBac}" />
-    
-    			<h:outputLabel value="#{msgs['INDIVIDU.CURSUS.MENTION']}"
-    				for="mention" />
-    			<h:outputText value="#{indBacPojo.mentionNivBac.libMnb}" />
-    			<h:panelGroup />
-    			<h:panelGroup />
-    
-    		</h:panelGrid>
-    	</div>
-    
-    	<br />
-    	<br />
+                            <f:setPropertyActionListener value="#{indBacPojo.indBac}"
+                                                         target="#{indBacController.indBac}"/>
+                            <f:setPropertyActionListener value="#{indBacController.actionEnum.updateAction}"
+                                                         target="#{indBacController.actionEnum.whatAction}"/>
+                        </p:commandButton>
+                        <p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
+                                         immediate="true"
+                                         rendered="#{sessionController.whoIsConnectInPortlet != 'individu.not_exist'}"
+                                         action="#{accueilController.goWelcomeCandidat}"/>
+
+                    </h:panelGroup>
+                </h:panelGrid>
+            </div>
+            <h:panelGrid styleClass="tableWidthMax" columns="2"
+                         columnClasses="colUnQuart,colTroisQuart">
+                <h:panelGroup rendered="#{indBacPojo.indBac.codPay != null}">
+                    <h:outputLabel value="#{msgs['ADRESS.PAY']}" for="paysBac"/>
+                    <h:outputText value="*" styleClass="etoileForChpObli"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{indBacPojo.indBac.codPay != null}">
+                    <h:outputText value="#{indBacPojo.pays.libPay}"/>
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{indBacPojo.departement != null}">
+                    <h:outputLabel value="#{msgs['FIELD_LABEL.DEPARTEMENT']}"
+                                   for="depBac"/>
+                    <h:outputText value="*" styleClass="etoileForChpObli"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{indBacPojo.departement != null}">
+                    <h:outputText value="#{indBacPojo.departement.libDep}"/>
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{indBacPojo.indBac.codCom != null}">
+                    <h:outputLabel value="#{msgs['ADRESS.VIL']}" for="commune"/>
+                    <h:outputText value="*" styleClass="etoileForChpObli"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{indBacPojo.indBac.codCom != null}">
+                    <h:outputText value="#{indBacPojo.commune.libCom}"/>
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{indBacPojo.indBac.codEtb != null}">
+                    <h:outputLabel value="#{msgs['ETABLISSEMENT']}" for="etabBac"/>
+                    <h:outputText value="*" styleClass="etoileForChpObli"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{indBacPojo.indBac.codEtb != null}">
+                    <h:outputText value="#{indBacPojo.etablissement.libEtb}"/>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:outputLabel value="#{msgs['INDIVIDU.BAC.DAA_OBT']}" for="daaObt"/>
+                    <h:outputText value="*" styleClass="etoileForChpObli"/>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <h:outputText value="#{indBacPojo.indBac.dateObtention}"/>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:outputLabel value="#{msgs['INDIVIDU.CURSUS.SERIE_BAC']}"
+                                   for="serieBac"/>
+                    <h:outputText value="*" styleClass="etoileForChpObli"/>
+                </h:panelGroup>
+                <h:outputText value="#{indBacPojo.bacOuxEqu.libBac}"/>
+
+                <h:outputLabel value="#{msgs['INDIVIDU.CURSUS.MENTION']}"
+                               for="mention"/>
+                <h:outputText value="#{indBacPojo.mentionNivBac.libMnb}"/>
+                <h:panelGroup/>
+                <h:panelGroup/>
+
+            </h:panelGrid>
+        </div>
+
+        <br/>
+        <br/>
         <ui:fragment rendered="#{indBacPojo.indBac.temoinFromApogee and row == 0}">
-        	<div class="blockImportant">
-        		<h:panelGrid columns="2" columnClasses="image,text">
-        			<p:graphicImage url="/media/images/important.png" />
-        			<h:outputText
-        				value="#{msgs['ERROR.HELP']}" />
-        		</h:panelGrid>
-        	</div>
+            <div class="blockImportant">
+                <h:panelGrid columns="2" columnClasses="image,text">
+                    <p:graphicImage url="/media/images/important.png"/>
+                    <h:outputText
+                            value="#{msgs['ERROR.HELP']}"/>
+                </h:panelGrid>
+            </div>
         </ui:fragment>
     </p:dataList>
-    <br />
+    <br/>
 </ui:fragment>

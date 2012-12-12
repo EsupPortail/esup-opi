@@ -1,131 +1,134 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui">
-    <br />
-    <br />
-    <br />
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
+    <br/>
+    <br/>
+    <br/>
+
     <div id="blockFormDate" class="blockForm">
-    	<div style="width:100%;">
-    		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    			styleClass="tableJustWidthMax">
-    			<h:outputText value="#{msgs['CALENDAR.CMI.TITLE']}"
-    				styleClass="section-smallTitle" />
-    			<h:panelGroup>
-    				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    					action="#{calendarController.add}"
-    					rendered="#{managedAccess.addAuthorized 
-    						and calendarController.actionEnum.whatAction == calendarController.actionEnum.addAction}" />
-    				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    					action="#{calendarController.update}"
-    					rendered="#{managedAccess.updateAuthorized 
-    						and calendarController.actionEnum.whatAction == calendarController.actionEnum.updateAction}" />
-    				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" immediate="true"
-    					action="#{calendarController.goSeeAllCal}" />
-    			</h:panelGroup>
-    		</h:panelGrid>
-    	</div>
-    	<h:panelGrid styleClass="tableWidthMax" columns="4"
-    		columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code2" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<p:inputText id="code2" size="12" maxlength="11"
-    			value="#{calendarController.beanCalendar.calendar.code}" />
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}" for="libelle2" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<p:inputText id="libelle2" size="81" maxlength="80"
-    			value="#{calendarController.beanCalendar.calendar.libelle}" />
-    		
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['CALENDAR.CMI.END_DAT_CONF_RES']}"
-    				for="dateFin2" />
-    		</h:panelGroup>
-    		<p:calendar id="dateFin2" size="10" readonlyInput="true"
-    			value="#{calendarController.beanCalendar.calendar.endDatConfRes}" 
-                pattern="ddMMyyyy" timeZone="#{sessionController.timezone}">
-    			<f:validateLength minimum="8"/>
-    		</p:calendar>
-    		
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['COMMISSION.DAT_END_BACK_DOS_SHORT']}"
-    				for="dateBack" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<p:calendar id="dateBack" size="10" readonlyInput="true"
-    			value="#{calendarController.beanCalendar.calendar.datEndBackDossier}" 
-                pattern="ddMMyyyy" timeZone="#{sessionController.timezone}">
-    			<f:validateLength minimum="8"/>
-    		</p:calendar>
-    		<h:panelGroup/>
-    		<h:panelGroup/>
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['CALENDAR.CMI.COMM_DATE_END_BACK']}"
-    				for="commDateBack" />
-    		</h:panelGroup>
-    		<p:inputText id="commDateBack" size="80" maxlength="100"
-    			value="#{calendarController.beanCalendar.calendar.commDatEndBack}"/>
-    		<h:outputLabel value="#{msgs['COMMISSIONS']}" for="commission" />
-    		<h:outputText id="commission"
-    			value="#{calendarController.beanCalendar.calendar.commission.libelle}" />
-    		<h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}" for="temEnSveCalIns2"/>
-    		<p:selectBooleanCheckbox id="temEnSveCalIns2" 
-    			value="#{calendarController.beanCalendar.calendar.temoinEnService}" />
-    	</h:panelGrid>
+        <div style="width:100%;">
+            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                         styleClass="tableJustWidthMax">
+                <h:outputText value="#{msgs['CALENDAR.CMI.TITLE']}"
+                              styleClass="section-smallTitle"/>
+                <h:panelGroup>
+                    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                     action="#{calendarController.add}"
+                                     rendered="#{managedAccess.addAuthorized
+    						and calendarController.actionEnum.whatAction == calendarController.actionEnum.addAction}"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                     action="#{calendarController.update}"
+                                     rendered="#{managedAccess.updateAuthorized
+    						and calendarController.actionEnum.whatAction == calendarController.actionEnum.updateAction}"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" immediate="true"
+                                     action="#{calendarController.goSeeAllCal}"/>
+                </h:panelGroup>
+            </h:panelGrid>
+        </div>
+        <h:panelGrid styleClass="tableWidthMax" columns="4"
+                     columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code2"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <p:inputText id="code2" size="12" maxlength="11"
+                         value="#{calendarController.beanCalendar.calendar.code}"/>
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}" for="libelle2"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <p:inputText id="libelle2" size="81" maxlength="80"
+                         value="#{calendarController.beanCalendar.calendar.libelle}"/>
+
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['CALENDAR.CMI.END_DAT_CONF_RES']}"
+                               for="dateFin2"/>
+            </h:panelGroup>
+            <p:calendar id="dateFin2" size="10" readonlyInput="true"
+                        value="#{calendarController.beanCalendar.calendar.endDatConfRes}"
+                        pattern="ddMMyyyy" timeZone="#{sessionController.timezone}">
+                <f:validateLength minimum="8"/>
+            </p:calendar>
+
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['COMMISSION.DAT_END_BACK_DOS_SHORT']}"
+                               for="dateBack"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <p:calendar id="dateBack" size="10" readonlyInput="true"
+                        value="#{calendarController.beanCalendar.calendar.datEndBackDossier}"
+                        pattern="ddMMyyyy" timeZone="#{sessionController.timezone}">
+                <f:validateLength minimum="8"/>
+            </p:calendar>
+            <h:panelGroup/>
+            <h:panelGroup/>
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['CALENDAR.CMI.COMM_DATE_END_BACK']}"
+                               for="commDateBack"/>
+            </h:panelGroup>
+            <p:inputText id="commDateBack" size="80" maxlength="100"
+                         value="#{calendarController.beanCalendar.calendar.commDatEndBack}"/>
+            <h:outputLabel value="#{msgs['COMMISSIONS']}" for="commission"/>
+            <h:outputText id="commission"
+                          value="#{calendarController.beanCalendar.calendar.commission.libelle}"/>
+            <h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}" for="temEnSveCalIns2"/>
+            <p:selectBooleanCheckbox id="temEnSveCalIns2"
+                                     value="#{calendarController.beanCalendar.calendar.temoinEnService}"/>
+        </h:panelGrid>
     </div>
-    <br />
-    <br />
-    <br />
+    <br/>
+    <br/>
+    <br/>
+
     <div id="blockFormDateReunion" class="blockForm">
-    	<div style="width:100%;">
-    		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    			styleClass="tableJustWidthMax">
-    			<h:outputText value="#{msgs['REUNION_CMI.SEANCES']}" styleClass="section-smallTitle" />
-    			<h:panelGroup>
-    				<p:commandButton value="#{msgs['_.BUTTON.ADD']}" update="reunionsData"
-    					action="#{calendarController.addReunion}"/>
-    			</h:panelGroup>
-    		</h:panelGrid>
-    	</div>
-    	<p:dataTable id="reunionsData" var="reunion"
-    		styleClass="displayInfo" alternateColors="false"
-    		value="#{calendarController.reunions}">
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['REUNION_CMI.DATE']}" />
-    			</f:facet>
-    			<p:calendar id="dateReunion" size="10" readonlyInput="true"
-    					value="#{reunion.date}" pattern="ddMMyyyy" timeZone="#{sessionController.timezone}">
-    				<f:validateLength minimum="8"/>
-    			</p:calendar>
-    		</p:column>
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['REUNION_CMI.HOUR']}" />
-    			</f:facet>
-    			<p:calendar id="hhReunion" size="6" readonlyInput="true" timeOnly="true"
-    					value="#{reunion.heure}" stepMinute="5" pattern="HH:mm" timeZone="#{sessionController.timezone}">
+        <div style="width:100%;">
+            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                         styleClass="tableJustWidthMax">
+                <h:outputText value="#{msgs['REUNION_CMI.SEANCES']}" styleClass="section-smallTitle"/>
+                <h:panelGroup>
+                    <p:commandButton value="#{msgs['_.BUTTON.ADD']}" update="reunionsData"
+                                     action="#{calendarController.addReunion}"/>
+                </h:panelGroup>
+            </h:panelGrid>
+        </div>
+        <p:dataTable id="reunionsData" var="reunion"
+                     styleClass="displayInfo" alternateColors="false"
+                     value="#{calendarController.reunions}">
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msgs['REUNION_CMI.DATE']}"/>
+                </f:facet>
+                <p:calendar id="dateReunion" size="10" readonlyInput="true"
+                            value="#{reunion.date}" pattern="ddMMyyyy" timeZone="#{sessionController.timezone}">
+                    <f:validateLength minimum="8"/>
+                </p:calendar>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msgs['REUNION_CMI.HOUR']}"/>
+                </f:facet>
+                <p:calendar id="hhReunion" size="6" readonlyInput="true" timeOnly="true"
+                            value="#{reunion.heure}" stepMinute="5" pattern="HH:mm"
+                            timeZone="#{sessionController.timezone}">
                     <f:validateLength minimum="5"/>
-    			</p:calendar>
-    		</p:column>
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['REUNION_CMI.PLACE']}" />
-    			</f:facet>
-    			<p:inputText id="libelle" size="61" maxlength="255"
-    					value="#{reunion.lieu}" />
-    		</p:column>
-    		<p:column style="width:18px;">
-    			<p:commandButton icon="ui-icon-minus" update="reunionsData"
-    				action="#{calendarController.removeReunion}"
-                    title="#{msgs['_.BUTTON.DELETE']}" >
-    				<f:setPropertyActionListener value="#{reunion}" target="#{calendarController.reunionToRemove}" />
-    			</p:commandButton>
-    		</p:column>
-    	
-    	</p:dataTable>
+                </p:calendar>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msgs['REUNION_CMI.PLACE']}"/>
+                </f:facet>
+                <p:inputText id="libelle" size="61" maxlength="255"
+                             value="#{reunion.lieu}"/>
+            </p:column>
+            <p:column style="width:18px;">
+                <p:commandButton icon="ui-icon-minus" update="reunionsData"
+                                 action="#{calendarController.removeReunion}"
+                                 title="#{msgs['_.BUTTON.DELETE']}">
+                    <f:setPropertyActionListener value="#{reunion}" target="#{calendarController.reunionToRemove}"/>
+                </p:commandButton>
+            </p:column>
+
+        </p:dataTable>
     </div>
 </ui:fragment>

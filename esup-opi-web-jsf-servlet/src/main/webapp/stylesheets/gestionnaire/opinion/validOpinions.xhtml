@@ -4,17 +4,21 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	<div id="maPage" class="div_body">
-            <h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
+        <div id="maPage" class="div_body">
+            <h1>
+                <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
+            </h1>
             <div class="messageForUser">
-                <p:messages id="messages" showDetail="true" autoUpdate="true" />
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
             </div>
-            <ui:fragment rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.confirmAction}">
+            <ui:fragment
+                    rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.confirmAction}">
                 <div id="div_sectionConfirmPdf" class="div_subSection">
-                    <ui:include src="_block/_confirmPdfNotification.xhtml" />
+                    <ui:include src="_block/_confirmPdfNotification.xhtml"/>
                 </div>
             </ui:fragment>
-            <ui:fragment rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.sendMail}">
+            <ui:fragment
+                    rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.sendMail}">
                 <div id="div_sectionMail" class="div_subSection">
                     <h:form id="formSendMail">
                         <div style="width:100%;">
@@ -24,14 +28,20 @@
                                 </h:outputText>
                                 <h:panelGroup>
                                     <p:commandButton value="#{msgs['_.BUTTON.YES']}"
-                                                     action="#{validOpinionController.validateStudentsForCommissions}" ajax="false" >
-                                        <f:setPropertyActionListener value="#{true}" target="#{validOpinionController.valideFC}" />
-                                        <f:setPropertyActionListener value="#{true}" target="#{validOpinionController.sendMail}" />
+                                                     action="#{validOpinionController.validateStudentsForCommissions}"
+                                                     ajax="false">
+                                        <f:setPropertyActionListener value="#{true}"
+                                                                     target="#{validOpinionController.valideFC}"/>
+                                        <f:setPropertyActionListener value="#{true}"
+                                                                     target="#{validOpinionController.sendMail}"/>
                                     </p:commandButton>
                                     <p:commandButton value="#{msgs['_.BUTTON.NO']}"
-                                                     action="#{validOpinionController.validateStudentsForCommissions}" ajax="false" >
-                                        <f:setPropertyActionListener value="#{true}" target="#{validOpinionController.valideFC}" />
-                                        <f:setPropertyActionListener value="#{false}" target="#{validOpinionController.sendMail}" />
+                                                     action="#{validOpinionController.validateStudentsForCommissions}"
+                                                     ajax="false">
+                                        <f:setPropertyActionListener value="#{true}"
+                                                                     target="#{validOpinionController.valideFC}"/>
+                                        <f:setPropertyActionListener value="#{false}"
+                                                                     target="#{validOpinionController.sendMail}"/>
                                     </p:commandButton>
                                 </h:panelGroup>
                             </h:panelGrid>
@@ -45,35 +55,36 @@
                         <h:panelGrid columns="1" columnClasses="col1UnDemi,col2UnDemi"
                                      styleClass="tableJustWidthMax">
                             <h:outputText value="#{msgs['FIELD_LABEL.VALIDATE_OPINIO']}"
-                                          styleClass="section-smallTitle" />
+                                          styleClass="section-smallTitle"/>
                         </h:panelGrid>
                         <h:panelGrid columns="1" align="center">
                             <h:panelGroup>
                                 <p:selectOneRadio id="choixTypeOpinion"
                                                   value="#{nomenclatureController.isFinal}">
-                                    <f:selectItem itemLabel="#{msgs['AVIS.NON_DEFINITIFS']}" itemValue="#{false}" />
-                                    <f:selectItem itemLabel="#{msgs['AVIS.DEFINITIFS']}" itemValue="#{true}" />
-                                    <p:ajax update=":lookForOpinionForm:typeOpinionData" />
+                                    <f:selectItem itemLabel="#{msgs['AVIS.NON_DEFINITIFS']}" itemValue="#{false}"/>
+                                    <f:selectItem itemLabel="#{msgs['AVIS.DEFINITIFS']}" itemValue="#{true}"/>
+                                    <p:ajax update=":lookForOpinionForm:typeOpinionData"/>
                                 </p:selectOneRadio>
                             </h:panelGroup>
                             <p:dataTable var="typeDec" id="typeOpinionData" rowKey="#{typeDec.id}"
                                          selection="#{printOpinionController.resultSelected}"
                                          value="#{nomenclatureController.finalTypesDecisions}">
-                                <p:ajax event="toggleSelect" update="typeOpinionData" />
-                                <p:ajax event="rowSelectCheckbox" update="typeOpinionData" />
-                                <p:ajax event="rowUnselectCheckbox" update="typeOpinionData" />
-                                <p:column selectionMode="multiple" />
+                                <p:ajax event="toggleSelect" update="typeOpinionData"/>
+                                <p:ajax event="rowSelectCheckbox" update="typeOpinionData"/>
+                                <p:ajax event="rowUnselectCheckbox" update="typeOpinionData"/>
+                                <p:column selectionMode="multiple"/>
                                 <p:column>
-                                    <h:outputText value="#{typeDec.libelle}" />
+                                    <h:outputText value="#{typeDec.libelle}"/>
                                 </p:column>
                             </p:dataTable>
                             <h:panelGroup>
-                                <br />
-                                <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="regime" />
-                                <p:selectManyCheckbox id="regime" value="#{commissionController.listeRI}" converter="#{regimeInscriptionConverter}"
+                                <br/>
+                                <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="regime"/>
+                                <p:selectManyCheckbox id="regime" value="#{commissionController.listeRI}"
+                                                      converter="#{regimeInscriptionConverter}"
                                                       disabled="#{!commissionController.canModifyRISearch}"
                                                       layout="lineDirection">
-                                    <f:selectItems var="ri" 
+                                    <f:selectItems var="ri"
                                                    itemLabel="#{ri.shortLabel}" itemValue="#{ri}"
                                                    value="#{nomenclatureController.allRegimeInscription}"/>
                                 </p:selectManyCheckbox>
@@ -86,12 +97,13 @@
                         <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
                                      styleClass="tableJustWidthMax">
                             <h:outputText value="#{msgs['COMMISSIONS']}"
-                                          styleClass="section-smallTitle" />
+                                          styleClass="section-smallTitle"/>
                             <h:panelGroup>
                                 <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-                                                 action="#{validOpinionController.validateStudentsForCommissions}" 
+                                                 action="#{validOpinionController.validateStudentsForCommissions}"
                                                  rendered="#{printOpinionController.actionEnum.whatAction 
-                                                           != printOpinionController.actionEnum.confirmAction}"  ajax="false" />
+                                                           != printOpinionController.actionEnum.confirmAction}"
+                                                 ajax="false"/>
                             </h:panelGroup>
                         </h:panelGrid>
                     </div>
@@ -105,15 +117,15 @@
                                  styleClass="paginatorData" alternateColors="true">
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
+                                <h:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>
                             </f:facet>
-                            <h:outputText value="#{commission.code}" />
+                            <h:outputText value="#{commission.code}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
+                                <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
                             </f:facet>
-                            <h:outputText value="#{commission.libelle}" />
+                            <h:outputText value="#{commission.libelle}"/>
                         </p:column>
                         <p:column>
                             <p:commandButton icon="ui-icon-search"
@@ -121,14 +133,16 @@
                                              action="#{validOpinionController.goSeeStudientForCommission}"
                                              title="#{msgs['INFO.CANDIDAT.DISPLAY']}"
                                              rendered="#{printOpinionController.actionEnum.whatAction 
-                                                       != printOpinionController.actionEnum.confirmAction}"  ajax="false" >
-                                <f:setPropertyActionListener value="#{commission}" target="#{commissionController.commission}" />
+                                                       != printOpinionController.actionEnum.confirmAction}"
+                                             ajax="false">
+                                <f:setPropertyActionListener value="#{commission}"
+                                                             target="#{commissionController.commission}"/>
                             </p:commandButton>
                         </p:column>
-                        <p:column selectionMode="multiple" />
+                        <p:column selectionMode="multiple"/>
                     </p:dataTable>
                 </div>
             </h:form>
-    	</div>
+        </div>
     </ui:define>
 </ui:composition>

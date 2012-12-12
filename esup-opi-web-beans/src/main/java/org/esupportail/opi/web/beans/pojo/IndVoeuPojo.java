@@ -8,26 +8,21 @@
  */
 package org.esupportail.opi.web.beans.pojo;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import org.esupportail.commons.services.i18n.I18nService;
-import org.esupportail.opi.domain.beans.etat.Etat;
-import org.esupportail.opi.domain.beans.etat.EtatArriveComplet;
-import org.esupportail.opi.domain.beans.etat.EtatConfirme;
-import org.esupportail.opi.domain.beans.etat.EtatDesiste;
-import org.esupportail.opi.domain.beans.etat.EtatVoeu;
+import org.esupportail.opi.domain.beans.etat.*;
 import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV;
 import org.esupportail.opi.domain.beans.references.rendezvous.IndividuDate;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.utils.Constantes;
-import org.esupportail.opi.web.utils.Utilitaires;
+import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -111,6 +106,8 @@ public class IndVoeuPojo implements Serializable {
 	 * calendrier de rendez-vous.
 	 */
 	private CalendarRDV calendrierRdv;
+
+	private List<Avis> avisAsList;
 	
 
 	 // ******************* INIT *************************
@@ -141,7 +138,8 @@ public class IndVoeuPojo implements Serializable {
 	 * @param calIsopen
 	 * @param typeTraitement
      *
-     * @deprecated Use {@link IndVoeuPojo#IndVoeuPojo(org.esupportail.opi.domain.beans.user.candidature.IndVoeu, org.esupportail.wssi.services.remote.VersionEtapeDTO, org.esupportail.opi.domain.beans.etat.EtatVoeu, Boolean, org.esupportail.opi.domain.beans.parameters.TypeTraitement, org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV)}
+     * @deprecated Use {@link IndVoeuPojo#IndVoeuPojo(org.esupportail.opi.domain.beans.user.candidature.IndVoeu,
+     * org.esupportail.wssi.services.remote.VersionEtapeDTO, org.esupportail.opi.domain.beans.etat.EtatVoeu, Boolean, org.esupportail.opi.domain.beans.parameters.TypeTraitement, org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV)}
 	 */
     @Deprecated
 	public IndVoeuPojo(final IndVoeu indVoeu, final VersionEtapeDTO vrsEtp,
@@ -236,8 +234,8 @@ public class IndVoeuPojo implements Serializable {
 	 * @return String
 	 */
 	public String getShortLibVet() {
-		return Utilitaires.limitStrLength(vrsEtape.getLibWebVet(), 
-									Constantes.STR_LENGTH_LIMIT_SMALL);
+		return Utilitaires.limitStrLength(vrsEtape.getLibWebVet(),
+                Constantes.STR_LENGTH_LIMIT_SMALL);
 	}
 	
 	/**
@@ -504,7 +502,7 @@ public class IndVoeuPojo implements Serializable {
 	}
 	
 	/**
-	 * @param calendrierRdvPojo
+	 * @param calendrierRdv
 	 */
 	public void setCalendrierRdv(final CalendarRDV calendrierRdv) {
 		this.calendrierRdv = calendrierRdv;

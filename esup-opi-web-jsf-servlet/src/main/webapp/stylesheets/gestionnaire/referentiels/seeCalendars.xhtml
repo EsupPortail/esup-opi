@@ -1,110 +1,121 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	
-    	
-    	<div id="maPage" class="div_body">
-    		<h1>
+
+
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{msgs['CALENDAR.TITLE.LIST']}" />
+                    <h:outputText value="#{msgs['CALENDAR.TITLE.LIST']}"/>
                 </span>
             </h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-            <p:outputPanel id="div_subSectionDelete" 
-                    styleClass="div_subSection"
-                    rendered="#{calendarController.actionEnum.whatAction == calendarController.actionEnum.deleteAction}">
-        		<ui:include src="_calendar/_deleteCal.xhtml" />
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
+            <p:outputPanel id="div_subSectionDelete"
+                           styleClass="div_subSection"
+                           rendered="#{calendarController.actionEnum.whatAction == calendarController.actionEnum.deleteAction}">
+                <ui:include src="_calendar/_deleteCal.xhtml"/>
             </p:outputPanel>
 
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="seeCalendrierForm">
-    				<div id="blockFormInfo" class="blockForm">
-    					<div style="width:100%;">
-    						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    							styleClass="tableJustWidthMax">
-    							<h:panelGroup/>
-    							<h:panelGroup
-    								rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
-    								<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-    									immediate="true"
-    									action="#{calendarController.goAddCall}"/>
-    							</h:panelGroup>
-    						</h:panelGrid>
-    					</div>
-    					<p:dataTable id="calendarsData" var="calendar"
-    						value="#{calendarController.calendars}"
-                            paginator="true" paginatorAlwaysVisible="false"
-                            rows="40" rowsPerPageTemplate="10,20,30,40" 
-                            filteredValue="#{calendarController.filteredCalendars}"
-                            filterDelay="1000" styleClass="paginatorData">
+            <div id="div_subSection" class="div_subSection">
+                <h:form id="seeCalendrierForm">
+                    <div id="blockFormInfo" class="blockForm">
+                        <div style="width:100%;">
+                            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                                         styleClass="tableJustWidthMax">
+                                <h:panelGroup/>
+                                <h:panelGroup
+                                        rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
+                                    <p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+                                                     immediate="true"
+                                                     action="#{calendarController.goAddCall}"/>
+                                </h:panelGroup>
+                            </h:panelGrid>
+                        </div>
+                        <p:dataTable id="calendarsData" var="calendar"
+                                     value="#{calendarController.calendars}"
+                                     paginator="true" paginatorAlwaysVisible="false"
+                                     rows="40" rowsPerPageTemplate="10,20,30,40"
+                                     filteredValue="#{calendarController.filteredCalendars}"
+                                     filterDelay="1000" styleClass="paginatorData">
                             <p:columnGroup type="header">
                                 <p:row>
-                                    <p:column headerText="Type" filterBy="#{calendar.type}" filterOptions="#{calendarController.calendarTypes}" filterMatchMode="contains"/>
-                                    <p:column headerText="#{msgs['FIELD_LABEL.CODE']}" filterBy="#{calendar.code}" filterMatchMode="contains"/>
-                                    <p:column headerText="#{msgs['FIELD_LABEL.LIBELLE']}" filterBy="#{calendar.libelle}" filterMatchMode="contains"/>
+                                    <p:column headerText="Type" filterBy="#{calendar.type}"
+                                              filterOptions="#{calendarController.calendarTypes}"
+                                              filterMatchMode="contains"/>
+                                    <p:column headerText="#{msgs['FIELD_LABEL.CODE']}" filterBy="#{calendar.code}"
+                                              filterMatchMode="contains"/>
+                                    <p:column headerText="#{msgs['FIELD_LABEL.LIBELLE']}" filterBy="#{calendar.libelle}"
+                                              filterMatchMode="contains"/>
                                     <p:column headerText="#{msgs['FIELD_LABEL.IN_USE']}"/>
-                                    <p:column colspan="3" rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}"/>
+                                    <p:column colspan="3"
+                                              rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}"/>
                                 </p:row>
                             </p:columnGroup>
-    						<p:column>
-    							<h:outputText value="#{calendarController.calendarType[calendar.type]}" />
-    						</p:column>
-    						<p:column>
-    							<h:outputText value="#{calendar.code}" />
-    						</p:column>
-    						<p:column>
-    							<h:outputText value="#{calendar.libelle}" />
-    						</p:column>
-    						<p:column>
-    							<p:graphicImage url="/media/images/check2.gif"
-    								rendered="#{calendar.temoinEnService}" />
-    							<p:graphicImage url="/media/images/check0.gif"
-    								rendered="#{!calendar.temoinEnService}" />
-    						</p:column>
-    						<p:column styleClass="buttonTD" style="width:18px;"
-    							rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
-    							<p:commandButton icon="ui-icon-search"
-    								immediate="true" ajax="false"
-    								action="#{calendarController.goSeeOneCal}"
-    								title="#{msgs['_.BUTTON.DISPLAY']}">
-    								<f:setPropertyActionListener value="#{calendar}" target="#{calendarController.beanCalendar.calendar}" />
-    								<f:setPropertyActionListener value="#{calendar.type}" target="#{calendarController.beanCalendar.typeSelected}" />
-    							</p:commandButton>
-    						</p:column>
-    						<p:column styleClass="buttonTD" style="width:18px;"
-    							rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
-    							<p:commandButton icon="ui-icon-pencil"
-    								immediate="true" ajax="false"
-    								title="#{msgs['BUTTON.UPDATE']}"
-    								action="#{calendarController.goUpdateCal}"
-    								rendered="#{managedAccess.updateAuthorized}">
-    								<f:setPropertyActionListener value="#{calendarController.actionEnum.updateAction}" target="#{calendarController.actionEnum.whatAction}" />
-    								<f:setPropertyActionListener value="#{calendar.type}" target="#{calendarController.beanCalendar.typeSelected}" />
-    								<f:setPropertyActionListener value="#{calendar}" target="#{calendarController.beanCalendar.calendar}" />
-    							</p:commandButton>
-    						</p:column>
-    						<p:column styleClass="buttonTD" style="width:18px;"
-    							rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
-    							<p:commandButton icon="ui-icon-minus"
-    								immediate="true" ajax="false"
-    								title="#{msgs['_.BUTTON.DELETE']}"
-    								rendered="#{managedAccess.deleteAuthorized}"
-    								action="#{calendarController.goDeleteCal}">
-    								<f:setPropertyActionListener value="#{calendar}" target="#{calendarController.beanCalendar.calendar}" />
-    							</p:commandButton>
-    						</p:column>
-    					</p:dataTable>
+                            <p:column>
+                                <h:outputText value="#{calendarController.calendarType[calendar.type]}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{calendar.code}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{calendar.libelle}"/>
+                            </p:column>
+                            <p:column>
+                                <p:graphicImage url="/media/images/check2.gif"
+                                                rendered="#{calendar.temoinEnService}"/>
+                                <p:graphicImage url="/media/images/check0.gif"
+                                                rendered="#{!calendar.temoinEnService}"/>
+                            </p:column>
+                            <p:column styleClass="buttonTD" style="width:18px;"
+                                      rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
+                                <p:commandButton icon="ui-icon-search"
+                                                 immediate="true" ajax="false"
+                                                 action="#{calendarController.goSeeOneCal}"
+                                                 title="#{msgs['_.BUTTON.DISPLAY']}">
+                                    <f:setPropertyActionListener value="#{calendar}"
+                                                                 target="#{calendarController.beanCalendar.calendar}"/>
+                                    <f:setPropertyActionListener value="#{calendar.type}"
+                                                                 target="#{calendarController.beanCalendar.typeSelected}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column styleClass="buttonTD" style="width:18px;"
+                                      rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
+                                <p:commandButton icon="ui-icon-pencil"
+                                                 immediate="true" ajax="false"
+                                                 title="#{msgs['BUTTON.UPDATE']}"
+                                                 action="#{calendarController.goUpdateCal}"
+                                                 rendered="#{managedAccess.updateAuthorized}">
+                                    <f:setPropertyActionListener value="#{calendarController.actionEnum.updateAction}"
+                                                                 target="#{calendarController.actionEnum.whatAction}"/>
+                                    <f:setPropertyActionListener value="#{calendar.type}"
+                                                                 target="#{calendarController.beanCalendar.typeSelected}"/>
+                                    <f:setPropertyActionListener value="#{calendar}"
+                                                                 target="#{calendarController.beanCalendar.calendar}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column styleClass="buttonTD" style="width:18px;"
+                                      rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
+                                <p:commandButton icon="ui-icon-minus"
+                                                 immediate="true" ajax="false"
+                                                 title="#{msgs['_.BUTTON.DELETE']}"
+                                                 rendered="#{managedAccess.deleteAuthorized}"
+                                                 action="#{calendarController.goDeleteCal}">
+                                    <f:setPropertyActionListener value="#{calendar}"
+                                                                 target="#{calendarController.beanCalendar.calendar}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
                         <p:blockUI block="seeCalendrierForm" trigger="calendarsData">
-                            <p:graphicImage value="/media/images/ajax-loader.gif" />
+                            <p:graphicImage value="/media/images/ajax-loader.gif"/>
                         </p:blockUI>
-    				</div>
-    			</h:form>
-    		</div>
-    	</div>
+                    </div>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>

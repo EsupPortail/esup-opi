@@ -1,11 +1,10 @@
 package org.esupportail.opi.web.beans.pojo;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
+
+import java.util.Date;
+import java.util.Set;
 
 /**
  * @author tducreux

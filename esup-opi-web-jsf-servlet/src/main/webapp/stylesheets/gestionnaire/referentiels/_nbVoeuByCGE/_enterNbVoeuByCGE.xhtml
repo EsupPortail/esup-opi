@@ -1,28 +1,28 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui">
-	<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi" styleClass="tableJustWidthMax">
-		<h:outputText value="#{msgs['VOEU.TITLE.ENTER']}" styleClass="section-smallTitle"/>
-		<h:panelGroup>
-			<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-				rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.addAction}"
-				action="#{nbVoeuByCGEController.add}" ajax="false" />
-			<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" 
-                action="#{nbVoeuByCGEController.reset}" ajax="false" />
-		</h:panelGroup>
-	</h:panelGrid>
-	<h:panelGrid columns="2" styleClass="displayInfo">
-		<h:outputLabel value="#{msgs['FIELD_LABEL.CODE_CGE']}"
-			styleClass="form-field-label-inHeader-validator" for="inCGE"/>
-		<h:outputLabel value="#{msgs['FIELD_LABEL.NB_VOEU']}"
-			styleClass="form-field-label-inHeader-validator" for="nbV"/>
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
+    <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi" styleClass="tableJustWidthMax">
+        <h:outputText value="#{msgs['VOEU.TITLE.ENTER']}" styleClass="section-smallTitle"/>
+        <h:panelGroup>
+            <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                             rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.addAction}"
+                             action="#{nbVoeuByCGEController.add}" ajax="false"/>
+            <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                             action="#{nbVoeuByCGEController.reset}" ajax="false"/>
+        </h:panelGroup>
+    </h:panelGrid>
+    <h:panelGrid columns="2" styleClass="displayInfo">
+        <h:outputLabel value="#{msgs['FIELD_LABEL.CODE_CGE']}"
+                       styleClass="form-field-label-inHeader-validator" for="inCGE"/>
+        <h:outputLabel value="#{msgs['FIELD_LABEL.NB_VOEU']}"
+                       styleClass="form-field-label-inHeader-validator" for="nbV"/>
 
-		<p:selectOneMenu id="inCGE"
-			value="#{nbVoeuByCGEController.nbVoeuCge.codeCge}">
-			<f:selectItems value="#{nbVoeuByCGEController.codeCgeItems}"/>
-		</p:selectOneMenu>
-        
-        <p:spinner id="nbV" value="#{nbVoeuByCGEController.nbVoeuCge.nbVoeu}" min="0" max="100" size="5" />
-	</h:panelGrid>
+        <p:selectOneMenu id="inCGE"
+                         value="#{nbVoeuByCGEController.nbVoeuCge.codeCge}">
+            <f:selectItems value="#{nbVoeuByCGEController.codeCgeItems}"/>
+        </p:selectOneMenu>
+
+        <p:spinner id="nbV" value="#{nbVoeuByCGEController.nbVoeuCge.nbVoeu}" min="0" max="100" size="5"/>
+    </h:panelGrid>
 </ui:fragment>

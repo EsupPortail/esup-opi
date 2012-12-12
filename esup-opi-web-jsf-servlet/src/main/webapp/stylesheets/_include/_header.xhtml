@@ -1,28 +1,28 @@
-<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui">
+<ui:fragment
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        >
     <ui:fragment rendered="#{sessionController.isServlet}">
-        <div id="header" class="header" >  
-        	<div class="logo"/>
-        	<div class="header_suite">
-        		<div id="titreAppli" class="titreAppli">
-        			<h:outputText value="#{msgs['APPLICATION.BIG_TITLE']}" styleClass="span_bigTitre"/>
-        			<br />
-        			<h:outputText value="#{msgs['APPLICATION.TITLE']}"
-        				styleClass="span_titre"/>
-        		</div>
-        		
-        		<div class="user_displayName">
-        			<h:outputText
-        				value="#{sessionController.currentDisplayName}"
-        				styleClass="span_currentUser"/>
-        		</div>
-        		<div class="version">
-        			<h:outputText value="#{msgs['EXCEPTION.INFORMATION.VERSION']} #{applicationService.version}"
-        					styleClass="span_version"/>
-        		</div>
-        	</div>
+        <div id="header" class="header">
+            <div class="logo"/>
+            <div class="header_suite">
+                <div id="titreAppli" class="titreAppli">
+                    <h:outputText value="#{msgs['APPLICATION.BIG_TITLE']}" styleClass="span_bigTitre"/>
+                    <br/>
+                    <h:outputText value="#{msgs['APPLICATION.TITLE']}"
+                                  styleClass="span_titre"/>
+                </div>
+
+                <div class="user_displayName">
+                    <h:outputText
+                            value="#{sessionController.currentDisplayName}"
+                            styleClass="span_currentUser"/>
+                </div>
+                <div class="version">
+                    <h:outputText value="#{msgs['EXCEPTION.INFORMATION.VERSION']} #{applicationService.version}"
+                                  styleClass="span_version"/>
+                </div>
+            </div>
         </div>
     </ui:fragment>
 </ui:fragment>

@@ -7,7 +7,7 @@ import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.web.beans.pojo.IndRechPojo;
-import org.esupportail.opi.web.utils.Utilitaires;
+import org.esupportail.opi.web.beans.utils.Utilitaires;
 
 import java.util.Set;
 
@@ -30,10 +30,13 @@ public class Filters {
                         new F<Commission, Stream<TraitementCmi>>() {
                             public Stream<TraitementCmi> f(Commission commission) {
                                 return iterableStream(commission.getTraitementCmi());
-                            }}).exists(
+                            }
+                        }).exists(
                         new F<TraitementCmi, Boolean>() {
                             public Boolean f(TraitementCmi traitementCmi) {
-                                return traitementCmi.equals(trtCmi); }});
+                                return traitementCmi.equals(trtCmi);
+                            }
+                        });
             }
         };
     }

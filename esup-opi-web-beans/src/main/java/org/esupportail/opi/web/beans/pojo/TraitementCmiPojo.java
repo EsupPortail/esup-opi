@@ -3,9 +3,9 @@
  */
 package org.esupportail.opi.web.beans.pojo;
 
-import java.io.Serializable;
-
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+
+import java.io.Serializable;
 
 
 

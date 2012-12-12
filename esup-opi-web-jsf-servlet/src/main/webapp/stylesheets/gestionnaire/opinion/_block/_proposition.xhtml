@@ -2,27 +2,28 @@
              xmlns:ui="http://java.sun.com/jsf/facelets"
              xmlns:h="http://java.sun.com/jsf/html"
              xmlns:p="http://primefaces.org/ui">
-    <ui:fragment rendered="#{opinionController.actionEnum.whatAction == opinionController.actionEnum.propositionAction}">
+    <ui:fragment
+            rendered="#{opinionController.actionEnum.whatAction == opinionController.actionEnum.propositionAction}">
         <div id="blockFormProp" class="menuWelcome">
             <h:form id="enterPropositionForm" styleClass="opiR1_form">
                 <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
                              styleClass="tableJustWidthMax">
                     <h:outputText value="#{msgs['FIELD_LABEL.PROPOSITION']}"
-                                  styleClass="section-smallTitle" />
+                                  styleClass="section-smallTitle"/>
                     <h:panelGroup>
                         <p:commandButton value="Sélectionner une nouvelle commission"
-                                         action="#{commissionController.reset}" 
+                                         action="#{commissionController.reset}"
                                          rendered="#{not empty trtCmiController.allTraitementCmi}"
-                                         immediate="true"  ajax="false" />
+                                         immediate="true" ajax="false"/>
                     </h:panelGroup>
                 </h:panelGrid>
                 <div>
-                    <h:outputText value="#{msgs['FIELD_LABEL.AVIS.STUDENT']}" 
+                    <h:outputText value="#{msgs['FIELD_LABEL.AVIS.STUDENT']}"
                                   styleClass="section-subheader"/>
                     <h:outputText value="#{opinionController.indVoeuxPojo.indVoeu.individu.nomPatronymique}"/>
                     <h:outputText value=" "/>
                     <h:outputText value="#{opinionController.indVoeuxPojo.indVoeu.individu.prenom}"/>
-                    <h:outputText value="#{msgs['FIELD_LABEL.AVIS.ETAPE']}" 
+                    <h:outputText value="#{msgs['FIELD_LABEL.AVIS.ETAPE']}"
                                   styleClass="section-subheader"/>
                     <h:outputText value="#{opinionController.indVoeuxPojo.vrsEtape.libWebVet}"/>
                 </div>
@@ -31,12 +32,12 @@
                                style="width:100%;text-align:right;">
                     <p:commandButton id="savePropositions" value="#{msgs['_.BUTTON.SAVE']}"
                                      action="#{opinionController.savePropositions}" ajax="false">
-                        <p:ajax update="" />
+                        <p:ajax update=""/>
                     </p:commandButton>
                     <p:commandButton id="cancelPropositions" value="#{msgs['_.BUTTON.CANCEL']}" ajax="false"
                                      action="#{commissionController.reset}">
                         <f:setPropertyActionListener value="#{opinionController.actionEnum.emptyAction}"
-                                                     target="#{opinionController.actionEnum.whatAction}" />
+                                                     target="#{opinionController.actionEnum.whatAction}"/>
                     </p:commandButton>
                 </p:outputPanel>
                 <p:dataTable var="beanTrtCmi" id="versionEtapeData"
@@ -45,12 +46,12 @@
                              rendered="#{not empty trtCmiController.allTraitementCmi}"
                              rowKey="#{beanTrtCmi}"
                              selection="#{commissionController.objectToAdd}">
-                    <p:column selectionMode="multiple" />
+                    <p:column selectionMode="multiple"/>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="#{msgs['FIELD_LABEL.INTITULE_FORMA']}" />
+                            <h:outputText value="#{msgs['FIELD_LABEL.INTITULE_FORMA']}"/>
                         </f:facet>
-                        <h:outputText value="#{beanTrtCmi.etape.libWebVet}" />
+                        <h:outputText value="#{beanTrtCmi.etape.libWebVet}"/>
                     </p:column>
                 </p:dataTable>
                 <ui:fragment rendered="#{empty trtCmiController.allTraitementCmi}">
@@ -58,15 +59,15 @@
                                  columnClasses="col1UnDemi,col2UnDemi">
                         <h:panelGroup>
                             <h:outputLabel value="#{msgs['COMMISSION.CHOICE']}"
-                                           for="lesCommissions" />
+                                           for="lesCommissions"/>
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:selectOneMenu id="lesCommissions" converter="javax.faces.Integer"
                                              value="#{commissionController.commission.id}">
-                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItem itemLabel="" itemValue=""/>
                                 <f:selectItems var="commission" value="#{commissionController.commissionsItemsByRight}"
-                                               itemLabel="#{commission.libelle}" itemValue="#{commission.id}" />
-                                <p:ajax listener="#{opinionController.selectCmiForProposition}" update="@form" />
+                                               itemLabel="#{commission.libelle}" itemValue="#{commission.id}"/>
+                                <p:ajax listener="#{opinionController.selectCmiForProposition}" update="@form"/>
                             </p:selectOneMenu>
                         </h:panelGroup>
                     </h:panelGrid>

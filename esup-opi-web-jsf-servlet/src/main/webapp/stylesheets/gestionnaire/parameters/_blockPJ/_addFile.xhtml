@@ -1,35 +1,39 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
-    <br />
-    <br />
-    <div style="text-align:right;" >
-        <p:commandButton value="#{msgs['_.BUTTON.ADD']}" action="#{nomenclatureController.ajouterFichierPJ}" rendered="#{nomenclatureController.nomenclature.nomDocument==null}"/>
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
+    <br/>
+    <br/>
+
+    <div style="text-align:right;">
+        <p:commandButton value="#{msgs['_.BUTTON.ADD']}" action="#{nomenclatureController.ajouterFichierPJ}"
+                         rendered="#{nomenclatureController.nomenclature.nomDocument==null}"/>
     </div>
-    <h:panelGrid styleClass="tableWidthMax" columnClasses="colUnCinquieme,colUnQuart,colUnQuart,colUnQuart" columns="4" >
+    <h:panelGrid styleClass="tableWidthMax" columnClasses="colUnCinquieme,colUnQuart,colUnQuart,colUnQuart" columns="4">
         <h:panelGroup style="text-align:left">
-            <h:outputLabel value="#{msgs['PJ.ADDED_FILE']}" for="file" />	 
+            <h:outputLabel value="#{msgs['PJ.ADDED_FILE']}" for="file"/>
         </h:panelGroup>
-        <h:panelGroup >
-            <p:fileUpload id="file" mode="simple" value="#{nomenclatureController.uploadedFile}" 
-            	rendered="#{nomenclatureController.nomenclature.nomDocument==null}" 
-            	styleClass="form-inputFileUpload-field" />
-    		<h:commandLink value="#{nomenclatureController.nomenclature.nomDocument}" 
-    			rendered="#{nomenclatureController.nomenclature.nomDocument!=null}" 
-    			action="#{formulairesController.download}">
-                <f:setPropertyActionListener value="#{nomenclatureController.nomenclature.nomDocument}" target="#{formulairesController.nomDocument}" />
-    		</h:commandLink>
+        <h:panelGroup>
+            <p:fileUpload id="file" mode="simple" value="#{nomenclatureController.uploadedFile}"
+                          rendered="#{nomenclatureController.nomenclature.nomDocument==null}"
+                          styleClass="form-inputFileUpload-field"/>
+            <h:commandLink value="#{nomenclatureController.nomenclature.nomDocument}"
+                           rendered="#{nomenclatureController.nomenclature.nomDocument!=null}"
+                           action="#{formulairesController.download}">
+                <f:setPropertyActionListener value="#{nomenclatureController.nomenclature.nomDocument}"
+                                             target="#{formulairesController.nomDocument}"/>
+            </h:commandLink>
             <p:commandButton icon="ui-icon-minus"
-            	styleClass="form-button-image" immediate="true"
-            	rendered="#{nomenclatureController.nomenclature.nomDocument!=null}"
-            	action="#{nomenclatureController.removeFile}"
-            	title="#{msgs['_.BUTTON.DELETE']}">			
-             </p:commandButton>
+                             styleClass="form-button-image" immediate="true"
+                             rendered="#{nomenclatureController.nomenclature.nomDocument!=null}"
+                             action="#{nomenclatureController.removeFile}"
+                             title="#{msgs['_.BUTTON.DELETE']}">
+            </p:commandButton>
         </h:panelGroup>
 
         <h:panelGroup rendered="#{nomenclatureController.nomenclature.nomDocument==null}">
-            <h:outputLabel value="#{msgs['PJ.ACCEPTED_FILE_FORMAT']}" rendered="#{nomenclatureController.nomenclature.nomDocument==null}"/>
+            <h:outputLabel value="#{msgs['PJ.ACCEPTED_FILE_FORMAT']}"
+                           rendered="#{nomenclatureController.nomenclature.nomDocument==null}"/>
         </h:panelGroup>
     </h:panelGrid>
 </ui:fragment>

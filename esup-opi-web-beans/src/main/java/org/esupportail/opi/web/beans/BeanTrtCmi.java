@@ -3,12 +3,12 @@
  */
 package org.esupportail.opi.web.beans;
 
-import java.util.List;
-
 import org.esupportail.opi.domain.BusinessUtil;
 import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+
+import java.util.List;
 
 
 

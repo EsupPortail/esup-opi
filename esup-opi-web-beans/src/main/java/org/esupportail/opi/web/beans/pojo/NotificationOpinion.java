@@ -1,12 +1,12 @@
 package org.esupportail.opi.web.beans.pojo;
 
+import org.esupportail.opi.utils.Constantes;
+import org.esupportail.opi.web.beans.utils.Utilitaires;
+import org.esupportail.wssi.services.remote.SignataireDTO;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.esupportail.opi.utils.Constantes;
-import org.esupportail.opi.web.utils.Utilitaires;
-import org.esupportail.wssi.services.remote.SignataireDTO;
 
 
 /**
@@ -112,7 +112,7 @@ public class NotificationOpinion {
 		this.voeuxFavorable = new HashSet<IndVoeuPojo>();
 		this.voeuxDefavorable = new HashSet<IndVoeuPojo>();
 		this.dateDuJour = Utilitaires.convertDateToString(new Date(),
-				Constantes.DATE_FORMAT);
+                Constantes.DATE_FORMAT);
 	}
 
 

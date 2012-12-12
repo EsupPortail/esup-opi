@@ -1,177 +1,188 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	<div id="maPage" class="div_body">    
-    		<h1>
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
+                    <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
                 </span>
             </h1>
-    		
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    		
-    		<ui:include src="_block/_sendMailStudent.xhtml" />    		
-    		<ui:include src="_block/_enterPM.xhtml" />
-    		
-    		<ui:fragment rendered="#{!(pjController.currentCmiPojo != null 
-    			and pjController.currentCmiPojo.state.displayPJ)}"> 
-    			<ui:include src="/stylesheets/gestionnaire/opinion/_block/_lookForIndividuPM.xhtml" />
-    		</ui:fragment>    				
-    		<br />
-    		<br />
-    		<h:form id="seeIndividusForm">    
-    			<div style="width:100%;">
-    				<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    					styleClass="tableJustWidthMax">
-    					<h:outputText value="#{msgs['PM.TITLE.SEE']}"
-    						styleClass="section-smallTitle" />
-    					<h:panelGroup>
-    						<p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
-    								action="#{pjController.changeStateAll}"
-    								rendered="#{(managedAccess.updateAuthorized
-    									|| managedAccess.addAuthorized) and !(pjController.currentCmiPojo != null 
-    									and pjController.currentCmiPojo.state.displayPJ)}" ajax="false" >
-    						</p:commandButton>
-    					</h:panelGroup>
-    				</h:panelGrid>
-    			</div>
-    			<div style="width:100%;">
-    				<p:dataTable var="missingPiecePojos" id="individuData"
-    					value="#{paginatorPM.missingPiecePojos}"
-                        paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40"
-                        paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
-                        currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
-                        styleClass="paginatorData"
-    					rendered="#{not empty paginatorPM.missingPiecePojos}" rowIndexVar="variable">
 
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}" />
-    						</f:facet>
-    						<h:outputText value="#{missingPiecePojos.individuPojo.individu.numDossierOpi}" />
-    					</p:column>
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['FIELD_LABEL.NAME']}" />
-    						</f:facet>
-    						<h:outputText value="#{missingPiecePojos.individuPojo.individu.nomPatronymique} #{missingPiecePojos.individuPojo.individu.prenom}" />
-    					</p:column>
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['INDIVIDU.DATE_NAI_COURT']}" />
-    						</f:facet>
-    						<h:outputText value="#{missingPiecePojos.individuPojo.individu.dateNaissance}">
-    							<f:convertDateTime pattern="dd/MM/yyyy"
-    								timeZone="#{sessionController.timezone}" />
-    						</h:outputText>
-    					</p:column>
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['FIELD_LABEL.MAIL_PERSO']}" />
-    						</f:facet>
-    						<h:outputLink
-    							value="mailto:#{missingPiecePojos.individuPojo.individu.adressMail}">
-    							<h:outputText
-    								value="#{missingPiecePojos.individuPojo.individu.adressMail}" />
-    						</h:outputLink>
-    					</p:column>
-    					<p:column>
-    						<p:commandButton icon="ui-icon-pencil"
-                                id="updateState" immediate="true" ajax="false"
-    							title="#{msgs['_.BUTTON.UPDATE']}"
-    							rendered="#{managedAccess.updateAuthorized and !(pjController.currentCmiPojo != null 
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
+
+            <ui:include src="_block/_sendMailStudent.xhtml"/>
+            <ui:include src="_block/_enterPM.xhtml"/>
+
+            <ui:fragment rendered="#{!(pjController.currentCmiPojo != null
+    			and pjController.currentCmiPojo.state.displayPJ)}">
+                <ui:include src="/stylesheets/gestionnaire/opinion/_block/_lookForIndividuPM.xhtml"/>
+            </ui:fragment>
+            <br/>
+            <br/>
+            <h:form id="seeIndividusForm">
+                <div style="width:100%;">
+                    <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                                 styleClass="tableJustWidthMax">
+                        <h:outputText value="#{msgs['PM.TITLE.SEE']}"
+                                      styleClass="section-smallTitle"/>
+                        <h:panelGroup>
+                            <p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
+                                             action="#{pjController.changeStateAll}"
+                                             rendered="#{(managedAccess.updateAuthorized
+    									|| managedAccess.addAuthorized) and !(pjController.currentCmiPojo != null 
+    									and pjController.currentCmiPojo.state.displayPJ)}" ajax="false">
+                            </p:commandButton>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </div>
+                <div style="width:100%;">
+                    <p:dataTable var="missingPiecePojos" id="individuData"
+                                 value="#{paginatorPM.missingPiecePojos}"
+                                 paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40"
+                                 paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
+                                 currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
+                                 styleClass="paginatorData"
+                                 rendered="#{not empty paginatorPM.missingPiecePojos}" rowIndexVar="variable">
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}"/>
+                            </f:facet>
+                            <h:outputText value="#{missingPiecePojos.individuPojo.individu.numDossierOpi}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['FIELD_LABEL.NAME']}"/>
+                            </f:facet>
+                            <h:outputText
+                                    value="#{missingPiecePojos.individuPojo.individu.nomPatronymique} #{missingPiecePojos.individuPojo.individu.prenom}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['INDIVIDU.DATE_NAI_COURT']}"/>
+                            </f:facet>
+                            <h:outputText value="#{missingPiecePojos.individuPojo.individu.dateNaissance}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"
+                                                   timeZone="#{sessionController.timezone}"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['FIELD_LABEL.MAIL_PERSO']}"/>
+                            </f:facet>
+                            <h:outputLink
+                                    value="mailto:#{missingPiecePojos.individuPojo.individu.adressMail}">
+                                <h:outputText
+                                        value="#{missingPiecePojos.individuPojo.individu.adressMail}"/>
+                            </h:outputLink>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton icon="ui-icon-pencil"
+                                             id="updateState" immediate="true" ajax="false"
+                                             title="#{msgs['_.BUTTON.UPDATE']}"
+                                             rendered="#{managedAccess.updateAuthorized and !(pjController.currentCmiPojo != null
     									and pjController.currentCmiPojo.state.displayPJ)}"
-    							action="#{pjController.goSeePMEtudiant}">
-    							<f:setPropertyActionListener value="#{missingPiecePojos}" target="#{pjController.mpPojoSelected}" />
-    						</p:commandButton>
-    					</p:column>
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['COMMISSIONS']}" />
-    						</f:facet>
-    						<ui:repeat
-    							 var="commissionPojo"
-     							 value="#{missingPiecePojos.cmiKeySet}" >
-                                 <div>
-                                    <h:outputText value="#{commissionPojo.commission.code}" id="codeCom" />
+                                             action="#{pjController.goSeePMEtudiant}">
+                                <f:setPropertyActionListener value="#{missingPiecePojos}"
+                                                             target="#{pjController.mpPojoSelected}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['COMMISSIONS']}"/>
+                            </f:facet>
+                            <ui:repeat
+                                    var="commissionPojo"
+                                    value="#{missingPiecePojos.cmiKeySet}">
+                                <div>
+                                    <h:outputText value="#{commissionPojo.commission.code}" id="codeCom"/>
                                     <p:overlayPanel for="codeCom"
-                                        appendToBody="true"
-                                        showEvent="mouseover"
-                                        hideEvent="mouseout"
-                                        styleClass="containerPopup"
-                                        style="width:auto;">
-    									<h:panelGroup>
-    										<h:panelGrid columns="1">
-    											<h:outputText styleClass="titrePopupAide"
-    												value="#{msgs['FIELD_LABEL.LIBELLE']} #{msgs['FIELD_LABEL.COMMISSION']}" />
-    											<h:outputText styleClass="libellesAide"
-    												value="#{commissionPojo.commission.libelle}" />
-    										</h:panelGrid>
-    									</h:panelGroup>
-    								</p:overlayPanel>
+                                                    appendToBody="true"
+                                                    showEvent="mouseover"
+                                                    hideEvent="mouseout"
+                                                    styleClass="containerPopup"
+                                                    style="width:auto;">
+                                        <h:panelGroup>
+                                            <h:panelGrid columns="1">
+                                                <h:outputText styleClass="titrePopupAide"
+                                                              value="#{msgs['FIELD_LABEL.LIBELLE']} #{msgs['FIELD_LABEL.COMMISSION']}"/>
+                                                <h:outputText styleClass="libellesAide"
+                                                              value="#{commissionPojo.commission.libelle}"/>
+                                            </h:panelGrid>
+                                        </h:panelGroup>
+                                    </p:overlayPanel>
                                 </div>
-    						</ui:repeat>
-    					</p:column>
-    					<p:column>
-    						<f:facet name="header">
+                            </ui:repeat>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
                                 <p:selectOneRadio value="#{pjController.stateSelected}">
-                                    <f:selectItem itemValue="STATE.NON_ARRIVE" itemLabel="#{msgs['STATE.NON_ARRIVE']}" />
-                                    <f:selectItem itemValue="STATE.ARRIVE_COMPLET" itemLabel="#{msgs['STATE.ARRIVE_COMPLET']}" />
-                                    <f:selectItem itemValue="STATE.ARRIVE_INCOMPLET" itemLabel="#{msgs['STATE.ARRIVE_INCOMPLET']}" />
-                                    <p:ajax listener="#{pjController.putStateAll}" update=":seeIndividusForm:individuData" />
+                                    <f:selectItem itemValue="STATE.NON_ARRIVE" itemLabel="#{msgs['STATE.NON_ARRIVE']}"/>
+                                    <f:selectItem itemValue="STATE.ARRIVE_COMPLET"
+                                                  itemLabel="#{msgs['STATE.ARRIVE_COMPLET']}"/>
+                                    <f:selectItem itemValue="STATE.ARRIVE_INCOMPLET"
+                                                  itemLabel="#{msgs['STATE.ARRIVE_INCOMPLET']}"/>
+                                    <p:ajax listener="#{pjController.putStateAll}"
+                                            update=":seeIndividusForm:individuData"/>
                                 </p:selectOneRadio>
-    						</f:facet>
-                            <ui:repeat var="commissionPojo" value="#{missingPiecePojos.cmiKeySet}" >
+                            </f:facet>
+                            <ui:repeat var="commissionPojo" value="#{missingPiecePojos.cmiKeySet}">
                                 <p:selectOneRadio value="#{commissionPojo.stateCurrent}">
-                                    <f:selectItem itemValue="STATE.NON_ARRIVE" itemLabel="#{msgs['STATE.NON_ARRIVE']}" />
-                                    <f:selectItem itemValue="STATE.ARRIVE_COMPLET" itemLabel="#{msgs['STATE.ARRIVE_COMPLET']}" />
-                                    <f:selectItem itemValue="STATE.ARRIVE_INCOMPLET" itemLabel="#{msgs['STATE.ARRIVE_INCOMPLET']}" />
-                                    <p:ajax update=":seeIndividusForm:individuData" />
+                                    <f:selectItem itemValue="STATE.NON_ARRIVE" itemLabel="#{msgs['STATE.NON_ARRIVE']}"/>
+                                    <f:selectItem itemValue="STATE.ARRIVE_COMPLET"
+                                                  itemLabel="#{msgs['STATE.ARRIVE_COMPLET']}"/>
+                                    <f:selectItem itemValue="STATE.ARRIVE_INCOMPLET"
+                                                  itemLabel="#{msgs['STATE.ARRIVE_INCOMPLET']}"/>
+                                    <p:ajax update=":seeIndividusForm:individuData"/>
                                 </p:selectOneRadio>
                             </ui:repeat>
-                            
-    					</p:column>
-    					<p:column styleClass="buttonTD">
-    						<ui:repeat
-    							 var="commissionPojo"
-     							 value="#{missingPiecePojos.cmiKeySet}">
-    								<p:commandButton icon="ui-icon-search"
-                                        immediate="true" ajax="false"
-    									action="#{pjController.seeMissingPiecePrincipal}"
-    									title="#{msgs['_.BUTTON.DISPLAY']}"
-    									rendered="#{!(pjController.currentCmiPojo != null 
-    									and pjController.currentCmiPojo.state.displayPJ)}">
-    									<f:setPropertyActionListener value="#{commissionPojo}" target="#{pjController.currentCmiPojo}" />
-    									<f:setPropertyActionListener value="#{missingPiecePojos}" target="#{pjController.mpPojoSelected}" />
-    								</p:commandButton>
-    						</ui:repeat>
-    					</p:column>
+
+                        </p:column>
                         <p:column styleClass="buttonTD">
                             <ui:repeat
-                                 var="commissionPojo"
-                                 value="#{missingPiecePojos.cmiKeySet}">
-                                <p:commandButton icon="ui-icon-pencil"
-                                    title="#{msgs['_.BUTTON.UPDATE']}"
-                                    action="#{pjController.changeState}"
-                                    rendered="#{(managedAccess.updateAuthorized
-                                        || managedAccess.addAuthorized) and !(pjController.currentCmiPojo != null 
-                                        and pjController.currentCmiPojo.state.displayPJ)}" ajax="false" >
-                                    <f:setPropertyActionListener value="#{commissionPojo}" target="#{pjController.currentCmiPojo}" />
-                                    <f:setPropertyActionListener value="#{missingPiecePojos}" target="#{pjController.mpPojoSelected}" />
+                                    var="commissionPojo"
+                                    value="#{missingPiecePojos.cmiKeySet}">
+                                <p:commandButton icon="ui-icon-search"
+                                                 immediate="true" ajax="false"
+                                                 action="#{pjController.seeMissingPiecePrincipal}"
+                                                 title="#{msgs['_.BUTTON.DISPLAY']}"
+                                                 rendered="#{!(pjController.currentCmiPojo != null
+    									and pjController.currentCmiPojo.state.displayPJ)}">
+                                    <f:setPropertyActionListener value="#{commissionPojo}"
+                                                                 target="#{pjController.currentCmiPojo}"/>
+                                    <f:setPropertyActionListener value="#{missingPiecePojos}"
+                                                                 target="#{pjController.mpPojoSelected}"/>
                                 </p:commandButton>
                             </ui:repeat>
                         </p:column>
-    				</p:dataTable>
-    			</div>
-    		</h:form>
-    		<br />
-    		<br />
-    		<br />
-    	</div>    	
+                        <p:column styleClass="buttonTD">
+                            <ui:repeat
+                                    var="commissionPojo"
+                                    value="#{missingPiecePojos.cmiKeySet}">
+                                <p:commandButton icon="ui-icon-pencil"
+                                                 title="#{msgs['_.BUTTON.UPDATE']}"
+                                                 action="#{pjController.changeState}"
+                                                 rendered="#{(managedAccess.updateAuthorized
+                                        || managedAccess.addAuthorized) and !(pjController.currentCmiPojo != null 
+                                        and pjController.currentCmiPojo.state.displayPJ)}" ajax="false">
+                                    <f:setPropertyActionListener value="#{commissionPojo}"
+                                                                 target="#{pjController.currentCmiPojo}"/>
+                                    <f:setPropertyActionListener value="#{missingPiecePojos}"
+                                                                 target="#{pjController.mpPojoSelected}"/>
+                                </p:commandButton>
+                            </ui:repeat>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+            <br/>
+            <br/>
+            <br/>
+        </div>
     </ui:define>
 </ui:composition>

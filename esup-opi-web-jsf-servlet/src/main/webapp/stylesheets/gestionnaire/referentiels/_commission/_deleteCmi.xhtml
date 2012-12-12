@@ -1,22 +1,22 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <h:form id="formDeleteCmi">
-    	<div style="width:100%;">
-    		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    			styleClass="tableJustWidthMax">
-    			<h:outputText value="#{msgs['COMMISSION.CONFIRM.DELETE']}">
-    				<f:param value="#{commissionController.commission.libelle}"/>
-    			</h:outputText>
-    			<h:panelGroup>
-    				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    					action="#{commissionController.delete}"/>
-    				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
-    					action="#{commissionController.reset}"
-    					immediate="true"/>
-    			</h:panelGroup>
-    		</h:panelGrid>
-    	</div>
+        <div style="width:100%;">
+            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                         styleClass="tableJustWidthMax">
+                <h:outputText value="#{msgs['COMMISSION.CONFIRM.DELETE']}">
+                    <f:param value="#{commissionController.commission.libelle}"/>
+                </h:outputText>
+                <h:panelGroup>
+                    <p:commandButton value="#{msgs['_.BUTTON.YES']}"
+                                     action="#{commissionController.delete}"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.NO']}"
+                                     action="#{commissionController.reset}"
+                                     immediate="true"/>
+                </h:panelGroup>
+            </h:panelGrid>
+        </div>
     </h:form>
 </ui:fragment>

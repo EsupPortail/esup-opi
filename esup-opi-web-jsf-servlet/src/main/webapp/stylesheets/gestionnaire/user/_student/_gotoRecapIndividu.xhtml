@@ -1,27 +1,28 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <h:form id="formGoRecap">
-    	<div style="width:100%;">
-    		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    			styleClass="tableJustWidthMax">
-    			<h:panelGroup>
-    				<h:outputText value="#{msgs['INFO.CANDIDAT.SAVE_OK']} " />
-    				<h:outputText value="#{msgs['GESTIONNAIRE.CONFIRM.GOTO.SPACE_IND']}" />
-    			</h:panelGroup>
-    			
-    			<h:panelGroup>
-    				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    					action="#{individuController.goSeeOneIndividu}"
-                        ajax="false">
-    					<f:setPropertyActionListener value="#{individuController.actionEnum.emptyAction}" target="#{individuController.actionEnum.whatAction}" />
-    				</p:commandButton>
-    				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
-    					action="#{individuController.reset}"
-    					immediate="true" ajax="false"/>
-    			</h:panelGroup>
-    		</h:panelGrid>
-    	</div>
+        <div style="width:100%;">
+            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                         styleClass="tableJustWidthMax">
+                <h:panelGroup>
+                    <h:outputText value="#{msgs['INFO.CANDIDAT.SAVE_OK']} "/>
+                    <h:outputText value="#{msgs['GESTIONNAIRE.CONFIRM.GOTO.SPACE_IND']}"/>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <p:commandButton value="#{msgs['_.BUTTON.YES']}"
+                                     action="#{individuController.goSeeOneIndividu}"
+                                     ajax="false">
+                        <f:setPropertyActionListener value="#{individuController.actionEnum.emptyAction}"
+                                                     target="#{individuController.actionEnum.whatAction}"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{msgs['_.BUTTON.NO']}"
+                                     action="#{individuController.reset}"
+                                     immediate="true" ajax="false"/>
+                </h:panelGroup>
+            </h:panelGrid>
+        </div>
     </h:form>
 </ui:fragment>

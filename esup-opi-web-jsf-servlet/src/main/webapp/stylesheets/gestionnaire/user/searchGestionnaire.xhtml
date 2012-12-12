@@ -1,58 +1,59 @@
-
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-xmlns:ui="http://java.sun.com/jsf/facelets"
-xmlns:h="http://java.sun.com/jsf/html"
-xmlns:p="http://primefaces.org/ui"
-template="/stylesheets/template.xhtml">
-<ui:define name="content">
-	<div id="maPage" class="div_body">
-		<h1>
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/template.xhtml">
+    <ui:define name="content">
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{msgs['GESTIONNAIRE.SEARCH_LDAP']}" />
+                    <h:outputText value="#{msgs['GESTIONNAIRE.SEARCH_LDAP']}"/>
                 </span>
             </h1>
-		<h:form id="searchManagerForm">
-			<ui:include src="_manager/_searchLdap.xhtml" />
+            <h:form id="searchManagerForm">
+                <ui:include src="_manager/_searchLdap.xhtml"/>
 
-			<br />
-			<br />
-			<br />
-			<div id="div_subSectionList" class="div_subSection">
-				<p:dataTable var="manager" id="managerData" rendered="#{not empty ldapSearchController.managers}"
-					value="#{ldapSearchController.managers}" styleClass="paginatorData">
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="#{msgs['GESTIONNAIRE.LOGIN']}" />
-						</f:facet>
-						<h:outputText value="#{manager.login}" />
-					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="#{msgs['FIELD_LABEL.NAME']}" />
-						</f:facet>
-						<h:outputText value="#{manager.displayName}" />
-					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="#{msgs['FIELD_LABEL.MAIL']}" />
-						</f:facet>
-						<h:outputText value="#{manager.adressMail}" />
-					</p:column>
-					<p:column>
-						<p:commandButton icon="ui-icon-plus"
-                            ajax="false" immediate="true"
-							action="#{ldapSearchController.goBack}"
-							title="#{_.BUTTON.ADD}">
-							<f:setPropertyActionListener value="#{manager}" target="#{gestionnaireController.manager}" />
-						</p:commandButton>
-					</p:column>
-				</p:dataTable>
-			</div>
+                <br/>
+                <br/>
+                <br/>
 
-		</h:form>
-		<br />
-		<br />
-		<br />
-	</div>
-</ui:define>
+                <div id="div_subSectionList" class="div_subSection">
+                    <p:dataTable var="manager" id="managerData" rendered="#{not empty ldapSearchController.managers}"
+                                 value="#{ldapSearchController.managers}" styleClass="paginatorData">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['GESTIONNAIRE.LOGIN']}"/>
+                            </f:facet>
+                            <h:outputText value="#{manager.login}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['FIELD_LABEL.NAME']}"/>
+                            </f:facet>
+                            <h:outputText value="#{manager.displayName}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['FIELD_LABEL.MAIL']}"/>
+                            </f:facet>
+                            <h:outputText value="#{manager.adressMail}"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton icon="ui-icon-plus"
+                                             ajax="false" immediate="true"
+                                             action="#{ldapSearchController.goBack}"
+                                             title="#{_.BUTTON.ADD}">
+                                <f:setPropertyActionListener value="#{manager}"
+                                                             target="#{gestionnaireController.manager}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+
+            </h:form>
+            <br/>
+            <br/>
+            <br/>
+        </div>
+    </ui:define>
 </ui:composition>

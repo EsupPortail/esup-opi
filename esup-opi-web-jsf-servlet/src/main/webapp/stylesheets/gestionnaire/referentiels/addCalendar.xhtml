@@ -1,57 +1,60 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	<div id="maPage" class="div_body">
-    		<h1>
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{msgs['CALENDAR.TITLE.ADD']}" />
+                    <h:outputText value="#{msgs['CALENDAR.TITLE.ADD']}"/>
                 </span>
             </h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    		<div class="maxDivTextRight">
-    			<h:panelGroup>
-    				<h:outputText value="#{msgs['INFO.CHAMP']}" />
-    				<h:outputText value="*" styleClass="etoileForChpObli" />
-    			</h:panelGroup>
-    		</div>
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="addCalendarForm">
-    				<br />
-    				<br />
-    				<br />
-    				<div id="blockFormTypCal" class="blockForm">
-    					<h:panelGrid styleClass="tableWidthMax" columns="2"
-    						columnClasses="col1UnDemi,col2UnDemi">
-    						<h:panelGroup>
-    							<h:outputLabel value="#{msgs['CALENDAR.CHOICE.TYP']}"
-    								for="typCal" />
-    						</h:panelGroup>
-    						<h:panelGroup>
-    							<p:selectOneMenu
-    								value="#{calendarController.beanCalendar.typeSelected}">
-    								<f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}"
-    								itemValue="" />
-    								<f:selectItems value="#{calendarController.typeCalItems}"/>
-                                    <p:ajax listener="#{calendarController.selectType}" update="@form" />
-    							</p:selectOneMenu>
-    						</h:panelGroup>
-    					</h:panelGrid>
-    				</div>
-                    <p:outputPanel id="calTypInscription" rendered="#{calendarController.beanCalendar.typeSelected == calendarController.typCalInscription}">
-    					<ui:include src="_calendar/_enterCalInscription.xhtml" />
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
+            <div class="maxDivTextRight">
+                <h:panelGroup>
+                    <h:outputText value="#{msgs['INFO.CHAMP']}"/>
+                    <h:outputText value="*" styleClass="etoileForChpObli"/>
+                </h:panelGroup>
+            </div>
+            <div id="div_subSection" class="div_subSection">
+                <h:form id="addCalendarForm">
+                    <br/>
+                    <br/>
+                    <br/>
+
+                    <div id="blockFormTypCal" class="blockForm">
+                        <h:panelGrid styleClass="tableWidthMax" columns="2"
+                                     columnClasses="col1UnDemi,col2UnDemi">
+                            <h:panelGroup>
+                                <h:outputLabel value="#{msgs['CALENDAR.CHOICE.TYP']}"
+                                               for="typCal"/>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneMenu
+                                        value="#{calendarController.beanCalendar.typeSelected}">
+                                    <f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}"
+                                                  itemValue=""/>
+                                    <f:selectItems value="#{calendarController.typeCalItems}"/>
+                                    <p:ajax listener="#{calendarController.selectType}" update="@form"/>
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </div>
+                    <p:outputPanel id="calTypInscription"
+                                   rendered="#{calendarController.beanCalendar.typeSelected == calendarController.typCalInscription}">
+                        <ui:include src="_calendar/_enterCalInscription.xhtml"/>
                     </p:outputPanel>
-                    <p:outputPanel id="calTypCommission" rendered="#{calendarController.beanCalendar.typeSelected == calendarController.typCalCommission}">
-    					<h:outputText value="#{msgs['CALENDAR.CMI.INFO.EXIST']}">
-    						<f:param value="#{calendarController.dateBackDefault}"/>
-    					</h:outputText>
+                    <p:outputPanel id="calTypCommission"
+                                   rendered="#{calendarController.beanCalendar.typeSelected == calendarController.typCalCommission}">
+                        <h:outputText value="#{msgs['CALENDAR.CMI.INFO.EXIST']}">
+                            <f:param value="#{calendarController.dateBackDefault}"/>
+                        </h:outputText>
                     </p:outputPanel>
-    			</h:form>
-    		</div>
-    	</div>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>

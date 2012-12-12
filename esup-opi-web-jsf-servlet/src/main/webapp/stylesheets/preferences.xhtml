@@ -1,45 +1,47 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/template.xhtml">
     <ui:define name="content">
-    	<div id="maPage" class="div_body">
-    
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    
-    		<h:form id="preferencesForm">
-    			<h1><h:outputText value="#{msgs['PREFERENCES.TITLE']}" /></h1>
-    
-    
-    			<h:panelGrid columns="2">
-    				<h:outputLabel for="id" value="#{msgs['PREFERENCES.TEXT.ID']}" />
-    				<h:outputText id="id" value="#{sessionController.currentUser.id}" />
-    				<h:outputLabel for="displayName"
-    					value="#{msgs['PREFERENCES.TEXT.DISPLAY_NAME']}" />
-    				<h:outputText id="displayName"
-    					value="#{sessionController.currentUser.displayName}" />
-    				<h:outputLabel for="locale"
-    					value="#{msgs['PREFERENCES.TEXT.LANGUAGE']}" />
-    				<h:panelGroup>
-    					<p:selectOneMenu id="locale" onchange="submit();"
-    						value="#{preferencesController.locale}"
-    						converter="#{localeConverter}">
-    						<f:selectItems value="#{preferencesController.localeItems}" />
-    					</p:selectOneMenu>
-    					<p:commandButton value="#{msgs['_.BUTTON.CHANGE']}"
-    						id="localeChangeButton" />
-    				</h:panelGroup>
-    			</h:panelGrid>
-    		</h:form>
-    	</div>
-    	
-    	<script type="text/javascript">	
-        	hideButton("preferencesForm:localeChangeButton");	
-        	highlightChildrenLiTags('navigationHeader:firstNavigation');
-        	highlightChildrenLiTags('navigationFooter:firstNavigation');
+        <div id="maPage" class="div_body">
+
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
+
+            <h:form id="preferencesForm">
+                <h1>
+                    <h:outputText value="#{msgs['PREFERENCES.TITLE']}"/>
+                </h1>
+
+
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="id" value="#{msgs['PREFERENCES.TEXT.ID']}"/>
+                    <h:outputText id="id" value="#{sessionController.currentUser.id}"/>
+                    <h:outputLabel for="displayName"
+                                   value="#{msgs['PREFERENCES.TEXT.DISPLAY_NAME']}"/>
+                    <h:outputText id="displayName"
+                                  value="#{sessionController.currentUser.displayName}"/>
+                    <h:outputLabel for="locale"
+                                   value="#{msgs['PREFERENCES.TEXT.LANGUAGE']}"/>
+                    <h:panelGroup>
+                        <p:selectOneMenu id="locale" onchange="submit();"
+                                         value="#{preferencesController.locale}"
+                                         converter="#{localeConverter}">
+                            <f:selectItems value="#{preferencesController.localeItems}"/>
+                        </p:selectOneMenu>
+                        <p:commandButton value="#{msgs['_.BUTTON.CHANGE']}"
+                                         id="localeChangeButton"/>
+                    </h:panelGroup>
+                </h:panelGrid>
+            </h:form>
+        </div>
+
+        <script type="text/javascript">
+            hideButton("preferencesForm:localeChangeButton");
+            highlightChildrenLiTags('navigationHeader:firstNavigation');
+            highlightChildrenLiTags('navigationFooter:firstNavigation');
         </script>
     </ui:define>
 </ui:composition>

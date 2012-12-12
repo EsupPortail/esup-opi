@@ -1,95 +1,96 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <h:panelGrid columns="1" styleClass="displayInfo">
-    	<h:outputLabel value="#{msgs['FIELD_LABEL.MODIF_ABSCISSE']}" styleClass="formHeader"/>
-    	
-    	<h:panelGrid columns="2">
-    		<h:outputLabel value="#{msgs['FIELD_LABEL.TYPE_ABSCISSE']}" styleClass="formHeader" for="typeAbscisse"/>
-    		
-    		<h:outputLabel value="#{parametreStatController.typeCoordonneAbscisseSelected.libelle}"
-    			rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction}"/>
-    		
-    		<h:panelGroup rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction}">
-    			<p:selectOneMenu id="typeAbscisse"
-    				value="#{parametreStatController.selectTypeAbscisse}">
-    				<f:selectItems value="#{parametreStatController.allTypeAbscisseItems}"/>
-                    <p:ajax listener="#{parametreStatController.clearObjAbscisse}" update="manageAbscisses,@(.paginatorData)" />
-    			</p:selectOneMenu>
-    		</h:panelGroup>
-    		
-    		
-    		
-    		<h:outputLabel value="#{msgs['FIELD_LABEL.CHOIX_ABSCISSE']}" styleClass="formHeader" for="abscisseModif"/>
-    		
-    		<h:panelGrid id="manageAbscisses" columns="2">
-    			<h:panelGrid columns="1">
-    				<h:panelGroup>
-    					<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE_COORDONNE']} "/>
-    					<p:inputText id="libelleAbscisses" value="#{parametreStatController.libelleCoordonne}" >
-                            <f:validateRequired />
+        <h:outputLabel value="#{msgs['FIELD_LABEL.MODIF_ABSCISSE']}" styleClass="formHeader"/>
+
+        <h:panelGrid columns="2">
+            <h:outputLabel value="#{msgs['FIELD_LABEL.TYPE_ABSCISSE']}" styleClass="formHeader" for="typeAbscisse"/>
+
+            <h:outputLabel value="#{parametreStatController.typeCoordonneAbscisseSelected.libelle}"
+                           rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction}"/>
+
+            <h:panelGroup
+                    rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction}">
+                <p:selectOneMenu id="typeAbscisse"
+                                 value="#{parametreStatController.selectTypeAbscisse}">
+                    <f:selectItems value="#{parametreStatController.allTypeAbscisseItems}"/>
+                    <p:ajax listener="#{parametreStatController.clearObjAbscisse}"
+                            update="manageAbscisses,@(.paginatorData)"/>
+                </p:selectOneMenu>
+            </h:panelGroup>
+
+
+            <h:outputLabel value="#{msgs['FIELD_LABEL.CHOIX_ABSCISSE']}" styleClass="formHeader" for="abscisseModif"/>
+
+            <h:panelGrid id="manageAbscisses" columns="2">
+                <h:panelGrid columns="1">
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE_COORDONNE']} "/>
+                        <p:inputText id="libelleAbscisses" value="#{parametreStatController.libelleCoordonne}">
+                            <f:validateRequired/>
                         </p:inputText>
-    				</h:panelGroup>
-    				<h:panelGrid columns="4" id="abscisseModif">
-    					<p:selectManyMenu id="selectObjAbscisseAdd" styleClass="manyMenu"
-    						value="#{parametreStatController.selectObjAbscisseAdd}">
-    						<f:selectItems value="#{parametreStatController.allObjAbscisseItems}"/>
-    					</p:selectManyMenu>
-    					<h:panelGrid columns="1">
-    						<p:commandButton icon="ui-icon-arrowthick-1-w"
-                                process="abscisseModif"
-                                update="selectObjAbscisseAdd,selectObjAbscisseDel"
-    							action="#{parametreStatController.delAbscisseItems}"/>
-    						<p:commandButton icon="ui-icon-arrowthick-1-e" 
-                                process="abscisseModif"
-                                update="selectObjAbscisseAdd,selectObjAbscisseDel"
-    							action="#{parametreStatController.addAbscisseItems}"/>
-    					</h:panelGrid>
-    					<h:panelGroup>
-    						<p:selectManyMenu id="selectObjAbscisseDel" styleClass="manyMenu"
-    							value="#{parametreStatController.selectObjAbscisseDel}">
-    							<f:selectItems value="#{parametreStatController.objAbscisseItems}"/>
-    						</p:selectManyMenu>
-    					</h:panelGroup>
-    				</h:panelGrid>
-    			</h:panelGrid>
-    			
-    			<h:panelGroup>
-    				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}" ajax="false"
-    					rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction}"
-    					action="#{parametreStatController.addAbscisseCoordonne}"/>
-    				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}" ajax="false"
-    					rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction}"
-    					action="#{parametreStatController.updateAbscisseCoordonne}"/>
-    				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" ajax="false"
-    					rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction}"
-    					action="#{parametreStatController.clearObjAbscisse}">
-    					<f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}" 
-    						target="#{parametreStatController.actionEnum.whatAction}" />
-    				</p:commandButton>
-    			</h:panelGroup>
-    		</h:panelGrid>
-    		
-    		<h:panelGroup />
-    		<p:dataTable var="abscisseItem" styleClass="paginatorData"
-    			rendered="#{not empty parametreStatController.listAbscisseCoordonneItems}"
-    			value="#{parametreStatController.listAbscisseCoordonneItems}">
-    			<p:column>
-    				<f:facet name="header">
-    					<h:outputText value="#{msgs['FIELD_LABEL.ABSCISSE']}"/>
-    				</f:facet>
-    				<h:outputText value="#{abscisseItem.label}"/>
-    			</p:column>
-    			
-    			<p:column>
-    				<p:commandButton icon="ui-icon-minus" ajax="false" immediate="true"
-    					action="#{parametreStatController.delAbscisseCoordonne}">
-    					<f:setPropertyActionListener value="#{abscisseItem.value}"
-    						target="#{parametreStatController.selectAbscisseCoordonne}" />
-    				</p:commandButton>
-    			</p:column>
-    		</p:dataTable>
-    	</h:panelGrid>
+                    </h:panelGroup>
+                    <h:panelGrid columns="4" id="abscisseModif">
+                        <p:selectManyMenu id="selectObjAbscisseAdd" styleClass="manyMenu"
+                                          value="#{parametreStatController.selectObjAbscisseAdd}">
+                            <f:selectItems value="#{parametreStatController.allObjAbscisseItems}"/>
+                        </p:selectManyMenu>
+                        <h:panelGrid columns="1">
+                            <p:commandButton icon="ui-icon-arrowthick-1-w"
+                                             process="abscisseModif"
+                                             update="selectObjAbscisseAdd,selectObjAbscisseDel"
+                                             action="#{parametreStatController.delAbscisseItems}"/>
+                            <p:commandButton icon="ui-icon-arrowthick-1-e"
+                                             process="abscisseModif"
+                                             update="selectObjAbscisseAdd,selectObjAbscisseDel"
+                                             action="#{parametreStatController.addAbscisseItems}"/>
+                        </h:panelGrid>
+                        <h:panelGroup>
+                            <p:selectManyMenu id="selectObjAbscisseDel" styleClass="manyMenu"
+                                              value="#{parametreStatController.selectObjAbscisseDel}">
+                                <f:selectItems value="#{parametreStatController.objAbscisseItems}"/>
+                            </p:selectManyMenu>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </h:panelGrid>
+
+                <h:panelGroup>
+                    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}" ajax="false"
+                                     rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.addAction}"
+                                     action="#{parametreStatController.addAbscisseCoordonne}"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}" ajax="false"
+                                     rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction}"
+                                     action="#{parametreStatController.updateAbscisseCoordonne}"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" ajax="false"
+                                     rendered="#{parametreStatController.addUpdateCoordonne.whatAction == parametreStatController.addUpdateCoordonne.updateAction}"
+                                     action="#{parametreStatController.clearObjAbscisse}">
+                        <f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}"
+                                                     target="#{parametreStatController.actionEnum.whatAction}"/>
+                    </p:commandButton>
+                </h:panelGroup>
+            </h:panelGrid>
+
+            <h:panelGroup/>
+            <p:dataTable var="abscisseItem" styleClass="paginatorData"
+                         rendered="#{not empty parametreStatController.listAbscisseCoordonneItems}"
+                         value="#{parametreStatController.listAbscisseCoordonneItems}">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msgs['FIELD_LABEL.ABSCISSE']}"/>
+                    </f:facet>
+                    <h:outputText value="#{abscisseItem.label}"/>
+                </p:column>
+
+                <p:column>
+                    <p:commandButton icon="ui-icon-minus" ajax="false" immediate="true"
+                                     action="#{parametreStatController.delAbscisseCoordonne}">
+                        <f:setPropertyActionListener value="#{abscisseItem.value}"
+                                                     target="#{parametreStatController.selectAbscisseCoordonne}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:panelGrid>
     </h:panelGrid>
 </ui:fragment>

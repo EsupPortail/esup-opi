@@ -4,28 +4,31 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	<div id="maPage" class="div_body">
+        <div id="maPage" class="div_body">
             <h1>
                 <span class="section-header">
-                    <h:outputText value="#{msgs['INDIVIDU.TITLE.LISTE']}" />
+                    <h:outputText value="#{msgs['INDIVIDU.TITLE.LISTE']}"/>
                 </span>
             </h1>
-            <ui:fragment rendered="#{individuController.actionEnum.whatAction == individuController.actionEnum.deleteAction}">
+            <ui:fragment
+                    rendered="#{individuController.actionEnum.whatAction == individuController.actionEnum.deleteAction}">
                 <div id="div_subSectionDelete" class="div_subSection">
-                    <ui:include src="_student/_deleteStudent.xhtml" />
+                    <ui:include src="_student/_deleteStudent.xhtml"/>
                 </div>
             </ui:fragment>
             <h:form id="seeManagersForm">
-                <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml" />
+                <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml">
+                    <ui:param name="toUpdate" value=":seeManagersForm:managerData"/>
+                </ui:include>
                 <div class="messageForUser">
-                    <p:messages id="messages" showDetail="true" autoUpdate="true" />
+                    <p:messages id="messages" showDetail="true" autoUpdate="true"/>
                 </div>
                 <div id="blockFormButton" class="blockForm">
                     <div class="blockButton">
                         <h:panelGroup>
                             <p:commandButton value="#{msgs['_.BUTTON.ADD']}" ajax="false"
                                              action="#{individuController.goAddEtudiant}"
-                                             rendered="#{managedAccess.addAuthorized}" />
+                                             rendered="#{managedAccess.addAuthorized}"/>
                         </h:panelGroup>
                     </div>
                     <p:dataTable var="individu" id="managerData"
@@ -37,50 +40,53 @@
                                  emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}" sortBy="#{nomPatronymique}" lazy="true">
                         <p:columnGroup type="header">
                             <p:row>
-                                <p:column headerText="#{msgs['INDIVIDU.NUM_DOSSIER']}" />
-                                <p:column headerText="#{msgs['INDIVIDU.NOM']}" />
-                                <p:column headerText="#{msgs['INDIVIDU.PRENOM']}" />
-                                <p:column headerText="#{msgs['INDIVIDU.DATE_NAI_COURT']}" />
-                                <p:column colspan="2" />
+                                <p:column headerText="#{msgs['INDIVIDU.NUM_DOSSIER']}"/>
+                                <p:column headerText="#{msgs['INDIVIDU.NOM']}"/>
+                                <p:column headerText="#{msgs['INDIVIDU.PRENOM']}"/>
+                                <p:column headerText="#{msgs['INDIVIDU.DATE_NAI_COURT']}"/>
+                                <p:column colspan="2"/>
                             </p:row>
                         </p:columnGroup>
                         <p:column>
-                            <h:outputText value="#{individu.numDossierOpi}" />
+                            <h:outputText value="#{individu.numDossierOpi}"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{individu.nomPatronymique}" />
+                            <h:outputText value="#{individu.nomPatronymique}"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{individu.prenom}" />
+                            <h:outputText value="#{individu.prenom}"/>
                         </p:column>
                         <p:column>
                             <h:outputText value="#{individu.dateNaissance}">
                                 <f:convertDateTime pattern="dd/MM/yyyy"
-                                                   timeZone="#{sessionController.timezone}" />
+                                                   timeZone="#{sessionController.timezone}"/>
                             </h:outputText>
                         </p:column>
                         <p:column>
                             <p:commandButton icon="ui-icon-search" ajax="false" immediate="true"
                                              title="#{msgs['_.BUTTON.DISPLAY']}"
                                              action="#{individuController.goSeeOneIndividu}">
-                                <f:setPropertyActionListener value="#{individu}" target="#{individuController.pojoIndividu.individu}" />
+                                <f:setPropertyActionListener value="#{individu}"
+                                                             target="#{individuController.pojoIndividu.individu}"/>
                             </p:commandButton>
                         </p:column>
                         <p:column>
                             <p:commandButton icon="ui-icon-minus" ajax="false" immediate="true"
                                              rendered="#{managedAccess.deleteAuthorized}"
                                              title="#{msgs['_.BUTTON.DELETE']}">
-                                <f:setPropertyActionListener value="#{individu}" target="#{individuController.pojoIndividu.individu}" />
-                                <f:setPropertyActionListener value="#{individuController.actionEnum.deleteAction}" target="#{individuController.actionEnum.whatAction}" />
+                                <f:setPropertyActionListener value="#{individu}"
+                                                             target="#{individuController.pojoIndividu.individu}"/>
+                                <f:setPropertyActionListener value="#{individuController.actionEnum.deleteAction}"
+                                                             target="#{individuController.actionEnum.whatAction}"/>
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
                     <p:blockUI block="seeManagersForm" trigger="managerData">
-                        <p:graphicImage value="/media/images/ajax-loader.gif" />
+                        <p:graphicImage value="/media/images/ajax-loader.gif"/>
                     </p:blockUI>
                 </div>
-            </h:form>    
-    	</div>
+            </h:form>
+        </div>
     </ui:define>
 </ui:composition>
 

@@ -1,119 +1,123 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <ui:fragment rendered="#{cursusController.confirmeDelete}" styleClass="confirmeDelete">
-    	<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    		styleClass="tableJustWidthMax">
-    		<h:outputFormat value="#{msgs['INDIVIDU.CURSUS_PRO.CONFIRM.DELETE']}">
-    			<f:param value="#{cursusController.indCursusPojo.cursus.annee}"/>
-    			<f:param value="#{cursusController.indCursusPojo.cursus.organisme}"/>
-    			<f:param value="#{cursusController.indCursusPojo.cursus.duree}"/>
-    		</h:outputFormat>
-    		<h:panelGroup>
-    			<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    				action="#{cursusController.removeCursusPro}"
-    				ajax="false"/>
-    			<p:commandButton value="#{msgs['_.BUTTON.NO']}"
-    				action="#{cursusController.goSeeCursusPro}"
-    				immediate="true"
-    				ajax="false"/>
-    		</h:panelGroup>
-    	</h:panelGrid>
+        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                     styleClass="tableJustWidthMax">
+            <h:outputFormat value="#{msgs['INDIVIDU.CURSUS_PRO.CONFIRM.DELETE']}">
+                <f:param value="#{cursusController.indCursusPojo.cursus.annee}"/>
+                <f:param value="#{cursusController.indCursusPojo.cursus.organisme}"/>
+                <f:param value="#{cursusController.indCursusPojo.cursus.duree}"/>
+            </h:outputFormat>
+            <h:panelGroup>
+                <p:commandButton value="#{msgs['_.BUTTON.YES']}"
+                                 action="#{cursusController.removeCursusPro}"
+                                 ajax="false"/>
+                <p:commandButton value="#{msgs['_.BUTTON.NO']}"
+                                 action="#{cursusController.goSeeCursusPro}"
+                                 immediate="true"
+                                 ajax="false"/>
+            </h:panelGroup>
+        </h:panelGrid>
     </ui:fragment>
-    
+
     <div id="blockFormCursusExt" class="blockForm">
-    	<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    		rendered="#{!cursusController.confirmeDelete}"
-    		styleClass="tableJustWidthMax">
-    		<h:panelGroup>
-    			<h:outputText value="#{msgs['INDIVIDU.CURSUS_EXT']}"
-    				styleClass="section-smallTitle" />
+        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                     rendered="#{!cursusController.confirmeDelete}"
+                     styleClass="tableJustWidthMax">
+            <h:panelGroup>
+                <h:outputText value="#{msgs['INDIVIDU.CURSUS_EXT']}"
+                              styleClass="section-smallTitle"/>
                 <p:graphicImage url="/media/images/informationSmall.png"
-                    style="cursor:pointer;" id="helpCursusExt" />
+                                style="cursor:pointer;" id="helpCursusExt"/>
                 <p:overlayPanel for="helpCursusExt"
-                    showEvent="mouseover"
-                    hideEvent="mouseout"
-                    styleClass="containerPopup">
-					<h:panelGroup>
-						<h:panelGrid columns="1">
-							<h:outputText styleClass="titrePopupAide"
-								value="#{msgs['INDIVIDU.CURSUS_EXT']}" />
-							<h:outputText styleClass="libellesAide"
-								value="#{msgs['INDIVIDU.CURSUS_EXT.DESC']}" />
-						</h:panelGrid>
-					</h:panelGroup>
-    			</p:overlayPanel>
-    		</h:panelGroup>
-    		
-    		<h:panelGroup>
-    			<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-    				action="#{cursusController.addCursusPro}" 
-    				rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"
-    				update=":addCursusForm"/>
-    			<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    				action="#{cursusController.goSeeCursusPro}"
-    				rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"/>
-    				
-    			<p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
-    				rendered="#{cursusController.actionEnum.whatAction == cursusController.actionEnum.updateAction}"
-    				action="#{accueilController.verifyCursusPro}">
-    				<f:setPropertyActionListener value="goWelcomeCandidat" target="#{accueilController.methodIfVerified}" />
-    				<f:setPropertyActionListener value="#{accueilController}" target="#{accueilController.object}" />
-    			</p:commandButton>
-    
-    		</h:panelGroup>
-    	</h:panelGrid>
-    	
-    	<h:panelGrid columns="4" styleClass="tableWidthMax"
-    		rendered="#{!cursusController.confirmeDelete}">
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['FIELD_LABEL.YEAR']}" for="anneeCursusPro" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<h:panelGroup>
-    			<h:inputText id="anneeCursusPro" value="#{cursusController.indCursusPojo.cursus.annee}" size="21" maxlength="20" />
-    		</h:panelGroup>
-    		<h:panelGroup/>
-    		<h:panelGroup/>
-    		
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['FIELD_LABEL.QUOTITE']}" for="quotiteCurPro" />
-    		</h:panelGroup>
-    		<h:panelGroup>
-    			<h:inputText id="quotiteCurPro" value="#{cursusController.indCursusPojo.cursus.quotite}" size="11" maxlength="10" />
-    		</h:panelGroup>
-    		
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['FIELD_LABEL.ORGANIZATION']}" for="organismeCurPro" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<h:panelGroup>
-    			<h:inputText id="organismeCurPro" value="#{cursusController.indCursusPojo.cursus.organisme}" maxlength="70" />
-    		</h:panelGroup>
-    		
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['FIELD_LABEL.PERIOD']}" for="periodCurPro" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<h:panelGroup>
-    			<h:inputText id="periodCurPro" 
-    					value="#{cursusController.indCursusPojo.cursus.duree}" 
-    					size="20" maxlength="20" />
-    		</h:panelGroup>
-    		<h:panelGroup/>
-    		<h:panelGroup/>
-    		
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['FIELD_LABEL.DESC_ACTV']}" for="commentCurPro" />
+                                showEvent="mouseover"
+                                hideEvent="mouseout"
+                                styleClass="containerPopup">
+                    <h:panelGroup>
+                        <h:panelGrid columns="1">
+                            <h:outputText styleClass="titrePopupAide"
+                                          value="#{msgs['INDIVIDU.CURSUS_EXT']}"/>
+                            <h:outputText styleClass="libellesAide"
+                                          value="#{msgs['INDIVIDU.CURSUS_EXT.DESC']}"/>
+                        </h:panelGrid>
+                    </h:panelGroup>
+                </p:overlayPanel>
+            </h:panelGroup>
+
+            <h:panelGroup>
+                <p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+                                 action="#{cursusController.addCursusPro}"
+                                 rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"
+                                 update=":addCursusForm"/>
+                <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                                 action="#{cursusController.goSeeCursusPro}"
+                                 rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"/>
+
+                <p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
+                                 rendered="#{cursusController.actionEnum.whatAction == cursusController.actionEnum.updateAction}"
+                                 action="#{accueilController.verifyCursusPro}">
+                    <f:setPropertyActionListener value="goWelcomeCandidat"
+                                                 target="#{accueilController.methodIfVerified}"/>
+                    <f:setPropertyActionListener value="#{accueilController}" target="#{accueilController.object}"/>
+                </p:commandButton>
+
+            </h:panelGroup>
+        </h:panelGrid>
+
+        <h:panelGrid columns="4" styleClass="tableWidthMax"
+                     rendered="#{!cursusController.confirmeDelete}">
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['FIELD_LABEL.YEAR']}" for="anneeCursusPro"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:inputText id="anneeCursusPro" value="#{cursusController.indCursusPojo.cursus.annee}" size="21"
+                             maxlength="20"/>
+            </h:panelGroup>
+            <h:panelGroup/>
+            <h:panelGroup/>
+
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['FIELD_LABEL.QUOTITE']}" for="quotiteCurPro"/>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:inputText id="quotiteCurPro" value="#{cursusController.indCursusPojo.cursus.quotite}" size="11"
+                             maxlength="10"/>
+            </h:panelGroup>
+
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['FIELD_LABEL.ORGANIZATION']}" for="organismeCurPro"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:inputText id="organismeCurPro" value="#{cursusController.indCursusPojo.cursus.organisme}"
+                             maxlength="70"/>
+            </h:panelGroup>
+
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['FIELD_LABEL.PERIOD']}" for="periodCurPro"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:inputText id="periodCurPro"
+                             value="#{cursusController.indCursusPojo.cursus.duree}"
+                             size="20" maxlength="20"/>
+            </h:panelGroup>
+            <h:panelGroup/>
+            <h:panelGroup/>
+
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['FIELD_LABEL.DESC_ACTV']}" for="commentCurPro"/>
                 <p:graphicImage url="/media/images/informationSmall.png"
-                    style="cursor:pointer;" id="helpDescActv"
-                    rendered="#{cursusPojo.isShortComment}" />
+                                style="cursor:pointer;" id="helpDescActv"
+                                rendered="#{cursusPojo.isShortComment}"/>
                 <p:overlayPanel for="helpDescActv"
-                    showEvent="mouseover"
-                    hideEvent="mouseout"
-                    styleClass="containerPopup"
-                    rendered="#{cursusPojo.isShortComment}">
+                                showEvent="mouseover"
+                                hideEvent="mouseout"
+                                styleClass="containerPopup"
+                                rendered="#{cursusPojo.isShortComment}">
                     <h:panelGroup>
                         <h:panelGrid columns="1">
                             <h:outputText styleClass="titrePopupAide" value="#{msgs['FIELD_LABEL.DESC_ACTV']}"/>
@@ -121,81 +125,83 @@
                         </h:panelGrid>
                     </h:panelGroup>
                 </p:overlayPanel>
-    		</h:panelGroup>
-    		<h:panelGroup>
-    			<h:inputTextarea id="commentCurPro"  
-    					value="#{cursusController.indCursusPojo.cursus.comment}" 
-    					onkeyup="this.value = this.value.slice(0, 2000)" onchange="this.value = this.value.slice(0, 2000)"
-    					rows="3" style="width:250px;" />
-    		</h:panelGroup>
-    		<h:panelGroup/>
-    		<h:panelGroup/>
-    	</h:panelGrid>
-    
-    	<br />
-    	<br />
-    
-    	<p:dataTable var="cursusPojo"
-    		value="#{cursusController.indCursusPojo.pojoCursusList}"
-    		styleClass="displayInfo" rendered="#{not empty cursusController.indCursusPojo.pojoCursusList}">
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['FIELD_LABEL.YEAR']}" />
-    			</f:facet>
-    			<h:outputText value="#{cursusPojo.cursus.annee}" />
-    		</p:column>
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['FIELD_LABEL.PERIOD']}" />
-    			</f:facet>
-    			<h:outputText value="#{cursusPojo.cursus.duree}" />
-    		</p:column>
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['FIELD_LABEL.QUOTITE']}" />
-    			</f:facet>
-    			<h:outputText value="#{cursusPojo.cursus.quotite}" />
-    		</p:column>
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['FIELD_LABEL.ORGANIZATION']}" />
-    			</f:facet>
-    			<h:outputText value="#{cursusPojo.cursus.organisme}" />
-    		</p:column>
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['FIELD_LABEL.DESC_ACTV']}" />
-    			</f:facet>
-    			<h:panelGroup>
-    				<h:outputText value="#{cursusPojo.shortComment}" />
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:inputTextarea id="commentCurPro"
+                                 value="#{cursusController.indCursusPojo.cursus.comment}"
+                                 onkeyup="this.value = this.value.slice(0, 2000)"
+                                 onchange="this.value = this.value.slice(0, 2000)"
+                                 rows="3" style="width:250px;"/>
+            </h:panelGroup>
+            <h:panelGroup/>
+            <h:panelGroup/>
+        </h:panelGrid>
+
+        <br/>
+        <br/>
+
+        <p:dataTable var="cursusPojo"
+                     value="#{cursusController.indCursusPojo.pojoCursusList}"
+                     styleClass="displayInfo" rendered="#{not empty cursusController.indCursusPojo.pojoCursusList}">
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msgs['FIELD_LABEL.YEAR']}"/>
+                </f:facet>
+                <h:outputText value="#{cursusPojo.cursus.annee}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msgs['FIELD_LABEL.PERIOD']}"/>
+                </f:facet>
+                <h:outputText value="#{cursusPojo.cursus.duree}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msgs['FIELD_LABEL.QUOTITE']}"/>
+                </f:facet>
+                <h:outputText value="#{cursusPojo.cursus.quotite}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msgs['FIELD_LABEL.ORGANIZATION']}"/>
+                </f:facet>
+                <h:outputText value="#{cursusPojo.cursus.organisme}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msgs['FIELD_LABEL.DESC_ACTV']}"/>
+                </f:facet>
+                <h:panelGroup>
+                    <h:outputText value="#{cursusPojo.shortComment}"/>
                     <p:graphicImage url="/media/images/informationSmall.png"
-                        style="cursor:pointer;" id="infoAnneeUni"
-                        rendered="#{cursusPojo.isShortComment}" />
+                                    style="cursor:pointer;" id="infoAnneeUni"
+                                    rendered="#{cursusPojo.isShortComment}"/>
                     <p:overlayPanel for="infoAnneeUni"
-                        showEvent="mouseover"
-                        hideEvent="mouseout"
-                        styleClass="containerPopup"
-                        rendered="#{cursusPojo.isShortComment}">
+                                    showEvent="mouseover"
+                                    hideEvent="mouseout"
+                                    styleClass="containerPopup"
+                                    rendered="#{cursusPojo.isShortComment}">
                         <h:panelGroup>
                             <h:panelGrid columns="1">
                                 <h:outputText styleClass="titrePopupAide" value="#{msgs['FIELD_LABEL.DESC_ACTV']}"/>
                                 <h:outputText styleClass="libellesAide" value="#{cursusPojo.cursus.comment}"/>
                             </h:panelGrid>
                         </h:panelGroup>
-                    </p:overlayPanel>	
-    			</h:panelGroup>
-    		</p:column>
-    		<p:column styleClass="buttonTD" rendered="#{!cursusController.confirmeDelete}">
-    			<p:commandButton icon="ui-icon-minus"
-    				styleClass="form-button-image" immediate="true"
-    				title="#{msgs['_.BUTTON.DELETE']}"
-    				rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"
-    				update=":addCursusForm"
-    				ajax="false"
-    				action="#{cursusController.setConfirmeDelete}">
-    				<f:setPropertyActionListener value="#{cursusPojo.cursus}" target="#{cursusController.indCursusPojo.cursus}" />
-    			</p:commandButton>
-    		</p:column>
-    	</p:dataTable>	
+                    </p:overlayPanel>
+                </h:panelGroup>
+            </p:column>
+            <p:column styleClass="buttonTD" rendered="#{!cursusController.confirmeDelete}">
+                <p:commandButton icon="ui-icon-minus"
+                                 styleClass="form-button-image" immediate="true"
+                                 title="#{msgs['_.BUTTON.DELETE']}"
+                                 rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"
+                                 update=":addCursusForm"
+                                 ajax="false"
+                                 action="#{cursusController.setConfirmeDelete}">
+                    <f:setPropertyActionListener value="#{cursusPojo.cursus}"
+                                                 target="#{cursusController.indCursusPojo.cursus}"/>
+                </p:commandButton>
+            </p:column>
+        </p:dataTable>
     </div>
 </ui:fragment>

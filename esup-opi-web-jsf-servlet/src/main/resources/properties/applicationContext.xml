@@ -1,53 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<beans 
-	xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-    
-	<!--
-		/properties/applicationContext.xml The main Spring configuration file.
-		This file should not be modified but by the developers. This file is
-		referenced by /webapp/WEB-INF/web.xml.
-	-->
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="propertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
+    <!--
+        /properties/applicationContext.xml The main Spring configuration file.
+        This file should not be modified but by the developers. This file is
+        referenced by /webapp/WEB-INF/web.xml.
+    -->
+
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
                 <value>classpath:/properties/defaults.properties</value>
                 <value>classpath:/properties/config.properties</value>
-				<value>file:${config.location}</value>
-			</list>
-		</property>
-        <property name="ignoreResourceNotFound" value="true" />
-	</bean>
-    
+                <value>file:${config.location}</value>
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="true"/>
+    </bean>
+
     <bean id="app_context" class="org.esupportail.commons.context.ApplicationContextHolder"/>
 
-	<import resource="classpath*:/META-INF/archives/archives.xml" /> 
-	<import resource="classpath*:/META-INF/auth/auth.xml" />
-	<import resource="classpath*:/META-INF/cache/cache.xml" />
-	<import resource="classpath*:/META-INF/esup-opi-dao-dao.xml" />
-	<import resource="classpath*:/META-INF/domain/domain.xml" />
-	<import resource="exceptionHandling/exceptionHandling.xml" />
-	<import resource="classpath*:/META-INF/i18n/i18n.xml" />
-	<import resource="classpath*:/META-INF/ldap/ldap.xml" />
-	<import resource="classpath*:/META-INF/misc/abstractBeans.xml" />
-	<import resource="classpath*:/META-INF/esup-opi-domain-services-application.xml" />
-	<import resource="portal/portal.xml" />
-	<import resource="classpath*:/META-INF/remote/remote.xml" />
-	<import resource="classpath*:/META-INF/export/castor.xml" />
-	<import resource="classpath*:/META-INF/mails/mails.xml" /> 
-	<import resource="classpath*:/META-INF/mails/mailConvocations.xml" /> 
-	<import resource="classpath*:/META-INF/smtp/smtp.xml" />
-	<import resource="classpath*:/META-INF/init/init.xml" />
-	<import resource="classpath*:/META-INF/parameters/accessType.xml" />
-	<import resource="classpath*:/META-INF/urlGeneration/urlGeneration.xml" />
-	<import resource="web/controllers.xml" />
-	<import resource="web/converters.xml" />
-    <import resource="web/managedAccess.xml" />
-    <import resource="web/paginators.xml" />
-	<import resource="classpath*:/META-INF/web/beans.xml" />
-	
+    <import resource="classpath*:/META-INF/archives/archives.xml"/>
+    <import resource="classpath*:/META-INF/auth/auth.xml"/>
+    <import resource="classpath*:/META-INF/cache/cache.xml"/>
+    <import resource="classpath*:/META-INF/esup-opi-dao-dao.xml"/>
+    <import resource="classpath*:/META-INF/domain/domain.xml"/>
+    <import resource="exceptionHandling/exceptionHandling.xml"/>
+    <import resource="classpath*:/META-INF/i18n/i18n.xml"/>
+    <import resource="classpath*:/META-INF/ldap/ldap.xml"/>
+    <import resource="classpath*:/META-INF/misc/abstractBeans.xml"/>
+    <import resource="classpath*:/META-INF/esup-opi-domain-services-application.xml"/>
+    <import resource="portal/portal.xml"/>
+    <import resource="classpath*:/META-INF/remote/remote.xml"/>
+    <import resource="classpath*:/META-INF/export/castor.xml"/>
+    <import resource="classpath*:/META-INF/mails/mails.xml"/>
+    <import resource="classpath*:/META-INF/mails/mailConvocations.xml"/>
+    <import resource="classpath*:/META-INF/smtp/smtp.xml"/>
+    <import resource="classpath*:/META-INF/init/init.xml"/>
+    <import resource="classpath*:/META-INF/parameters/accessType.xml"/>
+    <import resource="classpath*:/META-INF/urlGeneration/urlGeneration.xml"/>
+    <import resource="web/controllers.xml"/>
+    <import resource="web/converters.xml"/>
+    <import resource="web/managedAccess.xml"/>
+    <import resource="web/paginators.xml"/>
+    <import resource="classpath*:/META-INF/web/beans.xml"/>
+
 </beans>

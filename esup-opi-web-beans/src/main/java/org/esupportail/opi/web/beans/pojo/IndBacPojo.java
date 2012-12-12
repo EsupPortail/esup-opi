@@ -9,14 +9,8 @@
 package org.esupportail.opi.web.beans.pojo;
 
 
-
 import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
-import org.esupportail.wssi.services.remote.BacOuxEqu;
-import org.esupportail.wssi.services.remote.CommuneDTO;
-import org.esupportail.wssi.services.remote.Departement;
-import org.esupportail.wssi.services.remote.Etablissement;
-import org.esupportail.wssi.services.remote.MentionNivBac;
-import org.esupportail.wssi.services.remote.Pays;
+import org.esupportail.wssi.services.remote.*;
 
 /**
  * @author leproust cedric

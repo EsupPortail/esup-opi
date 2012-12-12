@@ -285,8 +285,8 @@ public interface DomainService extends Serializable {
 	 * @param lesCommissions : les commssions oe le gestionnaire e des droits
 	 * @return Booelan : true if the gestionaire as rights false if not
 	 */
-	Boolean asGestionnaireRightsOnStudent(Set <IndVoeu> lesVoeux,
-			Set <Commission> lesCommissions);
+	Boolean hasGestionnaireRightsOnStudent(Set<IndVoeu> lesVoeux,
+                                           Set<Commission> lesCommissions);
 	
 
 	//////////////////////////////////////////////////////////////

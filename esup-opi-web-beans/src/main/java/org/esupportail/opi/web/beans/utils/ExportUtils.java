@@ -3,19 +3,18 @@
  */
 package org.esupportail.opi.web.beans.utils;
 
+import org.esupportail.commons.services.logging.Logger;
+import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.opi.utils.Constantes;
+import org.springframework.util.StringUtils;
+
+import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
-import javax.faces.context.FacesContext;
-
-import org.esupportail.commons.services.logging.Logger;
-import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.opi.utils.Constantes;
-import org.springframework.util.StringUtils;
 
 /**
  * @author tducreux

@@ -1,172 +1,181 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	<div id="maPage" class="div_body">
-    		<h1>
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                	<h:outputText value="#{managedAccess.currentTraitement.libelle}" />
+                	<h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
                     <!-- <h:outputText value="#{msgs['FUNCTION.MANAGED']}" /> -->
                 </span>
             </h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    		<h:form id="seeFonctionsForm">
-    		<p:outputPanel id="delete_panel">
-            <ui:fragment rendered="#{fonctionController.actionEnum.whatAction == fonctionController.actionEnum.deleteAction}">
-        		<div id="div_subSectionDelete" class="div_subSection">
-        			<ui:include src="_delete/_deleteFunction.xhtml" />
-        		</div>
-            </ui:fragment>
-            </p:outputPanel>
-    		<div id="div_subSection" class="div_subSection">
-    				<br />
-    				<br />
-    				<br />
-    				<div id="blockFormInfo" class="blockForm">
-                        <ui:fragment rendered="#{fonctionController.actionEnum.whatAction == fonctionController.actionEnum.emptyAction}">
-        					<div class="blockButton">
-        						<h:panelGrid columns="2" columnClasses="col2UnDemi,col2UnDemi"
-        							styleClass="twoGroupsButton">
-        							<p:commandButton value="#{msgs['DOMAIN.SEE.BUTTON']}"
-        								immediate="true"
-        								action="#{domainController.goSeeAllDomain}" />
-        							<h:panelGroup>
-        								<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-        									rendered="#{managedAccess.addAuthorized}"
-        									immediate="true"
-        									action="#{fonctionController.goAddFonction}" />
-        								<!-- <p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-        									immediate="true"
-        									action="#{welcomeController.goWelcomeManager}"/> -->
-        							</h:panelGroup>
-        						</h:panelGrid>
-        					</div>
-                        </ui:fragment>
-                        <ui:fragment rendered="#{fonctionController.actionEnum.whatAction == fonctionController.actionEnum.updateAction}">
-        					<div class="blockButton">
-        						<div>
-        							<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-        								action="#{fonctionController.update}"
-        								ajax="false" />
-        							<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-        								immediate="true"
-        								action="#{fonctionController.reset}"
-        								ajax="false" />
-        						</div>
-        					</div>
-                        </ui:fragment>
-    					<p:dataTable var="fonction" value="#{fonctionController.fonctionsItems}"
-    						styleClass="paginatorData" alternateColors="true">
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
-    							</f:facet>
-    							<h:outputText value="#{fonction.code}"/>
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['DOMAIN']}" />
-    							</f:facet>
-    							<h:outputText value="#{fonction.domain.libelle}" 
-    								rendered="#{fonctionController.actionEnum.whatAction != fonctionController.actionEnum.updateAction
-    									|| fonction != fonctionController.fonction}"/>
-    							<h:panelGroup rendered="#{fonctionController.actionEnum.whatAction == fonctionController.actionEnum.updateAction
-    									and fonction == fonctionController.fonction}">
-    								<p:selectOneMenu converter="javax.faces.Integer"
-    									value="#{fonctionController.selectedDomId}">
-    									<f:selectItems var="domain"  
-    										value="#{domainController.domains}" 
-    										itemLabel="#{domain.shortLabel}" itemValue="#{domain.id}"/>
-    								</p:selectOneMenu>
-<!--     								<p:commandButton image="/media/images/add.png"
-    									styleClass="form-button-image"
-    									rendered="#{managedAccess.addAuthorized}"
-    									title="#{_.BUTTON.ADD}">
-    									<f:setPropertyActionListener value="#{domainController.actionEnum.addAction}" target="#{domainController.actionEnum.whatAction}" />
-    								</p:commandButton> -->
-    							</h:panelGroup>
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-    							</f:facet>
-    							<h:outputText value="#{fonction.libelle}" 
-    								rendered="#{fonctionController.actionEnum.whatAction != fonctionController.actionEnum.updateAction
-    									|| fonction != fonctionController.fonction}"/>
-    							<p:inputText value="#{fonctionController.fonction.libelle}" size="31" maxlength="60"
-    								rendered="#{fonctionController.actionEnum.whatAction == fonctionController.actionEnum.updateAction
-    									and fonction == fonctionController.fonction}"/>
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.ACTION']}" />
-    							</f:facet>
-    							<h:outputText value="#{fonction.action}" 
-    								rendered="#{fonctionController.actionEnum.whatAction != fonctionController.actionEnum.updateAction
-    									|| fonction != fonctionController.fonction}"/>
-    							<p:inputText value="#{fonctionController.fonction.action}" size="51" maxlength="50"
-    								rendered="#{fonctionController.actionEnum.whatAction == fonctionController.actionEnum.updateAction
-    									and fonction == fonctionController.fonction}"/>
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.RANG']}" />
-    							</f:facet>
-    							<h:outputText value="#{fonction.rang}" 
-    								rendered="#{fonctionController.actionEnum.whatAction != fonctionController.actionEnum.updateAction
-    									|| fonction != fonctionController.fonction}"/>
-    							<p:inputText value="#{fonctionController.fonction.rang}" size="3" maxlength="2" 
-    								rendered="#{fonctionController.actionEnum.whatAction == fonctionController.actionEnum.updateAction
-    									and fonction == fonctionController.fonction}"/>
-    						</p:column>
-    						<p:column styleClass="buttonTD">
-    							<p:commandButton icon="ui-icon-pencil"
-    								immediate="true"
-    								action="#{fonctionController.goUpdateFonction}"
-    								styleClass="form-button-image" title="#{msgs['BUTTON.UPDATE']}" 
-    								rendered="#{fonctionController.actionEnum.whatAction == fonctionController.actionEnum.emptyAction
-    										and managedAccess.updateAuthorized}"
-    								ajax="false"
-    								update=":seeFonctionsForm">
-    								<f:setPropertyActionListener value="#{fonctionController.actionEnum.updateAction}" target="#{fonctionController.actionEnum.whatAction}" />
-    								<f:setPropertyActionListener value="#{fonction}" target="#{fonctionController.fonction}" />
-    							</p:commandButton>
-    						</p:column>
-    						<p:column styleClass="buttonTD">
-    							<p:commandButton icon="ui-icon-minus"
-    								styleClass="form-button-image"
-    								immediate="true"
-    								title="#{msgs['_.BUTTON.DELETE']}"
-    								rendered="#{fonctionController.actionEnum.whatAction == fonctionController.actionEnum.emptyAction
-    									and managedAccess.deleteAuthorized}"
-    								update="delete_panel"
-    								ajax="false">
-    								<f:setPropertyActionListener value="#{fonctionController.actionEnum.deleteAction}" target="#{fonctionController.actionEnum.whatAction}" />
-    								<f:setPropertyActionListener value="#{fonction}" target="#{fonctionController.fonction}" />
-    							</p:commandButton>
-    						</p:column>
-    					</p:dataTable>
-    				</div>
-    				<br />
-    				<br />
-    				<br />
-                    <ui:fragment rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.addAction}">
-        				<div id="addDomain">
-        					<ui:include src="_domain/_enterDomain.xhtml" />
-        				</div>
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
+            <h:form id="seeFonctionsForm">
+                <p:outputPanel id="delete_panel">
+                    <ui:fragment
+                            rendered="#{fonctionController.actionEnum.whatAction == fonctionController.actionEnum.deleteAction}">
+                        <div id="div_subSectionDelete" class="div_subSection">
+                            <ui:include src="_delete/_deleteFunction.xhtml"/>
+                        </div>
                     </ui:fragment>
-    		</div>
-    		</h:form>
-    	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        	highlightInputAndSelect('seeFonctionsForm');
+                </p:outputPanel>
+                <div id="div_subSection" class="div_subSection">
+                    <br/>
+                    <br/>
+                    <br/>
+
+                    <div id="blockFormInfo" class="blockForm">
+                        <ui:fragment
+                                rendered="#{fonctionController.actionEnum.whatAction == fonctionController.actionEnum.emptyAction}">
+                            <div class="blockButton">
+                                <h:panelGrid columns="2" columnClasses="col2UnDemi,col2UnDemi"
+                                             styleClass="twoGroupsButton">
+                                    <p:commandButton value="#{msgs['DOMAIN.SEE.BUTTON']}"
+                                                     immediate="true"
+                                                     action="#{domainController.goSeeAllDomain}"/>
+                                    <h:panelGroup>
+                                        <p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+                                                         rendered="#{managedAccess.addAuthorized}"
+                                                         immediate="true"
+                                                         action="#{fonctionController.goAddFonction}"/>
+                                        <!-- <p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+                                            immediate="true"
+                                            action="#{welcomeController.goWelcomeManager}"/> -->
+                                    </h:panelGroup>
+                                </h:panelGrid>
+                            </div>
+                        </ui:fragment>
+                        <ui:fragment
+                                rendered="#{fonctionController.actionEnum.whatAction == fonctionController.actionEnum.updateAction}">
+                            <div class="blockButton">
+                                <div>
+                                    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                                     action="#{fonctionController.update}"
+                                                     ajax="false"/>
+                                    <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                                                     immediate="true"
+                                                     action="#{fonctionController.reset}"
+                                                     ajax="false"/>
+                                </div>
+                            </div>
+                        </ui:fragment>
+                        <p:dataTable var="fonction" value="#{fonctionController.fonctionsItems}"
+                                     styleClass="paginatorData" alternateColors="true">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>
+                                </f:facet>
+                                <h:outputText value="#{fonction.code}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['DOMAIN']}"/>
+                                </f:facet>
+                                <h:outputText value="#{fonction.domain.libelle}"
+                                              rendered="#{fonctionController.actionEnum.whatAction != fonctionController.actionEnum.updateAction
+    									|| fonction != fonctionController.fonction}"/>
+                                <h:panelGroup rendered="#{fonctionController.actionEnum.whatAction == fonctionController.actionEnum.updateAction
+    									and fonction == fonctionController.fonction}">
+                                    <p:selectOneMenu converter="javax.faces.Integer"
+                                                     value="#{fonctionController.selectedDomId}">
+                                        <f:selectItems var="domain"
+                                                       value="#{domainController.domains}"
+                                                       itemLabel="#{domain.shortLabel}" itemValue="#{domain.id}"/>
+                                    </p:selectOneMenu>
+                                    <!--     								<p:commandButton image="/media/images/add.png"
+                                                                            styleClass="form-button-image"
+                                                                            rendered="#{managedAccess.addAuthorized}"
+                                                                            title="#{_.BUTTON.ADD}">
+                                                                            <f:setPropertyActionListener value="#{domainController.actionEnum.addAction}" target="#{domainController.actionEnum.whatAction}" />
+                                                                        </p:commandButton> -->
+                                </h:panelGroup>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+                                </f:facet>
+                                <h:outputText value="#{fonction.libelle}"
+                                              rendered="#{fonctionController.actionEnum.whatAction != fonctionController.actionEnum.updateAction
+    									|| fonction != fonctionController.fonction}"/>
+                                <p:inputText value="#{fonctionController.fonction.libelle}" size="31" maxlength="60"
+                                             rendered="#{fonctionController.actionEnum.whatAction == fonctionController.actionEnum.updateAction
+    									and fonction == fonctionController.fonction}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.ACTION']}"/>
+                                </f:facet>
+                                <h:outputText value="#{fonction.action}"
+                                              rendered="#{fonctionController.actionEnum.whatAction != fonctionController.actionEnum.updateAction
+    									|| fonction != fonctionController.fonction}"/>
+                                <p:inputText value="#{fonctionController.fonction.action}" size="51" maxlength="50"
+                                             rendered="#{fonctionController.actionEnum.whatAction == fonctionController.actionEnum.updateAction
+    									and fonction == fonctionController.fonction}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.RANG']}"/>
+                                </f:facet>
+                                <h:outputText value="#{fonction.rang}"
+                                              rendered="#{fonctionController.actionEnum.whatAction != fonctionController.actionEnum.updateAction
+    									|| fonction != fonctionController.fonction}"/>
+                                <p:inputText value="#{fonctionController.fonction.rang}" size="3" maxlength="2"
+                                             rendered="#{fonctionController.actionEnum.whatAction == fonctionController.actionEnum.updateAction
+    									and fonction == fonctionController.fonction}"/>
+                            </p:column>
+                            <p:column styleClass="buttonTD">
+                                <p:commandButton icon="ui-icon-pencil"
+                                                 immediate="true"
+                                                 action="#{fonctionController.goUpdateFonction}"
+                                                 styleClass="form-button-image" title="#{msgs['BUTTON.UPDATE']}"
+                                                 rendered="#{fonctionController.actionEnum.whatAction == fonctionController.actionEnum.emptyAction
+    										and managedAccess.updateAuthorized}"
+                                                 ajax="false"
+                                                 update=":seeFonctionsForm">
+                                    <f:setPropertyActionListener value="#{fonctionController.actionEnum.updateAction}"
+                                                                 target="#{fonctionController.actionEnum.whatAction}"/>
+                                    <f:setPropertyActionListener value="#{fonction}"
+                                                                 target="#{fonctionController.fonction}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column styleClass="buttonTD">
+                                <p:commandButton icon="ui-icon-minus"
+                                                 styleClass="form-button-image"
+                                                 immediate="true"
+                                                 title="#{msgs['_.BUTTON.DELETE']}"
+                                                 rendered="#{fonctionController.actionEnum.whatAction == fonctionController.actionEnum.emptyAction
+    									and managedAccess.deleteAuthorized}"
+                                                 update="delete_panel"
+                                                 ajax="false">
+                                    <f:setPropertyActionListener value="#{fonctionController.actionEnum.deleteAction}"
+                                                                 target="#{fonctionController.actionEnum.whatAction}"/>
+                                    <f:setPropertyActionListener value="#{fonction}"
+                                                                 target="#{fonctionController.fonction}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <ui:fragment
+                            rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.addAction}">
+                        <div id="addDomain">
+                            <ui:include src="_domain/_enterDomain.xhtml"/>
+                        </div>
+                    </ui:fragment>
+                </div>
+            </h:form>
+        </div>
+
+        <script type="text/javascript">
+            highlightChildrenLiTags('navigationHeader:navigation');
+            highlightChildrenLiTags('navigationFooter:navigation');
+            highlightInputAndSelect('seeFonctionsForm');
         </script>
     </ui:define>
 </ui:composition>

@@ -1,50 +1,65 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
-    <ui:define name="content">    	
-    	<ui:include src="_include/_navigation.xhtml" />
-    
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/template.xhtml">
+    <ui:define name="content">
+        <ui:include src="_include/_navigation.xhtml"/>
+
         <h1>
-        	<h:outputFormat value="#{msgs['ABOUT.TITLE']}">
-        		<f:param value="#{applicationService.name}" />
-        		<f:param value="#{applicationService.version}" />
-        	</h:outputFormat>
+            <h:outputFormat value="#{msgs['ABOUT.TITLE']}">
+                <f:param value="#{applicationService.name}"/>
+                <f:param value="#{applicationService.version}"/>
+            </h:outputFormat>
         </h1>
-    
-    	<h:outputFormat value="#{msgs['ABOUT.TEXT.SUMMARY']}">
-    		<f:param value="#{applicationService.name}" />
-    	</h:outputFormat>
-    
-    	<h:outputFormat value="#{msgs['ABOUT.TEXT.AUTHORS']}">
-    		<f:param value="#{applicationService.name}" />
-    	</h:outputFormat>
-    	<ul>
-    		<li value="#{msgs['ABOUT.TEXT.AUTHORS.PA']}" />
-    	</ul>
-    
-    	<h2><h:outputText value="#{msgs['ABOUT.SUBTITLE.COPYRIGHT']}" /></h2>
-    	<h:outputFormat value="#{msgs['ABOUT.TEXT.COPYRIGHT']}">
-    		<f:param value="#{applicationService.name}" />
-    		<f:param value="#{applicationService.version}" />
-    		<f:param value="#{applicationService.copyright}" />
-    	</h:outputFormat>
-    
-    	<h2><h:outputText value="#{msgs['ABOUT.SUBTITLE.LICENCE']}" /></h2>
-    	<h:outputFormat escape="false" value="#{msgs['ABOUT.TEXT.LICENCE']}" />
-    
-    	<h2><h:outputFormat value="#{msgs['ABOUT.SUBTITLE.MORE_INFORMATION']}">
-    		<f:param value="#{applicationService.name}" />
-    	</h:outputFormat></h2>
-    	<ul>
-    		<li><h:outputText escape="false" value="#{msgs['ABOUT.TEXT.MORE_INFORMATION.ESUP_BLANK']}" /></li>
-    		<li><h:outputText escape="false" value="#{msgs['ABOUT.TEXT.MORE_INFORMATION.ESUP_COMMONS']}" /></li>
-    		<li><h:outputText escape="false" value="#{msgs['ABOUT.TEXT.MORE_INFORMATION.ESUP_PORTAIL']}" /></li>
-    	</ul>
-    	<h2><h:outputText value="#{msgs['ABOUT.SUBTITLE.EXCEPTION']}" /></h2>
-    	<h:form>
-    		<p:commandButton immediate="true" action="#{aboutController.throwException}" value="#{msgs['ABOUT.BUTTON.EXCEPTION']}" />
-    	</h:form>
+
+        <h:outputFormat value="#{msgs['ABOUT.TEXT.SUMMARY']}">
+            <f:param value="#{applicationService.name}"/>
+        </h:outputFormat>
+
+        <h:outputFormat value="#{msgs['ABOUT.TEXT.AUTHORS']}">
+            <f:param value="#{applicationService.name}"/>
+        </h:outputFormat>
+        <ul>
+            <li value="#{msgs['ABOUT.TEXT.AUTHORS.PA']}"/>
+        </ul>
+
+        <h2>
+            <h:outputText value="#{msgs['ABOUT.SUBTITLE.COPYRIGHT']}"/>
+        </h2>
+        <h:outputFormat value="#{msgs['ABOUT.TEXT.COPYRIGHT']}">
+            <f:param value="#{applicationService.name}"/>
+            <f:param value="#{applicationService.version}"/>
+            <f:param value="#{applicationService.copyright}"/>
+        </h:outputFormat>
+
+        <h2>
+            <h:outputText value="#{msgs['ABOUT.SUBTITLE.LICENCE']}"/>
+        </h2>
+        <h:outputFormat escape="false" value="#{msgs['ABOUT.TEXT.LICENCE']}"/>
+
+        <h2>
+            <h:outputFormat value="#{msgs['ABOUT.SUBTITLE.MORE_INFORMATION']}">
+                <f:param value="#{applicationService.name}"/>
+            </h:outputFormat>
+        </h2>
+        <ul>
+            <li>
+                <h:outputText escape="false" value="#{msgs['ABOUT.TEXT.MORE_INFORMATION.ESUP_BLANK']}"/>
+            </li>
+            <li>
+                <h:outputText escape="false" value="#{msgs['ABOUT.TEXT.MORE_INFORMATION.ESUP_COMMONS']}"/>
+            </li>
+            <li>
+                <h:outputText escape="false" value="#{msgs['ABOUT.TEXT.MORE_INFORMATION.ESUP_PORTAIL']}"/>
+            </li>
+        </ul>
+        <h2>
+            <h:outputText value="#{msgs['ABOUT.SUBTITLE.EXCEPTION']}"/>
+        </h2>
+        <h:form>
+            <p:commandButton immediate="true" action="#{aboutController.throwException}"
+                             value="#{msgs['ABOUT.BUTTON.EXCEPTION']}"/>
+        </h:form>
     </ui:define>
 </ui:composition>

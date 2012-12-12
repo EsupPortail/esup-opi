@@ -1,67 +1,70 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <p:outputPanel id="mainBlockSelectCmi">
-        <p:outputPanel id="blockSelectcmi" styleClass="blockForm" rendered="#{commissionController.actionEnum.whatAction == commissionController.actionEnum.seeSelectCmi}">
-        	<h:panelGrid styleClass="tableWidthMax" columns="2"
-        		columnClasses="col1UnDemi,col1UnDemi">
-        		<h:panelGroup>
-        			<h:outputLabel value="#{msgs['COMMISSION.CHOICE']}" for="selectCmi" />
-        		</h:panelGroup>
-        		<h:panelGroup>
-        			<p:selectOneMenu id="allCmis" converter="javax.faces.Integer"
-        				value="#{commissionController.commission.id}">
-        				<f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}" itemValue="" />
-        				<f:selectItems var="cmi"
-        					value="#{commissionController.commissionsItemsByRight}"
-        					itemLabel="#{cmi.libelle}" itemValue="#{cmi.id}" />
-                        <p:ajax listener="#{commissionController.selectCommission}" update="@form" />
-        			</p:selectOneMenu>
-        		</h:panelGroup>
-        	</h:panelGrid>
+        <p:outputPanel id="blockSelectcmi" styleClass="blockForm"
+                       rendered="#{commissionController.actionEnum.whatAction == commissionController.actionEnum.seeSelectCmi}">
+            <h:panelGrid styleClass="tableWidthMax" columns="2"
+                         columnClasses="col1UnDemi,col1UnDemi">
+                <h:panelGroup>
+                    <h:outputLabel value="#{msgs['COMMISSION.CHOICE']}" for="selectCmi"/>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:selectOneMenu id="allCmis" converter="javax.faces.Integer"
+                                     value="#{commissionController.commission.id}">
+                        <f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}" itemValue=""/>
+                        <f:selectItems var="cmi"
+                                       value="#{commissionController.commissionsItemsByRight}"
+                                       itemLabel="#{cmi.libelle}" itemValue="#{cmi.id}"/>
+                        <p:ajax listener="#{commissionController.selectCommission}" update="@form"/>
+                    </p:selectOneMenu>
+                </h:panelGroup>
+            </h:panelGrid>
         </p:outputPanel>
-        <br />
-        <br />
-        
+        <br/>
+        <br/>
+
         <p:outputPanel id="blockCmiSelected" styleClass="blockForm">
-    		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    			styleClass="tableJustWidthMax">
-    			<h:outputText value="#{msgs['COMMISSIONS']}"
-    				styleClass="section-smallTitle" />
-				<p:commandButton id="addCmiButton" value="#{msgs['_.BUTTON.ADD']}"
-                    update="@form" rendered="#{commissionController.actionEnum.whatAction != commissionController.actionEnum.seeSelectCmi}">
-					<f:setPropertyActionListener value="#{commissionController.actionEnum.seeSelectCmi}" target="#{commissionController.actionEnum.whatAction}" />
-				</p:commandButton>
-    		</h:panelGrid>
-        	<p:dataTable id="listeCommission" var="commission"
-        		value="#{commissionController.selectedCommissions}"
-                emptyMessage="#{msgs['COMMISSION.NOT.FOUND']}"
-        		styleClass="displayInfo">
-        		<p:column>
-        			<f:facet name="header">
-        				<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
-        			</f:facet>
-        			<h:outputText value="#{commission.code}" />
-        		</p:column>
-        		<p:column>
-        			<f:facet name="header">
-        				<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-        			</f:facet>
-        			<h:outputText value="#{commission.libelle}" />
-        		</p:column>
-        		<p:column style="width:18px;">
-        			<p:commandButton icon="ui-icon-minus"
-                        update="listeCommission"
-        				action="#{commissionController.removeCmi}"
-        				title="#{msgs['_.BUTTON.DELETE']}">
-                        <p:collector value="#{commission}" removeFrom="#{commissionController.selectedCommissions}" />
-        			</p:commandButton>
-        		</p:column>
-        	</p:dataTable>
+            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                         styleClass="tableJustWidthMax">
+                <h:outputText value="#{msgs['COMMISSIONS']}"
+                              styleClass="section-smallTitle"/>
+                <p:commandButton id="addCmiButton" value="#{msgs['_.BUTTON.ADD']}"
+                                 update="@form"
+                                 rendered="#{commissionController.actionEnum.whatAction != commissionController.actionEnum.seeSelectCmi}">
+                    <f:setPropertyActionListener value="#{commissionController.actionEnum.seeSelectCmi}"
+                                                 target="#{commissionController.actionEnum.whatAction}"/>
+                </p:commandButton>
+            </h:panelGrid>
+            <p:dataTable id="listeCommission" var="commission"
+                         value="#{commissionController.selectedCommissions}"
+                         emptyMessage="#{msgs['COMMISSION.NOT.FOUND']}"
+                         styleClass="displayInfo">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>
+                    </f:facet>
+                    <h:outputText value="#{commission.code}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+                    </f:facet>
+                    <h:outputText value="#{commission.libelle}"/>
+                </p:column>
+                <p:column style="width:18px;">
+                    <p:commandButton icon="ui-icon-minus"
+                                     update="listeCommission"
+                                     action="#{commissionController.removeCmi}"
+                                     title="#{msgs['_.BUTTON.DELETE']}">
+                        <p:collector value="#{commission}" removeFrom="#{commissionController.selectedCommissions}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
         </p:outputPanel>
     </p:outputPanel>
-    <p:blockUI block="mainBlockSelectCmi" trigger="allCmis,addCmiButton" >
-        <p:graphicImage value="/media/images/ajax-loader.gif" />
+    <p:blockUI block="mainBlockSelectCmi" trigger="allCmis,addCmiButton">
+        <p:graphicImage value="/media/images/ajax-loader.gif"/>
     </p:blockUI>
 </ui:fragment>

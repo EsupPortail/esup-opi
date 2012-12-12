@@ -1,264 +1,264 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:t="http://myfaces.apache.org/tomahawk"
-    template="/stylesheets/templateGestionnaire.xhtml">
-    <ui:define name="content">
-    	<div id="maPage" class="div_body">
-    		<h1>
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:t="http://myfaces.apache.org/tomahawk"
+                template="/stylesheets/templateGestionnaire.xhtml">
+<ui:define name="content">
+<div id="maPage" class="div_body">
+<h1>
                 <span class="section-header">
-                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
+                    <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
                 </span>
-            </h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    		<div id="div_subSectionFirstForm" class="div_subSection">
-    			<br />
-    			<br />
-    			<br />
-    			<h:form id="managedArchiveForm">
-                    <ui:fragment rendered="#{archiveTaskController.commission.id == null}">
-        				<div id="div_subSection">
-        					<h:outputFormat value="Rechercher une commission" />
-        					<div id="blockFormInfo" class="blockForm">
-        						<div class="blockButton">
-    								<p:commandButton value="#{msgs['_.BUTTON.SEARCH']}" ajax="false"
-    									action="#{archiveTaskController.lookForCmi}" />
-    								<p:commandButton value="#{msgs['_.BUTTON.BACK']}" ajax="false"
-    									immediate="true" action="#{managedAccess.goDisplayFunction}" />
-         						</div>
-        
-        						<h:panelGrid styleClass="tableWidthMax" columns="4"
-        							columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-        							<h:outputLabel
-        								value="#{msgs['FIELD_LABEL.CODE']} #{msgs['COMMISSIONS']}"
-        								for="commissions" />
-        							<h:inputText id="codEtp" size="10" maxlength="6"
-        								value="#{archiveTaskController.codeCmi}" />
-        
-        							<h:outputLabel value="#{msgs['COMMISSIONS']}" for="commissions" />
-        							<p:selectOneMenu id="lesCommissions"
-        								converter="javax.faces.Integer"
-        								value="#{archiveTaskController.idCmi}">
-        								<f:selectItem itemLabel="" itemValue="" />
-        								<f:selectItems var="commission"
-        									value="#{commissionController.commissionsItemsByRight}"
-        									itemLabel="#{commission.libelle}" itemValue="#{commission.id}" />
-        							</p:selectOneMenu>
-        						</h:panelGrid>
-        					</div>
-        				</div>
-                    </ui:fragment>
-                    <ui:fragment rendered="#{archiveTaskController.commission != null}">
-        				<div id="div_cmi_selected">
-        					<div class="blockForm">
-        						<div class="blockButton">
-        							<h:panelGroup>
-        								<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" ajax="false"
-        									immediate="true" action="#{archiveTaskController.reset}" />
-        							</h:panelGroup>
-        						</div>
-        						<div class="blockTable" style="text-align:center;">
-        							<h:outputFormat value="#{msgs['COMMISSION.SELECTED']}">
-        								<f:param value="#{archiveTaskController.commission.libelle}" />
-        							</h:outputFormat>
-        						</div>
-        					</div>
-        				</div>
-                    </ui:fragment>
-    
-    				<br />
-    				<br />
-    				<br />
-                    <ui:fragment rendered="#{archiveTaskController.commission != null}">
-        				<div id="blockFormUpdateTrtCmi" class="blockForm">
-        					<div style="width:100%;">
-        						<h:panelGrid styleClass="tableWidthMax" columns="4"
-        							columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-        							<h:panelGroup>
-        								<h:outputLabel value="#{msgs['ARCHIVAGE.ENTER.CAMP_ARCH']}" for="choiceCampArch" />
-        								<h:outputText value="*" styleClass="etoileForChpObli" />
-        							</h:panelGroup>
-        							<h:panelGroup>
-        								<p:selectOneMenu id="choiceCampArch"
-        									converter="#{campagneConverter}"
-        									value="#{archiveTaskController.campToArch}">
-        									<f:selectItems value="#{archiveTaskController.campagnesInUseItems}" />
-                                            <p:ajax listener="#{archiveTaskController.selectCampToArch}" update="choiceCampActive" />
-        								</p:selectOneMenu>
-        							</h:panelGroup>
-        							<h:panelGroup>
-        								<h:outputLabel value="#{msgs['ARCHIVAGE.ENTER.CAMP_ACT']}" for="choiceCampActive" />
-        								<h:outputText value="*" styleClass="etoileForChpObli" />
-        							</h:panelGroup>
-        							<h:panelGroup>
-        								<p:selectOneMenu id="choiceCampActive"
-        									converter="#{campagneConverter}"
-        									value="#{archiveTaskController.campToActive}">
-        									<f:selectItems value="#{archiveTaskController.campagnesToActiveItems}" />
-                                            <p:ajax update="trtCmi" />
-        								</p:selectOneMenu>
-        							</h:panelGroup>
-        							<h:panelGroup/>
-        							<h:panelGroup/>
-        							<h:panelGroup>
-        								<h:outputLabel value="#{msgs['ARCHIVAGE.ENTER.AFF_ARCH']}" />
-        							</h:panelGroup>
-        							<h:panelGroup style="text-align: right;">
-        								<p:selectBooleanCheckbox id="affArchivedCamps"
-        									onchange="javascript:{simulateLinkClick('managedArchiveForm:refreshCampToAct');}"
-        									value="#{archiveTaskController.affArchivedCamps}">
-                                            <p:ajax listener="#{archiveTaskController.refreshCampToActFC}" update="choiceCampActive" />
-                                        </p:selectBooleanCheckbox>
-        							</h:panelGroup>
-        						</h:panelGrid>
-        					</div>
-        					<br />
-        					<ui:fragment rendered="#{not empty archiveTaskController.allTraitementCmi}">
-        						<div style="width:100%;">
-        							<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-        								styleClass="tableJustWidthMax">
-        								<h:panelGroup>
-        									<h:outputText value="#{msgs['FIELD_LABEL.ETAPES'] }"
-        										styleClass="section-smallTitle" />
-        									<h:outputText value="#{archiveTaskController.campToArch.libelle}"/>
-        								</h:panelGroup>
-        								<h:panelGroup>
-        									<p:commandButton value="#{msgs['_.BUTTON.ARCHIVE']}" ajax="false"
-        										action="#{archiveTaskController.archiveTrtCmi}" />
-        								</h:panelGroup>
-        							</h:panelGrid>
-        						</div>
-                            </ui:fragment>
-                            <p:dataTable id="trtCmi" var="beanTrtCmi"
-                                selection="#{archiveTaskController.objectToArch}"
-                                value="#{archiveTaskController.allTraitementCmi}"
-                                rowIndexVar="rowVar" rowKey="#{beanTrtCmi}"
-                                styleClass="paginatorData">
-                                <p:column>
-                                    <t:popup
-                                        styleClass="containerPopup"
-                                        style="width:500px;"
-                                        closePopupOnExitingElement="true"
-                                        closePopupOnExitingPopup="true"
-                                        displayAtDistanceX="01"
-                                        displayAtDistanceY="0">
-                                        <p:graphicImage
-                                            url="/media/images/informationSmall.png"
-                                            style="cursor:pointer;"
-                                            id="allcampagnes" />
+</h1>
+<div class="messageForUser">
+    <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+</div>
+<div id="div_subSectionFirstForm" class="div_subSection">
+<br/>
+<br/>
+<br/>
+<h:form id="managedArchiveForm">
+<ui:fragment rendered="#{archiveTaskController.commission.id == null}">
+    <div id="div_subSection">
+        <h:outputFormat value="Rechercher une commission"/>
+        <div id="blockFormInfo" class="blockForm">
+            <div class="blockButton">
+                <p:commandButton value="#{msgs['_.BUTTON.SEARCH']}" ajax="false"
+                                 action="#{archiveTaskController.lookForCmi}"/>
+                <p:commandButton value="#{msgs['_.BUTTON.BACK']}" ajax="false"
+                                 immediate="true" action="#{managedAccess.goDisplayFunction}"/>
+            </div>
 
-                                        <f:facet name="popup">
-                                            <h:panelGroup>
-                                                <h:panelGrid
-                                                    columns="1">
-                                                    <h:outputText
-                                                        styleClass="titrePopupAide"
-                                                        value="#{msgs['FIELD_LABEL.CAMPAGNES']}" />
-                                                    <h:panelGroup>
-                                                        <h:outputText
-                                                            styleClass="libellesAide"
-                                                            value="#{msgs['CAMPAGNES.INFO.VET']} : " />
-                                                    </h:panelGroup>
-                                                    <h:panelGroup>
-                                                        <p:dataList
-                                                            var="link"
-                                                            value="#{beanTrtCmi.traitementCmi.linkTrtCmiCamp}">
-                                                                <h:outputText
-                                                                    value="#{link.campagne.code}"
-                                                                    styleClass="span-text-small" />
-                                                                <h:outputText
-                                                                    value=" : "
-                                                                    styleClass="span-text-small" />
-                                                                <h:outputText
-                                                                    value="#{link.campagne.libelle}"
-                                                                    styleClass="span-text-small" />
-                                                        </p:dataList>
-                                                    </h:panelGroup>
-                                                </h:panelGrid>
-                                            </h:panelGroup>
-                                        </f:facet>
-                                    </t:popup>
+            <h:panelGrid styleClass="tableWidthMax" columns="4"
+                         columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+                <h:outputLabel
+                        value="#{msgs['FIELD_LABEL.CODE']} #{msgs['COMMISSIONS']}"
+                        for="commissions"/>
+                <h:inputText id="codEtp" size="10" maxlength="6"
+                             value="#{archiveTaskController.codeCmi}"/>
 
-                                </p:column>
-                                <p:column headerText="#{msgs['FIELD_LABEL.CGE']}">
-                                    <h:outputText value="#{beanTrtCmi.traitementCmi.versionEtpOpi.codCge}" />
-                                </p:column>
-                                <p:column headerText="#{msgs['FIELD_LABEL.ETP']}">
-                                    <h:outputText value="#{beanTrtCmi.etape.libWebVet}" />
-                                </p:column>
-                                <p:column selectionMode="multiple" />
-                            </p:dataTable>
-                        </div>
-                    </ui:fragment>
-					<br />
-					<ui:fragment rendered="#{not empty archiveTaskController.treatmentsCmiOff}">
-                        <div id="blockFormDelTrtCmi" class="blockForm">
-    						<div style="width:100%;">
-    							<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    								styleClass="tableJustWidthMax">
-    								<h:panelGroup>
-    									<h:outputText value="#{msgs['FIELD_LABEL.ETAPE_ARCHIVED'] }"
-    										styleClass="section-smallTitle" />
-    									<h:outputText value="#{archiveTaskController.campToArch.libelle}"/>
-    								</h:panelGroup>
-    								<h:panelGroup/>
-    							</h:panelGrid>
-    						</div>
-    						<p:dataTable id="trtCmiOff" var="beanTrtCmiOff"
-                                    selection="#{archiveTaskController.objectToArch}"
-                                    value="#{archiveTaskController.treatmentsCmiOff}" 
-                                    rowIndexVar="rowVar" rowKey="#{beanTrtCmiOff}">
-    							<p:column width="20">
-    								<t:popup styleClass="containerPopup" style="width:500px;"
-    									closePopupOnExitingElement="true"
-    									closePopupOnExitingPopup="true" displayAtDistanceX="01"
-    									displayAtDistanceY="0">
-    									<p:graphicImage url="/media/images/informationSmall.png"
-    										style="cursor:pointer;" id="allcampagnes" />
-    	
-    									<f:facet name="popup">
-    										<h:panelGroup>
-    											<h:panelGrid columns="1">
-    												<h:outputText styleClass="titrePopupAide"
-    													value="#{msgs['FIELD_LABEL.CAMPAGNES']}" />
-    												<h:panelGroup>
-    													<h:outputText styleClass="libellesAide"
-    														value="#{msgs['CAMPAGNES.INFO.VET']} : " />
-    												</h:panelGroup>
-    												<h:panelGroup>
-    													<p:dataList var="link"
-    														value="#{beanTrtCmiOff.traitementCmi.linkTrtCmiCamp}"
-    														layout="unorderedList">
-    														<p:column>
-    															<h:outputText value="#{link.campagne.code}"
-    																styleClass="span-text-small" />
-    															<h:outputText value=" : " styleClass="span-text-small" />
-    															<h:outputText value="#{link.campagne.libelle}"
-    																styleClass="span-text-small" />
-    														</p:column>
-    													</p:dataList>
-    												</h:panelGroup>
-    											</h:panelGrid>
-    										</h:panelGroup>
-    									</f:facet>
-    								</t:popup>
-    	
-    							</p:column>
-    							<p:column headerText="#{msgs['FIELD_LABEL.CGE']}">
-    								<h:outputText value="#{beanTrtCmiOff.traitementCmi.versionEtpOpi.codCge}" />
-    							</p:column>
-    							<p:column headerText="#{msgs['FIELD_LABEL.ETP']}">
-    								<h:outputText value="#{beanTrtCmiOff.etape.libWebVet}" />
-    							</p:column>
-                                <p:column selectionMode="multiple" />
-    						</p:dataTable>
-                        </div>
-					</ui:fragment>    
-    			</h:form>
-    		</div>
-    	</div>
-    </ui:define>
+                <h:outputLabel value="#{msgs['COMMISSIONS']}" for="commissions"/>
+                <p:selectOneMenu id="lesCommissions"
+                                 converter="javax.faces.Integer"
+                                 value="#{archiveTaskController.idCmi}">
+                    <f:selectItem itemLabel="" itemValue=""/>
+                    <f:selectItems var="commission"
+                                   value="#{commissionController.commissionsItemsByRight}"
+                                   itemLabel="#{commission.libelle}" itemValue="#{commission.id}"/>
+                </p:selectOneMenu>
+            </h:panelGrid>
+        </div>
+    </div>
+</ui:fragment>
+<ui:fragment rendered="#{archiveTaskController.commission != null}">
+    <div id="div_cmi_selected">
+        <div class="blockForm">
+            <div class="blockButton">
+                <h:panelGroup>
+                    <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" ajax="false"
+                                     immediate="true" action="#{archiveTaskController.reset}"/>
+                </h:panelGroup>
+            </div>
+            <div class="blockTable" style="text-align:center;">
+                <h:outputFormat value="#{msgs['COMMISSION.SELECTED']}">
+                    <f:param value="#{archiveTaskController.commission.libelle}"/>
+                </h:outputFormat>
+            </div>
+        </div>
+    </div>
+</ui:fragment>
+
+<br/>
+<br/>
+<br/>
+<ui:fragment rendered="#{archiveTaskController.commission != null}">
+    <div id="blockFormUpdateTrtCmi" class="blockForm">
+        <div style="width:100%;">
+            <h:panelGrid styleClass="tableWidthMax" columns="4"
+                         columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+                <h:panelGroup>
+                    <h:outputLabel value="#{msgs['ARCHIVAGE.ENTER.CAMP_ARCH']}" for="choiceCampArch"/>
+                    <h:outputText value="*" styleClass="etoileForChpObli"/>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:selectOneMenu id="choiceCampArch"
+                                     converter="#{campagneConverter}"
+                                     value="#{archiveTaskController.campToArch}">
+                        <f:selectItems value="#{archiveTaskController.campagnesInUseItems}"/>
+                        <p:ajax listener="#{archiveTaskController.selectCampToArch}" update="choiceCampActive"/>
+                    </p:selectOneMenu>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <h:outputLabel value="#{msgs['ARCHIVAGE.ENTER.CAMP_ACT']}" for="choiceCampActive"/>
+                    <h:outputText value="*" styleClass="etoileForChpObli"/>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:selectOneMenu id="choiceCampActive"
+                                     converter="#{campagneConverter}"
+                                     value="#{archiveTaskController.campToActive}">
+                        <f:selectItems value="#{archiveTaskController.campagnesToActiveItems}"/>
+                        <p:ajax update="trtCmi"/>
+                    </p:selectOneMenu>
+                </h:panelGroup>
+                <h:panelGroup/>
+                <h:panelGroup/>
+                <h:panelGroup>
+                    <h:outputLabel value="#{msgs['ARCHIVAGE.ENTER.AFF_ARCH']}"/>
+                </h:panelGroup>
+                <h:panelGroup style="text-align: right;">
+                    <p:selectBooleanCheckbox id="affArchivedCamps"
+                                             onchange="javascript:{simulateLinkClick('managedArchiveForm:refreshCampToAct');}"
+                                             value="#{archiveTaskController.affArchivedCamps}">
+                        <p:ajax listener="#{archiveTaskController.refreshCampToActFC}" update="choiceCampActive"/>
+                    </p:selectBooleanCheckbox>
+                </h:panelGroup>
+            </h:panelGrid>
+        </div>
+        <br/>
+        <ui:fragment rendered="#{not empty archiveTaskController.allTraitementCmi}">
+            <div style="width:100%;">
+                <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                             styleClass="tableJustWidthMax">
+                    <h:panelGroup>
+                        <h:outputText value="#{msgs['FIELD_LABEL.ETAPES'] }"
+                                      styleClass="section-smallTitle"/>
+                        <h:outputText value="#{archiveTaskController.campToArch.libelle}"/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:commandButton value="#{msgs['_.BUTTON.ARCHIVE']}" ajax="false"
+                                         action="#{archiveTaskController.archiveTrtCmi}"/>
+                    </h:panelGroup>
+                </h:panelGrid>
+            </div>
+        </ui:fragment>
+        <p:dataTable id="trtCmi" var="beanTrtCmi"
+                     selection="#{archiveTaskController.objectToArch}"
+                     value="#{archiveTaskController.allTraitementCmi}"
+                     rowIndexVar="rowVar" rowKey="#{beanTrtCmi}"
+                     styleClass="paginatorData">
+            <p:column>
+                <t:popup
+                        styleClass="containerPopup"
+                        style="width:500px;"
+                        closePopupOnExitingElement="true"
+                        closePopupOnExitingPopup="true"
+                        displayAtDistanceX="01"
+                        displayAtDistanceY="0">
+                    <p:graphicImage
+                            url="/media/images/informationSmall.png"
+                            style="cursor:pointer;"
+                            id="allcampagnes"/>
+
+                    <f:facet name="popup">
+                        <h:panelGroup>
+                            <h:panelGrid
+                                    columns="1">
+                                <h:outputText
+                                        styleClass="titrePopupAide"
+                                        value="#{msgs['FIELD_LABEL.CAMPAGNES']}"/>
+                                <h:panelGroup>
+                                    <h:outputText
+                                            styleClass="libellesAide"
+                                            value="#{msgs['CAMPAGNES.INFO.VET']} : "/>
+                                </h:panelGroup>
+                                <h:panelGroup>
+                                    <p:dataList
+                                            var="link"
+                                            value="#{beanTrtCmi.traitementCmi.linkTrtCmiCamp}">
+                                        <h:outputText
+                                                value="#{link.campagne.code}"
+                                                styleClass="span-text-small"/>
+                                        <h:outputText
+                                                value=" : "
+                                                styleClass="span-text-small"/>
+                                        <h:outputText
+                                                value="#{link.campagne.libelle}"
+                                                styleClass="span-text-small"/>
+                                    </p:dataList>
+                                </h:panelGroup>
+                            </h:panelGrid>
+                        </h:panelGroup>
+                    </f:facet>
+                </t:popup>
+
+            </p:column>
+            <p:column headerText="#{msgs['FIELD_LABEL.CGE']}">
+                <h:outputText value="#{beanTrtCmi.traitementCmi.versionEtpOpi.codCge}"/>
+            </p:column>
+            <p:column headerText="#{msgs['FIELD_LABEL.ETP']}">
+                <h:outputText value="#{beanTrtCmi.etape.libWebVet}"/>
+            </p:column>
+            <p:column selectionMode="multiple"/>
+        </p:dataTable>
+    </div>
+</ui:fragment>
+<br/>
+<ui:fragment rendered="#{not empty archiveTaskController.treatmentsCmiOff}">
+    <div id="blockFormDelTrtCmi" class="blockForm">
+        <div style="width:100%;">
+            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                         styleClass="tableJustWidthMax">
+                <h:panelGroup>
+                    <h:outputText value="#{msgs['FIELD_LABEL.ETAPE_ARCHIVED'] }"
+                                  styleClass="section-smallTitle"/>
+                    <h:outputText value="#{archiveTaskController.campToArch.libelle}"/>
+                </h:panelGroup>
+                <h:panelGroup/>
+            </h:panelGrid>
+        </div>
+        <p:dataTable id="trtCmiOff" var="beanTrtCmiOff"
+                     selection="#{archiveTaskController.objectToArch}"
+                     value="#{archiveTaskController.treatmentsCmiOff}"
+                     rowIndexVar="rowVar" rowKey="#{beanTrtCmiOff}">
+            <p:column width="20">
+                <t:popup styleClass="containerPopup" style="width:500px;"
+                         closePopupOnExitingElement="true"
+                         closePopupOnExitingPopup="true" displayAtDistanceX="01"
+                         displayAtDistanceY="0">
+                    <p:graphicImage url="/media/images/informationSmall.png"
+                                    style="cursor:pointer;" id="allcampagnes"/>
+
+                    <f:facet name="popup">
+                        <h:panelGroup>
+                            <h:panelGrid columns="1">
+                                <h:outputText styleClass="titrePopupAide"
+                                              value="#{msgs['FIELD_LABEL.CAMPAGNES']}"/>
+                                <h:panelGroup>
+                                    <h:outputText styleClass="libellesAide"
+                                                  value="#{msgs['CAMPAGNES.INFO.VET']} : "/>
+                                </h:panelGroup>
+                                <h:panelGroup>
+                                    <p:dataList var="link"
+                                                value="#{beanTrtCmiOff.traitementCmi.linkTrtCmiCamp}"
+                                                layout="unorderedList">
+                                        <p:column>
+                                            <h:outputText value="#{link.campagne.code}"
+                                                          styleClass="span-text-small"/>
+                                            <h:outputText value=" : " styleClass="span-text-small"/>
+                                            <h:outputText value="#{link.campagne.libelle}"
+                                                          styleClass="span-text-small"/>
+                                        </p:column>
+                                    </p:dataList>
+                                </h:panelGroup>
+                            </h:panelGrid>
+                        </h:panelGroup>
+                    </f:facet>
+                </t:popup>
+
+            </p:column>
+            <p:column headerText="#{msgs['FIELD_LABEL.CGE']}">
+                <h:outputText value="#{beanTrtCmiOff.traitementCmi.versionEtpOpi.codCge}"/>
+            </p:column>
+            <p:column headerText="#{msgs['FIELD_LABEL.ETP']}">
+                <h:outputText value="#{beanTrtCmiOff.etape.libWebVet}"/>
+            </p:column>
+            <p:column selectionMode="multiple"/>
+        </p:dataTable>
+    </div>
+</ui:fragment>
+</h:form>
+</div>
+</div>
+</ui:define>
 </ui:composition>

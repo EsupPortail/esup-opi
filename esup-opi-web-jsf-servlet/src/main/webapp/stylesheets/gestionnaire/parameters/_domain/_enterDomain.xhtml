@@ -1,58 +1,59 @@
-<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
+<ui:fragment
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui">
     <h:form id="formAddDomain" onsubmit="return formValidator(this,'form-field-label-inHeader-validator')">
-    	<div id="blockFormAddDomain" class="blockForm">
-    		<div style="width:100%;">
-    			<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    				styleClass="tableJustWidthMax">
-    				<h:outputText value="#{msgs['DOMAIN.TITLE.ENTER']}" styleClass="section-smallTitle" />
-    				<h:panelGroup>
-    					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    						rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.addAction}"
-    						action="#{domainController.add}" />
-    					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    						rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.updateAction}"
-    						action="#{domainController.update}" />
-    					<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    						action="#{domainController.reset}"
-    						onclick="javascript:{clickAnnuler = true;}"/>
-    				</h:panelGroup>
-    			</h:panelGrid>
-    		</div>
-    		<h:panelGrid columns="5" styleClass="displayInfo"
-    			rowClasses="headerRow,,, ">
-    			<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" styleClass="form-field-label-inHeader-validator"
-    				for="codeDom"/>
-    			<h:outputLabel value="#{msgs['FIELD_LABEL.LONG_LIB']}" styleClass="form-field-label-inHeader-validator"
-    				for="libDom"/>
-    			<h:outputLabel value="#{msgs['FIELD_LABEL.SHORT_LIB']}" styleClass="form-field-label-inHeader-validator"
-    				for="licDom"/>
-    			<h:outputLabel value="#{msgs['FIELD_LABEL.ACTION']}" styleClass="form-field-label-inHeader-validator"
-    				for="actionDom"/>
-    			<h:outputLabel value="#{msgs['FIELD_LABEL.RANG']}" styleClass="form-field-label-inHeader-validator"
-    				for="rangDom"/>
-    
-    			<p:inputText id="codeDom" size="11" maxlength="10"
-    				rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.addAction}"
-    				value="#{domainController.domain.code}" />
-    			<h:outputText rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.updateAction}"
-    				value="#{domainController.domain.code}" />
-    			<p:inputText id="libDom" size="42" maxlength="40"
-    				value="#{domainController.domain.libelle}" />
-    			<p:inputText id="licDom" size="16" maxlength="15"
-    				value="#{domainController.domain.shortLabel}" />
-    			<p:inputText id="actionDom" size="51" maxlength="50"
-    				value="#{domainController.domain.action}" />
-    			<p:inputText id="rangDom" size="3" maxlength="2"
-    				value="#{domainController.domain.rang}" />
-    
-    		</h:panelGrid>
-    
-    	</div>
+        <div id="blockFormAddDomain" class="blockForm">
+            <div style="width:100%;">
+                <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                             styleClass="tableJustWidthMax">
+                    <h:outputText value="#{msgs['DOMAIN.TITLE.ENTER']}" styleClass="section-smallTitle"/>
+                    <h:panelGroup>
+                        <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                         rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.addAction}"
+                                         action="#{domainController.add}"/>
+                        <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                         rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.updateAction}"
+                                         action="#{domainController.update}"/>
+                        <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                                         action="#{domainController.reset}"
+                                         onclick="javascript:{clickAnnuler = true;}"/>
+                    </h:panelGroup>
+                </h:panelGrid>
+            </div>
+            <h:panelGrid columns="5" styleClass="displayInfo"
+                         rowClasses="headerRow,,, ">
+                <h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" styleClass="form-field-label-inHeader-validator"
+                               for="codeDom"/>
+                <h:outputLabel value="#{msgs['FIELD_LABEL.LONG_LIB']}" styleClass="form-field-label-inHeader-validator"
+                               for="libDom"/>
+                <h:outputLabel value="#{msgs['FIELD_LABEL.SHORT_LIB']}" styleClass="form-field-label-inHeader-validator"
+                               for="licDom"/>
+                <h:outputLabel value="#{msgs['FIELD_LABEL.ACTION']}" styleClass="form-field-label-inHeader-validator"
+                               for="actionDom"/>
+                <h:outputLabel value="#{msgs['FIELD_LABEL.RANG']}" styleClass="form-field-label-inHeader-validator"
+                               for="rangDom"/>
+
+                <p:inputText id="codeDom" size="11" maxlength="10"
+                             rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.addAction}"
+                             value="#{domainController.domain.code}"/>
+                <h:outputText
+                        rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.updateAction}"
+                        value="#{domainController.domain.code}"/>
+                <p:inputText id="libDom" size="42" maxlength="40"
+                             value="#{domainController.domain.libelle}"/>
+                <p:inputText id="licDom" size="16" maxlength="15"
+                             value="#{domainController.domain.shortLabel}"/>
+                <p:inputText id="actionDom" size="51" maxlength="50"
+                             value="#{domainController.domain.action}"/>
+                <p:inputText id="rangDom" size="3" maxlength="2"
+                             value="#{domainController.domain.rang}"/>
+
+            </h:panelGrid>
+
+        </div>
     </h:form>
-    <br />
-    <br />
-    <br />
+    <br/>
+    <br/>
+    <br/>
 </ui:fragment>

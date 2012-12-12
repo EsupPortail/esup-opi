@@ -1,78 +1,80 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/template.xhtml">
     <ui:define name="content">
-    	<div id="maPage" class="div_body">
-    		<h1>
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{msgs['CAMPAGNES.TITLE.MANAGED_COMMISSION']}" />
+                    <h:outputText value="#{msgs['CAMPAGNES.TITLE.MANAGED_COMMISSION']}"/>
                 </span>
             </h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    		<div id="div_subSectionFirstForm" class="div_subSection">
-    			<br />
-    			<br />
-    			<br />
-    			<h:form id="campToVetForm">
-    
-    				<div id="blockFormMotClef" class="blockForm">
-    					<h:panelGroup style="width:100%;" 
-    						rendered="#{trtCmiController.actionEnum.whatAction 
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
+            <div id="div_subSectionFirstForm" class="div_subSection">
+                <br/>
+                <br/>
+                <br/>
+                <h:form id="campToVetForm">
+
+                    <div id="blockFormMotClef" class="blockForm">
+                        <h:panelGroup style="width:100%;"
+                                      rendered="#{trtCmiController.actionEnum.whatAction
     							!= trtCmiController.actionEnum.addAction}">
-    						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    							styleClass="tableJustWidthMax">
-    							<h:outputText value="#{msgs['FIELD_LABEL.ETAPES']}"
-    								styleClass="section-smallTitle" />
-    							<h:panelGroup>
-    								<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-    									action="#{trtCmiController.goBackManagedTrtCmi}" />
-    							</h:panelGroup>
-    						</h:panelGrid>
-    					</h:panelGroup>
-    					<ui:fragment rendered="#{trtCmiController.actionEnum.whatAction 
+                            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                                         styleClass="tableJustWidthMax">
+                                <h:outputText value="#{msgs['FIELD_LABEL.ETAPES']}"
+                                              styleClass="section-smallTitle"/>
+                                <h:panelGroup>
+                                    <p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+                                                     action="#{trtCmiController.goBackManagedTrtCmi}"/>
+                                </h:panelGroup>
+                            </h:panelGrid>
+                        </h:panelGroup>
+                        <ui:fragment rendered="#{trtCmiController.actionEnum.whatAction
     							!= trtCmiController.actionEnum.addAction}">
-    						<p:dataTable id="trtCmi" var="beanTrtCmi"
-    							value="#{trtCmiController.allTraitementCmi}"
-    							styleClass="displayInfo">
+                            <p:dataTable id="trtCmi" var="beanTrtCmi"
+                                         value="#{trtCmiController.allTraitementCmi}"
+                                         styleClass="displayInfo">
                                 <p:columnGroup type="header">
                                     <p:row>
-                                        <p:column headerText="#{msgs['FIELD_LABEL.ETP']}" />
-                                        <p:column headerText="#{msgs['FIELD_LABEL.CAMPAGNES']}" colspan="2" />
+                                        <p:column headerText="#{msgs['FIELD_LABEL.ETP']}"/>
+                                        <p:column headerText="#{msgs['FIELD_LABEL.CAMPAGNES']}" colspan="2"/>
                                     </p:row>
                                 </p:columnGroup>
                                 <p:subTable var="link" value="#{beanTrtCmi.traitementCmi.listLinkTrtCmiCamp}">
                                     <p:column rowspan="#{beanTrtCmi.traitementCmi.nbLinkTrtCmiCamp}">
-                                        <h:outputText value="#{beanTrtCmi.etape.libWebVet}" />
+                                        <h:outputText value="#{beanTrtCmi.etape.libWebVet}"/>
                                     </p:column>
-									<p:column>
-										<h:outputText value="#{link.campagne.code}"
-											styleClass="span-text-small" />
-										<h:outputText value=" : " styleClass="span-text-small" />
-										<h:outputText value="#{link.campagne.libelle}"
-											styleClass="span-text-small" />
-									</p:column>
-									<p:column>
-										<p:commandButton icon="ui-icon-minus" immediate="true" update=":campToVetForm:trtCmi"
-											action="#{trtCmiController.removeLinkTrtCmiCamp}"
-											title="#{msgs['_.BUTTON.DELETE']}"
-											rendered="#{not link.campagne.isArchived and 
+                                    <p:column>
+                                        <h:outputText value="#{link.campagne.code}"
+                                                      styleClass="span-text-small"/>
+                                        <h:outputText value=" : " styleClass="span-text-small"/>
+                                        <h:outputText value="#{link.campagne.libelle}"
+                                                      styleClass="span-text-small"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton icon="ui-icon-minus" immediate="true"
+                                                         update=":campToVetForm:trtCmi"
+                                                         action="#{trtCmiController.removeLinkTrtCmiCamp}"
+                                                         title="#{msgs['_.BUTTON.DELETE']}"
+                                                         rendered="#{not link.campagne.isArchived and
 														link.temoinEnService}">
-											<f:setPropertyActionListener value="#{link}" target="#{trtCmiController.linkToDel}" />
-										</p:commandButton>
-									</p:column>
+                                            <f:setPropertyActionListener value="#{link}"
+                                                                         target="#{trtCmiController.linkToDel}"/>
+                                        </p:commandButton>
+                                    </p:column>
                                 </p:subTable>
-    						</p:dataTable>
-    					</ui:fragment>
-    					<div>
-    						<ui:include src="_commission/_enterTrtCmiOff.xhtml" />
-    					</div>
-    				</div>
-    			</h:form>
-    		</div>
-    	</div>
+                            </p:dataTable>
+                        </ui:fragment>
+                        <div>
+                            <ui:include src="_commission/_enterTrtCmiOff.xhtml"/>
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>

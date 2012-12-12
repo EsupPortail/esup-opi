@@ -1,21 +1,6 @@
 package org.esupportail.opi.web.beans.utils;
 
 
-
-import java.text.ParseException;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-
 import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.commons.services.logging.Logger;
@@ -46,6 +31,13 @@ import org.esupportail.wssi.services.remote.CentreGestion;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.hibernate.LazyInitializationException;
 import org.springframework.util.StringUtils;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 

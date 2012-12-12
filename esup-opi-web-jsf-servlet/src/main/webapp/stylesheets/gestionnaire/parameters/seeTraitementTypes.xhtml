@@ -1,63 +1,64 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	<div id="maPage" class="div_body">
-    		<h1>
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{msgs['TYP_TRT.TITLE.MANAGED']}" />
+                    <h:outputText value="#{msgs['TYP_TRT.TITLE.MANAGED']}"/>
                 </span>
             </h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="seeTraitementTypesForm">
-    				<br />
-    				<br />
-    				<br />
-    				<div id="blockFormInfo" class="blockForm">
-    					<!-- <div class="blockButton">
-    						<h:panelGroup>
-    							<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-    									immediate="true"
-    									action="#{managedAccess.goDisplayFunction}"/>
-    						</h:panelGroup>
-    					</div> -->
-    					<p:dataTable var="typeTraitement" value="#{nomenclatureController.typeTrts}"
-    						styleClass="displayInfo" alternateColors="false">
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
-    							</f:facet>
-    							<h:outputText value="#{typeTraitement.code}"/>
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-    							</f:facet>
-    							<h:outputText value="#{typeTraitement.label}" />
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
-    							</f:facet>
-    							<p:graphicImage url="/media/images/check2.gif" />
-    						</p:column>
-    					</p:dataTable>
-    				</div>
-    				<br />
-    				<br />
-    				<br />
-    			</h:form>
-    		</div>
-    	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
+            <div id="div_subSection" class="div_subSection">
+                <h:form id="seeTraitementTypesForm">
+                    <br/>
+                    <br/>
+                    <br/>
+
+                    <div id="blockFormInfo" class="blockForm">
+                        <!-- <div class="blockButton">
+                            <h:panelGroup>
+                                <p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+                                        immediate="true"
+                                        action="#{managedAccess.goDisplayFunction}"/>
+                            </h:panelGroup>
+                        </div> -->
+                        <p:dataTable var="typeTraitement" value="#{nomenclatureController.typeTrts}"
+                                     styleClass="displayInfo" alternateColors="false">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>
+                                </f:facet>
+                                <h:outputText value="#{typeTraitement.code}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+                                </f:facet>
+                                <h:outputText value="#{typeTraitement.label}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}"/>
+                                </f:facet>
+                                <p:graphicImage url="/media/images/check2.gif"/>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                </h:form>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            highlightChildrenLiTags('navigationHeader:navigation');
+            highlightChildrenLiTags('navigationFooter:navigation');
         </script>
     </ui:define>
 </ui:composition>

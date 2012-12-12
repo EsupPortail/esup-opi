@@ -1,158 +1,157 @@
-
-
-<div id="blockFormSeeSituationSal"   
-	rendered="#{situationController.actionEnum.whatAction 
+<div id="blockFormSeeSituationSal"
+     rendered="#{situationController.actionEnum.whatAction
 					== situationController.actionEnum.readAction}"
-	styleClass="blockForm">
-	<div style="width:100%;">
-		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-			styleClass="tableJustWidthMax">
-			<h:panelGroup>
-				<h:outputText value="#{msgs['SITUATION.SALARIE.TITLE']}"
-					styleClass="section-smallTitle" style="margin-right:4px;"/>
-			</h:panelGroup>
+     styleClass="blockForm">
+    <div style="width:100%;">
+        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                     styleClass="tableJustWidthMax">
+            <h:panelGroup>
+                <h:outputText value="#{msgs['SITUATION.SALARIE.TITLE']}"
+                              styleClass="section-smallTitle" style="margin-right:4px;"/>
+            </h:panelGroup>
 
-			<h:panelGroup>
-				<h:outputText value="#{msgs['INFO.CHAMP']}" />
-				<h:outputText value="*" styleClass="etoileForChpObli" />
-			</h:panelGroup>
+            <h:panelGroup>
+                <h:outputText value="#{msgs['INFO.CHAMP']}"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
 
-		</h:panelGrid>
-	</div>
-	<div class="blockTable">
-		<h:panelGrid columns="2" width="100%"
-			columnClasses="colUnQuart,colTroisQuart">
-			<h:panelGroup>
-				<h:outputLabel value="#{msgs['SITUATION.SALARIE.TYPE_CONTRAT']}" for="typeContratSee" />
-				<h:outputText value="*" styleClass="etoileForChpObli" />
-			</h:panelGroup>
-			<h:panelGroup>
-				<p:selectOneMenu id="typeContratSee"
-					onchange="javascript:{simulateLinkClick('addSituationForm:submitSelectType');}"
-					value="#{situationController.indSituation.codeTypeContrat}" disabled="true">
-					<f:selectItem itemLabel="" itemValue="" />
-					<f:selectItems var="contrat" value="#{situationController.typeContrats}"
-						itemLabel="#{contrat.label}" itemValue="#{contrat.code}" />
-				</p:selectOneMenu>
-				<h:outputLabel value="jusqu'au : (ddMMyyyy)" for="dateFinCDDSee" 
-					style="margin-left:4px;"
-					rendered="#{situationController.indSituation.codeTypeContrat == situationController.codCDD}"/>
-				<h:outputText value="*" styleClass="etoileForChpObli" 
-					style="margin-right:4px;"
-					rendered="#{situationController.indSituation.codeTypeContrat == situationController.codCDD}"/>
-				<h:outputText id="dateFinCDDSee" rendered="#{situationController.indSituation.codeTypeContrat == situationController.codCDD}"
-					value="#{situationController.indSituation.dateFinCDD}">
-					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="#{sessionController.timezone}"/>
-				</h:outputText>
-				<h:outputLabel value="précisez :" for="autreTypeContratSee"
-					style="margin-left:4px;"
-					rendered="#{situationController.indSituation.codeTypeContrat == situationController.codAutre}"/>
-				<h:outputText value="*" styleClass="etoileForChpObli" 
-					style="margin-right:4px;"
-					rendered="#{situationController.indSituation.codeTypeContrat == situationController.codAutre}"/>
-				<h:outputText id="autreTypeContratSee"
-					rendered="#{situationController.indSituation.codeTypeContrat == situationController.codAutre}"
-					value="#{situationController.indSituation.autreTypeContrat}"/>
-			</h:panelGroup>
+        </h:panelGrid>
+    </div>
+    <div class="blockTable">
+        <h:panelGrid columns="2" width="100%"
+                     columnClasses="colUnQuart,colTroisQuart">
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['SITUATION.SALARIE.TYPE_CONTRAT']}" for="typeContratSee"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <h:panelGroup>
+                <p:selectOneMenu id="typeContratSee"
+                                 onchange="javascript:{simulateLinkClick('addSituationForm:submitSelectType');}"
+                                 value="#{situationController.indSituation.codeTypeContrat}" disabled="true">
+                    <f:selectItem itemLabel="" itemValue=""/>
+                    <f:selectItems var="contrat" value="#{situationController.typeContrats}"
+                                   itemLabel="#{contrat.label}" itemValue="#{contrat.code}"/>
+                </p:selectOneMenu>
+                <h:outputLabel value="jusqu'au : (ddMMyyyy)" for="dateFinCDDSee"
+                               style="margin-left:4px;"
+                               rendered="#{situationController.indSituation.codeTypeContrat == situationController.codCDD}"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"
+                              style="margin-right:4px;"
+                              rendered="#{situationController.indSituation.codeTypeContrat == situationController.codCDD}"/>
+                <h:outputText id="dateFinCDDSee"
+                              rendered="#{situationController.indSituation.codeTypeContrat == situationController.codCDD}"
+                              value="#{situationController.indSituation.dateFinCDD}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="#{sessionController.timezone}"/>
+                </h:outputText>
+                <h:outputLabel value="prï¿½cisez :" for="autreTypeContratSee"
+                               style="margin-left:4px;"
+                               rendered="#{situationController.indSituation.codeTypeContrat == situationController.codAutre}"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"
+                              style="margin-right:4px;"
+                              rendered="#{situationController.indSituation.codeTypeContrat == situationController.codAutre}"/>
+                <h:outputText id="autreTypeContratSee"
+                              rendered="#{situationController.indSituation.codeTypeContrat == situationController.codAutre}"
+                              value="#{situationController.indSituation.autreTypeContrat}"/>
+            </h:panelGroup>
 
-			<h:panelGroup>
-				<h:outputLabel value="#{msgs['SITUATION.SALARIE.TYPE_STATUT']}" for="typeStatutSee" />
-				<h:outputText value="*" styleClass="etoileForChpObli" />
-			</h:panelGroup>
-			<h:panelGroup>
-				<p:selectOneMenu id="typeStatutSee" disabled="true"
-					value="#{situationController.indSituation.codeTypeStatut}">
-					<f:selectItem itemLabel="" itemValue="" />
-					<f:selectItems var="statut" value="#{situationController.typeStatuts}"
-						itemLabel="#{statut.label}" itemValue="#{statut.code}" />
-				</p:selectOneMenu>
-			</h:panelGroup>
-			<h:panelGroup>
-				<h:outputLabel value="#{msgs['SITUATION.SALARIE.GRADE']}" for="gradeSee"/>
-				<h:outputText value="#{msgs['SITUATION.SALARIE.GRADE.LEGEND']}" 
-						styleClass="span-text-small-italic"
-						style="text-align: left;margin-left:4px;"/>
-			</h:panelGroup>
-			<h:outputText id="gradeSee" value="#{situationController.indSituation.grade}"/>
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['SITUATION.SALARIE.TYPE_STATUT']}" for="typeStatutSee"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <h:panelGroup>
+                <p:selectOneMenu id="typeStatutSee" disabled="true"
+                                 value="#{situationController.indSituation.codeTypeStatut}">
+                    <f:selectItem itemLabel="" itemValue=""/>
+                    <f:selectItems var="statut" value="#{situationController.typeStatuts}"
+                                   itemLabel="#{statut.label}" itemValue="#{statut.code}"/>
+                </p:selectOneMenu>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['SITUATION.SALARIE.GRADE']}" for="gradeSee"/>
+                <h:outputText value="#{msgs['SITUATION.SALARIE.GRADE.LEGEND']}"
+                              styleClass="span-text-small-italic"
+                              style="text-align: left;margin-left:4px;"/>
+            </h:panelGroup>
+            <h:outputText id="gradeSee" value="#{situationController.indSituation.grade}"/>
 
-		</h:panelGrid>
-		<hr/>
-		<h:panelGrid columns="2" width="100%"
-			columnClasses="colUnQuart,colTroisQuart">
-			<h:outputText value="#{msgs['SITUATION.SALARIE.EMPLOYEUR']}" styleClass="section-smallTitle"/>
-			<h:panelGroup/>
+        </h:panelGrid>
+        <hr/>
+        <h:panelGrid columns="2" width="100%"
+                     columnClasses="colUnQuart,colTroisQuart">
+            <h:outputText value="#{msgs['SITUATION.SALARIE.EMPLOYEUR']}" styleClass="section-smallTitle"/>
+            <h:panelGroup/>
 
-			<h:panelGroup>
-				<h:outputLabel value="#{msgs['SITUATION.SALARIE.EMPLOYEUR.RAISON_SOC']}" for="raisonSocSee" />
-				<h:outputText value="*" styleClass="etoileForChpObli" />
-			</h:panelGroup>
-			<h:outputText id="raisonSocSee" value="#{situationController.indSituation.raisonSociale}"/>
-			<h:panelGroup>
-				<h:outputLabel value="#{msgs['SITUATION.SALARIE.EMPLOYEUR.TYPE_ORGA']}" for="typeOrgaSee" />
-				<h:outputText value="*" styleClass="etoileForChpObli" />
-			</h:panelGroup>
-			<h:panelGroup>
-				<p:selectOneMenu id="typeOrgaSee" disabled="true"
-					value="#{situationController.indSituation.codeTypeOrga}">
-					<f:selectItem itemLabel="" itemValue="" />
-					<f:selectItems var="orga" value="#{situationController.typeOrganismes}"
-						itemLabel="#{orga.label}" itemValue="#{orga.code}" />
-				</p:selectOneMenu>
-			</h:panelGroup>
-			<h:outputLabel value="#{msgs['SITUATION.SALARIE.EMPLOYEUR.SECTEUR_ACT']}" for="secteurActSee" />
-			<h:outputText id="secteurActSee" value="#{situationController.indSituation.secteurActivity}"/>
-		</h:panelGrid>
-		<h:panelGrid columns="4" width="100%"
-			columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-	
-			<h:outputLabel value="#{msgs['ADRESS.PAY']}" for="seePaysAdr" />
-			<h:outputText id="seePaysAdr" value="#{adressController.emplAdrPojo.pays.libPay}" />
-			<h:panelGroup />
-			<h:panelGroup />
-			<h:outputLabel value="#{msgs['SITUATION.SALARIE.EMPLOYEUR.ADRESSE']}" for="seeAdr1" />
-			<h:outputText id="seeAdr1" value="#{adressController.emplAdrPojo.adresse.adr1}" />
-			<h:outputLabel value="#{msgs['ADRESS.COMP']}" for="seeAdr2" />
-			<h:outputText id="seeAdr2" value="#{adressController.emplAdrPojo.adresse.adr2}" />
-			<h:outputLabel value="#{msgs['ADRESS.COMP']}" for="seeAdr3" />
-			<h:outputText id="seeAdr3" value="#{adressController.emplAdrPojo.adresse.adr3}" />
-			
-			<h:panelGroup />
-			<h:panelGroup />
-			<h:panelGroup
-				rendered="#{adressController.emplAdrPojo.adresse.codPays 
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['SITUATION.SALARIE.EMPLOYEUR.RAISON_SOC']}" for="raisonSocSee"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <h:outputText id="raisonSocSee" value="#{situationController.indSituation.raisonSociale}"/>
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['SITUATION.SALARIE.EMPLOYEUR.TYPE_ORGA']}" for="typeOrgaSee"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <h:panelGroup>
+                <p:selectOneMenu id="typeOrgaSee" disabled="true"
+                                 value="#{situationController.indSituation.codeTypeOrga}">
+                    <f:selectItem itemLabel="" itemValue=""/>
+                    <f:selectItems var="orga" value="#{situationController.typeOrganismes}"
+                                   itemLabel="#{orga.label}" itemValue="#{orga.code}"/>
+                </p:selectOneMenu>
+            </h:panelGroup>
+            <h:outputLabel value="#{msgs['SITUATION.SALARIE.EMPLOYEUR.SECTEUR_ACT']}" for="secteurActSee"/>
+            <h:outputText id="secteurActSee" value="#{situationController.indSituation.secteurActivity}"/>
+        </h:panelGrid>
+        <h:panelGrid columns="4" width="100%"
+                     columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+
+            <h:outputLabel value="#{msgs['ADRESS.PAY']}" for="seePaysAdr"/>
+            <h:outputText id="seePaysAdr" value="#{adressController.emplAdrPojo.pays.libPay}"/>
+            <h:panelGroup/>
+            <h:panelGroup/>
+            <h:outputLabel value="#{msgs['SITUATION.SALARIE.EMPLOYEUR.ADRESSE']}" for="seeAdr1"/>
+            <h:outputText id="seeAdr1" value="#{adressController.emplAdrPojo.adresse.adr1}"/>
+            <h:outputLabel value="#{msgs['ADRESS.COMP']}" for="seeAdr2"/>
+            <h:outputText id="seeAdr2" value="#{adressController.emplAdrPojo.adresse.adr2}"/>
+            <h:outputLabel value="#{msgs['ADRESS.COMP']}" for="seeAdr3"/>
+            <h:outputText id="seeAdr3" value="#{adressController.emplAdrPojo.adresse.adr3}"/>
+
+            <h:panelGroup/>
+            <h:panelGroup/>
+            <h:panelGroup
+                    rendered="#{adressController.emplAdrPojo.adresse.codPays
 						== adressController.codeFrance}">
-				<h:outputLabel value="#{msgs['ADRESS.COD_POST']}" for="seeCodePostal" />
-			</h:panelGroup>
-			<h:outputText id="seeCodePostal" 
-					rendered="#{adressController.emplAdrPojo.adresse.codPays 
+                <h:outputLabel value="#{msgs['ADRESS.COD_POST']}" for="seeCodePostal"/>
+            </h:panelGroup>
+            <h:outputText id="seeCodePostal"
+                          rendered="#{adressController.emplAdrPojo.adresse.codPays
 						== adressController.codeFrance}"
-					value="#{adressController.emplAdrPojo.adresse.codBdi}" />
-			<h:outputLabel value="#{msgs['ADRESS.VIL']}" 
-					rendered="#{adressController.emplAdrPojo.adresse.codPays 
+                          value="#{adressController.emplAdrPojo.adresse.codBdi}"/>
+            <h:outputLabel value="#{msgs['ADRESS.VIL']}"
+                           rendered="#{adressController.emplAdrPojo.adresse.codPays
 						== adressController.codeFrance}"
-					for="seeVille" />
-			<h:outputText id="seeVille" 
-				rendered="#{adressController.emplAdrPojo.adresse.codPays 
+                           for="seeVille"/>
+            <h:outputText id="seeVille"
+                          rendered="#{adressController.emplAdrPojo.adresse.codPays
 						== adressController.codeFrance}"
-				value="#{adressController.emplAdrPojo.commune.libCommune}" />
-			<h:outputLabel value="#{msgs['ADRESS.VIL.ETR']}" 
-					rendered="#{adressController.emplAdrPojo.adresse.codPays 
+                          value="#{adressController.emplAdrPojo.commune.libCommune}"/>
+            <h:outputLabel value="#{msgs['ADRESS.VIL.ETR']}"
+                           rendered="#{adressController.emplAdrPojo.adresse.codPays
 						!= adressController.codeFrance}"
-					for="seeForeignCity" />
-			<h:outputText id="seeForeignCity" 
-				rendered="#{adressController.emplAdrPojo.adresse.codPays 
+                           for="seeForeignCity"/>
+            <h:outputText id="seeForeignCity"
+                          rendered="#{adressController.emplAdrPojo.adresse.codPays
 						!= adressController.codeFrance}"
-				value="#{adressController.emplAdrPojo.adresse.libComEtr}" />
-			<h:panelGroup rendered="#{adressController.emplAdrPojo.adresse.codPays 
+                          value="#{adressController.emplAdrPojo.adresse.libComEtr}"/>
+            <h:panelGroup rendered="#{adressController.emplAdrPojo.adresse.codPays
 						!= adressController.codeFrance}"/>
-			<h:panelGroup rendered="#{adressController.emplAdrPojo.adresse.codPays 
+            <h:panelGroup rendered="#{adressController.emplAdrPojo.adresse.codPays
 						!= adressController.codeFrance}"/>
-			<h:outputLabel value="#{msgs['ADRESS.TEL_FIX']}" for="telephoneSee" />
-			<h:outputText id="telephoneSee" value="#{adressController.emplAdrPojo.adresse.phoneNumber}" />
-			<h:outputLabel value="#{msgs['FIELD_LABEL.MAIL']}" for="emailSee" />
-			<h:outputText id="emailSee" value="#{adressController.emplAdrPojo.adresse.mail}" />
-	
-	
-		</h:panelGrid>
-	</div>
+            <h:outputLabel value="#{msgs['ADRESS.TEL_FIX']}" for="telephoneSee"/>
+            <h:outputText id="telephoneSee" value="#{adressController.emplAdrPojo.adresse.phoneNumber}"/>
+            <h:outputLabel value="#{msgs['FIELD_LABEL.MAIL']}" for="emailSee"/>
+            <h:outputText id="emailSee" value="#{adressController.emplAdrPojo.adresse.mail}"/>
+
+
+        </h:panelGrid>
+    </div>
 </div>

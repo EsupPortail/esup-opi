@@ -1,47 +1,50 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/template.xhtml">
     <ui:define name="content">
-    	<h1><h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.TITRE_RDV']}" /></h1>
-    	
-    	<p:messages id="messages" showDetail="true" autoUpdate="true" styleClass="messageForUser"/>
-    	
-    	<p:dataTable var="dateRdv"
-    		value="#{saisieRdvEtuController.keyMapAllRdvEtu}" rendered="#{not empty saisieRdvEtuController.keyMapAllRdvEtu}"
-    		styleClass="displayInfo">
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.DATE']}"/>
-    			</f:facet>
-    			<h:outputText value="#{dateRdv}">
-    				<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
-    				timeZone="#{sessionController.timezone}" />
-    			</h:outputText>
-    		</p:column>
-    		
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.MESSAGE']}"/>
-    			</f:facet>
-    			<h:outputText escape="false" value="#{saisieRdvEtuController.allRdvEtu[dateRdv][0].messageRdv}"/>
-    		</p:column>
-    		
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.TITRE_VOEU']}"/>
-    			</f:facet>
-    			<p:dataList var="individuDatePojo" value="#{saisieRdvEtuController.allRdvEtu[dateRdv]}">
-    				<h:outputText value="#{individuDatePojo.voeuRdv.vrsEtape.libWebVet}"/>
-    			</p:dataList>
-    		</p:column>
-    	</p:dataTable>    	
-    	
-    	<script type="text/javascript">
-    		highlightChildrenLiTags('navigationHeader:navigationLogin');
-    		highlightChildrenLiTags('navigationFooter:navigationLogin');
-    		highlightInputAndSelect('seeVoeuxForm');
-    	</script>
+        <h1>
+            <h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.TITRE_RDV']}"/>
+        </h1>
+
+        <p:messages id="messages" showDetail="true" autoUpdate="true" styleClass="messageForUser"/>
+
+        <p:dataTable var="dateRdv"
+                     value="#{saisieRdvEtuController.keyMapAllRdvEtu}"
+                     rendered="#{not empty saisieRdvEtuController.keyMapAllRdvEtu}"
+                     styleClass="displayInfo">
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.DATE']}"/>
+                </f:facet>
+                <h:outputText value="#{dateRdv}">
+                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+                                       timeZone="#{sessionController.timezone}"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.MESSAGE']}"/>
+                </f:facet>
+                <h:outputText escape="false" value="#{saisieRdvEtuController.allRdvEtu[dateRdv][0].messageRdv}"/>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.TITRE_VOEU']}"/>
+                </f:facet>
+                <p:dataList var="individuDatePojo" value="#{saisieRdvEtuController.allRdvEtu[dateRdv]}">
+                    <h:outputText value="#{individuDatePojo.voeuRdv.vrsEtape.libWebVet}"/>
+                </p:dataList>
+            </p:column>
+        </p:dataTable>
+
+        <script type="text/javascript">
+            highlightChildrenLiTags('navigationHeader:navigationLogin');
+            highlightChildrenLiTags('navigationFooter:navigationLogin');
+            highlightInputAndSelect('seeVoeuxForm');
+        </script>
     </ui:define>
 </ui:composition>

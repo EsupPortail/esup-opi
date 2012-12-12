@@ -1,34 +1,34 @@
-<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
+<ui:fragment
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui">
     <ui:fragment rendered="#{not empty formationController.searchFormationPojo.vrsEtpSelected}">
         <div id="div_subSectionChoiceEtp" class="div_subSection">
-        	<h:form id="recapEtapeForm" styleClass="opiR1_form">
-        		<div id="div_subSectionListChoiceEtp" class="div_subSection">
-        			<div id="blockFormEtapeChoice" class="blockForm">
-        				<div style="width:100%;">
-        					<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-        						styleClass="tableJustWidthMax">
-        						<h:outputText value="#{msgs['FIELD_LABEL.FORMATION_SELECT']}"
-        							styleClass="section-smallTitle" />
-        						<p:commandButton value="#{msgs['_.BUTTON.BACK.RECAP']}"
-        							action="#{formationController.goRecapChoice}" />
-        					</h:panelGrid>
-        				</div>
-        				<div class="blockTable">
-        					<p:dataList var="versionEtpPojo"
-        						value="#{formationController.searchFormationPojo.vrsEtpSelected}">
-        						<li>
-        							<h:outputText value="#{versionEtpPojo.versionEtape.libWebVet}" />
-        						</li>
-        					</p:dataList>
-        				</div>
-        			</div>
-        		</div>
-        	</h:form>
-        <br />
-        <br />
+            <h:form id="recapEtapeForm" styleClass="opiR1_form">
+                <div id="div_subSectionListChoiceEtp" class="div_subSection">
+                    <div id="blockFormEtapeChoice" class="blockForm">
+                        <div style="width:100%;">
+                            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                                         styleClass="tableJustWidthMax">
+                                <h:outputText value="#{msgs['FIELD_LABEL.FORMATION_SELECT']}"
+                                              styleClass="section-smallTitle"/>
+                                <p:commandButton value="#{msgs['_.BUTTON.BACK.RECAP']}"
+                                                 action="#{formationController.goRecapChoice}"/>
+                            </h:panelGrid>
+                        </div>
+                        <div class="blockTable">
+                            <p:dataList var="versionEtpPojo"
+                                        value="#{formationController.searchFormationPojo.vrsEtpSelected}">
+                                <li>
+                                    <h:outputText value="#{versionEtpPojo.versionEtape.libWebVet}"/>
+                                </li>
+                            </p:dataList>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+            <br/>
+            <br/>
         </div>
     </ui:fragment>
 </ui:fragment>

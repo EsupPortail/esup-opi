@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import fj.data.Seq;
+import fj.P2;
+import fj.data.Option;
+import fj.data.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.exceptions.UserNotFoundException;
@@ -707,13 +709,13 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	/** 
-	 * @see org.esupportail.opi.domain.DomainService#asGestionnaireRightsOnStudent(
+	 * @see org.esupportail.opi.domain.DomainService#hasGestionnaireRightsOnStudent(
 	 * java.util.Set, java.util.Set)
 	 */
-	public Boolean asGestionnaireRightsOnStudent(final Set <IndVoeu> lesVoeux,
-			final Set <Commission> lesCommissions) {
+	public Boolean hasGestionnaireRightsOnStudent(final Set<IndVoeu> lesVoeux,
+                                                  final Set<Commission> lesCommissions) {
 		if (log.isDebugEnabled()) {
-			log.debug("entering asGestionnaireRightsOnStudent( " + lesVoeux + " ---- "
+			log.debug("entering hasGestionnaireRightsOnStudent( " + lesVoeux + " ---- "
 			+ lesCommissions + " )");
 		}
 		if (lesVoeux == null ) { return false; }
@@ -819,9 +821,6 @@ public class DomainServiceImpl implements DomainService {
 		return new Version(versionManager.getVersion());
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.DomainService#setDatabaseVersion(java.lang.String)
-	 */
 	public void updateDatabaseVersion(final String version) {
 		if (log.isDebugEnabled()) {
 			log.debug("setting database version to '" + version + "'...");
@@ -834,10 +833,6 @@ public class DomainServiceImpl implements DomainService {
 		}
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.DomainService#setDatabaseVersion(
-	 * 	org.esupportail.commons.services.application.Version)
-	 */
 	public void updateDatabaseVersion(final Version version) {
 		updateDatabaseVersion(version.toString());
 	}

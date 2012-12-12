@@ -1,7 +1,6 @@
 package org.esupportail.opi.web.utils.fj;
 
 import fj.F;
-import fj.F4;
 import fj.data.Stream;
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.opi.domain.BusinessUtil;
@@ -22,11 +21,9 @@ import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import java.util.HashSet;
 import java.util.Set;
 
-import static fj.Function.curry;
-import static org.esupportail.opi.domain.beans.etat.Etat.instanceState;
-import static org.esupportail.opi.web.utils.Utilitaires.*;
-
 import static fj.data.Stream.iterableStream;
+import static org.esupportail.opi.domain.beans.etat.Etat.instanceState;
+import static org.esupportail.opi.web.beans.utils.Utilitaires.getRecupCalendarRdv;
 
 public class Conversions {
 
@@ -54,7 +51,7 @@ public class Conversions {
                 final boolean calIsOpen = iterableStream(
                         paramServ.getCalendars(trtCmi.getVersionEtpOpi())).exists(Filters.isOpen);
                 final TypeTraitement typeTrait =
-                        BusinessUtil.getTypeTraitement(paramServ.getTypeTraitements(),indVoeu.getCodTypeTrait());
+                        BusinessUtil.getTypeTraitement(paramServ.getTypeTraitements(), indVoeu.getCodTypeTrait());
                 final CalendarRDV cal = getRecupCalendarRdv(indVoeu, paramServ.getCalendarRdv());
 
                 return new IndVoeuPojo(indVoeu, vet, etatVoeu, calIsOpen, typeTrait, cal);

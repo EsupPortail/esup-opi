@@ -1,60 +1,58 @@
-
-
-<div id="blockFormSituationDemEmpl"  
-	rendered="#{situationController.actionEnum.whatAction 
+<div id="blockFormSituationDemEmpl"
+     rendered="#{situationController.actionEnum.whatAction
 					!= situationController.actionEnum.readAction}"
-	styleClass="blockForm">
-	<div style="width:100%;">
-		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-			styleClass="tableJustWidthMax">
-			<h:panelGroup>
-				<h:outputText value="#{msgs['SITUATION.DEM_EMPL.TITLE']}"
-					styleClass="section-smallTitle" style="margin-right:4px;"/>
-			</h:panelGroup>
+     styleClass="blockForm">
+    <div style="width:100%;">
+        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                     styleClass="tableJustWidthMax">
+            <h:panelGroup>
+                <h:outputText value="#{msgs['SITUATION.DEM_EMPL.TITLE']}"
+                              styleClass="section-smallTitle" style="margin-right:4px;"/>
+            </h:panelGroup>
 
-			<h:panelGroup>
-				<h:outputText value="#{msgs['INFO.CHAMP']}" />
-				<h:outputText value="*" styleClass="etoileForChpObli" />
-			</h:panelGroup>
+            <h:panelGroup>
+                <h:outputText value="#{msgs['INFO.CHAMP']}"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
 
-		</h:panelGrid>
-	</div>
-	<div class="blockTable">
-		<h:panelGrid columns="2" width="100%"
-			columnClasses="colUnQuart,colTroisQuart">
-			<h:outputLabel value="#{msgs['SITUATION.DEM_EMPL.DATE_INSCR']}" for="dateInsc" />
-			<h:inputText id="dateInsc" size="10" maxlength="8"
-				value="#{situationController.indSituation.dateInscriptionPE}">
-				<f:convertDateTime pattern="ddMMyyyy"
-					timeZone="#{sessionController.timezone}" />
-				<f:validateLength minimum="8"/>
-			</h:inputText>
+        </h:panelGrid>
+    </div>
+    <div class="blockTable">
+        <h:panelGrid columns="2" width="100%"
+                     columnClasses="colUnQuart,colTroisQuart">
+            <h:outputLabel value="#{msgs['SITUATION.DEM_EMPL.DATE_INSCR']}" for="dateInsc"/>
+            <h:inputText id="dateInsc" size="10" maxlength="8"
+                         value="#{situationController.indSituation.dateInscriptionPE}">
+                <f:convertDateTime pattern="ddMMyyyy"
+                                   timeZone="#{sessionController.timezone}"/>
+                <f:validateLength minimum="8"/>
+            </h:inputText>
 
-			<h:panelGroup>
-				<h:outputLabel value="#{msgs['SITUATION.DEM_EMPL.INDEMN']}" for="indemn" />
-				<h:outputText value="*" styleClass="etoileForChpObli" />
-			</h:panelGroup>
-			<p:selectOneRadio id="choixValid"
-				value="#{situationController.indSituation.compensated}">
-					<f:selectItem itemLabel="non" itemValue="#{false}" />
-					<f:selectItem itemLabel="oui" itemValue="#{true}" />
-			</p:selectOneRadio>
-			
-			<h:outputLabel value="#{msgs['SITUATION.DEM_EMPL.INDEMN.DATE_START']}" for="dateDebIndem" />
-			<h:inputText id="dateDebIndem" size="10" maxlength="8"
-				value="#{situationController.indSituation.dateStartCompensation}">
-				<f:convertDateTime pattern="ddMMyyyy"
-					timeZone="#{sessionController.timezone}" />
-				<f:validateLength minimum="8"/>
-			</h:inputText>
-			<h:outputLabel value="#{msgs['SITUATION.DEM_EMPL.INDEMN.DATE_END']}" for="dateFinIndem" />
-			<h:inputText id="dateFinIndem" size="10" maxlength="8"
-				value="#{situationController.indSituation.dateEndCompensation}">
-				<f:convertDateTime pattern="ddMMyyyy"
-					timeZone="#{sessionController.timezone}" />
-				<f:validateLength minimum="8"/>
-			</h:inputText>
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['SITUATION.DEM_EMPL.INDEMN']}" for="indemn"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <p:selectOneRadio id="choixValid"
+                              value="#{situationController.indSituation.compensated}">
+                <f:selectItem itemLabel="non" itemValue="#{false}"/>
+                <f:selectItem itemLabel="oui" itemValue="#{true}"/>
+            </p:selectOneRadio>
 
-		</h:panelGrid>
-	</div>
+            <h:outputLabel value="#{msgs['SITUATION.DEM_EMPL.INDEMN.DATE_START']}" for="dateDebIndem"/>
+            <h:inputText id="dateDebIndem" size="10" maxlength="8"
+                         value="#{situationController.indSituation.dateStartCompensation}">
+                <f:convertDateTime pattern="ddMMyyyy"
+                                   timeZone="#{sessionController.timezone}"/>
+                <f:validateLength minimum="8"/>
+            </h:inputText>
+            <h:outputLabel value="#{msgs['SITUATION.DEM_EMPL.INDEMN.DATE_END']}" for="dateFinIndem"/>
+            <h:inputText id="dateFinIndem" size="10" maxlength="8"
+                         value="#{situationController.indSituation.dateEndCompensation}">
+                <f:convertDateTime pattern="ddMMyyyy"
+                                   timeZone="#{sessionController.timezone}"/>
+                <f:validateLength minimum="8"/>
+            </h:inputText>
+
+        </h:panelGrid>
+    </div>
 </div>

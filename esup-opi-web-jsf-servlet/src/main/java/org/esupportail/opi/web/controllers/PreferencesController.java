@@ -4,108 +4,108 @@
  */
 package org.esupportail.opi.web.controllers;
 
+import org.esupportail.commons.services.logging.Logger;
+import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.opi.domain.beans.user.User;
+
+import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
-import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
-
-import org.esupportail.commons.services.logging.Logger;
-import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.opi.domain.beans.user.User;
 
 /**
  * A bean to manage user preferences.
  */
 public class PreferencesController extends AbstractContextAwareController {
 
-	/**
-	 * The serialization id.
-	 */
-	private static final long serialVersionUID = 2503649603430502319L;
+    /**
+     * The serialization id.
+     */
+    private static final long serialVersionUID = 2503649603430502319L;
 
-	/**
-	 * A logger.
-	 */
-	private final Logger logger = new LoggerImpl(this.getClass());
-	
-	/**
-	 * A list of JSF components for the locales.
-	 */
-	private List<SelectItem> localeItems;
+    /**
+     * A logger.
+     */
+    private final Logger logger = new LoggerImpl(this.getClass());
 
-	/**
-	 * Bean constructor.
-	 */
-	public PreferencesController() {
-		super();
-	}
-	
-	/**
-	 * JSF callback.
-	 * @return A String.
-	 */
-	public String enter() {
-		if (!isPageAuthorized()) {
-			addUnauthorizedActionMessage();
-			return null;
-		}
-		return "navigationPreferences";
-	}
+    /**
+     * A list of JSF components for the locales.
+     */
+    private List<SelectItem> localeItems;
 
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + "#" + hashCode();
-	}
+    /**
+     * Bean constructor.
+     */
+    public PreferencesController() {
+        super();
+    }
 
-	/**
-	 * @return true if the current user is allowed to view the page.
-	 */
-	public boolean isPageAuthorized() {
-		return getCurrentUser() != null;
-	}
+    /**
+     * JSF callback.
+     *
+     * @return A String.
+     */
+    public String enter() {
+        if (!isPageAuthorized()) {
+            addUnauthorizedActionMessage();
+            return null;
+        }
+        return "navigationPreferences";
+    }
 
-	/**
-	 * @return the localeItems
-	 */
-	@SuppressWarnings("unchecked")
-	public List<SelectItem> getLocaleItems() {
-		if (localeItems == null) {
-			localeItems = new ArrayList<SelectItem>();
-			Iterator<Locale> iter = 
-				FacesContext.getCurrentInstance().getApplication().getSupportedLocales();
-			while (iter.hasNext()) {
-				Locale locale = iter.next();
-				StringBuffer buf = new StringBuffer(locale.getLanguage());
-				buf.append(" - ").append(locale.getDisplayLanguage(locale));
-				localeItems.add(new SelectItem(locale, buf.toString()));
-			}
-		}
-		return localeItems;
-	}
+    /**
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "#" + hashCode();
+    }
 
-	/**
-	 * @param locale the locale to set
-	 */
-	public void setLocale(final Locale locale) {
-		User currentUser = getCurrentUser();
-		if (currentUser == null) {
-			// store in the session
-			setSessionLocale(locale);
-		} else {
-			// update the current user
-			if (logger.isDebugEnabled()) {
-				logger.debug("set language [" + locale + "] for user '" + currentUser.getId() + "'");
-			}
-			currentUser.setLanguage(locale.toString());
-			getSessionController().resetSessionLocale();
-			addInfoMessage(null, "PREFERENCES.MESSAGE.UPDATED");
-		}
-	}
-	
+    /**
+     * @return true if the current user is allowed to view the page.
+     */
+    public boolean isPageAuthorized() {
+        return getCurrentUser() != null;
+    }
+
+    /**
+     * @return the localeItems
+     */
+    @SuppressWarnings("unchecked")
+    public List<SelectItem> getLocaleItems() {
+        if (localeItems == null) {
+            localeItems = new ArrayList<SelectItem>();
+            Iterator<Locale> iter =
+                    FacesContext.getCurrentInstance().getApplication().getSupportedLocales();
+            while (iter.hasNext()) {
+                Locale locale = iter.next();
+                StringBuffer buf = new StringBuffer(locale.getLanguage());
+                buf.append(" - ").append(locale.getDisplayLanguage(locale));
+                localeItems.add(new SelectItem(locale, buf.toString()));
+            }
+        }
+        return localeItems;
+    }
+
+    /**
+     * @param locale the locale to set
+     */
+    public void setLocale(final Locale locale) {
+        User currentUser = getCurrentUser();
+        if (currentUser == null) {
+            // store in the session
+            setSessionLocale(locale);
+        } else {
+            // update the current user
+            if (logger.isDebugEnabled()) {
+                logger.debug("set language [" + locale + "] for user '" + currentUser.getId() + "'");
+            }
+            currentUser.setLanguage(locale.toString());
+            getSessionController().resetSessionLocale();
+            addInfoMessage(null, "PREFERENCES.MESSAGE.UPDATED");
+        }
+    }
+
 }

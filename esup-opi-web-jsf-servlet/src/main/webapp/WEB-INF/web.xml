@@ -1,48 +1,46 @@
 <?xml version="1.0"?>
 
-	<!--
-		/webapp/WEB-INF/web.xml The main configuration file of the application
-		for servlet installations.
-		RENNES1
-	-->
+<!--
+    /webapp/WEB-INF/web.xml The main configuration file of the application
+    for servlet installations.
+    RENNES1
+-->
 
 <web-app
-    version="2.5"
-    xmlns="http://java.sun.com/xml/ns/j2ee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-    metadata-complete="true">
-    
+        version="2.5"
+        xmlns="http://java.sun.com/xml/ns/j2ee"
+        metadata-complete="true">
+
     <display-name>esup-opi</display-name>
     <context-param>
         <param-name>webAppRootKey</param-name>
         <param-value>esup-opi</param-value>
     </context-param>
 
-	<context-param>
-		<param-name>log4jConfigLocation</param-name>
-		<param-value>classpath:log4j.properties</param-value>
-	</context-param>
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>classpath:log4j.properties</param-value>
+    </context-param>
 
-	<context-param>
-		<description>
-			The location of the main configuration file of the Spring framework.
-		</description>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>
-			classpath:/properties/applicationContext.xml
-		</param-value>
-	</context-param>
+    <context-param>
+        <description>
+            The location of the main configuration file of the Spring framework.
+        </description>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:/properties/applicationContext.xml
+        </param-value>
+    </context-param>
 
-	<context-param>
-		<description>
-			The location of the main configuration file of the JSF framework.
-		</description>
-		<param-name>javax.faces.CONFIG_FILES</param-name>
-		<param-value>
-			/WEB-INF/classes/properties/jsf/navigation-rules.xml
-		</param-value>
-	</context-param>
+    <context-param>
+        <description>
+            The location of the main configuration file of the JSF framework.
+        </description>
+        <param-name>javax.faces.CONFIG_FILES</param-name>
+        <param-value>
+            /WEB-INF/classes/properties/jsf/navigation-rules.xml
+        </param-value>
+    </context-param>
 
     <context-param>
         <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
@@ -53,61 +51,61 @@
         <param-value>true</param-value>
     </context-param>
 
-<!-- 	<context-param> -->
-<!-- 		<param-name>org.fckfaces.CUSTOM_CONFIGURATIONS_PATH</param-name> -->
-<!-- 		<param-value>/media/FCKeditor/custom-fckconfig.js</param-value> -->
-<!-- 	</context-param> -->
+    <!-- 	<context-param> -->
+    <!-- 		<param-name>org.fckfaces.CUSTOM_CONFIGURATIONS_PATH</param-name> -->
+    <!-- 		<param-value>/media/FCKeditor/custom-fckconfig.js</param-value> -->
+    <!-- 	</context-param> -->
 
-	<context-param>
-		<param-name>org.apache.myfaces.PRETTY_HTML</param-name>
-		<param-value>true</param-value>
-	</context-param>
+    <context-param>
+        <param-name>org.apache.myfaces.PRETTY_HTML</param-name>
+        <param-value>true</param-value>
+    </context-param>
 
-	<context-param>
-		<param-name>org.apache.myfaces.ALLOW_JAVASCRIPT</param-name>
-		<param-value>true</param-value>
-	</context-param>
+    <context-param>
+        <param-name>org.apache.myfaces.ALLOW_JAVASCRIPT</param-name>
+        <param-value>true</param-value>
+    </context-param>
 
-	<context-param>
-		<param-name>org.apache.myfaces.DETECT_JAVASCRIPT</param-name>
-		<param-value>false</param-value>
-	</context-param>
+    <context-param>
+        <param-name>org.apache.myfaces.DETECT_JAVASCRIPT</param-name>
+        <param-value>false</param-value>
+    </context-param>
 
-	<context-param>
-		<param-name>org.apache.myfaces.AUTO_SCROLL</param-name>
-		<param-value>false</param-value>
-	</context-param>
+    <context-param>
+        <param-name>org.apache.myfaces.AUTO_SCROLL</param-name>
+        <param-value>false</param-value>
+    </context-param>
 
-	<context-param>
-		<param-name>org.apache.myfaces.ADD_RESOURCE_CLASS</param-name>
-		<param-value>org.apache.myfaces.renderkit.html.util.DefaultAddResource</param-value>
-	</context-param>
+    <context-param>
+        <param-name>org.apache.myfaces.ADD_RESOURCE_CLASS</param-name>
+        <param-value>org.apache.myfaces.renderkit.html.util.DefaultAddResource</param-value>
+    </context-param>
 
-	<!--BEGIN-SERVLET-ONLY-->
+    <!--BEGIN-SERVLET-ONLY-->
 
-	<context-param>
-		<param-name>org.apache.myfaces.CHECK_EXTENSIONS_FILTER</param-name>
-		<param-value>true</param-value>
-	</context-param>
+    <context-param>
+        <param-name>org.apache.myfaces.CHECK_EXTENSIONS_FILTER</param-name>
+        <param-value>true</param-value>
+    </context-param>
 
-	<!--END-SERVLET-ONLY-->
+    <!--END-SERVLET-ONLY-->
 
-	<listener>
-		<listener-class>
-			org.springframework.web.util.Log4jConfigListener
-		</listener-class>
-	</listener>
+    <listener>
+        <listener-class>
+            org.springframework.web.util.Log4jConfigListener
+        </listener-class>
+    </listener>
 
-	<listener>
-		<listener-class>
-			org.springframework.web.context.ContextLoaderListener
-		</listener-class>
-	</listener>
+    <listener>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
     <listener>
         <listener-class>
             org.springframework.web.context.request.RequestContextListener
         </listener-class>
-   </listener>
+    </listener>
 
     <filter>
         <display-name>Hibernate Filter</display-name>
@@ -128,7 +126,7 @@
         <dispatcher>INCLUDE</dispatcher>
     </filter-mapping>
 
-<!--BEGIN-SERVLET-ONLY-->
+    <!--BEGIN-SERVLET-ONLY-->
 
     <!-- CAS -->
     <filter>
@@ -143,7 +141,7 @@
         <filter-name>CAS Authentication Filter</filter-name>
         <url-pattern>/stylesheets/cas/accueil.xhtml</url-pattern>
     </filter-mapping>
-    
+
     <filter>
         <filter-name>CAS Validation Filter</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -156,316 +154,316 @@
         <filter-name>CAS Validation Filter</filter-name>
         <url-pattern>/stylesheets/*</url-pattern>
     </filter-mapping>
-    
-    
-<!-- 	<filter-mapping> -->
-<!-- 		<filter-name>CAS Filter</filter-name> -->
-<!-- 		<url-pattern>/fr/orbeon/builder/*</url-pattern> -->
-<!-- 	</filter-mapping> -->
-	
-	<servlet>
-		<description>
-			The main servlet of the application. This class inherits from 
-			the MyFaces implementation and handles exceptions thrown for
-			specific exception handling.
-		</description>
-		<display-name>Faces Servlet</display-name>
-		<servlet-name>Faces Servlet</servlet-name>
-		<servlet-class>
-			javax.faces.webapp.FacesServlet
-		</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
+
+
+    <!-- 	<filter-mapping> -->
+    <!-- 		<filter-name>CAS Filter</filter-name> -->
+    <!-- 		<url-pattern>/fr/orbeon/builder/*</url-pattern> -->
+    <!-- 	</filter-mapping> -->
+
+    <servlet>
+        <description>
+            The main servlet of the application. This class inherits from
+            the MyFaces implementation and handles exceptions thrown for
+            specific exception handling.
+        </description>
+        <display-name>Faces Servlet</display-name>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>
+            javax.faces.webapp.FacesServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
-<!--END-SERVLET-ONLY-->
+    <!--END-SERVLET-ONLY-->
 
-<!--BEGIN-PORTLET-ONLY-->
+    <!--BEGIN-PORTLET-ONLY-->
 
-<!-- 	<servlet>  -->
-<!-- 		<servlet-name>esup-opiR1</servlet-name> -->
-<!-- 		<servlet-class> -->
-<!-- 			org.apache.pluto.core.PortletServlet -->
-<!-- 		</servlet-class> -->
-<!-- 		<init-param> -->
-<!-- 			<param-name>portlet-class</param-name> -->
-<!-- 			<param-value> -->
-<!-- 				org.apache.portals.bridges.portletfilter.FilterPortlet -->
-<!-- 			</param-value> -->
-<!-- 		</init-param> -->
-<!-- 		<init-param> -->
-<!-- 			<param-name>portlet-guid</param-name> -->
-<!-- 			<param-value>esup-opiR1.esup-opiR1</param-value> -->
-<!-- 		</init-param> -->
-<!-- 	</servlet> -->
-<!-- 	<servlet-mapping> -->
-<!-- 		<servlet-name>esup-opiR1</servlet-name> -->
-<!-- 		<url-pattern>/esup-opiR1/*</url-pattern> -->
-<!-- 	</servlet-mapping> -->
-<!--END-PORTLET-ONLY-->
+    <!-- 	<servlet>  -->
+    <!-- 		<servlet-name>esup-opiR1</servlet-name> -->
+    <!-- 		<servlet-class> -->
+    <!-- 			org.apache.pluto.core.PortletServlet -->
+    <!-- 		</servlet-class> -->
+    <!-- 		<init-param> -->
+    <!-- 			<param-name>portlet-class</param-name> -->
+    <!-- 			<param-value> -->
+    <!-- 				org.apache.portals.bridges.portletfilter.FilterPortlet -->
+    <!-- 			</param-value> -->
+    <!-- 		</init-param> -->
+    <!-- 		<init-param> -->
+    <!-- 			<param-name>portlet-guid</param-name> -->
+    <!-- 			<param-value>esup-opiR1.esup-opiR1</param-value> -->
+    <!-- 		</init-param> -->
+    <!-- 	</servlet> -->
+    <!-- 	<servlet-mapping> -->
+    <!-- 		<servlet-name>esup-opiR1</servlet-name> -->
+    <!-- 		<url-pattern>/esup-opiR1/*</url-pattern> -->
+    <!-- 	</servlet-mapping> -->
+    <!--END-PORTLET-ONLY-->
 
-	<servlet>
-		<servlet-name>Download Servlet</servlet-name>
-		<servlet-class>
-			org.esupportail.commons.web.servlet.DownloadServlet
-		</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Download Servlet</servlet-name>
-		<url-pattern>/download</url-pattern>
-	</servlet-mapping>
+    <servlet>
+        <servlet-name>Download Servlet</servlet-name>
+        <servlet-class>
+            org.esupportail.commons.web.servlet.DownloadServlet
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Download Servlet</servlet-name>
+        <url-pattern>/download</url-pattern>
+    </servlet-mapping>
 
-<!-- 	<servlet> -->
-<!-- 		<servlet-name>Jenia internal servlet</servlet-name> -->
-<!-- 		<servlet-class>org.jenia.faces.util.Servlet</servlet-class> -->
-<!-- 		<load-on-startup>2</load-on-startup> -->
-<!-- 	</servlet> -->
-<!-- 	<servlet-mapping> -->
-<!-- 		<servlet-name>Jenia internal servlet</servlet-name> -->
-<!-- 		<url-pattern>/jenia4faces/*</url-pattern> -->
-<!-- 	</servlet-mapping> -->
+    <!-- 	<servlet> -->
+    <!-- 		<servlet-name>Jenia internal servlet</servlet-name> -->
+    <!-- 		<servlet-class>org.jenia.faces.util.Servlet</servlet-class> -->
+    <!-- 		<load-on-startup>2</load-on-startup> -->
+    <!-- 	</servlet> -->
+    <!-- 	<servlet-mapping> -->
+    <!-- 		<servlet-name>Jenia internal servlet</servlet-name> -->
+    <!-- 		<url-pattern>/jenia4faces/*</url-pattern> -->
+    <!-- 	</servlet-mapping> -->
 
-<!-- 	<servlet> -->
-<!-- 	  <servlet-name>xfire</servlet-name> -->
-<!-- 	  <servlet-class> -->
-<!-- 	    org.esupportail.commons.web.servlet.XFireServlet -->
-<!-- 	  </servlet-class> -->
-<!-- 	</servlet> -->
-<!-- 	<servlet-mapping> -->
-<!-- 	  <servlet-name>xfire</servlet-name> -->
-<!-- 	  <url-pattern>/xfire/*</url-pattern> -->
-<!-- 	</servlet-mapping> -->
+    <!-- 	<servlet> -->
+    <!-- 	  <servlet-name>xfire</servlet-name> -->
+    <!-- 	  <servlet-class> -->
+    <!-- 	    org.esupportail.commons.web.servlet.XFireServlet -->
+    <!-- 	  </servlet-class> -->
+    <!-- 	</servlet> -->
+    <!-- 	<servlet-mapping> -->
+    <!-- 	  <servlet-name>xfire</servlet-name> -->
+    <!-- 	  <url-pattern>/xfire/*</url-pattern> -->
+    <!-- 	</servlet-mapping> -->
 
 
-	<filter>
-		<description>
-			This filter is needed to use some Tomahawk extentions.
-		</description>
-		<display-name>MyFacesExtensionsFilter</display-name>
-		<filter-name>MyFacesExtensionsFilter</filter-name>
-		<filter-class>
-			org.apache.myfaces.webapp.filter.ExtensionsFilter
-		</filter-class>
-		<init-param>
-			<description>
-				The maximum size of uploaded files.
-			</description>
-			<param-name>maxFileSize</param-name>
-			<param-value>20m</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>MyFacesExtensionsFilter</filter-name>
-		<servlet-name>Faces Servlet</servlet-name>
-	</filter-mapping>
-	<filter-mapping>
-		<filter-name>MyFacesExtensionsFilter</filter-name>
-	    <url-pattern>/faces/myFacesExtensionResource/*</url-pattern>
-	</filter-mapping>
-	
+    <filter>
+        <description>
+            This filter is needed to use some Tomahawk extentions.
+        </description>
+        <display-name>MyFacesExtensionsFilter</display-name>
+        <filter-name>MyFacesExtensionsFilter</filter-name>
+        <filter-class>
+            org.apache.myfaces.webapp.filter.ExtensionsFilter
+        </filter-class>
+        <init-param>
+            <description>
+                The maximum size of uploaded files.
+            </description>
+            <param-name>maxFileSize</param-name>
+            <param-value>20m</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>MyFacesExtensionsFilter</filter-name>
+        <servlet-name>Faces Servlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>MyFacesExtensionsFilter</filter-name>
+        <url-pattern>/faces/myFacesExtensionResource/*</url-pattern>
+    </filter-mapping>
+
     <welcome-file-list>
         <welcome-file>stylesheets/welcome.xhtml</welcome-file>
     </welcome-file-list>
-	
-	<!--ORBEON-->
-	
+
+    <!--ORBEON-->
+
     <!--Initialize main resource manager-->
-<!--     <context-param> -->
-<!--         <param-name>oxf.resources.factory</param-name> -->
-<!--         <param-value>org.orbeon.oxf.resources.PriorityResourceManagerFactory</param-value> -->
-<!--     </context-param> -->
-       <!-- Uncomment this for the webapp resource manager -->
-<!--     <context-param> -->
-<!--         <param-name>oxf.resources.priority.1</param-name> -->
-<!--         <param-value>org.orbeon.oxf.resources.WebAppResourceManagerFactory</param-value> -->
-<!--     </context-param> -->
-<!--     <context-param> -->
-<!--         <param-name>oxf.resources.priority.1.oxf.resources.webapp.rootdir</param-name> -->
-<!--         <param-value>/WEB-INF/classes/properties/orbeon</param-value> -->
-<!--     </context-param> -->
-<!--     <context-param> -->
-<!--         <param-name>oxf.resources.priority.2</param-name> -->
-<!--         <param-value>org.orbeon.oxf.resources.ClassLoaderResourceManagerFactory</param-value> -->
-<!--     </context-param> -->
+    <!--     <context-param> -->
+    <!--         <param-name>oxf.resources.factory</param-name> -->
+    <!--         <param-value>org.orbeon.oxf.resources.PriorityResourceManagerFactory</param-value> -->
+    <!--     </context-param> -->
+    <!-- Uncomment this for the webapp resource manager -->
+    <!--     <context-param> -->
+    <!--         <param-name>oxf.resources.priority.1</param-name> -->
+    <!--         <param-value>org.orbeon.oxf.resources.WebAppResourceManagerFactory</param-value> -->
+    <!--     </context-param> -->
+    <!--     <context-param> -->
+    <!--         <param-name>oxf.resources.priority.1.oxf.resources.webapp.rootdir</param-name> -->
+    <!--         <param-value>/WEB-INF/classes/properties/orbeon</param-value> -->
+    <!--     </context-param> -->
+    <!--     <context-param> -->
+    <!--         <param-name>oxf.resources.priority.2</param-name> -->
+    <!--         <param-value>org.orbeon.oxf.resources.ClassLoaderResourceManagerFactory</param-value> -->
+    <!--     </context-param> -->
     <!-- End webapp resource manager -->
     <!--Orbeon Class Loader-->
-<!--     <context-param> -->
-<!--         <param-name>oxf.classloader.enable</param-name> -->
-<!--         <param-value>false</param-value> -->
-<!--     </context-param> -->
-<!--     <context-param> -->
-<!--         <param-name>oxf.classloader.ignore-packages</param-name> -->
-<!--         <param-value>java. javax. org.apache.log4j. org.xml. org.w3c.</param-value> -->
-<!--     </context-param> -->
+    <!--     <context-param> -->
+    <!--         <param-name>oxf.classloader.enable</param-name> -->
+    <!--         <param-value>false</param-value> -->
+    <!--     </context-param> -->
+    <!--     <context-param> -->
+    <!--         <param-name>oxf.classloader.ignore-packages</param-name> -->
+    <!--         <param-value>java. javax. org.apache.log4j. org.xml. org.w3c.</param-value> -->
+    <!--     </context-param> -->
     <!--Set location of properties.xml (read by resource manager)-->
-<!--     <context-param> -->
-<!--         <param-name>oxf.properties</param-name> -->
-<!--         <param-value>oxf:/config/properties.xml</param-value> -->
-<!--     </context-param> -->
+    <!--     <context-param> -->
+    <!--         <param-name>oxf.properties</param-name> -->
+    <!--         <param-value>oxf:/config/properties.xml</param-value> -->
+    <!--     </context-param> -->
     <!--Determine whether logging initialization must take place-->
-<!--     <context-param> -->
-<!--         <param-name>oxf.initialize-logging</param-name> -->
-<!--         <param-value>false</param-value> -->
-<!--     </context-param> -->
+    <!--     <context-param> -->
+    <!--         <param-name>oxf.initialize-logging</param-name> -->
+    <!--         <param-value>false</param-value> -->
+    <!--     </context-param> -->
     <!--This is the main Orbeon Forms servlet-->
-<!--     <servlet> -->
-<!--         <servlet-name>orbeon-main-servlet</servlet-name> -->
-<!--         <servlet-class>org.orbeon.oxf.servlet.OrbeonServletDelegate</servlet-class> -->
-<!--         Set main processor -->
-<!--         <init-param> -->
-<!--             <param-name>oxf.main-processor.name</param-name> -->
-<!--             <param-value>{http://www.orbeon.com/oxf/processors}page-flow</param-value> -->
-<!--         </init-param> -->
-<!--         <init-param> -->
-<!--             <param-name>oxf.main-processor.input.controller</param-name> -->
-<!--             <param-value>oxf:/page-flow.xml</param-value> -->
-<!--         </init-param> -->
-        <!--Set error processor-->
-<!--         <init-param> -->
-<!--             <param-name>oxf.error-processor.name</param-name> -->
-<!--             <param-value>{http://www.orbeon.com/oxf/processors}page-flow</param-value> -->
-<!--         </init-param> -->
-<!--         <init-param> -->
-<!--             <param-name>oxf.error-processor.input.controller</param-name> -->
-<!--             <param-value>oxf:/config/error-page-flow.xml</param-value> -->
-<!--         </init-param> -->
-        <!--Set supported methods-->
-<!--         <init-param> -->
-<!--             <param-name>oxf.http.accept-methods</param-name> -->
-<!--             <param-value>get,post,head,put,delete</param-value> -->
-<!--         </init-param> -->
-<!--         <load-on-startup>1</load-on-startup> -->
-<!--     </servlet> -->
+    <!--     <servlet> -->
+    <!--         <servlet-name>orbeon-main-servlet</servlet-name> -->
+    <!--         <servlet-class>org.orbeon.oxf.servlet.OrbeonServletDelegate</servlet-class> -->
+    <!--         Set main processor -->
+    <!--         <init-param> -->
+    <!--             <param-name>oxf.main-processor.name</param-name> -->
+    <!--             <param-value>{http://www.orbeon.com/oxf/processors}page-flow</param-value> -->
+    <!--         </init-param> -->
+    <!--         <init-param> -->
+    <!--             <param-name>oxf.main-processor.input.controller</param-name> -->
+    <!--             <param-value>oxf:/page-flow.xml</param-value> -->
+    <!--         </init-param> -->
+    <!--Set error processor-->
+    <!--         <init-param> -->
+    <!--             <param-name>oxf.error-processor.name</param-name> -->
+    <!--             <param-value>{http://www.orbeon.com/oxf/processors}page-flow</param-value> -->
+    <!--         </init-param> -->
+    <!--         <init-param> -->
+    <!--             <param-name>oxf.error-processor.input.controller</param-name> -->
+    <!--             <param-value>oxf:/config/error-page-flow.xml</param-value> -->
+    <!--         </init-param> -->
+    <!--Set supported methods-->
+    <!--         <init-param> -->
+    <!--             <param-name>oxf.http.accept-methods</param-name> -->
+    <!--             <param-value>get,post,head,put,delete</param-value> -->
+    <!--         </init-param> -->
+    <!--         <load-on-startup>1</load-on-startup> -->
+    <!--     </servlet> -->
     <!--This is the XForms Server servlet-->
-<!--     <servlet> -->
-<!--         <servlet-name>orbeon-xforms-server-servlet</servlet-name> -->
-<!--         <servlet-class>org.orbeon.oxf.servlet.OrbeonServletDelegate</servlet-class> -->
-        <!--Set main processor-->
-<!--         <init-param> -->
-<!--             <param-name>oxf.main-processor.name</param-name> -->
-<!--             <param-value>{http://www.orbeon.com/oxf/processors}pipeline</param-value> -->
-<!--         </init-param> -->
-<!--         <init-param> -->
-<!--             <param-name>oxf.main-processor.input.config</param-name> -->
-<!--             <param-value>oxf:/ops/xforms/xforms-server.xpl</param-value> -->
-<!--         </init-param> -->
-        <!--Set error processor-->
-<!--         <init-param> -->
-<!--             <param-name>oxf.error-processor.name</param-name> -->
-<!--             <param-value>{http://www.orbeon.com/oxf/processors}pipeline</param-value> -->
-<!--         </init-param> -->
-<!--         <init-param> -->
-<!--             <param-name>oxf.error-processor.input.config</param-name> -->
-<!--             <param-value>oxf:/ops/xforms/xforms-server-error.xpl</param-value> -->
-<!--         </init-param> -->
-<!--         <load-on-startup>1</load-on-startup> -->
-<!--     </servlet> -->
+    <!--     <servlet> -->
+    <!--         <servlet-name>orbeon-xforms-server-servlet</servlet-name> -->
+    <!--         <servlet-class>org.orbeon.oxf.servlet.OrbeonServletDelegate</servlet-class> -->
+    <!--Set main processor-->
+    <!--         <init-param> -->
+    <!--             <param-name>oxf.main-processor.name</param-name> -->
+    <!--             <param-value>{http://www.orbeon.com/oxf/processors}pipeline</param-value> -->
+    <!--         </init-param> -->
+    <!--         <init-param> -->
+    <!--             <param-name>oxf.main-processor.input.config</param-name> -->
+    <!--             <param-value>oxf:/ops/xforms/xforms-server.xpl</param-value> -->
+    <!--         </init-param> -->
+    <!--Set error processor-->
+    <!--         <init-param> -->
+    <!--             <param-name>oxf.error-processor.name</param-name> -->
+    <!--             <param-value>{http://www.orbeon.com/oxf/processors}pipeline</param-value> -->
+    <!--         </init-param> -->
+    <!--         <init-param> -->
+    <!--             <param-name>oxf.error-processor.input.config</param-name> -->
+    <!--             <param-value>oxf:/ops/xforms/xforms-server-error.xpl</param-value> -->
+    <!--         </init-param> -->
+    <!--         <load-on-startup>1</load-on-startup> -->
+    <!--     </servlet> -->
     <!--This is the XForms Renderer servlet, used to deploy Orbeon Forms as a separate WAR-->
-<!--     <servlet> -->
-<!--         <servlet-name>orbeon-renderer-servlet</servlet-name> -->
-<!--         <servlet-class>org.orbeon.oxf.servlet.OrbeonServletDelegate</servlet-class> -->
-        <!--Set main processor-->
-<!--         <init-param> -->
-<!--             <param-name>oxf.main-processor.name</param-name> -->
-<!--             <param-value>{http://www.orbeon.com/oxf/processors}pipeline</param-value> -->
-<!--         </init-param> -->
-<!--         <init-param> -->
-<!--             <param-name>oxf.main-processor.input.config</param-name> -->
-<!--             <param-value>oxf:/ops/xforms/xforms-renderer.xpl</param-value> -->
-<!--         </init-param> -->
-        <!--Set error processor-->
-<!--         <init-param> -->
-<!--             <param-name>oxf.error-processor.name</param-name> -->
-<!--             <param-value>{http://www.orbeon.com/oxf/processors}pipeline</param-value> -->
-<!--         </init-param> -->
-<!--         <init-param> -->
-<!--             <param-name>oxf.error-processor.input.config</param-name> -->
-<!--             <param-value>oxf:/config/error.xpl</param-value> -->
-<!--         </init-param> -->
-<!--     </servlet> -->
-<!--     <servlet> -->
-<!--         <servlet-name>exist-xmlrpc-servlet</servlet-name> -->
-<!--         <servlet-class>org.exist.xmlrpc.RpcServlet</servlet-class> -->
-<!--     </servlet> -->
-<!--     <servlet> -->
-<!--         <servlet-name>exist-rest-servlet</servlet-name> -->
-<!--         <servlet-class>org.exist.http.servlets.EXistServlet</servlet-class> -->
-<!--         <init-param> -->
-<!--             <param-name>basedir</param-name> -->
-<!--             <param-value>WEB-INF/classes/properties/orbeon/</param-value> -->
-<!--         </init-param> -->
-<!--         <init-param> -->
-<!--             <param-name>configuration</param-name> -->
-<!--             <param-value>exist-conf.xml</param-value> -->
-<!--         </init-param> -->
-<!--         <init-param> -->
-<!--             <param-name>start</param-name> -->
-<!--             <param-value>true</param-value> -->
-<!--         </init-param> -->
-<!--         <load-on-startup>2</load-on-startup> -->
-<!--     </servlet> -->
-<!--     <servlet> -->
-<!--         <servlet-name>exist-webdav-servlet</servlet-name> -->
-<!--         <servlet-class>org.exist.http.servlets.WebDAVServlet</servlet-class> -->
-        <!-- 
-        <init-param>
-            <param-name>authentication</param-name>
-            <param-value>basic</param-value>
-        </init-param>
-        -->
-<!--     </servlet> -->
-<!--     <servlet> -->
-<!--         <servlet-name>exist-atom-servlet</servlet-name> -->
-<!--         <servlet-class>org.exist.atom.http.AtomServlet</servlet-class> -->
-        <!-- 
-        <init-param>
-            <param-name>authentication</param-name>
-            <param-value>basic</param-value>
-        </init-param>
-        -->
-<!--     </servlet> -->
-<!--     <servlet-mapping> -->
-<!--         <servlet-name>orbeon-main-servlet</servlet-name> -->
-<!--         <url-pattern>/fr/*</url-pattern> -->
-<!--     </servlet-mapping> -->
-<!--     <servlet-mapping> -->
-<!--         <servlet-name>orbeon-main-servlet</servlet-name> -->
-<!--         <url-pattern>/ops/*</url-pattern> -->
-<!--     </servlet-mapping> -->
-<!--     <servlet-mapping> -->
-<!--         <servlet-name>orbeon-main-servlet</servlet-name> -->
-<!--         <url-pattern>/apps/*</url-pattern> -->
-<!--     </servlet-mapping> -->
-<!--     <servlet-mapping> -->
-<!--         <servlet-name>orbeon-main-servlet</servlet-name> -->
-<!--         <url-pattern>/forms/*</url-pattern> -->
-<!--     </servlet-mapping> -->
-<!--     <servlet-mapping> -->
-<!--         <servlet-name>orbeon-xforms-server-servlet</servlet-name> -->
-<!--         <url-pattern>/xforms-server/*</url-pattern> -->
-<!--     </servlet-mapping> -->
-<!--     <servlet-mapping> -->
-<!--         <servlet-name>orbeon-renderer-servlet</servlet-name> -->
-<!--         <url-pattern>/xforms-renderer</url-pattern> -->
-<!--     </servlet-mapping> -->
-<!--     <servlet-mapping> -->
-<!--         <servlet-name>exist-xmlrpc-servlet</servlet-name> -->
-<!--         <url-pattern>/exist/xmlrpc</url-pattern> -->
-<!--     </servlet-mapping> -->
-<!--     <servlet-mapping> -->
-<!--         <servlet-name>exist-rest-servlet</servlet-name> -->
-<!--         <url-pattern>/exist/rest/*</url-pattern> -->
-<!--     </servlet-mapping> -->
-<!--     <servlet-mapping> -->
-<!--         <servlet-name>exist-webdav-servlet</servlet-name> -->
-<!--         <url-pattern>/exist/webdav/*</url-pattern> -->
-<!--     </servlet-mapping> -->
-<!--     <servlet-mapping> -->
-<!--         <servlet-name>exist-atom-servlet</servlet-name> -->
-<!--         <url-pattern>/exist/atom/*</url-pattern> -->
-<!--     </servlet-mapping> -->
+    <!--     <servlet> -->
+    <!--         <servlet-name>orbeon-renderer-servlet</servlet-name> -->
+    <!--         <servlet-class>org.orbeon.oxf.servlet.OrbeonServletDelegate</servlet-class> -->
+    <!--Set main processor-->
+    <!--         <init-param> -->
+    <!--             <param-name>oxf.main-processor.name</param-name> -->
+    <!--             <param-value>{http://www.orbeon.com/oxf/processors}pipeline</param-value> -->
+    <!--         </init-param> -->
+    <!--         <init-param> -->
+    <!--             <param-name>oxf.main-processor.input.config</param-name> -->
+    <!--             <param-value>oxf:/ops/xforms/xforms-renderer.xpl</param-value> -->
+    <!--         </init-param> -->
+    <!--Set error processor-->
+    <!--         <init-param> -->
+    <!--             <param-name>oxf.error-processor.name</param-name> -->
+    <!--             <param-value>{http://www.orbeon.com/oxf/processors}pipeline</param-value> -->
+    <!--         </init-param> -->
+    <!--         <init-param> -->
+    <!--             <param-name>oxf.error-processor.input.config</param-name> -->
+    <!--             <param-value>oxf:/config/error.xpl</param-value> -->
+    <!--         </init-param> -->
+    <!--     </servlet> -->
+    <!--     <servlet> -->
+    <!--         <servlet-name>exist-xmlrpc-servlet</servlet-name> -->
+    <!--         <servlet-class>org.exist.xmlrpc.RpcServlet</servlet-class> -->
+    <!--     </servlet> -->
+    <!--     <servlet> -->
+    <!--         <servlet-name>exist-rest-servlet</servlet-name> -->
+    <!--         <servlet-class>org.exist.http.servlets.EXistServlet</servlet-class> -->
+    <!--         <init-param> -->
+    <!--             <param-name>basedir</param-name> -->
+    <!--             <param-value>WEB-INF/classes/properties/orbeon/</param-value> -->
+    <!--         </init-param> -->
+    <!--         <init-param> -->
+    <!--             <param-name>configuration</param-name> -->
+    <!--             <param-value>exist-conf.xml</param-value> -->
+    <!--         </init-param> -->
+    <!--         <init-param> -->
+    <!--             <param-name>start</param-name> -->
+    <!--             <param-value>true</param-value> -->
+    <!--         </init-param> -->
+    <!--         <load-on-startup>2</load-on-startup> -->
+    <!--     </servlet> -->
+    <!--     <servlet> -->
+    <!--         <servlet-name>exist-webdav-servlet</servlet-name> -->
+    <!--         <servlet-class>org.exist.http.servlets.WebDAVServlet</servlet-class> -->
+    <!--
+    <init-param>
+        <param-name>authentication</param-name>
+        <param-value>basic</param-value>
+    </init-param>
+    -->
+    <!--     </servlet> -->
+    <!--     <servlet> -->
+    <!--         <servlet-name>exist-atom-servlet</servlet-name> -->
+    <!--         <servlet-class>org.exist.atom.http.AtomServlet</servlet-class> -->
+    <!--
+    <init-param>
+        <param-name>authentication</param-name>
+        <param-value>basic</param-value>
+    </init-param>
+    -->
+    <!--     </servlet> -->
+    <!--     <servlet-mapping> -->
+    <!--         <servlet-name>orbeon-main-servlet</servlet-name> -->
+    <!--         <url-pattern>/fr/*</url-pattern> -->
+    <!--     </servlet-mapping> -->
+    <!--     <servlet-mapping> -->
+    <!--         <servlet-name>orbeon-main-servlet</servlet-name> -->
+    <!--         <url-pattern>/ops/*</url-pattern> -->
+    <!--     </servlet-mapping> -->
+    <!--     <servlet-mapping> -->
+    <!--         <servlet-name>orbeon-main-servlet</servlet-name> -->
+    <!--         <url-pattern>/apps/*</url-pattern> -->
+    <!--     </servlet-mapping> -->
+    <!--     <servlet-mapping> -->
+    <!--         <servlet-name>orbeon-main-servlet</servlet-name> -->
+    <!--         <url-pattern>/forms/*</url-pattern> -->
+    <!--     </servlet-mapping> -->
+    <!--     <servlet-mapping> -->
+    <!--         <servlet-name>orbeon-xforms-server-servlet</servlet-name> -->
+    <!--         <url-pattern>/xforms-server/*</url-pattern> -->
+    <!--     </servlet-mapping> -->
+    <!--     <servlet-mapping> -->
+    <!--         <servlet-name>orbeon-renderer-servlet</servlet-name> -->
+    <!--         <url-pattern>/xforms-renderer</url-pattern> -->
+    <!--     </servlet-mapping> -->
+    <!--     <servlet-mapping> -->
+    <!--         <servlet-name>exist-xmlrpc-servlet</servlet-name> -->
+    <!--         <url-pattern>/exist/xmlrpc</url-pattern> -->
+    <!--     </servlet-mapping> -->
+    <!--     <servlet-mapping> -->
+    <!--         <servlet-name>exist-rest-servlet</servlet-name> -->
+    <!--         <url-pattern>/exist/rest/*</url-pattern> -->
+    <!--     </servlet-mapping> -->
+    <!--     <servlet-mapping> -->
+    <!--         <servlet-name>exist-webdav-servlet</servlet-name> -->
+    <!--         <url-pattern>/exist/webdav/*</url-pattern> -->
+    <!--     </servlet-mapping> -->
+    <!--     <servlet-mapping> -->
+    <!--         <servlet-name>exist-atom-servlet</servlet-name> -->
+    <!--         <url-pattern>/exist/atom/*</url-pattern> -->
+    <!--     </servlet-mapping> -->
 </web-app>
 

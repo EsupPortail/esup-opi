@@ -19,25 +19,25 @@ public final class LazyDataModel<T> extends org.primefaces.model.LazyDataModel<T
     private final F2<String, T, Boolean> findByRowKey;
 
     private Stream<T> data = nil();
-    
+
     private LazyDataModel(
             F5<Integer, Integer, String, SortOrder, Map<String, String>, P2<Long, Stream<T>>> getData,
             F2<String, T, Boolean> findByRowKey) {
         this.getData = getData;
         this.findByRowKey = findByRowKey;
     }
-    
+
     public static <TT> LazyDataModel<TT> lazyModel(
             F5<Integer, Integer, String, SortOrder, Map<String, String>, P2<Long, Stream<TT>>> getData,
             F2<String, TT, Boolean> findByRowKey) {
         return new LazyDataModel<TT>(getData, findByRowKey);
     }
-    
+
     @Override
     public T getRowData(final String rowKey) {
         return data.find(findByRowKey.f(rowKey)).orSome((T) null);
     }
-    
+
     @Override
     public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, String> filters) {
         // le 2-tuple de résultat
@@ -47,7 +47,9 @@ public final class LazyDataModel<T> extends org.primefaces.model.LazyDataModel<T
         // on garde les résultats
         data = resTuple._2();
         // retour en collection jaja
-        return new ArrayList<T>() {{ addAll(data.toCollection()); }};
+        return new ArrayList<T>() {{
+            addAll(data.toCollection());
+        }};
     }
 
     public List<T> getData() {

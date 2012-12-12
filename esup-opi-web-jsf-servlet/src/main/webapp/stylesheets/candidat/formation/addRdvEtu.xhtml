@@ -1,133 +1,140 @@
-
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
-    <ui:define name="content">	
-    	<div id="maPage" class="div_body">
-    		<h1><h:outputText value="#{msgs['CALENDAR_RDV.ADD.TITLE']}" /></h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="saisieRdvForm" styleClass="opiR1_form">
-    				<div id="div_subSection" class="div_subSection">
-    					<div id="blockCandidaturesConfirm" class="blockForm">
-    						<div style="width:100%;">
-    							<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    								styleClass="tableJustWidthMax">
-    								<h:outputText value="#{msgs['CALENDAR_RDV.TITRE_CHOICE']}"
-    									styleClass="section-smallTitle" />
-    								<p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}" immediate="true"
-    									rendered="#{saisieRdvEtuController.actionEnum.whatAction == saisieRdvEtuController.actionEnum.emptyAction}"
-    									action="#{accueilController.goWelcomeCandidat}" />
-    							</h:panelGrid>
-    						</div>
-    						<h:panelGroup id="rendezVous"
-    							rendered="#{saisieRdvEtuController.actionEnum.whatAction == saisieRdvEtuController.actionEnum.emptyAction}">
-    								<br />
-    								<div class="blockImportant" style="text-align: center">
-    									<h:outputText value="#{msgs['CALENDAR_RDV.TITRE_RDV']}" escape="false">
-    										<f:param value="#{saisieRdvEtuController.voeu.vrsEtape.libWebVet}"/>
-    									</h:outputText>
-    									<br />
-    									<br />
-    									<h:outputText value="#{msgs['CALENDAR_RDV.VOEU_NO_DATE']}"
-    										rendered="#{saisieRdvEtuController.dateSelected == null and saisieRdvEtuController.autorizedDate}"/>
-    									
-    									<h:outputText value="#{msgs['CALENDAR_RDV.VOEU_DATE']}" escape="false"
-    										rendered="#{saisieRdvEtuController.dateSelected != null and saisieRdvEtuController.autorizedDate}">
-    										<f:param value="#{saisieRdvEtuController.dateSelected}" />
-    										<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
-    												timeZone="#{sessionController.timezone}" />
-    									</h:outputText>
-    									
-    									<h:outputText value="#{msgs['CALENDAR_RDV.VOEU_DATE_NO_AUTORIZED']}" escape="false"
-    										rendered="#{!saisieRdvEtuController.autorizedDate}">
-    										<f:param value="#{saisieRdvEtuController.dateSelected}" />
-    										<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
-    												timeZone="#{sessionController.timezone}" />
-    									</h:outputText>
-    									<br />
-    									<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    										rendered="#{saisieRdvEtuController.dateSelected != null 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/template.xhtml">
+    <ui:define name="content">
+        <div id="maPage" class="div_body">
+            <h1>
+                <h:outputText value="#{msgs['CALENDAR_RDV.ADD.TITLE']}"/>
+            </h1>
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
+            <div id="div_subSection" class="div_subSection">
+                <h:form id="saisieRdvForm" styleClass="opiR1_form">
+                    <div id="div_subSection" class="div_subSection">
+                        <div id="blockCandidaturesConfirm" class="blockForm">
+                            <div style="width:100%;">
+                                <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                                             styleClass="tableJustWidthMax">
+                                    <h:outputText value="#{msgs['CALENDAR_RDV.TITRE_CHOICE']}"
+                                                  styleClass="section-smallTitle"/>
+                                    <p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}" immediate="true"
+                                                     rendered="#{saisieRdvEtuController.actionEnum.whatAction == saisieRdvEtuController.actionEnum.emptyAction}"
+                                                     action="#{accueilController.goWelcomeCandidat}"/>
+                                </h:panelGrid>
+                            </div>
+                            <h:panelGroup id="rendezVous"
+                                          rendered="#{saisieRdvEtuController.actionEnum.whatAction == saisieRdvEtuController.actionEnum.emptyAction}">
+                                <br/>
+
+                                <div class="blockImportant" style="text-align: center">
+                                    <h:outputText value="#{msgs['CALENDAR_RDV.TITRE_RDV']}" escape="false">
+                                        <f:param value="#{saisieRdvEtuController.voeu.vrsEtape.libWebVet}"/>
+                                    </h:outputText>
+                                    <br/>
+                                    <br/>
+                                    <h:outputText value="#{msgs['CALENDAR_RDV.VOEU_NO_DATE']}"
+                                                  rendered="#{saisieRdvEtuController.dateSelected == null and saisieRdvEtuController.autorizedDate}"/>
+
+                                    <h:outputText value="#{msgs['CALENDAR_RDV.VOEU_DATE']}" escape="false"
+                                                  rendered="#{saisieRdvEtuController.dateSelected != null and saisieRdvEtuController.autorizedDate}">
+                                        <f:param value="#{saisieRdvEtuController.dateSelected}"/>
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+                                                           timeZone="#{sessionController.timezone}"/>
+                                    </h:outputText>
+
+                                    <h:outputText value="#{msgs['CALENDAR_RDV.VOEU_DATE_NO_AUTORIZED']}" escape="false"
+                                                  rendered="#{!saisieRdvEtuController.autorizedDate}">
+                                        <f:param value="#{saisieRdvEtuController.dateSelected}"/>
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+                                                           timeZone="#{sessionController.timezone}"/>
+                                    </h:outputText>
+                                    <br/>
+                                    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                                     rendered="#{saisieRdvEtuController.dateSelected != null
     												and sessionController.currentInd.asRightsToUpdate}"
-    										immediate="true">
-    										<f:setPropertyActionListener value="#{saisieRdvEtuController.actionEnum.addAction}" 
-    											target="#{saisieRdvEtuController.actionEnum.whatAction}" />
-    									</p:commandButton>
-    								</div>		
-    								
-    								<h:panelGroup id="choixRdv"
-    									rendered="#{saisieRdvEtuController.autorizedDate
+                                                     immediate="true">
+                                        <f:setPropertyActionListener
+                                                value="#{saisieRdvEtuController.actionEnum.addAction}"
+                                                target="#{saisieRdvEtuController.actionEnum.whatAction}"/>
+                                    </p:commandButton>
+                                </div>
+
+                                <h:panelGroup id="choixRdv"
+                                              rendered="#{saisieRdvEtuController.autorizedDate
     										and saisieRdvEtuController.weekScheduleModel != null}">
-    									<h:panelGrid columns="3" cellpadding="0" cellspacing="1" align="middle" 
-    										columnClasses="colRDVLeft,colRDVCenter,colRDVRight">
-    										<p:commandLink id="clmoisprec" immediate="true"
-    											actionListener="#{saisieRdvEtuController.before}">
-    											<p:graphicImage border="0" value="/media/images/backward.png"
-    												alt="#{msgs['CALENDAR_RDV.BUTTON.PREC_MONTH']}" />
-    										</p:commandLink>
-    										<div style="text-align:center; width:850px;">
-    											<h2><h:outputFormat style="text-transform: uppercase;"
-    												value="#{saisieRdvEtuController.weekScheduleModel.selectedDate}">
-    												<f:convertDateTime type="date" pattern="MMMM yyyy"
-    													timeZone="Europe/Paris" />
-    											</h:outputFormat></h2>
-    									
-    											<p:schedule id="weekCalendar"
-    												value="#{saisieRdvEtuController.weekScheduleModel}"
-    												theme="evolution"
-    												headerDateFormat="EEEE d MMMM yyyy" tooltip="true"
-    												submitOnClick="true" selectedEntryClass="schedule_selected"
-    												entryRenderer="#{extendedEntryRenderer}"
-    												visibleStartHour="#{saisieRdvEtuController.startHour}"
-    												visibleEndHour="#{saisieRdvEtuController.endHour}"
-    												action="#{saisieRdvEtuController.scheduleAction}"/>
-    										</div>
-    									
-    										<p:commandLink id="clmoissuiv" immediate="true"
-    											actionListener="#{saisieRdvEtuController.next}">
-    											<p:graphicImage border="0" value="/media/images/forward.png"
-    												alt="#{msgs['CALENDAR_RDV.BUTTON.NEXT_MONTH']}" />
-    										</p:commandLink>
-    									</h:panelGrid>
-    								</h:panelGroup>
-    							
-    						</h:panelGroup>
-    						<h:panelGroup id="confirmerLaValidation" 
-    							rendered="#{saisieRdvEtuController.actionEnum.whatAction == saisieRdvEtuController.actionEnum.addAction}">
-    							<br />
-    							<div class="blockImportant" style="text-align: center">
-    								<h:outputText value="#{msgs['CALENDAR_RDV.VALIDER_RDV']}" escape="false">
-    									<f:param value="#{saisieRdvEtuController.voeu.vrsEtape.libWebVet}"/>
-    									<f:param value="#{saisieRdvEtuController.dateSelected}" />
-    									<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
-    												timeZone="#{sessionController.timezone}" />
-    								</h:outputText>
-    								
-    								<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    									action="#{saisieRdvEtuController.validerRdv}"
-    									immediate="true"/>
-    								
-    								<p:commandButton value="#{msgs['_.BUTTON.NO']}" 
-    									immediate="true">
-    									<f:setPropertyActionListener value="#{saisieRdvEtuController.actionEnum.emptyAction}" 
-    										target="#{saisieRdvEtuController.actionEnum.whatAction}" />
-    								</p:commandButton>
-    							</div>
-    						</h:panelGroup>
-    					</div>
-    				</div>
-    			</h:form>
-    		</div>
-    	</div>
-    	
-    	
-    	<script type="text/javascript">
-    		highlightChildrenLiTags('navigationHeader:navigationLogin');
-    		highlightChildrenLiTags('navigationFooter:navigationLogin');
-    	</script>
+                                    <h:panelGrid columns="3" cellpadding="0" cellspacing="1" align="middle"
+                                                 columnClasses="colRDVLeft,colRDVCenter,colRDVRight">
+                                        <p:commandLink id="clmoisprec" immediate="true"
+                                                       actionListener="#{saisieRdvEtuController.before}">
+                                            <p:graphicImage border="0" value="/media/images/backward.png"
+                                                            alt="#{msgs['CALENDAR_RDV.BUTTON.PREC_MONTH']}"/>
+                                        </p:commandLink>
+                                        <div style="text-align:center; width:850px;">
+                                            <h2>
+                                                <h:outputFormat style="text-transform: uppercase;"
+                                                                value="#{saisieRdvEtuController.weekScheduleModel.selectedDate}">
+                                                    <f:convertDateTime type="date" pattern="MMMM yyyy"
+                                                                       timeZone="Europe/Paris"/>
+                                                </h:outputFormat>
+                                            </h2>
+
+                                            <p:schedule id="weekCalendar"
+                                                        value="#{saisieRdvEtuController.weekScheduleModel}"
+                                                        theme="evolution"
+                                                        headerDateFormat="EEEE d MMMM yyyy" tooltip="true"
+                                                        submitOnClick="true" selectedEntryClass="schedule_selected"
+                                                        entryRenderer="#{extendedEntryRenderer}"
+                                                        visibleStartHour="#{saisieRdvEtuController.startHour}"
+                                                        visibleEndHour="#{saisieRdvEtuController.endHour}"
+                                                        action="#{saisieRdvEtuController.scheduleAction}"/>
+                                        </div>
+
+                                        <p:commandLink id="clmoissuiv" immediate="true"
+                                                       actionListener="#{saisieRdvEtuController.next}">
+                                            <p:graphicImage border="0" value="/media/images/forward.png"
+                                                            alt="#{msgs['CALENDAR_RDV.BUTTON.NEXT_MONTH']}"/>
+                                        </p:commandLink>
+                                    </h:panelGrid>
+                                </h:panelGroup>
+
+                            </h:panelGroup>
+                            <h:panelGroup id="confirmerLaValidation"
+                                          rendered="#{saisieRdvEtuController.actionEnum.whatAction == saisieRdvEtuController.actionEnum.addAction}">
+                                <br/>
+
+                                <div class="blockImportant" style="text-align: center">
+                                    <h:outputText value="#{msgs['CALENDAR_RDV.VALIDER_RDV']}" escape="false">
+                                        <f:param value="#{saisieRdvEtuController.voeu.vrsEtape.libWebVet}"/>
+                                        <f:param value="#{saisieRdvEtuController.dateSelected}"/>
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+                                                           timeZone="#{sessionController.timezone}"/>
+                                    </h:outputText>
+
+                                    <p:commandButton value="#{msgs['_.BUTTON.YES']}"
+                                                     action="#{saisieRdvEtuController.validerRdv}"
+                                                     immediate="true"/>
+
+                                    <p:commandButton value="#{msgs['_.BUTTON.NO']}"
+                                                     immediate="true">
+                                        <f:setPropertyActionListener
+                                                value="#{saisieRdvEtuController.actionEnum.emptyAction}"
+                                                target="#{saisieRdvEtuController.actionEnum.whatAction}"/>
+                                    </p:commandButton>
+                                </div>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+
+
+        <script type="text/javascript">
+            highlightChildrenLiTags('navigationHeader:navigationLogin');
+            highlightChildrenLiTags('navigationFooter:navigationLogin');
+        </script>
     </ui:define>
 </ui:composition>

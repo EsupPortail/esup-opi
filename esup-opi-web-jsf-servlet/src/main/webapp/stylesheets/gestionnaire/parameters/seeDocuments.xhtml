@@ -1,102 +1,110 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    
-    	<div id="maPage" class="div_body">
-    		<h1>
+
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="Gestion des pièces justificatives" /></h:outputText>
-                </span>
-            </h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-            <ui:fragment rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.deleteAction}">
-        		<div id="div_subSectionDelete" class="div_subSection">
-        			<ui:include src="_delete/_deleteNomenclature.xhtml" />
-        		</div>
-            </ui:fragment>
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="seeDocumentssForm">
-    				<br />
-    				<br />
-    				<br />
-    				<div id="blockFormAdresse" class="blockForm">
-    					<div class="blockButton">
-    						<h:panelGroup>
-    							<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-    								action="#{nomenclatureController.goAddTypConv}" />
-    							<!-- <p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-    									immediate="true"
-    									action="#{managedAccess.goDisplayFunction}"/> -->
-    						</h:panelGroup>
-    					</div>
-    					<p:dataTable var="typeConvocation" value="#{nomenclatureController.typeConvocations}"
-    						styleClass="paginatorData" alternateColors="true">
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
-    							</f:facet>
-    							<h:outputText value="#{typeConvocation.code}"/>
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-    							</f:facet>
-    							<h:outputText value="#{typeConvocation.libelle}"/>
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
-    							</f:facet>
-    							<p:graphicImage url="/media/images/check2.gif" 
-    								rendered="#{typeConvocation.temoinEnService}"/>
-    							<p:graphicImage url="/media/images/check0.gif" 
-    								rendered="#{!typeConvocation.temoinEnService}"/>
-    						</p:column>
-    						<p:column styleClass="buttonTD">
-    							<p:commandButton image="/media/images/magnifier.png"
-    								styleClass="form-button-image" immediate="true"
-    								action="#{commissionController.goSeeOneCmi}"
-    								title="#{msgs['_.BUTTON.DISPLAY']}">
-    								<f:setPropertyActionListener value="#{commissionController.actionEnum.readAction}" target="#{commissionController.actionEnum.whatAction}" />
-    								<f:setPropertyActionListener value="#{commission}" target="#{commissionController.commission}" />
-    							</p:commandButton>
-    						</p:column>
-    						<p:column styleClass="buttonTD">
-    							<p:commandButton image="/media/images/update.png"
-    								immediate="true"
-    								styleClass="form-button-image" title="#{msgs['BUTTON.UPDATE']}" 
-    								rendered="#{managedAccess.updateAuthorized}">
-    								<f:setPropertyActionListener value="#{nomenclatureController.actionEnum.updateAction}" target="#{nomenclatureController.actionEnum.whatAction}" />
-    								<f:setPropertyActionListener value="#{typeConvocation}" target="#{nomenclatureController.nomenclature}" />
-    							</p:commandButton>
-    						</p:column>
-    						<p:column styleClass="buttonTD">
-    							<p:commandButton image="/media/images/cancel.png"
-    								styleClass="form-button-image"
-    								immediate="true"
-    								title="#{msgs['_.BUTTON.DELETE']}"
-    								rendered="#{managedAccess.deleteAuthorized}">
-    								<f:setPropertyActionListener value="#{nomenclatureController.actionEnum.deleteAction}" target="#{nomenclatureController.actionEnum.whatAction}" />
-    								<f:setPropertyActionListener value="#{typeConvocation}" target="#{nomenclatureController.nomenclature}" />
-    							</p:commandButton>
-    						</p:column>
-    					</p:dataTable>
-    				</div>
-    				<br />
-    				<br />
-    				<br />
-    			</h:form>
-    		</div>
-    	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        </script>
-    </ui:define>
-</ui:composition>
+                    <h:outputText value="Gestion des pièces justificatives"/></h:outputText>
+            </span>
+        </h1>
+        <div class="messageForUser">
+            <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+        </div>
+        <ui:fragment
+                rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.deleteAction}">
+            <div id="div_subSectionDelete" class="div_subSection">
+                <ui:include src="_delete/_deleteNomenclature.xhtml"/>
+            </div>
+        </ui:fragment>
+        <div id="div_subSection" class="div_subSection">
+            <h:form id="seeDocumentssForm">
+                <br/>
+                <br/>
+                <br/>
+
+                <div id="blockFormAdresse" class="blockForm">
+                    <div class="blockButton">
+                        <h:panelGroup>
+                            <p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+                                             action="#{nomenclatureController.goAddTypConv}"/>
+                            <!-- <p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+                                    immediate="true"
+                                    action="#{managedAccess.goDisplayFunction}"/> -->
+                        </h:panelGroup>
+                    </div>
+                    <p:dataTable var="typeConvocation" value="#{nomenclatureController.typeConvocations}"
+                                 styleClass="paginatorData" alternateColors="true">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>
+                            </f:facet>
+                            <h:outputText value="#{typeConvocation.code}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+                            </f:facet>
+                            <h:outputText value="#{typeConvocation.libelle}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}"/>
+                            </f:facet>
+                            <p:graphicImage url="/media/images/check2.gif"
+                                            rendered="#{typeConvocation.temoinEnService}"/>
+                            <p:graphicImage url="/media/images/check0.gif"
+                                            rendered="#{!typeConvocation.temoinEnService}"/>
+                        </p:column>
+                        <p:column styleClass="buttonTD">
+                            <p:commandButton image="/media/images/magnifier.png"
+                                             styleClass="form-button-image" immediate="true"
+                                             action="#{commissionController.goSeeOneCmi}"
+                                             title="#{msgs['_.BUTTON.DISPLAY']}">
+                                <f:setPropertyActionListener value="#{commissionController.actionEnum.readAction}"
+                                                             target="#{commissionController.actionEnum.whatAction}"/>
+                                <f:setPropertyActionListener value="#{commission}"
+                                                             target="#{commissionController.commission}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column styleClass="buttonTD">
+                            <p:commandButton image="/media/images/update.png"
+                                             immediate="true"
+                                             styleClass="form-button-image" title="#{msgs['BUTTON.UPDATE']}"
+                                             rendered="#{managedAccess.updateAuthorized}">
+                                <f:setPropertyActionListener value="#{nomenclatureController.actionEnum.updateAction}"
+                                                             target="#{nomenclatureController.actionEnum.whatAction}"/>
+                                <f:setPropertyActionListener value="#{typeConvocation}"
+                                                             target="#{nomenclatureController.nomenclature}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column styleClass="buttonTD">
+                            <p:commandButton image="/media/images/cancel.png"
+                                             styleClass="form-button-image"
+                                             immediate="true"
+                                             title="#{msgs['_.BUTTON.DELETE']}"
+                                             rendered="#{managedAccess.deleteAuthorized}">
+                                <f:setPropertyActionListener value="#{nomenclatureController.actionEnum.deleteAction}"
+                                                             target="#{nomenclatureController.actionEnum.whatAction}"/>
+                                <f:setPropertyActionListener value="#{typeConvocation}"
+                                                             target="#{nomenclatureController.nomenclature}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+                <br/>
+                <br/>
+                <br/>
+            </h:form>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        highlightChildrenLiTags('navigationHeader:navigation');
+        highlightChildrenLiTags('navigationFooter:navigation');
+    </script>
+</ui:define>
+        </ui:composition>

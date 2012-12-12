@@ -1,239 +1,242 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
-    <ui:define name="content">
-    	<div id="maPage" class="div_body">
-    		<h1>
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
+<ui:define name="content">
+<div id="maPage" class="div_body">
+<h1>
                 <span class="section-header">
-                    <h:outputText value="#{msgs['COMMISSION.TITLE.SEE']}" />
+                    <h:outputText value="#{msgs['COMMISSION.TITLE.SEE']}"/>
                 </span>
-            </h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    		<div id="div_subSectionCmiForm" class="div_subSection">
-    			<h:form id="seeCommissionForm">
-    				<div id="blockFormInfo" class="blockForm">
-    					<div style="width:100%;">
-    						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    							styleClass="tableJustWidthMax">
-    							<h:outputText value="#{msgs['COMMISSIONS']}"
-    								styleClass="section-smallTitle" />
-    							<h:panelGroup>
-    								<p:commandButton value="#{msgs['COMMISSION.EDIT_LISTE_PREPA']}"
-    									rendered="#{managedAccess.updateAuthorized}" immediate="true">
-    									<f:setPropertyActionListener value="#{commissionController.actionEnum.listePrepa}" target="#{commissionController.actionEnum.whatAction}" />
-    								</p:commandButton>
-    								<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-    									immediate="true" action="#{commissionController.goSeeAllCmi}" />
-    							</h:panelGroup>
-    						</h:panelGrid>
-    					</div>
-    					<h:panelGroup style="width:100%;"
-    						rendered="#{commissionController.actionEnum.whatAction == commissionController.actionEnum.listePrepa}">
-    						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    							styleClass="tableJustWidthMax">
-    							<h:outputText />
-    							<h:panelGroup>
-    								<p:commandButton value="#{msgs['COMMISSION.EDIT_LISTE_PREPA_ALPHA']}"
-    									rendered="#{managedAccess.updateAuthorized}"
-    									action="#{commissionController.makePDFListesPreparatoireAlpha}"/>
-    								<p:commandButton value="#{msgs['COMMISSION.EDIT_LISTE_PREPA_ETAPE']}"
-    									rendered="#{managedAccess.updateAuthorized}"
-    									action="#{commissionController.makePDFListesPreparatoireEtape}"/>
-    								<p:commandButton value="#{msgs['COMMISSION.EDIT_LISTE_PREPA_TITRE']}"
-    									rendered="#{managedAccess.updateAuthorized}"
-    									action="#{commissionController.makePDFListesPreparatoireTitre}"/>
-    							</h:panelGroup>
-    						</h:panelGrid>
-    					</h:panelGroup>
-    					
-    					<h:panelGrid styleClass="tableWidthMax" columns="4"
-    						columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-    						<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code" />
-    						<h:outputText id="code" value="#{commissionController.commission.code}"/>
-    						<h:panelGroup/>
-    						<h:panelGroup style="text-align:right;">
-    							<p:commandButton icon="ui-icon-pencil"
-    							action="#{commissionController.goUpdateCmi}"
-    							title="#{msgs['BUTTON.UPDATE']}" rendered="#{managedAccess.updateAuthorized}">
-    								<f:setPropertyActionListener value="#{commissionController.actionEnum.updateAction}" target="#{commissionController.actionEnum.whatAction}" />
-    							</p:commandButton>
-    							<p:commandButton
-    								icon="ui-icon-calendar"
-                                    title="#{msgs['CALENDAR.TITLE.CONSULT']}" 
-    								action="#{calendarController.goSeeCalCmi}"/>
-    							<p:commandButton
-    								icon="ui-icon-print"
-                                    title="#{msgs['COMMISSION.EDIT.ARRETE_NOM']}" 
-    								rendered="#{managedAccess.updateAuthorized}" immediate="true"
-    								action="#{commissionController.makePDFNomination}"/>
-    							<p:commandButton 
-    								icon="ui-icon-mail-closed"
-                                    title="#{msgs['COMMISSION.SEND_CONVOC_MAIL']}"
-    								rendered="#{managedAccess.updateAuthorized}" immediate="true"
-    								action="#{commissionController.sendMailConvocation}"/>
-    						</h:panelGroup>
-    						
-    												
-    						<h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}"
-    								for="temoinEnService" />
-    						<h:panelGroup>
-    							<p:graphicImage url="/media/images/check2.gif"
-    								rendered="#{commissionController.commission.temoinEnService}" />
-    							<p:graphicImage url="/media/images/check0.gif"
-    								rendered="#{!commissionController.commission.temoinEnService}" />
-    						</h:panelGroup>
-    						<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
-    								for="libelle" />
-    						<h:outputText id="libelle" value="#{commissionController.commission.libelle}"/>
-    						
-    					</h:panelGrid>
-    				</div>
-    				<br />
-    				<br />
-    				<br />
-    				
-    				<div id="blockFormContact" class="blockForm">
-    					<div style="width:100%;">
-    						<h:panelGrid columns="2" columnClasses="col1UnDemi,col1UnDemi"
-    							styleClass="tableJustWidthMax">
-    							<h:outputText value="#{msgs['COMMISSION.CONTACT']}"
-    								styleClass="section-smallTitle" />
-    							<h:panelGroup/>
-    						</h:panelGrid>
-    					</div>
-    					<div class="tableWidthMax">
-    						<h:panelGrid styleClass="tableJustWidthMax" columns="4"
-    							columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-    							<h:outputLabel value="#{msgs['FIELD_LABEL.MAIL']}"
-    									for="mail" />
-    							<h:outputText id="mail" value="#{commissionController.contactCommission.adresse.mail}" />
-    							<h:outputLabel value="#{msgs['COMMISSION.CORRESPONDING']}"
-    									for="corresponding" />
-    							<h:outputText id="corresponding" value="#{commissionController.contactCommission.corresponding}"/>
-    							<h:outputLabel value="#{msgs['ADRESS.TEL_FIX']}"
-    									for="phoneNumber" />
-    							<h:outputText id="phoneNumber" value="#{commissionController.contactCommission.adresse.phoneNumber}"/>	
-    							<h:outputLabel value="#{msgs['ADRESS.TEL_FAX']}"
-    									for="faxNumber" />
-    							<h:outputText id="faxNumber" value="#{commissionController.contactCommission.adresse.faxNumber}" />	
-    							<h:outputLabel value="#{msgs['COMMISSION.SIGNATAIRE']}"
-    									for="codSig" />
-    							<h:outputText id="codSig" value="#{commissionController.contactCommission.codSig}" />		
-    						</h:panelGrid>
-    						<ui:include src="_commission/_blockseeAddressCmi.xhtml" />
-                            <ui:fragment rendered="#{commissionController.managerUsed}">
-        						<div id="blockFormManager" class="blockForm">
-        							<div style="width:100%;">
-        								<h:panelGrid columns="2" columnClasses="col1UnDemi,col1UnDemi"
-        									styleClass="tableJustWidthMax">
-        									<h:outputText value="#{msgs['COMMISSION.MANAGER']}"
-        										styleClass="section-smallTitle" />
-        									<h:panelGroup />
-        								</h:panelGrid>
-        							</div>
-        							<h:panelGrid styleClass="tableWidthMax" columns="4"
-        								columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-        								<h:panelGroup>
-        									<h:outputLabel value="#{msgs['COMMISSION.MANAGER.NAME']}"
-        										for="manager" />
-        								</h:panelGroup>
-        								<h:outputText id="manager"
-        									value="#{commissionController.contactCommission.managerName}" />
-        								<h:panelGroup>
-        									<h:outputLabel value="#{msgs['COMMISSION.MANAGER.PHONE']}"
-        										for="phoneManager" />
-        								</h:panelGroup>
-        								<h:outputText id="phoneManager"
-        									value="#{commissionController.contactCommission.managerPhone}" />
-        								<h:panelGroup>
-        									<h:outputLabel value="#{msgs['COMMISSION.MANAGER.MAIL']}"
-        										for="mailManager" />
-        								</h:panelGroup>
-        								<h:outputText id="mailManager"
-        									value="#{commissionController.contactCommission.managerMail}" />
-        							</h:panelGrid>
-        						</div>
-                            </ui:fragment>
-    					</div>
-    				</div>
-    				
-    				<br />
-    				<br />
-    				<br />
-    				
-    				<div id="blockFormSeeEtape" class="blockForm">
-    					<ui:include src="_commission/_seeTypeTrt.xhtml" />
-    				</div>
-    				
-    
-    				<br />
-    				<br />
-    				<br />
-    				<div id="blockFormMembre" class="blockForm">
-    					<div style="width:100%;">
-    						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    							styleClass="tableJustWidthMax">
-    							<h:outputText value="#{msgs['MEMBERS']}"
-    									styleClass="section-smallTitle" />
-    							<h:panelGroup>
-    								<p:commandButton value="#{msgs['COMMISSION.EDIT.ARRETE_NOM']}"
-    									rendered="#{managedAccess.updateAuthorized}" immediate="true"
-    									action="#{commissionController.makePDFNomination}"/>
-    								<p:commandButton value="#{msgs['COMMISSION.SEND_CONVOC_MAIL']}"
-    									rendered="#{managedAccess.updateAuthorized}" immediate="true"
-    									action="#{commissionController.sendMailConvocation}"/>
-    							</h:panelGroup>
-    						</h:panelGrid>
-    					</div>
-    					<p:dataTable var="member" rowKey="#{member}" 
-                            value="#{commissionController.keySetMbrToDisplay}"
-                            selection="#{commissionController.membersSelected}"
-    						styleClass="displayInfo">
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.NAME']}" />
-    							</f:facet>
-    							<h:outputText value="#{member.nom}" />
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['INDIVIDU.PRENOM']}" />
-    							</f:facet>
-    							<h:outputText value="#{member.prenom}"/>
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.MAIL']}" />
-    							</f:facet>
-    							<h:outputText value="#{member.adressMail}" />
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.TYPE']}" />
-    							</f:facet>
-    							<h:outputText value="#{member.type}" />
-    						</p:column>
-    						<p:column selectionMode="multiple">
-    							<f:facet name="header">
-                                    <p:graphicImage url="/media/images/email.png"
-                                        style="cursor:pointer;" id="icon-select-members" />
-                                    <p:overlayPanel
-                                        for="icon-select-members" appendToBody="true"
-                                        showEvent="mouseover" hideEvent="mouseout"
-                                        styleClass="containerPopup" style="width:200px;">
-                                        <h:outputText
-                                            value="#{msgs['COMMISSION.SELECT_MEMBERS']}" />
-                                    </p:overlayPanel>
-                                </f:facet>
-    						</p:column>
-    					</p:dataTable>
-    				</div>
-    			</h:form>
-    		</div>
-    	</div>
-    </ui:define>
+</h1>
+<div class="messageForUser">
+    <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+</div>
+<div id="div_subSectionCmiForm" class="div_subSection">
+<h:form id="seeCommissionForm">
+<div id="blockFormInfo" class="blockForm">
+    <div style="width:100%;">
+        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                     styleClass="tableJustWidthMax">
+            <h:outputText value="#{msgs['COMMISSIONS']}"
+                          styleClass="section-smallTitle"/>
+            <h:panelGroup>
+                <p:commandButton value="#{msgs['COMMISSION.EDIT_LISTE_PREPA']}"
+                                 rendered="#{managedAccess.updateAuthorized}" immediate="true">
+                    <f:setPropertyActionListener value="#{commissionController.actionEnum.listePrepa}"
+                                                 target="#{commissionController.actionEnum.whatAction}"/>
+                </p:commandButton>
+                <p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+                                 immediate="true" action="#{commissionController.goSeeAllCmi}"/>
+            </h:panelGroup>
+        </h:panelGrid>
+    </div>
+    <h:panelGroup style="width:100%;"
+                  rendered="#{commissionController.actionEnum.whatAction == commissionController.actionEnum.listePrepa}">
+        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                     styleClass="tableJustWidthMax">
+            <h:outputText/>
+            <h:panelGroup>
+                <p:commandButton value="#{msgs['COMMISSION.EDIT_LISTE_PREPA_ALPHA']}"
+                                 rendered="#{managedAccess.updateAuthorized}"
+                                 action="#{commissionController.makePDFListesPreparatoireAlpha}"/>
+                <p:commandButton value="#{msgs['COMMISSION.EDIT_LISTE_PREPA_ETAPE']}"
+                                 rendered="#{managedAccess.updateAuthorized}"
+                                 action="#{commissionController.makePDFListesPreparatoireEtape}"/>
+                <p:commandButton value="#{msgs['COMMISSION.EDIT_LISTE_PREPA_TITRE']}"
+                                 rendered="#{managedAccess.updateAuthorized}"
+                                 action="#{commissionController.makePDFListesPreparatoireTitre}"/>
+            </h:panelGroup>
+        </h:panelGrid>
+    </h:panelGroup>
+
+    <h:panelGrid styleClass="tableWidthMax" columns="4"
+                 columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+        <h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code"/>
+        <h:outputText id="code" value="#{commissionController.commission.code}"/>
+        <h:panelGroup/>
+        <h:panelGroup style="text-align:right;">
+            <p:commandButton icon="ui-icon-pencil"
+                             action="#{commissionController.goUpdateCmi}"
+                             title="#{msgs['BUTTON.UPDATE']}" rendered="#{managedAccess.updateAuthorized}">
+                <f:setPropertyActionListener value="#{commissionController.actionEnum.updateAction}"
+                                             target="#{commissionController.actionEnum.whatAction}"/>
+            </p:commandButton>
+            <p:commandButton
+                    icon="ui-icon-calendar"
+                    title="#{msgs['CALENDAR.TITLE.CONSULT']}"
+                    action="#{calendarController.goSeeCalCmi}"/>
+            <p:commandButton
+                    icon="ui-icon-print"
+                    title="#{msgs['COMMISSION.EDIT.ARRETE_NOM']}"
+                    rendered="#{managedAccess.updateAuthorized}" immediate="true"
+                    action="#{commissionController.makePDFNomination}"/>
+            <p:commandButton
+                    icon="ui-icon-mail-closed"
+                    title="#{msgs['COMMISSION.SEND_CONVOC_MAIL']}"
+                    rendered="#{managedAccess.updateAuthorized}" immediate="true"
+                    action="#{commissionController.sendMailConvocation}"/>
+        </h:panelGroup>
+
+
+        <h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}"
+                       for="temoinEnService"/>
+        <h:panelGroup>
+            <p:graphicImage url="/media/images/check2.gif"
+                            rendered="#{commissionController.commission.temoinEnService}"/>
+            <p:graphicImage url="/media/images/check0.gif"
+                            rendered="#{!commissionController.commission.temoinEnService}"/>
+        </h:panelGroup>
+        <h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
+                       for="libelle"/>
+        <h:outputText id="libelle" value="#{commissionController.commission.libelle}"/>
+
+    </h:panelGrid>
+</div>
+<br/>
+<br/>
+<br/>
+
+<div id="blockFormContact" class="blockForm">
+    <div style="width:100%;">
+        <h:panelGrid columns="2" columnClasses="col1UnDemi,col1UnDemi"
+                     styleClass="tableJustWidthMax">
+            <h:outputText value="#{msgs['COMMISSION.CONTACT']}"
+                          styleClass="section-smallTitle"/>
+            <h:panelGroup/>
+        </h:panelGrid>
+    </div>
+    <div class="tableWidthMax">
+        <h:panelGrid styleClass="tableJustWidthMax" columns="4"
+                     columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+            <h:outputLabel value="#{msgs['FIELD_LABEL.MAIL']}"
+                           for="mail"/>
+            <h:outputText id="mail" value="#{commissionController.contactCommission.adresse.mail}"/>
+            <h:outputLabel value="#{msgs['COMMISSION.CORRESPONDING']}"
+                           for="corresponding"/>
+            <h:outputText id="corresponding" value="#{commissionController.contactCommission.corresponding}"/>
+            <h:outputLabel value="#{msgs['ADRESS.TEL_FIX']}"
+                           for="phoneNumber"/>
+            <h:outputText id="phoneNumber" value="#{commissionController.contactCommission.adresse.phoneNumber}"/>
+            <h:outputLabel value="#{msgs['ADRESS.TEL_FAX']}"
+                           for="faxNumber"/>
+            <h:outputText id="faxNumber" value="#{commissionController.contactCommission.adresse.faxNumber}"/>
+            <h:outputLabel value="#{msgs['COMMISSION.SIGNATAIRE']}"
+                           for="codSig"/>
+            <h:outputText id="codSig" value="#{commissionController.contactCommission.codSig}"/>
+        </h:panelGrid>
+        <ui:include src="_commission/_blockseeAddressCmi.xhtml"/>
+        <ui:fragment rendered="#{commissionController.managerUsed}">
+            <div id="blockFormManager" class="blockForm">
+                <div style="width:100%;">
+                    <h:panelGrid columns="2" columnClasses="col1UnDemi,col1UnDemi"
+                                 styleClass="tableJustWidthMax">
+                        <h:outputText value="#{msgs['COMMISSION.MANAGER']}"
+                                      styleClass="section-smallTitle"/>
+                        <h:panelGroup/>
+                    </h:panelGrid>
+                </div>
+                <h:panelGrid styleClass="tableWidthMax" columns="4"
+                             columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['COMMISSION.MANAGER.NAME']}"
+                                       for="manager"/>
+                    </h:panelGroup>
+                    <h:outputText id="manager"
+                                  value="#{commissionController.contactCommission.managerName}"/>
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['COMMISSION.MANAGER.PHONE']}"
+                                       for="phoneManager"/>
+                    </h:panelGroup>
+                    <h:outputText id="phoneManager"
+                                  value="#{commissionController.contactCommission.managerPhone}"/>
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['COMMISSION.MANAGER.MAIL']}"
+                                       for="mailManager"/>
+                    </h:panelGroup>
+                    <h:outputText id="mailManager"
+                                  value="#{commissionController.contactCommission.managerMail}"/>
+                </h:panelGrid>
+            </div>
+        </ui:fragment>
+    </div>
+</div>
+
+<br/>
+<br/>
+<br/>
+
+<div id="blockFormSeeEtape" class="blockForm">
+    <ui:include src="_commission/_seeTypeTrt.xhtml"/>
+</div>
+
+
+<br/>
+<br/>
+<br/>
+
+<div id="blockFormMembre" class="blockForm">
+    <div style="width:100%;">
+        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                     styleClass="tableJustWidthMax">
+            <h:outputText value="#{msgs['MEMBERS']}"
+                          styleClass="section-smallTitle"/>
+            <h:panelGroup>
+                <p:commandButton value="#{msgs['COMMISSION.EDIT.ARRETE_NOM']}"
+                                 rendered="#{managedAccess.updateAuthorized}" immediate="true"
+                                 action="#{commissionController.makePDFNomination}"/>
+                <p:commandButton value="#{msgs['COMMISSION.SEND_CONVOC_MAIL']}"
+                                 rendered="#{managedAccess.updateAuthorized}" immediate="true"
+                                 action="#{commissionController.sendMailConvocation}"/>
+            </h:panelGroup>
+        </h:panelGrid>
+    </div>
+    <p:dataTable var="member" rowKey="#{member}"
+                 value="#{commissionController.keySetMbrToDisplay}"
+                 selection="#{commissionController.membersSelected}"
+                 styleClass="displayInfo">
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['FIELD_LABEL.NAME']}"/>
+            </f:facet>
+            <h:outputText value="#{member.nom}"/>
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['INDIVIDU.PRENOM']}"/>
+            </f:facet>
+            <h:outputText value="#{member.prenom}"/>
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['FIELD_LABEL.MAIL']}"/>
+            </f:facet>
+            <h:outputText value="#{member.adressMail}"/>
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['FIELD_LABEL.TYPE']}"/>
+            </f:facet>
+            <h:outputText value="#{member.type}"/>
+        </p:column>
+        <p:column selectionMode="multiple">
+            <f:facet name="header">
+                <p:graphicImage url="/media/images/email.png"
+                                style="cursor:pointer;" id="icon-select-members"/>
+                <p:overlayPanel
+                        for="icon-select-members" appendToBody="true"
+                        showEvent="mouseover" hideEvent="mouseout"
+                        styleClass="containerPopup" style="width:200px;">
+                    <h:outputText
+                            value="#{msgs['COMMISSION.SELECT_MEMBERS']}"/>
+                </p:overlayPanel>
+            </f:facet>
+        </p:column>
+    </p:dataTable>
+</div>
+</h:form>
+</div>
+</div>
+</ui:define>
 </ui:composition>

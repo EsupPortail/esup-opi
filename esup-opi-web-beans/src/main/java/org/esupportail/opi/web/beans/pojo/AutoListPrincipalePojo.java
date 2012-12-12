@@ -1,9 +1,9 @@
 package org.esupportail.opi.web.beans.pojo;
 
 
-import java.util.List;
-
 import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
+
+import java.util.List;
 
 
 /**

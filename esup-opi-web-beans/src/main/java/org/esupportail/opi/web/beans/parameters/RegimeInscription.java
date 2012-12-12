@@ -3,12 +3,6 @@
  */
 package org.esupportail.opi.web.beans.parameters;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.opi.domain.beans.parameters.TypeConvocation;
 import org.esupportail.opi.domain.beans.user.Individu;
@@ -16,6 +10,12 @@ import org.esupportail.opi.services.mails.MailContentService;
 import org.esupportail.opi.web.beans.ControlField;
 import org.esupportail.opi.web.beans.ManagedCalendar;
 import org.springframework.beans.factory.InitializingBean;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 /**

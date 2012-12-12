@@ -3,22 +3,22 @@
              xmlns:h="http://java.sun.com/jsf/html"
              xmlns:p="http://primefaces.org/ui">
     <h:form id="formPrintPdf">
-    	<div style="width:100%;">
+        <div style="width:100%;">
             <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
                          styleClass="tableJustWidthMax">
                 <h:outputText value="#{msgs['OPINION.CONFIRM.PRINT']}">
                 </h:outputText>
                 <h:panelGroup>
                     <p:commandButton value="#{msgs['_.BUTTON.YES']}"
-                                     action="#{printOpinionController.notificationPdfGeneration}" ajax="false" >
-                        <f:setPropertyActionListener value="#{true}" target="#{printOpinionController.printOnlyDef}" />
+                                     action="#{printOpinionController.notificationPdfGeneration}" ajax="false">
+                        <f:setPropertyActionListener value="#{true}" target="#{printOpinionController.printOnlyDef}"/>
                     </p:commandButton>
                     <p:commandButton value="#{msgs['_.BUTTON.NO']}"
-                                     action="#{printOpinionController.notificationPdfGeneration}" ajax="false" >
-                        <f:setPropertyActionListener value="#{false}" target="#{printOpinionController.printOnlyDef}" />
+                                     action="#{printOpinionController.notificationPdfGeneration}" ajax="false">
+                        <f:setPropertyActionListener value="#{false}" target="#{printOpinionController.printOnlyDef}"/>
                     </p:commandButton>
                 </h:panelGroup>
             </h:panelGrid>
-    	</div>
+        </div>
     </h:form>
 </ui:fragment>

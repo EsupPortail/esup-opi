@@ -1,78 +1,78 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<beans 
-	xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
-	>
-
-	<!-- 
-		/properties/web/converters.xml
-		This file declares the converters used by the web interface.
-		It should not be modified but by the developers.
-		This file is referenced by /properties/applicationContext.xml.
-	-->
-
-	<bean 
-		id="localeConverter"
-		class="org.esupportail.commons.web.converters.LocaleConverter"
-		>
-    	<description>
-			A converter for Locale objects.
-    	</description>
-	</bean>
-	
-	
-	<bean 
-		id="motivationAvisConverter"
-		class="org.esupportail.opi.web.converter.MotivationAvisConverter"
-		>
-    	<description>
-			A converter for MotivationAvis.
-    	</description>
-    	<property name="parameterService" ref="parameterService"/>
-	</bean>
-
-	<bean 
-		id="typeDecisionConverter"
-		class="org.esupportail.opi.web.converter.TypeDecisionConverter"
-		>
-    	<description>
-			A converter for TypeDecision.
-    	</description>
-    	<property name="parameterService" ref="parameterService"/>
-	</bean>
-
-	<bean 
-		id="campagneConverter"
-		class="org.esupportail.opi.web.converter.CampagneConverter"
-		>
-    	<description>
-			A converter for Campagne.
-    	</description>
-    	<property name="parameterService" ref="parameterService"/>
-	</bean>
-
-	<bean 
-		id="regimeInscriptionConverter"
-		class="org.esupportail.opi.web.converter.RegimeInscriptionConverter"
-		>
-    	<description>
-			A converter for RegimeInscription.
-    	</description>
-    	<property name="regimeInscriptions">
-			<list>
-				<ref bean="formationContinue"/>
-				<ref bean="formationInitiale"/>
-			</list>
-		</property>
-
-	</bean>
-
-    <bean 
-        id="commissionConverter"
-        class="org.esupportail.opi.web.converter.CommissionConverter"
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
         >
+
+    <!--
+        /properties/web/converters.xml
+        This file declares the converters used by the web interface.
+        It should not be modified but by the developers.
+        This file is referenced by /properties/applicationContext.xml.
+    -->
+
+    <bean
+            id="localeConverter"
+            class="org.esupportail.commons.web.converters.LocaleConverter"
+            >
+        <description>
+            A converter for Locale objects.
+        </description>
+    </bean>
+
+
+    <bean
+            id="motivationAvisConverter"
+            class="org.esupportail.opi.web.converter.MotivationAvisConverter"
+            >
+        <description>
+            A converter for MotivationAvis.
+        </description>
+        <property name="parameterService" ref="parameterService"/>
+    </bean>
+
+    <bean
+            id="typeDecisionConverter"
+            class="org.esupportail.opi.web.converter.TypeDecisionConverter"
+            >
+        <description>
+            A converter for TypeDecision.
+        </description>
+        <property name="parameterService" ref="parameterService"/>
+    </bean>
+
+    <bean
+            id="campagneConverter"
+            class="org.esupportail.opi.web.converter.CampagneConverter"
+            >
+        <description>
+            A converter for Campagne.
+        </description>
+        <property name="parameterService" ref="parameterService"/>
+    </bean>
+
+    <bean
+            id="regimeInscriptionConverter"
+            class="org.esupportail.opi.web.converter.RegimeInscriptionConverter"
+            >
+        <description>
+            A converter for RegimeInscription.
+        </description>
+        <property name="regimeInscriptions">
+            <list>
+                <ref bean="formationContinue"/>
+                <ref bean="formationInitiale"/>
+            </list>
+        </property>
+
+    </bean>
+
+    <bean
+            id="commissionConverter"
+            class="org.esupportail.opi.web.converter.CommissionConverter"
+            >
         <description>
             A converter for Commission.
         </description>

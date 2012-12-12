@@ -1,36 +1,35 @@
-<ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+<ui:composition
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        template="/stylesheets/template.xhtml">
     <ui:define name="content">
-    
-    	<div id="maPage" class="div_body">
-    		<h1>
+
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
+                    <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
                 </span>
             </h1>
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="fctParamForm" styleClass="opiR1_form">
-    				<br />
-    				<br />
-    				<br />
-    				<br />
-    				<opi:menuDynTag id="menuFonction" styleClass="displayTraitement" >
-    					<opi:menuDynItems value="#{managedAccess.traitementDisplay}" 
-    						styleClass="form-button-link"/>
-    				</opi:menuDynTag>
-    				<br />
-    				<br />
-    				<br />
-    			</h:form>
-    		</div>
-    	</div>
-    	
-    	<script type="text/javascript">	
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
+            <div id="div_subSection" class="div_subSection">
+                <h:form id="fctParamForm" styleClass="opiR1_form">
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <opi:menuDynTag id="menuFonction" styleClass="displayTraitement">
+                        <opi:menuDynItems value="#{managedAccess.traitementDisplay}"
+                                          styleClass="form-button-link"/>
+                    </opi:menuDynTag>
+                    <br/>
+                    <br/>
+                    <br/>
+                </h:form>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            highlightChildrenLiTags('navigationHeader:navigation');
+            highlightChildrenLiTags('navigationFooter:navigation');
         </script>
     </ui:define>
 </ui:composition>

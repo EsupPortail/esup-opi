@@ -1,172 +1,172 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:t="http://myfaces.apache.org/tomahawk"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
-	<div id="#{id}" class="#{tagsConfigurator.paginatorStyleClass}">
-		<div class="itemsNumbers">
-			<h:outputFormat value="#{msgs['PAGINATION.TEXT.ITEMS_NUMBERS']}"
-				rendered="#{itemsNumbersFlag == null || itemsNumbersFlag}"
-				styleClass="#{tagsConfigurator.textStyleClass}">
-				<f:param value="#{itemsName}" />
-				<f:param value="#{paginator.firstVisibleNumber + 1}" />
-				<f:param value="#{paginator.lastVisibleNumber + 1}" />
-				<f:param value="#{paginator.totalItemsCount}" />
-			</h:outputFormat>
-		</div>
-		<h:panelGroup class="navigation"
-			rendered="#{navigationFlag == null || navigationFlag}">
+                xmlns:t="http://myfaces.apache.org/tomahawk"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <div id="#{id}" class="#{tagsConfigurator.paginatorStyleClass}">
+        <div class="itemsNumbers">
+            <h:outputFormat value="#{msgs['PAGINATION.TEXT.ITEMS_NUMBERS']}"
+                            rendered="#{itemsNumbersFlag == null || itemsNumbersFlag}"
+                            styleClass="#{tagsConfigurator.textStyleClass}">
+                <f:param value="#{itemsName}"/>
+                <f:param value="#{paginator.firstVisibleNumber + 1}"/>
+                <f:param value="#{paginator.lastVisibleNumber + 1}"/>
+                <f:param value="#{paginator.totalItemsCount}"/>
+            </h:outputFormat>
+        </div>
+        <h:panelGroup class="navigation"
+                      rendered="#{navigationFlag == null || navigationFlag}">
             <ui:fragment rendered="#{paginator.firstPageNumber != paginator.lastPageNumber}">
-    			<ul>
+                <ul>
                     <ui:fragment rendered="#{paginator.currentPage != paginator.firstPageNumber}">
-        				<li>
-        					<h:commandButton value="#{msgs['_.BUTTON.PREVIOUS']}"
-        						immediate="true" action="#{paginator.gotoPreviousPage}" />
-        				</li>
+                        <li>
+                            <h:commandButton value="#{msgs['_.BUTTON.PREVIOUS']}"
+                                             immediate="true" action="#{paginator.gotoPreviousPage}"/>
+                        </li>
                     </ui:fragment>
-    				<h:panelGroup rendered="#{not empty paginator.firstPagesNumber}">
-    					<ui:repeat value="#{paginator.firstPagesNumber}" var="numPage">
+                    <h:panelGroup rendered="#{not empty paginator.firstPagesNumber}">
+                        <ui:repeat value="#{paginator.firstPagesNumber}" var="numPage">
                             <ui:fragment rendered="#{paginator.currentPage != numPage}">
-        						<li>
-        							<h:commandButton value="#{numPage + 1}" immediate="true">
-        								<f:setPropertyActionListener value="#{numPage}"
-        									target="#{paginator.currentPage}" />
-        							</h:commandButton>
-        						</li>
+                                <li>
+                                    <h:commandButton value="#{numPage + 1}" immediate="true">
+                                        <f:setPropertyActionListener value="#{numPage}"
+                                                                     target="#{paginator.currentPage}"/>
+                                    </h:commandButton>
+                                </li>
                             </ui:fragment>
                             <ui:fragment rendered="#{paginator.currentPage == numPage}">
-        						<li class="currentPage">
-        							<h:commandButton value="#{numPage + 1}" immediate="true" />
-        						</li>
+                                <li class="currentPage">
+                                    <h:commandButton value="#{numPage + 1}" immediate="true"/>
+                                </li>
                             </ui:fragment>
-    					</ui:repeat>
-    					<li
-    						style="border:none;background-color:transparent;">
-    						<h:outputText value="#{msgs['PAGINATION.TEXT.SEPARATOR']}"
-    							styleClass="#{tagsConfigurator.textStyleClass}" />
-    					</li>
-    					<li>
-    						<h:commandButton value="#{paginator.lastPageNumber + 1}"
-    							immediate="true">
-    							<f:setPropertyActionListener value="#{paginator.lastPageNumber}"
-    								target="#{paginator.currentPage}" />
-    						</h:commandButton>
-    					</li>
-    				</h:panelGroup>
-    
-    				<h:panelGroup rendered="#{not empty paginator.lastPagesNumber}">
-    					<li>
-    						<h:commandButton value="#{paginator.firstPageNumber + 1}"
-    							immediate="true">
-    							<f:setPropertyActionListener value="#{paginator.firstPageNumber}"
-    								target="#{paginator.currentPage}" />
-    						</h:commandButton>
-    					</li>
-    					<li
-    						style="border:none;background-color:transparent;">
-    						<h:outputText value="#{msgs['PAGINATION.TEXT.SEPARATOR']}"
-    							styleClass="#{tagsConfigurator.textStyleClass}" />
-    					</li>
-    					<ui:repeat value="#{paginator.lastPagesNumber}" var="numPage">
+                        </ui:repeat>
+                        <li
+                                style="border:none;background-color:transparent;">
+                            <h:outputText value="#{msgs['PAGINATION.TEXT.SEPARATOR']}"
+                                          styleClass="#{tagsConfigurator.textStyleClass}"/>
+                        </li>
+                        <li>
+                            <h:commandButton value="#{paginator.lastPageNumber + 1}"
+                                             immediate="true">
+                                <f:setPropertyActionListener value="#{paginator.lastPageNumber}"
+                                                             target="#{paginator.currentPage}"/>
+                            </h:commandButton>
+                        </li>
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{not empty paginator.lastPagesNumber}">
+                        <li>
+                            <h:commandButton value="#{paginator.firstPageNumber + 1}"
+                                             immediate="true">
+                                <f:setPropertyActionListener value="#{paginator.firstPageNumber}"
+                                                             target="#{paginator.currentPage}"/>
+                            </h:commandButton>
+                        </li>
+                        <li
+                                style="border:none;background-color:transparent;">
+                            <h:outputText value="#{msgs['PAGINATION.TEXT.SEPARATOR']}"
+                                          styleClass="#{tagsConfigurator.textStyleClass}"/>
+                        </li>
+                        <ui:repeat value="#{paginator.lastPagesNumber}" var="numPage">
                             <ui:fragment rendered="#{paginator.currentPage != numPage}">
-        						<li>
-        							<h:commandButton value="#{numPage + 1}" immediate="true">
-        								<f:setPropertyActionListener value="#{numPage}"
-        									target="#{paginator.currentPage}" />
-        							</h:commandButton>
-        						</li>
+                                <li>
+                                    <h:commandButton value="#{numPage + 1}" immediate="true">
+                                        <f:setPropertyActionListener value="#{numPage}"
+                                                                     target="#{paginator.currentPage}"/>
+                                    </h:commandButton>
+                                </li>
                             </ui:fragment>
                             <ui:fragment rendered="#{paginator.currentPage == numPage}">
-        						<li class="currentPage">
-        							<h:commandButton value="#{numPage + 1}" immediate="true" />
-        						</li>
+                                <li class="currentPage">
+                                    <h:commandButton value="#{numPage + 1}" immediate="true"/>
+                                </li>
                             </ui:fragment>
-    					</ui:repeat>
-    				</h:panelGroup>
-    
-    				<h:panelGroup rendered="#{not empty paginator.middlePagesNumber}">
-    					<li>
-    						<h:commandButton value="#{paginator.firstPageNumber + 1}"
-    							immediate="true">
-    							<f:setPropertyActionListener value="#{paginator.firstPageNumber}"
-    								target="#{paginator.currentPage}" />
-    						</h:commandButton>
-    					</li>
-    					<li style="border:none;background-color:transparent;">
-    						<h:outputText value="#{msgs['PAGINATION.TEXT.SEPARATOR']}"
-    							styleClass="#{tagsConfigurator.textStyleClass}" />
-    					</li>
-    					<ui:repeat value="#{paginator.middlePagesNumber}" var="numPage">
+                        </ui:repeat>
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{not empty paginator.middlePagesNumber}">
+                        <li>
+                            <h:commandButton value="#{paginator.firstPageNumber + 1}"
+                                             immediate="true">
+                                <f:setPropertyActionListener value="#{paginator.firstPageNumber}"
+                                                             target="#{paginator.currentPage}"/>
+                            </h:commandButton>
+                        </li>
+                        <li style="border:none;background-color:transparent;">
+                            <h:outputText value="#{msgs['PAGINATION.TEXT.SEPARATOR']}"
+                                          styleClass="#{tagsConfigurator.textStyleClass}"/>
+                        </li>
+                        <ui:repeat value="#{paginator.middlePagesNumber}" var="numPage">
                             <ui:fragment rendered="#{paginator.currentPage != numPage}">
-        						<li>
-        							<h:commandButton value="#{numPage + 1}" immediate="true">
-        								<f:setPropertyActionListener value="#{numPage}"
-        									target="#{paginator.currentPage}" />
-        							</h:commandButton>
-        						</li>
+                                <li>
+                                    <h:commandButton value="#{numPage + 1}" immediate="true">
+                                        <f:setPropertyActionListener value="#{numPage}"
+                                                                     target="#{paginator.currentPage}"/>
+                                    </h:commandButton>
+                                </li>
                             </ui:fragment>
                             <ui:fragment rendered="#{paginator.currentPage == numPage}">
-        						<li class="currentPage">
-        							<h:commandButton value="#{numPage + 1}" immediate="true" />
-        						</li>
+                                <li class="currentPage">
+                                    <h:commandButton value="#{numPage + 1}" immediate="true"/>
+                                </li>
                             </ui:fragment>
-    					</ui:repeat>
-    					<li
-    						style="border:none;background-color:transparent;">
-    						<h:outputText value="#{msgs['PAGINATION.TEXT.SEPARATOR']}"
-    							styleClass="#{tagsConfigurator.textStyleClass}" />
-    					</li>
-    					<li>
-    						<h:commandButton value="#{paginator.lastPageNumber + 1}"
-    							immediate="true">
-    							<f:setPropertyActionListener value="#{paginator.lastPageNumber}"
-    								target="#{paginator.currentPage}" />
-    						</h:commandButton>
-    					</li>
-    				</h:panelGroup>
-    				<h:panelGroup rendered="#{not empty paginator.nearPages}">
-    					<ui:repeat value="#{paginator.nearPages}" var="numPage">
+                        </ui:repeat>
+                        <li
+                                style="border:none;background-color:transparent;">
+                            <h:outputText value="#{msgs['PAGINATION.TEXT.SEPARATOR']}"
+                                          styleClass="#{tagsConfigurator.textStyleClass}"/>
+                        </li>
+                        <li>
+                            <h:commandButton value="#{paginator.lastPageNumber + 1}"
+                                             immediate="true">
+                                <f:setPropertyActionListener value="#{paginator.lastPageNumber}"
+                                                             target="#{paginator.currentPage}"/>
+                            </h:commandButton>
+                        </li>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{not empty paginator.nearPages}">
+                        <ui:repeat value="#{paginator.nearPages}" var="numPage">
                             <ui:fragment rendered="#{paginator.currentPage != numPage}">
-        						<li>
-        							<h:commandButton value="#{numPage + 1}" immediate="true">
-        								<f:setPropertyActionListener value="#{numPage}"
-        									target="#{paginator.currentPage}" />
-        							</h:commandButton>
-        						</li>
+                                <li>
+                                    <h:commandButton value="#{numPage + 1}" immediate="true">
+                                        <f:setPropertyActionListener value="#{numPage}"
+                                                                     target="#{paginator.currentPage}"/>
+                                    </h:commandButton>
+                                </li>
                             </ui:fragment>
                             <ui:fragment rendered="#{paginator.currentPage == numPage}">
-        						<li class="currentPage">
-        							<h:commandButton value="#{numPage + 1}" immediate="true" />
-        						</li>
+                                <li class="currentPage">
+                                    <h:commandButton value="#{numPage + 1}" immediate="true"/>
+                                </li>
                             </ui:fragment>
-    					</ui:repeat>
-    				</h:panelGroup>
-    
+                        </ui:repeat>
+                    </h:panelGroup>
+
                     <ui:fragment rendered="#{paginator.currentPage != paginator.lastPageNumber}">
-        				<li>
-        					<h:commandButton value="#{msgs['_.BUTTON.NEXT']}" immediate="true"
-        						action="#{paginator.gotoNextPage}" />
-        				</li>
-                    </ui:fragment>                    
-    			</ul>
+                        <li>
+                            <h:commandButton value="#{msgs['_.BUTTON.NEXT']}" immediate="true"
+                                             action="#{paginator.gotoNextPage}"/>
+                        </li>
+                    </ui:fragment>
+                </ul>
             </ui:fragment>
-		</h:panelGroup>
-        
-		<div class="itemsPerPage">
-			<h:panelGroup
-				rendered="#{itemsPerPageFlag == null || itemsPerPageFlag}">
-				<h:outputFormat value="#{msgs['PAGINATION.TEXT.ITEMS_PER_PAGE']}"
-					styleClass="#{tagsConfigurator.textStyleClass}">
-					<f:param value="#{itemsName}" />
-				</h:outputFormat>
-				<t:selectOneMenu value="#{paginator.pageSize}"
-					onchange="#{onchange}">
-					<f:selectItems value="#{paginator.pageSizeItems}" var="pageSize"
-						itemLabel="#{pageSize}" itemValue="#{pageSize}" />
-				</t:selectOneMenu>
-			</h:panelGroup>
-		</div>
-	</div>
+        </h:panelGroup>
+
+        <div class="itemsPerPage">
+            <h:panelGroup
+                    rendered="#{itemsPerPageFlag == null || itemsPerPageFlag}">
+                <h:outputFormat value="#{msgs['PAGINATION.TEXT.ITEMS_PER_PAGE']}"
+                                styleClass="#{tagsConfigurator.textStyleClass}">
+                    <f:param value="#{itemsName}"/>
+                </h:outputFormat>
+                <t:selectOneMenu value="#{paginator.pageSize}"
+                                 onchange="#{onchange}">
+                    <f:selectItems value="#{paginator.pageSizeItems}" var="pageSize"
+                                   itemLabel="#{pageSize}" itemValue="#{pageSize}"/>
+                </t:selectOneMenu>
+            </h:panelGroup>
+        </div>
+    </div>
 </ui:composition>
 
 

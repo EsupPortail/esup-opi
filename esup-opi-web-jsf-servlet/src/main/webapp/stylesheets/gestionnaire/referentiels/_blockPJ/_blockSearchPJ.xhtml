@@ -1,41 +1,41 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <h:panelGrid styleClass="tableWidthMax" columns="4"
-    	columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-    	<h:panelGroup>
-    		<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code" />
-    		<h:outputText value="*" styleClass="etoileForChpObli" />
-    	</h:panelGroup>
-    	<h:panelGroup>
-    		<h:inputText id="code"
-    			value="" size="5"
-    			maxlength="5"
-    			rendered="#{nomenclatureController.actionEnum.whatAction 
-    							!= nomenclatureController.actionEnum.readAction}" />
-    	</h:panelGroup>
-    	<h:panelGroup>
-    		<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}" for="libelle" />
-    		<h:outputText value="*" styleClass="etoileForChpObli" />
-    	</h:panelGroup>
-    	<h:panelGroup>
-    		<h:inputText id="libelle"
-    			value="#{nomenclatureController.nomenclature.libelle}" size="70"
-    			maxlength="500"
-    			rendered="#{nomenclatureController.actionEnum.whatAction 
-    								!= nomenclatureController.actionEnum.readAction}" />
-    	</h:panelGroup>
-    	<h:panelGroup>
-    		<h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"
-    			for="regimeInscription" />
-    		<h:outputText value="*" styleClass="etoileForChpObli" />
-    	</h:panelGroup>
-    	<h:panelGroup>
-    		<p:selectOneMenu id="regimeInscription"
-    			value="#{nomenclatureController.RIByDefault}">
-    			<f:selectItems value="#{nomenclatureController.regimeInscriptionsItems}"/>
-    		</p:selectOneMenu>
-    	</h:panelGroup>
+                 columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+        <h:panelGroup>
+            <h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code"/>
+            <h:outputText value="*" styleClass="etoileForChpObli"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <h:inputText id="code"
+                         value="" size="5"
+                         maxlength="5"
+                         rendered="#{nomenclatureController.actionEnum.whatAction
+    							!= nomenclatureController.actionEnum.readAction}"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}" for="libelle"/>
+            <h:outputText value="*" styleClass="etoileForChpObli"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <h:inputText id="libelle"
+                         value="#{nomenclatureController.nomenclature.libelle}" size="70"
+                         maxlength="500"
+                         rendered="#{nomenclatureController.actionEnum.whatAction
+    								!= nomenclatureController.actionEnum.readAction}"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"
+                           for="regimeInscription"/>
+            <h:outputText value="*" styleClass="etoileForChpObli"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <p:selectOneMenu id="regimeInscription"
+                             value="#{nomenclatureController.RIByDefault}">
+                <f:selectItems value="#{nomenclatureController.regimeInscriptionsItems}"/>
+            </p:selectOneMenu>
+        </h:panelGroup>
     </h:panelGrid>
 </ui:fragment>

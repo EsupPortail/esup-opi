@@ -1,9 +1,9 @@
 package org.esupportail.opi.web.beans.pojo;
 
+import org.esupportail.opi.domain.beans.references.commission.Commission;
+
 import java.util.List;
 import java.util.Map;
-
-import org.esupportail.opi.domain.beans.references.commission.Commission;
 
 /**
  * @author ylecuyer

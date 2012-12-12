@@ -1,61 +1,65 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateCandidat.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateCandidat.xhtml">
     <ui:define name="content">
-    	<div id="maPage" class="div_body">
-    		<h1><h:outputText value="#{msgs['FIELD_LABEL.FORMATION_SELECT']}" /></h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    		<div class="blockImportant">
-    			<h:panelGrid columns="2" columnClasses="image,text">
-    				<p:graphicImage url="/media/images/important.png" />
-    				<h:panelGroup>
-    					<h:outputText value="#{msgs['FORMATION.INFO.PROCEDURE']}"
-    						escape="false" />
-    				</h:panelGroup>
-    			</h:panelGrid>
-    		</div>
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="choiceEtapeForm" styleClass="opiR1_form">
-    				<div id="div_subSection" class="div_subSection">
-    					<br />
-    					<br />
-    					<div id="blockFormEtape" class="blockForm">
-    						<div style="width:100%;">
-    							<h:outputText value="#{msgs['FORMATION.TITLE.LIST.CHOICE']}"
-    								styleClass="section-smallTitle" />
-    						</div>
-    						<div class="blockTable">
-    							<ui:repeat var="versionEtpPojo" styleClass="listeFormation"
-    								value="#{formationController.searchFormationPojo.vrsEtpSelectedAsList}">
+        <div id="maPage" class="div_body">
+            <h1>
+                <h:outputText value="#{msgs['FIELD_LABEL.FORMATION_SELECT']}"/>
+            </h1>
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
+            <div class="blockImportant">
+                <h:panelGrid columns="2" columnClasses="image,text">
+                    <p:graphicImage url="/media/images/important.png"/>
+                    <h:panelGroup>
+                        <h:outputText value="#{msgs['FORMATION.INFO.PROCEDURE']}"
+                                      escape="false"/>
+                    </h:panelGroup>
+                </h:panelGrid>
+            </div>
+            <div id="div_subSection" class="div_subSection">
+                <h:form id="choiceEtapeForm" styleClass="opiR1_form">
+                    <div id="div_subSection" class="div_subSection">
+                        <br/>
+                        <br/>
+
+                        <div id="blockFormEtape" class="blockForm">
+                            <div style="width:100%;">
+                                <h:outputText value="#{msgs['FORMATION.TITLE.LIST.CHOICE']}"
+                                              styleClass="section-smallTitle"/>
+                            </div>
+                            <div class="blockTable">
+                                <ui:repeat var="versionEtpPojo" styleClass="listeFormation"
+                                           value="#{formationController.searchFormationPojo.vrsEtpSelectedAsList}">
                                     <div>
-                                        <h:outputText value="#{versionEtpPojo.versionEtape.libWebVet}" />
-    									<p:commandButton icon="ui-icon-minus"
-                                            immediate="true" ajax="false"
-    										action="#{formationController.searchFormationPojo.removeEtapeChoice}"
-    										title="#{msgs['_.BUTTON.DELETE']}">
-    										<f:setPropertyActionListener value="#{versionEtpPojo}" target="#{formationController.searchFormationPojo.versiontEtpToDelete}" />
-    									</p:commandButton>
-    								</div>
-    							</ui:repeat>
-    						</div>
-    					</div>
-    					<div style="text-align:center;">
-    						<h:panelGroup>
-    							<p:commandButton value="#{msgs['_.BUTTON.VALIDATE.CHOICE']}" ajax="false"
-    								immediate="true" action="#{formationController.add}" />
-    							<p:commandButton value="#{msgs['_.BUTTON.ADD.CANDI']}" ajax="false"
-    								immediate="true" action="#{formationController.goSearchAgain}" />
-    						</h:panelGroup>
-    					</div>
-    					<br />
-    					<br />
-    				</div>
-    			</h:form>
-    		</div>
-    	</div>
+                                        <h:outputText value="#{versionEtpPojo.versionEtape.libWebVet}"/>
+                                        <p:commandButton icon="ui-icon-minus"
+                                                         immediate="true" ajax="false"
+                                                         action="#{formationController.searchFormationPojo.removeEtapeChoice}"
+                                                         title="#{msgs['_.BUTTON.DELETE']}">
+                                            <f:setPropertyActionListener value="#{versionEtpPojo}"
+                                                                         target="#{formationController.searchFormationPojo.versiontEtpToDelete}"/>
+                                        </p:commandButton>
+                                    </div>
+                                </ui:repeat>
+                            </div>
+                        </div>
+                        <div style="text-align:center;">
+                            <h:panelGroup>
+                                <p:commandButton value="#{msgs['_.BUTTON.VALIDATE.CHOICE']}" ajax="false"
+                                                 immediate="true" action="#{formationController.add}"/>
+                                <p:commandButton value="#{msgs['_.BUTTON.ADD.CANDI']}" ajax="false"
+                                                 immediate="true" action="#{formationController.goSearchAgain}"/>
+                            </h:panelGroup>
+                        </div>
+                        <br/>
+                        <br/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>

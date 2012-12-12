@@ -1,119 +1,122 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	<div id="maPage" class="div_body">
-    		<h1>
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
+                    <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
                 </span>
             </h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    
-    		<ui:include src="_block/_sendMailStudent.xhtml" />
-    		
-    		<div id="blockInfoCoord" class="blockForm">
-    			<div style="width:100%;">
-    				<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    					styleClass="tableJustWidthMax">
-    					<h:outputText value="#{msgs['ETUDIANT']}" styleClass="section-smallTitle" />
-    					<h:form id="backSeeStudentForm" styleClass="opiR1_form">
-    						<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
-    							action="#{pjController.goBackMPStudent}"  ajax="false" />
-    					</h:form>
-    				</h:panelGrid>
-    			</div>
-    			<h:panelGrid columns="5" styleClass="displayInfo"
-    				rowClasses="headerRow, ">
-    				<h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}" />
-    				<h:outputText value="#{msgs['INDIVIDU.NOM']}" />
-    				<h:outputText value="#{msgs['INDIVIDU.PRENOM']}" />
-    				<h:outputText value="#{msgs['INDIVIDU.NAISSANCE']}" />
-    				<h:outputText value="#{msgs['FIELD_LABEL.MAIL_PERSO']}" />
-    
-    				<h:outputText
-    					value="#{pjController.mpPojoSelected.individuPojo.individu.numDossierOpi}" />
-    				<h:outputText
-    					value="#{pjController.mpPojoSelected.individuPojo.individu.nomPatronymique}" />
-    				<h:outputText value="#{pjController.mpPojoSelected.individuPojo.individu.prenom}" />
-    				<h:outputText
-    					value="#{pjController.mpPojoSelected.individuPojo.individu.dateNaissance}">
-    					<f:convertDateTime pattern="dd/MM/yyyy"
-    						timeZone="#{sessionController.timezone}" />
-    				</h:outputText>
-    				<h:outputLink
-    					value="mailto:#{pjController.mpPojoSelected.individuPojo.individu.adressMail}">
-    					<h:outputText
-    						value="#{pjController.mpPojoSelected.individuPojo.individu.adressMail}" />
-    				</h:outputLink>
-    			</h:panelGrid>    
-    		</div>
-    		<br />
-    		<br />
-    		<br />
-    
-    		<h:form id="detailPMform" styleClass="opiR1_form">
-    			<div style="width:100%;">
-    				<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    					styleClass="tableJustWidthMax">
-    					<h:outputText value="#{msgs['COMMISSIONS']}"
-    						styleClass="section-smallTitle" />
-    				</h:panelGrid>
-    			</div>
-    
-    			<p:dataTable var="commissionPojo" value="#{pjController.mpPojoSelected.cmiKeySet}"
-    				alternateColors="false" renderedIfEmpty="false"
-    				styleClass="displayInfo" rowIndexVar="rowVar">
-    				<p:column>
-    					<f:facet name="header">
-    						<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
-    					</f:facet>
-    					<h:outputText value="#{commissionPojo.commission.code}" />
-    				</p:column>
-    				<p:column>
-    					<f:facet name="header">
-    						<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-    					</f:facet>
-    					<h:outputText value="#{commissionPojo.commission.libelle}" />
-    				</p:column>
-    				<p:column>
-    					<f:facet name="header">
-                            <h:outputText value="#{msgs['STATE']}" />
-    					</f:facet>
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
+
+            <ui:include src="_block/_sendMailStudent.xhtml"/>
+
+            <div id="blockInfoCoord" class="blockForm">
+                <div style="width:100%;">
+                    <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                                 styleClass="tableJustWidthMax">
+                        <h:outputText value="#{msgs['ETUDIANT']}" styleClass="section-smallTitle"/>
+                        <h:form id="backSeeStudentForm" styleClass="opiR1_form">
+                            <p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
+                                             action="#{pjController.goBackMPStudent}" ajax="false"/>
+                        </h:form>
+                    </h:panelGrid>
+                </div>
+                <h:panelGrid columns="5" styleClass="displayInfo"
+                             rowClasses="headerRow, ">
+                    <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}"/>
+                    <h:outputText value="#{msgs['INDIVIDU.NOM']}"/>
+                    <h:outputText value="#{msgs['INDIVIDU.PRENOM']}"/>
+                    <h:outputText value="#{msgs['INDIVIDU.NAISSANCE']}"/>
+                    <h:outputText value="#{msgs['FIELD_LABEL.MAIL_PERSO']}"/>
+
+                    <h:outputText
+                            value="#{pjController.mpPojoSelected.individuPojo.individu.numDossierOpi}"/>
+                    <h:outputText
+                            value="#{pjController.mpPojoSelected.individuPojo.individu.nomPatronymique}"/>
+                    <h:outputText value="#{pjController.mpPojoSelected.individuPojo.individu.prenom}"/>
+                    <h:outputText
+                            value="#{pjController.mpPojoSelected.individuPojo.individu.dateNaissance}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"
+                                           timeZone="#{sessionController.timezone}"/>
+                    </h:outputText>
+                    <h:outputLink
+                            value="mailto:#{pjController.mpPojoSelected.individuPojo.individu.adressMail}">
+                        <h:outputText
+                                value="#{pjController.mpPojoSelected.individuPojo.individu.adressMail}"/>
+                    </h:outputLink>
+                </h:panelGrid>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+
+            <h:form id="detailPMform" styleClass="opiR1_form">
+                <div style="width:100%;">
+                    <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                                 styleClass="tableJustWidthMax">
+                        <h:outputText value="#{msgs['COMMISSIONS']}"
+                                      styleClass="section-smallTitle"/>
+                    </h:panelGrid>
+                </div>
+
+                <p:dataTable var="commissionPojo" value="#{pjController.mpPojoSelected.cmiKeySet}"
+                             alternateColors="false" renderedIfEmpty="false"
+                             styleClass="displayInfo" rowIndexVar="rowVar">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>
+                        </f:facet>
+                        <h:outputText value="#{commissionPojo.commission.code}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+                        </f:facet>
+                        <h:outputText value="#{commissionPojo.commission.libelle}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['STATE']}"/>
+                        </f:facet>
                         <p:selectOneRadio value="#{commissionPojo.stateCurrent}">
-                            <f:selectItem itemValue="STATE.NON_ARRIVE" itemLabel="#{msgs['STATE.NON_ARRIVE']}" />
-                            <f:selectItem itemValue="STATE.ARRIVE_COMPLET" itemLabel="#{msgs['STATE.ARRIVE_COMPLET']}" />
-                            <f:selectItem itemValue="STATE.ARRIVE_INCOMPLET" itemLabel="#{msgs['STATE.ARRIVE_INCOMPLET']}" />
+                            <f:selectItem itemValue="STATE.NON_ARRIVE" itemLabel="#{msgs['STATE.NON_ARRIVE']}"/>
+                            <f:selectItem itemValue="STATE.ARRIVE_COMPLET" itemLabel="#{msgs['STATE.ARRIVE_COMPLET']}"/>
+                            <f:selectItem itemValue="STATE.ARRIVE_INCOMPLET"
+                                          itemLabel="#{msgs['STATE.ARRIVE_INCOMPLET']}"/>
                         </p:selectOneRadio>
-    				</p:column>                   
-                    
-    				<p:column styleClass="buttonTD">
-    					<p:commandButton icon="ui-icon-pencil" 
-                            title="#{msgs['_.BUTTON.UPDATE']}"
-    						action="#{pjController.changeState}"
-    						rendered="#{managedAccess.updateAuthorized
-    								|| managedAccess.addAuthorized}" ajax="false" >
-    						<f:setPropertyActionListener value="#{commissionPojo}" target="#{pjController.currentCmiPojo}" />
-    					</p:commandButton>
-    				</p:column>
-    				<p:column styleClass="buttonTD">
-    					<p:commandButton icon="ui-icon-search" immediate="true"
-    						action="#{pjController.seeMissingPiecePrincipal}"
-    						title="#{msgs['_.BUTTON.DISPLAY']}" ajax="false" >
-    						<f:setPropertyActionListener value="#{commissionPojo}" target="#{pjController.currentCmiPojo}" />
-    					</p:commandButton>
-    				</p:column>
-    			</p:dataTable>
-    		</h:form>
-    		<br />
-    		<br />
-    		<br />
-    
-            <ui:include src="_block/_enterPM.xhtml" />
-    	</div>
+                    </p:column>
+
+                    <p:column styleClass="buttonTD">
+                        <p:commandButton icon="ui-icon-pencil"
+                                         title="#{msgs['_.BUTTON.UPDATE']}"
+                                         action="#{pjController.changeState}"
+                                         rendered="#{managedAccess.updateAuthorized
+    								|| managedAccess.addAuthorized}" ajax="false">
+                            <f:setPropertyActionListener value="#{commissionPojo}"
+                                                         target="#{pjController.currentCmiPojo}"/>
+                        </p:commandButton>
+                    </p:column>
+                    <p:column styleClass="buttonTD">
+                        <p:commandButton icon="ui-icon-search" immediate="true"
+                                         action="#{pjController.seeMissingPiecePrincipal}"
+                                         title="#{msgs['_.BUTTON.DISPLAY']}" ajax="false">
+                            <f:setPropertyActionListener value="#{commissionPojo}"
+                                                         target="#{pjController.currentCmiPojo}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <br/>
+            <br/>
+            <br/>
+
+            <ui:include src="_block/_enterPM.xhtml"/>
+        </div>
     </ui:define>
 </ui:composition>

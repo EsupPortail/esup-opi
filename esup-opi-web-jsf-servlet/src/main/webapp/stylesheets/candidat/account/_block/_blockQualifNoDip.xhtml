@@ -1,156 +1,161 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <ui:fragment rendered="#{cursusController.confirmeDelete}" styleClass="confirmeDelete">
-    	<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    		styleClass="tableJustWidthMax">
-    		<h:outputFormat value="#{msgs['INDIVIDU.QUALIF.CONFIRM.DELETE']}">
-    			<f:param value="#{cursusController.pojoQualif.cursus.libelle}"/>
-    		</h:outputFormat>
-    		<h:panelGroup>
-    			<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    				action="#{cursusController.removeQualif}"
-    				ajax="false"/>
-    			<p:commandButton value="#{msgs['_.BUTTON.NO']}"
-    				action="#{cursusController.goSeeQualif}"
-    				immediate="true"
-    				ajax="false">
-    			</p:commandButton>
-    		</h:panelGroup>
-    	</h:panelGrid>
+        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                     styleClass="tableJustWidthMax">
+            <h:outputFormat value="#{msgs['INDIVIDU.QUALIF.CONFIRM.DELETE']}">
+                <f:param value="#{cursusController.pojoQualif.cursus.libelle}"/>
+            </h:outputFormat>
+            <h:panelGroup>
+                <p:commandButton value="#{msgs['_.BUTTON.YES']}"
+                                 action="#{cursusController.removeQualif}"
+                                 ajax="false"/>
+                <p:commandButton value="#{msgs['_.BUTTON.NO']}"
+                                 action="#{cursusController.goSeeQualif}"
+                                 immediate="true"
+                                 ajax="false">
+                </p:commandButton>
+            </h:panelGroup>
+        </h:panelGrid>
     </ui:fragment>
-    
+
     <div id="blockFormQualifNoDip" class="blockForm">
-    	<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    		rendered="#{!cursusController.confirmeDelete}"
-    		styleClass="tableJustWidthMax">
-    		<h:panelGroup>
-    			<h:outputText value="#{msgs['INDIVIDU.QUALIF.NO_DIP']}"
-    				styleClass="section-smallTitle" />
+        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                     rendered="#{!cursusController.confirmeDelete}"
+                     styleClass="tableJustWidthMax">
+            <h:panelGroup>
+                <h:outputText value="#{msgs['INDIVIDU.QUALIF.NO_DIP']}"
+                              styleClass="section-smallTitle"/>
                 <p:graphicImage url="/media/images/informationSmall.png"
-                    style="cursor:pointer;" id="helpNoDip" />
+                                style="cursor:pointer;" id="helpNoDip"/>
                 <p:overlayPanel for="helpNoDip"
-                    showEvent="mouseover"
-                    hideEvent="mouseout"
-                    styleClass="containerPopup">
-					<h:panelGroup>
-						<h:panelGrid columns="1">
-							<h:outputText styleClass="titrePopupAide"
-								value="#{msgs['INDIVIDU.QUALIF.NO_DIP']}" />
-							<h:outputText styleClass="libellesAide"
-								value="#{msgs['INDIVIDU.QUALIF.NO_DIP.DESC']}" />
-						</h:panelGrid>
-					</h:panelGroup>
-    			</p:overlayPanel>
-    		</h:panelGroup>
-    		
-    		<h:panelGroup>
-    			<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-    				action="#{cursusController.addQualifNoDip}" 
-    				rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"
-    				update=":addQualifForm" />
-    			<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    				action="#{cursusController.goSeeQualif}"
-    				rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"/>
-    			<p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
-    				rendered="#{cursusController.actionEnum.whatAction == cursusController.actionEnum.updateAction}"
-    				action="#{accueilController.verifyQualif}">
-    				<f:setPropertyActionListener value="goWelcomeCandidat" target="#{accueilController.methodIfVerified}" />
-    				<f:setPropertyActionListener value="#{accueilController}" target="#{accueilController.object}" />
-    			</p:commandButton>
-    						    						
-    		</h:panelGroup>
-    	</h:panelGrid>
-    	
-    	<h:panelGrid columns="6" styleClass="tableWidthMax"
-    		rendered="#{!cursusController.confirmeDelete}">
-    		<h:panelGroup>
-    			<h:outputText value="#{msgs['FIELD_LABEL.YEAR']}" styleClass="form-field-label" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<h:panelGroup>
-    			<h:inputText id="anneeQualif" value="#{cursusController.pojoQualif.cursus.annee}" size="11" maxlength="10" />
-    		</h:panelGroup>
-    		
-    		<h:panelGroup>
-    			<h:outputText value="#{msgs['FIELD_LABEL.PERIOD']}" styleClass="form-field-label" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<h:panelGroup>
-    			<h:inputText id="dureeQualif" value="#{cursusController.pojoQualif.cursus.duree}" size="11" maxlength="10" />
-    		</h:panelGroup>
-    		
-    		<h:panelGroup>
-    			<h:outputText value="#{msgs['FIELD_LABEL.INTITULE']}" styleClass="form-field-label" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<h:panelGroup>
-    			<h:inputText id="libelleQualif" value="#{cursusController.pojoQualif.cursus.libelle}" maxlength="50" />
-    		</h:panelGroup>
-    		
-    		<h:panelGroup>
-    			<h:outputText value="#{msgs['INDIVIDU.QUALIF.NO_DIP.ORG']}" styleClass="form-field-label" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<h:panelGroup>
-    			<h:inputText id="organismeQualif" value="#{cursusController.pojoQualif.cursus.organisme}" maxlength="70" />
-    		</h:panelGroup>
-    		
-    		<h:panelGroup>
-    			<h:outputText value="#{msgs['INDIVIDU.QUALIF.NO_DIP.OBJ']}" styleClass="form-field-label" />
-    		</h:panelGroup>
-    		<h:panelGroup>
-    			<h:inputTextarea id="commentQualif" value="#{cursusController.pojoQualif.cursus.comment}" style="width:250px;" />
-    		</h:panelGroup>
-    		<h:panelGroup/>
-    		<h:panelGroup/>
-    	</h:panelGrid>
-    	
-    	<br />
-    	<br />
-    
-    	<p:dataTable var="cursusPojo"
-    		value="#{cursusController.pojoQualif.pojoCursusList}"
-    		styleClass="displayInfo" alternateColors="false" renderedIfEmpty="false">
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['FIELD_LABEL.YEAR']}" />
-    			</f:facet>
-    			<h:outputText value="#{cursusPojo.cursus.annee}" />
-    		</p:column>
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['FIELD_LABEL.PERIOD']}" />
-    			</f:facet>
-    			<h:outputText value="#{cursusPojo.cursus.duree}" />
-    		</p:column>
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['FIELD_LABEL.INTITULE']}" />
-    			</f:facet>
-    			<h:outputText value="#{cursusPojo.cursus.libelle}" />
-    		</p:column>
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['INDIVIDU.QUALIF.NO_DIP.ORG']}" />
-    			</f:facet>
-    			<h:outputText value="#{cursusPojo.cursus.organisme}" />
-    		</p:column>
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['INDIVIDU.QUALIF.NO_DIP.OBJ']}" />
-    			</f:facet>
-    			<h:panelGroup>
-                    <h:outputText value="#{cursusPojo.shortComment}" />
+                                showEvent="mouseover"
+                                hideEvent="mouseout"
+                                styleClass="containerPopup">
+                    <h:panelGroup>
+                        <h:panelGrid columns="1">
+                            <h:outputText styleClass="titrePopupAide"
+                                          value="#{msgs['INDIVIDU.QUALIF.NO_DIP']}"/>
+                            <h:outputText styleClass="libellesAide"
+                                          value="#{msgs['INDIVIDU.QUALIF.NO_DIP.DESC']}"/>
+                        </h:panelGrid>
+                    </h:panelGroup>
+                </p:overlayPanel>
+            </h:panelGroup>
+
+            <h:panelGroup>
+                <p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+                                 action="#{cursusController.addQualifNoDip}"
+                                 rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"
+                                 update=":addQualifForm"/>
+                <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                                 action="#{cursusController.goSeeQualif}"
+                                 rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"/>
+                <p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
+                                 rendered="#{cursusController.actionEnum.whatAction == cursusController.actionEnum.updateAction}"
+                                 action="#{accueilController.verifyQualif}">
+                    <f:setPropertyActionListener value="goWelcomeCandidat"
+                                                 target="#{accueilController.methodIfVerified}"/>
+                    <f:setPropertyActionListener value="#{accueilController}" target="#{accueilController.object}"/>
+                </p:commandButton>
+
+            </h:panelGroup>
+        </h:panelGrid>
+
+        <h:panelGrid columns="6" styleClass="tableWidthMax"
+                     rendered="#{!cursusController.confirmeDelete}">
+            <h:panelGroup>
+                <h:outputText value="#{msgs['FIELD_LABEL.YEAR']}" styleClass="form-field-label"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:inputText id="anneeQualif" value="#{cursusController.pojoQualif.cursus.annee}" size="11"
+                             maxlength="10"/>
+            </h:panelGroup>
+
+            <h:panelGroup>
+                <h:outputText value="#{msgs['FIELD_LABEL.PERIOD']}" styleClass="form-field-label"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:inputText id="dureeQualif" value="#{cursusController.pojoQualif.cursus.duree}" size="11"
+                             maxlength="10"/>
+            </h:panelGroup>
+
+            <h:panelGroup>
+                <h:outputText value="#{msgs['FIELD_LABEL.INTITULE']}" styleClass="form-field-label"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:inputText id="libelleQualif" value="#{cursusController.pojoQualif.cursus.libelle}" maxlength="50"/>
+            </h:panelGroup>
+
+            <h:panelGroup>
+                <h:outputText value="#{msgs['INDIVIDU.QUALIF.NO_DIP.ORG']}" styleClass="form-field-label"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:inputText id="organismeQualif" value="#{cursusController.pojoQualif.cursus.organisme}"
+                             maxlength="70"/>
+            </h:panelGroup>
+
+            <h:panelGroup>
+                <h:outputText value="#{msgs['INDIVIDU.QUALIF.NO_DIP.OBJ']}" styleClass="form-field-label"/>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:inputTextarea id="commentQualif" value="#{cursusController.pojoQualif.cursus.comment}"
+                                 style="width:250px;"/>
+            </h:panelGroup>
+            <h:panelGroup/>
+            <h:panelGroup/>
+        </h:panelGrid>
+
+        <br/>
+        <br/>
+
+        <p:dataTable var="cursusPojo"
+                     value="#{cursusController.pojoQualif.pojoCursusList}"
+                     styleClass="displayInfo" alternateColors="false" renderedIfEmpty="false">
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msgs['FIELD_LABEL.YEAR']}"/>
+                </f:facet>
+                <h:outputText value="#{cursusPojo.cursus.annee}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msgs['FIELD_LABEL.PERIOD']}"/>
+                </f:facet>
+                <h:outputText value="#{cursusPojo.cursus.duree}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msgs['FIELD_LABEL.INTITULE']}"/>
+                </f:facet>
+                <h:outputText value="#{cursusPojo.cursus.libelle}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msgs['INDIVIDU.QUALIF.NO_DIP.ORG']}"/>
+                </f:facet>
+                <h:outputText value="#{cursusPojo.cursus.organisme}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msgs['INDIVIDU.QUALIF.NO_DIP.OBJ']}"/>
+                </f:facet>
+                <h:panelGroup>
+                    <h:outputText value="#{cursusPojo.shortComment}"/>
                     <p:graphicImage url="/media/images/informationSmall.png"
-                        style="cursor:pointer;" id="helpNoDipObj" 
-                        rendered="#{cursusPojo.isShortComment}"/>
+                                    style="cursor:pointer;" id="helpNoDipObj"
+                                    rendered="#{cursusPojo.isShortComment}"/>
                     <p:overlayPanel for="helpNoDipObj"
-                        showEvent="mouseover"
-                        hideEvent="mouseout"
-                        styleClass="containerPopup"
-                        rendered="#{cursusPojo.isShortComment}">
+                                    showEvent="mouseover"
+                                    hideEvent="mouseout"
+                                    styleClass="containerPopup"
+                                    rendered="#{cursusPojo.isShortComment}">
                         <h:panelGroup>
                             <h:panelGrid columns="1">
                                 <h:outputText styleClass="titrePopupAide" value="#{msgs['FIELD_LABEL.COMMENT']}"/>
@@ -158,20 +163,21 @@
                             </h:panelGrid>
                         </h:panelGroup>
                     </p:overlayPanel>
-                </h:panelGroup>			
-    		</p:column>
-    		<p:column styleClass="buttonTD"
-    			rendered="#{!cursusController.confirmeDelete}">
-    			<p:commandButton icon="ui-icon-minus"
-    				styleClass="form-button-image" immediate="true"
-    				title="#{msgs['_.BUTTON.DELETE']}"
-    				rendered="#{(sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate)}"
-    				update=":addQualifForm"
-    				ajax="false"
-    				action="#{cursusController.setConfirmeDelete}">
-    				<f:setPropertyActionListener value="#{cursusPojo.cursus}" target="#{cursusController.pojoQualif.cursus}" />
-    			</p:commandButton>
-    		</p:column>		
-    	</p:dataTable>
+                </h:panelGroup>
+            </p:column>
+            <p:column styleClass="buttonTD"
+                      rendered="#{!cursusController.confirmeDelete}">
+                <p:commandButton icon="ui-icon-minus"
+                                 styleClass="form-button-image" immediate="true"
+                                 title="#{msgs['_.BUTTON.DELETE']}"
+                                 rendered="#{(sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate)}"
+                                 update=":addQualifForm"
+                                 ajax="false"
+                                 action="#{cursusController.setConfirmeDelete}">
+                    <f:setPropertyActionListener value="#{cursusPojo.cursus}"
+                                                 target="#{cursusController.pojoQualif.cursus}"/>
+                </p:commandButton>
+            </p:column>
+        </p:dataTable>
     </div>
 </ui:fragment>

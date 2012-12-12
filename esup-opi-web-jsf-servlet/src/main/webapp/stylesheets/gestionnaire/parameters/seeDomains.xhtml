@@ -1,114 +1,119 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	
-    	
-    	<div id="maPage" class="div_body">
-    		<h1>
+
+
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{msgs['DOMAIN.TITLE.LIST']}" />
+                    <h:outputText value="#{msgs['DOMAIN.TITLE.LIST']}"/>
                 </span>
             </h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-            <ui:fragment rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.deleteAction}">
-        		<div id="div_subSectionDelete" class="div_subSection">
-        			<ui:include src="_domain/_deleteDomain.xhtml" />
-        		</div>
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
+            <ui:fragment
+                    rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.deleteAction}">
+                <div id="div_subSectionDelete" class="div_subSection">
+                    <ui:include src="_domain/_deleteDomain.xhtml"/>
+                </div>
             </ui:fragment>
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="seeDomainsForm">
-    				<br />
-    				<br />
-    				<br />
-    				<div id="blockFormListDom" class="blockForm">
-    					<div class="blockButton">
-    						<h:panelGroup>
-    							<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-    								rendered="#{managedAccess.addAuthorized}"
-    								action="#{domainController.goAddDomain}"
-    								immediate="true"
-    								styleClass="form-button"/>
-    							<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-    								action="go_managed_fct">
-    								<f:setPropertyActionListener value="#{domainController.actionEnum.emptyAction}" target="#{domainController.actionEnum.whatAction}" />
-    							</p:commandButton>
-    						</h:panelGroup>
-    					</div>
-    					<p:dataTable var="domain" value="#{domainController.domainsItems}"
-    						styleClass="displayInfo" alternateColors="false">
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
-    							</f:facet>
-    							<h:outputText value="#{domain.code}" />
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.LONG_LIB']}" />
-    							</f:facet>
-    							<h:outputText value="#{domain.libelle}" />
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.SHORT_LIB']}" />
-    							</f:facet>
-    							<h:outputText value="#{domain.shortLabel}" />
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.ACTION']}" />
-    							</f:facet>
-    							<h:outputText value="#{domain.action}"/>
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.RANG']}" />
-    							</f:facet>
-    							<h:outputText value="#{domain.rang}" />
-    						</p:column>
-    						<p:column>
-    							<p:commandButton image="/media/images/update.png"
-    								rendered="#{managedAccess.updateAuthorized}"
-    								immediate="true"
-    								styleClass="form-button-image" title="#{msgs['BUTTON.UPDATE']}" >
-    								<f:setPropertyActionListener value="#{domainController.actionEnum.updateAction}" target="#{domainController.actionEnum.whatAction}" />
-    								<f:setPropertyActionListener value="#{domain}" target="#{domainController.domain}" />
-    							</p:commandButton>
-    						</p:column>
-    						<p:column>
-    							<p:commandButton image="/media/images/cancel.png"
-    								styleClass="form-button-image"
-    								rendered="#{managedAccess.deleteAuthorized}"
-    								immediate="true"
-    								title="#{msgs['_.BUTTON.DELETE']}" >
-    								<f:setPropertyActionListener value="#{domainController.actionEnum.deleteAction}" target="#{domainController.actionEnum.whatAction}" />
-    								<f:setPropertyActionListener value="#{domain}" target="#{domainController.domain}" />
-    							</p:commandButton>
-    						</p:column>
-    					</p:dataTable>
-    				</div>
-    			</h:form>
-    			<br />
-    			<br />
-    			<br />
+            <div id="div_subSection" class="div_subSection">
+                <h:form id="seeDomainsForm">
+                    <br/>
+                    <br/>
+                    <br/>
+
+                    <div id="blockFormListDom" class="blockForm">
+                        <div class="blockButton">
+                            <h:panelGroup>
+                                <p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+                                                 rendered="#{managedAccess.addAuthorized}"
+                                                 action="#{domainController.goAddDomain}"
+                                                 immediate="true"
+                                                 styleClass="form-button"/>
+                                <p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+                                                 action="go_managed_fct">
+                                    <f:setPropertyActionListener value="#{domainController.actionEnum.emptyAction}"
+                                                                 target="#{domainController.actionEnum.whatAction}"/>
+                                </p:commandButton>
+                            </h:panelGroup>
+                        </div>
+                        <p:dataTable var="domain" value="#{domainController.domainsItems}"
+                                     styleClass="displayInfo" alternateColors="false">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>
+                                </f:facet>
+                                <h:outputText value="#{domain.code}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.LONG_LIB']}"/>
+                                </f:facet>
+                                <h:outputText value="#{domain.libelle}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.SHORT_LIB']}"/>
+                                </f:facet>
+                                <h:outputText value="#{domain.shortLabel}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.ACTION']}"/>
+                                </f:facet>
+                                <h:outputText value="#{domain.action}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.RANG']}"/>
+                                </f:facet>
+                                <h:outputText value="#{domain.rang}"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton image="/media/images/update.png"
+                                                 rendered="#{managedAccess.updateAuthorized}"
+                                                 immediate="true"
+                                                 styleClass="form-button-image" title="#{msgs['BUTTON.UPDATE']}">
+                                    <f:setPropertyActionListener value="#{domainController.actionEnum.updateAction}"
+                                                                 target="#{domainController.actionEnum.whatAction}"/>
+                                    <f:setPropertyActionListener value="#{domain}" target="#{domainController.domain}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton image="/media/images/cancel.png"
+                                                 styleClass="form-button-image"
+                                                 rendered="#{managedAccess.deleteAuthorized}"
+                                                 immediate="true"
+                                                 title="#{msgs['_.BUTTON.DELETE']}">
+                                    <f:setPropertyActionListener value="#{domainController.actionEnum.deleteAction}"
+                                                                 target="#{domainController.actionEnum.whatAction}"/>
+                                    <f:setPropertyActionListener value="#{domain}" target="#{domainController.domain}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </h:form>
+                <br/>
+                <br/>
+                <br/>
                 <ui:fragment rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.addAction
                         || domainController.actionEnum.whatAction == domainController.actionEnum.updateAction}">
-        			<div id="addDomain">
-        				<ui:include src="_domain/_enterDomain.xhtml" />
-        			</div>
+                    <div id="addDomain">
+                        <ui:include src="_domain/_enterDomain.xhtml"/>
+                    </div>
                 </ui:fragment>
-    		</div>
-    	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        	highlightInputAndSelect('formAddDomain');
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            highlightChildrenLiTags('navigationHeader:navigation');
+            highlightChildrenLiTags('navigationFooter:navigation');
+            highlightInputAndSelect('formAddDomain');
         </script>
     </ui:define>
 </ui:composition>

@@ -1,129 +1,137 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	
-    	
-    	<div id="maPage" class="div_body">
-    		<h1>
+
+
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{msgs['PROFIL.TITLE.MANAGED']}" />
+                    <h:outputText value="#{msgs['PROFIL.TITLE.MANAGED']}"/>
                 </span>
             </h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
             <h:form id="seeProfilsForm">
-            <p:outputPanel id="delete_panel">
-            <ui:fragment rendered="#{profilController.actionEnum.whatAction == profilController.actionEnum.deleteAction}">
-        		<div id="div_subSectionDelete" class="div_subSection">
-        			<ui:include src="_delete/_deleteProfil.xhtml" />
-        		</div>
-            </ui:fragment>
-            </p:outputPanel>
-    		<div id="div_subSection" class="div_subSection">
-    				<br />
-    				<br />
-    				<br />
-    				<div id="blockFormInfo" class="blockForm">
-    					<div style="width:100%;">
-    						<div class="blockButton">
-    							<h:panelGroup>
-    								<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-    									immediate="true"
-    									rendered="#{managedAccess.addAuthorized}"
-    									action="#{profilController.goEnterProfil}">
-    									<f:setPropertyActionListener value="#{profilController.actionEnum.addAction}" target="#{profilController.actionEnum.whatAction}" />
-    								</p:commandButton>
-    								<!-- <p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-    									immediate="true"
-    									action="#{managedAccess.goDisplayFunction}"/> -->
-    							</h:panelGroup>
-    						</div>
-    					</div>
-    					<p:dataTable var="beanProfil" value="#{profilController.beanProfileItems}"
-    						styleClass="displayInfo" alternateColors="false">
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
-    							</f:facet>
-    							<h:outputText value="#{beanProfil.profile.code}" />
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-    							</f:facet>
-    							<h:outputText value="#{beanProfil.profile.libelle}" />
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" />
-    							</f:facet>
-    							<p:selectOneMenu id="regimeInscription" readonly="true"
-    								value="#{beanProfil.profile.codeRI}">
-    								<f:selectItems value="#{nomenclatureController.regimeInscriptionsItems}"/>
-    							</p:selectOneMenu>
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.NB_USERS']}" />
-    							</f:facet>
-    							<h:outputText value="#{beanProfil.nbGest}" />
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
-    							</f:facet>
-    							<p:graphicImage url="/media/images/check2.gif" 
-    								rendered="#{beanProfil.profile.temoinEnService}"/>
-    							<p:graphicImage url="/media/images/check0.gif" 
-    								rendered="#{!beanProfil.profile.temoinEnService}"/>
-    						</p:column>
-    						<p:column styleClass="blockButton">
-    							<p:commandButton icon="ui-icon-search" 
-    								styleClass="form-button-image"
-    								immediate="true"
-    								action="#{profilController.goSeeProfil}"
-    								title="#{msgs['_.BUTTON.DISPLAY']}">
-    								<f:setPropertyActionListener value="#{beanProfil.profile}" target="#{profilController.profil}" />
-    							</p:commandButton>
-    						</p:column>
-    						<p:column styleClass="blockButton">
-    							<p:commandButton icon="ui-icon-pencil"
-    								immediate="true"
-    								rendered="#{managedAccess.updateAuthorized}"
-    								action="#{profilController.goEnterProfil}"
-    								styleClass="form-button-image" title="#{msgs['BUTTON.UPDATE']}" >
-    								<f:setPropertyActionListener value="#{profilController.actionEnum.updateAction}" target="#{profilController.actionEnum.whatAction}" />
-    								<f:setPropertyActionListener value="#{beanProfil.profile}" target="#{profilController.profil}" />
-    							</p:commandButton>
-    						</p:column>
-    						<p:column styleClass="blockButton">
-    							<p:commandButton icon="ui-icon-minus"
-    								styleClass="form-button-image"
-    								immediate="true"
-    								rendered="#{managedAccess.deleteAuthorized and beanProfil.nbGest == 0}"
-    								title="#{msgs['_.BUTTON.DELETE']}"
-    								ajax="false" >
-    								<f:setPropertyActionListener value="#{profilController.actionEnum.deleteAction}" target="#{profilController.actionEnum.whatAction}" />
-    								<f:setPropertyActionListener value="#{beanProfil.profile}" target="#{profilController.profil}" />
-    							</p:commandButton>
-    						</p:column>
-    					</p:dataTable>
-    				</div>
-    				<br />
-    				<br />
-    				<br />
-    			
-    		</div>
-    		</h:form>
-    	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
+                <p:outputPanel id="delete_panel">
+                    <ui:fragment
+                            rendered="#{profilController.actionEnum.whatAction == profilController.actionEnum.deleteAction}">
+                        <div id="div_subSectionDelete" class="div_subSection">
+                            <ui:include src="_delete/_deleteProfil.xhtml"/>
+                        </div>
+                    </ui:fragment>
+                </p:outputPanel>
+                <div id="div_subSection" class="div_subSection">
+                    <br/>
+                    <br/>
+                    <br/>
+
+                    <div id="blockFormInfo" class="blockForm">
+                        <div style="width:100%;">
+                            <div class="blockButton">
+                                <h:panelGroup>
+                                    <p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+                                                     immediate="true"
+                                                     rendered="#{managedAccess.addAuthorized}"
+                                                     action="#{profilController.goEnterProfil}">
+                                        <f:setPropertyActionListener value="#{profilController.actionEnum.addAction}"
+                                                                     target="#{profilController.actionEnum.whatAction}"/>
+                                    </p:commandButton>
+                                    <!-- <p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+                                        immediate="true"
+                                        action="#{managedAccess.goDisplayFunction}"/> -->
+                                </h:panelGroup>
+                            </div>
+                        </div>
+                        <p:dataTable var="beanProfil" value="#{profilController.beanProfileItems}"
+                                     styleClass="displayInfo" alternateColors="false">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>
+                                </f:facet>
+                                <h:outputText value="#{beanProfil.profile.code}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+                                </f:facet>
+                                <h:outputText value="#{beanProfil.profile.libelle}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"/>
+                                </f:facet>
+                                <p:selectOneMenu id="regimeInscription" readonly="true"
+                                                 value="#{beanProfil.profile.codeRI}">
+                                    <f:selectItems value="#{nomenclatureController.regimeInscriptionsItems}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.NB_USERS']}"/>
+                                </f:facet>
+                                <h:outputText value="#{beanProfil.nbGest}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}"/>
+                                </f:facet>
+                                <p:graphicImage url="/media/images/check2.gif"
+                                                rendered="#{beanProfil.profile.temoinEnService}"/>
+                                <p:graphicImage url="/media/images/check0.gif"
+                                                rendered="#{!beanProfil.profile.temoinEnService}"/>
+                            </p:column>
+                            <p:column styleClass="blockButton">
+                                <p:commandButton icon="ui-icon-search"
+                                                 styleClass="form-button-image"
+                                                 immediate="true"
+                                                 action="#{profilController.goSeeProfil}"
+                                                 title="#{msgs['_.BUTTON.DISPLAY']}">
+                                    <f:setPropertyActionListener value="#{beanProfil.profile}"
+                                                                 target="#{profilController.profil}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column styleClass="blockButton">
+                                <p:commandButton icon="ui-icon-pencil"
+                                                 immediate="true"
+                                                 rendered="#{managedAccess.updateAuthorized}"
+                                                 action="#{profilController.goEnterProfil}"
+                                                 styleClass="form-button-image" title="#{msgs['BUTTON.UPDATE']}">
+                                    <f:setPropertyActionListener value="#{profilController.actionEnum.updateAction}"
+                                                                 target="#{profilController.actionEnum.whatAction}"/>
+                                    <f:setPropertyActionListener value="#{beanProfil.profile}"
+                                                                 target="#{profilController.profil}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column styleClass="blockButton">
+                                <p:commandButton icon="ui-icon-minus"
+                                                 styleClass="form-button-image"
+                                                 immediate="true"
+                                                 rendered="#{managedAccess.deleteAuthorized and beanProfil.nbGest == 0}"
+                                                 title="#{msgs['_.BUTTON.DELETE']}"
+                                                 ajax="false">
+                                    <f:setPropertyActionListener value="#{profilController.actionEnum.deleteAction}"
+                                                                 target="#{profilController.actionEnum.whatAction}"/>
+                                    <f:setPropertyActionListener value="#{beanProfil.profile}"
+                                                                 target="#{profilController.profil}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+
+                </div>
+            </h:form>
+        </div>
+
+        <script type="text/javascript">
+            highlightChildrenLiTags('navigationHeader:navigation');
+            highlightChildrenLiTags('navigationFooter:navigation');
         </script>
     </ui:define>
 </ui:composition>

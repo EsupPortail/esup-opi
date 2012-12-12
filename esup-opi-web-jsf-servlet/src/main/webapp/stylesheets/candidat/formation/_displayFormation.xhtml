@@ -1,34 +1,36 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <div style="width:100%;">
-    	<h:outputText value="#{msgs['FORMATION.LIST_DIPLOMES']}" styleClass="section-smallTitle" />
+        <h:outputText value="#{msgs['FORMATION.LIST_DIPLOMES']}" styleClass="section-smallTitle"/>
     </div>
     <div id="blockFormVdi" class="blockForm">
-    	<ui:repeat var="versionDiplome" value="#{formationController.searchFormationPojo.versionDiplomes}" layout="unorderedList">
-    		<div>
+        <ui:repeat var="versionDiplome" value="#{formationController.searchFormationPojo.versionDiplomes}"
+                   layout="unorderedList">
+            <div>
                 <p:commandLink value="#{versionDiplome.libWebVdi}" styleClass="form-button-link"
-        				action="#{formationController.selectEtape}" partialSubmit="true" update="@form,:div_sectionSelectEtape,:div_sectionEtpEmpty">
-        			<f:setPropertyActionListener value="#{versionDiplome}" 
-        						target="#{formationController.searchFormationPojo.vrsDipSelected}" />
-        		</p:commandLink>
+                               action="#{formationController.selectEtape}" partialSubmit="true"
+                               update="@form,:div_sectionSelectEtape,:div_sectionEtpEmpty">
+                    <f:setPropertyActionListener value="#{versionDiplome}"
+                                                 target="#{formationController.searchFormationPojo.vrsDipSelected}"/>
+                </p:commandLink>
             </div>
-    	</ui:repeat>
-    	<ui:fragment id="div_sectionEtpEmpty"
-            rendered="#{empty formationController.searchFormationPojo.versionDiplomes and formationController.searchFormationPojo.versionDiplomes != null}">
-        	<div id="blockFormEtpEmpty" class="blockForm">
-        		<div class="blockTable">
-        			<h:outputText escape="false"
-        				rendered="#{!sessionController.currentInd.regimeInscription.displayInfoFC}"
-        				value="#{msgs['FORMATION.DIP.NOT_EXIST.IN_CMI']}" >
-        			</h:outputText>
-        			<h:outputText escape="false"
-        				rendered="#{sessionController.currentInd.regimeInscription.displayInfoFC}"
-        				value="#{msgs['FORMATION.DIP.NOT_EXIST.IN_CMI_FC']}" >
-        			</h:outputText>
-        		</div>
-        	</div>
+        </ui:repeat>
+        <ui:fragment id="div_sectionEtpEmpty"
+                     rendered="#{empty formationController.searchFormationPojo.versionDiplomes and formationController.searchFormationPojo.versionDiplomes != null}">
+            <div id="blockFormEtpEmpty" class="blockForm">
+                <div class="blockTable">
+                    <h:outputText escape="false"
+                                  rendered="#{!sessionController.currentInd.regimeInscription.displayInfoFC}"
+                                  value="#{msgs['FORMATION.DIP.NOT_EXIST.IN_CMI']}">
+                    </h:outputText>
+                    <h:outputText escape="false"
+                                  rendered="#{sessionController.currentInd.regimeInscription.displayInfoFC}"
+                                  value="#{msgs['FORMATION.DIP.NOT_EXIST.IN_CMI_FC']}">
+                    </h:outputText>
+                </div>
+            </div>
         </ui:fragment>
     </div>
 </ui:fragment>

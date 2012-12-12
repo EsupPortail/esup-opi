@@ -5,21 +5,11 @@
 package org.esupportail.opi.web.controllers;
 
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-
 import fj.F;
 import fj.P2;
 import fj.data.Option;
 import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.exceptions.ConfigException;
-import org.esupportail.commons.exceptions.UserNotFoundException;
 import org.esupportail.commons.services.exceptionHandling.ExceptionUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
@@ -36,11 +26,20 @@ import org.esupportail.opi.services.authentification.Authenticator;
 import org.esupportail.opi.web.beans.parameters.FormationInitiale;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
-import org.esupportail.opi.web.utils.NavigationRulesConst;
-import org.esupportail.opi.web.utils.Utilitaires;
+import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
+import org.esupportail.opi.web.beans.utils.Utilitaires;
+
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Date;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import static fj.data.Option.fromNull;
 import static fj.data.Option.fromString;
+import static org.esupportail.opi.web.beans.utils.Utilitaires.upperCaseFirstChar;
 
 
 /**
@@ -48,391 +47,387 @@ import static fj.data.Option.fromString;
  */
 public class SessionController extends AbstractDomainAwareBean {
 
-	/**
-	 * The serialization id.
-	 */
-	private static final long serialVersionUID = -5936434246704000653L;
+    /**
+     * The serialization id.
+     */
+    private static final long serialVersionUID = -5936434246704000653L;
 
-	/**
-	 * The name of the parameter that gives the logout URL service.
-	 */
-	private static final String LOGOUT_URL_PARAM_SERVICE = "edu.yale.its.tp.cas.client.logoutUrl.service";
+    /**
+     * The name of the parameter that gives the logout URL service.
+     */
+    private static final String LOGOUT_URL_PARAM_SERVICE = "edu.yale.its.tp.cas.client.logoutUrl.service";
 
-	/**
-	 * The name of the request attribute that holds the current individu.
-	 */
-	private static final String CURRENT_INDPOJO_ATTRIBUTE = SessionController.class.getName() + ".currentIndPojo";
+    /**
+     * The name of the request attribute that holds the current individu.
+     */
+    private static final String CURRENT_INDPOJO_ATTRIBUTE = SessionController.class.getName() + ".currentIndPojo";
 
-	/**
-	 * A logger.
-	 */
-	private final Logger log = new LoggerImpl(getClass());	
+    /**
+     * A logger.
+     */
+    private final Logger log = new LoggerImpl(getClass());
 
-	/**
-	 * The CAS logout URL.
-	 */
-	private String casLogoutUrl;
+    /**
+     * The CAS logout URL.
+     */
+    private String casLogoutUrl;
 
-	/**
-	 * The url to go after logout.
-	 */
-	private String serverNameUrl;
+    /**
+     * The url to go after logout.
+     */
+    private String serverNameUrl;
 
-	/**
-	 * a true si c'est un gestionnaire.
-	 * Default value false.
-	 */
-	private Boolean isManager;
+    /**
+     * a true si c'est un gestionnaire.
+     * Default value false.
+     */
+    private Boolean isManager;
 
-	/**
-	 * a true si c'est un gestionnaire qui peut modifier 
-	 * les donnees de l'etudiant traite.
-	 * Default value false.
-	 */
-	private Boolean canUpdateStudent;
-	
-	/**
-	 * a true si un le regime d'inscription peut être modifié 
-	 * Default value false.
-	 */
-	private Boolean canUpdateRI;
+    /**
+     * a true si c'est un gestionnaire qui peut modifier
+     * les donnees de l'etudiant traite.
+     * Default value false.
+     */
+    private Boolean canUpdateStudent;
 
-	/**
-	 * The student code.
-	 */
-	private String codEtu;
+    /**
+     * a true si un le regime d'inscription peut être modifié
+     * Default value false.
+     */
+    private Boolean canUpdateRI;
 
-	/**
-	 * At true if call in ENT.
-	 * Default value : false.
-	 */
-	private Boolean isInEnt;
-	
-	/**
-	 * The regime of inscription.
-	 */
-	private RegimeInscription regimeInsUser;
-	
-	/**
-	 * The exception controller (called when logging in/out).
-	 */
-	private ExceptionController exceptionController;
+    /**
+     * The student code.
+     */
+    private String codEtu;
 
-	/**
-	 * The authentication service.
-	 */
-	private Authenticator authenticator;
+    /**
+     * At true if call in ENT.
+     * Default value : false.
+     */
+    private Boolean isInEnt;
 
-	/**
-	 * 
-	 */
-	private boolean allViewPJ;
-	
+    /**
+     * The regime of inscription.
+     */
+    private RegimeInscription regimeInsUser;
 
-	/**
-	 * Constructor.
-	 */
-	public SessionController() {
-		super();
-	}
+    /**
+     * The exception controller (called when logging in/out).
+     */
+    private ExceptionController exceptionController;
 
-	/** 
-	 * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
-	 */
-	@Override
-	public void reset() {
-		canUpdateStudent = false;
-		canUpdateRI = getParameterService().isCampagnesFIAndFCEnServ();
-		isManager = false;
-		codEtu = null;
-		isInEnt = false;
-		regimeInsUser = getRegimeIns().get(FormationInitiale.CODE);
-	}
+    /**
+     * The authentication service.
+     */
+    private Authenticator authenticator;
+
+    /**
+     *
+     */
+    private boolean allViewPJ;
 
 
+    /**
+     * Constructor.
+     */
+    public SessionController() {
+        super();
+    }
 
-	/**
-	 * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#afterPropertiesSetInternal()
-	 */
-	@Override
-	public void afterPropertiesSetInternal() {
-		Assert.notNull(this.exceptionController, "property exceptionController of class " 
-				+ this.getClass().getName() + " can not be null");
-		Assert.notNull(this.authenticator, "property authenticator of class " 
-				+ this.getClass().getName() + " can not be null");
+    /**
+     * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
+     */
+    @Override
+    public void reset() {
+        canUpdateStudent = false;
+        canUpdateRI = getParameterService().isCampagnesFIAndFCEnServ();
+        isManager = false;
+        codEtu = null;
+        isInEnt = false;
+        regimeInsUser = getRegimeIns().get(FormationInitiale.CODE);
+    }
 
-	}
 
-	/**
-	 * @return the current user, or null if guest.
-	 */
-	@Override
-	public User getCurrentUser() {
-		return authenticator.getUser();
-	}
-	
-	
-	/**
-	 * Manager connect in the student space.
-	 * @return Gestionnaire
-	 */
-	public Gestionnaire getManager() {
-		return authenticator.getManager();
-	}
+    /**
+     * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#afterPropertiesSetInternal()
+     */
+    @Override
+    public void afterPropertiesSetInternal() {
+        Assert.notNull(this.exceptionController, "property exceptionController of class "
+                + this.getClass().getName() + " can not be null");
+        Assert.notNull(this.authenticator, "property authenticator of class "
+                + this.getClass().getName() + " can not be null");
 
-	/**
-	 * In ENT defined who is connect to redirect to good welcome page. 
-	 * @return String
-	 */
-	@RequestCache
-	public String getWhoIsConnectInPortlet() {
-		
-		User u = null;
-		String whoIsConnect = null;
+    }
+
+    /**
+     * @return the current user, or null if guest.
+     */
+    @Override
+    public User getCurrentUser() {
+        return authenticator.getUser();
+    }
+
+
+    /**
+     * Manager connect in the student space.
+     *
+     * @return Gestionnaire
+     */
+    public Gestionnaire getManager() {
+        return authenticator.getManager();
+    }
+
+    /**
+     * In ENT defined who is connect to redirect to good welcome page.
+     *
+     * @return String
+     */
+    @RequestCache
+    public String getWhoIsConnectInPortlet() {
+
+        User u = null;
+        String whoIsConnect = null;
 //		String currentUserId = authenticationService.getCurrentUserId();
 //		if (currentUserId == null) {
 //			return null;
 //		}
-		
-		//en portlet le currentUser peut etre un individu.
-		u = getCurrentUser();
-		if (u != null) {
-			if (u instanceof Gestionnaire) {
-				whoIsConnect = "manager";
-			} else if (u instanceof Individu) {
+
+        //en portlet le currentUser peut etre un individu.
+        u = getCurrentUser();
+        if (u != null) {
+            if (u instanceof Gestionnaire) {
+                whoIsConnect = "manager";
+            } else if (u instanceof Individu) {
 //				Individu i = (Individu) u;
 //				numDossier = i.getNumDossierOpi();
 //				dateNaissance = i.getDateNaissance();
-				whoIsConnect = "individu.exist";
-			}
-		} else {
-			if (authenticator.getAuthId() != null) {
-				codEtu = Utilitaires.getCheckCodEtu(authenticator.getAuthId(),
-						getDomainService().getCodStudentRegex(),
-						getDomainService().getCodStudentPattern());
-			}
-			//c'est un nouveau etudiant donc redirection vers search etu et affichage du son code etu.
-			whoIsConnect = "individu.not_exist";
-		}
-		if (log.isDebugEnabled()) {
-			log.debug("leaving getWhoIsConnectInPortlet return = " + whoIsConnect);
-		}
-		return whoIsConnect;
-	}
+                whoIsConnect = "individu.exist";
+            }
+        } else {
+            if (authenticator.getAuthId() != null) {
+                codEtu = Utilitaires.getCheckCodEtu(authenticator.getAuthId(),
+                        getDomainService().getCodStudentRegex(),
+                        getDomainService().getCodStudentPattern());
+            }
+            //c'est un nouveau etudiant donc redirection vers search etu et affichage du son code etu.
+            whoIsConnect = "individu.not_exist";
+        }
+        if (log.isDebugEnabled()) {
+            log.debug("leaving getWhoIsConnectInPortlet return = " + whoIsConnect);
+        }
+        return whoIsConnect;
+    }
 
 
-
-	/**
-	 * @return the current {@link IndividuPojo}
-	 */
-	@Override
-	public IndividuPojo getCurrentInd() {
-		if (ContextUtils.getSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE) == null) {
-			Individu individu = null;
-			User u = getCurrentUser();
-			if (u != null && u instanceof Individu) {
-				//individu = getDomainService().getIndividu(numDossier, dateNaissance);
-				individu = (Individu) u;
-			}
-			IndividuPojo indPojo = null;
-			if (individu != null) {
-				int codeRI = Utilitaires.getCodeRIIndividu(individu,
-						getDomainService());
-				RegimeInscription regime = getRegimeIns().get(codeRI);
-				//Test l etat de l'individu
-				individu = 
-					getDomainService().updateStateIndividu(
-							individu, authenticator.getManager()); 
-				//TODO : does it work without the following ?
-				//regime.getControlField());
-				indPojo = new IndividuPojo(
-						individu, getDomainApoService(),
-						getI18nService(), getParameterService(), 
-						getRegimeIns().get(Utilitaires.getCodeRIIndividu(individu,
-								getDomainService())), getParameterService().getTypeTraitements(),
-								getParameterService().getCalendarRdv(), null);
-			}
-			if (indPojo != null) { 
-				// put boolean for the management and rights of update
-				indPojo.setIsManager(isManager);
-				indPojo.setIsUpdaterOfThisStudent(canUpdateStudent);
-			}
-			resetSessionLocale();
-			ContextUtils.setSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE, indPojo);
-		}
-		return (IndividuPojo) ContextUtils.getRequestAttribute(CURRENT_INDPOJO_ATTRIBUTE);
-	}
-
-	
-	
-	/**
-	 * Initialize the current {@link IndividuPojo}
-	 * @param numeroDossier
-	 * @param dateDeNaissance
-	 * @param isManager 
-	 * @param canUpdateStudent 
-	 */
-	public void initCurrentInd(final String numeroDossier, final Date dateDeNaissance,
-			final Boolean isManager, final Boolean canUpdateStudent) {
-		User user = getCurrentUser();
-		if (user != null && user instanceof Gestionnaire) {
-			authenticator.storeManager(
-				(Gestionnaire) user, numeroDossier, dateDeNaissance);
-		} else {
-			authenticator.storeManager(null, numeroDossier, dateDeNaissance);
-		}
-		this.isManager = isManager;
-		this.canUpdateStudent = canUpdateStudent;
-		getCurrentInd();
-	}
+    /**
+     * @return the current {@link IndividuPojo}
+     */
+    @Override
+    public IndividuPojo getCurrentInd() {
+        if (ContextUtils.getSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE) == null) {
+            Individu individu = null;
+            User u = getCurrentUser();
+            if (u != null && u instanceof Individu) {
+                //individu = getDomainService().getIndividu(numDossier, dateNaissance);
+                individu = (Individu) u;
+            }
+            IndividuPojo indPojo = null;
+            if (individu != null) {
+                int codeRI = Utilitaires.getCodeRIIndividu(individu,
+                        getDomainService());
+                RegimeInscription regime = getRegimeIns().get(codeRI);
+                //Test l etat de l'individu
+                individu =
+                        getDomainService().updateStateIndividu(
+                                individu, authenticator.getManager());
+                //TODO : does it work without the following ?
+                //regime.getControlField());
+                indPojo = new IndividuPojo(
+                        individu, getDomainApoService(),
+                        getI18nService(), getParameterService(),
+                        getRegimeIns().get(Utilitaires.getCodeRIIndividu(individu,
+                                getDomainService())), getParameterService().getTypeTraitements(),
+                        getParameterService().getCalendarRdv(), null);
+            }
+            if (indPojo != null) {
+                // put boolean for the management and rights of update
+                indPojo.setIsManager(isManager);
+                indPojo.setIsUpdaterOfThisStudent(canUpdateStudent);
+            }
+            resetSessionLocale();
+            ContextUtils.setSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE, indPojo);
+        }
+        return (IndividuPojo) ContextUtils.getSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE);
+    }
 
 
+    /**
+     * Initialize the current {@link IndividuPojo}
+     *
+     * @param numeroDossier
+     * @param dateDeNaissance
+     * @param isManager
+     * @param canUpdateStudent
+     */
+    public void initCurrentInd(final String numeroDossier, final Date dateDeNaissance,
+                               final Boolean isManager, final Boolean canUpdateStudent) {
+        User user = getCurrentUser();
+        if (user != null && user instanceof Gestionnaire) {
+            authenticator.storeManager(
+                    (Gestionnaire) user, numeroDossier, dateDeNaissance);
+        } else {
+            authenticator.storeManager(null, numeroDossier, dateDeNaissance);
+        }
+        this.isManager = isManager;
+        this.canUpdateStudent = canUpdateStudent;
+        getCurrentInd();
+    }
 
 
-	/**
-	 * True is in servlet mode.
-	 * @return boolean
-	 */
-	public boolean getIsServlet() {
-		if (isInEnt) {
-			return false;
-		}
-		return ContextUtils.isServlet();
-	}
+    /**
+     * True is in servlet mode.
+     *
+     * @return boolean
+     */
+    public boolean getIsServlet() {
+        if (isInEnt) {
+            return false;
+        }
+        return ContextUtils.isServlet();
+    }
 
-	/**
-	 * @return a debug String.
-	 */
-	public String getDebug() {
-		return toString();
-	}
+    /**
+     * @return a debug String.
+     */
+    public String getDebug() {
+        return toString();
+    }
 
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return getClass().getName() + "#" + hashCode();
-	}
-
-
-
-	/**
-	 * JSF callback.
-	 * @return a String.
-	 * @throws IOException 
-	 */
-	public String logoutGest() throws IOException {
-		if (ContextUtils.isPortlet()) {
-			throw new UnsupportedOperationException("logoutGest() should not be called in portlet mode.");
-		}
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		ExternalContext externalContext = facesContext.getExternalContext();
-		HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
-		Assert.hasText(casLogoutUrl, 
-				"property casLogoutUrl of class " + getClass().getName() + " is null");
-		Assert.hasText(serverNameUrl, 
-				"property serverNameUrl of class " + getClass().getName() + " is null");
-		String forwardUrl = String.format(casLogoutUrl, StringUtils.utf8UrlEncode(serverNameUrl));
-		// note: the session beans will be kept even when invalidating 
-		// the session so they have to be reset (by the exception controller).
-		// We invalidate the session however for the other attributes.
-		request.getSession().invalidate();
-		request.getSession(true);
-		// calling this method will reset all the beans of the application
-		externalContext.redirect(forwardUrl);
-		facesContext.responseComplete();
-		return null;
-	}
-
-	/**
-	 * JSF callback.
-	 * Disconnect an individu.
-	 * @return a String.
-	 */
-	public String logoutInd() {
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		ExternalContext externalContext = facesContext.getExternalContext();
-		HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
-		// We invalidate the session however for the other attributes.
-		request.getSession().invalidate();
-		request.getSession(true);
-		// calling this method will reset all the beans of the application
-		exceptionController.restart();
-		facesContext.responseComplete();
-
-		return NavigationRulesConst.APPLI_RESTART;
-	}
-	/**
-	 * Call Back to WelcomeManager when a manager is consulting an individu.
-	 * @return a String
-	 */
-	public String goBackManager() {
-		// Reinitialise  null pour getCurrentID()
-		Boolean isEnt = isInEnt;
-		reset();
-		authenticator.storeManager(null, null, null);
-		isInEnt = isEnt;
-		return NavigationRulesConst.WELCOME_MANAGER;
-	}
-
-	
-	
-	
-	
-	
-	/**
-	 * JSF callback.
-	 * @return a String.
-	 */
-	public String restart() {
-		Map<String, Resettable> resettables = BeanUtils.getBeansOfClass(Resettable.class);
-		Boolean isManagerConnect = true;
-		Boolean isEnt = isInEnt;
-		if (getCurrentUser() == null && getCurrentInd() != null) {
-			isManagerConnect = false;
-		}
-		for (Entry<String, Resettable> nameEntry : resettables.entrySet()) {
-			String name = nameEntry.getKey();
-			if (log.isDebugEnabled()) {
-				log.debug("trying to reset bean [" + name + "]...");
-			}
-			Object bean = nameEntry.getValue();
-			if (bean == null) {
-				throw new ConfigException("bean [" + name 
-						+ "] is null, " 
-						+ "application can not be restarted.");
-			}
-			if (!(bean instanceof Resettable)) {
-				throw new ConfigException("bean [" + name 
-						+ "] does not implement Resettable, " 
-						+ "application can not be restarted.");
-			}
-			((Resettable) bean).reset();
-			if (log.isDebugEnabled()) {
-				log.debug("bean [" + name + "] was reset.");
-			}
-		}
-		ExceptionUtils.unmarkExceptionCaught();
-		isInEnt = isEnt;
-		if (isInEnt && isManagerConnect) {
-			return NavigationRulesConst.WELCOME_MANAGER;
-		} else if (isInEnt && !isManagerConnect) {
-			return NavigationRulesConst.ACCUEIL_CANDIDAT;
-		}
-		return "applicationRestarted";
-	}
-	
-	
-	
-	
+    /**
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return getClass().getName() + "#" + hashCode();
+    }
 
 
-	/**
-	 * Return the diplayName of current user.
-	 * @return String
-	 */
-	public String getCurrentDisplayName() {
+    /**
+     * JSF callback.
+     *
+     * @return a String.
+     * @throws IOException
+     */
+    public String logoutGest() throws IOException {
+        if (ContextUtils.isPortlet()) {
+            throw new UnsupportedOperationException("logoutGest() should not be called in portlet mode.");
+        }
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+        Assert.hasText(casLogoutUrl,
+                "property casLogoutUrl of class " + getClass().getName() + " is null");
+        Assert.hasText(serverNameUrl,
+                "property serverNameUrl of class " + getClass().getName() + " is null");
+        String forwardUrl = String.format(casLogoutUrl, StringUtils.utf8UrlEncode(serverNameUrl));
+        // note: the session beans will be kept even when invalidating
+        // the session so they have to be reset (by the exception controller).
+        // We invalidate the session however for the other attributes.
+        request.getSession().invalidate();
+        request.getSession(true);
+        // calling this method will reset all the beans of the application
+        externalContext.redirect(forwardUrl);
+        facesContext.responseComplete();
+        return null;
+    }
+
+    /**
+     * JSF callback.
+     * Disconnect an individu.
+     *
+     * @return a String.
+     */
+    public String logoutInd() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+        // We invalidate the session however for the other attributes.
+        request.getSession().invalidate();
+        request.getSession(true);
+        // calling this method will reset all the beans of the application
+        exceptionController.restart();
+        facesContext.responseComplete();
+
+        return NavigationRulesConst.APPLI_RESTART;
+    }
+
+    /**
+     * Call Back to WelcomeManager when a manager is consulting an individu.
+     *
+     * @return a String
+     */
+    public String goBackManager() {
+        // Reinitialise  null pour getCurrentID()
+        Boolean isEnt = isInEnt;
+        reset();
+        authenticator.storeManager(null, null, null);
+        isInEnt = isEnt;
+        return NavigationRulesConst.WELCOME_MANAGER;
+    }
+
+
+    /**
+     * JSF callback.
+     *
+     * @return a String.
+     */
+    public String restart() {
+        Map<String, Resettable> resettables = BeanUtils.getBeansOfClass(Resettable.class);
+        Boolean isManagerConnect = true;
+        Boolean isEnt = isInEnt;
+        if (getCurrentUser() == null && getCurrentInd() != null) {
+            isManagerConnect = false;
+        }
+        for (Entry<String, Resettable> nameEntry : resettables.entrySet()) {
+            String name = nameEntry.getKey();
+            if (log.isDebugEnabled()) {
+                log.debug("trying to reset bean [" + name + "]...");
+            }
+            Object bean = nameEntry.getValue();
+            if (bean == null) {
+                throw new ConfigException("bean [" + name
+                        + "] is null, "
+                        + "application can not be restarted.");
+            }
+            if (!(bean instanceof Resettable)) {
+                throw new ConfigException("bean [" + name
+                        + "] does not implement Resettable, "
+                        + "application can not be restarted.");
+            }
+            ((Resettable) bean).reset();
+            if (log.isDebugEnabled()) {
+                log.debug("bean [" + name + "] was reset.");
+            }
+        }
+        ExceptionUtils.unmarkExceptionCaught();
+        isInEnt = isEnt;
+        if (isInEnt && isManagerConnect) {
+            return NavigationRulesConst.WELCOME_MANAGER;
+        } else if (isInEnt && !isManagerConnect) {
+            return NavigationRulesConst.ACCUEIL_CANDIDAT;
+        }
+        return "applicationRestarted";
+    }
+
+
+    /**
+     * Return the diplayName of current user.
+     *
+     * @return String
+     */
+    public String getCurrentDisplayName() {
         return fromNull(getCurrentUser()).bind(new F<User, Option<String>>() {
             public Option<String> f(User user) {
                 return fromString(user.getPrenom()).bindProduct(
@@ -440,150 +435,129 @@ public class SessionController extends AbstractDomainAwareBean {
                                 fromString(user.getNomUsuel()))).map(
                         new F<P2<String, String>, String>() {
                             public String f(P2<String, String> tupleStr) {
-                                return tupleStr._1() + " " + tupleStr._2();
+                                return upperCaseFirstChar(tupleStr._1(), true) + " " +
+                                        upperCaseFirstChar(tupleStr._2(), true);
                             }
                         });
             }
         }).orSome("Unknown User");
-
-//        return fromNull(getCurrentUser()).map(new F<User, String>() {
-//            public String f(User user) {
-//                return Utilitaires.upperCaseFirstChar(user.getPrenom(), true) + " "
-//                        + Utilitaires.upperCaseFirstChar(user.getNomPatronymique(), true);
-//            }}).orSome("");
-//
-//		String disp = "";
-//		try {
-//		if (getCurrentInd() != null) {
-//			Individu i = getCurrentInd().getIndividu();
-//			disp = Utilitaires.upperCaseFirstChar(i.getPrenom(), true) + " "
-//			+ Utilitaires.upperCaseFirstChar(i.getNomPatronymique(), true);
-//		} else if (getCurrentUser() != null) {
-//			Gestionnaire g = (Gestionnaire) getCurrentUser();
-//			disp = g.getDisplayName();
-//		}
-//		} catch (UserNotFoundException e) {
-//			log.warn("don't display name because UserNotFoundException");
-//		}
-//		return disp;
-	}
+    }
 
 
-	/** 
-	 * @see org.esupportail.commons.beans.AbstractI18nAwareBean#getTimezone()
-	 */
-	@Override
-	public String getTimezone() {
-		return super.getTimezone();
-	}
+    /**
+     * @see org.esupportail.commons.beans.AbstractI18nAwareBean#getTimezone()
+     */
+    @Override
+    public String getTimezone() {
+        return super.getTimezone();
+    }
 
-	/**
-	 * @param exceptionController the exceptionController to set
-	 */
-	public void setExceptionController(final ExceptionController exceptionController) {
-		this.exceptionController = exceptionController;
-	}
+    /**
+     * @param exceptionController the exceptionController to set
+     */
+    public void setExceptionController(final ExceptionController exceptionController) {
+        this.exceptionController = exceptionController;
+    }
 
 
-	/**
-	 * @return the authenticator
-	 */
-	public Authenticator getAuthenticator() {
-		return authenticator;
-	}
+    /**
+     * @return the authenticator
+     */
+    public Authenticator getAuthenticator() {
+        return authenticator;
+    }
 
-	/**
-	 * @param authenticator the authenticator to set
-	 */
-	public void setAuthenticator(final Authenticator authenticator) {
-		this.authenticator = authenticator;
-	}
+    /**
+     * @param authenticator the authenticator to set
+     */
+    public void setAuthenticator(final Authenticator authenticator) {
+        this.authenticator = authenticator;
+    }
 
-	/**
-	 * @return the codEtu
-	 */
-	public String getCodEtu() {
-		return codEtu;
-	}
+    /**
+     * @return the codEtu
+     */
+    public String getCodEtu() {
+        return codEtu;
+    }
 
-	/**
-	 * @param codEtu the codEtu to set
-	 */
-	public void setCodEtu(final String codEtu) {
-		this.codEtu = codEtu;
-	}
+    /**
+     * @param codEtu the codEtu to set
+     */
+    public void setCodEtu(final String codEtu) {
+        this.codEtu = codEtu;
+    }
 
-	/**
-	 * @return the isInEnt
-	 */
-	public Boolean getIsInEnt() {
-		return isInEnt;
-	}
+    /**
+     * @return the isInEnt
+     */
+    public Boolean getIsInEnt() {
+        return isInEnt;
+    }
 
-	/**
-	 * @param isInEnt the isInEnt to set
-	 */
-	public void setIsInEnt(final Boolean isInEnt) {
-		this.isInEnt = isInEnt;
-	}
+    /**
+     * @param isInEnt the isInEnt to set
+     */
+    public void setIsInEnt(final Boolean isInEnt) {
+        this.isInEnt = isInEnt;
+    }
 
-	/**
-	 * @param casLogoutUrl the casLogoutUrl to set
-	 */
-	public void setCasLogoutUrl(final String casLogoutUrl) {
-		this.casLogoutUrl = casLogoutUrl;
-	}
+    /**
+     * @param casLogoutUrl the casLogoutUrl to set
+     */
+    public void setCasLogoutUrl(final String casLogoutUrl) {
+        this.casLogoutUrl = casLogoutUrl;
+    }
 
-	/**
-	 * @param serverNameUrl the serverNameUrl to set
-	 */
-	public void setServerNameUrl(String serverNameUrl) {
-		this.serverNameUrl = serverNameUrl;
-	}
+    /**
+     * @param serverNameUrl the serverNameUrl to set
+     */
+    public void setServerNameUrl(String serverNameUrl) {
+        this.serverNameUrl = serverNameUrl;
+    }
 
-	/**
-	 * @return the regimeInsUser
-	 */
-	public RegimeInscription getRegimeInsUser() {
-		return regimeInsUser;
-	}
+    /**
+     * @return the regimeInsUser
+     */
+    public RegimeInscription getRegimeInsUser() {
+        return regimeInsUser;
+    }
 
-	/**
-	 * @param regimeInsUser the regimeInsUser to set
-	 */
-	public void setRegimeInsUser(final RegimeInscription regimeInsUser) {
-		this.regimeInsUser = regimeInsUser;
-	}
-	
-	/**
-	 * @return allViewPJ
-	 */
-	public boolean isAllViewPJ() {
-		return allViewPJ;
-	}
-	/**
-	 * @param allViewPJ
-	 */
-	public void setAllViewPJ(final boolean allViewPJ) {
-		this.allViewPJ = allViewPJ;
-	}
+    /**
+     * @param regimeInsUser the regimeInsUser to set
+     */
+    public void setRegimeInsUser(final RegimeInscription regimeInsUser) {
+        this.regimeInsUser = regimeInsUser;
+    }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public Boolean getCanUpdateRI() {
-		return canUpdateRI;
-	}
+    /**
+     * @return allViewPJ
+     */
+    public boolean isAllViewPJ() {
+        return allViewPJ;
+    }
 
-	/**
-	 * 
-	 * @param canUpdateRI
-	 */
-	public void setCanUpdateRI(Boolean canUpdateRI) {
-		this.canUpdateRI = canUpdateRI;
-	}
-	
-	
+    /**
+     * @param allViewPJ
+     */
+    public void setAllViewPJ(final boolean allViewPJ) {
+        this.allViewPJ = allViewPJ;
+    }
+
+    /**
+     * @return
+     */
+    public Boolean getCanUpdateRI() {
+        return canUpdateRI;
+    }
+
+    /**
+     * @param canUpdateRI
+     */
+    public void setCanUpdateRI(Boolean canUpdateRI) {
+        this.canUpdateRI = canUpdateRI;
+    }
+
+
 }
 

@@ -1,8 +1,8 @@
 package org.esupportail.opi.web.beans.pojo;
 
-import java.util.List;
-
 import org.esupportail.opi.domain.beans.parameters.Campagne;
+
+import java.util.List;
 
 /**
  * @author root

@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<beans 
-	xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
-	>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+        >
 
-	<!-- 
-		/properties/exceptionHandling/exceptionHandling.xml
-		The configuration file for domain services.
-		This file is referenced by /properties/applicationContext.xml.
-	-->
+    <!--
+        /properties/exceptionHandling/exceptionHandling.xml
+        The configuration file for domain services.
+        This file is referenced by /properties/applicationContext.xml.
+    -->
 
-	<bean 
-		id="exceptionServiceFactory" 
-		class="org.esupportail.commons.services.exceptionHandling.CachingEmailExceptionServiceFactoryImpl"
-		parent="abstractApplicationAwareBean"
-		>
-		<property name="authenticationService" ref="servletAuthenticationService" />
-		<property name="smtpService" ref="smtpService" />
-		<property name="recipientEmail" value="${exceptionHandling.email}" />
-		<property name="exceptionViews" >
-			<map>
-                <entry key="java.lang.OutOfMemoryError" value="/stylesheets/outOfMemoryException.jsp" />
-                <entry key="javax.faces.application.ViewExpiredException" value="/stylesheets/welcome.xhtml" />
-<!-- 				<entry key="org.esupportail.commons.services.application.UninitializedDatabaseException" value="/stylesheets/uninitializedDatabaseException.jsp" /> -->
-<!-- 				<entry key="org.esupportail.commons.services.application.VersionException" value="/stylesheets/versionException.jsp" /> -->
-<!-- 				<entry key="org.esupportail.commons.exceptions.WebFlowException" value="/stylesheets/webFlowException.jsp" /> -->
-<!-- 				<entry key="org.esupportail.commons.exceptions.ConfigException" value="/stylesheets/configException.jsp" /> -->
-<!-- 				<entry key="org.esupportail.commons.services.ldap.LdapConnectionException" value="/stylesheets/ldapException.jsp" /> -->
-<!-- 				<entry key="com.mysql.jdbc.CommunicationsException" value="/stylesheets/databaseException.jsp" /> -->
-<!-- 				<entry key="com.mchange.v2.resourcepool.CannotAcquireResourceException" value="/stylesheets/databaseException.jsp" /> -->
-<!-- 				<entry key="org.esupportail.commons.exceptions.UserNotFoundException" value="/stylesheets/exception/userNotFoundException.jsp" /> -->
-<!-- 				<entry key="fr.univ.rennes1.cri.opiR1.exceptions.CommunicationApogeeException" value="/stylesheets/exception/communicationApogeeException.jsp" /> -->
-<!-- 				<entry key="java.lang.Exception" value="/stylesheets/exception/exception_views.jsp" /> -->
-<!-- 				<entry key="fr.univ.rennes1.cri.opiR1.exceptions.ExportException" value="/stylesheets/exception/exportException.jsp" /> -->
-			</map>
-		</property>
-		<property name="noEmailExceptions" >
-			<list>
+    <bean
+            id="exceptionServiceFactory"
+            class="org.esupportail.commons.services.exceptionHandling.CachingEmailExceptionServiceFactoryImpl"
+            parent="abstractApplicationAwareBean"
+            >
+        <property name="authenticationService" ref="servletAuthenticationService"/>
+        <property name="smtpService" ref="smtpService"/>
+        <property name="recipientEmail" value="${exceptionHandling.email}"/>
+        <property name="exceptionViews">
+            <map>
+                <entry key="java.lang.OutOfMemoryError" value="/stylesheets/outOfMemoryException.jsp"/>
+                <entry key="javax.faces.application.ViewExpiredException" value="/stylesheets/welcome.xhtml"/>
+                <!-- 				<entry key="org.esupportail.commons.services.application.UninitializedDatabaseException" value="/stylesheets/uninitializedDatabaseException.jsp" /> -->
+                <!-- 				<entry key="org.esupportail.commons.services.application.VersionException" value="/stylesheets/versionException.jsp" /> -->
+                <!-- 				<entry key="org.esupportail.commons.exceptions.WebFlowException" value="/stylesheets/webFlowException.jsp" /> -->
+                <!-- 				<entry key="org.esupportail.commons.exceptions.ConfigException" value="/stylesheets/configException.jsp" /> -->
+                <!-- 				<entry key="org.esupportail.commons.services.ldap.LdapConnectionException" value="/stylesheets/ldapException.jsp" /> -->
+                <!-- 				<entry key="com.mysql.jdbc.CommunicationsException" value="/stylesheets/databaseException.jsp" /> -->
+                <!-- 				<entry key="com.mchange.v2.resourcepool.CannotAcquireResourceException" value="/stylesheets/databaseException.jsp" /> -->
+                <!-- 				<entry key="org.esupportail.commons.exceptions.UserNotFoundException" value="/stylesheets/exception/userNotFoundException.jsp" /> -->
+                <!-- 				<entry key="fr.univ.rennes1.cri.opiR1.exceptions.CommunicationApogeeException" value="/stylesheets/exception/communicationApogeeException.jsp" /> -->
+                <!-- 				<entry key="java.lang.Exception" value="/stylesheets/exception/exception_views.jsp" /> -->
+                <!-- 				<entry key="fr.univ.rennes1.cri.opiR1.exceptions.ExportException" value="/stylesheets/exception/exportException.jsp" /> -->
+            </map>
+        </property>
+        <property name="noEmailExceptions">
+            <list>
                 <value>javax.faces.application.ViewExpiredException</value>
                 <value>org.esupportail.commons.services.ldap.LdapConnectionException</value>
-				<value>org.esupportail.commons.exceptions.UserNotFoundException</value>
-			</list>
-		</property>
-		<property name="cacheManager" ref="cacheManager" />
-		<property name="logLevel" value="${exceptionHandling.logLevel}" />
-	</bean>
+                <value>org.esupportail.commons.exceptions.UserNotFoundException</value>
+            </list>
+        </property>
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="logLevel" value="${exceptionHandling.logLevel}"/>
+    </bean>
 
 </beans>

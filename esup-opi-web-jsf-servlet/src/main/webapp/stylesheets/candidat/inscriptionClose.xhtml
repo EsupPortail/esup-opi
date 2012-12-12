@@ -1,56 +1,59 @@
-<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+<ui:composition
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui"
         template="/stylesheets/template.xhtml">
     <ui:define name="content">
-    	<ui:include src="../_include/_headerException.jsp" />	
-    	<div id="maPage" class="div_body">
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    		<h:form id="exceptionForm" styleClass="opiR1_form">
-    			<br />
-    			<br />
-    			<br />
-    			<br />
-    			<div style="padding-left:25%;">
-    				<div class="blockTable" style="width:60%;">
-    					<br />
-    					<br />
-    					<br />
-    					<div id="div_subSection" class="div_subSection">
-    						<div style="text-align:center;">
-    								<h:outputText value="#{msgs['CALENDAR.INS.CLOSE']} :" styleClass="form-field-label" 
-    										style="font-size:18px;"/>
-    						</div>
-    						<div style="text-align:center;">
-    							<h:outputText value="#{msgs['CALENDAR.INS.CLOSE.DESC']}" style="font-size:22px;" />
-    						</div>
-    					</div>
-    					<br />
-    					<br />
-    					<br />
-    				</div>
-    			</div>
-    			<br />
-    			<br />
-    			<br />
-    			<br />
-    		</h:form>
-    		<br />
-    		<div class="blockImportant">
-    			<h:panelGrid columns="2" columnClasses="image,text">
-    				<p:graphicImage url="/media/images/important.png" />
-    				<h:outputText value="#{msgs['CALENDAR.INS.CLOSE.DESC']}" />
-    			</h:panelGrid>
-    		</div>
-    		<br />
-    	</div>
-    	
-    	<script type="text/javascript">	
-    		highlightChildrenLiTags('navigationHeader:navigation');
-    		highlightChildrenLiTags('navigationFooter:navigation');
-    	</script>
+        <ui:include src="../_include/_headerException.jsp"/>
+        <div id="maPage" class="div_body">
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
+            <h:form id="exceptionForm" styleClass="opiR1_form">
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+
+                <div style="padding-left:25%;">
+                    <div class="blockTable" style="width:60%;">
+                        <br/>
+                        <br/>
+                        <br/>
+
+                        <div id="div_subSection" class="div_subSection">
+                            <div style="text-align:center;">
+                                <h:outputText value="#{msgs['CALENDAR.INS.CLOSE']} :" styleClass="form-field-label"
+                                              style="font-size:18px;"/>
+                            </div>
+                            <div style="text-align:center;">
+                                <h:outputText value="#{msgs['CALENDAR.INS.CLOSE.DESC']}" style="font-size:22px;"/>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+                        <br/>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+            </h:form>
+            <br/>
+
+            <div class="blockImportant">
+                <h:panelGrid columns="2" columnClasses="image,text">
+                    <p:graphicImage url="/media/images/important.png"/>
+                    <h:outputText value="#{msgs['CALENDAR.INS.CLOSE.DESC']}"/>
+                </h:panelGrid>
+            </div>
+            <br/>
+        </div>
+
+        <script type="text/javascript">
+            highlightChildrenLiTags('navigationHeader:navigation');
+            highlightChildrenLiTags('navigationFooter:navigation');
+        </script>
     </ui:define>
 </ui:composition>

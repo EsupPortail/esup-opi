@@ -1,124 +1,127 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:t="http://myfaces.apache.org/tomahawk"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:t="http://myfaces.apache.org/tomahawk"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	
-    	
-    	<div id="maPage" class="div_body">
-    		<h1>
+
+
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{msgs['PJ.IS_FOR_VET.MANAGED']}" />
+                    <h:outputText value="#{msgs['PJ.IS_FOR_VET.MANAGED']}"/>
                 </span>
             </h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="seePJForm">
-    				<br />
-    				<br />
-    				<br />
-    				<div id="blockFormButton" class="blockForm">
-    					<!-- <div class="blockButton">
-    						<h:panelGroup>
-    							<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-    									immediate="true"
-    									action="#{managedAccess.goDisplayFunction}"/>
-    						</h:panelGroup>
-    					</div> -->
-    					
-    					<p:dataTable var="nomenclaturePojo" value="#{nomenclatureController.pieceJustificativesItems}"
-    						styleClass="displayInfo" alternateColors="false">
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
-    							</f:facet>
-    							<h:outputText value="#{nomenclaturePojo.nomenclature.code}" />
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-    							</f:facet>
-    							<h:outputText value="#{nomenclaturePojo.shortLabel}" />
-    							<t:popup styleClass="containerPopup" style="width:350px;"
-    								closePopupOnExitingElement="true"
-    								closePopupOnExitingPopup="true" displayAtDistanceX="-50"
-    								displayAtDistanceY="0"
-    								rendered="#{nomenclaturePojo.isShortLabel}">
-    								<p:graphicImage url="/media/images/informationSmall.png"
-    									style="cursor:pointer;" />
-    								<f:facet name="popup">
-    									<h:panelGroup>
-    										<h:panelGrid columns="1">
-    											<h:outputText styleClass="titrePopupAide"
-    												value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-    											<h:outputText styleClass="libellesAide"
-    												value="#{nomenclaturePojo.nomenclature.libelle}" />
-    										</h:panelGrid>
-    									</h:panelGroup>
-    								</f:facet>
-    							</t:popup>
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['PJ.IS_FOR_ALL_VET']}" />
-    							</f:facet>
-    							<p:graphicImage url="/media/images/check2.gif" 
-    								rendered="#{nomenclaturePojo.nomenclature.isForAllVet
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
+
+            <div id="div_subSection" class="div_subSection">
+                <h:form id="seePJForm">
+                    <br/>
+                    <br/>
+                    <br/>
+
+                    <div id="blockFormButton" class="blockForm">
+                        <!-- <div class="blockButton">
+                            <h:panelGroup>
+                                <p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+                                        immediate="true"
+                                        action="#{managedAccess.goDisplayFunction}"/>
+                            </h:panelGroup>
+                        </div> -->
+
+                        <p:dataTable var="nomenclaturePojo" value="#{nomenclatureController.pieceJustificativesItems}"
+                                     styleClass="displayInfo" alternateColors="false">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>
+                                </f:facet>
+                                <h:outputText value="#{nomenclaturePojo.nomenclature.code}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+                                </f:facet>
+                                <h:outputText value="#{nomenclaturePojo.shortLabel}"/>
+                                <t:popup styleClass="containerPopup" style="width:350px;"
+                                         closePopupOnExitingElement="true"
+                                         closePopupOnExitingPopup="true" displayAtDistanceX="-50"
+                                         displayAtDistanceY="0"
+                                         rendered="#{nomenclaturePojo.isShortLabel}">
+                                    <p:graphicImage url="/media/images/informationSmall.png"
+                                                    style="cursor:pointer;"/>
+                                    <f:facet name="popup">
+                                        <h:panelGroup>
+                                            <h:panelGrid columns="1">
+                                                <h:outputText styleClass="titrePopupAide"
+                                                              value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+                                                <h:outputText styleClass="libellesAide"
+                                                              value="#{nomenclaturePojo.nomenclature.libelle}"/>
+                                            </h:panelGrid>
+                                        </h:panelGroup>
+                                    </f:facet>
+                                </t:popup>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['PJ.IS_FOR_ALL_VET']}"/>
+                                </f:facet>
+                                <p:graphicImage url="/media/images/check2.gif"
+                                                rendered="#{nomenclaturePojo.nomenclature.isForAllVet
     								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
-    							<p:graphicImage url="/media/images/check0.gif" 
-    								rendered="#{!nomenclaturePojo.nomenclature.isForAllVet
+                                <p:graphicImage url="/media/images/check0.gif"
+                                                rendered="#{!nomenclaturePojo.nomenclature.isForAllVet
     								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" />
-    							</f:facet>
-    							<h:outputText value="#{nomenclaturePojo.regimeInscription.label}"/>
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
-    							</f:facet>
-    							<p:graphicImage url="/media/images/check2.gif" 
-    								rendered="#{nomenclaturePojo.nomenclature.temoinEnService
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"/>
+                                </f:facet>
+                                <h:outputText value="#{nomenclaturePojo.regimeInscription.label}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}"/>
+                                </f:facet>
+                                <p:graphicImage url="/media/images/check2.gif"
+                                                rendered="#{nomenclaturePojo.nomenclature.temoinEnService
     								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
-    							<p:graphicImage url="/media/images/check0.gif" 
-    								rendered="#{!nomenclaturePojo.nomenclature.temoinEnService
+                                <p:graphicImage url="/media/images/check0.gif"
+                                                rendered="#{!nomenclaturePojo.nomenclature.temoinEnService
     								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
-    						</p:column>
-    						<p:column styleClass="buttonTD">
-    							<p:commandButton icon="ui-icon-search"
-    								styleClass="form-button-image" immediate="true"
-    								action="#{nomenclatureController.goSeeAffectPJ}"
-    								title="#{msgs['_.BUTTON.DISPLAY']}"
-    								rendered="#{!nomenclaturePojo.nomenclature.isForAllVet}"
-    								ajax="false">
-    								<f:setPropertyActionListener value="#{nomenclatureController.actionEnum.readAction}" target="#{nomenclatureController.actionEnum.whatAction}" />
-    								<f:setPropertyActionListener value="#{nomenclaturePojo.nomenclature}" target="#{nomenclatureController.nomenclature}" />
-    							</p:commandButton>
-    						</p:column>
-    					</p:dataTable>
-    					
-    				</div>
-    				<br />
-    				<br />
-    				<br />
-    			</h:form>
-    		</div>
-    	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
+                            </p:column>
+                            <p:column styleClass="buttonTD">
+                                <p:commandButton icon="ui-icon-search"
+                                                 styleClass="form-button-image" immediate="true"
+                                                 action="#{nomenclatureController.goSeeAffectPJ}"
+                                                 title="#{msgs['_.BUTTON.DISPLAY']}"
+                                                 rendered="#{!nomenclaturePojo.nomenclature.isForAllVet}"
+                                                 ajax="false">
+                                    <f:setPropertyActionListener value="#{nomenclatureController.actionEnum.readAction}"
+                                                                 target="#{nomenclatureController.actionEnum.whatAction}"/>
+                                    <f:setPropertyActionListener value="#{nomenclaturePojo.nomenclature}"
+                                                                 target="#{nomenclatureController.nomenclature}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                </h:form>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            highlightChildrenLiTags('navigationHeader:navigation');
+            highlightChildrenLiTags('navigationFooter:navigation');
         </script>
     </ui:define>
 </ui:composition>

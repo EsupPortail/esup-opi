@@ -8,15 +8,6 @@
  */
 package org.esupportail.opi.web.beans.pojo;
 
-import static fj.data.Stream.iterableStream;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
 import fj.F;
 import fj.data.Stream;
 import org.apache.commons.beanutils.BeanComparator;
@@ -46,12 +37,16 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.beans.user.indcursus.QualifNonDiplomante;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
-import org.esupportail.opi.web.utils.Utilitaires;
-import org.esupportail.opi.web.utils.comparator.ComparatorString;
+import org.esupportail.opi.web.beans.utils.Utilitaires;
+import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.wssi.services.remote.Departement;
 import org.esupportail.wssi.services.remote.Pays;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
+
+import java.util.*;
+
+import static fj.data.Stream.iterableStream;
 
 
 

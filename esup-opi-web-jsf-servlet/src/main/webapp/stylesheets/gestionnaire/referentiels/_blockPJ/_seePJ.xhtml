@@ -1,75 +1,75 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <div style="width:100%;">
-    	<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    		styleClass="tableJustWidthMax">
-    		<h:outputText value="#{msgs['PJ']}"
-    			styleClass="section-smallTitle" />
-    		<h:panelGroup>
-    			<p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
-    				rendered="#{nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.readAction
+        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                     styleClass="tableJustWidthMax">
+            <h:outputText value="#{msgs['PJ']}"
+                          styleClass="section-smallTitle"/>
+            <h:panelGroup>
+                <p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
+                                 rendered="#{nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.readAction
     				|| nomenclatureController.wayfEnum.whereAreYouFrom == nomenclatureController.wayfEnum.affectPJValue}"
-    				action="#{nomenclatureController.goSeePJforVet}" />
-    		</h:panelGroup>
-    	</h:panelGrid>
+                                 action="#{nomenclatureController.goSeePJforVet}"/>
+            </h:panelGroup>
+        </h:panelGrid>
     </div>
-    
+
     <p:dataTable var="nomenclaturePojo" value="#{nomenclatureController.allPJs}"
-    						styleClass="displayInfo" alternateColors="false">
-		<p:column>
-			<f:facet name="header">
-				<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
-			</f:facet>
-			<h:outputText value="#{nomenclaturePojo.nomenclature.code}" />
-		</p:column>
-		<p:column>
-			<f:facet name="header">
-				<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-			</f:facet>
-			<h:outputText value="#{nomenclaturePojo.shortLabel}" />
+                 styleClass="displayInfo" alternateColors="false">
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>
+            </f:facet>
+            <h:outputText value="#{nomenclaturePojo.nomenclature.code}"/>
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+            </f:facet>
+            <h:outputText value="#{nomenclaturePojo.shortLabel}"/>
             <h:panelGroup rendered="#{nomenclaturePojo.isShortLabel}">
                 <p:graphicImage url="/media/images/informationSmall.png"
-                    id="infoLibelle" style="cursor:pointer;" />
-                <p:overlayPanel for="infoLibelle" appendToBody="true" 
-                    showEffect="mouseover" hideEffect="mouseout"
-                    styleClass="containerPopup" style="width:350px;">
+                                id="infoLibelle" style="cursor:pointer;"/>
+                <p:overlayPanel for="infoLibelle" appendToBody="true"
+                                showEffect="mouseover" hideEffect="mouseout"
+                                styleClass="containerPopup" style="width:350px;">
                     <h:panelGrid columns="1">
                         <h:outputText styleClass="titrePopupAide"
-                            value="#{msgs['FIELD_LABEL.LIBELLE']}" />
+                                      value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
                         <h:outputText styleClass="libellesAide"
-                            value="#{nomenclaturePojo.nomenclature.libelle}" />
+                                      value="#{nomenclaturePojo.nomenclature.libelle}"/>
                     </h:panelGrid>
                 </p:overlayPanel>
             </h:panelGroup>
-		</p:column>
-		<p:column>
-			<f:facet name="header">
-				<h:outputText value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" />
-			</f:facet>
-			<h:outputText value="#{nomenclaturePojo.regimeInscription.label}"/>
-		</p:column>
-		<p:column>
-			<f:facet name="header">
-				<h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
-			</f:facet>
-			<p:graphicImage url="/media/images/check2.gif" 
-				rendered="#{nomenclaturePojo.nomenclature.temoinEnService
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"/>
+            </f:facet>
+            <h:outputText value="#{nomenclaturePojo.regimeInscription.label}"/>
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}"/>
+            </f:facet>
+            <p:graphicImage url="/media/images/check2.gif"
+                            rendered="#{nomenclaturePojo.nomenclature.temoinEnService
 				and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
 					|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
-			<p:graphicImage url="/media/images/check0.gif" 
-				rendered="#{!nomenclaturePojo.nomenclature.temoinEnService
+            <p:graphicImage url="/media/images/check0.gif"
+                            rendered="#{!nomenclaturePojo.nomenclature.temoinEnService
 				and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
 					|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
-		</p:column>
-		<p:column styleClass="buttonTD" style="text-align: right;">
-			<p:commandButton image="/media/images/cancel.png"
-				styleClass="form-button-image" immediate="true"
-				title="#{msgs['_.BUTTON.DELETE']}"
-				action="#{nomenclatureController.removeTrtPJ}" >
-				<f:setPropertyActionListener value="#{nomenclaturePojo}" target="#{nomenclatureController.PJTraitee}" />
-			</p:commandButton>
-		</p:column>
+        </p:column>
+        <p:column styleClass="buttonTD" style="text-align: right;">
+            <p:commandButton image="/media/images/cancel.png"
+                             styleClass="form-button-image" immediate="true"
+                             title="#{msgs['_.BUTTON.DELETE']}"
+                             action="#{nomenclatureController.removeTrtPJ}">
+                <f:setPropertyActionListener value="#{nomenclaturePojo}" target="#{nomenclatureController.PJTraitee}"/>
+            </p:commandButton>
+        </p:column>
     </p:dataTable>
 </ui:fragment>		

@@ -1,17 +1,16 @@
 package org.esupportail.opi.web.beans.components;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.util.Date;
-
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-
 import org.apache.myfaces.custom.schedule.DefaultScheduleEntryRenderer;
 import org.apache.myfaces.custom.schedule.HtmlSchedule;
 import org.apache.myfaces.custom.schedule.model.ScheduleDay;
 import org.apache.myfaces.custom.schedule.model.ScheduleEntry;
 import org.apache.myfaces.shared_tomahawk.renderkit.html.HTML;
+
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * 

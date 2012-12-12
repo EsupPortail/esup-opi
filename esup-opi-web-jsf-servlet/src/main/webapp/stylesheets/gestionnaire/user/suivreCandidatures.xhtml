@@ -1,173 +1,180 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	
-    	
-    	<div id="maPage" class="div_body">
-    		<h1>
+
+
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
+                    <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
                 </span>
             </h1>
 
-            <ui:include src="../opinion/_block/_choiceColumnExport.xhtml" />
-    		
-    		<h:form id="monitorApplicationsForm" styleClass="opiR1_form">
-    			<div id="blockFormSearch" class="blockForm">
-    				<div style="text-align:right;">
+            <ui:include src="../opinion/_block/_choiceColumnExport.xhtml"/>
+
+            <h:form id="monitorApplicationsForm" styleClass="opiR1_form">
+                <div id="blockFormSearch" class="blockForm">
+                    <div style="text-align:right;">
                         <p:commandButton id="button-export" value="#{msgs['_.BUTTON.EXPORT']}"
-                            immediate="true" process="@this" action="#{monitorCandidaturesController.exportList}" />
-                        <p:commandButton id="button-choicecolumns" value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="choiceColumnExport.show();" type="button" />
-<!--     					<p:commandButton id="button-choicecolumns" value="#{msgs['_.BUTTON.CHOICE_COL']}" immediate="true" update="@all"> -->
-<!--     						<f:setPropertyActionListener value="#{printOpinionController.actionEnum.choiceColExport}" -->
-<!--     							 target="#{printOpinionController.actionEnum.whatAction}" /> -->
-<!--     					</p:commandButton> -->
-    				</div>
-    				
-    				<div id="blockselectCmi" class="blockForm">
-    					<h:panelGrid styleClass="tableWidthMax" columns="4"
-    						columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-    						<h:panelGroup>
-    							<h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc" />
-    						</h:panelGroup>
-    						<p:selectManyCheckbox id="regime" value="#{commissionController.listeRI}" converter="#{regimeInscriptionConverter}"
-    							disabled="#{!commissionController.canModifyRISearch}"
-    							layout="lineDirection">
-    							<f:selectItems var="ri" 
-    									itemLabel="#{ri.shortLabel}" itemValue="#{ri}"
-    									value="#{nomenclatureController.allRegimeInscription}"/>
-                                <p:ajax listener="#{monitorCandidaturesController.makeListStudent}" update="individuData"/>
-    						</p:selectManyCheckbox>
-    						<h:panelGroup>
-    							<h:outputLabel value="#{msgs['FIELD_LABEL.STATE']}" for="state" />
-    						</h:panelGroup>
-    						<h:panelGroup>
-                                <p:selectOneRadio id="etats" value="#{monitorCandidaturesController.stateSelected}" >
-                                    <f:selectItem itemLabel="#{msgs['STATE.DESIST']}" itemValue="STATE.DESIST" />
-                                    <f:selectItem itemLabel="#{msgs['STATE.CONFIRM']}" itemValue="STATE.CONFIRM" />
-                                    <p:ajax event="change" listener="#{monitorCandidaturesController.changeCommission}" update="individuData" />
+                                         immediate="true" process="@this"
+                                         action="#{monitorCandidaturesController.exportList}"/>
+                        <p:commandButton id="button-choicecolumns" value="#{msgs['_.BUTTON.CHOICE_COL']}"
+                                         onclick="choiceColumnExport.show();" type="button"/>
+                        <!--     					<p:commandButton id="button-choicecolumns" value="#{msgs['_.BUTTON.CHOICE_COL']}" immediate="true" update="@all"> -->
+                        <!--     						<f:setPropertyActionListener value="#{printOpinionController.actionEnum.choiceColExport}" -->
+                        <!--     							 target="#{printOpinionController.actionEnum.whatAction}" /> -->
+                        <!--     					</p:commandButton> -->
+                    </div>
+
+                    <div id="blockselectCmi" class="blockForm">
+                        <h:panelGrid styleClass="tableWidthMax" columns="4"
+                                     columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+                            <h:panelGroup>
+                                <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc"/>
+                            </h:panelGroup>
+                            <p:selectManyCheckbox id="regime" value="#{commissionController.listeRI}"
+                                                  converter="#{regimeInscriptionConverter}"
+                                                  disabled="#{!commissionController.canModifyRISearch}"
+                                                  layout="lineDirection">
+                                <f:selectItems var="ri"
+                                               itemLabel="#{ri.shortLabel}" itemValue="#{ri}"
+                                               value="#{nomenclatureController.allRegimeInscription}"/>
+                                <p:ajax listener="#{monitorCandidaturesController.makeListStudent}"
+                                        update="individuData"/>
+                            </p:selectManyCheckbox>
+                            <h:panelGroup>
+                                <h:outputLabel value="#{msgs['FIELD_LABEL.STATE']}" for="state"/>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneRadio id="etats" value="#{monitorCandidaturesController.stateSelected}">
+                                    <f:selectItem itemLabel="#{msgs['STATE.DESIST']}" itemValue="STATE.DESIST"/>
+                                    <f:selectItem itemLabel="#{msgs['STATE.CONFIRM']}" itemValue="STATE.CONFIRM"/>
+                                    <p:ajax event="change" listener="#{monitorCandidaturesController.changeCommission}"
+                                            update="individuData"/>
                                 </p:selectOneRadio>
-    						</h:panelGroup>
-                            <h:panelGroup />
-                            <h:panelGroup />
-    						<h:panelGroup>
-    							<h:outputLabel value="#{msgs['COMMISSIONS']}" for="cmi" />
-    						</h:panelGroup>
-    						<h:panelGroup>
-    							<p:selectOneMenu id="cmi" converter="#{commissionConverter}"
-    								value="#{commissionController.commission}">
-    								<f:selectItem itemLabel="" itemValue="" />
-    								<f:selectItems var="commission"
-    									value="#{commissionController.commissionsItemsByRight}"
-    									itemLabel="#{commission.libelle}" itemValue="#{commission}" />
-                                    <p:ajax listener="#{monitorCandidaturesController.changeCommission}" update="etapes,individuData" />
-    							</p:selectOneMenu>
-<!--     							<p:commandButton id="lookForCmi" -->
-<!--     								value="#{msgs['_.BUTTON.SEARCH']}" immediate="true" -->
-<!--     								action="#{monitorCandidaturesController.changeCommission}" /> -->
-    						</h:panelGroup>
-    					</h:panelGrid>
-    				</div>
-    				
-    				<br />
-    				<br />
-    				
-    				<div id="blockSelectTrtCmi" class="blockForm">
-    					<h:panelGrid styleClass="tableWidthMax" columns="3"
-    						columnClasses="colUnQuart,colUnQuart,col2UnDemi">
-    						<h:panelGroup/>
-    						<h:panelGroup>
-    							<h:outputLabel value="#{msgs['FIELD_LABEL.ETAPES']}" for="etapes" />
-    						</h:panelGroup>
-    						<h:panelGroup>
-    							<p:selectOneMenu id="etapes" converter="javax.faces.Integer"
-    								value="#{monitorCandidaturesController.idTrtCmi}">
-    								<f:selectItem itemLabel="" itemValue="0" />
-    								<f:selectItems var="beanTrtCmi"
-    									value="#{trtCmiController.allTraitementCmi}"
-    									itemLabel="#{beanTrtCmi.etape.libWebVet}"
-    									itemValue="#{beanTrtCmi.traitementCmi.id}" />
+                            </h:panelGroup>
+                            <h:panelGroup/>
+                            <h:panelGroup/>
+                            <h:panelGroup>
+                                <h:outputLabel value="#{msgs['COMMISSIONS']}" for="cmi"/>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneMenu id="cmi" converter="#{commissionConverter}"
+                                                 value="#{commissionController.commission}">
+                                    <f:selectItem itemLabel="" itemValue=""/>
+                                    <f:selectItems var="commission"
+                                                   value="#{commissionController.commissionsItemsByRight}"
+                                                   itemLabel="#{commission.libelle}" itemValue="#{commission}"/>
+                                    <p:ajax listener="#{monitorCandidaturesController.changeCommission}"
+                                            update="etapes,individuData"/>
+                                </p:selectOneMenu>
+                                <!--     							<p:commandButton id="lookForCmi" -->
+                                <!--     								value="#{msgs['_.BUTTON.SEARCH']}" immediate="true" -->
+                                <!--     								action="#{monitorCandidaturesController.changeCommission}" /> -->
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </div>
+
+                    <br/>
+                    <br/>
+
+                    <div id="blockSelectTrtCmi" class="blockForm">
+                        <h:panelGrid styleClass="tableWidthMax" columns="3"
+                                     columnClasses="colUnQuart,colUnQuart,col2UnDemi">
+                            <h:panelGroup/>
+                            <h:panelGroup>
+                                <h:outputLabel value="#{msgs['FIELD_LABEL.ETAPES']}" for="etapes"/>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneMenu id="etapes" converter="javax.faces.Integer"
+                                                 value="#{monitorCandidaturesController.idTrtCmi}">
+                                    <f:selectItem itemLabel="" itemValue="0"/>
+                                    <f:selectItems var="beanTrtCmi"
+                                                   value="#{trtCmiController.allTraitementCmi}"
+                                                   itemLabel="#{beanTrtCmi.etape.libWebVet}"
+                                                   itemValue="#{beanTrtCmi.traitementCmi.id}"/>
                                     <p:ajax listener="#{monitorCandidaturesController.makeListStudent}" update="@form"/>
-    							</p:selectOneMenu>
-<!--     							<p:commandButton id="lookForIndividuComm" ajax="false" -->
-<!--     								value="#{msgs['_.BUTTON.SEARCH']}" -->
-<!--     								action="#{monitorCandidaturesController.makeListStudent}" /> -->
-    						</h:panelGroup>
-    					</h:panelGrid>
-    				</div>
-    			</div>
-    			<br />
-    			<br />
-    			<h:panelGroup style="width:100%;" 
-    					rendered="#{not empty monitorCandidaturesController.individus}">
-<!--     				<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi" -->
-<!--     					styleClass="tableJustWidthMax"> -->
-<!--     					<h:panelGroup> -->
-<!--     						<h:outputText value="#{msgs['INDIVIDU.FOUND.NB']}" -->
-<!--     							styleClass="section-smallTitle" style="margin-right:4px;"  -->
-<!--     							escape="false"> -->
-<!--     							<f:param value="#{monitorCandidaturesController.sizeIndividus}"/> -->
-<!--     						</h:outputText> -->
-<!--     					</h:panelGroup> -->
-<!--     				</h:panelGrid> -->
-    
-    				<p:dataTable var="individuPojo" id="individuData"
-    					value="#{monitorCandidaturesController.individus}"
-                        paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40"
-                        paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
-                        currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
-                        emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}"
-                        styleClass="paginatorData"
-                        rowIndexVar="variable">
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}" />
-    						</f:facet>
-    						<h:outputText value="#{individuPojo.individu.numDossierOpi}" />
-    					</p:column>
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['INDIVIDU.NOM']}" />
-    						</f:facet>
-    						<h:outputText value="#{individuPojo.individu.nomPatronymique}" />
-    					</p:column>
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['INDIVIDU.PRENOM']}" />
-    						</f:facet>
-    						<h:outputText value="#{individuPojo.individu.prenom}" />
-    					</p:column>
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['INDIVIDU.DATE_NAI_COURT']}" />
-    						</f:facet>
-    						<h:outputText value="#{individuPojo.individu.dateNaissance}">
-    							<f:convertDateTime pattern="dd/MM/yyyy"
-    								timeZone="#{sessionController.timezone}" />
-    						</h:outputText>
-    					</p:column>
-    
-    					<p:column>
-    						<p:dataTable var="indVoeuxPojo" id="indVoeux"
-    							value="#{individuPojo.indVoeuxPojo}">
-    							<p:column>
-    								<h:outputText value="#{indVoeuxPojo.vrsEtape.libWebVet}" />
-    							</p:column>
-    						</p:dataTable>
-    					</p:column>
-    				</p:dataTable>
-    			</h:panelGroup>
-                <p:blockUI block="monitorApplicationsForm" trigger="regime,etats,cmi,etapes,button-choicecolumns,button-export">
-                    <p:graphicImage value="/media/images/ajax-loader.gif" />
+                                </p:selectOneMenu>
+                                <!--     							<p:commandButton id="lookForIndividuComm" ajax="false" -->
+                                <!--     								value="#{msgs['_.BUTTON.SEARCH']}" -->
+                                <!--     								action="#{monitorCandidaturesController.makeListStudent}" /> -->
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <h:panelGroup style="width:100%;"
+                              rendered="#{not empty monitorCandidaturesController.individus}">
+                    <!--     				<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi" -->
+                    <!--     					styleClass="tableJustWidthMax"> -->
+                    <!--     					<h:panelGroup> -->
+                    <!--     						<h:outputText value="#{msgs['INDIVIDU.FOUND.NB']}" -->
+                    <!--     							styleClass="section-smallTitle" style="margin-right:4px;"  -->
+                    <!--     							escape="false"> -->
+                    <!--     							<f:param value="#{monitorCandidaturesController.sizeIndividus}"/> -->
+                    <!--     						</h:outputText> -->
+                    <!--     					</h:panelGroup> -->
+                    <!--     				</h:panelGrid> -->
+
+                    <p:dataTable var="individuPojo" id="individuData"
+                                 value="#{monitorCandidaturesController.individus}"
+                                 paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40"
+                                 paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
+                                 currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
+                                 emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}"
+                                 styleClass="paginatorData"
+                                 rowIndexVar="variable">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}"/>
+                            </f:facet>
+                            <h:outputText value="#{individuPojo.individu.numDossierOpi}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['INDIVIDU.NOM']}"/>
+                            </f:facet>
+                            <h:outputText value="#{individuPojo.individu.nomPatronymique}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['INDIVIDU.PRENOM']}"/>
+                            </f:facet>
+                            <h:outputText value="#{individuPojo.individu.prenom}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['INDIVIDU.DATE_NAI_COURT']}"/>
+                            </f:facet>
+                            <h:outputText value="#{individuPojo.individu.dateNaissance}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"
+                                                   timeZone="#{sessionController.timezone}"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column>
+                            <p:dataTable var="indVoeuxPojo" id="indVoeux"
+                                         value="#{individuPojo.indVoeuxPojo}">
+                                <p:column>
+                                    <h:outputText value="#{indVoeuxPojo.vrsEtape.libWebVet}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGroup>
+                <p:blockUI block="monitorApplicationsForm"
+                           trigger="regime,etats,cmi,etapes,button-choicecolumns,button-export">
+                    <p:graphicImage value="/media/images/ajax-loader.gif"/>
                 </p:blockUI>
-    		</h:form>
-    		<br />
-    		<br />
-    		<br />
-    
-    	</div>
+            </h:form>
+            <br/>
+            <br/>
+            <br/>
+
+        </div>
     </ui:define>
 </ui:composition>

@@ -1,108 +1,114 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateCandidat.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateCandidat.xhtml">
     <ui:define name="content">
-    	
-    	
-    	<div id="maPage" class="div_body">
-    		<h1><h:outputText value="#{msgs['INDIVIDU.YOUR.CANDIDATURES']}" /></h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
+
+
+        <div id="maPage" class="div_body">
+            <h1>
+                <h:outputText value="#{msgs['INDIVIDU.YOUR.CANDIDATURES']}"/>
+            </h1>
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
             <ui:fragment
-                rendered="#{formationController.action.whatAction == formationController.action.deleteAction}">
-        		<div id="div_subSectionDelete" class="div_subSection">
-        			<ui:include src="_delete/_deleteIndVoeu.xhtml" />
-        		</div>
+                    rendered="#{formationController.action.whatAction == formationController.action.deleteAction}">
+                <div id="div_subSectionDelete" class="div_subSection">
+                    <ui:include src="_delete/_deleteIndVoeu.xhtml"/>
+                </div>
             </ui:fragment>
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="seeVoeuxForm" styleClass="opiR1_form">
-    				<div id="div_subSection" class="div_subSection">
-    					<br />
-    					<br />
-    					<div id="blockFormFormation" class="blockForm">
-    						<div style="width:100%;">
-    							<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    								styleClass="tableJustWidthMax">
-    								<h:outputText value="#{msgs['FIELD_LABEL.LIST_CANDI']}" styleClass="section-smallTitle" />
-    								<h:panelGroup>
-    									<p:commandButton value="#{msgs['_.BUTTON.DOWNLOAD.DOSSIER']}"
-    										rendered="#{not empty sessionController.currentInd.indVoeuxPojo}"
-    										immediate="true" action="#{accueilController.printDossier}" />
-    									<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-    										immediate="true"
-    										rendered="#{sessionController.currentInd.etat.canDoChoiceEtape
+            <div id="div_subSection" class="div_subSection">
+                <h:form id="seeVoeuxForm" styleClass="opiR1_form">
+                    <div id="div_subSection" class="div_subSection">
+                        <br/>
+                        <br/>
+
+                        <div id="blockFormFormation" class="blockForm">
+                            <div style="width:100%;">
+                                <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                                             styleClass="tableJustWidthMax">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.LIST_CANDI']}"
+                                                  styleClass="section-smallTitle"/>
+                                    <h:panelGroup>
+                                        <p:commandButton value="#{msgs['_.BUTTON.DOWNLOAD.DOSSIER']}"
+                                                         rendered="#{not empty sessionController.currentInd.indVoeuxPojo}"
+                                                         immediate="true" action="#{accueilController.printDossier}"/>
+                                        <p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+                                                         immediate="true"
+                                                         rendered="#{sessionController.currentInd.etat.canDoChoiceEtape
     											and sessionController.currentInd.regimeInscription.calInsIsOpen
     											and sessionController.currentInd.asRightsToUpdate}"
-    										action="#{formationController.goSearchFormation}" 
-    										ajax="false"/>
-    								</h:panelGroup>
-    							</h:panelGrid>
-    						</div>
-    						<p:dataTable var="indVoeuPojo"
-    							value="#{sessionController.currentInd.indVoeuxPojoAsList}"
-    							alternateColors="false" renderedIfEmpty="false"
-    							styleClass="displayInfo">
-    							<p:column>
-    								<f:facet name="header">
-    									<h:outputText value="#{msgs['FIELD_LABEL.FORMATION_ASK']}" />
-    								</f:facet>
-    								<h:outputText value="#{indVoeuPojo.vrsEtape.libWebVet}" />
-    							</p:column>
-    							<p:column>
-    								<f:facet name="header">
-    									<h:outputText value="#{msgs['INDIVIDU.ETAT']}" />
-    								</f:facet>
-    								<h:outputText value="#{indVoeuPojo.etat.label}" />
-    							</p:column>
-    							<p:column>
-    								<f:facet name="header">
-    									<h:outputText value="#{msgs['FIELD_LABEL.RESULT']}" />
-    								</f:facet>
-    								<h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
-    									rendered="#{empty indVoeuPojo.indVoeu.avis}" />
-    								<ui:repeat id="datalistavis" style="myStyle" var="avis"
-    									value="#{indVoeuPojo.avisAsList}">
+                                                         action="#{formationController.goSearchFormation}"
+                                                         ajax="false"/>
+                                    </h:panelGroup>
+                                </h:panelGrid>
+                            </div>
+                            <p:dataTable var="indVoeuPojo"
+                                         value="#{sessionController.currentInd.indVoeuxPojoAsList}"
+                                         alternateColors="false" renderedIfEmpty="false"
+                                         styleClass="displayInfo">
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs['FIELD_LABEL.FORMATION_ASK']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{indVoeuPojo.vrsEtape.libWebVet}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs['INDIVIDU.ETAT']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{indVoeuPojo.etat.label}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs['FIELD_LABEL.RESULT']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
+                                                  rendered="#{empty indVoeuPojo.indVoeu.avis}"/>
+                                    <ui:repeat id="datalistavis" style="myStyle" var="avis"
+                                               value="#{indVoeuPojo.avisAsList}">
                                         <div>
-        									<h:outputText value="#{avis.result.libelle}"
-        										rendered="#{avis.temoinEnService and avis.validation}" />
+                                            <h:outputText value="#{avis.result.libelle}"
+                                                          rendered="#{avis.temoinEnService and avis.validation}"/>
                                         </div>
-    								</ui:repeat>
-    							</p:column>
-    							<p:column>
-    								<f:facet name="header">
-    									<h:outputText value="#{msgs['FIELD_LABEL.COMMENTAIRE']}" />
-    								</f:facet>
-    								<h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
-    									rendered="#{empty indVoeuPojo.avisAsList}" />
-    								<ui:repeat id="datalistavis2" styleClass="myStyle" var="avis2"
-    									value="#{indVoeuPojo.indVoeu.avisAsList}">
+                                    </ui:repeat>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs['FIELD_LABEL.COMMENTAIRE']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
+                                                  rendered="#{empty indVoeuPojo.avisAsList}"/>
+                                    <ui:repeat id="datalistavis2" styleClass="myStyle" var="avis2"
+                                               value="#{indVoeuPojo.indVoeu.avisAsList}">
                                         <div>
-        									<h:outputText value="#{avis2.commentaire}"
-        										rendered="#{avis2.temoinEnService and avis2.validation}" />
+                                            <h:outputText value="#{avis2.commentaire}"
+                                                          rendered="#{avis2.temoinEnService and avis2.validation}"/>
                                         </div>
-    								</ui:repeat>
-    							</p:column>
-    							<p:column>
-    								<p:commandButton icon="ui-icon-minus"
-    									styleClass="form-button-image"
-    									rendered="#{indVoeuPojo.calIsOpen
+                                    </ui:repeat>
+                                </p:column>
+                                <p:column>
+                                    <p:commandButton icon="ui-icon-minus"
+                                                     styleClass="form-button-image"
+                                                     rendered="#{indVoeuPojo.calIsOpen
     									|| sessionController.currentInd.isUpdaterOfThisStudent}"
-    									title="#{msgs['_.BUTTON.DELETE']}"
-    									ajax="false">
-    									<f:setPropertyActionListener value="#{formationController.action.deleteAction}" target="#{formationController.action.whatAction}" />
-    									<f:setPropertyActionListener value="#{indVoeuPojo}" target="#{formationController.indVoeuPojo}" />
-    								</p:commandButton>
-    							</p:column>
-    						</p:dataTable>
-    					</div>
-    					<br />
-    					<br />
-    				</div>
-    			</h:form>
-    		</div>
-    	</div>
+                                                     title="#{msgs['_.BUTTON.DELETE']}"
+                                                     ajax="false">
+                                        <f:setPropertyActionListener value="#{formationController.action.deleteAction}"
+                                                                     target="#{formationController.action.whatAction}"/>
+                                        <f:setPropertyActionListener value="#{indVoeuPojo}"
+                                                                     target="#{formationController.indVoeuPojo}"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                        <br/>
+                        <br/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>

@@ -7,21 +7,23 @@
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
         <div id="maPage" class="div_body">
-            <h1><h:outputText value="#{msgs['AVIS.TITLE.HISTO']}" /></h1>
+            <h1>
+                <h:outputText value="#{msgs['AVIS.TITLE.HISTO']}"/>
+            </h1>
             <div class="messageForUser">
-                <p:messages id="messages" showDetail="true" autoUpdate="true" />
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
             </div>
             <ui:fragment rendered="#{opinionController.actionEnum.whatAction != 
                                    opinionController.actionEnum.propositionAction}">
                 <div>
-                    <h:outputText value="#{msgs['FIELD_LABEL.AVIS.STUDENT']}" 
+                    <h:outputText value="#{msgs['FIELD_LABEL.AVIS.STUDENT']}"
                                   styleClass="section-subheader"/>
                     <h:outputText value="#{opinionController.indVoeuxPojo.indVoeu.individu.nomPatronymique} 
                                          #{opinionController.indVoeuxPojo.indVoeu.individu.prenom} 
                                          (#{opinionController.indVoeuxPojo.indVoeu.individu.numDossierOpi})"/>
                 </div>
                 <div>
-                    <h:outputText value="#{msgs['FIELD_LABEL.AVIS.ETAPE']}" 
+                    <h:outputText value="#{msgs['FIELD_LABEL.AVIS.ETAPE']}"
                                   styleClass="section-subheader"/>
                     <h:outputText value="#{opinionController.indVoeuxPojo.vrsEtape.libWebVet}"/>
                 </div>
@@ -29,9 +31,9 @@
             <ui:fragment id="div_subSectionEnter" styleClass="div_subSection"
                          rendered="#{opinionController.actionEnum.whatAction == opinionController.actionEnum.addAction
                                    || opinionController.actionEnum.whatAction == opinionController.actionEnum.updateAction}">
-                <ui:include src="_block/_enterOpinion.xhtml" />
+                <ui:include src="_block/_enterOpinion.xhtml"/>
             </ui:fragment>
-            <ui:include src="_block/_proposition.xhtml" />
+            <ui:include src="_block/_proposition.xhtml"/>
             <div id="div_subSection" class="div_subSection">
                 <h:form id="seeAvisForm">
                     <div id="blockFormAdresse" class="blockForm">
@@ -40,41 +42,41 @@
                             <h:panelGroup>
                                 <p:commandButton value="#{msgs['FIELD_LABEL.PROPOSITION']}"
                                                  immediate="true"
-                                                 action="#{opinionController.addProposition}" ajax="false" />
+                                                 action="#{opinionController.addProposition}" ajax="false"/>
                                 <p:commandButton value="#{msgs['AVIS.BUTTON.APPEL']}"
                                                  immediate="true"
-                                                 action="#{opinionController.goAddAvisAppel}" ajax="false" />
+                                                 action="#{opinionController.goAddAvisAppel}" ajax="false"/>
                                 <p:commandButton value="#{msgs['_.BUTTON.ADD']}"
                                                  immediate="true"
-                                                 action="#{opinionController.goAddAvis}" ajax="false" />
+                                                 action="#{opinionController.goAddAvis}" ajax="false"/>
                                 <p:commandButton value="#{msgs['_.BUTTON.BACK']}"
                                                  immediate="true"
-                                                 action="#{opinionController.goBackOpinions}" ajax="false" />
+                                                 action="#{opinionController.goBackOpinions}" ajax="false"/>
                             </h:panelGroup>
                         </ui:fragment>
                         <p:dataTable var="avisPojo" value="#{opinionController.listAvisPojo}"
                                      styleClass="paginatorData" alternateColors="true">
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs['AVIS.LABEL_DECISION']}" />
+                                    <h:outputText value="#{msgs['AVIS.LABEL_DECISION']}"/>
                                 </f:facet>
                                 <h:outputText value="#{avisPojo.avis.result.libelle}"/>
                             </p:column>
                             <p:column rendered="#{opinionController.indVoeuxPojo.isUsingLC}">
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs['AVIS.RANG']}" />
+                                    <h:outputText value="#{msgs['AVIS.RANG']}"/>
                                 </f:facet>
                                 <h:outputText value="#{avisPojo.avis.rang}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs['AVIS.COMM_MOTIV']}" />
+                                    <h:outputText value="#{msgs['AVIS.COMM_MOTIV']}"/>
                                 </f:facet>
-                                <h:outputText value="#{avisPojo.shortCommentaireMotiv}" />
+                                <h:outputText value="#{avisPojo.shortCommentaireMotiv}"/>
                                 <h:panelGroup rendered="#{avisPojo.isShortCommentaireMotiv}">
                                     <p:graphicImage url="/media/images/informationSmall.png"
                                                     style="cursor:pointer;"
-                                                    id="avisComm" />
+                                                    id="avisComm"/>
                                     <p:overlayPanel showEffect="fade" hideEffect="fade" appendToBody="true"
                                                     for="avisComm"
                                                     showEvent="mouseover"
@@ -83,9 +85,9 @@
                                         <h:panelGroup>
                                             <h:panelGrid columns="1">
                                                 <h:outputText styleClass="titrePopupAide"
-                                                              value="#{msgs['FIELD_LABEL.LIBELLE']}" />
+                                                              value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
                                                 <h:outputText styleClass="libellesAide"
-                                                              value="#{avisPojo.commentaireMotiv}" />
+                                                              value="#{avisPojo.commentaireMotiv}"/>
                                             </h:panelGrid>
                                         </h:panelGroup>
                                     </p:overlayPanel>
@@ -93,25 +95,25 @@
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs['AVIS.DATE_CREATION']}" />
+                                    <h:outputText value="#{msgs['AVIS.DATE_CREATION']}"/>
                                 </f:facet>
                                 <h:outputText value="#{avisPojo.avis.dateCreaEnr}">
                                     <f:convertDateTime pattern="dd/MM/yyyy HH:mm"
-                                                       timeZone="#{sessionController.timezone}" />
+                                                       timeZone="#{sessionController.timezone}"/>
                                 </h:outputText>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs['AVIS.DATE_MODIF']}" />
+                                    <h:outputText value="#{msgs['AVIS.DATE_MODIF']}"/>
                                 </f:facet>
                                 <h:outputText value="#{avisPojo.avis.dateModifEnr}">
                                     <f:convertDateTime pattern="dd/MM/yyyy HH:mm"
-                                                       timeZone="#{sessionController.timezone}" />
+                                                       timeZone="#{sessionController.timezone}"/>
                                 </h:outputText>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs['AVIS.APPEL']}" />
+                                    <h:outputText value="#{msgs['AVIS.APPEL']}"/>
                                 </f:facet>
                                 <p:graphicImage url="/media/images/check2.gif"
                                                 rendered="#{avisPojo.avis.appel}"/>
@@ -120,7 +122,7 @@
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs['AVIS.VALIDATE']}" />
+                                    <h:outputText value="#{msgs['AVIS.VALIDATE']}"/>
                                 </f:facet>
                                 <p:graphicImage url="/media/images/check2.gif"
                                                 rendered="#{avisPojo.avis.validation}"/>
@@ -129,7 +131,7 @@
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
+                                    <h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}"/>
                                 </f:facet>
                                 <p:graphicImage url="/media/images/check2.gif"
                                                 rendered="#{avisPojo.avis.temoinEnService}"/>
@@ -143,8 +145,10 @@
                                                  action="#{opinionController.goUpdateAvis}"
                                                  rendered="#{opinionController.actionEnum.whatAction == opinionController.actionEnum.emptyAction
                                                            and managedAccess.updateAuthorized and avisPojo.avis.temoinEnService
-                                                           and !(avisPojo.avis.result.isFinal and avisPojo.avis.validation)}" ajax="false" >
-                                    <f:setPropertyActionListener value="#{avisPojo.avis}" target="#{opinionController.avis}" />
+                                                           and !(avisPojo.avis.result.isFinal and avisPojo.avis.validation)}"
+                                                 ajax="false">
+                                    <f:setPropertyActionListener value="#{avisPojo.avis}"
+                                                                 target="#{opinionController.avis}"/>
                                 </p:commandButton>
                             </p:column>
                         </p:dataTable>

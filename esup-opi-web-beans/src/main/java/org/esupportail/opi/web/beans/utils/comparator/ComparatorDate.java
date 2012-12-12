@@ -4,11 +4,11 @@
  */
 package org.esupportail.opi.web.beans.utils.comparator;
 
+import org.esupportail.opi.web.beans.pojo.AvisPojo;
+
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Date;
-
-import org.esupportail.opi.web.beans.pojo.AvisPojo;
 
 
 

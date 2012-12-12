@@ -1,78 +1,79 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui">
-    <br />
-    <br />
-    <br />
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
+    <br/>
+    <br/>
+    <br/>
+
     <div id="blockFormDate" class="blockForm">
-    	<div style="width:100%;">
-    		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    			styleClass="tableJustWidthMax">
-    			<h:outputText value="#{msgs['CALENDAR.INS.TITLE']}"
-    				styleClass="section-smallTitle" />
-    			<h:panelGroup>
-    				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    					action="#{calendarController.add}"
-    					rendered="#{managedAccess.addAuthorized 
-    						and calendarController.actionEnum.whatAction == calendarController.actionEnum.addAction}" />
-    				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    					action="#{calendarController.update}"
-    					rendered="#{managedAccess.updateAuthorized 
-    						and calendarController.actionEnum.whatAction == calendarController.actionEnum.updateAction}" />
-    				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" immediate="true"
-    					action="#{calendarController.goSeeAllCal}" />
-    			</h:panelGroup>
-    		</h:panelGrid>
-    	</div>
-    	<h:panelGrid styleClass="tableWidthMax" columns="4"
-    		columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<p:inputText id="code" size="12" maxlength="11"
-    			value="#{calendarController.beanCalendar.calendar.code}" />
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}" for="libelle" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<p:inputText id="libelle" size="41" maxlength="40"
-    			value="#{calendarController.beanCalendar.calendar.libelle}" />
-    		
-    		<h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}" for="temEnSveCalIns"/>
-    		<p:selectBooleanCheckbox id="temEnSveCalIns" 
-    			value="#{calendarController.beanCalendar.calendar.temoinEnService}" />
-    		
-    		<h:panelGroup/>
-    		<h:panelGroup/>
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['FIELD_LABEL.START_DATE']}"
-    				for="dateDbt" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<p:calendar id="dateDbt" size="10" readonlyInput="true" 
-    			value="#{calendarController.beanCalendar.calendar.startDate}"
-                pattern="ddMMyyyy" 
-                timeZone="#{sessionController.timezone}">
-    			<f:validateLength minimum="8"/>
-    		</p:calendar>
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['FIELD_LABEL.END_DATE']}" for="dateFin" />
-    			<h:outputText value="*" styleClass="etoileForChpObli" />
-    		</h:panelGroup>
-    		<p:calendar id="dateFin" size="10" readonlyInput="true"
-    			value="#{calendarController.beanCalendar.calendar.endDate}"
-                pattern="ddMMyyyy" 
-                timeZone="#{sessionController.timezone}">
-    			<f:validateLength minimum="8"/>
-    		</p:calendar>
-    	</h:panelGrid>
+        <div style="width:100%;">
+            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                         styleClass="tableJustWidthMax">
+                <h:outputText value="#{msgs['CALENDAR.INS.TITLE']}"
+                              styleClass="section-smallTitle"/>
+                <h:panelGroup>
+                    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                     action="#{calendarController.add}"
+                                     rendered="#{managedAccess.addAuthorized
+    						and calendarController.actionEnum.whatAction == calendarController.actionEnum.addAction}"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                     action="#{calendarController.update}"
+                                     rendered="#{managedAccess.updateAuthorized
+    						and calendarController.actionEnum.whatAction == calendarController.actionEnum.updateAction}"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" immediate="true"
+                                     action="#{calendarController.goSeeAllCal}"/>
+                </h:panelGroup>
+            </h:panelGrid>
+        </div>
+        <h:panelGrid styleClass="tableWidthMax" columns="4"
+                     columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <p:inputText id="code" size="12" maxlength="11"
+                         value="#{calendarController.beanCalendar.calendar.code}"/>
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}" for="libelle"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <p:inputText id="libelle" size="41" maxlength="40"
+                         value="#{calendarController.beanCalendar.calendar.libelle}"/>
+
+            <h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}" for="temEnSveCalIns"/>
+            <p:selectBooleanCheckbox id="temEnSveCalIns"
+                                     value="#{calendarController.beanCalendar.calendar.temoinEnService}"/>
+
+            <h:panelGroup/>
+            <h:panelGroup/>
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['FIELD_LABEL.START_DATE']}"
+                               for="dateDbt"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <p:calendar id="dateDbt" size="10" readonlyInput="true"
+                        value="#{calendarController.beanCalendar.calendar.startDate}"
+                        pattern="ddMMyyyy"
+                        timeZone="#{sessionController.timezone}">
+                <f:validateLength minimum="8"/>
+            </p:calendar>
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['FIELD_LABEL.END_DATE']}" for="dateFin"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <p:calendar id="dateFin" size="10" readonlyInput="true"
+                        value="#{calendarController.beanCalendar.calendar.endDate}"
+                        pattern="ddMMyyyy"
+                        timeZone="#{sessionController.timezone}">
+                <f:validateLength minimum="8"/>
+            </p:calendar>
+        </h:panelGrid>
     </div>
-    <br />
-    <br />
-    <br />
-    <ui:include src="/stylesheets/gestionnaire/referentiels/_commission/_selectCmi.xhtml" />
-    <br />
-    <br />
+    <br/>
+    <br/>
+    <br/>
+    <ui:include src="/stylesheets/gestionnaire/referentiels/_commission/_selectCmi.xhtml"/>
+    <br/>
+    <br/>
 </ui:fragment>
