@@ -31,10 +31,10 @@
     							<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
     								rendered="#{managedAccess.addAuthorized}"
     								action="#{domainController.goAddDomain}"
-    								immediate="true"
-    								styleClass="form-button"/>
+    								immediate="true" ajax="false"/>
     							<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-    								action="go_managed_fct">
+    								action="go_managed_fct"
+                                    immediate="true" ajax="false">
     								<f:setPropertyActionListener value="#{domainController.actionEnum.emptyAction}" target="#{domainController.actionEnum.whatAction}" />
     							</p:commandButton>
     						</h:panelGroup>
@@ -72,19 +72,20 @@
     							<h:outputText value="#{domain.rang}" />
     						</p:column>
     						<p:column>
-    							<p:commandButton image="/media/images/update.png"
+    							<p:commandButton icon="ui-icon-pencil"
     								rendered="#{managedAccess.updateAuthorized}"
     								immediate="true"
-    								styleClass="form-button-image" title="#{msgs['BUTTON.UPDATE']}" >
+                                    ajax="false"
+    								title="#{msgs['BUTTON.UPDATE']}" >
     								<f:setPropertyActionListener value="#{domainController.actionEnum.updateAction}" target="#{domainController.actionEnum.whatAction}" />
     								<f:setPropertyActionListener value="#{domain}" target="#{domainController.domain}" />
     							</p:commandButton>
     						</p:column>
     						<p:column>
-    							<p:commandButton image="/media/images/cancel.png"
-    								styleClass="form-button-image"
+    							<p:commandButton icon="ui-icon-minus"
     								rendered="#{managedAccess.deleteAuthorized}"
     								immediate="true"
+                                    ajax="false"
     								title="#{msgs['_.BUTTON.DELETE']}" >
     								<f:setPropertyActionListener value="#{domainController.actionEnum.deleteAction}" target="#{domainController.actionEnum.whatAction}" />
     								<f:setPropertyActionListener value="#{domain}" target="#{domainController.domain}" />
@@ -104,11 +105,5 @@
                 </ui:fragment>
     		</div>
     	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        	highlightInputAndSelect('formAddDomain');
-        </script>
     </ui:define>
 </ui:composition>
