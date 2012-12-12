@@ -64,7 +64,7 @@
 							</f:facet>
 							<h:outputText value="#{beanAccess.traitement.libelle }" rendered="#{beanAccess.isFunction}"/>
 						</p:column>
-						<p:columns var="codeAccess" value="#{accessRController.codeAccess}" style="width:5%;">
+						<p:columns var="codeAccess" value="#{accessRController.codeAccessItems}" style="width:5%;">
 							<f:facet name="header">
 								<h:outputText value="#{accessRController.accessTypes[codeAccess].libelle} " />
 							</f:facet>
