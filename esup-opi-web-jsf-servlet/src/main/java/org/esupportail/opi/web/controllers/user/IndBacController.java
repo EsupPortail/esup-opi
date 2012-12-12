@@ -233,7 +233,7 @@ public class IndBacController extends AbstractAccessController {
 			}
 			if (StringUtils.hasText(myIndBac.getCodBac())) {
 				indBacPojo.setBacOuxEqu(
-						getBusinessCacheService().getBacOuxEqu(
+						getDomainApoService().getBacOuxEqu(
 								myIndBac.getDateObtention(), myIndBac.getCodBac()));
 			}
 			indBacPojos.add(indBacPojo);

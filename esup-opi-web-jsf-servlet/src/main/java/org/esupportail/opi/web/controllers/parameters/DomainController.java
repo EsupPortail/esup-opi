@@ -3,11 +3,14 @@
  */
 package org.esupportail.opi.web.controllers.parameters;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.domain.beans.parameters.accessRight.Domain;
+import org.esupportail.opi.domain.beans.parameters.accessRight.Fonction;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.utils.NavigationRulesConst;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
@@ -222,7 +225,15 @@ public class DomainController extends AbstractContextAwareController {
 		return getParameterService().getDomains(true, false);
 	}
 
-	
+	/**
+	 * List of Domain in use.
+	 * @return
+	 */
+	public List<Domain> getDomainsItems() {
+		List<Domain> d = new ArrayList<Domain>();
+		d.addAll(getDomains());
+		return d;		
+	}
 
 	/**
 	 * @return the domain

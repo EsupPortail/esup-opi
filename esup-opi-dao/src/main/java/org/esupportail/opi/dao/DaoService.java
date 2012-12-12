@@ -662,5 +662,4 @@ public interface DaoService extends Serializable {
 	 */
 	IndSituation getIndSituation(Individu ind);
 
-
 }

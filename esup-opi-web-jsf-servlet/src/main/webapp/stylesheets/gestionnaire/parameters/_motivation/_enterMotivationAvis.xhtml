@@ -2,7 +2,6 @@
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui">
-    <h:form id="formEnterMotivation" >
     	<div id="blockFormEnterMotivation" class="blockForm">
     		<div style="width:100%;">
     			<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
@@ -11,13 +10,15 @@
     				<h:panelGroup>
     					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     						rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.addAction}"
-    						action="#{nomenclatureController.add}" />
+    						action="#{nomenclatureController.add}"
+    						ajax="false" />
     					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     						rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction}"
-    						action="#{nomenclatureController.update}" />
+    						action="#{nomenclatureController.update}"
+    						ajax="false" />
     					<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
     						action="#{nomenclatureController.reset}"
-    						onclick="javascript:{clickAnnuler = true;}"/>
+    						ajax="false"/>
     				</h:panelGroup>
     			</h:panelGrid>
     			<h:panelGrid styleClass="tableWidthMax" columns="4"
@@ -27,7 +28,7 @@
     					<h:outputText value="*" styleClass="etoileForChpObli" />
     				</h:panelGroup>
     				<h:panelGroup>
-    					<h:inputText id="code"
+    					<p:inputText id="code"
     						value="#{nomenclatureController.nomenclature.code}" size="5"
     						maxlength="5"/>
     				</h:panelGroup>
@@ -45,7 +46,7 @@
     					<h:outputText value="*" styleClass="etoileForChpObli" />
     				</h:panelGroup>
     				<h:panelGroup>
-    					<h:inputText id="libelleLong"
+    					<p:inputText id="libelleLong"
     						value="#{nomenclatureController.nomenclature.libelle}" size="70"
     						maxlength="500"/>
     				</h:panelGroup>
@@ -54,13 +55,11 @@
     					<h:outputText value="*" styleClass="etoileForChpObli" />
     				</h:panelGroup>
     				<h:panelGroup>
-    					<h:inputText id="libelleShort"
+    					<p:inputText id="libelleShort"
     						value="#{nomenclatureController.nomenclature.shortLabel}" size="11"
     						maxlength="10" />
     				</h:panelGroup>
     			</h:panelGrid>
-    		</div>
-    		
+    		</div>    		
     	</div>
-    </h:form>
 </ui:fragment>

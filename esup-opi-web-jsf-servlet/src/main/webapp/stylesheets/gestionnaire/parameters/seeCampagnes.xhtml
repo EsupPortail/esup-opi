@@ -2,7 +2,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	
     	
@@ -36,10 +36,11 @@
         						<h:panelGroup>
         							<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
         								 immediate="true" action="#{nomenclatureController.goAddCampagne}"
-        								 rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.emptyAction}"/>
-        							<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+        								 rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.emptyAction}"
+        								 ajax="false"/>
+        							<!-- <p:commandButton value="#{msgs['_.BUTTON.BACK']}"
         								immediate="true" action="#{managedAccess.goDisplayFunction}"
-        								 rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.emptyAction}"/>
+        								 rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.emptyAction}"/> -->
         						</h:panelGroup>
         					</div>
                         </ui:fragment>
@@ -47,14 +48,16 @@
         					<div class="blockButton">
         						<div>
         							<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-        								action="#{nomenclatureController.update}" />
+        								action="#{nomenclatureController.update}" 
+        								ajax="false"/>
         							<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-        								immediate="true" action="#{nomenclatureController.reset}" />
+        								immediate="true" action="#{nomenclatureController.reset}" 
+        								ajax="false" />
         						</div>
         					</div>
                         </ui:fragment>
     
-    					<p:dataTable var="nomenclaturePojo" value="#{nomenclatureController.campagnes}"
+    					<p:dataTable var="nomenclaturePojo" value="#{nomenclatureController.campagnesInUse}"
     						styleClass="displayInfo" alternateColors="false">
     						<p:column>
     							<f:facet name="header">
@@ -75,7 +78,7 @@
     							<h:outputText value="#{nomenclaturePojo.nomenclature.libelle}"
     								rendered="#{nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature}"/>
-    							<h:inputText id="libelleLong"
+    							<p:inputText id="libelleLong"
     								value="#{nomenclatureController.nomenclature.libelle}" size="50" maxlength="500" 
     								rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction
     									and nomenclaturePojo.nomenclature == nomenclatureController.nomenclature}"/>
@@ -90,14 +93,14 @@
     								<f:convertDateTime pattern="dd/MM/yyyy"
     									timeZone="#{sessionController.timezone}" />
     							</h:outputText>
-    							<h:inputText id="dateDeb" size="10" maxlength="8"
+    							<p:inputText id="dateDeb" size="10" maxlength="8"
     								value="#{nomenclatureController.nomenclature.dateDebCamp}"
     								rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction
     									and nomenclaturePojo.nomenclature == nomenclatureController.nomenclature}">
     								<f:convertDateTime pattern="ddMMyyyy"
     									timeZone="#{sessionController.timezone}" />
     								<f:validateLength minimum="8"/>
-    							</h:inputText>
+    							</p:inputText>
     						</p:column>
     						<p:column>
     							<f:facet name="header">
@@ -109,14 +112,14 @@
     								<f:convertDateTime pattern="dd/MM/yyyy"
     									timeZone="#{sessionController.timezone}" />
     							</h:outputText>
-    							<h:inputText id="dateFin" size="10" maxlength="8"
+    							<p:inputText id="dateFin" size="10" maxlength="8"
     								value="#{nomenclatureController.nomenclature.dateFinCamp}"
     								rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction
     									and nomenclaturePojo.nomenclature == nomenclatureController.nomenclature}">
     								<f:convertDateTime pattern="ddMMyyyy"
     									timeZone="#{sessionController.timezone}" />
     								<f:validateLength minimum="8"/>
-    							</h:inputText>
+    							</p:inputText>
     						</p:column>
     						<p:column>
     							<f:facet name="header">
@@ -143,11 +146,12 @@
     								rendered="#{!nomenclaturePojo.nomenclature.isArchived}"/>
     						</p:column>
     						<p:column styleClass="buttonTD">
-    							<p:commandButton image="/media/images/update.png"
+    							<p:commandButton icon="ui-icon-pencil"
     								styleClass="form-button-image"
     								title="#{msgs['BUTTON.UPDATE']}"
     								rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.emptyAction
-    										and managedAccess.updateAuthorized}">
+    										and managedAccess.updateAuthorized}" 
+        							ajax="false">
     								<f:setPropertyActionListener value="#{nomenclatureController.actionEnum.updateAction}" target="#{nomenclatureController.actionEnum.whatAction}" />
     								<f:setPropertyActionListener value="#{nomenclaturePojo.nomenclature}" target="#{nomenclatureController.nomenclature}" />
     							</p:commandButton>

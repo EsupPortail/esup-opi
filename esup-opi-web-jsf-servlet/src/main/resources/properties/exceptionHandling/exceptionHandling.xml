@@ -22,7 +22,8 @@
 		<property name="recipientEmail" value="${exceptionHandling.email}" />
 		<property name="exceptionViews" >
 			<map>
-				<entry key="java.lang.OutOfMemoryError" value="/stylesheets/outOfMemoryException.jsp" />
+                <entry key="java.lang.OutOfMemoryError" value="/stylesheets/outOfMemoryException.jsp" />
+                <entry key="javax.faces.application.ViewExpiredException" value="/stylesheets/welcome.xhtml" />
 <!-- 				<entry key="org.esupportail.commons.services.application.UninitializedDatabaseException" value="/stylesheets/uninitializedDatabaseException.jsp" /> -->
 <!-- 				<entry key="org.esupportail.commons.services.application.VersionException" value="/stylesheets/versionException.jsp" /> -->
 <!-- 				<entry key="org.esupportail.commons.exceptions.WebFlowException" value="/stylesheets/webFlowException.jsp" /> -->
@@ -38,7 +39,8 @@
 		</property>
 		<property name="noEmailExceptions" >
 			<list>
-				<value>org.esupportail.commons.services.ldap.LdapConnectionException</value>
+                <value>javax.faces.application.ViewExpiredException</value>
+                <value>org.esupportail.commons.services.ldap.LdapConnectionException</value>
 				<value>org.esupportail.commons.exceptions.UserNotFoundException</value>
 			</list>
 		</property>

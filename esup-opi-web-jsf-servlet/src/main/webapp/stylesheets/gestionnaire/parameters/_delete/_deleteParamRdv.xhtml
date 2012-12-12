@@ -6,15 +6,17 @@
     	<div style="width:100%;">
     		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
     			styleClass="tableJustWidthMax">
-    			<h:outputText value="#{msgs['CALENDAR_RDV.CONFIRM.DELETE']}">
+    			<h:outputFormat value="#{msgs['CALENDAR_RDV.CONFIRM.DELETE']}">
     				<f:param value="#{paramRdvController.calendarRDV.titre}"/>
-    			</h:outputText>
+    			</h:outputFormat>
     			<h:panelGroup>
     				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    					action="#{paramRdvController.delete}"/>
+    					action="#{paramRdvController.delete}"
+    					ajax="false"/>
     				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
     					action="#{paramRdvController.reset}"
-    					immediate="true"/>
+    					immediate="true"
+    					ajax="false"/>
     			</h:panelGroup>
     		</h:panelGrid>
     	</div>

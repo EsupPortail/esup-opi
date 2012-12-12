@@ -16,11 +16,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.commons.utils.BeanUtils;
 import org.esupportail.opi.dao.PilotageDaoService;
 import org.esupportail.opi.domain.beans.etat.EtatIndividu;
 import org.esupportail.opi.domain.beans.etat.EtatVoeu;
@@ -52,7 +52,7 @@ import org.springframework.util.StringUtils;
  * 
  * See /properties/domain/domain.xml
  */
-public class PilotageServiceImpl extends AbstractDomainService implements PilotageService {
+public class PilotageServiceImpl implements PilotageService {
 	/*
 	 * ******************* PROPERTIES STATIC ******************* */
 	/**
@@ -136,9 +136,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 	/**
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
-	@Override
 	public void afterPropertiesSet() {
-		super.afterPropertiesSet();
 		Assert.notNull(this.daoService, "property daoService of class "
 				+ this.getClass().getName() + " can not be null");
 		Assert.notNull(this.domainApoService, "property domainApoService of class "
@@ -345,7 +343,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		}
 		
 		return statVetDiplomeCriteria(
-				businessCacheService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
+				domainApoService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
 						n1.getVersionEtpOpi().getCodVrsVet()), n2, c);
 	}
 	/**
@@ -361,7 +359,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		}
 		
 		return statVetEtatIndividuCriteria(
-				businessCacheService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
+				domainApoService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
 						n1.getVersionEtpOpi().getCodVrsVet()), n2, c);
 	}
 	/**
@@ -377,7 +375,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		}
 		
 		return statVetEtatVoeuCriteria(
-				businessCacheService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
+				domainApoService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
 						n1.getVersionEtpOpi().getCodVrsVet()), n2, c);
 	}
 	/**
@@ -393,7 +391,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		}
 		
 		return statVetMotivationCriteria(
-				businessCacheService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
+				domainApoService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
 						n1.getVersionEtpOpi().getCodVrsVet()), n2, c);
 	}
 	/**
@@ -408,7 +406,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		}
 		
 		return statVetPaysCriteria(
-				businessCacheService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
+				domainApoService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
 						n1.getVersionEtpOpi().getCodVrsVet()), n2, c);
 	}
 	/**
@@ -424,7 +422,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		}
 		
 		return statVetTypeConvocationCriteria(
-				businessCacheService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
+				domainApoService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
 						n1.getVersionEtpOpi().getCodVrsVet()), n2, c);
 	}
 	/**
@@ -440,7 +438,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		}
 		
 		return statVetTypeDecisionCriteria(
-				businessCacheService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
+				domainApoService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
 						n1.getVersionEtpOpi().getCodVrsVet()), n2, c);
 	}
 	/**
@@ -454,7 +452,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		}
 		
 		return allIndividuVet(
-				businessCacheService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
+				domainApoService.getVersionEtape(n1.getVersionEtpOpi().getCodEtp(),
 						n1.getVersionEtpOpi().getCodVrsVet()), c);
 	}
 	
@@ -1144,7 +1142,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		if (log.isDebugEnabled()) {
 			log.debug("entering getTypeConvocationStat classEtat = " + classTypeConvocation.getName());
 		}
-		return (List<TypeConvocation>) BeanUtils.getBean("listTypeConvocation");
+		return (List<TypeConvocation>) ApplicationContextHolder.getContext().getBean("listTypeConvocation");
 	}
 	/**
 	 * @param classEtatVoeu
@@ -1155,7 +1153,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		if (log.isDebugEnabled()) {
 			log.debug("entering getEtatStat classEtat = " + classEtatVoeu.getName());
 		}
-		return (List<EtatVoeu>) BeanUtils.getBean("listEtatVoeu");
+		return (List<EtatVoeu>) ApplicationContextHolder.getContext().getBean("listEtatVoeu");
 	}
 	/**
 	 * @param classEtatIndividu
@@ -1166,7 +1164,7 @@ public class PilotageServiceImpl extends AbstractDomainService implements Pilota
 		if (log.isDebugEnabled()) {
 			log.debug("entering getEtatStat classEtat = " + classEtatIndividu.getName());
 		}
-		return (List<EtatIndividu>) BeanUtils.getBean("listEtatIndividu");
+		return (List<EtatIndividu>) ApplicationContextHolder.getContext().getBean("listEtatIndividu");
 	}
 	/**
 	 * @param classPays

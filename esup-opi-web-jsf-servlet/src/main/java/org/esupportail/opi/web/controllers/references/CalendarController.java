@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -68,6 +69,11 @@ public class CalendarController extends AbstractContextAwareController {
 	 */
 
 	private List<Calendar> calendars;
+	
+	/**
+	 * Filtered calendars.
+	 */
+	private List<Calendar> filteredCalendars;
 	
 	/**
 	 * The key is type of calendar, 
@@ -157,81 +163,7 @@ public class CalendarController extends AbstractContextAwareController {
 		Collections.sort(calendars, new ComparatorString(Calendar.class));
 		return NavigationRulesConst.MANAGED_CAL;
 	}
-	
-	/**
-	 * Callback to calendar list after search of calendars.
-	 * @return String
-	 */
-	public String goSearchCalendars() {
-		// save the search pojo
-		CalendarRechPojo rech = calendarRechPojo;
-		reset();
-		calendarRechPojo = rech;
-		String type = null;
-		// filtrage éventuel sur le type de calendrier
-		if (StringUtils.hasText(calendarRechPojo.getType())) {
-			type = calendarRechPojo.getType();
-		}
-		List<Calendar> lesCalendars = getParameterService().getCalendars(null, type);
-		if (!StringUtils.hasText(this.calendarRechPojo.getCode())
-				&& !StringUtils.hasText(this.calendarRechPojo.getLibelle())) {
-			calendars.addAll(lesCalendars);
-		} else {
-			// filtre
-			boolean hasFiltreCode = false;
-			boolean hasFiltreLibelle = false;
-			if (StringUtils.hasText(this.calendarRechPojo.getCode())) {
-				hasFiltreCode = true;
-			}
-			if (StringUtils.hasText(this.calendarRechPojo.getLibelle())) {
-				hasFiltreLibelle = true;
-			}
-			calendars = new ArrayList<Calendar>();
-			boolean ajouterCode = false;
-			boolean ajouterLibelle = false;
-			for (Calendar c : lesCalendars) {
-				// flags update
-				if (hasFiltreCode) {
-					if (c.getCode().toUpperCase()
-							.contains(
-								this.calendarRechPojo.getCode().toUpperCase())) {
-						ajouterCode = true;
-					} else { ajouterCode = false; }
-				}
-	
-				if (hasFiltreLibelle) {
-					if (c.getLibelle().toUpperCase()
-							.contains(this.calendarRechPojo.getLibelle().
-									toUpperCase())) {
-							ajouterLibelle = true;
-					} else { ajouterLibelle = false; }
-				}
-	
-				// must be added ?
-				if (hasFiltreCode && hasFiltreLibelle) {
-					if (ajouterCode && ajouterLibelle) {
-						calendars.add(c);
-					}
-				} else {
-					if (hasFiltreCode) {
-						if (ajouterCode) {
-							calendars.add(c);
-						}
-					} else {
-						if (hasFiltreLibelle) {
-							if (ajouterLibelle) {
-								calendars.add(c);
-							}
-						}
-					}
-				}
-			}
-		}
-
-		Collections.sort(calendars, new ComparatorString(Calendar.class));
-		return NavigationRulesConst.MANAGED_CAL;
-	}
-	
+		
 	/**
 	 * Callback to calendar add.
 	 * @return String 
@@ -253,14 +185,14 @@ public class CalendarController extends AbstractContextAwareController {
 		if (beanCalendar.getCalendar() instanceof CalendarIns) {
 			CalendarIns cal = (CalendarIns) beanCalendar.getCalendar();
 			//initialize the proxy hibernate
-			getDomainService().initOneProxyHib(cal, cal.getCommissions(), Set.class);
+//			getDomainService().initOneProxyHib(cal, cal.getCommissions(), Set.class);
 			commissionController.setSelectedCommissions(new ArrayList<Commission>(cal.getCommissions()));
 		} else if (beanCalendar.getCalendar() instanceof CalendarCmi) {
 			CalendarCmi cal = (CalendarCmi) beanCalendar.getCalendar();
 			setReunions(new ArrayList<ReunionCmi>(cal.getReunions()));
 			if (cal.getCommission() != null) {
 				//initialize the proxy hibernate
-				getDomainService().initOneProxyHib(cal, cal.getCommission(), Set.class);
+//				getDomainService().initOneProxyHib(cal, cal.getCommission(), Set.class);
 				commissionController.getCommission().setId(cal.getCommission().getId());
 			}
 		}
@@ -292,14 +224,15 @@ public class CalendarController extends AbstractContextAwareController {
 	public String goSeeOneCal() {
 		if (beanCalendar.getCalendar() instanceof CalendarIns) {
 			CalendarIns cal = (CalendarIns) beanCalendar.getCalendar();
+			
 			//initialize the proxy hibernate
-			getDomainService().initOneProxyHib(cal, cal.getCommissions(), Set.class);
+//			getDomainService().initOneProxyHib(cal, cal.getCommissions(), Set.class);
 			commissionController.setSelectedCommissions(new ArrayList<Commission>(cal.getCommissions()));
 		
 		} else if (beanCalendar.getCalendar() instanceof CalendarCmi) {
 			CalendarCmi cal = (CalendarCmi) beanCalendar.getCalendar();
 			//initialize the proxy hibernate
-			getDomainService().initOneProxyHib(cal, cal.getCommission(), Commission.class);
+//			getDomainService().initOneProxyHib(cal, cal.getCommission(), Commission.class);
 			setReunions(new ArrayList<ReunionCmi>(cal.getReunions()));
 		}
 		return NavigationRulesConst.SEE_ONE_CAL;
@@ -312,12 +245,12 @@ public class CalendarController extends AbstractContextAwareController {
 	public String goSeeCalCmi() {
 		if (commissionController.getCommission().getCalendarCmi() != null) {
 		
-			getDomainService().initOneProxyHib(
-					commissionController.getCommission(), 
-					commissionController.getCommission().getCalendarCmi(), CalendarCmi.class);
+//			getDomainService().initOneProxyHib(
+//					commissionController.getCommission(), 
+//					commissionController.getCommission().getCalendarCmi(), CalendarCmi.class);
 			CalendarCmi cal = commissionController.getCommission().getCalendarCmi();
 			//initialize the proxy hibernate
-			getDomainService().initOneProxyHib(cal, cal.getCommission(), Commission.class);
+			//getDomainService().initOneProxyHib(cal, cal.getCommission(), Commission.class);
 			setReunions(new ArrayList<ReunionCmi>(cal.getReunions()));
 			
 			beanCalendar.setCalendar(cal);
@@ -630,6 +563,19 @@ public class CalendarController extends AbstractContextAwareController {
 		return true;
 	}
 	
+	/**
+	 * 
+	 * @return a list of {@link SelectItem} for each calendar type.
+	 */
+	public List<SelectItem> getCalendarTypes() {
+		List<SelectItem> result = new ArrayList<SelectItem>();
+		result.add(new SelectItem("", ""));
+		for (Entry<String, String> entry : getCalendarType().entrySet()) {
+			result.add(new SelectItem(entry.getKey(), entry.getValue()));
+		}
+		return result;
+	}
+	
 	/*
 	 ******************* ACCESSORS ******************** */
 	
@@ -648,12 +594,26 @@ public class CalendarController extends AbstractContextAwareController {
 	 */
 	public List<Calendar> getCalendars() {
 		if (calendars == null || calendars.isEmpty()) {
-			goSearchCalendars();
-		}
-		
+			calendars = getParameterService().getCalendars(null, null);
+			Collections.sort(calendars, new ComparatorString(Calendar.class));
+		}		
 		return calendars;
 	}
 	
+	/**
+	 * @return the filteredCalendars
+	 */
+	public List<Calendar> getFilteredCalendars() {
+		return filteredCalendars;
+	}
+
+	/**
+	 * @param filteredCalendars the filteredCalendars to set
+	 */
+	public void setFilteredCalendars(List<Calendar> filteredCalendars) {
+		this.filteredCalendars = filteredCalendars;
+	}
+
 	/**
 	 * List of commissions without calendarCmi by right in currentUser.
 	 * @return Set< Commission>

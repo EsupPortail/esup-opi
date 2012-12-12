@@ -78,7 +78,7 @@ public class EtapeController extends AbstractContextAwareController {
 	/**
 	 * The manager of the versionEtape to add to the cmi.
 	 */
-	private List<Object> objectToAdd;
+	private Object[] objectToAdd;
 	
 	/**
 	 * Liste des campagnes en service.
@@ -131,7 +131,7 @@ public class EtapeController extends AbstractContextAwareController {
 		allChecked = false;
 		codAnu = null;
 		campagnes = new ArrayList<Campagne>();
-		objectToAdd = new ArrayList<Object>();
+		objectToAdd = new Object[0];
 //		paginator.reset();
 		this.wayfEnum = new WayfEnum();
 	}
@@ -472,14 +472,14 @@ public class EtapeController extends AbstractContextAwareController {
 	/**
 	 * @return the objectToAdd
 	 */
-	public List<Object> getObjectToAdd() {
+	public Object[] getObjectToAdd() {
 		return objectToAdd;
 	}
 
 	/**
 	 * @param objectToAdd the objectToAdd to set
 	 */
-	public void setObjectToAdd(final List<Object> objectToAdd) {
+	public void setObjectToAdd(final Object[] objectToAdd) {
 		this.objectToAdd = objectToAdd;
 	}
 

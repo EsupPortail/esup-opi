@@ -25,9 +25,9 @@ import org.esupportail.opi.web.beans.BeanTrtCmi;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.parameters.FormationInitiale;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
-import org.esupportail.opi.web.utils.NavigationRulesConst;
-import org.esupportail.opi.web.utils.Utilitaires;
-import org.esupportail.opi.web.utils.comparator.ComparatorString;
+import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
+import org.esupportail.opi.web.beans.utils.Utilitaires;
+import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractAccessController;
 import org.esupportail.wssi.services.remote.VersionDiplomeDTO;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
@@ -251,7 +251,7 @@ public class TrtCmiController extends AbstractAccessController {
 	 */
 	public String addEtapes() {
 
-		if (!etapeController.getObjectToAdd().isEmpty()) {
+		if (etapeController.getObjectToAdd().length > 0) {
 			for (Object o : etapeController.getObjectToAdd()) {
 				VersionEtapeDTO v = (VersionEtapeDTO) o;
 				TraitementCmi t = getParameterService().getTraitementCmi(new VersionEtpOpi(v), false);
@@ -355,7 +355,7 @@ public class TrtCmiController extends AbstractAccessController {
 	 */
 	private BeanTrtCmi prepareTrtCmi(final BeanTrtCmi bt) {
 		bt.setEtape(
-				getBusinessCacheService().getVersionEtape(
+				getDomainApoService().getVersionEtape(
 						bt.getTraitementCmi().getVersionEtpOpi().getCodEtp(),
 						bt.getTraitementCmi().getVersionEtpOpi().getCodVrsVet()));
 		return bt;
@@ -517,7 +517,7 @@ public class TrtCmiController extends AbstractAccessController {
 				if (deleteTrt) {
 					trtcmiToDeleteFinal.add(trtCmi);
 				} else {
-					VersionEtapeDTO v = getBusinessCacheService().getVersionEtape(
+					VersionEtapeDTO v = getDomainApoService().getVersionEtape(
 							trtCmi.getVersionEtpOpi().getCodEtp(),
 							trtCmi.getVersionEtpOpi().getCodVrsVet());
 					addErrorMessage(null, "ERROR.TRT.CMI.EXIST_VOEU", 
@@ -553,7 +553,7 @@ public class TrtCmiController extends AbstractAccessController {
 		if (log.isDebugEnabled()) {
 			log.debug("addCampToVet");
 		}
-		if (!etapeController.getObjectToAdd().isEmpty()) {
+		if (etapeController.getObjectToAdd().length > 0) {
 			for (Object o : etapeController.getObjectToAdd()) {
 				BeanTrtCmi bt = (BeanTrtCmi) o;
 				addCampToVet(bt);

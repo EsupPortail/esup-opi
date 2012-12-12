@@ -20,18 +20,18 @@
         				<h:outputLabel value="#{msgs['INDIVIDU.NUM_DOSSIER']}"
         					for="numDossierOpi" />
         			</h:panelGroup>
-        			<h:inputText id="numDossierOpi"
+        			<p:inputText id="numDossierOpi"
         				value="#{paginatorPM.indRechPojo.numDossierOpiRecherche}" />
         
         			<h:panelGroup>
         				<h:outputLabel value="#{msgs['INDIVIDU.NOM']}" for="nom" />
         			</h:panelGroup>
-        			<h:inputText id="nom"
+        			<p:inputText id="nom"
         				value="#{paginatorPM.indRechPojo.nomRecherche}" />
         			<h:panelGroup>
         				<h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom" />
         			</h:panelGroup>
-        			<h:inputText id="prenom"
+        			<p:inputText id="prenom"
         				value="#{paginatorPM.indRechPojo.prenomRecherche}" />
         
         			<h:panelGroup>
@@ -46,16 +46,14 @@
         					<f:selectItems var="commission"
         						value="#{commissionController.commissionsItemsByRight}"
         						itemLabel="#{commission.libelle}" itemValue="#{commission.id}" />
+                            <p:ajax listener="#{pjController.searchStudents}" update="@form,:seeIndividusForm:individuData" />
         				</p:selectOneMenu>
-        				<p:commandButton id="lookForIndividuComm" value="#{msgs['_.BUTTON.SEARCH']}"
-        					action="#{pjController.searchStudents}"  ajax="false" />
         			</h:panelGroup>
         			<h:panelGroup>
         				<h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc" />
         			</h:panelGroup>
-        			<p:selectManyCheckbox value="#{paginatorPM.listeRI}" converter="javax.faces.Integer"
-        				disabled="#{!paginatorPM.indRechPojo.canModifyRISearch}"
-        				layout="lineDirection">
+        			<p:selectManyCheckbox id="fc" value="#{paginatorPM.listeRI}" converter="javax.faces.Integer"
+        				disabled="#{!paginatorPM.indRechPojo.canModifyRISearch}">
         				<f:selectItems var="ri" 
         						itemLabel="#{ri.shortLabel}" itemValue="#{ri.code}"
         						value="#{nomenclatureController.allRegimeInscription}"/>
@@ -64,10 +62,5 @@
         		</h:panelGrid>
         	</h:form>
         </div>
-        <script type="text/javascript">
-        	hideElement('lookForIndForm:lookForIndividuComm');
-        	hideElement('lookForIndForm:lookForIndividuTypeDec')
-        	hideElement('lookForIndForm:lookForIndividuEtp');
-        </script>
     </ui:fragment>
 </ui:fragment>

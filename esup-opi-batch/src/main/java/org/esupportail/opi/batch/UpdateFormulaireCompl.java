@@ -6,7 +6,7 @@ import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
 import org.esupportail.opi.web.beans.parameters.FormationContinue;
 import org.esupportail.opi.web.beans.parameters.FormationInitiale;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
-import org.esupportail.opi.web.utils.ExportUtils;
+import org.esupportail.opi.web.beans.utils.ExportUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,14 +17,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.services.application.ApplicationService;
 import org.esupportail.commons.services.application.ApplicationUtils;
 import org.esupportail.commons.services.database.DatabaseUtils;
 import org.esupportail.commons.services.exceptionHandling.ExceptionUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.commons.utils.BeanUtils;
-import org.jfree.util.Log;
 
 /**
  * @author cgomez
@@ -39,17 +38,13 @@ public class UpdateFormulaireCompl {
 	/**
 	 * 
 	 */
-	private static final ParameterService PARAMETER_SERVICE = (ParameterService) BeanUtils
-			.getBean("parameterService");
+	private static final ParameterService PARAMETER_SERVICE = (ParameterService) ApplicationContextHolder.getContext().getBean("parameterService");
 
-	private static final PilotageService PILOTAGE_SERVICE = (PilotageService) BeanUtils
-			.getBean("pilotageService");
+	private static final PilotageService PILOTAGE_SERVICE = (PilotageService) ApplicationContextHolder.getContext().getBean("pilotageService");
 	
-	private static final FormationContinue BEAN_FC = (FormationContinue) BeanUtils
-	.getBean("formationContinue");
+	private static final FormationContinue BEAN_FC = (FormationContinue) ApplicationContextHolder.getContext().getBean("formationContinue");
 	
-	private static final FormationInitiale BEAN_FI = (FormationInitiale) BeanUtils
-	.getBean("formationInitiale");
+	private static final FormationInitiale BEAN_FI = (FormationInitiale) ApplicationContextHolder.getContext().getBean("formationInitiale");
 	
 	private static final int TROIS = 3;
 	
@@ -141,7 +136,7 @@ public class UpdateFormulaireCompl {
 			versionEtpOpi.setCodVrsVet(codVrsVet);
 
 			if (PARAMETER_SERVICE.getTraitementCmi(versionEtpOpi, null) == null) {
-				Log.warn("Il y a aucun traitement pour l'étape " + codEtp + "-"
+				LOG.warn("Il y a aucun traitement pour l'étape " + codEtp + "-"
 						+ codVrsVet + "  du cge " + codCge);
 				return;
 			}
@@ -160,8 +155,7 @@ public class UpdateFormulaireCompl {
 			}
 			
 						
-			Map<Integer, List<String>> map = PILOTAGE_SERVICE
-					.prepareCsvFormulaire(versionEtpOpi, regimeInscription, champsChoisis);
+			Map<Integer, List<String>> map = PILOTAGE_SERVICE.prepareCsvFormulaire(versionEtpOpi, regimeInscription.getLabel(), champsChoisis);
 
 			String exportCsv = ExportUtils.makeCvs(map);
 			

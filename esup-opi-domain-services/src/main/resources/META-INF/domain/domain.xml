@@ -13,37 +13,27 @@
             expression="execution(* org.esupportail.*.domain.DomainServiceImpl.*(..))" />
         <aop:pointcut id="paramMethods"
             expression="execution(* org.esupportail.*.domain.ParameterServiceImpl.*(..))" />
-        <aop:pointcut id="domainApoMethods" 
-            expression="execution(* org.esupportail.*.domain.DomainApoServiceImpl.getListCommissionsByRight(..))" />
+        <aop:pointcut id="bddApoMethods"
+            expression="execution(* org.esupportail.*.services.remote.client.BDDApogee.*(..))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="domainMethods" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="paramMethods" />
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="domainApoMethods" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="bddApoMethods" />
     </aop:config>
 
     <tx:advice id="txAdvice" transaction-manager="txManager"> 
         <tx:attributes>
             <tx:method name="add*" propagation="REQUIRED" />
+            <tx:method name="save*" propagation="REQUIRED" />
             <tx:method name="delete*" propagation="REQUIRED" />
             <tx:method name="update*" propagation="REQUIRED" />
             <tx:method name="*" propagation="SUPPORTS" read-only="true" />
         </tx:attributes>
     </tx:advice>
     
-	<bean id="abstractDomainService" 
-		abstract="true"
-		>
-		<description>
-			An abstract bean to the all domain service.
-		</description>
-		<property name="jobDetail"><ref bean="flushCacheThread"/></property>
-       <property name="schedulerFlushCache"><ref bean="schedulerFlushCache"/></property> 
-	</bean>
-
-
 	<bean
 		id="domainService"
-		parent="abstractDomainService"
-		class="org.esupportail.opi.domain.DomainServiceImpl">
+		class="org.esupportail.opi.domain.DomainServiceImpl"
+		>
 		<property name="daoService" ref="daoService" />
 		<property name="urlGenerator" ref="${urlGeneration.bean}" />
 		<property name="ldapUserService" ref="ldapUserService" /> 
@@ -54,8 +44,8 @@
 
 	<bean
 		id="parameterService"
-		parent="abstractDomainService"
-		class="org.esupportail.opi.domain.ParameterServiceImpl">
+		class="org.esupportail.opi.domain.ParameterServiceImpl"
+		>
 		<property name="daoService" ref="paramDaoService" />
 		<property name="typeTraitements">
 			<list>
@@ -113,17 +103,15 @@
 	
 	<bean
 		id="domainApoService"
-		parent="abstractDomainService"
 		class="org.esupportail.opi.domain.DomainApoServiceImpl"
 		>
 		<property name="remoteCriApogeeRef" ref="remoteCriApogeeRef" />
 		<property name="remoteCriApogeeEns" ref="remoteCriApogeeEns" />
-		<property name="remoteCriApogeeRennes1" ref="remoteCriApogeeRennes1"/>
+		<property name="remoteApo" ref="${remote.apogee}"/>
 		<property name="remoteCriApogeeEtudiant" ref="remoteCriEtudiant"/>
 		<property name="remoteApoRenAdminMetier" ref="remoteApoRenAdminMetier"/>
     	<property name="remoteApoRenEtuMetier" ref="remoteApoRenEtuMetier"/>
    		<property name="remoteApoRenGeoMetier" ref="remoteApoRenGeoMetier"/>
-<!--     	<property name="remoteApoRenOpiMetier" ref="remoteApoRenOpiMetier"/> -->
     	<property name="remoteApoRenPedaMetier" ref="remoteApoRenPedaMetier"/>
 		<property name="codEtbInt" value="${init.codEtbInt}" />
 		<property name="codDacEtr" value="${init.codDacEtr}" />
@@ -137,9 +125,7 @@
 	
 	<bean
 		id="businessCacheService"
-		parent="abstractDomainService"
-		class="org.esupportail.opi.domain.BusinessCacheServiceImpl"
-		>
+		class="org.esupportail.opi.domain.BusinessCacheServiceImpl">
 		<property name="domainApoService" ref="domainApoService" />
 		<property name="cacheManager" ref="cacheManager" />
 	</bean>
@@ -147,7 +133,6 @@
 	
 	<bean
 		id="orbeonService"
-		parent="abstractDomainService"
 		class="org.esupportail.opi.domain.OrbeonServiceImpl"
 		>
 		<property name="xslXmlPath" value="${xsl_xml.path}" />
@@ -171,7 +156,6 @@
 	
 	<bean
 		id="pilotageService"
-		parent="abstractDomainService"
 		class="org.esupportail.opi.domain.PilotageServiceImpl"
 		>
 		<property name="daoService" ref="pilotageDaoService" />
@@ -205,3 +189,5 @@
 
 
 </beans>
+
+

@@ -4,15 +4,14 @@
     xmlns:p="http://primefaces.org/ui"
     template="/stylesheets/template.xhtml">
     
-    <ui:define name="content">	
-    	<div id="maPage" class="div_body">
+    <ui:define name="content">
+    	<p:outputPanel id="maPage" layout="block" styleClass="div_body">
     		<h1><h:outputText value="#{msgs['FORMATION.TITLE.SEE']}" /></h1>
     		
     		<ul class="menuSeeFormation">
     			<li>
     				<h:outputText value="#{msgs['FORMATION.SEE.INFO.TITLE']}"/>
     			</li>
-                <li>
         			<ul>
         				<li>
         					<h:outputText value="#{msgs['FORMATION.SEE.INFO.ETAPE_UN']}"/>
@@ -24,7 +23,6 @@
         					<h:outputText value="#{msgs['FORMATION.SEE.INFO.ETAPE_TROIS']}"/>
         				</li>
         			</ul>
-                </li>
     			<h:outputText value="#{msgs['FORMATION.SEE.INFO.TEXT_UN']}" />
     		</ul>
     		<br />
@@ -38,136 +36,119 @@
         			</li>
         		</ul>
             </ui:fragment>
-    		<br />
-    		
+    		<br />          
     		<div class="messageForUser">
     			<p:messages id="messages" showDetail="true" autoUpdate="true" />
     		</div>
-    		
     		<div id="div_subSection" class="div_subSection">
     			<h:form id="searchFormationForm" styleClass="opiR1_form">
-    				<div id="div_subSection" class="div_subSection">
+    				<p:outputPanel id="div_subSection" layout="block" styleClass="div_subSection">
     					<div id="blockFormTypeDip" class="blockForm">
     						<div style="width:100%;">
     							<h:outputText value="#{msgs['FORMATION.ACCESS.TYP_DIPLOME']}"
     								styleClass="section-smallTitle" />
     						</div>
     						
-    						<div class="blockTable">
+    						<p:outputPanel id="btnLinks" layout="block" styleClass="blockTable">
     							<div class="blockCenterWidthMax">
-    								<p:commandButton image="/media/images/LMD-Licence.png"
-    									rendered="#{formationController.licence != null}"
+    								<p:commandLink id="licenceBtnLink" partialSubmit="true" update="@form,:div_sectionSelectEtape,:div_sectionEtpEmpty"
+                                        rendered="#{formationController.licence != null}"
     									immediate="true">
+                                        <p:graphicImage value="/media/images/LMD-Licence.png" />
     									<f:setPropertyActionListener value="#{formationController.licence}" target="#{formationController.searchFormationPojo.groupTypSelected}" />
-    								</p:commandButton>
-    								<p:commandButton image="/media/images/LMD-Master.png"
+    								</p:commandLink>
+    								<p:commandLink id="masterBtnLink" partialSubmit="true" update="@form,:div_sectionSelectEtape,:div_sectionEtpEmpty"
     									rendered="#{formationController.master != null}"
     									immediate="true">
-    									<f:setPropertyActionListener value="#{formationController.master}" target="#{formationController.searchFormationPojo.groupTypSelected}" />
-    								</p:commandButton>
-    								<p:commandButton image="/media/images/LMD-Doctorat.png"
+                                        <p:graphicImage value="/media/images/LMD-Master.png" />
+                                        <f:setPropertyActionListener value="#{formationController.master}" target="#{formationController.searchFormationPojo.groupTypSelected}" />
+    								</p:commandLink>
+    								<p:commandLink id="doctoratBtnLink" partialSubmit="true" update="@form,:div_sectionSelectEtape,:div_sectionEtpEmpty"
     										rendered="#{formationController.doctorat != null}"
     										immediate="true">
+                                        <p:graphicImage value="/media/images/LMD-Doctorat.png" />
     									<f:setPropertyActionListener value="#{formationController.doctorat}" target="#{formationController.searchFormationPojo.groupTypSelected}" />
-    								</p:commandButton>
+    								</p:commandLink>
     							</div>
     							<div class="blockCenterWidthMax">
     								<ul class="listeTypeDiplome">
-    									<p:dataList var="grpTypDip" value="#{formationController.groupTypeDip}">
+    									<ui:repeat var="grpTypDip" value="#{formationController.groupTypeDip}">
     										<li>
-    											<p:commandButton value="#{grpTypDip.libGrpTpd}"
-    												immediate="true"
+    											<p:commandLink value="#{grpTypDip.libGrpTpd}"
+    												immediate="true" partialSubmit="true" update="@form,:div_sectionSelectEtape,:div_sectionEtpEmpty"
     												styleClass="form-button-link-small">
     												<f:setPropertyActionListener value="#{grpTypDip}" target="#{formationController.searchFormationPojo.groupTypSelected}" />
-    											</p:commandButton>
+    											</p:commandLink>
     										</li>
-    									</p:dataList>
+    									</ui:repeat>
     								</ul>
     							</div>
-    						</div>
+    						</p:outputPanel>
     
     					</div>
     					
     					<br />
     					<br />
     					<br />
-    					<ui:fragment rendered="#{formationController.searchFormationPojo.groupTypSelected != null}">
-        					<div id="blockFormMotClef" class="blockForm">
-        						<div style="width:100%;">
-        							<h:outputText value="#{msgs['FORMATION.ACCESS.KEY_WORD']}" styleClass="section-smallTitle" />
-        						</div>
-        
-        						<h:panelGrid styleClass="tableWidthMax" columns="2"
-        							columnClasses="col1UnDemi,col2UnDemi">
-        							<h:panelGroup>
-        								<h:outputLabel value="#{msgs['FORMATION.SELECT.KEY_WORD']}" for="motClef" />
-        							</h:panelGroup>
-        							<h:panelGroup>
-        								<p:selectOneMenu
-        									valueChangeListener="#{formationController.selectKeyWord}"
-        									value="#{formationController.searchFormationPojo.codKeyWordSelected}"
-        									onchange="javascript:{simulateLinkClick('searchFormationForm:submitKeyWord');}">
-        									<f:selectItems value="#{formationController.keyWordItems}" />
-        								</p:selectOneMenu>
-        								<p:commandButton id="submitKeyWord" action="#{formationController.selectKeyWord}" />
-        							</h:panelGroup>
-        						</h:panelGrid>
-        					</div>
-                        </ui:fragment>
-    					
+    					<h:panelGroup id="blockFormMotClef" layout="block" styleClass="blockForm" rendered="#{formationController.searchFormationPojo.groupTypSelected != null}">
+    						<div style="width:100%;">
+    							<h:outputText value="#{msgs['FORMATION.ACCESS.KEY_WORD']}" styleClass="section-smallTitle" />
+    						</div>
+    
+    						<h:panelGrid styleClass="tableWidthMax" columns="2"
+    							columnClasses="col1UnDemi,col2UnDemi">
+								<h:outputLabel value="#{msgs['FORMATION.SELECT.KEY_WORD']}" for="motClef" />
+								<h:selectOneMenu id="motClef" style="text-align:left;"
+									value="#{formationController.searchFormationPojo.codKeyWordSelected}">
+									<f:selectItems value="#{formationController.keyWordItems}" />
+                                    <p:ajax listener="#{formationController.selectKeyWord}" partialSubmit="true" update="@form,:div_sectionSelectEtape,:div_sectionEtpEmpty"  />
+								</h:selectOneMenu>
+    						</h:panelGrid>
+    					</h:panelGroup>
     					<br />
     					<br />
     					<br />
-    					<ui:fragment rendered="#{formationController.searchFormationPojo.versionDiplomes != null}">
-    					<div id="blockFormFormation" class="blockForm">
+                        <h:panelGroup id="blockFormFormation" layout="block" styleClass="blockForm" rendered="#{formationController.searchFormationPojo.versionDiplomes != null}">
     						
     						<div style="width:100%;">
     							<h:outputText value="#{msgs['FORMATION.LIST_DIPLOMES']}" styleClass="section-smallTitle" />
     						</div>
     						
-    						<div id="blockFormVdi" class="blockForm">
-    							<p:dataList var="versionDiplome" value="#{formationController.searchFormationPojo.versionDiplomes}" layout="unorderedList">
-    								<p:commandButton value="#{versionDiplome.libWebVdi}" styleClass="form-button-link"
-    									action="#{formationController.selectEtapeNotCurrentUser}">
-    									<f:setPropertyActionListener value="#{versionDiplome}" 
-    										target="#{formationController.searchFormationPojo.vrsDipSelected}" />
-    								</p:commandButton>
-    							</p:dataList>
-    							
-                                <ui:fragment rendered="#{empty formationController.searchFormationPojo.versionDiplomes
-                                    and formationController.searchFormationPojo.versionDiplomes != null}">
-    
-    								<div id="blockFormEtpEmpty" class="blockForm">
-    									<div class="blockTable">
-    										<h:outputText escape="false"
-    											value="#{msgs['FORMATION.DIP.NOT_EXIST.IN_CMI']}" >
-    										</h:outputText>
-    									</div>
-    								</div>
-                                </ui:fragment>
-    						</div>
+    						<p:outputPanel id="blockFormVdi" layout="block" styleClass="blockForm">
+    							<ui:repeat var="versionDiplome" value="#{formationController.searchFormationPojo.versionDiplomes}">
+                                    <div>
+        								<p:commandLink id="linkVdi_#{versionDiplome.codDip}" value="#{versionDiplome.libWebVdi}" 
+                                            styleClass="form-button-link" update=":div_sectionSelectEtape,:div_sectionEtpEmpty" partialSubmit="true"
+        									action="#{formationController.selectEtapeNotCurrentUser}">
+        									<f:setPropertyActionListener value="#{versionDiplome}" 
+        										target="#{formationController.searchFormationPojo.vrsDipSelected}" />
+        								</p:commandLink>
+                                    </div>
+    							</ui:repeat>
+								<p:outputPanel id="blockFormEtpEmpty" styleClass="blockForm" layout="block" 
+                                        rendered="#{empty formationController.searchFormationPojo.versionDiplomes
+                                            and formationController.searchFormationPojo.versionDiplomes != null}">
+									<div class="blockTable">
+										<h:outputText escape="false"
+											value="#{msgs['FORMATION.DIP.NOT_EXIST.IN_CMI']}" >
+										</h:outputText>
+									</div>
+								</p:outputPanel>
+    						</p:outputPanel>
     						
     						<br />
     						<br />
     						<br />
-    					</div>
-                        </ui:fragment>
-    				</div>
+                        </h:panelGroup>
+    				</p:outputPanel>
     			</h:form>
-    			<ui:include src="_seeVrsEtape.xhtml" />
+                <ui:include src="_seeVrsEtape.xhtml" />
     		</div>
-    	</div>
-    	
-    	
-    	
-    	<script type="text/javascript">
-    		highlightChildrenLiTags('navigationHeader:navigationLogin');
-    		highlightChildrenLiTags('navigationFooter:navigationLogin');
-    		highlightInputAndSelect('searchFormationForm');
-    		hideButton('searchFormationForm:submitKeyWord');
-    		hideButton('searchFormationForm:submitTypeDiplome');
-    	</script>
-    
+    	</p:outputPanel>
+    	    
+        <p:blockUI block="maPage" trigger="searchFormationForm,searchFormationForm:masterBtnLink,searchFormationForm:motClef,searchFormationForm:blockFormVdi,:div_sectionSelectEtape">
+            <p:graphicImage value="/media/images/ajax-loader.gif" />
+        </p:blockUI>
     </ui:define>
 </ui:composition>
 

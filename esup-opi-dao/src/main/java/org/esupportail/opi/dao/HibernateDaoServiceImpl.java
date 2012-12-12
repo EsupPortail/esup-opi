@@ -30,6 +30,12 @@ import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.dao.utils.PaginatorFactory;
 import org.esupportail.opi.domain.beans.VersionManager;
+import org.esupportail.opi.domain.beans.formation.ClesAnnuForm;
+import org.esupportail.opi.domain.beans.formation.ClesDiplomeAnnuForm;
+import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
+import org.esupportail.opi.domain.beans.formation.DomaineAnnuForm;
+import org.esupportail.opi.domain.beans.formation.GrpTypDip;
+import org.esupportail.opi.domain.beans.formation.GrpTypDipCorresp;
 import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.PieceJustificative;
@@ -80,8 +86,7 @@ import fj.data.Stream;
 /**
  * The Hibernate implementation of the DAO service.
  */
-public class HibernateDaoServiceImpl  extends AbstractJdbcJndiHibernateDaoService
-implements DaoService {
+public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService implements DaoService {
 
 	/**
 	 * The serialization id.
@@ -1739,8 +1744,5 @@ implements DaoService {
 		return null;
 	
 	}
-
-
-
-
 }
+

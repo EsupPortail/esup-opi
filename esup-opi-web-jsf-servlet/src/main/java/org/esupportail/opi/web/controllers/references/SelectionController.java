@@ -3,10 +3,10 @@
  */
 package org.esupportail.opi.web.controllers.references;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import org.esupportail.commons.services.logging.Logger;
@@ -220,8 +220,8 @@ public class SelectionController extends AbstractAccessController {
 	/**
 	 * @return Set < BeanTrtCmi>
 	 */
-	public Set<BeanTrtCmi> getBeansTrt() {
-		return selections.keySet();
+	public List<BeanTrtCmi> getBeansTrt() {
+		return new ArrayList<BeanTrtCmi>(selections.keySet());
 	}
 	
 

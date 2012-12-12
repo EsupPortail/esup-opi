@@ -2,10 +2,14 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
-    		<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
+    		<h1>
+                <span class="section-header">
+                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
+                </span>
+            </h1>
     		<div class="messageForUser">
     			<p:messages id="messages" showDetail="true" autoUpdate="true" />
     		</div>
@@ -78,30 +82,18 @@
     				</p:column>
     				<p:column>
     					<f:facet name="header">
-    						<h:outputText value="#{msgs['STATE.NON_ARRIVE']}" />
+                            <h:outputText value="#{msgs['STATE']}" />
     					</f:facet>
-    					<opi:radioButton id="myRadioId1" name="myRadioCol#{rowVar}"
-    						overrideName="true" value="#{commissionPojo.stateCurrent}"
-    						itemValue="STATE.NON_ARRIVE" />
-    				</p:column>
-    				<p:column>
-    					<f:facet name="header">
-    						<h:outputText value="#{msgs['STATE.ARRIVE_COMPLET']}" />
-    					</f:facet>
-    					<opi:radioButton id="myRadioId2" name="myRadioCol#{rowVar}"
-    						overrideName="true" value="#{commissionPojo.stateCurrent}"
-    						itemValue="STATE.ARRIVE_COMPLET" />
-    				</p:column>
-    				<p:column>
-    					<f:facet name="header">
-    						<h:outputText value="#{msgs['STATE.ARRIVE_INCOMPLET']}" />
-    					</f:facet>
-    					<opi:radioButton id="myRadioId3" name="myRadioCol#{rowVar}"
-    						overrideName="true" value="#{commissionPojo.stateCurrent}"
-    						itemValue="STATE.ARRIVE_INCOMPLET" />
-    				</p:column>
+                        <p:selectOneRadio value="#{commissionPojo.stateCurrent}">
+                            <f:selectItem itemValue="STATE.NON_ARRIVE" itemLabel="#{msgs['STATE.NON_ARRIVE']}" />
+                            <f:selectItem itemValue="STATE.ARRIVE_COMPLET" itemLabel="#{msgs['STATE.ARRIVE_COMPLET']}" />
+                            <f:selectItem itemValue="STATE.ARRIVE_INCOMPLET" itemLabel="#{msgs['STATE.ARRIVE_INCOMPLET']}" />
+                        </p:selectOneRadio>
+    				</p:column>                   
+                    
     				<p:column styleClass="buttonTD">
-    					<p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
+    					<p:commandButton icon="ui-icon-pencil" 
+                            title="#{msgs['_.BUTTON.UPDATE']}"
     						action="#{pjController.changeState}"
     						rendered="#{managedAccess.updateAuthorized
     								|| managedAccess.addAuthorized}" ajax="false" >
@@ -109,8 +101,7 @@
     					</p:commandButton>
     				</p:column>
     				<p:column styleClass="buttonTD">
-    					<p:commandButton image="/media/images/magnifier.png"
-    						styleClass="form-button-image" immediate="true"
+    					<p:commandButton icon="ui-icon-search" immediate="true"
     						action="#{pjController.seeMissingPiecePrincipal}"
     						title="#{msgs['_.BUTTON.DISPLAY']}" ajax="false" >
     						<f:setPropertyActionListener value="#{commissionPojo}" target="#{pjController.currentCmiPojo}" />
@@ -124,10 +115,5 @@
     
             <ui:include src="_block/_enterPM.xhtml" />
     	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        </script>
     </ui:define>
 </ui:composition>

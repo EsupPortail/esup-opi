@@ -10,5 +10,6 @@ target/
 /esup-opi-web-jsf-servlet/tabStatistique.xml
 config.properties
 .idea/
+*.eml
 *.iml
-
+/env.sh

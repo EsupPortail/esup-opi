@@ -6,15 +6,15 @@
     	<div style="width:100%;">
     		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
     			styleClass="tableJustWidthMax">
-    			<h:outputText value="#{msgs['CALENDAR.CONFIRM.DELETE']}">
+    			<h:outputFormat value="#{msgs['CALENDAR.CONFIRM.DELETE']}">
     				<f:param value="#{calendarController.beanCalendar.calendar.libelle}"/>
-    			</h:outputText>
+    			</h:outputFormat>
     			<h:panelGroup>
     				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    					action="#{calendarController.delete}"/>
+    					action="#{calendarController.delete}" ajax="false" />
     				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
     					action="#{calendarController.reset}"
-    					immediate="true"/>
+    					immediate="true" ajax="false"  />
     			</h:panelGroup>
     		</h:panelGrid>
     	</div>

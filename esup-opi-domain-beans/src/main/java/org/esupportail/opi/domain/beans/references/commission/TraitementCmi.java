@@ -3,7 +3,9 @@
  */
 package org.esupportail.opi.domain.beans.references.commission;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.esupportail.opi.domain.beans.NormeSI;
@@ -246,6 +248,23 @@ public class TraitementCmi extends NormeSI {
 	 */
 	public void setLinkTrtCmiCamp(final Set<LinkTrtCmiCamp> linkTrtCmiCamp) {
 		this.linkTrtCmiCamp = linkTrtCmiCamp;
+	}
+
+	/**
+	 * @return the linkTrtCmiCamp
+	 */
+	public List<LinkTrtCmiCamp> getListLinkTrtCmiCamp() {
+		return new ArrayList<LinkTrtCmiCamp>(linkTrtCmiCamp);
+	}
+
+	/**
+	 * @return the linkTrtCmiCamp
+	 */
+	public int getNbLinkTrtCmiCamp() {
+		if (linkTrtCmiCamp != null) {
+			return linkTrtCmiCamp.size();
+		}
+		return 0;
 	}
 
 }

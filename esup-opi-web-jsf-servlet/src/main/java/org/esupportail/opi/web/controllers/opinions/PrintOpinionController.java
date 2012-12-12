@@ -474,121 +474,120 @@ public class PrintOpinionController extends AbstractContextAwareController {
                         new F<RegimeInscription, String>() {
                             public String f(RegimeInscription ri) {
                                 return String.valueOf(ri.getCode());
-                            }
-                        }).toStandardList());
-        log.debug("after list individus");
+                            }}).toStandardList());
+			log.debug("after list individus");
 
-        Set<Commission> listComm = new HashSet<Commission>();
-        listComm.add(com);
+			Set<Commission> listComm = new HashSet<Commission>();
+			listComm.add(com);
 
-        List<IndividuPojo> listeIndPojo =
-                Utilitaires.convertIndInIndPojo(listeInd,
-                        getParameterService(), getI18nService(),
-                        getDomainApoService(), listComm, null,
-                        getParameterService().getTypeTraitements(),
-                        getParameterService().getCalendarRdv(), null, false);
+			List<IndividuPojo> listeIndPojo = 
+				Utilitaires.convertIndInIndPojo(listeInd, 
+						getParameterService(), getI18nService(), 
+						getDomainApoService(), listComm, null, 
+						getParameterService().getTypeTraitements(),
+						getParameterService().getCalendarRdv(), null, false);
 
-        for (IndividuPojo iPojo : listeIndPojo) {
-            iPojo.initIndCursusScolPojo(getDomainApoService(), getI18nService());
+			for (IndividuPojo iPojo : listeIndPojo) {
+				iPojo.initIndCursusScolPojo(getDomainApoService(), getI18nService());
+				
+				// on enlève les voeux en transfert
+				Set<IndVoeuPojo> voeuxToRemove = new HashSet<IndVoeuPojo>();
+				for (IndVoeuPojo iVoeuP : iPojo.getIndVoeuxPojo()) {
+					if (iVoeuP.getTypeTraitement().equals(transfert)) {
+						voeuxToRemove.add(iVoeuP);
+					}
+				}
+				iPojo.getIndVoeuxPojo().removeAll(voeuxToRemove);
+				
+				// enleve les etudiants sans voeux restant
+				if (!iPojo.getIndVoeuxPojo().isEmpty()) {
+					this.lesIndividus.add(iPojo);
+				}
 
-            // on enlève les voeux en transfert
-            Set<IndVoeuPojo> voeuxToRemove = new HashSet<IndVoeuPojo>();
-            for (IndVoeuPojo iVoeuP : iPojo.getIndVoeuxPojo()) {
-                if (iVoeuP.getTypeTraitement().equals(transfert)) {
-                    voeuxToRemove.add(iVoeuP);
-                }
-            }
-            iPojo.getIndVoeuxPojo().removeAll(voeuxToRemove);
+			}
+			
+			csvGeneration(lesIndividus, 
+					"listePrepa_" + commissionController.getCommission().getCode() + ".csv");
+			this.lesIndividus = new ArrayList<IndividuPojo>();
+		}
+		
+		
+		/**
+		 * Generate the CVS de la liste preparatoire de la commission.
+		 * call in printListsPrepa.jsp
+		 */
+		public void generateCSVListesTransfert() {
+			/**
+			 * recuperation de la liste des individus ayant fait un voeu dans la commission
+			 */
+			//String includeTypeTrt = "'" + transfert.getCode() + "'";
 
-            // enleve les etudiants sans voeux restant
-            if (!iPojo.getIndVoeuxPojo().isEmpty()) {
-                this.lesIndividus.add(iPojo);
-            }
+			List<Individu> listeInd = getDomainService().getIndividusCommission(
+					commissionController.getCommission(), null, null);
+			log.debug("after list individus");
+			Set<Commission> listComm = new HashSet<Commission>();
+			Commission c = getParameterService().getCommission(commissionController.getCommission().getId(), null);
+			listComm.add(c);
 
-        }
+			List<IndividuPojo> listeIndPojo = 
+				Utilitaires.convertIndInIndPojo(listeInd, 
+						getParameterService(), getI18nService(), 
+						getDomainApoService(), listComm, null, 
+						getParameterService().getTypeTraitements(), 
+						getParameterService().getCalendarRdv(), null, false);
 
-        csvGeneration(lesIndividus,
-                "listePrepa_" + commissionController.getCommission().getCode() + ".csv");
-        this.lesIndividus = new ArrayList<IndividuPojo>();
-    }
+			// on filtre les voeux 
+			
+			for (IndividuPojo iPojo : listeIndPojo) {
+				iPojo.initIndCursusScolPojo(getDomainApoService(), getI18nService());
+				
+				// on enlève les voeux non en transfert
+				Set<IndVoeuPojo> voeuxToRemove = new HashSet<IndVoeuPojo>();
+				for (IndVoeuPojo iVoeuP : iPojo.getIndVoeuxPojo()) {
+					if (!iVoeuP.getTypeTraitement().equals(transfert)) {
+						voeuxToRemove.add(iVoeuP);
+					}
+				}
+				iPojo.getIndVoeuxPojo().removeAll(voeuxToRemove);
+				
+				// enleve les etudiants sans voeux restant
+				if (!iPojo.getIndVoeuxPojo().isEmpty()) {
+					this.lesIndividus.add(iPojo);
+				}
 
+			}
+			csvGeneration(lesIndividus, 
+					"listePrepa_" + commissionController.getCommission().getCode() + ".csv");
+			this.lesIndividus = new ArrayList<IndividuPojo>();
+		}
+		
+	
+		/**
+		 * Generate a CSV of the list of student. 
+		 * @param individus 
+		 * @param fileName 
+		 * @return String
+		 */
+		public String csvGeneration(final List<IndividuPojo> individus, final String fileName) {
+			//key ligne value value list
+			Map<Integer, List<String>> mapCsv = new HashMap<Integer, List<String>>(); 
+			Integer counter = 0;
+			Integer colonne = 0;
+			Array<String> tabChampschoisis = array(champsChoisis);
+			if (champsChoisis == null || tabChampschoisis.isEmpty()) {
+				champsChoisis = HEADER_CVS.toArray(new String[0]);
+			}
 
-    /**
-     * Generate the CVS de la liste preparatoire de la commission.
-     * call in printListsPrepa.jsp
-     */
-    public void generateCSVListesTransfert() {
-        /**
-         * recuperation de la liste des individus ayant fait un voeu dans la commission
-         */
-        //String includeTypeTrt = "'" + transfert.getCode() + "'";
+			log.info("Champs choisis : " + champsChoisis);
 
-        List<Individu> listeInd = getDomainService().getIndividusCommission(
-                commissionController.getCommission(), null, null);
-        log.debug("after list individus");
-        Set<Commission> listComm = new HashSet<Commission>();
-        listComm.add(commissionController.getCommission());
-
-        List<IndividuPojo> listeIndPojo =
-                Utilitaires.convertIndInIndPojo(listeInd,
-                        getParameterService(), getI18nService(),
-                        getDomainApoService(), listComm, null,
-                        getParameterService().getTypeTraitements(),
-                        getParameterService().getCalendarRdv(), null, false);
-
-        // on filtre les voeux
-
-        for (IndividuPojo iPojo : listeIndPojo) {
-            iPojo.initIndCursusScolPojo(getDomainApoService(), getI18nService());
-
-            // on enlève les voeux non en transfert
-            Set<IndVoeuPojo> voeuxToRemove = new HashSet<IndVoeuPojo>();
-            for (IndVoeuPojo iVoeuP : iPojo.getIndVoeuxPojo()) {
-                if (!iVoeuP.getTypeTraitement().equals(transfert)) {
-                    voeuxToRemove.add(iVoeuP);
-                }
-            }
-            iPojo.getIndVoeuxPojo().removeAll(voeuxToRemove);
-
-            // enleve les etudiants sans voeux restant
-            if (!iPojo.getIndVoeuxPojo().isEmpty()) {
-                this.lesIndividus.add(iPojo);
-            }
-
-        }
-        csvGeneration(lesIndividus,
-                "listePrepa_" + commissionController.getCommission().getCode() + ".csv");
-        this.lesIndividus = new ArrayList<IndividuPojo>();
-    }
-
-
-    /**
-     * Generate a CSV of the list of student.
-     *
-     * @param individus
-     * @param fileName
-     * @return String
-     */
-    public String csvGeneration(final List<IndividuPojo> individus, final String fileName) {
-        //key ligne value value list
-        Map<Integer, List<String>> mapCsv = new HashMap<Integer, List<String>>();
-        Integer counter = 0;
-        Integer colonne = 0;
-        Array<String> tabChampschoisis = array(champsChoisis);
-        if (champsChoisis == null || tabChampschoisis.isEmpty()) {
-            champsChoisis = HEADER_CVS.toArray(new String[0]);
-        }
-
-        log.info("Champs choisis : " + champsChoisis);
-
-        mapCsv.put(counter, Arrays.asList(champsChoisis));
-        Collections.sort(individus, new ComparatorString(IndividuPojo.class));
-        for (IndividuPojo ind : individus) {
-            Pays p = null;
-            CommuneDTO c = null;
-
-            //init hib proxy adresse
-//				getDomainService().initOneProxyHib(ind.getIndividu(),
+			mapCsv.put(counter, Arrays.asList(champsChoisis));
+			Collections.sort(individus, new ComparatorString(IndividuPojo.class));
+			for (IndividuPojo ind : individus) {
+				Pays p = null;
+				CommuneDTO c = null;
+				
+				//init hib proxy adresse
+//				getDomainService().initOneProxyHib(ind.getIndividu(), 
 //						ind.getIndividu().getAdresses(), Adresse.class);
             // récupération de l'adresse
             Adresse adresse = ind.getIndividu().getAdresses().get(Constantes.ADR_FIX);
@@ -1517,3 +1516,4 @@ public class PrintOpinionController extends AbstractContextAwareController {
         this.individuPojoPaginator = individuPojoPaginator;
     }
 }
+

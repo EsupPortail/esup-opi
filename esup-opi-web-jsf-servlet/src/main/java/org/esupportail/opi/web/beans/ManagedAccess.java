@@ -36,8 +36,6 @@ import org.primefaces.model.DefaultMenuModel;
 import org.primefaces.model.MenuModel;
 import org.springframework.beans.factory.InitializingBean;
 
-
-
 /**
  * A bean to memorize the treatement of the application.
  */
@@ -191,45 +189,13 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 		return false;
 	}
 	
-//	/**
-//	 * Use by deeplinking cf. deepLinking.xml
-//	 * @param codeTrt
-//	 * @return String callback to redirect
-//	 */
-//	public String initCurrentTreatement(final String codeTrt) {
-//
-//		currentTraitement = parameterService.getTraitement(Integer.valueOf(codeTrt));
-//
-//		String elAction = TagUtils.makeELExpression(currentTraitement.getAction());
-//		FacesContext context = FacesContext.getCurrentInstance();
-//		MethodExpression method = context.getApplication()
-//		.getExpressionFactory().createMethodExpression(
-//				context.getELContext(), elAction, String.class, new Class[]{});
-//		//execute the method define to action attributes.
-//		Object navRules = method.invoke(context.getELContext(), null);
-//		return (String) navRules;
-//
-//
-//	}
-//	
-//	/**
-//	 * Generate the URL for to the all treatment in this application.
-//	 * @param t 
-//	 * @return String
-//	 */
-//	private final String treatmentUrl(final Traitement t) {
-//		Map<String, String> params = new HashMap<String, String>();
-//		params.put("treatment", String.valueOf(t.getId()));
-//		String url = urlGenerator.casUrl(params);
-//		return url;
-//	}
-	
 	public MenuModel getMenuGestionnaire() {
 		menuModel = new DefaultMenuModel();
 		I18nService i18nService = I18nUtils.createI18nService();
 		FacesContext fc = FacesContext.getCurrentInstance();
 		ExpressionFactory factory = fc.getApplication().getExpressionFactory();
 		MenuItem accueil = new MenuItem();
+		accueil.setAjax(false);
 		accueil.setValue(i18nService.getString("NAVIGATION.TEXT.WELCOME"));
 		accueil.setActionExpression(factory.createMethodExpression(fc.getELContext(), "#{welcomeController.goWelcomeManager}", String.class, new Class[]{}));
         accueil.setAjax(false);
@@ -255,7 +221,7 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 						MenuItem sub = new MenuItem();
 						sub.setValue(d.getLibelle());
 						sub.setActionExpression(me);
-                        sub.setAjax(false);
+						sub.setAjax(false);
 						menuModel.addMenuItem(sub);
 					} else {
 						Submenu sub = new Submenu();
@@ -273,7 +239,7 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 							MenuItem item = new MenuItem();
 							item.setValue(f.getLibelle());
 							item.setActionExpression(me);
-                            item.setAjax(false);
+							item.setAjax(false);
 							sub.getChildren().add(item);
 						}
 						menuModel.addSubmenu(sub);
@@ -285,7 +251,7 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 		logout.setRendered(sessionController.getIsServlet());
 		logout.setValue(i18nService.getString("NAVIGATION.TEXT.LOGOUT"));
 		logout.setActionExpression(factory.createMethodExpression(fc.getELContext(), "#{sessionController.logoutGest}", String.class, new Class[]{}));
-        logout.setAjax(false);
+		logout.setAjax(false);
 		menuModel.addMenuItem(logout);
 		
 		return menuModel;
@@ -348,3 +314,4 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 		this.sessionController = sessionController;
 	}
 }
+

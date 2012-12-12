@@ -26,7 +26,8 @@
     								<h:panelGroup>
     									<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     										rendered="#{sessionController.currentInd.asRightsToUpdate}"
-    										action="#{confirmationController.finishCandidature}" />
+    										action="#{confirmationController.finishCandidature}"
+    										ajax="false" />
     									<p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
     										immediate="true"
     										action="#{accueilController.goWelcomeCandidat}" />
@@ -34,7 +35,7 @@
     							</h:panelGrid>
     						</div>
     						<p:dataTable var="indVoeuPojo"
-    							value="#{confirmationController.indVoeuxPojoFav}"
+    							value="#{confirmationController.indVoeuxPojoFavItems}"
     							alternateColors="false" renderedIfEmpty="false"
     							styleClass="displayInfo" rowIndexVar="rowVar">
     							<p:column>
@@ -45,19 +46,15 @@
     							</p:column>
     							<p:column>
     								<f:facet name="header">
-    									<h:outputText value="#{msgs['STATE.CONFIRM.TITLE']}" />
+    									<h:outputText value="#{msgs['STATE.CONFIRM.TITLE']} - #{msgs['STATE.DESIST.TITLE']}" />
     								</f:facet>
-    								<opi:radioButton id="myRadioId1" name="myRadioCol#{rowVar}"
-    									overrideName="true" value="#{indVoeuPojo.stateConf}"
-    									itemValue="STATE.CONFIRM" disabled="#{indVoeuPojo.disableConfirm}"/>
-    							</p:column>
-    							<p:column>
-    								<f:facet name="header">
-    									<h:outputText value="#{msgs['STATE.DESIST.TITLE']}" />
-    								</f:facet>
-    								<opi:radioButton id="myRadioId2" name="myRadioCol#{rowVar}"
-    									overrideName="true" value="#{indVoeuPojo.stateConf}"
-    									itemValue="STATE.DESIST" disabled="#{indVoeuPojo.disableConfirm}"/>
+    								<p:selectOneRadio id="myRadioId1" value="#{indVoeuPojo.stateConf}">  
+							             <f:selectItem itemLabel="#{msgs['STATE.CONFIRM.TITLE']}" itemValue="STATE.CONFIRM"
+							             		disabled="#{indVoeuPojo.disableConfirm}" />  
+							             <f:selectItem itemLabel="#{msgs['STATE.DESIST.TITLE']}" itemValue="STATE.DESIST"
+							             		disabled="#{indVoeuPojo.disableConfirm}" />   
+							         </p:selectOneRadio> 
+
     							</p:column>
     							<p:column>
     								<f:facet name="header">

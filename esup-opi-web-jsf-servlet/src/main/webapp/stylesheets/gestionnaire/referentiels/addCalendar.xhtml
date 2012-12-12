@@ -2,7 +2,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
     		<h1>
@@ -33,39 +33,25 @@
     						</h:panelGroup>
     						<h:panelGroup>
     							<p:selectOneMenu
-    								valueChangeListener="#{calendarController.selectType}"
-    								value="#{calendarController.beanCalendar.typeSelected}"
-    								onchange="javascript:{simulateLinkClick('addCalendarForm:submitTypCal');}">
+    								value="#{calendarController.beanCalendar.typeSelected}">
     								<f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}"
     								itemValue="" />
     								<f:selectItems value="#{calendarController.typeCalItems}"/>
+                                    <p:ajax listener="#{calendarController.selectType}" update="@form" />
     							</p:selectOneMenu>
-    							<p:commandButton id="submitTypCal" action="#{calendarController.selectType}"/>
     						</h:panelGroup>
     					</h:panelGrid>
     				</div>
-                    <ui:fragment rendered="#{calendarController.beanCalendar.typeSelected == calendarController.typCalInscription}">
-        				<div id="calTypInscription">
-        					<ui:include src="_calendar/_enterCalInscription.xhtml" />
-        				</div>
-                    </ui:fragment>
-                    <ui:fragment rendered="#{calendarController.beanCalendar.typeSelected == calendarController.typCalCommission}">
-        				<div id="calTypCommission">
-        					<h:outputText value="#{msgs['CALENDAR.CMI.INFO.EXIST']}">
-        						<f:param value="#{calendarController.dateBackDefault}"/>
-        					</h:outputText>
-        				</div>
-                    </ui:fragment>
+                    <p:outputPanel id="calTypInscription" rendered="#{calendarController.beanCalendar.typeSelected == calendarController.typCalInscription}">
+    					<ui:include src="_calendar/_enterCalInscription.xhtml" />
+                    </p:outputPanel>
+                    <p:outputPanel id="calTypCommission" rendered="#{calendarController.beanCalendar.typeSelected == calendarController.typCalCommission}">
+    					<h:outputText value="#{msgs['CALENDAR.CMI.INFO.EXIST']}">
+    						<f:param value="#{calendarController.dateBackDefault}"/>
+    					</h:outputText>
+                    </p:outputPanel>
     			</h:form>
     		</div>
     	</div>
-    	
-    	<script type="text/javascript">
-    		highlightChildrenLiTags('navigationHeader:navigation');
-    		highlightChildrenLiTags('navigationFooter:navigation');
-    		hideElement('addCalendarForm:submitTypCal');
-    		highlightInputAndSelect('addCalendarForm');
-    		hideElement('submitCmi');
-    	</script>
     </ui:define>
 </ui:composition>

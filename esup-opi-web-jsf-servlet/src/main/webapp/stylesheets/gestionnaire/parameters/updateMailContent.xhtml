@@ -3,7 +3,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	
     	
@@ -30,16 +30,20 @@
     							<h:panelGroup>
     								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     									action="#{mailContentController.update}"
-    									rendered="#{managedAccess.updateAuthorized}" />
+    									rendered="#{managedAccess.updateAuthorized}"
+    									ajax="false" />
     								<p:commandButton value="#{msgs['MAIL_CONTENT.SELECT_PARAM']}"
-    									immediate="true" >
+    									immediate="true"
+    									ajax="false" >
     									<f:setPropertyActionListener value="#{mailContentController.actionEnum.updateAction}" 
     										target="#{mailContentController.actionEnum.whatAction}" />
     								</p:commandButton>
     								<p:commandButton value="#{msgs['MAIL_CONTENT.INIT.DEFAULT_VALUE']}"
-    											action="#{mailContentController.initDefaultValue}" />
+    									action="#{mailContentController.initDefaultValue}"
+    									ajax="false" />
     								<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    									immediate="true" action="#{mailContentController.goAllMails}"/>
+    									immediate="true" action="#{mailContentController.goAllMails}"
+    									ajax="false"/>
     							</h:panelGroup>
     						</h:panelGrid>
     					</div>
@@ -51,13 +55,13 @@
     							<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code" />
     						</h:panelGroup>
     						<h:outputText id="code"
-    								value="#{mailContentController.mailContent.code}" />
+    							value="#{mailContentController.mailContent.code}" />
     						<h:panelGroup>
     							<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
     								for="libelle" />
     						</h:panelGroup>
-    						<h:inputText id="libelle" size="41" maxlength="40" required="true"
-    				                      value="#{mailContentController.mailContent.libelle}" />
+    						<p:inputText id="libelle" size="41" maxlength="40" required="true"
+    				        	value="#{mailContentController.mailContent.libelle}" />
     					</h:panelGrid>
     					<br />
     					<br />
@@ -68,16 +72,14 @@
     							<h:outputText value="*" styleClass="etoileForChpObli" />
     						</h:panelGroup>
     						<h:panelGroup>
-    							<h:inputText size="100" id="subject"
+    							<p:inputText size="100" id="subject"
     								value="#{mailContentController.mailContent.subject}" />
     						</h:panelGroup>
     					</div>
     					<br />
     					<div>
     						<h:panelGroup>
-    							<fck:editor 
-    								toolbarSet="MailContent"
-    								value="#{mailContentController.mailContent.body}"/>
+    							<p:editor id="editor" value="#{mailContentController.mailContent.body}" width="800" style="width:100%;"/>
     						</h:panelGroup>
     					</div>
     				</div>

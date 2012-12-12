@@ -1,20 +1,19 @@
 package org.esupportail.opi.batch;
 
+import etudiantwebserviceimpl.impl.webservices.commun.apogee.education.gouv.EtudiantMetierServiceInterface;
+import gouv.education.apogee.commun.transverse.dto.etudiant.identifiantsetudiantdto.IdentifiantsEtudiantDTO;
+
 import java.util.List;
 
+import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.services.application.ApplicationService;
 import org.esupportail.commons.services.application.ApplicationUtils;
 import org.esupportail.commons.services.database.DatabaseUtils;
 import org.esupportail.commons.services.exceptionHandling.ExceptionUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.commons.utils.BeanUtils;
-
 import org.esupportail.opi.dao.DaoService;
 import org.esupportail.opi.domain.beans.user.Individu;
-import gouv.education.apogee.commun.client.ws.etudiantmetier.EtudiantMetierServiceInterfaceProxy;
-import gouv.education.apogee.commun.servicesmetiers.EtudiantMetierServiceInterface;
-import gouv.education.apogee.commun.transverse.dto.etudiant.IdentifiantsEtudiantDTO;
 
 
 /**
@@ -43,7 +42,7 @@ public class RecupCodNNEEtuUniv  {
 	 * et met à jour leurs codeNNE
 	 */
 	private static void recupCodNNE() {
-		DaoService daoService = (DaoService) BeanUtils.getBean("daoService");
+		DaoService daoService = (DaoService) ApplicationContextHolder.getContext().getBean("daoService");
 //		ParameterService parameterService = (ParameterService) BeanUtils.getBean("parameterService");
 //		Transfert transfert = (Transfert) BeanUtils.getBean("transfert");
 		try {
@@ -54,8 +53,7 @@ public class RecupCodNNEEtuUniv  {
 //			List<Individu> individus = daoService.getIndividus(null, transfert.getCode());
 			LOG.debug("Nombre d'étudiants de l'université : " + individus.size());
 			
-			EtudiantMetierServiceInterface etudiantMetierService = 
-				new EtudiantMetierServiceInterfaceProxy();
+			EtudiantMetierServiceInterface etudiantMetierService = (EtudiantMetierServiceInterface) ApplicationContextHolder.getContext().getBean("remoteApoRenEtuMetier");
 			
 			int nbEtuUp = 0;
 			for (Individu ind : individus) {

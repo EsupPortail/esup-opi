@@ -9,29 +9,29 @@
          and the database mapping is in folder 
          /properties/dao/hibernate/mapping. 
     -->
- <session-factory name="">
-  <property name="hibernate.connection.autocommit">false</property>
-  <property name="hibernate.connection.charSet">UTF-8</property>
-  <property name="hibernate.show_sql">false</property>
-  <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
-  <property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
-  <property name="connection.autoReconnectForPools">true</property>
-  <property name="connection.is-connection-validation-required">true</property>
-  <property name="connection.autoReconnect">true</property>
-  <property name="query.substitutions">true 1, false 0, yes 'Y', no 'N'</property>
-  <property name="hibernate.jdbc.fetch_size">25</property>
-  <property name="hibernate.jdbc.batch_size">25</property>
-  <property name="hibernate.jdbc.use_scrollable_resultset">true</property>
-  <property name="hibernate.jdbc.use_streams_for_binary">true</property>
-  <property name="hibernate.max_fetch_depth">1</property>
-  <property name="hibernate.c3p0.min_size">5</property>
-  <property name="hibernate.c3p0.max_size">20</property>
-  <property name="hibernate.c3p0.timeout">30</property>
-  <property name="hibernate.c3p0.acquire_increment">5</property>
-  <property name="hibernate.c3p0.idle_test_period">300</property>
-  <property name="hibernate.c3p0.max_statements">50</property>
-  <property name="hibernate.cache.use_query_cache">false</property>
-  <property name="hibernate.cache.use_second_level_cache">false</property>
-  <property name="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
- </session-factory>
+    <session-factory>
+        <property name="hibernate.connection.autocommit">false</property>
+        <property name="hibernate.connection.charSet">UTF-8</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+        <property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
+        <property name="connection.autoReconnectForPools">true</property>
+        <property name="connection.is-connection-validation-required">true</property>
+        <property name="connection.autoReconnect">true</property>
+        <property name="query.substitutions">true 1, false 0, yes 'Y', no 'N'</property>
+        <property name="hibernate.jdbc.fetch_size">25</property>
+        <property name="hibernate.jdbc.batch_size">25</property>
+        <property name="hibernate.jdbc.use_scrollable_resultset">true</property>
+        <property name="hibernate.jdbc.use_streams_for_binary">true</property>
+        <property name="hibernate.max_fetch_depth">1</property>
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+        <property name="hibernate.c3p0.timeout">10</property>
+        <property name="hibernate.c3p0.acquire_increment">5</property>
+        <property name="hibernate.c3p0.idle_test_period">300</property>
+        <property name="hibernate.c3p0.max_statements">50</property>
+        <property name="hibernate.cache.use_query_cache">false</property>
+        <property name="hibernate.cache.use_second_level_cache">false</property>
+        <property name="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+    </session-factory>
 </hibernate-configuration>

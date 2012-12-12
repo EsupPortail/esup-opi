@@ -627,7 +627,7 @@ public class SaisieRdvEtuController extends AbstractAccessController {
 						getDomainService().initOneProxyHib(indVoeu.getLinkTrtCmiCamp(), 
 								indVoeu.getLinkTrtCmiCamp().getTraitementCmi(), TraitementCmi.class);
 						TraitementCmi trtCmi = indVoeu.getLinkTrtCmiCamp().getTraitementCmi();
-						VersionEtapeDTO vet = getBusinessCacheService().getVersionEtape(
+						VersionEtapeDTO vet = getDomainApoService().getVersionEtape(
 								trtCmi.getVersionEtpOpi().getCodEtp(),
 								trtCmi.getVersionEtpOpi().getCodVrsVet());
 						indDatePojo.setVoeuRdv(new IndVoeuPojo(indVoeu, vet,

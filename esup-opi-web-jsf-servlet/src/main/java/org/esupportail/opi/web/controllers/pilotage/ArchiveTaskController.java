@@ -284,7 +284,7 @@ public class ArchiveTaskController extends AbstractContextAwareController {
 						&& !Utilitaires.isTraitementCmiOff(t, campToArch.getCodeRI())) {
 					BeanTrtCmi b = new BeanTrtCmi(t, 
 							getParameterService().getTypeTraitements());
-					b.setEtape(getBusinessCacheService().getVersionEtape(
+					b.setEtape(getDomainApoService().getVersionEtape(
 							b.getTraitementCmi().getVersionEtpOpi().getCodEtp(),
 							b.getTraitementCmi().getVersionEtpOpi().getCodVrsVet()));
 	
@@ -294,7 +294,7 @@ public class ArchiveTaskController extends AbstractContextAwareController {
 						&& Utilitaires.getLinkTrtCmiCamp(t, campToArch) != null) {
 					BeanTrtCmi b = new BeanTrtCmi(t, 
 							getParameterService().getTypeTraitements());
-					b.setEtape(getBusinessCacheService().getVersionEtape(
+					b.setEtape(getDomainApoService().getVersionEtape(
 							b.getTraitementCmi().getVersionEtpOpi().getCodEtp(),
 							b.getTraitementCmi().getVersionEtpOpi().getCodVrsVet()));
 	
@@ -467,8 +467,7 @@ public class ArchiveTaskController extends AbstractContextAwareController {
 			s.add(new SelectItem(c, c.getLibelle()));
 		}
 		Collections.sort(s, new ComparatorSelectItem());
-		return s;
-		
+		return s;		
 	}
 
 	/**

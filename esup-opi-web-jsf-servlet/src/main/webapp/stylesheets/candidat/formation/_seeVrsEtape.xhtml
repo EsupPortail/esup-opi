@@ -2,74 +2,70 @@
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui">
-    <ui:fragment
+    <p:outputPanel id="div_sectionSelectEtape" layout="block" 
         rendered="#{not empty formationController.searchFormationPojo.versionEtapes}">
-        <div id="div_sectionSelectEtape">
-        	<h:form id="selectEtapeForm" styleClass="opiR1_form">
-        		<div id="blockFormEtape" class="blockForm">
-        			<div style="width:100%;" class="tableJustWidthMax">
-        				<h:outputText value="#{msgs['FORMATION.TITLE.LIST']}"
-        					styleClass="section-smallTitle" />
-        			</div>
-        			<p:dataTable var="versionEtapePojo" id="versionEtapeData"
-        				value="#{formationController.searchFormationPojo.versionEtapes}"
-        				styleClass="paginatorData" alternateColors="true">
-        				<p:column>
-        					<f:facet name="header">
-        						<h:outputText
-        							value="#{msgs['FIELD_LABEL.INTITULE_FORMA']}" />
-        					</f:facet>
-        					<h:outputText value="#{versionEtapePojo.versionEtape.libWebVet}" />
-        				</p:column>
-        				<p:column>
-        					<f:facet name="header">
-        						<h:outputText value="#{msgs['FIELD_LABEL.CANDI_PERIOD']}" />
-        					</f:facet>
-        					<h:panelGroup 
-        						rendered="#{versionEtapePojo.calPeriod != null}">
-        		                <h:outputText value="#{versionEtapePojo.shortCalPeriod}" />
-                                <p:graphicImage url="../../../media/images/informationSmall.png"
-                                    style="cursor:pointer;" id="infoAnneeUni" />
-                                <p:overlayPanel for="infoAnneeUni"
-                                    showEvent="mouseover"
-                                    hideEvent="mouseout"
-                                    styleClass="containerPopup"
-                                    rendered="#{versionEtapePojo.isShortCalPeriod}">
-    		                        <h:panelGroup>
-    		                            <h:panelGrid columns="1">
-    		                                <h:outputText styleClass="titrePopupAide" value="#{msgs['FIELD_LABEL.CANDI_PERIOD']}"/>
-    		                                <h:outputText styleClass="libellesAide" value="#{versionEtapePojo.calPeriod}"/>
-    		                            </h:panelGrid>
-    		                        </h:panelGroup>
-                                </p:overlayPanel>
-        		            </h:panelGroup>
-        					
-        					<h:outputText value="#{msgs['FIELD_LABEL.CAL_INDISPO']}"
-        						rendered="#{versionEtapePojo.calPeriod == null}" />
-        				</p:column>
-        			</p:dataTable>
-        		</div>
-        	</h:form>
-        </div>
-    </ui:fragment>
-    <ui:fragment
-        rendered="#{empty formationController.searchFormationPojo.versionEtapes
-        and formationController.searchFormationPojo.versionEtapes != null}">
-        <div id="div_sectionEtpEmpty">
-        	<div id="blockFormEtpEmpty" class="blockForm">
-        		<div style="width:100%;">
-        			<h:outputText value="#{msgs['FORMATION.TITLE.LIST']}"
-        				styleClass="section-smallTitle" />
-        		</div>
-        		<div class="blockTable">
-        			<h:outputText escape="false"
-        				value="#{msgs['FORMATION.NOT_EXIST.IN_CMI']}" >
-        				<f:param value="#{formationController.searchFormationPojo.vrsDipSelected.libWebVdi}"/>
-        			</h:outputText>
-        		</div>
-        	</div>
-        </div>
-    </ui:fragment>
+    	<h:form id="selectEtapeForm" styleClass="opiR1_form">
+    		<div id="blockFormEtape" class="blockForm">
+    			<div style="width:100%;" class="tableJustWidthMax">
+    				<h:outputText value="#{msgs['FORMATION.TITLE.LIST']}"
+    					styleClass="section-smallTitle" />
+    			</div>
+    			<p:dataTable var="versionEtapePojo" id="versionEtapeData"
+    				value="#{formationController.searchFormationPojo.versionEtapesAsList}"
+    				styleClass="paginatorData">
+    				<p:column>
+    					<f:facet name="header">
+    						<h:outputText
+    							value="#{msgs['FIELD_LABEL.INTITULE_FORMA']}" />
+    					</f:facet>
+    					<h:outputText value="#{versionEtapePojo.versionEtape.libWebVet}" />
+    				</p:column>
+    				<p:column>
+    					<f:facet name="header">
+    						<h:outputText value="#{msgs['FIELD_LABEL.CANDI_PERIOD']}" />
+    					</f:facet>
+    					<h:panelGroup 
+    						rendered="#{versionEtapePojo.calPeriod != null}">
+    		                <h:outputText value="#{versionEtapePojo.shortCalPeriod}" />
+                            <p:graphicImage url="/media/images/informationSmall.png"
+                                style="cursor:pointer;" id="infoAnneeUni" />
+                            <p:overlayPanel for="infoAnneeUni"
+                                showEvent="mouseover"
+                                hideEvent="mouseout"
+                                styleClass="containerPopup"
+                                rendered="#{versionEtapePojo.isShortCalPeriod}">
+		                        <h:panelGroup>
+		                            <h:panelGrid columns="1">
+		                                <h:outputText styleClass="titrePopupAide" value="#{msgs['FIELD_LABEL.CANDI_PERIOD']}"/>
+		                                <h:outputText styleClass="libellesAide" value="#{versionEtapePojo.calPeriod}"/>
+		                            </h:panelGrid>
+		                        </h:panelGroup>
+                            </p:overlayPanel>
+    		            </h:panelGroup>
+    					
+    					<h:outputText value="#{msgs['FIELD_LABEL.CAL_INDISPO']}"
+    						rendered="#{versionEtapePojo.calPeriod == null}" />
+    				</p:column>
+    			</p:dataTable>
+    		</div>
+    	</h:form>
+    </p:outputPanel>
+    <p:outputPanel id="div_sectionEtpEmpty" layout="block"
+    rendered="#{empty formationController.searchFormationPojo.versionEtapes
+    and formationController.searchFormationPojo.versionEtapes != null}">
+    	<div id="blockFormEtpEmpty" class="blockForm">
+    		<div style="width:100%;">
+    			<h:outputText value="#{msgs['FORMATION.TITLE.LIST']}"
+    				styleClass="section-smallTitle" />
+    		</div>
+    		<div class="blockTable">
+    			<h:outputText escape="false"
+    				value="#{msgs['FORMATION.NOT_EXIST.IN_CMI']}" >
+    				<f:param value="#{formationController.searchFormationPojo.vrsDipSelected.libWebVdi}"/>
+    			</h:outputText>
+    		</div>
+    	</div>
+    </p:outputPanel>
     <br />
     <br />
 </ui:fragment>

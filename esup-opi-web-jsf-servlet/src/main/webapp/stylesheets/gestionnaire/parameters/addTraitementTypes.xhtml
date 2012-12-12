@@ -3,7 +3,7 @@
 xmlns:ui="http://java.sun.com/jsf/facelets"
 xmlns:h="http://java.sun.com/jsf/html"
 xmlns:p="http://primefaces.org/ui"
-template="/stylesheets/template.xhtml">
+template="/stylesheets/templateGestionnaire.xhtml">
 <ui:define name="content">
 	
 	
@@ -39,7 +39,7 @@ template="/stylesheets/template.xhtml">
 								<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
 							</f:facet>
 							<h:outputText value="#{typeTraitement.code}" rendered="#{typeTraitement.id != 0}" />
-							<h:inputText id="codeTypTrt" value="#{typeTraitement.code}" size="6" maxlength="5"
+							<p:inputText id="codeTypTrt" value="#{typeTraitement.code}" size="6" maxlength="5"
 								rendered="#{typeTraitement.id == 0}" />
 						</p:column>
 						<p:column>
@@ -47,7 +47,7 @@ template="/stylesheets/template.xhtml">
 								<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
 							</f:facet>
 							<h:outputText value="#{typeTraitement.libelle}" rendered="#{typeTraitement.id != 0}" />
-							<h:inputText id="libTypTrt" value="#{typeTraitement.libelle}" size="31" maxlength="30"
+							<p:inputText id="libTypTrt" value="#{typeTraitement.libelle}" size="31" maxlength="30"
 								rendered="#{typeTraitement.id == 0}" />
 						</p:column>
 						<p:column>
@@ -55,7 +55,7 @@ template="/stylesheets/template.xhtml">
 								<h:outputText value="#{msgs['FIELD_LABEL.SHORT_LIB']}" />
 							</f:facet>
 							<h:outputText value="#{typeTraitement.shortLabel}" rendered="#{typeTraitement.id != 0}" />
-							<h:inputText id="licTypTrt" value="#{typeTraitement.shortLabel}" size="11" maxlength="10"
+							<p:inputText id="licTypTrt" value="#{typeTraitement.shortLabel}" size="11" maxlength="10"
 								rendered="#{typeTraitement.id == 0}" />
 						</p:column>
 						<p:column>

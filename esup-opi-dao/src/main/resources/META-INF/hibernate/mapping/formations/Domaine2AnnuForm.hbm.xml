@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm" table="DOMAINE2_ANNU_FORM">
+        <composite-id >
+            <key-property name="codLang" type="string">
+                <column name="COD_LANG" length="3" />
+            </key-property>
+            <key-property name="codDom" type="string">
+                <column name="COD_DOM" length="10" />
+            </key-property>
+        </composite-id>
+        
+        <property name="libDom" type="string">
+            <column name="LIB_DOM" length="100" not-null="true" />
+        </property>
+        
+        <many-to-one name="domaineAnnuForm" class="org.esupportail.opi.domain.beans.formation.DomaineAnnuForm" column="COD_DOM" insert="false" update="false"/>
+        
+    </class>
+</hibernate-mapping>

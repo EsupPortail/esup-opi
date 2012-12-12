@@ -30,6 +30,7 @@ import org.springframework.util.StringUtils;
  * @author cleprous
  *
  */
+@SuppressWarnings("deprecation")
 public class MailContentController extends AbstractContextAwareController {
 
 	/**

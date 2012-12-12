@@ -149,7 +149,7 @@ public class VETPaginator extends ListPaginator<VersionEtapeDTO> {
 	 * @return VersionEtapeDTO
 	 */
 	private VersionEtapeDTO getVetFromTrtCmi(final BeanTrtCmi bt) {
-		return sessionController.getBusinessCacheService().getVersionEtape(
+		return sessionController.getDomainApoService().getVersionEtape(
 						bt.getTraitementCmi().getVersionEtpOpi().getCodEtp(),
 						bt.getTraitementCmi().getVersionEtpOpi().getCodVrsVet());
 	}

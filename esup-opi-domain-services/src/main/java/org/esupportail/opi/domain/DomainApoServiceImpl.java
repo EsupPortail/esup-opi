@@ -23,6 +23,10 @@ import org.esupportail.commons.exceptions.ObjectNotFoundException;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
+import org.esupportail.opi.domain.beans.formation.Cles2AnnuForm;
+import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
+import org.esupportail.opi.domain.beans.formation.GrpTypDip;
+import org.esupportail.opi.domain.beans.formation.GrpTypDipCorresp;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
@@ -36,6 +40,7 @@ import org.esupportail.opi.domain.beans.user.indcursus.CursusExt;
 import org.esupportail.opi.domain.beans.user.indcursus.CursusR1;
 import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
+import org.esupportail.opi.services.remote.client.IApogee;
 import org.esupportail.opi.utils.CacheModelConst;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.utils.Conversions;
@@ -67,17 +72,12 @@ import org.springframework.util.StringUtils;
 
 import pedagogiquemetier_28022011_impl.servicesmetiers.commun.apogee.education.gouv.PedagogiqueMetierServiceInterface;
 import administratifmetier_17062009_impl.servicesmetiers.commun.apogee.education.gouv.AdministratifMetierServiceInterface;
-import etudiantwebserviceimpl.impl.webservices.commun.apogee.education.gouv.EtudiantMetierServiceInterface;
-import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.GeographieMetierServiceInterface;
-import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.WebBaseException;
 
 import com.googlecode.ehcache.annotations.Cacheable;
 
-import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip;
-import fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDipCorresp;
-import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Domaine2AnnuFormDTO;
-import fr.univ.rennes1.cri.apogee.services.remote.ReadRennes1PortType;
-
+import etudiantwebserviceimpl.impl.webservices.commun.apogee.education.gouv.EtudiantMetierServiceInterface;
+import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.GeographieMetierServiceInterface;
+import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.WebBaseException;
 import gouv.education.apogee.commun.transverse.dto.administratif.cursusexternedto.CursusExterneDTO;
 import gouv.education.apogee.commun.transverse.dto.administratif.cursusexternesettransfertsdto.CursusExternesEtTransfertsDTO;
 import gouv.education.apogee.commun.transverse.dto.administratif.insadmetpdto.InsAdmEtpDTO;
@@ -97,7 +97,7 @@ import gouv.education.apogee.commun.transverse.dto.pedagogique.resultatvetdto.Re
  * See /properties/domain/domain.xml
  */
 @SuppressWarnings("serial")
-public class DomainApoServiceImpl extends AbstractDomainService implements DomainApoService {
+public class DomainApoServiceImpl implements DomainApoService {
 
 	/**
 	 * The serialization id.
@@ -128,9 +128,9 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	private ReadEnseignement remoteCriApogeeEns;
 
 	/**
-	 * Can read the table of rennes1 in Apogee.
+	 * Apogee interface
 	 */
-	private ReadRennes1PortType remoteCriApogeeRennes1;
+	private IApogee remoteApo;
 	
 	/**
 	 * Can read the table of AdministratifMetier in Apogee.
@@ -207,9 +207,7 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	/**
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
-	@Override
 	public void afterPropertiesSet() {
-		super.afterPropertiesSet();
 		Assert.notNull(this.remoteCriApogeeRef, 
 				"property remoteCriApogeeRef of class " 
 				+ this.getClass().getName() + " can not be null");
@@ -259,7 +257,12 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 		}
 		try {
 			List<CentreGestion> l = remoteCriApogeeRef.getCentreGestions(TRUE);
-			//Collections.sort(l, new ComparatorString(CentreGestion.class));
+			Collections.sort(l, new Comparator<CentreGestion>(){
+				@Override
+				public int compare(CentreGestion c1, CentreGestion c2) {
+					return c1.getLibCge().compareToIgnoreCase(c2.getLibCge());
+				}
+			});
 			return l;
 		} catch (Exception e) {
 			throw new CommunicationApogeeException(e);
@@ -345,6 +348,10 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 		}
 	}
 
+	/** 
+	 * @see org.esupportail.opi.domain.DomainApoService#getVersionEtapes(
+	 * org.esupportail.wssi.services.remote.VersionDiplomeDTO, java.lang.String)
+	 */
 	@Override
 	@Cacheable(cacheName = CacheModelConst.ENS_APOGEE_MODEL)
 	public List<VersionEtapeDTO> getVersionEtapes(final VersionDiplomeDTO vrsDip, final String codAnu) {
@@ -500,8 +507,12 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 			for (CommuneDTO communeDTO : commune) {
 				c.add(communeDTO);
 			}
-			//TODO : fix that !
-			//Collections.sort(c, new ComparatorString(CommuneDTO.class));
+			Collections.sort(c, new Comparator<CommuneDTO>() {
+				@Override
+				public int compare(final CommuneDTO c1, final CommuneDTO c2) {
+					return c1.getLibCommune().compareToIgnoreCase(c2.getLibCommune());
+				}
+			});
 			return c;
 		} catch (WebBaseException e) {
 			//technical.data.nullretrieve.commune
@@ -510,7 +521,7 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 			throw new CommunicationApogeeException(e);
 		}
 	}
-	
+
 	/** 
 	 * @see org.esupportail.opi.domain.DomainApoService#getCommunes(
 	 * java.lang.String, java.lang.Boolean, java.lang.Boolean)
@@ -530,9 +541,13 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 			} else {
 				c = remoteCriApogeeRef.getCommunes(TRUE, codDep, null, null);
 			}
-			//TODO : fix that !
-//			Collections.sort(c, new ComparatorString(
-//			    org.esupportail.wssi.services.remote.CommuneDTO.class));			
+			Collections.sort(c, new Comparator<org.esupportail.wssi.services.remote.CommuneDTO>() {
+				@Override
+				public int compare(final org.esupportail.wssi.services.remote.CommuneDTO c1, 
+									final org.esupportail.wssi.services.remote.CommuneDTO c2) {
+					return c1.getLibCom().compareToIgnoreCase(c2.getLibCom());
+				}
+			});			
 			return c;
 		} catch (Exception e) {
 			throw new CommunicationApogeeException(e);
@@ -626,8 +641,12 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 		}
 		try {
 			List<Etablissement> etbs = remoteCriApogeeRef.getEtablissements(TRUE, codCom, null, codDep);
-			//TODO : fix that !
-			//Collections.sort(etbs, new ComparatorString(Etablissement.class));
+			Collections.sort(etbs, new Comparator<Etablissement>() {
+				@Override
+				public int compare(Etablissement e1, Etablissement e2) {
+					return e1.getLibOffEtb().compareToIgnoreCase(e2.getLibOffEtb());
+				}
+			});
 			return etbs;
 		} catch (Exception e) {
 			throw new CommunicationApogeeException(e);
@@ -660,7 +679,7 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	/** 
 	 * @see org.esupportail.opi.domain.DomainApoService#getBacOuxEqus(java.lang.String)
 	 */
-//	@Cacheable(modelId = CacheModelConst.GEO_APOGEE_MODEL)
+	@Cacheable(cacheName = CacheModelConst.GEO_APOGEE_MODEL)
 	public List<BacOuxEqu> getBacOuxEqus(final String daaObt) {
 		if (log.isDebugEnabled()) {
 			log.debug("getBacOuxEqus( " + daaObt + " )");
@@ -675,10 +694,6 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	/** 
 	 * @see org.esupportail.opi.domain.DomainApoService#getBacOuxEqu(java.lang.String, java.lang.String)
 	 */
-	/**
-	 * TODO : à supprimer (16/01/2012)
-	 */
-	@Deprecated
 	public BacOuxEqu getBacOuxEqu(final String daaObt, final String codBac) {
 		if (log.isDebugEnabled()) {
 			log.debug("getBacOuxEqu( " + daaObt + ", " + codBac + " )");
@@ -753,7 +768,13 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 		try {
 			List<DipAutCur> d = remoteCriApogeeEns.getDipAutCurs(TRUE);
 			//TODO : fix that !
-			//Collections.sort(d, new ComparatorString(DipAutCur.class));
+			Collections.sort(d, new Comparator<DipAutCur>() {
+				@Override
+				public int compare(final DipAutCur d1, final DipAutCur d2) {
+					return d1.getLibDac().compareToIgnoreCase(d2.getLibDac());
+				}
+				
+			});
 			return d;
 		} catch (Exception e) {
 			throw new CommunicationApogeeException(e);
@@ -810,26 +831,24 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	//////////////////////////////////////////////////////////////
 
 
+	/**
+	 * @see org.esupportail.opi.domain.DomainApoService#getVersionDiplomes(
+	 * java.lang.String, org.esupportail.opi.domain.beans.formation.GrpTypDip, java.lang.String)
+	 */
 	@Override
-	public List<VersionDiplomeDTO> getVersionDiplomes(final String codeKeyWord, final Ren1GrpTypDip grpTpd,
+	public List<VersionDiplomeDTO> getVersionDiplomes(final String codeKeyWord, final GrpTypDip grpTpd,
 			final String codAnu) {
 		if (log.isDebugEnabled()) {
 			log.debug("getVersionDiplomes(" + codeKeyWord + ", " + grpTpd + " )");
 		}
 		final Set<String> codDiplome = new HashSet<String>();
-		// TODO : remove the switch RENNES1 / OPI
-		if (remoteCriApogeeRennes1 != null) {
-			codDiplome.addAll(
-			    remoteCriApogeeRennes1.getCodesDiplomes(codeKeyWord).getString());
-		} else {
-			//codDiplome.addAll(domainServiceRennes1.getCodesDiplomes(codeKeyWord));
-		}
+		codDiplome.addAll(remoteApo.getCodesDiplomes(codeKeyWord));
 
 		final Set<String> listCodTpdEtb = new HashSet<String>();
-		//TODO : fix that !
-//		for (Ren1GrpTypDipCorresp corresp : grpTpd.getRen1GrpTypDipCorresps()) {
-//			listCodTpdEtb.add(corresp.getCodTpdEtb());
-//		}
+
+		for (GrpTypDipCorresp corresp : grpTpd.getGrpTypDipCorresps()) {
+			listCodTpdEtb.add(corresp.getCodTpdEtb());
+		}
 		
 		CritereVdiDTO criteria = new CritereVdiDTO() {{
 		    getCodeDiplome().addAll(codDiplome);
@@ -847,19 +866,12 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	 * @see org.esupportail.opi.domain.DomainApoService#getVersionDiplomes(
 	 * java.lang.String, java.lang.String)
 	 */
-	//TODO : Remove the switch RENNES1 / OPI !!
 	public List<VersionDiplomeDTO> getVersionDiplomes(final String codeKeyWord, final String annee) {
 		if (log.isDebugEnabled()) {
 			log.debug("getVersionDiplomes(" + codeKeyWord + ", " + annee + " )");
 		}
 		final Set<String> codDiplome = new HashSet<String>();
-		if (remoteCriApogeeRennes1 != null) {
-		    // ON INTERROGE LES WS APOGEE SPÉCIFIQUES RENNES 1
-			codDiplome.addAll(remoteCriApogeeRennes1.getCodesDiplomes(codeKeyWord).getString());
-		} else {
-		    // ON VA LIRE DANS LA BASE OPI
-			//codDiplome.addAll(domainServiceRennes1.getCodesDiplomes(codeKeyWord));
-		}
+		codDiplome.addAll(remoteApo.getCodesDiplomes(codeKeyWord));
 		
 		CritereVdiDTO criteria = new CritereVdiDTO() {{
 		    getCodeDiplome().addAll(codDiplome);
@@ -940,8 +952,9 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 			
 			individu.setAdressMail(coordonnees.getEmail());
 			individu.setEmailAnnuaire(coordonnees.getEmailAnnuaire());
-			//TODO : fix this !!
-			//individu.setNumeroTelPortable(Utilitaires.cleanPhoneTel(coordonnees.getNumTelPortable()));
+			if (StringUtils.hasText(coordonnees.getNumTelPortable())) {
+				individu.setNumeroTelPortable(coordonnees.getNumTelPortable().replaceAll("[. ]", ""));	
+			}
 
 
 			Map<String, Adresse> adresses = new HashMap<String, Adresse>();
@@ -1029,8 +1042,6 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 			//si l'individu a un code etudiant
 			if (StringUtils.hasText(individu.getCodeEtu())) {
 				cursusScol = new ArrayList<IndCursusScol>();
-
-
 				//INITIALISATION DES CURSUS HORS RENNES1
 				if (isRecupCursusExt) {
 					CursusExternesEtTransfertsDTO curEtTrans = remoteApoRenAdminMetier
@@ -1094,10 +1105,7 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 				for (CursusR1 cursR1 : cursusR1List) {
 					cursusScol.add(getCurR1AndRes(cursR1, resultatVdiVet));
 				}
-
-
 			}
-
 			return cursusScol;
 			//TODO: fix this !!
 //		} catch (WebBaseException e) {
@@ -1116,7 +1124,7 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	public String[] getAnneesIa(final Individu individu) {
 		log.info("entering getAnneesIa( " + individu + " )");
 		try {
-			List<String> anneesIA = null;
+			List<String> anneesIA = new ArrayList<String>();
 			//si l'individu a un code etudiant
 			if (StringUtils.hasText(individu.getCodeEtu())) {
 				anneesIA = remoteApoRenAdminMetier.recupererAnneesIa(individu.getCodeEtu(), null);
@@ -1172,8 +1180,6 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 				}
 			}
 		}
-
-
 		return cR1;
 	}
 
@@ -1228,47 +1234,41 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	
 
 	// ////////////////////////////////////////////////////////////
-	// Ren1GrpTypDip
+	// GrpTypDip
 	// ////////////////////////////////////////////////////////////
 
+	/** 
+	 * @see org.esupportail.opi.domain.DomainApoService#getGrpTypDip(org.esupportail.opi.domain.beans.parameters.Campagne)
+	 */
 	@Override
 	@Cacheable(cacheName = CacheModelConst.RENNES1_APOGEE_MODEL)
-	public List<Ren1GrpTypDip> getRen1GrpTypDip(final Campagne camp) {
+	public List<GrpTypDip> getGrpTypDip(final Campagne camp) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getRen1GrpTypDip()");
 		}
-		List<Ren1GrpTypDip> listEnd = new ArrayList<Ren1GrpTypDip>();
+		List<GrpTypDip> listEnd = new ArrayList<GrpTypDip>();
 		Set<Commission> cmi = parameterService.getCommissions(true);
 		try {
-			List<Ren1GrpTypDip> l;
-			// TODO : remove the switch RENNES1 / OPI			
-			if (remoteCriApogeeRennes1 != null) {
-				l = remoteCriApogeeRennes1.getRen1GrpTypDip(TRUE).getRen1GrpTypDip();
-			} else {
-			    l = new ArrayList<Ren1GrpTypDip>();
-				//l = domainServiceRennes1.getRen1GrpTypDip(TRUE);
-			}
+			List<GrpTypDip> l = remoteApo.getGrpTypDip(TRUE);
 
 			//1.on recupere toutes les VET par groupes
-			for (Ren1GrpTypDip r : l) {
+			for (final GrpTypDip g : l) {
 				List<String> codTpdEtb = new ArrayList<String>();
-				for (Ren1GrpTypDipCorresp rCorresp : r.getRen1GrpTypDipCorresps().getRen1GrpTypDipCorresp()) {
+				for (GrpTypDipCorresp rCorresp : g.getGrpTypDipCorresps()) {
 					codTpdEtb.add(rCorresp.getCodTpdEtb());
 				}
 				List<Diplome> dip = remoteCriApogeeEns.getDiplomes(null, codTpdEtb);
 				if (dip != null && !dip.isEmpty()) {
 					List<VersionEtapeDTO> vetDTO = remoteCriApogeeEns.getVersionEtapes2(dip, 
 							camp.getCodAnu());
-					Set<VersionEtpOpi> vetOpi = new HashSet<VersionEtpOpi>();
-					//TODO : fix this !!
-//					    Utilitaires.convertVetInVetOpi(
-//							new HashSet<VersionEtapeDTO>(vetDTO));
+					Set<VersionEtpOpi> vetOpi = Conversions.convertVetInVetOpi(
+							new HashSet<VersionEtapeDTO>(vetDTO));
 					//2.on verifie que ces VET sont raccrochees e des commissions.
 					for (Commission c : cmi) {
 						Boolean isAddGrp = false;
 						for (TraitementCmi trt : c.getTraitementCmi()) {
 							if (vetOpi.contains(trt.getVersionEtpOpi())) {
-								listEnd.add(r);
+								listEnd.add(g);
 								isAddGrp = true;
 								break;
 							}
@@ -1277,136 +1277,47 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 					}
 				}
 			}
-			//TODO: fix this !!
-			//Collections.sort(listEnd, new ComparatorString(Ren1GrpTypDip.class));
+			Collections.sort(listEnd, new Comparator<GrpTypDip>() {
+				@Override
+				public int compare(final GrpTypDip o1, final GrpTypDip o2) {
+					return o1.getLibGrpTpd().compareToIgnoreCase(o2.getLibGrpTpd());
+				}
+			});
 			return listEnd;
 		} catch (Exception e) {
 			throw new CommunicationApogeeException(e);
 		}
-	}
-
-
-    @Override
-	@Cacheable(cacheName = CacheModelConst.RENNES1_APOGEE_MODEL)
-	@Deprecated
-	public Ren1GrpTypDip getRen1GrpTypDip(final String code, final Campagne camp) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering getRen1GrpTypDip(" + code + ")");
-		}
-		for (Ren1GrpTypDip r : getRen1GrpTypDip(camp)) {
-			if (r.getCodGrpTpd().equals(code)) {
-				return r;
-			}
-		}
-		return null;
-	}
+	}	
 
 	// ////////////////////////////////////////////////////////////
-	// Ren1Domaine2AnnuFormDTO
+	// Domaine2AnnuFormDTO
 	// ////////////////////////////////////////////////////////////
 
 	/** 
-	 * @see org.esupportail.opi.domain.DomainApoService#getRen1Domaine2AnnuFormDTO(
-	 * fr.univ.rennes1.cri.apogee.domain.beans.Ren1GrpTypDip, java.lang.String)
+	 * @see org.esupportail.opi.domain.DomainApoService#getDomaine2AnnuForm(
+	 * org.esupportail.opi.domain.beans.formation.GrpTypDip, java.lang.String)
 	 */
 	@Override
-	@Cacheable(cacheName = CacheModelConst.RENNES1_APOGEE_MODEL)
-	public Set<Ren1Domaine2AnnuFormDTO> getRen1Domaine2AnnuFormDTO(
-			final Ren1GrpTypDip ren1GrpTypDip, final String locale) {
+	public Map<Domaine2AnnuForm, List<Cles2AnnuForm>> getDomaine2AnnuForm(
+			final GrpTypDip ren1GrpTypDip, final String locale) {
 		if (log.isDebugEnabled()) {
-			log.debug("entering getRen1Domaine2AnnuFormDTO( " + ren1GrpTypDip + ", " + locale + " )");
+			log.debug("entering getDomaine2AnnuFormDTO( " + ren1GrpTypDip + ", " + locale + " )");
 		}
 		try {
-
-			Set<Ren1Domaine2AnnuFormDTO> retour = new HashSet<Ren1Domaine2AnnuFormDTO>();
-			// TODO : remove the switch RENNES1 / OPI			
-			if (remoteCriApogeeRennes1 != null) {
-				retour = new HashSet<Ren1Domaine2AnnuFormDTO>(
-				    remoteCriApogeeRennes1.getRen1Domaine2AnnuFormDTO(
-				    ren1GrpTypDip, locale).getRen1Domaine2AnnuFormDTO());
-			} else {
-				if (ren1GrpTypDip != null) {
-					Set<String> lCodTpdEtb = new HashSet<String>();
-					for (Ren1GrpTypDipCorresp r : ren1GrpTypDip.getRen1GrpTypDipCorresps().getRen1GrpTypDipCorresp()) {
-						lCodTpdEtb.add(r.getCodTpdEtb());
-					}
-					List<Diplome> d = remoteCriApogeeEns.getDiplomes(
-					    null, new ArrayList<String>(lCodTpdEtb));
-					List<String> lCodDip = new ArrayList<String>();
-					for (Diplome dip : d) {
-						lCodDip.add(dip.getCodDip());
-					}
-					retour = new HashSet<Ren1Domaine2AnnuFormDTO>();
-//					retour = domainServiceRennes1.getRen1Domaine2AnnuFormDTO(
-//							lCodDip, locale, TRUE);
-				}
-			}
-			return retour;
+			return remoteApo.getDomaine2AnnuFormDTO(ren1GrpTypDip, locale);
 		} catch (Exception e) {
 			throw new CommunicationApogeeException(e);
 		}
 	}
 	
-	
-	// ////////////////////////////////////////////////////////////
-	// Ren1ClesAnnuFormPojo
-	// ////////////////////////////////////////////////////////////
-	/**
-	 * @return List
-	 */
-//	public List<Ren1ClesAnnuFormPojo> getRen1ClesAnnuForm() {
-//		if (log.isDebugEnabled()) {
-//			log.debug("entering getRen1ClesAnnuForm()");
-//		}
-//		try {
-//			List<Ren1ClesAnnuFormPojo> retour = new ArrayList<Ren1ClesAnnuFormPojo>();
-//			if (remoteCriApogeeRennes1 != null) {
-//				Map<String, Ren1ClesAnnuFormPojo> map = new HashMap<String, Ren1ClesAnnuFormPojo>();
-//				List<Ren1Domaine2AnnuFormDTO> listDom =
-//				    remoteCriApogeeRennes1.getRen1Domaine2AnnuFormDTO(null, null).getRen1Domaine2AnnuFormDTO();
-//				for (Ren1Domaine2AnnuFormDTO domDto : listDom) {
-//					for (Ren1Cles2AnnuFormDTO cleDto : domDto.getRen1Cles2AnnuFormDTO().getValue().getRen1Cles2AnnuFormDTO()) {
-//						Ren1ClesAnnuFormPojo clePojo = map.get(cleDto.getCodCles());
-//						Ren1Cles2AnnuFormDTO cle2 = new Ren1Cles2AnnuFormDTO();
-//						//Ren1Cles2AnnuFormDTO cle2Id = new Ren1Cles2AnnuFormDTO();
-////						cle2Id.setCodCles(cleDto.getCodCles());
-////						cle2Id.setCodLang(cleDto.getCodLang());
-//						cle2.setCodCles(cleDto.getCodCles());
-//						cle2.setCodLang(cleDto.getCodLang());
-////						cle2.setId(cle2Id);
-//						cle2.setLibCles(cleDto.getLibCles());
-//						if(clePojo != null) {
-//							cle2.setRen1ClesAnnuForm(clePojo.getRen1ClesAnnuForm());
-//						} else {
-//							Ren1Cles2AnnuFormDTO cle = new Ren1Cles2AnnuFormDTO();
-//							Ren1Domaine2AnnuFormDTO dom = new Ren1Domaine2AnnuFormDTO();
-//							cle.setCodCles(cleDto.getCodCles());
-//							//cle.setCodDom(domDto.getCodDom());
-//							cle.setTemSveCles(domDto.getTemSveDom());
-//							dom.setCodDom(domDto.getCodDom());
-//							dom.setTemSveDom(domDto.getTemSveDom());
-//							clePojo = new Ren1ClesAnnuFormPojo(cle, "fr");
-//						}
-//						clePojo.getRen1Cles2AnnuForm().add(cle2);
-//					}
-//				}
-//				retour.addAll(map.values());
-//			} else {
-//				retour.addAll(domainServiceRennes1.getRen1ClesAnnuForm());
-//			}
-//			return retour;
-//		} catch (Exception e) {
-//			throw new CommunicationApogeeException(e);
-//		}
-//	}
-	
-
-
 	/////////////////////////////////////////////////////////
 	// SignataireDTO
 	//////////////////////////////////////////////////////////////
 
 
+	/** 
+	 * @see org.esupportail.opi.domain.DomainApoService#getSignataire(java.lang.String)
+	 */
 //	@Override
 	// TODO : à supprimer 18/01/2012
 	public SignataireDTO getSignataire(final String codSig) {
@@ -1562,7 +1473,6 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	        //meme ind pour tous les voeux
 	        //TODO récupérer codIndOpi
 	        IndOpiDTO opiDTO = getIndOpiDTO(ind);
-	        System.out.println("test");
 	        if (opiDTO != null) {
 	            tOpi.setCodIndOpi(opiDTO.getCodIndOpi());
 	        }
@@ -1732,8 +1642,8 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	/**
 	 * @return ReadRennes1
 	 */
-	public ReadRennes1PortType getRemoteCriApogeeRennes1() {
-		return remoteCriApogeeRennes1;
+	public IApogee getRemoteApo() {
+		return remoteApo;
 	}
 	
 	/**
@@ -1765,10 +1675,10 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	}
 	
 	/**
-	 * @param remoteCriApogeeRennes1 the remoteCriApogeeRennes1 to set
+	 * @param remoteApo the remoteCriApogeeRennes1 to set
 	 */
-	public void setRemoteCriApogeeRennes1(final ReadRennes1PortType remoteCriApogeeRennes1) {
-		this.remoteCriApogeeRennes1 = remoteCriApogeeRennes1;
+	public void setRemoteApo(final IApogee remoteApo) {
+		this.remoteApo = remoteApo;
 	}
 
 	/**
@@ -1835,44 +1745,47 @@ public class DomainApoServiceImpl extends AbstractDomainService implements Domai
 	}
 
     /**
-     * List of the commisions managed by the gestionnaire.
-     * @param gest
-     * @param temEnSve
-     * @return Set< Commission>
-     */
-    public Set<Commission> getListCommissionsByRight(
-            final Gestionnaire gest,
-            final Boolean temEnSve) {
-        Set<Commission> lesCommissions = new HashSet<Commission>();
-        if (StringUtils.hasText(gest.getCodeCge())) {
-            Set<VersionEtapeDTO> vet = new HashSet<VersionEtapeDTO>();
-            vet.addAll(getVersionEtapes(null, null, 	gest.getCodeCge(), null));
-            Set<VersionEtpOpi> vOpi = Conversions.convertVetInVetOpi(new HashSet<VersionEtapeDTO>(vet));
-            Set<Commission> lCom = parameterService.getCommissions(temEnSve);
-            for (Commission c : lCom) {
-                if (!c.getTemoinEnService()) {
-                    log.info("cas d'une comm HS");
-                }
-                for (TraitementCmi trt : c.getTraitementCmi()) {
-                    if (vOpi.contains(trt.getVersionEtpOpi())) {
-                        lesCommissions.add(c);
-                        break;
+    	 * List of the commisions managed by the gestionnaire.
+    	 * @param gest
+    	 * @param temEnSve
+    	 * @return Set<Commission>
+    	 */
+    	public Set<Commission> getListCommissionsByRight(
+    			final Gestionnaire gest, 
+    			final Boolean temEnSve) {
+    		Set<Commission> lesCommissions = new HashSet<Commission>();	
+    		if (StringUtils.hasText(gest.getCodeCge())) {
+    			Set<VersionEtapeDTO> vet = new HashSet<VersionEtapeDTO>();
+    			vet.addAll(getVersionEtapes(null, null, 	gest.getCodeCge(), null));
+    			Set<VersionEtpOpi> vOpi = Conversions.convertVetInVetOpi(new HashSet<VersionEtapeDTO>(vet));
+    			Set<Commission> lCom = parameterService.getCommissions(temEnSve);
+                if (lCom != null) {
+                    for (Commission c : lCom) {
+                        if (!c.getTemoinEnService()) {
+                            log.info("cas d'une comm HS");
+                        }
+                        for (TraitementCmi trt : c.getTraitementCmi()) {
+                            if (vOpi.contains(trt.getVersionEtpOpi())) {
+                                lesCommissions.add(c);
+                                break;
+                            }
+                        }
                     }
                 }
-            }
+    
+    		} else if (gest.getRightOnCmi()!= null && !gest.getRightOnCmi().isEmpty()) {
+    			//si pas cge, renvoie les cmi auxquelles ils ont droit
+    		    // TODO: change getRightOnCmi to return a list ?
+    			lesCommissions = gest.getRightOnCmi();
+    		} else {
+    			lesCommissions = parameterService.getCommissions(null);
+    		}
+    
+    		return lesCommissions;
+    	}
 
-        } else if (gest.getRightOnCmi()!= null && !gest.getRightOnCmi().isEmpty()) {
-            //si pas cge, renvoie les cmi auxquelles ils ont droit
-            lesCommissions = gest.getRightOnCmi();
-        } else {
-            lesCommissions = parameterService.getCommissions(null);
-        }
-
-        return lesCommissions;
-    }
-
-
-
-
+	
+	
+	
 
 }

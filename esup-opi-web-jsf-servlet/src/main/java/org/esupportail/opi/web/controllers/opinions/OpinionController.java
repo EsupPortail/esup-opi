@@ -1328,3 +1328,4 @@ public class OpinionController
         this.renderTable = true;
     }
 }
+

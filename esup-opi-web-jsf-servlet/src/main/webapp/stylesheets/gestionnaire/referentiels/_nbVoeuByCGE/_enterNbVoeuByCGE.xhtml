@@ -7,12 +7,9 @@
 		<h:panelGroup>
 			<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
 				rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.addAction}"
-				action="#{nbVoeuByCGEController.add}"/>
-			<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-				rendered="#{nbVoeuByCGEController.actionEnum.whatAction == nbVoeuByCGEController.actionEnum.updateAction}"
-				action="#{nbVoeuByCGEController.update}"/>
-			<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-				action="#{nbVoeuByCGEController.reset}"/>
+				action="#{nbVoeuByCGEController.add}" ajax="false" />
+			<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" 
+                action="#{nbVoeuByCGEController.reset}" ajax="false" />
 		</h:panelGroup>
 	</h:panelGrid>
 	<h:panelGrid columns="2" styleClass="displayInfo">
@@ -25,7 +22,7 @@
 			value="#{nbVoeuByCGEController.nbVoeuCge.codeCge}">
 			<f:selectItems value="#{nbVoeuByCGEController.codeCgeItems}"/>
 		</p:selectOneMenu>
-		<h:inputText id="nbV" size="42" maxlength="40"
-			value="#{nbVoeuByCGEController.nbVoeuCge.nbVoeu}"/>	
+        
+        <p:spinner id="nbV" value="#{nbVoeuByCGEController.nbVoeuCge.nbVoeu}" min="0" max="100" size="5" />
 	</h:panelGrid>
 </ui:fragment>

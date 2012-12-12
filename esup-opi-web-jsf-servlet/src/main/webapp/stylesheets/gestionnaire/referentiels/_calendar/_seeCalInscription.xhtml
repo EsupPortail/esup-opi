@@ -60,13 +60,13 @@
     	<p:dataTable var="commission"
     		value="#{calendarController.beanCalendar.calendar.commissions}"
     		styleClass="displayInfo" alternateColors="false">
-    		<p:column width="30%">
+    		<p:column>
     			<f:facet name="header">
     				<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
     			</f:facet>
     			<h:outputText value="#{commission.code}" />
     		</p:column>
-    		<p:column width="70%">
+    		<p:column>
     			<f:facet name="header">
     				<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
     			</f:facet>

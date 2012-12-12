@@ -15,11 +15,11 @@
     				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     					action="#{calendarController.add}"
     					rendered="#{managedAccess.addAuthorized 
-    						&& calendarController.actionEnum.whatAction == calendarController.actionEnum.addAction}" />
+    						and calendarController.actionEnum.whatAction == calendarController.actionEnum.addAction}" />
     				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     					action="#{calendarController.update}"
     					rendered="#{managedAccess.updateAuthorized 
-    						&& calendarController.actionEnum.whatAction == calendarController.actionEnum.updateAction}" />
+    						and calendarController.actionEnum.whatAction == calendarController.actionEnum.updateAction}" />
     				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" immediate="true"
     					action="#{calendarController.goSeeAllCal}" />
     			</h:panelGroup>
@@ -31,13 +31,13 @@
     			<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code" />
     			<h:outputText value="*" styleClass="etoileForChpObli" />
     		</h:panelGroup>
-    		<h:inputText id="code" size="12" maxlength="11"
+    		<p:inputText id="code" size="12" maxlength="11"
     			value="#{calendarController.beanCalendar.calendar.code}" />
     		<h:panelGroup>
     			<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}" for="libelle" />
     			<h:outputText value="*" styleClass="etoileForChpObli" />
     		</h:panelGroup>
-    		<h:inputText id="libelle" size="41" maxlength="40"
+    		<p:inputText id="libelle" size="41" maxlength="40"
     			value="#{calendarController.beanCalendar.calendar.libelle}" />
     		
     		<h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}" for="temEnSveCalIns"/>
@@ -51,20 +51,22 @@
     				for="dateDbt" />
     			<h:outputText value="*" styleClass="etoileForChpObli" />
     		</h:panelGroup>
-    		<h:inputText id="dateDbt" size="10" maxlength="8"
-    			value="#{calendarController.beanCalendar.calendar.startDate}">
-    			<f:convertDateTime pattern="ddMMyyyy" timeZone="#{sessionController.timezone}"/>
+    		<p:calendar id="dateDbt" size="10" readonlyInput="true" 
+    			value="#{calendarController.beanCalendar.calendar.startDate}"
+                pattern="ddMMyyyy" 
+                timeZone="#{sessionController.timezone}">
     			<f:validateLength minimum="8"/>
-    		</h:inputText>
+    		</p:calendar>
     		<h:panelGroup>
     			<h:outputLabel value="#{msgs['FIELD_LABEL.END_DATE']}" for="dateFin" />
     			<h:outputText value="*" styleClass="etoileForChpObli" />
     		</h:panelGroup>
-    		<h:inputText id="dateFin" size="10" maxlength="8"
-    			value="#{calendarController.beanCalendar.calendar.endDate}">
-    			<f:convertDateTime pattern="ddMMyyyy" timeZone="#{sessionController.timezone}"/>
+    		<p:calendar id="dateFin" size="10" readonlyInput="true"
+    			value="#{calendarController.beanCalendar.calendar.endDate}"
+                pattern="ddMMyyyy" 
+                timeZone="#{sessionController.timezone}">
     			<f:validateLength minimum="8"/>
-    		</h:inputText>
+    		</p:calendar>
     	</h:panelGrid>
     </div>
     <br />

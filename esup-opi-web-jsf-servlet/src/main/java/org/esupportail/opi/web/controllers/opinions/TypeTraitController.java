@@ -249,52 +249,51 @@ public class TypeTraitController  extends AbstractContextAwareController  {
 			lesTR.clear();
 			Campagne camp = i.getCampagneEnServ(getDomainService());
 			for (IndVoeuPojo v : lesVoeux) {
-				if (!v.getIndVoeu().getCodTypeTrait().
-						equals(this.typeTraitementET.getCode())) {
-
-					// voeu non traite qui a ete modifie
-					if (v.getIndVoeu().getCodTypeTrait().
-							equals(this.typeTraitementVA.getCode())) {
-						lesVA.add(v);
-					} else if (v.getIndVoeu().getCodTypeTrait().
-							equals(this.typeTraitementTR.getCode())) {
-						lesTR.add(v);
-						// ajout un avis favorable
-						Avis avis = new Avis();
-						avis.setIndVoeu(v.getIndVoeu());
-						avis.setValidation(true);
-						//recherche du type Decision avec le typeConvoc inscriptionAdm
-						for (TypeDecision t : getParameterService().getTypeDecisions(true)) {
-							if (t.getCodeTypeConvocation()
-									.equals(inscriptionAdm.getCode())) {
-								avis.setResult(t);
+				String codeTrt = v.getIndVoeu().getCodTypeTrait();
+				if (codeTrt != null) {
+					if (!codeTrt.equals(this.typeTraitementET.getCode())) {
+						// voeu non traite qui a ete modifie
+						if (codeTrt.equals(this.typeTraitementVA.getCode())) {
+							lesVA.add(v);
+						} else if (codeTrt.equals(this.typeTraitementTR.getCode())) {
+							lesTR.add(v);
+							// ajout un avis favorable
+							Avis avis = new Avis();
+							avis.setIndVoeu(v.getIndVoeu());
+							avis.setValidation(true);
+							//recherche du type Decision avec le typeConvoc inscriptionAdm
+							for (TypeDecision t : getParameterService().getTypeDecisions(true)) {
+								if (t.getCodeTypeConvocation()
+										.equals(inscriptionAdm.getCode())) {
+									avis.setResult(t);
+								}
 							}
+							if (avis.getResult() != null) {
+								Avis av = (Avis) getDomainService().add(
+										avis, getCurrentGest().getLogin());
+								
+								getDomainService().addAvis(av);
+							} else {
+								throw new ConfigException(
+									"il n'existe pas de typeDecision amenant"
+									+ " e l'inscription administrative --> avis Favorable");
+							}
+							//update state in stateNull
+							v.getIndVoeu().setState(EtatNull.I18N_STATE);
+							//----Lignes ajoutées suite problème Mysql ----------------------//
+	                        if (v.getIndVoeu().getAvis() == null) {
+	                               v.getIndVoeu().setAvis(new HashSet<Avis>());
+	                        }
+	                        v.getIndVoeu().getAvis().add(avis);
+	                        //----------------------------------------------------//
 						}
-						if (avis.getResult() != null) {
-							Avis av = (Avis) getDomainService().add(
-									avis, getCurrentGest().getLogin());
-							
-							getDomainService().addAvis(av);
-						} else {
-							throw new ConfigException(
-								"il n'existe pas de typeDecision amenant"
-								+ " e l'inscription administrative --> avis Favorable");
-						}
-						//update state in stateNull
-						v.getIndVoeu().setState(EtatNull.I18N_STATE);
-						//----Lignes ajoutées suite problème Mysql ----------------------//
-                        if (v.getIndVoeu().getAvis() == null) {
-                               v.getIndVoeu().setAvis(new HashSet<Avis>());
-                        }
-                        v.getIndVoeu().getAvis().add(avis);
-                        //----------------------------------------------------//
+	
+						v.getIndVoeu().setHaveBeTraited(true);
+						
 					}
-
-					v.getIndVoeu().setHaveBeTraited(true);
-					
-				} 
-				//on met tous les temps le voeu e jour
-				getDomainService().updateIndVoeu(v.getIndVoeu());
+					//on met tous les temps le voeu e jour
+					getDomainService().updateIndVoeu(v.getIndVoeu());
+				}
 			}
 			if (!lesVA.isEmpty()) {
 				sendMails(i, camp, lesVA, typeTraitementVA);

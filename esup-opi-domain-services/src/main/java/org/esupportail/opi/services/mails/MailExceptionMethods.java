@@ -223,7 +223,7 @@ public class MailExceptionMethods implements Serializable, InitializingBean {
 	 */
 	public String getLibelleVet(final IndVoeu indVoeu) {
 		TraitementCmi trtCmi = indVoeu.getLinkTrtCmiCamp().getTraitementCmi();
-		VersionEtapeDTO vDTO = businessCacheService.getVersionEtape(
+		VersionEtapeDTO vDTO = domainApoService.getVersionEtape(
 				trtCmi.getVersionEtpOpi().getCodEtp(), 
 				trtCmi.getVersionEtpOpi().getCodVrsVet());
 		return vDTO.getLibWebVet();

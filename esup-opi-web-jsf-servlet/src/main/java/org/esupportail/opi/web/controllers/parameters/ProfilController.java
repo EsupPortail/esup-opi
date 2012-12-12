@@ -14,11 +14,13 @@ import java.util.Set;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.SelectItem;
 
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.beans.BeanProfile;
+import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.accessRight.AccessRight;
 import org.esupportail.opi.domain.beans.parameters.accessRight.AccessType;
 import org.esupportail.opi.domain.beans.parameters.accessRight.Domain;
@@ -222,13 +224,9 @@ public class ProfilController extends AbstractContextAwareController {
 		if (log.isDebugEnabled()) {
 			log.debug("enterind delete with profil = " + profil);
 		}
-
 		getParameterService().deleteProfile(profil);
 		reset();
-
-		
 		addInfoMessage(null, "INFO.DELETE.SUCCESS");
-
 		if (log.isDebugEnabled()) {
 			log.debug("leaving delete");
 		}
@@ -240,12 +238,10 @@ public class ProfilController extends AbstractContextAwareController {
 	 * @param event
 	 */
 	public void selectDomain(final ValueChangeEvent event) {
-
 		Integer value = (Integer) event.getNewValue();
 		idDomainSelected = value;
 		selectDomain();
 		FacesContext.getCurrentInstance().renderResponse();
-
 	}
 
 	/**
@@ -444,6 +440,17 @@ public class ProfilController extends AbstractContextAwareController {
 		return beanP;
 	}
 
+	
+	/**
+	 * List of BeanProfile in use.
+	 * @return
+	 */
+	public List<BeanProfile> getBeanProfileItems() {
+		List<BeanProfile> p = new ArrayList<BeanProfile>();
+		p.addAll(getBeanProfile());
+		return p;		
+	}
+	
 	/**
 	 * @return List< BeanAccess>
 	 */
@@ -540,3 +547,4 @@ public class ProfilController extends AbstractContextAwareController {
 	}
 
 }
+

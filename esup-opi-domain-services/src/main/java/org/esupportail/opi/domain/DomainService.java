@@ -460,13 +460,13 @@ public interface DomainService extends Serializable {
 	 * Set the database version.
 	 * @param version 
 	 */
-	void setDatabaseVersion(Version version);
+	void updateDatabaseVersion(Version version);
 	
 	/**
 	 * Set the database version.
 	 * @param version 
 	 */
-	void setDatabaseVersion(String version);
+	void updateDatabaseVersion(String version);
 	
 	//////////////////////////////////////////////////////////////
 	// NormeSI

@@ -7,33 +7,26 @@
     	
     	
     	<div id="maPage" class="div_body">
-    		<h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
+    		<h1>
+                <span class="section-header">
+                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
+                </span>
+            </h1>
     		
-            <ui:fragment rendered="#{printOpinionController.actionEnum.whatAction 
-                    == printOpinionController.actionEnum.confirmAction}">
-        		<div id="div_subSectionPdf" class="div_subSection">
-    				<ui:include src="_block/_confirmPdfNotification.xhtml" />
-        		</div>
-            </ui:fragment>
-            <ui:fragment rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.choiceColExport}">
-        		<div id="choiceColumnExport">
-    				<ui:include src="_block/_choiceColumnExport.xhtml" />
-        		</div>
-            </ui:fragment>
+    		<p:outputPanel id="div_subSectionPdf" styleClass="div_subSection" 
+                    rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.confirmAction}">
+				<ui:include src="_block/_confirmPdfNotification.xhtml" />
+    		</p:outputPanel>
+            <p:outputPanel id="choiceColumnExport">
+				<ui:include src="_block/_choiceColumnExport.xhtml" />
+            </p:outputPanel>
     		<h:form id="printListsForm" styleClass="opiR1_form">		
     			<div id="blockFormSearch" class="blockForm">
     				<div style="text-align:right;">
     					<p:commandButton value="#{msgs['_.BUTTON.EXPORT']}"
     							rendered="#{commissionController.commission.code != null}"
     							action="#{printOpinionController.generateCSVListesTransfert}" ajax="false" />
-    					<p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" immediate="true" ajax="false" >
-    						<f:setPropertyActionListener value="#{printOpinionController.actionEnum.choiceColExport}"
-    							 target="#{printOpinionController.actionEnum.whatAction}" />
-    					</p:commandButton>
-    					<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
-    						action="#{managedAccess.goDisplayFunction}" 
-    						rendered="#{printOpinionController.actionEnum.whatAction 
-    						!= printOpinionController.actionEnum.confirmAction}"  ajax="false" />
+                        <p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="ccExp.show()" type="button" />
     				</div>
     				<h:panelGrid styleClass="tableWidthMax" columns="4"
     					columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
@@ -42,15 +35,13 @@
     					</h:panelGroup>
     					<h:panelGroup>
     						<p:selectOneMenu id="lesCommissions" converter="javax.faces.Integer"
-    							value="#{commissionController.commission.id}"
-    							onchange="javascript:{simulateLinkClick('printListsForm:selectCommission');}" >
+    							value="#{commissionController.commission.id}">
     							<f:selectItem itemLabel="" itemValue="" />
     							<f:selectItems var="commission"
     								value="#{commissionController.commissionsItemsByRight}"
     								itemLabel="#{commission.libelle}" itemValue="#{commission.id}" />
+                                <p:ajax listener="#{commissionController.selectCommissionForLists}" update="@form"/>
     						</p:selectOneMenu>
-    						<p:commandButton id="selectCommission" 
-    							action="#{commissionController.selectCommissionForLists}" ajax="false" />
     					</h:panelGroup>
     				</h:panelGrid>
     		
@@ -60,11 +51,5 @@
     		<br />
     		<br />
     	</div>
-    	<script type="text/javascript">
-    		highlightChildrenLiTags('navigationHeader:navigation');
-    		highlightChildrenLiTags('navigationFooter:navigation');
-    		hideElement('printListsForm:submitSelectTypeOpinion');
-    		hideElement('printListsForm:selectCommission');
-    	</script>
     </ui:define>
 </ui:composition>
