@@ -1289,6 +1289,15 @@ public class CommissionController
 	public Set<Commission> getCommissionsItemsWithoutTrt() {
 		return comsNoTrt;
 	}
+
+	/**
+	 * Commissions items for the select menu.
+	 * the list is function the commissions without treatment
+	 * @return List<Commission>
+	 */
+	public List<Commission> getCommissionsItemsWithoutTrtAsList() {
+		return new ArrayList<Commission>(comsNoTrt);
+	}
 	
 	/**
 	 * Commissions items for managedTrtCmi list.
@@ -1297,7 +1306,7 @@ public class CommissionController
 	 */
 	@SuppressWarnings("synthetic-access")
 	public Set<Commission> getAllCommissionsItemsByRight() {
-		return new TreeSet<Commission>() {{
+		return new TreeSet<Commission>(comparatorCmi) {{
 			addAll(comsInUseByRight);
 			addAll(comsNoTrt);
 		}};
