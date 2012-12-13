@@ -14,15 +14,6 @@
     		<br />
     		<br />
     
-<!--     		<ui:fragment rendered="#{not empty managedAccess.traitementDisplay}"> -->
-<!--     			<h:form id="updateRightManagerForm" styleClass="opiR1_form"> -->
-<!--     				<opi:menuDynTag id="menuFonction" styleClass="displayTraitement"> -->
-<!--     					<opi:menuDynItems value="#{managedAccess.traitementDisplay}" -->
-<!--     						styleClass="form-button-link" /> -->
-<!--     				</opi:menuDynTag> -->
-<!--     			</h:form> -->
-<!--     		</ui:fragment> -->
-<!--     		<br /> -->
     		<div id="div_subSection" class="div_subSection">
     
     			<div id="blockFormInfo" class="blockForm">
@@ -120,8 +111,7 @@
         				</div>
         				<p:dataTable var="commission"
         					value="#{commissionController.selectedCommissions}"
-        					renderedIfEmpty="false" styleClass="displayInfo"
-        					alternateColors="false">
+        					styleClass="displayInfo">
         					<p:column>
         						<f:facet name="header">
         							<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
@@ -143,12 +133,5 @@
     		<br />
     		<br />
     	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        	highlightInputAndSelect('enterManagerForm');
-        	hideElement('enterManagerForm:submitCodCge');
-        </script>
     </ui:define>
 </ui:composition>
