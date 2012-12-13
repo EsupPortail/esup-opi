@@ -146,7 +146,7 @@ public class MailExceptionMethods implements Serializable, InitializingBean {
 		String htmlBody2 = "";
 		if (adr != null) {
 			// pour ticket 41115 decomposition pour eviter les null en adr2 et adr3
-			// pour um1, dans 4 tests pour éviter les lignes blanches 
+			// pour um1, dans 4 tests pour ÃÂ©viter les lignes blanches 
 			if (StringUtils.hasText(adr.getAdr1())) {
 				htmlBody2 += iService.getString("MAIL.ADR_CMI.ADR_POST", 
 						adr.getAdr1());
@@ -195,7 +195,7 @@ public class MailExceptionMethods implements Serializable, InitializingBean {
 	public String getReunions(final CalendarCmi calendar) {
 		StringBuffer htmlBody = new StringBuffer();
 		if (calendar != null && calendar.getReunions() != null) {
-			// on trie par ordre chronologique les dates de réunion
+			// on trie par ordre chronologique les dates de rÃÂ©union
 			Set<ReunionCmi> reunions = new TreeSet<ReunionCmi>(
 			    new Comparator<ReunionCmi>() {
                     public int compare(ReunionCmi r1, ReunionCmi r2) {
@@ -203,7 +203,7 @@ public class MailExceptionMethods implements Serializable, InitializingBean {
                             r2.getDate().toString().concat(r2.getHeure().toString()).toUpperCase());}});
 			reunions.addAll(calendar.getReunions());
 			for (ReunionCmi reunion : reunions) {
-				// on ajoute la date de la réunion que si elle est supérieure à la date du jour
+				// on ajoute la date de la rÃÂ©union que si elle est supÃÂ©rieure ÃÂ  la date du jour
 				if (reunion.getDate().after(new Date())) {
 					htmlBody.append(iService.getString("MAIL.COMMISSION.CONVOC.DATE",
 					    new SimpleDateFormat(Constantes.DATE_FORMAT).format(reunion.getDate()),

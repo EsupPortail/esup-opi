@@ -1,21 +1,59 @@
-<ui:fragment
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        >
-
+<ui:fragment xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
     <div id="maPageGest" class="div_body">
         <div id="div_subSectionGest" class="div_subSection">
             <h:form id="accueilGestionnaireForm" styleClass="opiR1_form">
-                <br/>
-                <br/>
-
-                <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml"/>
-
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-
+                <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml">
+                    <ui:param name="toUpdate" value="individuTable" />
+                </ui:include>
+                <p:dataTable var="individu" id="individuTable"
+                             value="#{individuController.indLDM}"
+                             paginator="true" lazy="true" sortBy="#{nomPatronymique}"
+                             currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
+                             paginatorTemplate="#{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
+                             rowsPerPageTemplate="10,20,30,40" rows="10"
+                             emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}"
+                             styleClass="paginatorData">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}"/>
+                        </f:facet>
+                        <h:outputText value="#{individu.numDossierOpi}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['INDIVIDU.NOM']}"/>
+                        </f:facet>
+                        <h:outputText value="#{individu.nomPatronymique}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['INDIVIDU.PRENOM']}"/>
+                        </f:facet>
+                        <h:outputText value="#{individu.prenom}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['INDIVIDU.DATE_NAI_COURT']}"/>
+                        </f:facet>
+                        <h:outputText value="#{individu.dateNaissance}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"
+                                               timeZone="#{sessionController.timezone}"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column rendered="#{not empty paginatorIndividu.visibleItems}">
+                        <p:commandButton icon="ui-icon-search"
+                                         styleClass="form-button-image" immediate="true"
+                                         title="#{msgs['_.BUTTON.DISPLAY']}"
+                                         action="#{individuController.goSeeOneIndividu}"
+                                         ajax="false">
+                            <f:setPropertyActionListener value="#{individu}"
+                                                         target="#{individuController.pojoIndividu.individu}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
             </h:form>
         </div>
     </div>

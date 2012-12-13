@@ -31,7 +31,7 @@ public class RechVetDTO {
 	private String codCge;
 	
 	/**
-	 * The code de l'année universitaire.
+	 * The code de l'annÃ©e universitaire.
 	 */
 	private String codAnu;
 	

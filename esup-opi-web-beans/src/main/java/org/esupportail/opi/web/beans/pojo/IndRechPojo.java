@@ -45,7 +45,7 @@ public class IndRechPojo {
 	private Integer codeTrtCmiRecherchee;
 	
 	/**
-	 * Liste des régimes d'inscription pour la recherche.
+	 * Liste des rÃ©gimes d'inscription pour la recherche.
 	 */
 	private Set<RegimeInscription> listeRI;
 
@@ -66,7 +66,7 @@ public class IndRechPojo {
 	
 	/**
 	 * true si le gestionnaire peut modifier.
-	 * le filtre sur le régime d'inscription, false sinon
+	 * le filtre sur le rÃ©gime d'inscription, false sinon
 	 */
 	private Boolean canModifyRISearch;
 	

@@ -851,13 +851,14 @@ public class OpinionController
      * Search method to list the students with the filter.
      * <p/>
      * TODO : Rename that method
+     * TODO : get rid of commented code
      */
     @SuppressWarnings("serial")
     public void searchStudents() {
-        individuPaginator.filterInMannagedCmi(
-                new TreeSet<Commission>(new ComparatorString(NormeSI.class)) {{
-                    addAll(commissionController.getCommissionsItemsByRight());
-                }}, transfert.getCode(), false);
+//        individuPaginator.filterInMannagedCmi(
+//                new TreeSet<Commission>(new ComparatorString(NormeSI.class)) {{
+//                    addAll(commissionController.getCommissionsItemsByRight());
+//                }}, transfert.getCode(), false);
         TypeDecision type = individuPaginator.getIndRechPojo().getTypeDecRecherchee();
         Integer codeCommRech = individuPaginator.getIndRechPojo().getIdCmi();
         Integer codeTrtCmiRech = individuPaginator.getIndRechPojo().getCodeTrtCmiRecherchee();

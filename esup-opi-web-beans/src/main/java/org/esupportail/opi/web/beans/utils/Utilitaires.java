@@ -262,8 +262,8 @@ public class Utilitaires {
 						if (trt.getVersionEtpOpi().getCodEtp().equals(v.getCodEtp())
 								&& trt.getVersionEtpOpi().getCodVrsVet()
 								.equals(v.getCodVrsVet())) {
-							// on vérifie que le traitement est rattaché
-							// à la campagne courante
+							// on vÃ©rifie que le traitement est rattachÃ©
+							// Ã  la campagne courante
 							if (isTraitementCmiInCamp(trt, camp)) {
 								if (mapCmi.get(c) == null) {
 									Set<VersionEtapeDTO> firstVrsEtp 
@@ -517,7 +517,7 @@ public class Utilitaires {
 		// un traitement est off si tous ses link sont off
 		boolean isOff = true;
 		for (LinkTrtCmiCamp link : trtCmi.getLinkTrtCmiCamp()) {
-			// si au moins un link est en service pour le codeRI, le trtCmi est concidéré en service
+			// si au moins un link est en service pour le codeRI, le trtCmi est concidÃ©rÃ© en service
 			if (link.getTemoinEnService() && link.getCampagne().getCodeRI() == codeRI) {
 				isOff = false;
 			}
@@ -536,7 +536,7 @@ public class Utilitaires {
 		// un traitement est dans la campagne si le link correspondant est en service
 		boolean isInCamp = false;
 		for (LinkTrtCmiCamp link : trtCmi.getLinkTrtCmiCamp()) {
-			// si au moins un link est en service, le trtCmi est concidéré en service
+			// si au moins un link est en service, le trtCmi est concidÃ©rÃ© en service
 			if (link.getCampagne().equals(camp) && link.getTemoinEnService()) {
 				isInCamp = true;
 			}
@@ -553,7 +553,7 @@ public class Utilitaires {
 		// un traitement est dans la campagne si le link correspondant est en service
 		LinkTrtCmiCamp linkTrtCmiCamp = null;
 		for (LinkTrtCmiCamp link : trtCmi.getLinkTrtCmiCamp()) {
-			// si au moins un link est en service, le trtCmi est concidéré en service
+			// si au moins un link est en service, le trtCmi est concidÃ©rÃ© en service
 			if (link.getCampagne().equals(camp)) {
 				linkTrtCmiCamp = link;
 			}
@@ -754,7 +754,7 @@ public class Utilitaires {
 		if (cmiPojo.getAdressePojo() != null 
 				&& (justMailAndTel == null || !justMailAndTel)) {
 			// pour ticket 41115 decomposition pour eviter les null en adr2 et adr3
-			// pour um1, dans 4 tests pour éviter les lignes blanches 
+			// pour um1, dans 4 tests pour Ã©viter les lignes blanches 
 			if (StringUtils.hasText(cmiPojo.getAdressePojo().getAdresse().getAdr1())) {
 				htmlBody2 += iService.getString("MAIL.ADR_CMI.ADR_POST", 
 						cmiPojo.getAdressePojo().getAdresse().getAdr1());
@@ -909,7 +909,7 @@ public class Utilitaires {
 		return listCalendarRdv;
 	}
 	/**
-	 * Renvoie la liste des commissions contenant une étape avec un formulaire complémentaire.
+	 * Renvoie la liste des commissions contenant une Ã©tape avec un formulaire complÃ©mentaire.
 	 */
 	public static List<Commission> getListCommissionExitForm(final List<Commission> listComm,
 			final List<RegimeInscription> listeRI,
@@ -946,8 +946,8 @@ public class Utilitaires {
 	
 	/**
 	 * Renvoie une map :
-	 * - Voeux contenant un formulaire compl�mentaire en fonction de l'individu.
-	 * - Test de la cr�ation du formulaire compl�mentaire.
+	 * - Voeux contenant un formulaire complï¿½mentaire en fonction de l'individu.
+	 * - Test de la crï¿½ation du formulaire complï¿½mentaire.
 	 */
 	public static Map<IndVoeu, Boolean> getMapValidForm(final Individu ind,
 			final Map<Integer, RegimeInscription> mapRegimeInscription,

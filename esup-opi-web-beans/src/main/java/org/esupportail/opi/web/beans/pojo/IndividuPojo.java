@@ -32,10 +32,7 @@ import org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
-import org.esupportail.opi.domain.beans.user.indcursus.CursusPro;
-import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
-import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
-import org.esupportail.opi.domain.beans.user.indcursus.QualifNonDiplomante;
+import org.esupportail.opi.domain.beans.user.indcursus.*;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
@@ -46,6 +43,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.*;
 
+import static fj.data.Option.fromNull;
 import static fj.data.Stream.iterableStream;
 
 
@@ -144,6 +142,8 @@ public class IndividuPojo {
 	 * default false
 	 */
 	private Boolean isUsingSearch;
+
+    private String etatIndBac;
 	
 	/*
 	 ******************* INIT ************************* */
@@ -205,7 +205,17 @@ public class IndividuPojo {
 		isUsingLC = false;
 		isUsingDEF = false;
 		isUsingSearch = false;
-	}
+        etatIndBac = fromNull(individu.getIndBac())
+                .filter(new F<Set<IndBac>, Boolean>() {
+                    public Boolean f(Set<IndBac> indBacs) {
+                        return !indBacs.isEmpty();
+                    }})
+                .option(new EtatNonRenseigne(i18nService).getLabel(),
+                        new F<Set<IndBac>, String>() {
+                            public String f(Set<IndBac> indBacs) {
+                                return new EtatComplet(i18Service).getLabel();
+                            }});
+    }
 	
 	/**
 	 * Constructor.
@@ -400,11 +410,7 @@ public class IndividuPojo {
 	 * @return String
 	 */ 
 	public String getEtatIndBac() {
-		if (individu.getIndBac() != null 
-				&& !individu.getIndBac().isEmpty()) {
-			return new EtatComplet(i18nService).getLabel();
-		}
-		return new EtatNonRenseigne(i18nService).getLabel();
+        return etatIndBac;
 	}
 	
 	/**
@@ -608,7 +614,7 @@ public class IndividuPojo {
 	}
 	
 	/**
-	 * Return list voeux trié par libelle court.
+	 * Return list voeux triÃ© par libelle court.
 	 * @return List
 	 */
 	@SuppressWarnings("unchecked")

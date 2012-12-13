@@ -13,7 +13,10 @@
                                   styleClass="section-smallTitle"/>
                     <h:panelGroup>
                         <p:commandButton id="lookForIndividu" value="#{msgs['_.BUTTON.SEARCH']}"
-                                         action="#{opinionController.searchStudents}" update="#{toUpdate}"/>
+                                         update="#{toUpdate}"/>
+                        <!-- TODO : get rid of the that ?? -->
+                        <!-- <p:commandButton id="lookForIndividu" value="#{msgs['_.BUTTON.SEARCH']}" -->
+                        <!--                  action="#{opinionController.searchStudents}" update="#{toUpdate}"/> -->
                     </h:panelGroup>
                 </h:panelGrid>
                 <h:panelGrid styleClass="tableWidthMax" columns="4"

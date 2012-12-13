@@ -417,7 +417,7 @@ public class VersionningServiceImpl implements VersionningService {
 			}
 			MailContent mail = new MailContent();
 			mail.setCode(service.getCode());
-			mail.setLibelle("INIT_DATABASE libellé à modifier");
+			mail.setLibelle("INIT_DATABASE libellÃÂ© ÃÂ  modifier");
 			getParameterService().addMailContent(
 					(MailContent) getDomainService().add(mail, "INIT_DATABASE"));
 			
@@ -437,7 +437,7 @@ public class VersionningServiceImpl implements VersionningService {
 			if (getParameterService().getMailContent(service.getCode()) == null) {
 				MailContent mail = new MailContent();
 				mail.setCode(service.getCode());
-				mail.setLibelle("UPDATE_DATABASE libellé à modifier");
+				mail.setLibelle("UPDATE_DATABASE libellÃÂ© ÃÂ  modifier");
 				getParameterService().addMailContent(
 						(MailContent) getDomainService().add(mail, "UPDATE_DATABASE"));
 			}

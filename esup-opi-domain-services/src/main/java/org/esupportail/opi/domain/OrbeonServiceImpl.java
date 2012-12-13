@@ -133,12 +133,12 @@ public class OrbeonServiceImpl implements OrbeonService {
 	private String xslXmlPath;
 	
 	/**
-	 * Accès à la base XML.
+	 * AccÃÂ¨s ÃÂ  la base XML.
 	 */
 	private XPathQueryService xPathQueryService;
 	
 	/**
-	 * URI pour l'accès à la base XML.
+	 * URI pour l'accÃÂ¨s ÃÂ  la base XML.
 	 */
 	private String uri;
 	
@@ -399,7 +399,7 @@ public class OrbeonServiceImpl implements OrbeonService {
 	public boolean copyData(final URL urlFrom, final URL urlTo, final URL urlDel, final String tagName) 
 	throws IOException, ParserConfigurationException, SAXException {
 		/**
-		 * Récupération du fichier à copier 
+		 * RÃÂ©cupÃÂ©ration du fichier ÃÂ  copier 
 		 */
 		HttpURLConnection connFrom = (HttpURLConnection) urlFrom.openConnection();
 
@@ -458,7 +458,7 @@ public class OrbeonServiceImpl implements OrbeonService {
 //				xmlStringFrom = sw.toString();
 //
 //				if (log.isDebugEnabled()) {
-//					log.debug("Récupération de : " + urlFrom + " fini");
+//					log.debug("RÃÂ©cupÃÂ©ration de : " + urlFrom + " fini");
 //				}
 //
 //			} catch (TransformerException e) {
@@ -466,7 +466,7 @@ public class OrbeonServiceImpl implements OrbeonService {
 //			}
 		} else {
 			if (log.isDebugEnabled()) {
-				log.debug("Problème lors de la récupération de : " + urlFrom );
+				log.debug("ProblÃÂ¨me lors de la rÃÂ©cupÃÂ©ration de : " + urlFrom );
 				log.debug("HTTP connection response != HTTP_OK : " + responseCode);
 			}
 			return false;
@@ -476,7 +476,7 @@ public class OrbeonServiceImpl implements OrbeonService {
 				log.debug("cas xhtml " + tagName );
 			}
 			/**
-			 * Copie vers le nouveau dossier si on a récupéré un fichier
+			 * Copie vers le nouveau dossier si on a rÃÂ©cupÃÂ©rÃÂ© un fichier
 			 */
 			HttpURLConnection connTo = (HttpURLConnection) urlTo.openConnection();
 			
@@ -500,8 +500,8 @@ public class OrbeonServiceImpl implements OrbeonService {
 			
 			if (connTo.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
 				if (log.isDebugEnabled()) {
-					log.debug("Code réponse" + connTo.getResponseCode());
-					log.debug("Problème lors de la copie vers : " + urlTo );
+					log.debug("Code rÃÂ©ponse" + connTo.getResponseCode());
+					log.debug("ProblÃÂ¨me lors de la copie vers : " + urlTo );
 				}
 				return false;
 			}
@@ -526,12 +526,12 @@ public class OrbeonServiceImpl implements OrbeonService {
 			connDel.connect();
 			if (connDel.getResponseCode() == HttpURLConnection.HTTP_OK) {
 				if (log.isDebugEnabled()) {
-					log.debug("Suppression de " + urlDel + " fait et fin de procédure");
+					log.debug("Suppression de " + urlDel + " fait et fin de procÃÂ©dure");
 				}
 				return true;
 			}
 			if (log.isDebugEnabled()) {
-				log.debug("Problème de la suppression de " + urlDel );
+				log.debug("ProblÃÂ¨me de la suppression de " + urlDel );
 			}
 			return false;
 		}
@@ -756,7 +756,7 @@ public class OrbeonServiceImpl implements OrbeonService {
 	}
 	
 	/**
-	 * Initialisation de la connexion avec la base de donn�e Orb�on.
+	 * Initialisation de la connexion avec la base de donnÃ¯Â¿Â½e OrbÃ¯Â¿Â½on.
 	 */
 	public void initConnexionBase() {
 		try {

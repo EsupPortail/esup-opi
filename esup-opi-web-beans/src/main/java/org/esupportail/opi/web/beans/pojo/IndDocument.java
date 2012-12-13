@@ -91,8 +91,8 @@ public class IndDocument implements Serializable {
 	private String anneeUniversitaire;
 	
 	/**
-	 * Annee universitaire d'Apogée de la campagne en cours.
-	 * Exemple : pour 2009-2010 l'annee universitaire dans Apogée est 2009.
+	 * Annee universitaire d'ApogÃ©e de la campagne en cours.
+	 * Exemple : pour 2009-2010 l'annee universitaire dans ApogÃ©e est 2009.
 	 */
 	private String anneeUniversitaireApogee;
 	

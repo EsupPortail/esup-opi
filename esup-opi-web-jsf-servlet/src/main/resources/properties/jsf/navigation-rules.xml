@@ -365,11 +365,12 @@
             <to-view-id>/stylesheets/gestionnaire/user/seeGestionnaires.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
-        <navigation-case>
-            <from-outcome>go_found_etudiant</from-outcome>
-            <to-view-id>/stylesheets/gestionnaire/user/seeSearchIndividu.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
+        <!-- TODO : Remove this -->
+        <!--<navigation-case>-->
+            <!--<from-outcome>go_found_etudiant</from-outcome>-->
+            <!--<to-view-id>/stylesheets/gestionnaire/user/seeSearchIndividu.xhtml</to-view-id>-->
+            <!--<redirect/>-->
+        <!--</navigation-case>-->
         <navigation-case>
             <from-outcome>go_see_etudiants</from-outcome>
             <to-view-id>/stylesheets/gestionnaire/user/seeEtudiants.xhtml</to-view-id>

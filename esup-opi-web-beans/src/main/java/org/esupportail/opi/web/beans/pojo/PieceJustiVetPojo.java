@@ -32,7 +32,7 @@ public class PieceJustiVetPojo {
 	private VersionEtapeDTO versionEtape;
 
 	/**
-	 * l'utilisateur poss�de tous les droits.
+	 * l'utilisateur possï¿½de tous les droits.
 	 */
 	private boolean allRight;
 	

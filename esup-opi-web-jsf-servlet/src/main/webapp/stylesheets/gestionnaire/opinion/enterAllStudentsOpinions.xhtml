@@ -22,7 +22,8 @@
             </ui:include>
             <ui:include src="/stylesheets/gestionnaire/opinion/_block/_proposition.xhtml"/>
             <h:form id="seeOpinionsForm">
-                <p:remoteCommand id="renderTable" name="renderTable" autoRun="true" async="true"
+                <p:remoteCommand id="renderTable" name="renderTable"
+                                 autoRun="true" async="true"
                                  update="dataPanel"
                                  actionListener="#{opinionController.doRenderTable}"/>
                 <div class="messageForUser">
@@ -38,13 +39,14 @@
                                 update=":seeOpinionsForm:individuData"/>
                     </p:selectOneMenu>
                 </div>
-                <p:panel id="dataPanel" layout="block" style="border: none; height: 1000px; width:101.5%; margin-left: -1%;">
-                    <div style="float:right">
+                <p:panel id="dataPanel" layout="block" styleClass="dataPanel">
+                    <div class="dataPanelButtons">
                         <p:commandButton id="saveAll" value="#{msgs['_.BUTTON.SAVE']}"
                                          action="#{opinionController.saveAll}"
-                                         update=":seeOpinionsForm:individuData" rendered="#{opinionController.renderTable}"/>
+                                         update=":seeOpinionsForm:individuData"
+                                         rendered="#{opinionController.renderTable}"/>
                     </div>
-                    <p:panel style="clear: both; border: none; margin: -0.5em -1em;">
+                    <p:panel styleClass="dataSubPanel">
                         <p:effect type="puff" event="load">
                             <f:param name="mode" value="'show'"/>
                             <f:param name="percent" value="100"/>

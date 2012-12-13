@@ -539,7 +539,7 @@ public class ParameterServiceImpl implements ParameterService {
 		List<PieceJustificative> pj = new ArrayList<PieceJustificative>();
 		Set<PieceJustificative> pjInUse = getPJs(true); 
 		for (PieceJustificative p : pjInUse) {
-			// on garde les pièces du régime
+			// on garde les piÃÂ¨ces du rÃÂ©gime
 			if (codeRI == null || codeRI.equals(p.getCodeRI())) {
 				if (p.getIsForAllVet()) {
 					pj.add(p);
@@ -566,7 +566,7 @@ public class ParameterServiceImpl implements ParameterService {
 		List<PieceJustificative> pj = new ArrayList<PieceJustificative>();
 		Set<PieceJustificative> pjInUse = getPJs(true); 
 		for (PieceJustificative p : pjInUse) {
-			// on garde les pièces du régime
+			// on garde les piÃÂ¨ces du rÃÂ©gime
 			if (codeRI == null || codeRI.equals(p.getCodeRI())) {
 				if (p.getIsForAllVet()) {
 					pj.add(p);
@@ -637,7 +637,7 @@ public class ParameterServiceImpl implements ParameterService {
 		for (Nomenclature n : nomList) {
 			Campagne c = (Campagne) n;
 			if (c.getCodeRI() == codeRI) {
-				// TODO YL 22/11/2010: Ã  modifier par une rÃ©cup de la liste
+				// TODO YL 22/11/2010: ÃÂÃÂ  modifier par une rÃÂÃÂ©cup de la liste
 				if (camp == null 
 						|| (Integer.parseInt(camp.getCodAnu()) 
 						< Integer.parseInt(c.getCodAnu()))) {
@@ -776,7 +776,7 @@ public class ParameterServiceImpl implements ParameterService {
 			log.debug("entering addCommission( " + commission + " )");
 		}
 		
-		// on crée le calendrier de la commission par défaut
+		// on crÃÂ©e le calendrier de la commission par dÃÂ©faut
 		CalendarCmi calendarCmi = new CalendarCmi();
 		calendarCmi.setCode(prefixCodCalCmi + commission.getCode());
 		calendarCmi.setLibelle(prefixLibCalCmi + commission.getLibelle());
@@ -1350,7 +1350,7 @@ public class ParameterServiceImpl implements ParameterService {
 		}
 		Map<String, List<String>> mapFormName = new HashMap<String, List<String>>();
 		for (IndFormulaire form : daoService.getIndFormulaires(camp)) {
-			// PrÃ©paration de l'entrÃ©e dans la map
+			// PrÃÂÃÂ©paration de l'entrÃÂÃÂ©e dans la map
 			String numDoss = form.getIndividu().getNumDossierOpi();
 			String formName = form.getVersionEtpOpi().getCodEtp() + "-" 
 				+ form.getVersionEtpOpi().getCodVrsVet() + "-" + sLabelRI;

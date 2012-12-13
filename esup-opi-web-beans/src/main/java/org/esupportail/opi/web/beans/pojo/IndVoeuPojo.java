@@ -301,7 +301,7 @@ public class IndVoeuPojo implements Serializable {
 	}
 	
 	/**
-	 * @return true si le candidat a un numéro INE
+	 * @return true si le candidat a un numÃ©ro INE
 	 */
 	public Boolean getHasNNE() {
 		return StringUtils.hasText(indVoeu.getIndividu().getCodeNNE());

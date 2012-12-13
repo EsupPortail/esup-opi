@@ -10,6 +10,7 @@ import fj.P2;
 import fj.data.Option;
 import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.exceptions.ConfigException;
+import org.esupportail.commons.services.authentication.info.AuthInfoImpl;
 import org.esupportail.commons.services.exceptionHandling.ExceptionUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
@@ -19,10 +20,12 @@ import org.esupportail.commons.utils.ContextUtils;
 import org.esupportail.commons.utils.strings.StringUtils;
 import org.esupportail.commons.web.controllers.ExceptionController;
 import org.esupportail.commons.web.controllers.Resettable;
+import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.User;
 import org.esupportail.opi.services.authentification.Authenticator;
+import org.esupportail.opi.services.authentification.AuthenticatorImpl;
 import org.esupportail.opi.web.beans.parameters.FormationInitiale;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
@@ -34,6 +37,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -230,34 +234,31 @@ public class SessionController extends AbstractDomainAwareBean {
             Individu individu = null;
             User u = getCurrentUser();
             if (u != null && u instanceof Individu) {
-                //individu = getDomainService().getIndividu(numDossier, dateNaissance);
                 individu = (Individu) u;
+                individu = getDomainService().getIndividu(
+                        individu.getNumDossierOpi(), individu.getDateNaissance());
             }
-            IndividuPojo indPojo = null;
             if (individu != null) {
-                int codeRI = Utilitaires.getCodeRIIndividu(individu,
-                        getDomainService());
-                RegimeInscription regime = getRegimeIns().get(codeRI);
+//                int codeRI = Utilitaires.getCodeRIIndividu(individu,
+//                        getDomainService());
+                //RegimeInscription regime = getRegimeIns().get(codeRI);
                 //Test l etat de l'individu
-                individu =
-                        getDomainService().updateStateIndividu(
-                                individu, authenticator.getManager());
-                //TODO : does it work without the following ?
+//                individu = getDomainService().updateStateIndividu(
+//                        individu, authenticator.getManager());
                 //regime.getControlField());
-                indPojo = new IndividuPojo(
+
+                IndividuPojo indPojo = new IndividuPojo(
                         individu, getDomainApoService(),
                         getI18nService(), getParameterService(),
                         getRegimeIns().get(Utilitaires.getCodeRIIndividu(individu,
                                 getDomainService())), getParameterService().getTypeTraitements(),
-                        getParameterService().getCalendarRdv(), null);
-            }
-            if (indPojo != null) {
+                        getParameterService().getCalendarRdv(), new HashSet<Commission>());
                 // put boolean for the management and rights of update
                 indPojo.setIsManager(isManager);
                 indPojo.setIsUpdaterOfThisStudent(canUpdateStudent);
+                resetSessionLocale();
+                ContextUtils.setSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE, indPojo);
             }
-            resetSessionLocale();
-            ContextUtils.setSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE, indPojo);
         }
         return (IndividuPojo) ContextUtils.getSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE);
     }
@@ -370,9 +371,17 @@ public class SessionController extends AbstractDomainAwareBean {
      */
     public String goBackManager() {
         // Reinitialise  null pour getCurrentID()
+        ContextUtils.setSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE, null);
         Boolean isEnt = isInEnt;
         reset();
+        // TODO
+        // **** TEST [
+        ContextUtils.setSessionAttribute(AuthenticatorImpl.class.getName() + ".authInfo",
+                new AuthInfoImpl(authenticator.getAuthId(), null, null));
+        ContextUtils.setSessionAttribute(AuthenticatorImpl.class.getName() + ".user",
+                authenticator.getManager());
         authenticator.storeManager(null, null, null);
+        // ] ****
         isInEnt = isEnt;
         return NavigationRulesConst.WELCOME_MANAGER;
     }
@@ -440,7 +449,7 @@ public class SessionController extends AbstractDomainAwareBean {
                             }
                         });
             }
-        }).orSome("Unknown User");
+        }).orSome("Non connecté");
     }
 
 

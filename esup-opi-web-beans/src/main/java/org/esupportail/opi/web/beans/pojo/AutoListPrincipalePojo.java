@@ -20,7 +20,7 @@ public class AutoListPrincipalePojo {
 	private AutoListPrincipale autoLp;
 
 	/**
-	 * libellé du centre de gestion.
+	 * libellÃ© du centre de gestion.
 	 */
 	private String libelleCge;
 

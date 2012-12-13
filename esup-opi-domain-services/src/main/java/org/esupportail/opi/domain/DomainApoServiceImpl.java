@@ -289,9 +289,6 @@ public class DomainApoServiceImpl implements DomainApoService {
 	// Etape
 	//////////////////////////////////////////////////////////////
 
-	/** 
-	 * @see org.esupportail.opi.domain.DomainApoService#getEtapes(java.lang.String)
-	 */
 	@Deprecated
 	public List<Etape> getEtapes(final String codCge) {
 		if (log.isDebugEnabled()) {
@@ -310,7 +307,7 @@ public class DomainApoServiceImpl implements DomainApoService {
 	 * @see org.esupportail.opi.domain.DomainApoService#getEtape(java.lang.String)
 	 */
 	/**
-	 * TODO : à supprimer (11/01/2012)
+	 * TODO : ÃÂ  supprimer (11/01/2012)
 	 */
 //	public Etape getEtape(final String codeEtp) {
 //		if (log.isDebugEnabled()) {
@@ -516,7 +513,7 @@ public class DomainApoServiceImpl implements DomainApoService {
 			return c;
 		} catch (WebBaseException e) {
 			//technical.data.nullretrieve.commune
-			throw new ObjectNotFoundException("Ce code postal ( " + codBdi + " ) n'existe pas dans la base de données APOGEE");
+			throw new ObjectNotFoundException("Ce code postal ( " + codBdi + " ) n'existe pas dans la base de donnÃÂ©es APOGEE");
 		} catch (NullPointerException e) {
 			throw new CommunicationApogeeException(e);
 		}
@@ -1315,11 +1312,8 @@ public class DomainApoServiceImpl implements DomainApoService {
 	//////////////////////////////////////////////////////////////
 
 
-	/** 
-	 * @see org.esupportail.opi.domain.DomainApoService#getSignataire(java.lang.String)
-	 */
 //	@Override
-	// TODO : à supprimer 18/01/2012
+	// TODO : À supprimer 18/01/2012
 	public SignataireDTO getSignataire(final String codSig) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getSignataire with " + codSig);
@@ -1471,7 +1465,7 @@ public class DomainApoServiceImpl implements DomainApoService {
 	        tOpi.setLibCmtLpa("Avis Favorable en OPI dossier n " + ind.getNumDossierOpi());
 	        //manque le code Ind 
 	        //meme ind pour tous les voeux
-	        //TODO récupérer codIndOpi
+	        //TODO rÃÂ©cupÃÂ©rer codIndOpi
 	        IndOpiDTO opiDTO = getIndOpiDTO(ind);
 	        if (opiDTO != null) {
 	            tOpi.setCodIndOpi(opiDTO.getCodIndOpi());
@@ -1759,20 +1753,15 @@ public class DomainApoServiceImpl implements DomainApoService {
     			vet.addAll(getVersionEtapes(null, null, 	gest.getCodeCge(), null));
     			Set<VersionEtpOpi> vOpi = Conversions.convertVetInVetOpi(new HashSet<VersionEtapeDTO>(vet));
     			Set<Commission> lCom = parameterService.getCommissions(temEnSve);
-                if (lCom != null) {
+                if (lCom != null)
                     for (Commission c : lCom) {
-                        if (!c.getTemoinEnService()) {
-                            log.info("cas d'une comm HS");
-                        }
-                        for (TraitementCmi trt : c.getTraitementCmi()) {
+                        if (!c.getTemoinEnService()) log.info("cas d'une comm HS");
+                        for (TraitementCmi trt : c.getTraitementCmi())
                             if (vOpi.contains(trt.getVersionEtpOpi())) {
                                 lesCommissions.add(c);
                                 break;
                             }
-                        }
                     }
-                }
-    
     		} else if (gest.getRightOnCmi()!= null && !gest.getRightOnCmi().isEmpty()) {
     			//si pas cge, renvoie les cmi auxquelles ils ont droit
     		    // TODO: change getRightOnCmi to return a list ?

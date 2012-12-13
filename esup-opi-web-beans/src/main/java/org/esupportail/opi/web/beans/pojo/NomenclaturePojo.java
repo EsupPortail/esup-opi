@@ -33,7 +33,7 @@ public class NomenclaturePojo implements Serializable {
 	private RegimeInscription regimeInscription;
 
 	/**
-	 * l'utilisateur poss�de tous les droits.
+	 * l'utilisateur possï¿½de tous les droits.
 	 */
 	private boolean allRight;
 	

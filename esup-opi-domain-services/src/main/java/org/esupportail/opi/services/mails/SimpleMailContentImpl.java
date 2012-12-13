@@ -96,7 +96,7 @@ public class SimpleMailContentImpl extends AbstractMailContentImpl {
 		if (getMailContent() == null) {
 			throw new ConfigException("the getMailContent() does not be null");
 		}
-		//si le body est vide on prend la valeure par défaut
+		//si le body est vide on prend la valeure par dÃÂ©faut
 		if (StringUtils.hasText(getMailContent().getBody())) {
 			return getMailContent().getBody();
 		}
@@ -110,7 +110,7 @@ public class SimpleMailContentImpl extends AbstractMailContentImpl {
 		if (getMailContent() == null) {
 			throw new ConfigException("the getMailContent() does not be null");
 		}
-		//si le body est vide on prend la valeure par défaut
+		//si le body est vide on prend la valeure par dÃÂ©faut
 		if (StringUtils.hasText(getMailContent().getSubject())) {
 			return getMailContent().getSubject();
 		}

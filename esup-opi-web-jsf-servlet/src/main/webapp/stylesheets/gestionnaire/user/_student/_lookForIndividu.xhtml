@@ -10,8 +10,7 @@
                               styleClass="section-smallTitle"/>
                 <h:panelGroup>
                     <p:commandButton id="search-button" value="#{msgs['_.BUTTON.SEARCH']}"
-                                     update="@form"
-                                     action="#{individuController.goSeeCandidats}"/>
+                                     update="#{toUpdate}" />
                 </h:panelGroup>
             </h:panelGrid>
             <h:panelGrid styleClass="tableWidthMax" columns="4"
@@ -31,6 +30,7 @@
                         <f:selectItems var="commission"
                                        value="#{commissionController.commissionsItemsByRightParametrable}"
                                        itemLabel="#{commission.libelle}" itemValue="#{commission.id}"/>
+                        <p:ajax update="#{toUpdate}" />
                     </p:selectOneMenu>
                 </h:panelGroup>
 
