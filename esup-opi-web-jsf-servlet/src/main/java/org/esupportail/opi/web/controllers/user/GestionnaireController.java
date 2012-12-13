@@ -264,7 +264,7 @@ public class GestionnaireController extends AbstractAccessController {
 	/**
 	 * Delete a Manager to the dataBase.
 	 */
-	public void delete() {
+	public String delete() {
 		if (log.isDebugEnabled()) {
 			log.debug("entering delete with manager = " + manager);
 		}
@@ -277,6 +277,7 @@ public class GestionnaireController extends AbstractAccessController {
 		if (log.isDebugEnabled()) {
 			log.debug("leaving delete");
 		}
+		return goSeeAllManagers();
 	}
 
 	
