@@ -285,7 +285,8 @@ public class ValidOpinionController extends AbstractContextAwareController {    
                         null;
 
         final Commission c = getParameterService().getCommission(
-                printOpinionController.getIdCommissionSelected(), null);
+                printOpinionController.getIndividuController().getIndividuPaginator().getIndRechPojo().getIdCmi(),
+                null);
         final ContactCommission cc = c.getContactsCommission().get(regimeIns.getCode());
         final CommissionPojo currentCmiPojo = new CommissionPojo(c,
                 new AdressePojo(cc.getAdresse(), getDomainApoService()), cc);

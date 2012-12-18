@@ -70,7 +70,7 @@ public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu>
      * Constructors.
      */
     public IndividuPaginator() {
-        super();
+
     }
 
     @Override
@@ -335,7 +335,7 @@ public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu>
         }
 
 
-        hql.append(hqlIndWishesFilter(codeTypeTreatment, filtreIndTraited));
+        // hql.append(hqlIndWishesFilter(codeTypeTreatment, filtreIndTraited));
 
         hql.append(addFiltreCodeRI());
 
@@ -368,7 +368,7 @@ public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu>
 
         hqlQuery += addFiltreAllUserCommission(lesCommissions);
 
-        hqlQuery += hqlIndWishesFilter(codeTypeTreatment, filtreIndTraited);
+        // hqlQuery += hqlIndWishesFilter(codeTypeTreatment, filtreIndTraited);
 
         hqlQuery += addFiltreCodeRI();
 
@@ -390,29 +390,29 @@ public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu>
      * @param filtreIndTraited  for the treated individual
      * @return String
      */
-    protected String hqlIndWishesFilter(final String codeTypeTreatment, final Boolean filtreIndTraited) {
-        Boolean notNulCodTrt = StringUtils.hasText(codeTypeTreatment);
-        if ((indRechPojo.getExcludeWishProcessed() && filtreIndTraited)
-                || notNulCodTrt) {
-            StringBuilder hql = new StringBuilder();
-            hql.append(" AND exists(SELECT indV FROM IndVoeu as indV WHERE ");
-
-            if (filtreIndTraited) {
-                hql.append(" indV.haveBeTraited = " + !indRechPojo.getExcludeWishProcessed());
-                if (notNulCodTrt) {
-                    hql.append(" AND indV.codTypeTrait != '" + codeTypeTreatment + "'");
-                }
-            } else if (notNulCodTrt) {
-                hql.append(" indV.codTypeTrait != '" + codeTypeTreatment + "'");
-            }
-
-
-            hql.append(" AND indV.individu = i");
-            hql.append(" AND indV in elements(i.voeux)) ");
-            return hql.toString();
-        }
-        return "";
-    }
+//    protected String hqlIndWishesFilter(final String codeTypeTreatment, final Boolean filtreIndTraited) {
+//        Boolean notNulCodTrt = StringUtils.hasText(codeTypeTreatment);
+//        if ((indRechPojo.getExcludeWishProcessed() && filtreIndTraited)
+//                || notNulCodTrt) {
+//            StringBuilder hql = new StringBuilder();
+//            hql.append(" AND exists(SELECT indV FROM IndVoeu as indV WHERE ");
+//
+//            if (filtreIndTraited) {
+//                hql.append(" indV.haveBeTraited = " + !indRechPojo.getExcludeWishProcessed());
+//                if (notNulCodTrt) {
+//                    hql.append(" AND indV.codTypeTrait != '" + codeTypeTreatment + "'");
+//                }
+//            } else if (notNulCodTrt) {
+//                hql.append(" indV.codTypeTrait != '" + codeTypeTreatment + "'");
+//            }
+//
+//
+//            hql.append(" AND indV.individu = i");
+//            hql.append(" AND indV in elements(i.voeux)) ");
+//            return hql.toString();
+//        }
+//        return "";
+//    }
 
 
     /**

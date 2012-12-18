@@ -10,6 +10,7 @@
                               styleClass="section-smallTitle"/>
                 <h:panelGroup>
                     <p:commandButton id="search-button" value="#{msgs['_.BUTTON.SEARCH']}"
+                                     actionListener="#{individuController.doRenderTable}"
                                      update="#{toUpdate}" />
                 </h:panelGroup>
             </h:panelGrid>
@@ -30,10 +31,9 @@
                         <f:selectItems var="commission"
                                        value="#{commissionController.commissionsItemsByRightParametrable}"
                                        itemLabel="#{commission.libelle}" itemValue="#{commission.id}"/>
-                        <p:ajax update="#{toUpdate}" />
+                        <p:ajax partialSubmit="true" listener="#{individuController.doRenderTable}" update="#{toUpdate}" />
                     </p:selectOneMenu>
                 </h:panelGroup>
-
                 <h:panelGroup>
                     <h:outputLabel value="#{msgs['INDIVIDU.NOM']}" for="nom"/>
                 </h:panelGroup>
@@ -44,7 +44,6 @@
                 </h:panelGroup>
                 <p:inputText id="prenom"
                              value="#{paginatorIndividu.indRechPojo.prenomRecherche}"/>
-
                 <h:panelGroup>
                     <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc"/>
                 </h:panelGroup>

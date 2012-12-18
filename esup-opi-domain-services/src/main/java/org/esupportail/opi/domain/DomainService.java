@@ -45,6 +45,7 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
+import org.esupportail.opi.utils.primefaces.PFFilters;
 import org.primefaces.model.SortOrder;
 
 import fj.P2;
@@ -175,19 +176,17 @@ public interface DomainService extends Serializable {
 			Date dateNaissance, String codPayNaissance, String codDepPaysNaissance);
 	
 	/**
-	 * Retrieve a slice of {@link Individu}
+	 * Retrieves a slice of {@link Individu}
 	 * 
-	 * @param offset
-	 * @param limit
-	 * @param sortField
-	 * @param sortOrder
-	 * @param filters
-	 * @param typesDec TODO
-	 * @return
 	 */
-	P2<Long, Stream<Individu>> sliceOfInd(Long offset, Long limit, String sortField, SortOrder sortOrder, Map<String, String> filters,
-                                          Set<TypeDecision> typesDec, Option<Boolean> validWish, Option<Boolean> treatedWish,
-                                          Option<String> codeTypeTrtmt, Set<TraitementCmi> trtCmis, Set<Integer> listCodesRI);
+	P2<Long, Stream<Individu>> sliceOfInd(PFFilters pfFilters,
+                                          Set<TypeDecision> typesDec,
+                                          Option<Boolean> validWish,
+                                          Option<Boolean> treatedWish,
+                                          Option<Date> wishCreation,
+                                          Option<String> codeTypeTrtmt,
+                                          Set<TraitementCmi> trtCmis,
+                                          Set<Integer> listCodesRI);
 
 	/**
 	 * @param individu

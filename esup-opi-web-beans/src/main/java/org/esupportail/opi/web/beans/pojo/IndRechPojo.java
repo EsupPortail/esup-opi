@@ -45,7 +45,7 @@ public class IndRechPojo {
 	private Integer codeTrtCmiRecherchee;
 	
 	/**
-	 * Liste des rÃ©gimes d'inscription pour la recherche.
+	 * Liste des régimes d'inscription pour la recherche.
 	 */
 	private Set<RegimeInscription> listeRI;
 
@@ -63,10 +63,15 @@ public class IndRechPojo {
 	 * Exclude the wishes processed.
 	 */
 	private Boolean excludeWishProcessed;
+
+    /**
+     * Validité des voeux
+     */
+    private Boolean selectValid;
 	
 	/**
 	 * true si le gestionnaire peut modifier.
-	 * le filtre sur le rÃ©gime d'inscription, false sinon
+	 * le filtre sur le régime d'inscription, false sinon
 	 */
 	private Boolean canModifyRISearch;
 	
@@ -76,8 +81,8 @@ public class IndRechPojo {
 	 * Constructor.
 	 */
 	public IndRechPojo() {
-		this.excludeWishProcessed = true;
-		this.listeRI = null;
+		//this.excludeWishProcessed = true;
+		//this.listeRI = null;
 	}
 
 	/*
@@ -249,9 +254,9 @@ public class IndRechPojo {
 	/**
 	 * @param excludeWishProcessed the excludeWishProcessed to set
 	 */
-	public void setExcludeWishProcessed(final Boolean excludeWishProcessed) {
-		this.excludeWishProcessed = excludeWishProcessed;
-	}
+//	public void setExcludeWishProcessed(final Boolean excludeWishProcessed) {
+//		this.excludeWishProcessed = excludeWishProcessed;
+//	}
 
 	/**
 	 * @return the canModifyRISearch
@@ -267,6 +272,18 @@ public class IndRechPojo {
 		this.canModifyRISearch = canModifyRISearch;
 	}
 
+    /**
+     * @return the selectValid
+     */
+    public Boolean getSelectValid() {
+        return selectValid;
+    }
 
+    /**
+     * @param selectValid the selectValid to set
+     */
+    public void setSelectValid(final Boolean selectValid) {
+        this.selectValid = selectValid;
+    }
 
 }

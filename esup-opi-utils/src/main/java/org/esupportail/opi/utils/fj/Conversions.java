@@ -106,14 +106,13 @@ public class Conversions {
 	 * A {@link F}unction that converts a {@link Ren1Domaine2AnnuFormDTO} to a
 	 * map of {@link Domaine2AnnuForm} with its {@link Cle}
 	 */
-	public static final F<Ren1Domaine2AnnuFormDTO, Map<Domaine2AnnuForm,List<Cles2AnnuForm>>> toMapDomaine2AnnuForm =
+	public static final F<Ren1Domaine2AnnuFormDTO,
+            Map<Domaine2AnnuForm,List<Cles2AnnuForm>>> toMapDomaine2AnnuForm =
 			new F<Ren1Domaine2AnnuFormDTO, Map<Domaine2AnnuForm,List<Cles2AnnuForm>>>() {
 
 				@Override
 				public Map<Domaine2AnnuForm, List<Cles2AnnuForm>> f(final Ren1Domaine2AnnuFormDTO d) {
 					return new HashMap<Domaine2AnnuForm, List<Cles2AnnuForm>>() {
-						private static final long serialVersionUID = 6589532392643582341L;
-
 						{
 							put(p(d).map(toDomaine2AnnuForm)._1(),
 								new ArrayList<Cles2AnnuForm>(
@@ -138,7 +137,8 @@ public class Conversions {
 			};
 	}
 	
-	public static final F<Map<Domaine2AnnuForm,List<Cles2AnnuForm>>, F<Map<Domaine2AnnuForm,List<Cles2AnnuForm>>,Map<Domaine2AnnuForm,List<Cles2AnnuForm>>>> toMapDomCles =
+	public static final F<Map<Domaine2AnnuForm,List<Cles2AnnuForm>>,
+            F<Map<Domaine2AnnuForm,List<Cles2AnnuForm>>,Map<Domaine2AnnuForm,List<Cles2AnnuForm>>>> toMapDomCles =
 		new F<Map<Domaine2AnnuForm,List<Cles2AnnuForm>>, F<Map<Domaine2AnnuForm,List<Cles2AnnuForm>>,Map<Domaine2AnnuForm,List<Cles2AnnuForm>>>>() {
 		@Override
 		public F<Map<Domaine2AnnuForm, List<Cles2AnnuForm>>, Map<Domaine2AnnuForm, List<Cles2AnnuForm>>> f(

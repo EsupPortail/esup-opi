@@ -10,7 +10,6 @@ import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.opi.domain.beans.NormeSI;
 import org.esupportail.opi.domain.beans.etat.EtatArriveComplet;
 import org.esupportail.opi.domain.beans.parameters.*;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
@@ -26,6 +25,7 @@ import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.BeanTrtCmi;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.beanEnum.WayfEnum;
+import org.esupportail.opi.web.beans.paginator.IndividuPaginator;
 import org.esupportail.opi.web.beans.paginator.IndividuPojoPaginator;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 import org.esupportail.opi.web.beans.pojo.*;
@@ -36,6 +36,7 @@ import org.esupportail.opi.web.controllers.AbstractAccessController;
 import org.esupportail.opi.web.controllers.SessionController;
 import org.esupportail.opi.web.controllers.parameters.NomenclatureController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
+import org.esupportail.opi.web.controllers.user.IndividuController;
 import org.esupportail.opi.web.utils.fj.Conversions;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
@@ -49,6 +50,7 @@ import static fj.data.Option.*;
 import static fj.data.Option.fromString;
 import static fj.data.Stream.*;
 import static fj.data.Stream.join;
+import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
 import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
 
@@ -128,11 +130,6 @@ public class OpinionController
     private Map<Individu, List<IndVoeuPojo>> wishSelected;
 
     /**
-     * see {@link IndividuPojoPaginator}.
-     */
-    private IndividuPojoPaginator individuPaginator;
-
-    /**
      * see {@link Refused}.
      */
     private Refused refused;
@@ -167,82 +164,11 @@ public class OpinionController
      */
     private CommissionController commissionController;
 
-    /**
-     *
-     */
+    private IndividuController individuController;
+
     private Map<VersionEtpOpi, List<Integer>> mapTestRang = new HashMap<VersionEtpOpi, List<Integer>>();
 
-    private final LazyDataModel<IndividuPojo> indPojoLDM = lazyModel(
-            new F5<Integer, Integer, String, SortOrder, Map<String, String>, P2<Long, Stream<IndividuPojo>>>() {
-                @Override
-                public P2<Long, Stream<IndividuPojo>> f(
-                        Integer first, Integer pageSize, String sortField, SortOrder sortOrder, Map<String, String> filters) {
-                    // le gestionnaire courant
-                    final SessionController sessionCont = getSessionController();
-                    final User user = sessionCont.getCurrentUser();
-                    final Gestionnaire gest = !(user instanceof Gestionnaire) ?
-                            sessionCont.getManager() : (Gestionnaire) user;
-
-                    // les filtres :
-                    IndRechPojo indRechPojo = individuPaginator.getIndRechPojo();
-                    // 1. les numdossier, nom, prenom
-                    filters.put("numDossierOpi", fromString(indRechPojo.getNumDossierOpiRecherche()).orSome(""));
-                    filters.put("nomPatronymique", fromString(indRechPojo.getNomRecherche()).orSome(""));
-                    filters.put("prenom", fromString(indRechPojo.getPrenomRecherche()).orSome(""));
-
-                    // 2. les types de décision
-                    final Set<TypeDecision> typesDec = new HashSet<TypeDecision>(
-                            fromNull(indRechPojo.getTypeDecRecherchee()).toStream().toCollection());
-
-                    // 3. les étapes (TraitementCmi) de la commission
-                    final Integer idCmi = indRechPojo.getIdCmi();
-                    final Stream<Commission> cmis = (idCmi != null) ?
-                            single(getParameterService().getCommission(idCmi, null)) :
-                            iterableStream(getDomainApoService().getListCommissionsByRight(gest, true));
-
-                    final Set<TraitementCmi> trtCmis = new HashSet<TraitementCmi>(
-                            cmis.bind(new F<Commission, Stream<TraitementCmi>>() {
-                                public Stream<TraitementCmi> f(Commission com) {
-                                    return join(fromNull(com.getTraitementCmi()).toStream().map(
-                                            Conversions.<TraitementCmi>setToStream_()));
-                                }
-                            }).toCollection());
-
-                    // 4. les régimes d'inscription
-                    Set<Integer> listCodesRI = new HashSet<Integer>(
-                            iterableStream(fromNull(indRechPojo.getListeRI()).orSome(
-                                    new HashSet<RegimeInscription>())).map(new F<RegimeInscription, Integer>() {
-                                public Integer f(RegimeInscription ri) {
-                                    return ri.getCode();
-                                }
-                            }).toCollection());
-
-                    // 5. caractère 'traité' ou non du voeu
-                    // TODO : parameterize the condition on wich we apply this filter
-                    final Option<Boolean> wishTreated = none(); //fromNull(!indRechPojo.getExcludeWishProcessed());
-
-                    // 6. le type de traitement
-                    final Option<String> codeTypeTrtmt = fromNull(transfert).map(new F<Transfert, String>() {
-                        public String f(Transfert t) {
-                            return t.getCode();
-                        }
-                    });
-
-                    // le 2-tuple de résultat
-                    final P2<Long, Stream<Individu>> tuple =
-                            getDomainService().sliceOfInd(
-                                    new Long(first), new Long(pageSize), sortField, sortOrder, filters,
-                                    typesDec, wishTreated, Option.<Boolean>none(), codeTypeTrtmt, trtCmis, listCodesRI);
-
-                    return tuple.map2(individuPaginator.individusToPojos());
-                }
-            },
-            new F2<String, IndividuPojo, Boolean>() {
-                public Boolean f(String rowKey, IndividuPojo individuPojo) {
-                    return individuPojo.getIndividu().getId().equals(rowKey);
-                }
-            }
-    );
+    private LazyDataModel<IndividuPojo> indPojoLDM;
 
     private boolean renderTable;
 	
@@ -271,8 +197,6 @@ public class OpinionController
         idSelectedMotiv = null;
         selectedMotivation = null;
         mapTestRang.clear();
-        individuPaginator.reset();
-        individuPaginator.initListeRI();
         renderTable = false;
     }
 
@@ -283,9 +207,6 @@ public class OpinionController
     public void afterPropertiesSetInternal() {
         super.afterPropertiesSetInternal();
         String canNotBeNull = " can not be null";
-        Assert.notNull(this.individuPaginator,
-                "property individuPaginator of class " + this.getClass().getName()
-                        + canNotBeNull);
         Assert.notNull(this.nomenclatureController,
                 "property nomenclatureController of class " + this.getClass().getName()
                         + canNotBeNull);
@@ -304,16 +225,15 @@ public class OpinionController
         Assert.notNull(this.inscriptionAdm,
                 "property inscriptionAdm of class " + this.getClass().getName()
                         + canNotBeNull);
+
+        indPojoLDM = individuController.getIndLDM().map(individuToPojo(
+                getDomainApoService(), getParameterService(), getI18nService()));
+
         reset();
     }
 
 	/*
 	 ******************* CALLBACK ********************** */
-
-    private String resetAndGo(String to) {
-        reset();
-        return to;
-    }
 
     /**
      * Callback to list of student for the gestion of the opinions.
@@ -321,7 +241,9 @@ public class OpinionController
      * @return String
      */
     public String goEnterAllStudentsOpinions() {
-        return resetAndGo(NavigationRulesConst.ENTER_ALL_STUDENTS_OPINIONS);
+        reset();
+        individuController.getIndividuPaginator().setIndRechPojo(new IndRechPojo());
+        return NavigationRulesConst.ENTER_ALL_STUDENTS_OPINIONS;
     }
 
     /**
@@ -330,7 +252,9 @@ public class OpinionController
      * @return String
      */
     public String goEnterStudentsOpinions() {
-        return resetAndGo(NavigationRulesConst.ENTER_STUDENTS_OPINIONS);
+        reset();
+        individuController.getIndividuPaginator().setIndRechPojo(new IndRechPojo());
+        return NavigationRulesConst.ENTER_STUDENTS_OPINIONS;
     }
 
     /**
@@ -345,8 +269,9 @@ public class OpinionController
                 indVoeuxPojo.setIsUsingLC(true);
             }
         }
-        individuPaginator.setIsUsingLC(false);
-        individuPaginator.setIsUsingDEF(false);
+        // TODO : à réparer | supprimer ?
+        //individuPaginator.setIsUsingLC(false);
+        //individuPaginator.setIsUsingDEF(false);
         actionEnum.setWhatAction(ActionEnum.EMPTY_ACTION);
         return NavigationRulesConst.DISPLAY_OPINIONS;
     }
@@ -390,8 +315,10 @@ public class OpinionController
      * Callback to update l'avis.
      */
     public void goUpdateAvis() {
-        individuPaginator.setIsUsingLC(false);
-        individuPaginator.setIsUsingDEF(false);
+        final IndividuPaginator individuPaginator = individuController.getIndividuPaginator();
+        // TODO : à réparer | supprimer ?
+        //individuPaginator.setIsUsingLC(false);
+        //individuPaginator.setIsUsingDEF(false);
         // mise e jour des identifiants pour les listes deroulantes
         selectedTypeDec = avis.getResult();
         if (avis.getMotivationAvis() != null) {
@@ -402,12 +329,14 @@ public class OpinionController
         if (selectedTypeDec != null
                 && selectedTypeDec.getCodeTypeConvocation()
                 .equals(listeComplementaire.getCode())) {
-            individuPaginator.setIsUsingLC(true);
+            // TODO : à réparer | supprimer ?
+            //individuPaginator.setIsUsingLC(true);
         }
         if (selectedTypeDec != null
                 && selectedTypeDec.getCodeTypeConvocation()
                 .equals(refused.getCode())) {
-            individuPaginator.setIsUsingDEF(true);
+            // TODO : à réparer | supprimer ?
+            //individuPaginator.setIsUsingDEF(true);
         }
         actionEnum.setWhatAction(ActionEnum.UPDATE_ACTION);
     }
@@ -659,6 +588,7 @@ public class OpinionController
      * Method to the choice the proposition.
      */
     public void addProposition() {
+        final IndividuPaginator individuPaginator = individuController.getIndividuPaginator();
         if (individuPaginator.getIndRechPojo().getIdCmi() != null) {
             Commission c = getParameterService().getCommission(
                     individuPaginator.getIndRechPojo().getIdCmi(), null);
@@ -767,6 +697,7 @@ public class OpinionController
      * pour un individu
      */
     public void selectTypeDecisionIndividu() {
+        final IndividuPaginator individuPaginator = individuController.getIndividuPaginator();
         //individuPaginator.resetNotSuper(false);
         //mise a jour des indvoeu pojo
         for (IndividuPojo iPojo : indPojoLDM.getData()) {
@@ -782,25 +713,29 @@ public class OpinionController
                         ivPojo.getNewAvis()
                                 .setCommentaire(t.getSelection().getComment());
                     }
-                    individuPaginator.setIsUsingPreselect(true);
+                    // TODO : à réparer | supprimer ?
+                    //individuPaginator.setIsUsingPreselect(true);
 
                 } else if (newDec != null
                         && newDec.getCodeTypeConvocation()
                         .equals(listeComplementaire.getCode())) {
                     ivPojo.setIsUsingLC(true);
                     ivPojo.setIsUsingDEF(false);
-                    individuPaginator.setIsUsingLC(true);
+                    // TODO : à réparer | supprimer ?
+                    //individuPaginator.setIsUsingLC(true);
                 } else if (newDec != null
                         && newDec.getCodeTypeConvocation()
                         .equals(refused.getCode()) && newDec.getIsFinal()) {
                     ivPojo.setIsUsingDEF(true);
                     ivPojo.setIsUsingLC(false);
-                    individuPaginator.setIsUsingDEF(true);
+                    // TODO : à réparer | supprimer ?
+                    //individuPaginator.setIsUsingDEF(true);
                 }
 
             }
         }
-        individuPaginator.setUseIndividuPojo(true);
+        // TODO : à réparer | supprimer ?
+        //individuPaginator.setUseIndividuPojo(true);
 
     }
 
@@ -818,6 +753,7 @@ public class OpinionController
      * pour un avis
      */
     private IndVoeuPojo selectTypeDecisionOpinion(final IndVoeuPojo ivPojo, final Boolean doNewList) {
+        final IndividuPaginator individuPaginator = individuController.getIndividuPaginator();
         //individuPaginator.resetNotSuper(doNewList);
         if (selectedTypeDec != null
                 && selectedTypeDec.getCodeTypeConvocation()
@@ -830,18 +766,21 @@ public class OpinionController
                 }
                 return ivPojo;
             }
-            individuPaginator.setIsUsingPreselect(true);
+            // TODO : à réparer | supprimer ?
+            //individuPaginator.setIsUsingPreselect(true);
 
         }
         if (selectedTypeDec != null
                 && selectedTypeDec.getCodeTypeConvocation()
                 .equals(listeComplementaire.getCode())) {
-            individuPaginator.setIsUsingLC(true);
+            // TODO : à réparer | supprimer ?
+//            individuPaginator.setIsUsingLC(true);
         }
         if (selectedTypeDec != null
                 && selectedTypeDec.getCodeTypeConvocation()
                 .equals(refused.getCode()) && selectedTypeDec.getIsFinal()) {
-            individuPaginator.setIsUsingDEF(true);
+            // TODO : à réparer | supprimer ?
+            //individuPaginator.setIsUsingDEF(true);
         }
         return ivPojo;
     }
@@ -851,14 +790,9 @@ public class OpinionController
      * Search method to list the students with the filter.
      * <p/>
      * TODO : Rename that method
-     * TODO : get rid of commented code
      */
-    @SuppressWarnings("serial")
     public void searchStudents() {
-//        individuPaginator.filterInMannagedCmi(
-//                new TreeSet<Commission>(new ComparatorString(NormeSI.class)) {{
-//                    addAll(commissionController.getCommissionsItemsByRight());
-//                }}, transfert.getCode(), false);
+        final IndividuPaginator individuPaginator = individuController.getIndividuPaginator();
         TypeDecision type = individuPaginator.getIndRechPojo().getTypeDecRecherchee();
         Integer codeCommRech = individuPaginator.getIndRechPojo().getIdCmi();
         Integer codeTrtCmiRech = individuPaginator.getIndRechPojo().getCodeTrtCmiRecherchee();
@@ -874,6 +808,7 @@ public class OpinionController
      * TODO : Rename that method
      */
     public void searchStudentsByTypeDec() {
+        final IndividuPaginator individuPaginator = individuController.getIndividuPaginator();
         individuPaginator.getIndRechPojo().setCodeTrtCmiRecherchee(null);
         searchStudents();
         TypeDecision type = individuPaginator.getIndRechPojo().getTypeDecRecherchee();
@@ -891,6 +826,7 @@ public class OpinionController
      * TODO : Rename that method
      */
     public void searchStudentsByComm() {
+        final IndividuPaginator individuPaginator = individuController.getIndividuPaginator();
         individuPaginator.getIndRechPojo().setCodeTrtCmiRecherchee(null);
         searchStudents();
         TypeDecision type = individuPaginator.getIndRechPojo().getTypeDecRecherchee();
@@ -1048,8 +984,9 @@ public class OpinionController
      *         false sinon
      */
     public Boolean getIsFilterLCAndCommissionOK() {
-        TypeDecision type = individuPaginator.getIndRechPojo().getTypeDecRecherchee();
-        Integer codeCommRech = individuPaginator.getIndRechPojo().getIdCmi();
+        final IndividuPaginator individuPaginator = individuController.getIndividuPaginator();
+        final TypeDecision type = individuPaginator.getIndRechPojo().getTypeDecRecherchee();
+        final Integer codeCommRech = individuPaginator.getIndRechPojo().getIdCmi();
         if (type != null && type.getCode().equals(listeComplementaire.getCode())
                 && codeCommRech != null) {
             return true;
@@ -1065,8 +1002,9 @@ public class OpinionController
     public Set<VersionEtapeDTO> getVersionsEtapeForLCAndCommission() {
         Set<VersionEtapeDTO> vetComm = new TreeSet<VersionEtapeDTO>(
                 new ComparatorString(VersionEtapeDTO.class));
-        TypeDecision type = individuPaginator.getIndRechPojo().getTypeDecRecherchee();
-        Integer codeCommRech = individuPaginator.getIndRechPojo().getIdCmi();
+        final IndividuPaginator individuPaginator = individuController.getIndividuPaginator();
+        final TypeDecision type = individuPaginator.getIndRechPojo().getTypeDecRecherchee();
+        final Integer codeCommRech = individuPaginator.getIndRechPojo().getIdCmi();
         if (type != null && type.getCode().equals(listeComplementaire.getCode())
                 && codeCommRech != null) {
             Commission comm = getParameterService().getCommission(codeCommRech, null);
@@ -1126,13 +1064,6 @@ public class OpinionController
      */
     public void setWayfEnum(final WayfEnum wayfEnum) {
         this.wayfEnum = wayfEnum;
-    }
-
-    /**
-     * @param individuPaginator the individuPaginator to set
-     */
-    public void setIndividuPaginator(final IndividuPojoPaginator individuPaginator) {
-        this.individuPaginator = individuPaginator;
     }
 
     /**
@@ -1238,6 +1169,14 @@ public class OpinionController
      */
     public void setCommissionController(final CommissionController commissionController) {
         this.commissionController = commissionController;
+    }
+
+    public IndividuController getIndividuController() {
+        return individuController;
+    }
+
+    public void setIndividuController(IndividuController individuController) {
+        this.individuController = individuController;
     }
 
     /**

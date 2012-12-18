@@ -116,9 +116,7 @@
         <property name="isRecupCursus" value="${init.recupCursus}"/>
         <property name="isRecupBac" value="${init.recupBac}"/>
         <property name="isRecupInfos" value="${init.recupInfos}"/>
-        <property name="ldapUserService" ref="ldapUserService">
-            <description>The LDAP service.</description>
-        </property>
+        <property name="transfert" ref="transfert"/>
     </bean>
 
     <bean id="adressController"
@@ -403,7 +401,7 @@
           class="org.esupportail.opi.web.controllers.opinions.TypeTraitController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage opinions and traitments.</description>
-        <property name="individuPaginator" ref="paginatorIndividuPojo"/>
+        <property name="individuController" ref="individuController" />
         <property name="typeTraitementTR" ref="transfert"/>
         <property name="typeTraitementVA" ref="validationAcquis"/>
         <property name="typeTraitementET" ref="enAttente"/>
@@ -433,9 +431,9 @@
           class="org.esupportail.opi.web.controllers.opinions.OpinionController"
           parent="abstractAccessController" scope="session">
         <description>A bean to manage opinions.</description>
-        <property name="individuPaginator" ref="paginatorIndividuPojo"/>
         <property name="nomenclatureController" ref="nomenclatureController"/>
         <property name="commissionController" ref="commissionController"/>
+        <property name="individuController" ref="individuController" />
         <property name="refused" ref="refused"/>
         <property name="preSelection" ref="preselection"/>
         <property name="listeComplementaire" ref="listeComplementaire"/>
@@ -467,14 +465,13 @@
     <bean id="printOpinionController"
           class="org.esupportail.opi.web.controllers.opinions.PrintOpinionController"
           parent="abstractContextAwareController" scope="session">
-        <description>A bean to print opinions.</description>
+        <property name="individuController" ref="individuController" />
         <property name="commissionController" ref="commissionController"/>
         <property name="exportFormOrbeonController" ref="exportFormOrbeonController"/>
         <property name="castorService" ref="castorService"/>
         <property name="inscriptionAdm" ref="inscriptionAdm"/>
         <property name="refused" ref="refused"/>
         <property name="transfert" ref="transfert"/>
-        <property name="individuPojoPaginator" ref="paginatorIndividuPojo"/>
     </bean>
 
 

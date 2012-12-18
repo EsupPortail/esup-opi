@@ -9,13 +9,12 @@ import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.paginator.IndividuPojoPaginator;
-import org.esupportail.opi.web.beans.pojo.AdressePojo;
-import org.esupportail.opi.web.beans.pojo.CommissionPojo;
-import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
-import org.esupportail.opi.web.beans.pojo.IndividuPojo;
+import org.esupportail.opi.web.beans.pojo.*;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
+import org.esupportail.opi.web.controllers.user.IndividuController;
+import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
 import javax.faces.event.ValueChangeEvent;
@@ -23,6 +22,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
+import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
 /**
  * @author tducreux
@@ -39,10 +41,7 @@ public class TypeTraitController extends AbstractContextAwareController {
      */
     private static final long serialVersionUID = 5545836516397172544L;
 
-    /**
-     * see {@link IndividuPojoPaginator}.
-     */
-    private IndividuPojoPaginator individuPaginator;
+    private IndividuController individuController;
 
     /**
      * Select all the type treatment if the type.
@@ -78,15 +77,16 @@ public class TypeTraitController extends AbstractContextAwareController {
      * {@link SmtpService}.
      */
     private SmtpService smtpService;
-	/*
-	 ******************* INIT ************************* */
+
+    private LazyDataModel<IndividuPojo> indPojoLDM;
+
+
+	 // ******************* INIT *************************
 
     /**
      * Constructors.
      */
     public TypeTraitController() {
-        super();
-
     }
 
     /**
@@ -95,7 +95,6 @@ public class TypeTraitController extends AbstractContextAwareController {
     @Override
     public void reset() {
         super.reset();
-        individuPaginator.reset();
         codeTypeTrtselected = null;
     }
 
@@ -105,15 +104,16 @@ public class TypeTraitController extends AbstractContextAwareController {
     @Override
     public void afterPropertiesSetInternal() {
         super.afterPropertiesSetInternal();
-        Assert.notNull(this.individuPaginator,
-                "property individuPaginator of class " + this.getClass().getName()
-                        + " can not be null");
         Assert.notNull(this.smtpService,
                 "property smtpService of class " + this.getClass().getName()
                         + " can not be null");
         Assert.notNull(this.inscriptionAdm,
                 "property inscriptionAdm of class " + this.getClass().getName()
                         + " can not be null");
+
+        indPojoLDM = individuController.getIndLDM().map(
+                individuToPojo(getDomainApoService(), getParameterService(), getI18nService()));
+
         reset();
     }
 
@@ -127,11 +127,13 @@ public class TypeTraitController extends AbstractContextAwareController {
      */
     public String goSeeAllTypeTraitments() {
         reset();
-        individuPaginator.setUseIndividuPojo(true);
-        individuPaginator.filtreAllCommissionRights(
-                getDomainApoService().getListCommissionsByRight(
-                        getCurrentGest(), true), true, null);
-        individuPaginator.forceReload();
+        // TODO: à virer
+//        individuPaginator.setUseIndividuPojo(true);
+//        individuPaginator.filtreAllCommissionRights(
+//                getDomainApoService().getListCommissionsByRight(
+//                        getCurrentGest(), true), true, null);
+//        individuPaginator.forceReload();
+        individuController.getIndividuPaginator().setIndRechPojo(new IndRechPojo());
         return NavigationRulesConst.DISPLAY_TYPE_TRAITEMENT;
     }
 
@@ -145,12 +147,13 @@ public class TypeTraitController extends AbstractContextAwareController {
      * form update type treatment in wish.
      */
     public void filterPaginator() {
+        // TODO : à virer
         //init the filtre
-        individuPaginator.setUseIndividuPojo(true);
-        individuPaginator.filterInMannagedCmi(
-                getDomainApoService().getListCommissionsByRight(
-                        getCurrentGest(), true), null, true);
-        individuPaginator.forceReload();
+//        individuPaginator.setUseIndividuPojo(true);
+//        individuPaginator.filterInMannagedCmi(
+//                getDomainApoService().getListCommissionsByRight(
+//                        getCurrentGest(), true), null, true);
+//        individuPaginator.forceReload();
     }
 
     /**
@@ -237,7 +240,7 @@ public class TypeTraitController extends AbstractContextAwareController {
     public void update() {
         Set<IndVoeuPojo> lesVA = new HashSet<IndVoeuPojo>();
         Set<IndVoeuPojo> lesTR = new HashSet<IndVoeuPojo>();
-        List<IndividuPojo> lesIndividus = this.individuPaginator.getIndividuPojos();
+        List<IndividuPojo> lesIndividus = indPojoLDM.getData();
         for (IndividuPojo i : lesIndividus) {
             Set<IndVoeuPojo> lesVoeux = i.getIndVoeuxPojo();
             lesVA.clear();
@@ -297,15 +300,16 @@ public class TypeTraitController extends AbstractContextAwareController {
                 sendMails(i, camp, lesTR, typeTraitementTR);
             }
         }
-
-        int p = this.individuPaginator.getCurrentPage();
-        int s = this.individuPaginator.getPageSize();
-        individuPaginator.resetNotSuper(true);
-        filterPaginator();
-        individuPaginator.setPageSize(s);
-        individuPaginator.setCurrentPage(p);
-        this.individuPaginator.forceReload();
-
+// TODO : à virer
+//
+//        int p = this.individuPaginator.getCurrentPage();
+//        int s = this.individuPaginator.getPageSize();
+//        individuPaginator.resetNotSuper(true);
+//        filterPaginator();
+//        individuPaginator.setPageSize(s);
+//        individuPaginator.setCurrentPage(p);
+//        this.individuPaginator.forceReload();
+//
     }
 
 
@@ -325,7 +329,7 @@ public class TypeTraitController extends AbstractContextAwareController {
      * Select all the type action select for the visible elements.
      */
     public void selectAllTypeAction() {
-        List<IndividuPojo> lesIndividus = this.individuPaginator.getIndividuPojos();
+        List<IndividuPojo> lesIndividus = indPojoLDM.getData();
         for (IndividuPojo i : lesIndividus) {
             Set<IndVoeuPojo> lesVoeux = i.getIndVoeuxPojo();
             for (IndVoeuPojo v : lesVoeux) {
@@ -337,21 +341,13 @@ public class TypeTraitController extends AbstractContextAwareController {
 	/*
 	 ******************* ACCESSORS ******************** */
 
-
-    /**
-     * @param individuPaginator the individuPaginator to set
-     */
-    public void setIndividuPaginator(final IndividuPojoPaginator individuPaginator) {
-        this.individuPaginator = individuPaginator;
+    public IndividuController getIndividuController() {
+        return individuController;
     }
 
-    /**
-     * @return the individuPaginator
-     */
-    public IndividuPojoPaginator getIndividuPaginator() {
-        return individuPaginator;
+    public void setIndividuController(IndividuController individuController) {
+        this.individuController = individuController;
     }
-
 
     /**
      * @return the codeTypeTrtselected
@@ -416,4 +412,7 @@ public class TypeTraitController extends AbstractContextAwareController {
         this.inscriptionAdm = inscriptionAdm;
     }
 
+    public LazyDataModel<IndividuPojo> getIndPojoLDM() {
+        return indPojoLDM;
+    }
 }

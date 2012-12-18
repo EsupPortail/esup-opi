@@ -59,6 +59,7 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
 import org.esupportail.opi.utils.ldap.LdapAttributes;
+import org.esupportail.opi.utils.primefaces.PFFilters;
 import org.primefaces.model.SortOrder;
 
 
@@ -347,13 +348,16 @@ public class DomainServiceImpl implements DomainService {
 	}
 	
 	@Override
-	public P2<Long, Stream<Individu>> sliceOfInd(
-            Long offset, Long limit, String sortField, SortOrder sortOrder, Map<String, String> filters,
-            Set<TypeDecision> typesDec, Option<Boolean> validWish, Option<Boolean> treatedWish,
-            Option<String> codeTypeTrtmt, Set<TraitementCmi> trtCmis, Set<Integer> listCodesRI) {
+	public P2<Long, Stream<Individu>> sliceOfInd(PFFilters pfFilters,
+                                                 Set<TypeDecision> typesDec,
+                                                 Option<Boolean> validWish,
+                                                 Option<Boolean> treatedWish,
+                                                 Option<Date> wishCreation,
+                                                 Option<String> codeTypeTrtmt,
+                                                 Set<TraitementCmi> trtCmis,
+                                                 Set<Integer> listCodesRI) {
 	    return daoService.sliceOfInd(
-	            offset, limit, sortField, sortOrder, filters,
-                typesDec, treatedWish, validWish, codeTypeTrtmt, trtCmis, listCodesRI);
+                pfFilters, typesDec, treatedWish, validWish, wishCreation, codeTypeTrtmt, trtCmis, listCodesRI);
 	}
 	
 	

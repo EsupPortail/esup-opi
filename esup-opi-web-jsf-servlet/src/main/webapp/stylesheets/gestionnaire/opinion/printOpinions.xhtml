@@ -66,7 +66,7 @@
                             style="border-style: dotted; border-color: #A8A8A8; border-width: 0.1em; margin-bottom: 8px;">
                         <legend>#{msgs['OPINION.SELECT_CANDIDAT.LABEL']}</legend>
                         <p:selectOneRadio id="choixValid"
-                                          value="#{printOpinionController.selectValid}" style="margin-left: 6%;">
+                                          value="#{paginatorIndividu.indRechPojo.selectValid}" style="margin-left: 6%;">
                             <f:selectItem itemLabel="#{msgs['OPINION.SELECT_CANDIDAT.NOT_VALID']}"
                                           itemValue="#{false}"/>
                             <f:selectItem itemLabel="#{msgs['OPINION.SELECT_CANDIDAT.VALID']}" itemValue="#{true}"/>
@@ -88,7 +88,7 @@
                             style="border-style: dotted; border-color: #A8A8A8; border-width: 0.1em; margin-bottom: 8px;">
                         <legend>#{msgs['COMMISSIONS']}</legend>
                         <p:selectOneMenu id="lesCommissions" converter="javax.faces.Integer"
-                                         value="#{printOpinionController.idCommissionSelected}"
+                                         value="#{paginatorIndividu.indRechPojo.idCmi}"
                                          style="margin-left: 6%; margin-bottom: 1px;">
                             <f:selectItem itemLabel="" itemValue=""/>
                             <f:selectItems var="commission"

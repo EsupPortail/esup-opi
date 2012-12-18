@@ -11,7 +11,8 @@
                                   styleClass="section-smallTitle"/>
                     <h:panelGroup>
                         <p:commandButton id="lookForIndividu" value="#{msgs['_.BUTTON.SEARCH']}"
-                                         action="#{pjController.searchStudents}" ajax="false"/>
+                                         actionListener="#{pjController.doRenderTable}"
+                                         update="#{toUpdate}" />
                     </h:panelGroup>
                 </h:panelGrid>
                 <h:panelGrid styleClass="tableWidthMax" columns="4"
@@ -21,45 +22,40 @@
                                        for="numDossierOpi"/>
                     </h:panelGroup>
                     <p:inputText id="numDossierOpi"
-                                 value="#{paginatorPM.indRechPojo.numDossierOpiRecherche}"/>
-
+                                 value="#{paginatorIndividu.indRechPojo.numDossierOpiRecherche}"/>
                     <h:panelGroup>
                         <h:outputLabel value="#{msgs['INDIVIDU.NOM']}" for="nom"/>
                     </h:panelGroup>
                     <p:inputText id="nom"
-                                 value="#{paginatorPM.indRechPojo.nomRecherche}"/>
+                                 value="#{paginatorIndividu.indRechPojo.nomRecherche}"/>
                     <h:panelGroup>
                         <h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom"/>
                     </h:panelGroup>
                     <p:inputText id="prenom"
-                                 value="#{paginatorPM.indRechPojo.prenomRecherche}"/>
-
+                                 value="#{paginatorIndividu.indRechPojo.prenomRecherche}"/>
                     <h:panelGroup>
                         <h:outputLabel value="#{msgs['COMMISSION.CHOICE']}"
                                        for="lesCommissions"/>
                     </h:panelGroup>
                     <h:panelGroup>
                         <p:selectOneMenu id="lesCommissions" converter="javax.faces.Integer"
-                                         onchange="javascript:{simulateLinkClick('lookForIndForm:lookForIndividuComm');}"
-                                         value="#{paginatorPM.indRechPojo.idCmi}">
+                                         value="#{paginatorIndividu.indRechPojo.idCmi}">
                             <f:selectItem itemLabel="" itemValue=""/>
                             <f:selectItems var="commission"
                                            value="#{commissionController.commissionsItemsByRight}"
                                            itemLabel="#{commission.libelle}" itemValue="#{commission.id}"/>
-                            <p:ajax listener="#{pjController.searchStudents}"
-                                    update="@form,:seeIndividusForm:individuData"/>
+                            <p:ajax partialSubmit="true" listener="#{pjController.doRenderTable}" update="#{toUpdate}" />
                         </p:selectOneMenu>
                     </h:panelGroup>
                     <h:panelGroup>
                         <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc"/>
                     </h:panelGroup>
-                    <p:selectManyCheckbox id="fc" value="#{paginatorPM.listeRI}" converter="javax.faces.Integer"
-                                          disabled="#{!paginatorPM.indRechPojo.canModifyRISearch}">
+                    <p:selectManyCheckbox id="fc" value="#{paginatorIndividu.listeRI}" converter="javax.faces.Integer"
+                                          disabled="#{!paginatorIndividu.indRechPojo.canModifyRISearch}">
                         <f:selectItems var="ri"
                                        itemLabel="#{ri.shortLabel}" itemValue="#{ri.code}"
                                        value="#{nomenclatureController.allRegimeInscription}"/>
                     </p:selectManyCheckbox>
-
                 </h:panelGrid>
             </h:form>
         </div>

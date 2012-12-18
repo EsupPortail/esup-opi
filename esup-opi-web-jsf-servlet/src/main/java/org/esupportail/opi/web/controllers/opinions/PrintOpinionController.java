@@ -25,7 +25,7 @@ import org.esupportail.opi.services.export.CastorService;
 import org.esupportail.opi.services.export.ISerializationService;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
-import org.esupportail.opi.web.beans.paginator.IndividuPojoPaginator;
+import org.esupportail.opi.web.beans.paginator.IndividuPaginator;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 import org.esupportail.opi.web.beans.pojo.*;
 import org.esupportail.opi.web.beans.utils.ExportUtils;
@@ -35,6 +35,7 @@ import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
+import org.esupportail.opi.web.controllers.user.IndividuController;
 import org.esupportail.opi.web.utils.fj.Conversions;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.esupportail.wssi.services.remote.BacOuxEqu;
@@ -59,6 +60,7 @@ import static fj.data.List.list;
 import static fj.data.Option.fromNull;
 import static fj.data.Stream.join;
 import static fj.data.Stream.single;
+import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
 import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
 
@@ -125,11 +127,6 @@ public class PrintOpinionController extends AbstractContextAwareController {
     private final Logger log = new LoggerImpl(getClass());
 
     /**
-     * id commission selectd.
-     */
-    private Integer idCommissionSelected;
-
-    /**
      * Champs dispo pour l'export.
      */
     private List<String> champsDispos;
@@ -137,11 +134,6 @@ public class PrintOpinionController extends AbstractContextAwareController {
      * liste des champs selectionnes.
      */
     private String[] champsChoisis;
-
-    /**
-     * default value : false.
-     */
-    private Boolean selectValid;
 
     /**
      * The result (of type Final or not final)
@@ -168,6 +160,8 @@ public class PrintOpinionController extends AbstractContextAwareController {
      * Data for pdf generation.
      */
     private Map<Commission, List<NotificationOpinion>> pdfData;
+
+    private IndividuController individuController;
 
     /**
      * see {@link CommissionController}.
@@ -209,74 +203,12 @@ public class PrintOpinionController extends AbstractContextAwareController {
      */
     private ISerializationService castorService;
 
-    private IndividuPojoPaginator individuPojoPaginator;
-
     /**
      * individuPojoSelected.
      */
     private IndividuPojo individuPojoSelected;
 
-    private LazyDataModel<IndividuPojo> indPojoLDM = lazyModel(
-            new F5<Integer, Integer, String, SortOrder, Map<String, String>, P2<Long, Stream<IndividuPojo>>>() {
-                @Override
-                public P2<Long, Stream<IndividuPojo>> f(Integer first, Integer pageSize, String sortField,
-                                                        SortOrder sortOrder, Map<String, String> filters) {
-                    // les types de décisions
-                    Set<TypeDecision> typesDec = new HashSet<TypeDecision>(
-                            list(resultSelected).map(new F<Object, TypeDecision>() {
-                                public TypeDecision f(Object o) {
-                                    return (TypeDecision) o;
-                                }
-                            }).toCollection());
-
-                    // les étapes de la commission
-                    final Stream<Commission> cmis = join(fromNull(idCommissionSelected).map(
-                            new F<Integer, Stream<Commission>>() {
-                                public Stream<Commission> f(Integer idCmi) {
-                                    return single(getParameterService().getCommission(idCmi, null));
-                                }
-                            }).toStream());
-                    final Set<TraitementCmi> trtCmis = new HashSet<TraitementCmi>(
-                            cmis.bind(new F<Commission, Stream<TraitementCmi>>() {
-                                public Stream<TraitementCmi> f(Commission com) {
-                                    return join(fromNull(com.getTraitementCmi()).toStream().map(
-                                            Conversions.<TraitementCmi>setToStream_()));
-                                }
-                            }).toCollection());
-
-                    // les régimes d'inscription
-                    Set<Integer> listCodesRI = new HashSet<Integer>(
-                            wrap(commissionController.getListeRI()).map(new F<RegimeInscription, Integer>() {
-                                public Integer f(RegimeInscription regimeInscription) {
-                                    return regimeInscription.getCode();
-                                }
-                            }).toStandardList());
-
-                    // voeu validé ou non
-                    Option<Boolean> validWish = fromNull(selectValid);
-
-                    // le type de traitement
-                    final Option<String> codeTypeTrtmt = fromNull(transfert).map(new F<Transfert, String>() {
-                        public String f(Transfert t) {
-                            return t.getCode();
-                        }
-                    });
-
-                    // le 2-tuple de résultat
-                    final P2<Long, Stream<Individu>> tuple =
-                            getDomainService().sliceOfInd(
-                                    (long) first, (long) pageSize, sortField, sortOrder, filters,
-                                    typesDec, Option.<Boolean>none(), validWish, codeTypeTrtmt, trtCmis, listCodesRI);
-
-                    return tuple.map2(individuPojoPaginator.individusToPojos());
-                }
-            },
-            new F2<String, IndividuPojo, Boolean>() {
-                public Boolean f(String rowKey, IndividuPojo individuPojo) {
-                    return individuPojo.getIndividu().getId().toString().equals(rowKey);
-                }
-            }
-    );
+    private LazyDataModel<IndividuPojo> indPojoLDM;
 
     private boolean renderTable;
 
@@ -297,7 +229,6 @@ public class PrintOpinionController extends AbstractContextAwareController {
     @Override
     public void reset() {
         commissionController.reset();
-        this.selectValid = false;
         this.resultSelected = new Object[0];
         this.commissionsSelected = new Object[0];
         this.lesIndividus = new ArrayList<IndividuPojo>();
@@ -326,6 +257,10 @@ public class PrintOpinionController extends AbstractContextAwareController {
         Assert.notNull(this.exportFormOrbeonController,
                 "property exportFormOrbeonController of class " + this.getClass().getName()
                         + " can not be null");
+
+        indPojoLDM = individuController.getIndLDM().map(
+                individuToPojo(getDomainApoService(), getParameterService(), getI18nService()));
+
         reset();
     }
 
@@ -339,7 +274,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
      */
     public String goPrintOpinions() {
         reset();
-//        setListTypeOpinions();
+        individuController.getIndividuPaginator().setIndRechPojo(new IndRechPojo());
         return NavigationRulesConst.DISPLAY_PRINT_OPINIONS;
     }
 
@@ -350,6 +285,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
      */
     public String goPrintTROpinions() {
         reset();
+        individuController.getIndividuPaginator().setIndRechPojo(new IndRechPojo());
         return NavigationRulesConst.DISPLAY_PRINT_TR_OPINIONS;
     }
     /*
@@ -360,7 +296,8 @@ public class PrintOpinionController extends AbstractContextAwareController {
      * call in printOpinions.jsp
      */
     public void seeCandidats() {
-        makeAllIndividus(selectValid, false, true);
+//        makeAllIndividus(
+//                individuController.getIndividuPaginator().getIndRechPojo().getSelectValid(), false, true);
     }
 
     /**
@@ -368,7 +305,8 @@ public class PrintOpinionController extends AbstractContextAwareController {
      * call in printOpinions.jsp
      */
     public void printPDFValidation() {
-        makeAllIndividus(selectValid, true, true);
+//        makeAllIndividus(
+//                individuController.getIndividuPaginator().getIndRechPojo().getSelectValid(), true, true);
         makePDFValidation();
         this.lesIndividus = new ArrayList<IndividuPojo>();
         seeCandidats();
@@ -379,7 +317,8 @@ public class PrintOpinionController extends AbstractContextAwareController {
      * call in printOpinions.jsp
      */
     public void makeCsvValidation() {
-        makeAllIndividus(selectValid, true, true);
+//        makeAllIndividus(
+//                individuController.getIndividuPaginator().getIndRechPojo().getSelectValid(), true, true);
         csvGeneration(lesIndividus,
                 "exportAvis_" + commissionController.getCommission().getCode() + ".csv");
         this.lesIndividus = new ArrayList<IndividuPojo>();
@@ -391,23 +330,21 @@ public class PrintOpinionController extends AbstractContextAwareController {
      * call in printOpinions.jsp
      */
     public void makeCsvFormulaire() {
-        if (this.idCommissionSelected != null) {
-            commissionController.setCommission(getParameterService().
-                    getCommission(this.idCommissionSelected, null));
-        } else {
+        IndRechPojo pojo = individuController.getIndividuPaginator().getIndRechPojo();
+
+        Option<Integer> idComOpt = fromNull(pojo.getIdCmi());
+        List<RegimeInscription> listRI = new ArrayList<RegimeInscription>(pojo.getListeRI());
+
+        for (Integer idCom : idComOpt)
+            exportFormOrbeonController.makeCsvFormulaire(
+                    getParameterService().getCommission(idCom, null),
+                    listRI);
+
+        if (idComOpt.isNone())
             addErrorMessage(null, "ERROR.PRINT.COMMISSION_NULL");
-            return;
-        }
 
-        if (commissionController.getListeRI() == null
-                || commissionController.getListeRI().isEmpty()) {
+        if (listRI.isEmpty())
             addErrorMessage(null, "ERROR.PRINT.LIST_RI_NULL");
-            return;
-        }
-
-        exportFormOrbeonController.makeCsvFormulaire(
-                commissionController.getCommission(),
-                commissionController.getListeRI());
     }
 
     /**
@@ -446,8 +383,8 @@ public class PrintOpinionController extends AbstractContextAwareController {
      */
     public void printPDFAllNotifications() {
         this.pdfData.clear();
-
-        makeAllIndividus(selectValid, false, true);
+//        makeAllIndividus(
+//                individuController.getIndividuPaginator().getIndRechPojo().getSelectValid(), false, true);
         makePdfData(lesIndividus, commissionController.getCommission());
 
         if (!this.pdfData.isEmpty()) {
@@ -913,13 +850,13 @@ public class PrintOpinionController extends AbstractContextAwareController {
                                   final Boolean initCursusPojo, final Boolean excludeTR) {
         // list of indivius from the commission selected
         // with an opinion not validate
-        if (this.idCommissionSelected != null) {
-            this.commissionController.setCommission(getParameterService().
-                    getCommission(this.idCommissionSelected, null));
-            lookForIndividusPojo(
-                    this.commissionController.getCommission(),
-                    onlyValidate, initCursusPojo, excludeTR);
-        }
+//        if (this.idCommissionSelected != null) {
+//            this.commissionController.setCommission(getParameterService().
+//                    getCommission(this.idCommissionSelected, null));
+//            lookForIndividusPojo(
+//                    this.commissionController.getCommission(),
+//                    onlyValidate, initCursusPojo, excludeTR);
+//        }
     }
 
 
@@ -1264,32 +1201,12 @@ public class PrintOpinionController extends AbstractContextAwareController {
     /*
           ******************* ACCESSORS ******************** */
 
-    /**
-     * @return the idCommissionSelected
-     */
-    public Integer getIdCommissionSelected() {
-        return idCommissionSelected;
+    public IndividuController getIndividuController() {
+        return individuController;
     }
 
-    /**
-     * @param idCommissionSelected the idCommissionSelected to set
-     */
-    public void setIdCommissionSelected(final Integer idCommissionSelected) {
-        this.idCommissionSelected = idCommissionSelected;
-    }
-
-    /**
-     * @return the selectValid
-     */
-    public Boolean getSelectValid() {
-        return selectValid;
-    }
-
-    /**
-     * @param selectValid the selectValid to set
-     */
-    public void setSelectValid(final Boolean selectValid) {
-        this.selectValid = selectValid;
+    public void setIndividuController(IndividuController individuController) {
+        this.individuController = individuController;
     }
 
     /**
@@ -1514,8 +1431,5 @@ public class PrintOpinionController extends AbstractContextAwareController {
         renderTable = true;
     }
 
-    public void setIndividuPojoPaginator(IndividuPojoPaginator individuPojoPaginator) {
-        this.individuPojoPaginator = individuPojoPaginator;
-    }
 }
 

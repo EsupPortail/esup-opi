@@ -374,7 +374,7 @@ public class SessionController extends AbstractDomainAwareBean {
         ContextUtils.setSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE, null);
         Boolean isEnt = isInEnt;
         reset();
-        // TODO
+        // TODO : code temporaire !! À déplacer/améliorer
         // **** TEST [
         ContextUtils.setSessionAttribute(AuthenticatorImpl.class.getName() + ".authInfo",
                 new AuthInfoImpl(authenticator.getAuthId(), null, null));

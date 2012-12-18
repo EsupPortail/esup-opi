@@ -1,5 +1,10 @@
 package org.esupportail.opi.web.controllers.opinions;
 
+import fj.F;
+import fj.F2;
+import fj.F5;
+import fj.P2;
+import fj.data.Stream;
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.beans.NormeSI;
@@ -9,6 +14,7 @@ import org.esupportail.opi.domain.beans.etat.EtatArriveIncomplet;
 import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.parameters.Transfert;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
+import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.MissingPiece;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
@@ -23,9 +29,14 @@ import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
 import org.esupportail.opi.web.controllers.user.IndividuController;
+import org.esupportail.opi.web.utils.paginator.LazyDataModel;
+import org.primefaces.model.SortOrder;
 
 import javax.faces.model.SelectItem;
 import java.util.*;
+
+import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
+import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
 /**
  * @author tducreux
@@ -104,8 +115,12 @@ public class PJController extends AbstractContextAwareController {
      * MissingPiecePojo selected.
      */
     private MissingPiecePojo mpPojoSelected;
-	
-	
+
+    private LazyDataModel<MissingPiecePojo> missingPiecePojoLDM;
+
+    private boolean renderTable;
+
+
 	/*
 	 ******************* INIT ************************* */
 
@@ -154,6 +169,10 @@ public class PJController extends AbstractContextAwareController {
                 "property paginatorPM of class " + this.getClass().getName()
                         + " can not be null");
 
+        missingPiecePojoLDM = individuController.getIndLDM().map(
+                individuToPojo(getDomainApoService(), getParameterService(), getI18nService()).andThen(
+                        paginatorPM.indPojoToMPPojo()));
+
         reset();
     }
 
@@ -168,12 +187,7 @@ public class PJController extends AbstractContextAwareController {
     @SuppressWarnings({"serial", "synthetic-access"})
     public String goSeePM() {
         reset();
-        //TODO au lieu de NULL on pourrait retirer les personnes de type transfert
-        this.paginatorPM.filterInMannagedCmi(
-                new TreeSet<Commission>(new ComparatorString(NormeSI.class)) {{
-                    addAll(commissionController.getCommissionsItemsByRight());
-                }},
-                transfert.getCode(), false);
+        individuController.getIndividuPaginator().setIndRechPojo(new IndRechPojo());
         return NavigationRulesConst.DISPLAY_PIECE_MANQUANTE_STUDENTS;
     }
 
@@ -381,7 +395,7 @@ public class PJController extends AbstractContextAwareController {
      * Change all state of visibleItems for stateSelected.
      */
     public void putStateAll() {
-        for (MissingPiecePojo mPojo : paginatorPM.getMissingPiecePojos()) {
+        for (MissingPiecePojo mPojo : missingPiecePojoLDM.getData()) {
             for (CommissionPojo c : mPojo.getCommissions().keySet()) {
                 c.setStateCurrent(stateSelected);
             }
@@ -587,5 +601,19 @@ public class PJController extends AbstractContextAwareController {
         this.stateSelected = stateSelected;
     }
 
+    public LazyDataModel<MissingPiecePojo> getMissingPiecePojoLDM() {
+        return missingPiecePojoLDM;
+    }
 
+    public boolean isRenderTable() {
+        return renderTable;
+    }
+
+    public void setRenderTable(boolean renderTable) {
+        this.renderTable = renderTable;
+    }
+
+    public void doRenderTable() {
+        renderTable = true;
+    }
 }

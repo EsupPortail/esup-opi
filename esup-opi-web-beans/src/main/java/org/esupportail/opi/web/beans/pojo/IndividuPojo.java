@@ -316,7 +316,12 @@ public class IndividuPojo {
 	/**
 	 * Initialize the list of the voeu for the student.
 	 * Avec filtrage des voeux sur les commissions du gestionnaire
-	 * @param apoServ 
+     *
+     * TODO : on utilise une liste de commissions uniquement pour inhiber ou non le remplissage du set de IndVoeuPojo.
+     * TODO : Or le trairement nécessaire pour obtenir cette liste est TRÈS couteux.
+     * TODO : Il faut chercher à ne plus avoir besoin de cette liste peut-être en construisant systématiquement le set de IndVoeuPojo.
+     *
+     * @param apoServ
 	 * @param i18Service 
 	 * @param parameterService 
 	 * @param commissions

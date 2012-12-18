@@ -12,15 +12,8 @@ import static fj.data.Option.somes;
 import java.lang.Class;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import com.mysema.query.support.Expressions;
-import com.mysema.query.types.ConstantImpl;
-import com.mysema.query.types.Ops;
-import com.mysema.query.types.Predicate;
-import com.mysema.query.types.PredicateOperation;
-import com.mysema.query.types.expr.BooleanExpression;
 import fj.*;
 import org.esupportail.commons.dao.AbstractJdbcJndiHibernateDaoService;
 import org.esupportail.commons.dao.HqlUtils;
@@ -30,12 +23,6 @@ import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.dao.utils.PaginatorFactory;
 import org.esupportail.opi.domain.beans.VersionManager;
-import org.esupportail.opi.domain.beans.formation.ClesAnnuForm;
-import org.esupportail.opi.domain.beans.formation.ClesDiplomeAnnuForm;
-import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
-import org.esupportail.opi.domain.beans.formation.DomaineAnnuForm;
-import org.esupportail.opi.domain.beans.formation.GrpTypDip;
-import org.esupportail.opi.domain.beans.formation.GrpTypDipCorresp;
 import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.PieceJustificative;
@@ -64,6 +51,7 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
 import org.esupportail.opi.utils.Constantes;
+import org.esupportail.opi.utils.primefaces.PFFilters;
 import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.LockMode;
@@ -72,7 +60,6 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.primefaces.model.SortOrder;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.orm.hibernate3.HibernateSystemException;
 import org.springframework.util.StringUtils;
@@ -680,14 +667,31 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
                     };
                 }
             };
+
+    final F<Date, F<HibernateQuery, HibernateQuery>> wishCreationFilter =
+            new F<Date, F<HibernateQuery, HibernateQuery>>() {
+                public F<HibernateQuery, HibernateQuery> f(final Date date) {
+                    return new F<HibernateQuery, HibernateQuery>() {
+                        public HibernateQuery f(HibernateQuery query) {
+                            final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();
+                            return query.where(
+                                    path.getSet("voeux", IndVoeu.class).any()
+                                    .get("dateCreaEnr").eq(date));
+                        }
+                    };
+                }
+            };
 	
     @SuppressWarnings("unchecked")
     @Override
-    public P2<Long, Stream<Individu>> sliceOfInd(
-            Long offset, Long limit, String sortField, SortOrder sortOrder, Map<String, String> filters,
-            Set<TypeDecision> typesDec, Option<Boolean> treatedWish, Option<Boolean> validWish, Option<String> codeTypeTrtmt,
-            Set<TraitementCmi> trtCmis, Set<Integer> listCodesRI) {
-
+    public P2<Long, Stream<Individu>> sliceOfInd(PFFilters pfFilters,
+                                                 Set<TypeDecision> typesDec,
+                                                 Option<Boolean> treatedWish,
+                                                 Option<Boolean> validWish,
+                                                 Option<Date> wishCreation,
+                                                 Option<String> codeTypeTrtmt,
+                                                 Set<TraitementCmi> trtCmis,
+                                                 Set<Integer> listCodesRI) {
         final F<HibernateQuery, HibernateQuery> customFilter =
                 somes(list(
                         some(temoinFilter),
@@ -696,15 +700,16 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
                         some(typeDecSeqFilter.f(typesDec)),
                         treatedWish.map(treatedWishFilter),
                         validWish.map(validWishFilter),
+                        wishCreation.map(wishCreationFilter),
                         codeTypeTrtmt.map(notCodeTypeTrtmtFilter),
                         some(trtCmiFilter.f(trtCmis)))).foldLeft1(Function.<HibernateQuery, HibernateQuery, HibernateQuery>andThen());
 	    
         return pf.indPaginator().lazySliceOf(
-                offset,
-                limit,
-                sortField,
-                sortOrder,
-                filters,
+                pfFilters.first,
+                pfFilters.pageSize,
+                pfFilters.sortField,
+                pfFilters.sortOrder,
+                pfFilters.filters,
                 some(customFilter));
     }
 	

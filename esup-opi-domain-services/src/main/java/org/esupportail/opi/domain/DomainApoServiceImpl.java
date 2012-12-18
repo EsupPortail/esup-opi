@@ -19,6 +19,10 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import fj.Equal;
+import fj.F;
+import fj.F2;
+import fj.data.Stream;
 import org.esupportail.commons.exceptions.ObjectNotFoundException;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
@@ -90,6 +94,8 @@ import gouv.education.apogee.commun.transverse.dto.geographie.communedto.Commune
 import gouv.education.apogee.commun.transverse.dto.pedagogique.contratpedagogiqueresultatvdivetdto.ContratPedagogiqueResultatVdiVetDTO;
 import gouv.education.apogee.commun.transverse.dto.pedagogique.etaperesvdivetdto.EtapeResVdiVetDTO;
 import gouv.education.apogee.commun.transverse.dto.pedagogique.resultatvetdto.ResultatVetDTO;
+
+import static fj.data.Stream.iterableStream;
 
 /**
  * The basic implementation of DomainApoService.
@@ -1739,39 +1745,43 @@ public class DomainApoServiceImpl implements DomainApoService {
 	}
 
     /**
-    	 * List of the commisions managed by the gestionnaire.
-    	 * @param gest
-    	 * @param temEnSve
-    	 * @return Set<Commission>
-    	 */
-    	public Set<Commission> getListCommissionsByRight(
-    			final Gestionnaire gest, 
-    			final Boolean temEnSve) {
-    		Set<Commission> lesCommissions = new HashSet<Commission>();	
-    		if (StringUtils.hasText(gest.getCodeCge())) {
-    			Set<VersionEtapeDTO> vet = new HashSet<VersionEtapeDTO>();
-    			vet.addAll(getVersionEtapes(null, null, 	gest.getCodeCge(), null));
-    			Set<VersionEtpOpi> vOpi = Conversions.convertVetInVetOpi(new HashSet<VersionEtapeDTO>(vet));
-    			Set<Commission> lCom = parameterService.getCommissions(temEnSve);
-                if (lCom != null)
-                    for (Commission c : lCom) {
-                        if (!c.getTemoinEnService()) log.info("cas d'une comm HS");
-                        for (TraitementCmi trt : c.getTraitementCmi())
-                            if (vOpi.contains(trt.getVersionEtpOpi())) {
-                                lesCommissions.add(c);
-                                break;
-                            }
-                    }
-    		} else if (gest.getRightOnCmi()!= null && !gest.getRightOnCmi().isEmpty()) {
-    			//si pas cge, renvoie les cmi auxquelles ils ont droit
-    		    // TODO: change getRightOnCmi to return a list ?
-    			lesCommissions = gest.getRightOnCmi();
-    		} else {
-    			lesCommissions = parameterService.getCommissions(null);
-    		}
-    
-    		return lesCommissions;
-    	}
+     * TODO : Méthode TRÈS lente (nombreux appels hibernate)
+     * TODO : À optimiser
+     * TODO : Éviter d'y avoir recours
+     *
+     * List of the commisions managed by the gestionnaire.
+     * @param gest
+     * @param temEnSve
+     * @return Set<Commission>
+     */
+    public Set<Commission> getListCommissionsByRight(
+            final Gestionnaire gest,
+            final Boolean temEnSve) {
+        Set<Commission> lesCommissions = new HashSet<Commission>();
+        if (StringUtils.hasText(gest.getCodeCge())) {
+            final Set<VersionEtpOpi> vOpi = Conversions.convertVetInVetOpi(
+                    new HashSet<VersionEtapeDTO>(
+                            getVersionEtapes(null, null, gest.getCodeCge(), null)));
+            Set<Commission> lCom = parameterService.getCommissions(temEnSve);
+            if (lCom != null)
+                for (Commission c : lCom) {
+                    if (!c.getTemoinEnService()) log.info("cas d'une comm HS");
+                    for (TraitementCmi trt : c.getTraitementCmi())
+                        if (vOpi.contains(trt.getVersionEtpOpi())) {
+                            lesCommissions.add(c);
+                            break;
+                        }
+                }
+        } else if (gest.getRightOnCmi()!= null && !gest.getRightOnCmi().isEmpty()) {
+            //si pas cge, renvoie les cmi auxquelles ils ont droit
+            // TODO: change getRightOnCmi to return a list ?
+            lesCommissions = gest.getRightOnCmi();
+        } else {
+            lesCommissions = parameterService.getCommissions(null);
+        }
+
+        return lesCommissions;
+    }
 
 	
 	

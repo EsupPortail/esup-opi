@@ -14,9 +14,6 @@
                     <h:panelGroup>
                         <p:commandButton id="lookForIndividu" value="#{msgs['_.BUTTON.SEARCH']}"
                                          update="#{toUpdate}"/>
-                        <!-- TODO : get rid of the that ?? -->
-                        <!-- <p:commandButton id="lookForIndividu" value="#{msgs['_.BUTTON.SEARCH']}" -->
-                        <!--                  action="#{opinionController.searchStudents}" update="#{toUpdate}"/> -->
                     </h:panelGroup>
                 </h:panelGrid>
                 <h:panelGrid styleClass="tableWidthMax" columns="4"
@@ -26,18 +23,18 @@
                                        for="numDossierOpi"/>
                     </h:panelGroup>
                     <p:inputText id="numDossierOpi"
-                                 value="#{paginatorIndividuPojo.indRechPojo.numDossierOpiRecherche}"/>
+                                 value="#{paginatorIndividu.indRechPojo.numDossierOpiRecherche}"/>
 
                     <h:panelGroup>
                         <h:outputLabel value="#{msgs['INDIVIDU.NOM']}" for="nom"/>
                     </h:panelGroup>
                     <p:inputText id="nom"
-                                 value="#{paginatorIndividuPojo.indRechPojo.nomRecherche}"/>
+                                 value="#{paginatorIndividu.indRechPojo.nomRecherche}"/>
                     <h:panelGroup>
                         <h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom"/>
                     </h:panelGroup>
                     <p:inputText id="prenom"
-                                 value="#{paginatorIndividuPojo.indRechPojo.prenomRecherche}"/>
+                                 value="#{paginatorIndividu.indRechPojo.prenomRecherche}"/>
 
                     <h:panelGroup>
                         <h:outputLabel value="#{msgs['COMMISSION.CHOICE']}"
@@ -45,7 +42,7 @@
                     </h:panelGroup>
                     <h:panelGroup>
                         <p:selectOneMenu id="lesCommissions" converter="javax.faces.Integer"
-                                         value="#{paginatorIndividuPojo.indRechPojo.idCmi}">
+                                         value="#{paginatorIndividu.indRechPojo.idCmi}">
                             <f:selectItem itemLabel="" itemValue=""/>
                             <f:selectItems var="commission"
                                            value="#{commissionController.commissionsItemsByRight}"
@@ -58,11 +55,11 @@
                     </h:panelGroup>
                     <h:panelGroup>
                         <p:selectOneMenu id="lesTypesDecision" converter="#{typeDecisionConverter}"
-                                         value="#{paginatorIndividuPojo.indRechPojo.typeDecRecherchee}">
+                                         value="#{paginatorIndividu.indRechPojo.typeDecRecherchee}">
                             <f:selectItems value="#{nomenclatureController.typeDecisionItems}"/>
                             <p:ajax update="#{toUpdate} @form"
                                     listener="#{opinionController.searchStudentsByTypeDec}"/>
-                            <!-- disabled="#{paginatorIndividuPojo.indRechPojo.typeDecRecherchee.codeTypeConvocation == 'LC'}" -->
+                            <!-- disabled="#{paginatorIndividu.indRechPojo.typeDecRecherchee.codeTypeConvocation == 'LC'}" -->
                         </p:selectOneMenu>
                     </h:panelGroup>
                     <h:panelGroup rendered="#{opinionController.isFilterLCAndCommissionOK}">
@@ -70,7 +67,7 @@
                     </h:panelGroup>
                     <h:panelGroup rendered="#{opinionController.isFilterLCAndCommissionOK}">
                         <p:selectOneMenu id="lesEtapes" converter="javax.faces.Integer"
-                                         value="#{paginatorIndividuPojo.indRechPojo.codeTrtCmiRecherchee}">
+                                         value="#{paginatorIndividu.indRechPojo.codeTrtCmiRecherchee}">
                             <f:selectItem itemLabel="" itemValue=""/>
                             <f:selectItems var="beanTrtCmi"
                                            value="#{trtCmiController.allTraitementCmi}"
@@ -82,9 +79,9 @@
                     <h:panelGroup>
                         <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc"/>
                     </h:panelGroup>
-                    <p:selectManyCheckbox id="fc" value="#{paginatorIndividuPojo.listeRI}"
+                    <p:selectManyCheckbox id="fc" value="#{paginatorIndividu.listeRI}"
                                           converter="javax.faces.Integer"
-                                          disabled="#{!paginatorIndividuPojo.indRechPojo.canModifyRISearch}"
+                                          disabled="#{!paginatorIndividu.indRechPojo.canModifyRISearch}"
                                           layout="lineDirection">
                         <f:selectItems var="ri"
                                        itemLabel="#{ri.shortLabel}" itemValue="#{ri.code}"

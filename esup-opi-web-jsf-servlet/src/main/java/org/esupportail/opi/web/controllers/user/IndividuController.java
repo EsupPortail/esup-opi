@@ -19,6 +19,7 @@ import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.beans.etat.EtatComplet;
 import org.esupportail.opi.domain.beans.etat.EtatInComplet;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
+import org.esupportail.opi.domain.beans.parameters.Transfert;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
@@ -35,6 +36,7 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.utils.GenNumDosOPI;
+import org.esupportail.opi.utils.primefaces.PFFilters;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.paginator.IndividuPaginator;
 import org.esupportail.opi.web.beans.parameters.FormationContinue;
@@ -61,6 +63,7 @@ import static fj.data.Option.*;
 import static fj.data.Option.fromString;
 import static fj.data.Stream.*;
 import static fj.data.Stream.join;
+import static org.esupportail.opi.utils.primefaces.PFFilters.pfFilters;
 import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
 
@@ -207,6 +210,10 @@ public class IndividuController extends AbstractAccessController {
      */
     private String checkEmail;
 
+    private Transfert transfert;
+
+    private boolean renderTable = false;
+
     private final LazyDataModel<Individu> indLDM = lazyModel(
             new F5<Integer, Integer, String, SortOrder, Map<String, String>, P2<Long, Stream<Individu>>>() {
                 public P2<Long, Stream<Individu>> f(
@@ -223,6 +230,10 @@ public class IndividuController extends AbstractAccessController {
                     filters.put("numDossierOpi", fromString(indRechPojo.getNumDossierOpiRecherche()).orSome(""));
                     filters.put("nomPatronymique", fromString(indRechPojo.getNomRecherche()).orSome(""));
                     filters.put("prenom", fromString(indRechPojo.getPrenomRecherche()).orSome(""));
+
+                    // 2. les types de décision
+                    final Set<TypeDecision> typesDec = new HashSet<TypeDecision>(
+                            fromNull(indRechPojo.getTypeDecRecherchee()).toStream().toCollection());
 
                     // 3. les étapes (TraitementCmi) de la commission
                     final Integer idCmi = indRechPojo.getIdCmi();
@@ -247,16 +258,31 @@ public class IndividuController extends AbstractAccessController {
                                 }
                             }).toCollection());
 
-                    Option<Boolean> boolNone = none();
+                    // 5. caractère 'traité' ou non du voeu
+                    Boolean excludeTreated = indRechPojo.getExcludeWishProcessed();
+                    final Option<Boolean> wishTreated = iif(excludeTreated != null && excludeTreated, false);
+
+                    // 6. caratère 'validé' ou non du voeu
+                    Option<Boolean> validWish = fromNull(indRechPojo.getSelectValid());
+
+                    // 7. le type de traitement
+                    final Option<String> codeTypeTrtmt = fromNull(transfert).map(new F<Transfert, String>() {
+                        public String f(Transfert t) {
+                            return t.getCode();
+                        }
+                    });
+
+                    // 8. Date de création des voeux
+                    Option<Date> dateCrea = fromNull(indRechPojo.getDateCreationVoeuRecherchee());
 
                     return getDomainService().sliceOfInd(
-                            new Long(first), new Long(pageSize), sortField, sortOrder, filters,
-                            new HashSet<TypeDecision>(), boolNone, boolNone, Option.<String>none(), trtCmis, listCodesRI);
+                            pfFilters((long) first, (long) pageSize, sortField, sortOrder, filters),
+                            typesDec, validWish, wishTreated, dateCrea, codeTypeTrtmt, trtCmis, listCodesRI);
                 }
             },
             new F2<String, Individu, Boolean>() {
                 public Boolean f(String rowKey, Individu individu) {
-                    return individu.getId().equals(rowKey);
+                    return individu.getId().toString().equals(rowKey);
                 }
             }
     );
@@ -635,8 +661,10 @@ public class IndividuController extends AbstractAccessController {
      * @return String
      */
     public String goSeeAllEtudiants() {
-        individuPaginator.allStudentsFilter();
-        individuPaginator.forceReload();
+        // TODO : à virer
+//        individuPaginator.allStudentsFilter();
+//        individuPaginator.forceReload();
+        individuPaginator.setIndRechPojo(new IndRechPojo());
         return NavigationRulesConst.DISPLAY_STUDENT;
     }
 
@@ -1693,6 +1721,14 @@ public class IndividuController extends AbstractAccessController {
         return ldapUserService;
     }
 
+    public Transfert getTransfert() {
+        return transfert;
+    }
+
+    public void setTransfert(Transfert transfert) {
+        this.transfert = transfert;
+    }
+
     /**
      * @param ldapUserService
      */
@@ -1704,6 +1740,15 @@ public class IndividuController extends AbstractAccessController {
         return indLDM;
     }
 
+    public boolean isRenderTable() {
+        return renderTable;
+    }
+
+    public void setRenderTable(boolean renderTable) {
+        this.renderTable = renderTable;
+    }
+
     public void doRenderTable() {
+        renderTable = true;
     }
 }

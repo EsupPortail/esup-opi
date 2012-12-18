@@ -4,6 +4,7 @@
  */
 package org.esupportail.opi.web.beans.paginator;
 
+import fj.F;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.domain.DomainApoService;
@@ -59,7 +60,7 @@ public class PMPaginator extends IndividuPaginator {
      * Constructors.
      */
     public PMPaginator() {
-        super();
+
     }
 
     @Override
@@ -68,8 +69,8 @@ public class PMPaginator extends IndividuPaginator {
             LOG.debug("begin reset() de PMPaginator()");
         }
         super.reset();
-        String hql = getHqlQuery() + hqlIndWishesFilter("TR", false);
-        setHqlQuery(hql);
+//        String hql = getHqlQuery() + hqlIndWishesFilter("TR", false);
+//        setHqlQuery(hql);
         this.missingPiecePojos = new ArrayList<MissingPiecePojo>();
         forceReload = false;
     }
@@ -110,6 +111,20 @@ public class PMPaginator extends IndividuPaginator {
         return this.getHqlQuery();
     }
 
+    public F<IndividuPojo, MissingPiecePojo> indPojoToMPPojo() {
+        return new F<IndividuPojo, MissingPiecePojo>() {
+            public MissingPiecePojo f(IndividuPojo individuPojo) {
+                MissingPiecePojo mp = new MissingPiecePojo();
+                mp.setIndividuPojo(individuPojo);
+                mp.initCommissions(getSessionController().getParameterService(),
+                        getSessionController().getI18nService(),
+                        getSessionController().getDomainService(),
+                        getIndRechPojo().getIdCmi());
+                return mp;
+            }
+        };
+    }
+
     /**
      * @return the missingPiecePojos
      */
@@ -120,7 +135,6 @@ public class PMPaginator extends IndividuPaginator {
         }
         this.missingPiecePojos.clear();
         List<IndividuPojo> indPojo =
-                // TODO : move convertIndInIndPojo away from web layer
                 Utilitaires.convertIndInIndPojo(getVisibleItems(),
                         getSessionController().getParameterService(),
                         getSessionController().getI18nService(),

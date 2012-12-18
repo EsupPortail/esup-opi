@@ -144,19 +144,18 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 	/*
 	 ******************* METHODS ********************** */
 
-
-    public final F<Stream<Individu>, Stream<IndividuPojo>> individusToPojos() {
+    /**
+     * TODO : use {@link org.esupportail.opi.web.utils.fj.Conversions#individuToPojo(
+     * DomainApoService, org.esupportail.opi.domain.ParameterService, org.esupportail.commons.services.i18n.I18nService)}
+     *
+     */
+    public final F<Stream<Individu>, Stream<IndividuPojo>> individusToPojosWithWishes() {
         return new F<Stream<Individu>, Stream<IndividuPojo>>() {
             public Stream<IndividuPojo> f(Stream<Individu> individus) {
                 return iterableStream(getIndPojosWithWishForOneCmi(
                         new ArrayList<Individu>(individus.toCollection())));
             }
         };
-// TODO : use the below
-//        return individuToPojo(
-//                domainApoService,
-//                getSessionController().getParameterService(),
-//                getSessionController().getI18nService()).mapStream();
     }
 
     /**
