@@ -280,19 +280,6 @@ public class GestionnaireController extends AbstractAccessController {
 		}
 		return goSeeAllManagers();
 	}
-
-	
-	/**
-	 * The selected cge.
-	 * @param event
-	 */
-	public void selectCge(final ValueChangeEvent event) {
-		String codeCge = (String) event.getNewValue();
-		manager.setCodeCge(codeCge);
-
-	}
-	
-	
 	
 	/* ### ALL CONTROL ####*/
 	
