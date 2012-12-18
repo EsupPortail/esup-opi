@@ -3,12 +3,7 @@
  */
 package org.esupportail.opi.domain;
 
-import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
@@ -19,10 +14,7 @@ import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.utils.CacheModelConst;
 import org.esupportail.opi.utils.exceptions.CommunicationApogeeException;
-import org.esupportail.wssi.services.remote.BacOuxEqu;
-import org.esupportail.wssi.services.remote.Departement;
 import org.esupportail.wssi.services.remote.Etablissement;
-import org.esupportail.wssi.services.remote.Pays;
 import org.esupportail.wssi.services.remote.SignataireDTO;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
@@ -83,11 +75,6 @@ public class BusinessCacheServiceImpl
 	private Cache cacheEtb;
 	
 	/**
-	 * The cache object for the BacOuxEqu.
-	 */
-	private Cache cacheBac;
-	
-	/**
 	 * The cache object for the SignataireDTO.
 	 */
 	private Cache cacheSign;
@@ -128,7 +115,6 @@ public class BusinessCacheServiceImpl
 		if (!cacheManager.cacheExists(BAC_CACHE_NAME)) {
 			cacheManager.addCache(BAC_CACHE_NAME);
 		}
-		cacheBac = cacheManager.getCache(BAC_CACHE_NAME);
 		
 		// initialisation du cache etablissement au démarrage de l'appli
 		if (!cacheManager.cacheExists(SIGN_CACHE_NAME)) {
@@ -145,55 +131,7 @@ public class BusinessCacheServiceImpl
 	 * Gestion du cache
 	 * - on garde en cache sous forme de map les méthodes appelant l'intégralité d'un référentiel
 	 * - les appels par code vont lire les maps
-	 */
-	
-	//////////////////////////////////////////////////////////////
-	////// GEOGRAPHIE
-	//////////////////////////////////////////////////////////////
-	
-	//////////////////////////////////////////////////////////////
-	// Departement
-	//////////////////////////////////////////////////////////////
-//	
-//	/** 
-//	 * @see org.esupportail.opi.domain.BusinessCacheService#
-//	 * getDepartement(java.lang.String)
-//	 */
-//	@Override
-//	@Cacheable(cacheName = CacheModelConst.GEO_APOGEE_MODEL)
-//	public Departement getDepartement(final String codeDep) {
-//		if (log.isDebugEnabled()) {
-//			log.debug("entering getDepartement( " + codeDep + " )");
-//		}
-//		if (StringUtils.hasText(codeDep)) {
-//			List<Departement> departements = domainApoService.getDepartements();
-//			for (Departement d : departements) {
-//				if (codeDep.equals(d.getCodDep())) {
-//					return d;
-//				}
-//			}
-//		}
-//		return null;
-//	}
-
-	
-	//////////////////////////////////////////////////////////////
-	// Pays
-	//////////////////////////////////////////////////////////////
-	
-	/** 
-	 * @see org.esupportail.opi.domain.BusinessCacheService#
-	 * getPays(java.lang.String)
-	 */
-
-	//////////////////////////////////////////////////////////////
-	// CommuneDTO
-	//////////////////////////////////////////////////////////////
-	
-
-	//////////////////////////////////////////////////////////////
-	////// ENSEIGNEMENT
-	//////////////////////////////////////////////////////////////
+	 */	
 	
 	//////////////////////////////////////////////////////////////
 	// VersionEtapeDTO
@@ -234,36 +172,6 @@ public class BusinessCacheServiceImpl
 		
 		return result;
 	}
-	
-	/**
-	 * Initialisation du cache VET.
-	 */
-//	public void initCacheVet() {
-//		if (log.isDebugEnabled()) {
-//			log.debug("entering initCacheVet( )");
-//		}
-//		
-//		cacheVet.flush();
-//		
-//		// création de la map avec sous liste de VET
-//		Map<String, List<VersionEtapeDTO>> mapOfVet = new HashMap<String, List<VersionEtapeDTO>>();
-//		List<VersionEtapeDTO> v = domainApoService.getVersionEtapes(null, null, null, null);
-//		for (VersionEtapeDTO vet : v) {
-//			if (!mapOfVet.containsKey(vet.getCodEtp())) {
-//				mapOfVet.put(vet.getCodEtp(), new ArrayList<VersionEtapeDTO>());
-//			}
-//			mapOfVet.get(vet.getCodEtp()).add(vet);
-//		}
-//		
-//		// mise en cache des éléments de la map
-//		for (Map.Entry<String, List<VersionEtapeDTO>> vetEntry : mapOfVet.entrySet()) {
-//			cacheVet.put(new Element(vetEntry.getKey(), vetEntry.getValue()));
-//		}
-//		
-//		if (log.isDebugEnabled()) {
-//			log.debug("leanving initCacheVet");
-//		}
-//	}
 	
 	//////////////////////////////////////////////////////////////
 	// Etablissement
@@ -316,58 +224,6 @@ public class BusinessCacheServiceImpl
 			return result;
 		} 
 		return null;
-	}
-	
-	//////////////////////////////////////////////////////////////
-	//BacOuxEqu
-	//////////////////////////////////////////////////////////////
-
-	/**
-	 * Initialisation du cache Bac.
-	 * @param daaObt
-	 */
-	public void initCacheBacOuxEqu(final String daaObt) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering initCacheBacOuxEqu( )");
-		}
-		
-		//  mise en cache des éléments
-		List<BacOuxEqu> bacs = domainApoService.getBacOuxEqus(daaObt);
-		for (BacOuxEqu bac : bacs) {
-			// test pour s'assurer de ne pas avoir de doublon
-			if (cacheBac.get(bac.getCodBac()) == null) {
-				cacheBac.put(new Element(bac.getCodBac(), bac));
-			}
-		}
-		
-		if (log.isDebugEnabled()) {
-			log.debug("leanving initCacheBacOuxEqu");
-		}
-		
-	}
-	
-	/**
-	 * @see org.esupportail.opi.domain.BusinessCacheService#getBacOuxEqu(
-	 * java.lang.String, java.lang.String)
-	 */
-	@Override
-	public BacOuxEqu getBacOuxEqu(final String daaObt, final String codBac) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering getBacOuxEqu(" + daaObt + ", " + codBac +" )");
-		}
-		
-		// dans le cas ou le cache ne contient pas le bac ou si le cache a été flushé
-		// on réinitialise le cache
-		if (cacheBac.get(codBac) == null) {
-			initCacheBacOuxEqu(daaObt);	
-		}
-		
-		BacOuxEqu result = (BacOuxEqu) cacheBac.get(codBac).getObjectValue();
-		
-		if (log.isDebugEnabled()) {
-			log.debug("leanving getBacOuxEqu with vet =" + result);
-		}
-		return result;
 	}
 	
 	/////////////////////////////////////////////////////////

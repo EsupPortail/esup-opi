@@ -15,26 +15,29 @@
                     <ui:include src="_manager/_deleteManager.xhtml" />
                 </div>
             </ui:fragment>
-    		<h:form id="seeManagersForm">
-                <div class="messageForUser">
-                    <p:messages id="messages" showDetail="true" autoUpdate="true" />
-                </div>
-    			<div id="blockFormListDom" class="blockForm">
-    				<div class="blockButton">
-    					<h:panelGroup>
-    						<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-                                ajax="false" immediate="true"
-    							rendered="#{managedAccess.addAuthorized}"
-    							action="#{gestionnaireController.goEnterManager}">
-    							<f:setPropertyActionListener value="#{gestionnaireController.actionEnum.addAction}" target="#{gestionnaireController.actionEnum.whatAction}" />
-    						</p:commandButton>
-    						<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-    							ajax="false" immediate="true"
-    							action="#{welcomeController.goWelcomeManager}">
-    							<f:setPropertyActionListener value="#{gestionnaireController.actionEnum.emptyAction}" target="#{gestionnaireController.actionEnum.whatAction}" />
-    						</p:commandButton>
-    					</h:panelGroup>
-    				</div>
+    		
+			<div class="messageForUser">
+				<p:messages id="messages" showDetail="true" autoUpdate="true" />
+			</div>
+			<div id="blockFormListDom" class="blockForm">
+				<h:form id="managersCommandForm">
+					<div class="blockButton">
+						<h:panelGroup>
+							<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+					            ajax="false" immediate="true"
+								rendered="#{managedAccess.addAuthorized}"
+								action="#{gestionnaireController.goEnterManager}">
+								<f:setPropertyActionListener value="#{gestionnaireController.actionEnum.addAction}" target="#{gestionnaireController.actionEnum.whatAction}" />
+							</p:commandButton>
+							<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+								ajax="false" immediate="true"
+								action="#{welcomeController.goWelcomeManager}">
+								<f:setPropertyActionListener value="#{gestionnaireController.actionEnum.emptyAction}" target="#{gestionnaireController.actionEnum.whatAction}" />
+							</p:commandButton>
+						</h:panelGroup>
+					</div>
+				</h:form>
+				<h:form id="seeManagersForm">
     				<p:dataTable var="manager" id="managerData"
     					value="#{gestionnaireController.listeGestionnaires}"
                         paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40"
@@ -79,38 +82,45 @@
     							rendered="#{!manager.temoinEnService}" />
     					</p:column>
     					<p:column>
-    						<p:commandButton icon="ui-icon-search"
-    							immediate="true" ajax="false"
-    							title="#{msgs['_.BUTTON.DISPLAY']}" 
-    							action="#{gestionnaireController.goSeeOneManager}">
-    							<f:setPropertyActionListener value="#{manager}" target="#{gestionnaireController.manager}" />
-    						</p:commandButton>
+	    					<p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
+	                                style="padding: .4em;"
+	    							immediate="true" ajax="false"
+	    							title="#{msgs['_.BUTTON.DISPLAY']}" 
+	    							action="#{gestionnaireController.goSeeOneManager}">
+	    							<f:setPropertyActionListener value="#{manager}" target="#{gestionnaireController.manager}" />
+	    							<span class="ui-icon ui-icon-search"/>
+	    					</p:commandLink>
     					</p:column>
     					<p:column>
-    						<p:commandButton icon="ui-icon-pencil"
+	    					<p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
+                                style="padding: .4em;"
     							immediate="true" ajax="false"
-    							title="#{msgs['BUTTON.UPDATE']}"
-    							rendered="#{managedAccess.updateAuthorized}"
-    							action="#{gestionnaireController.goEnterManager}">
+   								title="#{msgs['BUTTON.UPDATE']}"
+   								rendered="#{managedAccess.updateAuthorized}"
+   								action="#{gestionnaireController.goEnterManager}">
     							<f:setPropertyActionListener value="#{gestionnaireController.actionEnum.updateAction}" target="#{gestionnaireController.actionEnum.whatAction}" />
     							<f:setPropertyActionListener value="#{manager}" target="#{gestionnaireController.manager}" />
-    						</p:commandButton>
+    							<span class="ui-icon ui-icon-pencil"/>
+	    					</p:commandLink>
     					</p:column>
     					<p:column>
-    						<p:commandButton icon="ui-icon-minus"
-                                immediate="true" ajax="false"
+    						<p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
+                                style="padding: .4em;"
+    							immediate="true" ajax="false"
     							rendered="#{managedAccess.deleteAuthorized}"
     							title="#{msgs['_.BUTTON.DELETE']}">
-    								<f:setPropertyActionListener value="#{gestionnaireController.actionEnum.deleteAction}" target="#{gestionnaireController.actionEnum.whatAction}" />
-    								<f:setPropertyActionListener value="#{manager}" target="#{gestionnaireController.manager}" />
-    						</p:commandButton>
+    							<f:setPropertyActionListener value="#{gestionnaireController.actionEnum.deleteAction}" target="#{gestionnaireController.actionEnum.whatAction}" />
+    							<f:setPropertyActionListener value="#{manager}" target="#{gestionnaireController.manager}" />
+    							<span class="ui-icon ui-icon-minus"/>
+	    					</p:commandLink>
     					</p:column>
     				</p:dataTable>
                     <p:blockUI block="seeManagersForm" trigger="managerData">
                         <p:graphicImage value="/media/images/ajax-loader.gif" />
                     </p:blockUI>
+                </h:form>
     			</div>
-    		</h:form>
+    		
     		
     		<br />
     		<br />
