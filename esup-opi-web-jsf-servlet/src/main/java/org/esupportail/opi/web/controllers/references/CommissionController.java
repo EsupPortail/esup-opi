@@ -343,6 +343,7 @@ public class CommissionController
 	 */
 	public String goAddCmi() {
 		reset();
+		commission = getParameterService().getCommission(commission.getId(), null);
 		adressController.init(new AdresseCommission(), false);
 		Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
 		int codeRI = gest.getProfile().getCodeRI();
@@ -1324,7 +1325,8 @@ public class CommissionController
 		return new ArrayList<Commission>(iterableStream(comsInUseByRight).filter(
 				new F<Commission, Boolean>() {
 					public Boolean f(Commission c) {
-						return c.getContactsCommission().get(codeRI) != null;
+						final Commission cmi = getParameterService().getCommission(c.getId(), null);
+						return cmi.getContactsCommission().get(codeRI) != null;
 					}}).toCollection());
 	}
 	
