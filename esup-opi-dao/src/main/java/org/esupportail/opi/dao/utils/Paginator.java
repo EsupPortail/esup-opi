@@ -265,9 +265,11 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
 	public final P2<Long, java.util.List<T>> sliceOf(Long offset, Long limit, String sortField,
 	    SortOrder sortOrder, Map<String,String> filters, Option<F<Q, Q>> optCustomfilter) {
 	    final F<Q, Q> customFilter = optCustomfilter.orSome(Function.<Q>identity());
-	    return p(
-	            query(full.constant(), filters, customFilter).f(unit()).f(sortField).f(sortOrder).count(),
-	            query(tuple(slice), filters, customFilter).f(p(offset, limit)).f(sortField).f(sortOrder).list(ent));
+
+        long c = query(full.constant(), filters, customFilter).f(unit()).f(sortField).f(sortOrder).count();
+        java.util.List<T> l = query(tuple(slice), filters, customFilter).f(p(offset, limit)).f(sortField).f(sortOrder).list(ent);
+
+        return p(c, l);
 	}
 
 	/**

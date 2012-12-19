@@ -4,6 +4,7 @@ import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -47,7 +48,7 @@ public class IndRechPojo {
 	/**
 	 * Liste des régimes d'inscription pour la recherche.
 	 */
-	private Set<RegimeInscription> listeRI;
+	private Set<RegimeInscription> listeRI = new HashSet<RegimeInscription>();
 
 	/**
 	 * La commision recherchee.
@@ -254,9 +255,9 @@ public class IndRechPojo {
 	/**
 	 * @param excludeWishProcessed the excludeWishProcessed to set
 	 */
-//	public void setExcludeWishProcessed(final Boolean excludeWishProcessed) {
-//		this.excludeWishProcessed = excludeWishProcessed;
-//	}
+	public void setExcludeWishProcessed(final Boolean excludeWishProcessed) {
+		this.excludeWishProcessed = excludeWishProcessed;
+	}
 
 	/**
 	 * @return the canModifyRISearch

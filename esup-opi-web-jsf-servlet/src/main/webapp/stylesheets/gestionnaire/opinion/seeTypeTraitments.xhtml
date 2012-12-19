@@ -4,7 +4,16 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-        <div id="maPage" class="div_body">
+        <f:event type="preRenderView" listener="#{typeTraitController.doNotRenderTable}" />
+        <p:blockUI block="maPage" trigger=":lookForIndForm:searchInds
+                                           :lookForIndForm:lesCommissions
+                                           :seeTypeTrtForm:individuData">
+            <p:graphicImage value="/media/images/ajax-loader.gif"/>
+        </p:blockUI>
+        <p:blockUI block=":seeTypeTrtForm:dataPanel" trigger=":seeTypeTrtForm:renderTable">
+            <p:graphicImage value="/media/images/ajax-loader.gif"/>
+        </p:blockUI>
+        <p:panel id="maPage" styleClass="div_body">
             <h1>
                 <span class="section-header">
                     <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
@@ -18,8 +27,7 @@
                             <h:outputText value="#{msgs['FIELD_LABEL.LOOK_FOR.IND']}"
                                           styleClass="section-smallTitle"/>
                             <h:panelGroup>
-                                <p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
-                                                 action="#{typeTraitController.filterPaginator}"
+                                <p:commandButton id="searchInds" value="#{msgs['_.BUTTON.SEARCH']}"
                                                  update="@form,:seeTypeTrtForm:individuData"/>
                             </h:panelGroup>
                         </h:panelGrid>
@@ -50,7 +58,8 @@
                             <h:panelGroup>
                                 <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc"/>
                             </h:panelGroup>
-                            <p:selectManyCheckbox id="fc" value="#{paginatorIndividu.listeRI}" converter="javax.faces.Integer"
+                            <p:selectManyCheckbox id="fc" value="#{paginatorIndividu.indRechPojo.listeRI}"
+                                                  converter="javax.faces.Integer"
                                                   disabled="#{!paginatorIndividu.indRechPojo.canModifyRISearch}"
                                                   layout="lineDirection">
                                 <f:selectItems var="ri"
@@ -69,6 +78,7 @@
                                     <f:selectItems var="commission"
                                                    value="#{commissionController.commissionsItemsByRight}"
                                                    itemLabel="#{commission.libelle}" itemValue="#{commission.id}"/>
+                                    <p:ajax partialSubmit="true" update=":seeTypeTrtForm:individuData" />
                                 </p:selectOneMenu>
                             </h:panelGroup>
                             <h:panelGroup>
@@ -76,9 +86,9 @@
                                                for="dateCreationVoeu"/>
                             </h:panelGroup>
                             <h:panelGroup>
-                                <p:calendar id="dateCreationVoeu" size="10" readonlyInput="true"
+                                <p:calendar id="dateCreationVoeu" size="10"
                                             value="#{paginatorIndividu.indRechPojo.dateCreationVoeuRecherchee}"
-                                            pattern="ddMMyyyy" timeZone="#{sessionController.timezone}">
+                                            pattern="yyyy-MM-dd" timeZone="#{sessionController.timezone}">
                                     <f:validateLength minimum="8"/>
                                 </p:calendar>
                             </h:panelGroup>
@@ -87,6 +97,10 @@
                 </div>
             </ui:fragment>
             <h:form id="seeTypeTrtForm">
+                <p:remoteCommand id="renderTable" name="renderTable"
+                                 autoRun="true" async="true"
+                                 update="dataPanel"
+                                 actionListener="#{typeTraitController.doRenderTable}"/>
                 <div class="messageForUser">
                     <p:messages id="messages" showDetail="true" autoUpdate="true"/>
                 </div>
@@ -95,105 +109,80 @@
                         <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
                                          action="#{typeTraitController.update}"
                                          rendered="#{managedAccess.updateAuthorized
-                                                   || managedAccess.addAuthorized}" ajax="false"/>
+                                                   || managedAccess.addAuthorized}" update="individuData" />
                         <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
                                          immediate="true" action="#{typeTraitController.goSeeAllTypeTraitments}"
                                          update=":lookForIndForm,individuData"/>
                     </h:panelGroup>
                 </div>
-                <div style="width:100%;">
-                    <p:dataTable var="individuPojo" id="individuData"
-                                 value="#{typeTraitController.indPojoLDM}"
-                                 paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40"
-                                 paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
-                                 currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
-                                 emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}"
-                                 styleClass="paginatorData"
-                                 lazy="true" sortBy="#{nomPatronymique}">
-                        <p:column>
-                            <p:graphicImage url="/media/images/flag_green.png"
-                                            title="#{msgs['VOEU.FLAG_TRAITE']}"
-                                            rendered="#{individuPojo.hasAllVoeuxTraited}"/>
-                            <p:graphicImage url="/media/images/flag_red.png"
-                                            title="#{msgs['VOEU.FLAG_NON_TRAITE']}"
-                                            rendered="#{!individuPojo.hasAllVoeuxTraited}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}"/>
-                            </f:facet>
-                            <h:outputText value="#{individuPojo.individu.numDossierOpi}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{msgs['INDIVIDU.DATE_CREATION']}"/>
-                            </f:facet>
-                            <h:outputText value="#{individuPojo.dateCreationDossier}">
-                                <f:convertDateTime pattern="dd/MM/yyyy"
-                                                   timeZone="#{sessionController.timezone}"/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{msgs['INDIVIDU.NOM_PRENOM']}"/>
-                            </f:facet>
-                            <h:outputText
-                                value="#{individuPojo.individu.nomPatronymique}
-                                       #{individuPojo.individu.prenom}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{msgs['INDIVIDU.CURSUS.DERNIER']}"/>
-                            </f:facet>
-                            <h:outputText
-                                value="#{individuPojo.derniereAnneeEtudeCursus.cursus.annee}
-                                       #{individuPojo.derniereAnneeEtudeCursus.libCur}
-                                       (#{individuPojo.derniereAnneeEtudeCursus.libEtb})"
-                                rendered="#{individuPojo.derniereAnneeEtudeCursus != null}"/>
-                        </p:column>
-                        <p:column>
-                            <h:panelGroup
-                                rendered="#{individuPojo.derniereAnneeEtudeCursus != null}">
-                                <p:graphicImage url="/media/images/informationSmall.png"
-                                                style="cursor:pointer;" id="infoAnneeUni"/>
-                                <p:overlayPanel for="infoAnneeUni"
-                                                appendToBody="true"
-                                                showEvent="mouseover"
-                                                hideEvent="mouseout"
-                                                styleClass="containerPopup"
-                                                style="width:auto;">
-                                    <h:panelGroup>
-                                        <h:panelGrid columns="1">
-                                            <h:outputText styleClass="titrePopupAide"
-                                                          value="#{msgs['INDIVIDU.CURSUS_UNI']}"/>
-                                            <ui:repeat var="indCursusScolPojo"
-                                                       value="#{individuPojo.indCursusScolPojo}">
-                                                <div>
-                                                    <h:outputText value="#{indCursusScolPojo.cursus.annee}"
-                                                                  styleClass="span-text-small"/>
-                                                    <h:outputText value=" " styleClass="span-text-small"/>
-                                                    <h:outputText value="#{indCursusScolPojo.libCur}"
-                                                                  styleClass="span-text-small"/>
-                                                    <h:outputText value=" (" styleClass="span-text-small"/>
-                                                    <h:outputText value="#{indCursusScolPojo.etablissement.libEtb}"
-                                                                  styleClass="span-text-small"/>
-                                                    <h:outputText value=")" styleClass="span-text-small"/>
-                                                </div>
-                                            </ui:repeat>
-                                        </h:panelGrid>
-                                    </h:panelGroup>
-                                </p:overlayPanel>
-                            </h:panelGroup>
-                        </p:column>
-                        <p:column>
-                            <ui:repeat var="indVoeuxPojo"
-                                       value="#{individuPojo.indVoeuxPojoAsList}">
-                                <p:outputPanel rendered="#{!indVoeuxPojo.indVoeu.haveBeTraited
-                                                         || !paginatorIndividu.indRechPojo.excludeWishProcessed}"
-                                               style="display:block; margin:2px 0;padding:0;">
-                                    <h:outputText value="#{indVoeuxPojo.shortLibVet}"
-                                                  style="cursor:pointer;" id="shortLibVet"/>
-                                    <p:overlayPanel for="shortLibVet"
+                <p:panel id="dataPanel" layout="block" styleClass="dataPanel">
+                    <p:panel styleClass="dataSubPanel">
+                        <p:effect type="puff" event="load">
+                            <f:param name="mode" value="'show'"/>
+                            <f:param name="percent" value="100"/>
+                        </p:effect>
+                        <p:remoteCommand id="resetAllCodeTypeTrt" name="resetAllCodeTypeTrt"
+                                         async="true"
+                                         update="individuData:selectAllCodeTypeTrt">
+                            <f:setPropertyActionListener target="#{typeTraitController.codeTypeTrtselected}"
+                                                         value="" />
+                        </p:remoteCommand>
+                        <p:dataTable var="individuPojo" id="individuData"
+                                     value="#{typeTraitController.indPojoLDM}"
+                                     paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40"
+                                     paginatorTemplate="#{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
+                                     currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
+                                     emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}" styleClass="paginatorData"
+                                     lazy="true" sortBy="#{nomPatronymique}"
+                                     rendered="#{typeTraitController.renderTable}">
+                            <p:ajax event="page" partialSubmit="true" oncomplete="resetAllCodeTypeTrt()" />                            
+                            <p:column>
+                                <p:graphicImage url="/media/images/flag_green.png"
+                                                title="#{msgs['VOEU.FLAG_TRAITE']}"
+                                                rendered="#{individuPojo.hasAllVoeuxTraited}"/>
+                                <p:graphicImage url="/media/images/flag_red.png"
+                                                title="#{msgs['VOEU.FLAG_NON_TRAITE']}"
+                                                rendered="#{!individuPojo.hasAllVoeuxTraited}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}"/>
+                                </f:facet>
+                                <h:outputText value="#{individuPojo.individu.numDossierOpi}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['INDIVIDU.DATE_CREATION']}"/>
+                                </f:facet>
+                                <h:outputText value="#{individuPojo.dateCreationDossier}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"
+                                                       timeZone="#{sessionController.timezone}"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['INDIVIDU.NOM_PRENOM']}"/>
+                                </f:facet>
+                                <h:outputText
+                                    value="#{individuPojo.individu.nomPatronymique}
+                                           #{individuPojo.individu.prenom}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['INDIVIDU.CURSUS.DERNIER']}"/>
+                                </f:facet>
+                                <h:outputText
+                                    value="#{individuPojo.derniereAnneeEtudeCursus.cursus.annee}
+                                           #{individuPojo.derniereAnneeEtudeCursus.libCur}
+                                           (#{individuPojo.derniereAnneeEtudeCursus.libEtb})"
+                                    rendered="#{individuPojo.derniereAnneeEtudeCursus != null}"/>
+                            </p:column>
+                            <p:column>
+                                <h:panelGroup
+                                    rendered="#{individuPojo.derniereAnneeEtudeCursus != null}">
+                                    <p:graphicImage url="/media/images/informationSmall.png"
+                                                    style="cursor:pointer;" id="infoAnneeUni"/>
+                                    <p:overlayPanel for="infoAnneeUni"
                                                     appendToBody="true"
                                                     showEvent="mouseover"
                                                     hideEvent="mouseout"
@@ -202,38 +191,79 @@
                                         <h:panelGroup>
                                             <h:panelGrid columns="1">
                                                 <h:outputText styleClass="titrePopupAide"
-                                                              value="#{msgs['FIELD_LABEL.LIBELLE']} #{msgs['FIELD_LABEL.VRS_VET']}"/>
-                                                <h:outputText styleClass="libellesAide"
-                                                              value="#{indVoeuxPojo.vrsEtape.libWebVet}"/>
+                                                              value="#{msgs['INDIVIDU.CURSUS_UNI']}"/>
+                                                <ui:repeat var="indCursusScolPojo"
+                                                           value="#{individuPojo.indCursusScolPojo}">
+                                                    <div>
+                                                        <h:outputText value="#{indCursusScolPojo.cursus.annee}"
+                                                                      styleClass="span-text-small"/>
+                                                        <h:outputText value=" " styleClass="span-text-small"/>
+                                                        <h:outputText value="#{indCursusScolPojo.libCur}"
+                                                                      styleClass="span-text-small"/>
+                                                        <h:outputText value=" (" styleClass="span-text-small"/>
+                                                        <h:outputText value="#{indCursusScolPojo.etablissement.libEtb}"
+                                                                      styleClass="span-text-small"/>
+                                                        <h:outputText value=")" styleClass="span-text-small"/>
+                                                    </div>
+                                                </ui:repeat>
                                             </h:panelGrid>
                                         </h:panelGroup>
                                     </p:overlayPanel>
-                                </p:outputPanel>
-                            </ui:repeat>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <p:selectOneRadio value="#{typeTraitController.codeTypeTrtselected}">
-                                    <f:selectItems value="#{typeTraitController.typeTraitements}" var="typeTrt"
-                                                   itemValue="#{typeTrt.code}" itemLabel="#{typeTrt.code}"/>
-                                    <p:ajax listener="#{typeTraitController.selectAllTypeAction}" update="individuData"/>
-                                </p:selectOneRadio>
-                            </f:facet>
-                            <ui:repeat var="indVoeuxPojo" value="#{individuPojo.indVoeuxPojoAsList}"
-                                       varStatus="countIndVoeux">
-                                <p:outputPanel style="display:block;margin:0px;padding:0px;"
-                                               rendered="#{!indVoeuxPojo.indVoeu.haveBeTraited
-                                                         || !paginatorIndividu.indRechPojo.excludeWishProcessed}">
-                                    <p:selectOneRadio value="#{indVoeuxPojo.indVoeu.codTypeTrait}">
+                                </h:panelGroup>
+                            </p:column>
+                            <p:column>
+                                <ui:repeat var="indVoeuxPojo"
+                                           value="#{individuPojo.indVoeuxPojoAsList}">
+                                    <p:outputPanel rendered="#{!indVoeuxPojo.indVoeu.haveBeTraited
+                                                             || !paginatorIndividu.indRechPojo.excludeWishProcessed}"
+                                                   style="display:block; margin:2px 0;padding:0;">
+                                        <h:outputText value="#{indVoeuxPojo.shortLibVet}"
+                                                      style="cursor:pointer;" id="shortLibVet"/>
+                                        <p:overlayPanel for="shortLibVet"
+                                                        appendToBody="true"
+                                                        showEvent="mouseover"
+                                                        hideEvent="mouseout"
+                                                        styleClass="containerPopup"
+                                                        style="width:auto;">
+                                            <h:panelGroup>
+                                                <h:panelGrid columns="1">
+                                                    <h:outputText styleClass="titrePopupAide"
+                                                                  value="#{msgs['FIELD_LABEL.LIBELLE']} #{msgs['FIELD_LABEL.VRS_VET']}"/>
+                                                    <h:outputText styleClass="libellesAide"
+                                                                  value="#{indVoeuxPojo.vrsEtape.libWebVet}"/>
+                                                </h:panelGrid>
+                                            </h:panelGroup>
+                                        </p:overlayPanel>
+                                    </p:outputPanel>
+                                </ui:repeat>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <p:selectOneRadio id="selectAllCodeTypeTrt"
+                                                      value="#{typeTraitController.codeTypeTrtselected}">
                                         <f:selectItems value="#{typeTraitController.typeTraitements}" var="typeTrt"
-                                                       itemValue="#{typeTrt.code}" itemLabel=""/>
+                                                       itemValue="#{typeTrt.code}" itemLabel="#{typeTrt.code}"/>
+                                        <p:ajax listener="#{typeTraitController.selectAllTypeAction}"
+                                                process="@this"
+                                                update="@(.ui-datatable-data .ui-selectoneradio)"/>
                                     </p:selectOneRadio>
-                                </p:outputPanel>
-                            </ui:repeat>
-                        </p:column>
-                    </p:dataTable>
-                </div>
+                                </f:facet>
+                                <ui:repeat var="indVoeuxPojo" value="#{individuPojo.indVoeuxPojoAsList}"
+                                           varStatus="countIndVoeux">
+                                    <p:outputPanel style="display:block;margin:0px;padding:0px;"
+                                                   rendered="#{!indVoeuxPojo.indVoeu.haveBeTraited
+                                                             || !paginatorIndividu.indRechPojo.excludeWishProcessed}">
+                                        <p:selectOneRadio value="#{indVoeuxPojo.indVoeu.codTypeTrait}">
+                                            <f:selectItems value="#{typeTraitController.typeTraitements}" var="typeTrt"
+                                                           itemValue="#{typeTrt.code}" itemLabel=""/>
+                                        </p:selectOneRadio>
+                                    </p:outputPanel>
+                                </ui:repeat>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </p:panel>
             </h:form>
-        </div>
+        </p:panel>
     </ui:define>
 </ui:composition>

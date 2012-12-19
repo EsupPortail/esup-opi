@@ -67,6 +67,8 @@ public class Conversions {
                 return new IndividuPojo() {{
                     setIndividu(individu);
                     setEtat((EtatIndividu) instanceState(individu.getState(), i18nServ));
+                    setDateCreationDossier(individu.getDateCreaEnr());
+                    initIndCursusScolPojo(apoServ, i18nServ);
                     setIndVoeuxPojo(new HashSet<IndVoeuPojo>(
                             iterableStream(individu.getVoeux()).map(
                                     indVoeuToPojo(apoServ, paramServ, i18nServ)).toCollection()));

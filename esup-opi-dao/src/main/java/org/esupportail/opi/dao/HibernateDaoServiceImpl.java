@@ -10,6 +10,7 @@ import static fj.data.Option.some;
 import static fj.data.Option.somes;
 
 import java.lang.Class;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -676,7 +677,7 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
                             final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();
                             return query.where(
                                     path.getSet("voeux", IndVoeu.class).any()
-                                    .get("dateCreaEnr").eq(date));
+                                            .getDate("dateCreaEnr", Date.class).eq(date));
                         }
                     };
                 }

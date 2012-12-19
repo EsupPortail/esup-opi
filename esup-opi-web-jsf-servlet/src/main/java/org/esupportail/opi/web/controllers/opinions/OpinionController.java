@@ -242,7 +242,6 @@ public class OpinionController
      */
     public String goEnterAllStudentsOpinions() {
         reset();
-        individuController.getIndividuPaginator().setIndRechPojo(new IndRechPojo());
         return NavigationRulesConst.ENTER_ALL_STUDENTS_OPINIONS;
     }
 
@@ -253,7 +252,6 @@ public class OpinionController
      */
     public String goEnterStudentsOpinions() {
         reset();
-        individuController.getIndividuPaginator().setIndRechPojo(new IndRechPojo());
         return NavigationRulesConst.ENTER_STUDENTS_OPINIONS;
     }
 

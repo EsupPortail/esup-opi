@@ -118,7 +118,7 @@ public class PJController extends AbstractContextAwareController {
 
     private LazyDataModel<MissingPiecePojo> missingPiecePojoLDM;
 
-    private boolean renderTable;
+    private boolean renderTable = false;
 
 
 	/*
@@ -187,7 +187,6 @@ public class PJController extends AbstractContextAwareController {
     @SuppressWarnings({"serial", "synthetic-access"})
     public String goSeePM() {
         reset();
-        individuController.getIndividuPaginator().setIndRechPojo(new IndRechPojo());
         return NavigationRulesConst.DISPLAY_PIECE_MANQUANTE_STUDENTS;
     }
 

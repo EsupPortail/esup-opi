@@ -287,7 +287,7 @@ public class IndividuController extends AbstractAccessController {
             }
     );
 
-	 // ******************* INIT *************************
+    // ******************* INIT *************************
 
     /**
      * Constructors.
@@ -340,9 +340,7 @@ public class IndividuController extends AbstractAccessController {
                 "property individuPaginator of class " + this.getClass().getName() + CAN_NO_BE_NULL);
         Assert.notNull(this.formulairesController,
                 "property formulairesController of class " + this.getClass().getName() + CAN_NO_BE_NULL);
-
         reset();
-
     }
 
 
@@ -639,32 +637,12 @@ public class IndividuController extends AbstractAccessController {
         return NavigationRulesConst.GET_NUM_DOSSIER;
     }
 
-    // TODO : Remove this
-    /**
-     * CallBack to the candidat.
-     *
-     * @return String
-     */
-//    public String goSeeCandidats() {
-//        //init the filtre
-//        individuPaginator.filtreRechercheEtudiants();
-//        individuPaginator.forceReload();
-//        //comment the 01/04/2009
-//        //individuPaginator.reset();
-//        return NavigationRulesConst.DISPLAY_FOUND_STUDENT;
-//    }
-
-
     /**
      * Callback to see all sutdents.
      *
      * @return String
      */
     public String goSeeAllEtudiants() {
-        // TODO : à virer
-//        individuPaginator.allStudentsFilter();
-//        individuPaginator.forceReload();
-        individuPaginator.setIndRechPojo(new IndRechPojo());
         return NavigationRulesConst.DISPLAY_STUDENT;
     }
 
@@ -883,6 +861,19 @@ public class IndividuController extends AbstractAccessController {
         }
     }
 
+    public void initIndRechPojo() {
+        final IndRechPojo indRechPojo = new IndRechPojo();
+        final SessionController sessionController = getSessionController();
+        if (sessionController.getCurrentUser() != null
+                && sessionController.getCurrentUser() instanceof Gestionnaire) {
+            Gestionnaire gest = (Gestionnaire) sessionController.getCurrentUser();
+            int codeRI = gest.getProfile().getCodeRI();
+            RegimeInscription regimeIns = sessionController.getRegimeIns().get(codeRI);
+            indRechPojo.getListeRI().add(regimeIns);
+            indRechPojo.setCanModifyRISearch(regimeIns.canModifyRISearch());
+        }
+        individuPaginator.setIndRechPojo(indRechPojo);
+    }
 
     /**
      * Charge les attributes des individus Pojo.

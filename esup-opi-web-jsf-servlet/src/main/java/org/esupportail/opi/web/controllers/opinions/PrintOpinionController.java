@@ -274,7 +274,6 @@ public class PrintOpinionController extends AbstractContextAwareController {
      */
     public String goPrintOpinions() {
         reset();
-        individuController.getIndividuPaginator().setIndRechPojo(new IndRechPojo());
         return NavigationRulesConst.DISPLAY_PRINT_OPINIONS;
     }
 
@@ -285,7 +284,6 @@ public class PrintOpinionController extends AbstractContextAwareController {
      */
     public String goPrintTROpinions() {
         reset();
-        individuController.getIndividuPaginator().setIndRechPojo(new IndRechPojo());
         return NavigationRulesConst.DISPLAY_PRINT_TR_OPINIONS;
     }
     /*

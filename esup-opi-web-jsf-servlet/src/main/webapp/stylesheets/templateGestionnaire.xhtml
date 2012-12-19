@@ -2,23 +2,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<ui:composition
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:pe="http://primefaces.org/ui/extensions"
-        template="template_basic.xhtml">
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="template_basic.xhtml">
     <ui:define name="header">
         <ui:include src="_include/_header.xhtml"/>
     </ui:define>
     <ui:define name="navigation">
         <h:form id="navHeaderManager" styleClass="opiR1_form">
             <pe:ajaxErrorHandler/>
+            <!-- Initialisation du pojo de recherche d'individu -->
+            <f:event type="postAddToView" listener="#{individuController.initIndRechPojo}" />
             <ui:include src="/stylesheets/gestionnaire/_navigation/_navGestionnaire.xhtml"/>
         </h:form>
     </ui:define>
-    <!--     <ui:define name="footer"> -->
-    <!--         <h:form id="navFooterManager" styleClass="opiR1_form"> -->
-    <!--             <ui:include src="/stylesheets/gestionnaire/_navigation/_navGestionnaire.xhtml" /> -->
-    <!--         </h:form> -->
-    <!--     </ui:define> -->
 </ui:composition>

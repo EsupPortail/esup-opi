@@ -17,6 +17,7 @@ import org.esupportail.opi.web.controllers.user.IndividuController;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import java.util.HashSet;
 import java.util.List;
@@ -78,6 +79,8 @@ public class TypeTraitController extends AbstractContextAwareController {
      */
     private SmtpService smtpService;
 
+    private boolean renderTable = false;
+
     private LazyDataModel<IndividuPojo> indPojoLDM;
 
 
@@ -127,34 +130,12 @@ public class TypeTraitController extends AbstractContextAwareController {
      */
     public String goSeeAllTypeTraitments() {
         reset();
-        // TODO: à virer
-//        individuPaginator.setUseIndividuPojo(true);
-//        individuPaginator.filtreAllCommissionRights(
-//                getDomainApoService().getListCommissionsByRight(
-//                        getCurrentGest(), true), true, null);
-//        individuPaginator.forceReload();
-        individuController.getIndividuPaginator().setIndRechPojo(new IndRechPojo());
         return NavigationRulesConst.DISPLAY_TYPE_TRAITEMENT;
     }
 
 
 	/*
 	 ******************* METHODS ********************** */
-
-
-    /**
-     * Filter individu paginator
-     * form update type treatment in wish.
-     */
-    public void filterPaginator() {
-        // TODO : à virer
-        //init the filtre
-//        individuPaginator.setUseIndividuPojo(true);
-//        individuPaginator.filterInMannagedCmi(
-//                getDomainApoService().getListCommissionsByRight(
-//                        getCurrentGest(), true), null, true);
-//        individuPaginator.forceReload();
-    }
 
     /**
      * @param i
@@ -414,5 +395,18 @@ public class TypeTraitController extends AbstractContextAwareController {
 
     public LazyDataModel<IndividuPojo> getIndPojoLDM() {
         return indPojoLDM;
+    }
+
+    public boolean isRenderTable() {
+        return renderTable;
+    }
+
+    public void doNotRenderTable() {
+        if (!FacesContext.getCurrentInstance().isPostback())
+            this.renderTable = false;
+    }
+
+    public void doRenderTable() {
+        this.renderTable = true;
     }
 }

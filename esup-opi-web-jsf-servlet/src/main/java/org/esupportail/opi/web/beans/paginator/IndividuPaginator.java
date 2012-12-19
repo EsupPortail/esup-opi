@@ -86,18 +86,18 @@ public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu>
     /**
      *
      */
-    public void initListeRI() {
-        // on initialise indRechPojo selon le contexte du Gestionnaire connecté
-        indRechPojo.setListeRI(new HashSet<RegimeInscription>());
-        if (sessionController.getCurrentUser() != null
-                && sessionController.getCurrentUser() instanceof Gestionnaire) {
-            Gestionnaire gest = (Gestionnaire) sessionController.getCurrentUser();
-            int codeRI = gest.getProfile().getCodeRI();
-            RegimeInscription regimeIns = sessionController.getRegimeIns().get(codeRI);
-            this.indRechPojo.getListeRI().add(regimeIns);
-            this.indRechPojo.setCanModifyRISearch(regimeIns.canModifyRISearch());
-        }
-    }
+//    public void initListeRI() {
+//        // on initialise indRechPojo selon le contexte du Gestionnaire connecté
+//        indRechPojo.setListeRI(new HashSet<RegimeInscription>());
+//        if (sessionController.getCurrentUser() != null
+//                && sessionController.getCurrentUser() instanceof Gestionnaire) {
+//            Gestionnaire gest = (Gestionnaire) sessionController.getCurrentUser();
+//            int codeRI = gest.getProfile().getCodeRI();
+//            RegimeInscription regimeIns = sessionController.getRegimeIns().get(codeRI);
+//            this.indRechPojo.getListeRI().add(regimeIns);
+//            this.indRechPojo.setCanModifyRISearch(regimeIns.canModifyRISearch());
+//        }
+//    }
 
     /**
      * @see org.esupportail.commons.dao.AbstractHibernatePaginator#afterPropertiesSet()
@@ -419,9 +419,6 @@ public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu>
      * @return Set< RegimeInscription>
      */
     public List<Integer> getListeRI() {
-        if (indRechPojo.getListeRI() == null) {
-            initListeRI();
-        }
         List<Integer> l = new ArrayList<Integer>();
         for (RegimeInscription ri : indRechPojo.getListeRI()) {
             l.add(ri.getCode());
