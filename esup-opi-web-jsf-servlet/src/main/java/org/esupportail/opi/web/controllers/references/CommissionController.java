@@ -292,7 +292,7 @@ public class CommissionController
 			this.listeRI.add(regimeIns);
 			this.canModifyRISearch = regimeIns.canModifyRISearch();
 		}
-		
+		filteredListCmiPojo = null;
 	}
 
 	
