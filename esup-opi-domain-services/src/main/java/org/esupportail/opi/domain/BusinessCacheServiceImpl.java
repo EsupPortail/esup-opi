@@ -98,12 +98,12 @@ public class BusinessCacheServiceImpl
 				+ this.getClass().getName() + " can not be null");
 		Assert.notNull(this.cacheManager, "property cacheManager of class " 
 				+ this.getClass().getName() + " can not be null");
-		// initialisation du cache vet au démarrage de l'appli
+		// initialisation du cache vet au dÃÂ©marrage de l'appli
 		if (!cacheManager.cacheExists(VET_CACHE_NAME)) {
 			cacheManager.addCache(VET_CACHE_NAME);
 		}
 
-		// initialisation du cache etablissement au démarrage de l'appli
+		// initialisation du cache etablissement au dÃÂ©marrage de l'appli
 		if (!cacheManager.cacheExists(ETB_CACHE_NAME)) {
 			cacheManager.addCache(ETB_CACHE_NAME);
 		}
@@ -111,12 +111,12 @@ public class BusinessCacheServiceImpl
 		
 		initCacheEtablissement();
 		
-		// initialisation du cache etablissement au démarrage de l'appli
+		// initialisation du cache etablissement au dÃÂ©marrage de l'appli
 		if (!cacheManager.cacheExists(BAC_CACHE_NAME)) {
 			cacheManager.addCache(BAC_CACHE_NAME);
 		}
 		
-		// initialisation du cache etablissement au démarrage de l'appli
+		// initialisation du cache etablissement au dÃÂ©marrage de l'appli
 		if (!cacheManager.cacheExists(SIGN_CACHE_NAME)) {
 			cacheManager.addCache(SIGN_CACHE_NAME);
 		}
@@ -129,7 +129,7 @@ public class BusinessCacheServiceImpl
 
 	/**
 	 * Gestion du cache
-	 * - on garde en cache sous forme de map les méthodes appelant l'intégralité d'un référentiel
+	 * - on garde en cache sous forme de map les mÃÂ©thodes appelant l'intÃÂ©gralitÃÂ© d'un rÃÂ©fÃÂ©rentiel
 	 * - les appels par code vont lire les maps
 	 */	
 	
@@ -187,7 +187,7 @@ public class BusinessCacheServiceImpl
 		
 		cacheEtb.flush();
 		
-		//  mise en cache des éléments
+		//  mise en cache des ÃÂ©lÃÂ©ments
 		List<Etablissement> etabs = domainApoService.getEtablissements(null, null);
 		for (Etablissement etb : etabs) {
 			cacheEtb.put(new Element(etb.getCodEtb(), etb));
@@ -208,8 +208,8 @@ public class BusinessCacheServiceImpl
 		}
 		
 		if (codEtb != null) {
-			// dans le cas ou le cache ne contient pas l'établissement ou si le cache a été flushé
-			// on réinitialise le cache
+			// dans le cas ou le cache ne contient pas l'ÃÂ©tablissement ou si le cache a ÃÂ©tÃÂ© flushÃÂ©
+			// on rÃÂ©initialise le cache
 			if (cacheEtb.get(codEtb) == null) {
 				initCacheEtablissement();	
 			}
@@ -240,7 +240,7 @@ public class BusinessCacheServiceImpl
 		
 		cacheSign.flush();
 		
-		//  mise en cache des éléments
+		//  mise en cache des ÃÂ©lÃÂ©ments
 		List<SignataireDTO> signs = domainApoService.getSignataires();
 		for (SignataireDTO sign : signs) {
 			cacheSign.put(new Element(sign.getCodSig(), sign));
@@ -261,8 +261,8 @@ public class BusinessCacheServiceImpl
 			log.debug("entering getSignataire(" + codSig +" )");
 		}
 		
-		// dans le cas ou le cache ne contient pas l'étape ou si le cache a été flushé
-		// on réinitialise le cache
+		// dans le cas ou le cache ne contient pas l'ÃÂ©tape ou si le cache a ÃÂ©tÃÂ© flushÃÂ©
+		// on rÃÂ©initialise le cache
 		if (cacheSign.get(codSig) == null) {
 			initCacheSignataire();
 		}

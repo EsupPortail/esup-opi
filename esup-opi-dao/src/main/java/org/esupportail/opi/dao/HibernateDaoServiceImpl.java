@@ -4,24 +4,26 @@
  */
 package org.esupportail.opi.dao;
 
-import static fj.data.Option.iif;
+import static com.mysema.query.types.ConstantImpl.create;
+import static fj.data.List.list;
+import static fj.data.Option.some;
+import static fj.data.Option.somes;
 
+import java.lang.Class;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+import fj.*;
 import org.esupportail.commons.dao.AbstractJdbcJndiHibernateDaoService;
 import org.esupportail.commons.dao.HqlUtils;
 import org.esupportail.commons.services.application.UninitializedDatabaseException;
 import org.esupportail.commons.services.application.VersionningUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.opi.dao.utils.PaginatorFactory;
 import org.esupportail.opi.domain.beans.VersionManager;
-import org.esupportail.opi.domain.beans.formation.ClesAnnuForm;
-import org.esupportail.opi.domain.beans.formation.ClesDiplomeAnnuForm;
-import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
-import org.esupportail.opi.domain.beans.formation.DomaineAnnuForm;
-import org.esupportail.opi.domain.beans.formation.GrpTypDip;
-import org.esupportail.opi.domain.beans.formation.GrpTypDipCorresp;
 import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.PieceJustificative;
@@ -50,6 +52,7 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
 import org.esupportail.opi.utils.Constantes;
+import org.esupportail.opi.utils.primefaces.PFFilters;
 import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.LockMode;
@@ -62,7 +65,11 @@ import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.orm.hibernate3.HibernateSystemException;
 import org.springframework.util.StringUtils;
 
+import com.mysema.query.jpa.hibernate.HibernateQuery;
+import com.mysema.query.types.path.PathBuilder;
+
 import fj.data.Option;
+import fj.data.Stream;
 
 /**
  * The Hibernate implementation of the DAO service.
@@ -84,6 +91,8 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 	 */
 	private static final String IN_USE_ATTRIBUTE = "temoinEnService";
 
+	private PaginatorFactory pf;
+	
 	/**
 	 * A logger.
 	 */
@@ -95,7 +104,12 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 	public HibernateDaoServiceImpl() {
 		super();
 	}
-
+	
+	public void setPf(PaginatorFactory pf) {
+	    this.pf = pf;
+	}
+	
+	
 
 	//////////////////////////////////////////////////////////////
 	// OBJECT
@@ -124,7 +138,6 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 		if (!getHibernateTemplate().contains(o1)) {
 			getHibernateTemplate().lock(o1, LockMode.NONE);
 		} 
-
 	}
 
 
@@ -329,9 +342,6 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 	}
 
 
-	/** 
-	 * @see org.esupportail.opi.dao.DaoService#getIndividus(Commission, Boolean)
-	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Individu> getIndividus(final Commission commission, final Boolean validate,
@@ -549,8 +559,163 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 		}
 		return individus;	
 	}
+
+    // TODO : move all the below filters and the sliceOfInd method in an IndividuDAO
+    final F<Set<TraitementCmi>, F<HibernateQuery, HibernateQuery>> trtCmiFilter =
+            new F<Set<TraitementCmi>, F<HibernateQuery,HibernateQuery>>() {
+                public F<HibernateQuery, HibernateQuery> f(final Set<TraitementCmi> trtCmis) {
+                    return new F<HibernateQuery, HibernateQuery>() {
+                        public HibernateQuery f(final HibernateQuery query) {
+                            final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();
+                            final PathBuilder<TraitementCmi> subPath =
+                                    path.getSet("voeux", IndVoeu.class).any()
+                                            .get("linkTrtCmiCamp", LinkTrtCmiCamp.class)
+                                            .get("traitementCmi", TraitementCmi.class);
+                            return (trtCmis.size() > 0) ? query.where(subPath.in(trtCmis)) : query;
+                        }
+                    };
+                }
+            };
 	
-	/** 
+    final F<Set<TypeDecision>, F<HibernateQuery, HibernateQuery>> typeDecSeqFilter =
+            new F<Set<TypeDecision>, F<HibernateQuery, HibernateQuery>>() {
+                public F<HibernateQuery, HibernateQuery> f(final Set<TypeDecision> typeDecisions) {
+                    return new F<HibernateQuery, HibernateQuery>() {
+                        public HibernateQuery f(HibernateQuery query) {
+                            final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();
+                            PathBuilder<Avis> avisPath =
+                                    path.getSet("voeux", IndVoeu.class).any()
+                                            .getSet("avis", Avis.class).any();
+                            PathBuilder<TypeDecision> typeDecPath = avisPath.get("result", TypeDecision.class);
+                            HibernateQuery base = query.where(avisPath.get("temoinEnService").eq(true));
+                            return (typeDecisions.size() > 0) ? base.where(typeDecPath.in(typeDecisions)) : base;
+                        }
+                    };
+                }
+            };
+
+    final F<HibernateQuery, HibernateQuery> temoinFilter =
+            new F<HibernateQuery, HibernateQuery>() {
+                public HibernateQuery f(final HibernateQuery query) {
+                    final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();
+                    return query.where(path.get("temoinEnService").eq(true));
+                }
+            };
+	
+    final F<HibernateQuery, HibernateQuery> campagneFilter =
+            new F<HibernateQuery, HibernateQuery>() {
+                public HibernateQuery f(HibernateQuery query) {
+                    final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();
+                    return query.where(path.getSet("campagnes", Campagne.class).any()
+                            .get("temoinEnService").eq(true));
+                }
+            };
+            
+
+    final F<Set<Integer>, F<HibernateQuery, HibernateQuery>> regInscrFilter =
+            new F<Set<Integer>, F<HibernateQuery,HibernateQuery>>() {
+                public F<HibernateQuery, HibernateQuery> f(final Set<Integer> listCodesRI) {
+                    return new F<HibernateQuery, HibernateQuery>() {
+                        public HibernateQuery f(HibernateQuery query) {
+                            final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();	            
+                            return (listCodesRI.size() > 0) ? query.where(
+                                    path.getSet("campagnes", Campagne.class).any()
+                                            .get("codeRI").in(listCodesRI)) : query;
+                        }
+                    };
+                }
+            };
+            
+    final F<Boolean, F<HibernateQuery, HibernateQuery>> treatedWishFilter =
+            new F<Boolean, F<HibernateQuery,HibernateQuery>>() {
+                public F<HibernateQuery, HibernateQuery> f(final Boolean treated) {
+                    return new F<HibernateQuery, HibernateQuery>() {
+                        public HibernateQuery f(HibernateQuery query) {
+                            final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();
+                            return query.where(
+                                    path.getSet("voeux", IndVoeu.class).any()
+                                            .get("haveBeTraited").eq(treated));
+                        }
+                    };
+                }
+            };
+	
+    final F<String, F<HibernateQuery, HibernateQuery>> notCodeTypeTrtmtFilter =
+            new F<String, F<HibernateQuery,HibernateQuery>>() {
+                public F<HibernateQuery, HibernateQuery> f(final String code) {
+                    return new F<HibernateQuery, HibernateQuery>() {
+                        public HibernateQuery f(HibernateQuery query) {
+                            final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();
+                            return query.where(
+                                    path.getSet("voeux", IndVoeu.class).any()
+                                            .get("codTypeTrait").ne(code));
+                        }
+                    };
+                }
+            };
+
+    final F<Boolean, F<HibernateQuery, HibernateQuery>> validWishFilter =
+            new F<Boolean, F<HibernateQuery, HibernateQuery>>() {
+                public F<HibernateQuery, HibernateQuery> f(final Boolean valid) {
+                    return new F<HibernateQuery, HibernateQuery>() {
+                        public HibernateQuery f(HibernateQuery query) {
+                            final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();
+                            return query.where(
+                                    path.getSet("voeux", IndVoeu.class).any()
+                                            .getSet("avis", Avis.class).any()
+                                            .get("validation", Boolean.class).eq(valid));
+                        }
+                    };
+                }
+            };
+
+    final F<Date, F<HibernateQuery, HibernateQuery>> wishCreationFilter =
+            new F<Date, F<HibernateQuery, HibernateQuery>>() {
+                public F<HibernateQuery, HibernateQuery> f(final Date date) {
+                    return new F<HibernateQuery, HibernateQuery>() {
+                        public HibernateQuery f(HibernateQuery query) {
+                            final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();
+                            return query.where(
+                                    path.getSet("voeux", IndVoeu.class).any()
+                                            .getDate("dateCreaEnr", Date.class).eq(date));
+                        }
+                    };
+                }
+            };
+	
+    @SuppressWarnings("unchecked")
+    @Override
+    public P2<Long, Stream<Individu>> sliceOfInd(PFFilters pfFilters,
+                                                 Set<TypeDecision> typesDec,
+                                                 Option<Boolean> treatedWish,
+                                                 Option<Boolean> validWish,
+                                                 Option<Date> wishCreation,
+                                                 Option<String> codeTypeTrtmt,
+                                                 Set<TraitementCmi> trtCmis,
+                                                 Set<Integer> listCodesRI) {
+        final F<HibernateQuery, HibernateQuery> customFilter =
+                somes(list(
+                        some(temoinFilter),
+                        some(campagneFilter),
+                        some(regInscrFilter.f(listCodesRI)),
+                        some(typeDecSeqFilter.f(typesDec)),
+                        treatedWish.map(treatedWishFilter),
+                        validWish.map(validWishFilter),
+                        wishCreation.map(wishCreationFilter),
+                        codeTypeTrtmt.map(notCodeTypeTrtmtFilter),
+                        some(trtCmiFilter.f(trtCmis)))).foldLeft1(Function.<HibernateQuery, HibernateQuery, HibernateQuery>andThen());
+	    
+        return pf.indPaginator().lazySliceOf(
+                pfFilters.first,
+                pfFilters.pageSize,
+                pfFilters.sortField,
+                pfFilters.sortOrder,
+                pfFilters.filters,
+                some(customFilter));
+    }
+	
+	
+    /**
 	 * @see org.esupportail.opi.dao.DaoService#getVoeuxAcceptes()
 	 */
 	@SuppressWarnings("unchecked")
@@ -619,12 +784,7 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 		if (log.isDebugEnabled()) {
 			log.debug("entering getManagers()");
 		}
-
 		DetachedCriteria criteria = DetachedCriteria.forClass(Gestionnaire.class);
-//		criteria.add(Restrictions.le("dateDbtValidite", new Date()));
-//		criteria.add(Restrictions.or(
-//				Restrictions.ge("dateFinValidite", new Date()),
-//				Restrictions.isNull("dateFinValidite")));
 		criteria.add(Restrictions.eq("temoinEnService", true));
 
 		return getHibernateTemplate().findByCriteria(criteria);
@@ -1591,3 +1751,4 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 	
 	}
 }
+

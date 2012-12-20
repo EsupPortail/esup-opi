@@ -1,22 +1,22 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <h:form id="formDeleteCal">
-    	<div style="width:100%;">
-    		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    			styleClass="tableJustWidthMax">
-    			<h:outputFormat value="#{msgs['CALENDAR.CONFIRM.DELETE']}">
-    				<f:param value="#{calendarController.beanCalendar.calendar.libelle}"/>
-    			</h:outputFormat>
-    			<h:panelGroup>
-    				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    					action="#{calendarController.delete}" ajax="false" />
-    				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
-    					action="#{calendarController.reset}"
-    					immediate="true" ajax="false"  />
-    			</h:panelGroup>
-    		</h:panelGrid>
-    	</div>
+        <div style="width:100%;">
+            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                         styleClass="tableJustWidthMax">
+                <h:outputFormat value="#{msgs['CALENDAR.CONFIRM.DELETE']}">
+                    <f:param value="#{calendarController.beanCalendar.calendar.libelle}"/>
+                </h:outputFormat>
+                <h:panelGroup>
+                    <p:commandButton value="#{msgs['_.BUTTON.YES']}"
+                                     action="#{calendarController.delete}" ajax="false"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.NO']}"
+                                     action="#{calendarController.reset}"
+                                     immediate="true" ajax="false"/>
+                </h:panelGroup>
+            </h:panelGrid>
+        </div>
     </h:form>
 </ui:fragment>

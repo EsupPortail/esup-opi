@@ -1,293 +1,295 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
-    <ui:fragment rendered="#{cursusController.confirmeDelete}" styleClass="confirmeDelete">
-    	<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    		styleClass="tableJustWidthMax">
-    		<h:outputFormat value="#{msgs['INDIVIDU.CURSUS_SCOL.CONFIRM.DELETE']}">
-    			<f:param value="#{cursusController.pojoCursusScol.cursus.annee}"/>
-    			<f:param value="#{cursusController.pojoCursusScol.libEtb}"/>
-    			<f:param value="#{cursusController.pojoCursusScol.libCur}"/>
-    		</h:outputFormat>
-    		<h:panelGroup>
-    			<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    				action="#{cursusController.removeCursusScol}"
-    				ajax="false" />
-    			<p:commandButton value="#{msgs['_.BUTTON.NO']}"
-    				action="#{cursusController.initCursusScol}"
-    				immediate="true"
-    				ajax="false"/>
-    		</h:panelGroup>
-    	</h:panelGrid>
-    </ui:fragment>
-    
-    <div id="blockFormCursusUni" class="blockForm">
-        <ui:fragment rendered="#{!cursusController.confirmeDelete}">
-        	<div style="width:100%;">
-        		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-        			styleClass="tableJustWidthMax">
-        			<h:panelGroup>
-        				<h:outputText value="#{msgs['INDIVIDU.CURSUS_UNI']}"
-        					styleClass="section-smallTitle" style="margin-right:4px;"/>
-        				<h:outputText value="#{msgs['INDIVIDU.CURSUS_UNI.INFO']}"
-        					styleClass="span-text-small-italic" />
-                        <p:graphicImage url="/media/images/informationSmall.png"
-                            style="cursor:pointer;" id="helpCursusUni"  />
-                        <p:overlayPanel for="helpCursusUni"
-                            showEvent="mouseover"
-                            hideEvent="mouseout"
-                            styleClass="containerPopup">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
+<ui:fragment rendered="#{cursusController.confirmeDelete}" styleClass="confirmeDelete">
+    <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                 styleClass="tableJustWidthMax">
+        <h:outputFormat value="#{msgs['INDIVIDU.CURSUS_SCOL.CONFIRM.DELETE']}">
+            <f:param value="#{cursusController.pojoCursusScol.cursus.annee}"/>
+            <f:param value="#{cursusController.pojoCursusScol.libEtb}"/>
+            <f:param value="#{cursusController.pojoCursusScol.libCur}"/>
+        </h:outputFormat>
+        <h:panelGroup>
+            <p:commandButton value="#{msgs['_.BUTTON.YES']}"
+                             action="#{cursusController.removeCursusScol}"
+                             ajax="false"/>
+            <p:commandButton value="#{msgs['_.BUTTON.NO']}"
+                             action="#{cursusController.initCursusScol}"
+                             immediate="true"
+                             ajax="false"/>
+        </h:panelGroup>
+    </h:panelGrid>
+</ui:fragment>
+
+<div id="blockFormCursusUni" class="blockForm">
+<ui:fragment rendered="#{!cursusController.confirmeDelete}">
+    <div style="width:100%;">
+        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                     styleClass="tableJustWidthMax">
+            <h:panelGroup>
+                <h:outputText value="#{msgs['INDIVIDU.CURSUS_UNI']}"
+                              styleClass="section-smallTitle" style="margin-right:4px;"/>
+                <h:outputText value="#{msgs['INDIVIDU.CURSUS_UNI.INFO']}"
+                              styleClass="span-text-small-italic"/>
+                <p:graphicImage url="/media/images/informationSmall.png"
+                                style="cursor:pointer;" id="helpCursusUni"/>
+                <p:overlayPanel for="helpCursusUni"
+                                showEvent="mouseover"
+                                hideEvent="mouseout"
+                                styleClass="containerPopup">
+                    <h:panelGroup>
+                        <h:panelGrid columns="1">
+                            <h:outputText styleClass="titrePopupAide"
+                                          value="#{msgs['INDIVIDU.CURSUS_UNI']}"/>
+                            <h:outputText styleClass="libellesAide"
+                                          value="#{msgs['INDIVIDU.CURSUS_UNI.DESC']}"/>
+                            <h:outputText styleClass="libellesAide"
+                                          value="#{msgs['INDIVIDU.CURSUS_UNI.DESC2']}"/>
+                            <h:outputText styleClass="libellesAide"
+                                          value="#{msgs['INDIVIDU.CURSUS_UNI.DESC3']}"/>
+                        </h:panelGrid>
+                    </h:panelGroup>
+                </p:overlayPanel>
+            </h:panelGroup>
+
+            <h:panelGroup>
+                <p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+                                 action="#{cursusController.addCursusScol}"
+                                 rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"
+                                 update=":addCursusForm"
+                                 ajax="false"/>
+                <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                                 action="#{cursusController.initCursusScol}"
+                                 rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}">
+                </p:commandButton>
+
+                <p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
+                                 rendered="#{cursusController.actionEnum.whatAction == cursusController.actionEnum.updateAction}"
+                                 action="#{accueilController.verifyCursusScol}"
+                                 ajax="false"
+                                 immediate="true">
+                    <f:setPropertyActionListener value="goWelcomeCandidat"
+                                                 target="#{accueilController.methodIfVerified}"/>
+                    <f:setPropertyActionListener value="#{accueilController}" target="#{accueilController.object}"/>
+                </p:commandButton>
+            </h:panelGroup>
+        </h:panelGrid>
+    </div>
+</ui:fragment>
+<ui:fragment rendered="#{!cursusController.confirmeDelete}">
+    <div class="blockTable">
+        <h:panelGrid columns="2" width="100%"
+                     columnClasses="colUnQuart,colTroisQuart" id="infoscol">
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['ADRESS.PAY']}" for="paysBac"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <h:panelGroup>
+                <p:selectOneMenu id="paysBac"
+                                 onchange="javascript:{simulateLinkClick('addCursusForm:submitSelectPay');}"
+                                 valueChangeListener="#{cursusController.selectPay}"
+                                 value="#{cursusController.pojoCursusScol.codPay}">
+                    <f:selectItems var="pays" value="#{adressController.pays}"
+                                   itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}"/>
+                    <p:ajax update="infoscol"/>
+                </p:selectOneMenu>
+            </h:panelGroup>
+
+            <h:panelGroup
+                    rendered="#{cursusController.pojoCursusScol.codPay == adressController.codeFrance}">
+                <h:outputLabel value="#{msgs['FIELD_LABEL.DEPARTEMENT']}"
+                               for="depBac"/>
+            </h:panelGroup>
+            <h:panelGroup
+                    rendered="#{cursusController.pojoCursusScol.codPay == adressController.codeFrance}">
+                <p:selectOneMenu id="depBac"
+                                 valueChangeListener="#{cursusController.selectDep}"
+                                 value="#{cursusController.pojoCursusScol.codDep}">
+                    <f:selectItem itemLabel="" itemValue=""/>
+                    <f:selectItems var="dept" value="#{adressController.departements}"
+                                   itemLabel="#{dept.libDep}" itemValue="#{dept.codDep}"/>
+                    <p:ajax update="infoscol"/>
+                </p:selectOneMenu>
+            </h:panelGroup>
+
+            <h:panelGroup
+                    rendered="#{cursusController.pojoCursusScol.codPay == adressController.codeFrance}">
+                <h:outputLabel value="#{msgs['ADRESS.VIL']}" for="commune"/>
+            </h:panelGroup>
+            <h:panelGroup
+                    rendered="#{cursusController.pojoCursusScol.codPay == adressController.codeFrance}">
+                <p:selectOneMenu id="commune"
+                                 valueChangeListener="#{cursusController.selectCommune}"
+                                 value="#{cursusController.pojoCursusScol.codCom}">
+                    <f:selectItem itemLabel="" itemValue=""/>
+                    <f:selectItems var="commune" value="#{cursusController.communes}"
+                                   itemLabel="#{commune.libCom}" itemValue="#{commune.codCom}"/>
+                    <p:ajax update="infoscol"/>
+                </p:selectOneMenu>
+            </h:panelGroup>
+
+
+            <h:panelGroup>
+                <h:outputText value="#{msgs['FIELD_LABEL.ETABLISSEMENT']}"
+                              styleClass="form-field-label"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"
+                              rendered="#{cursusController.pojoCursusScol.codPay != adressController.codeFrance}"/>
+            </h:panelGroup>
+            <h:panelGroup>
+                <p:selectOneMenu id="codEtablissementUni"
+                                 rendered="#{cursusController.pojoCursusScol.codPay == adressController.codeFrance}"
+                                 value="#{cursusController.pojoCursusScol.cursus.codEtablissement}">
+                    <f:selectItem itemLabel="" itemValue=""/>
+                    <f:selectItems var="etb" value="#{cursusController.etablissements}"
+                                   itemLabel="#{etb.libOffEtb}" itemValue="#{etb.codEtb}"/>
+                </p:selectOneMenu>
+                <h:inputText value="#{cursusController.pojoCursusScol.cursus.libEtbEtr}"
+                             rendered="#{cursusController.pojoCursusScol.codPay != adressController.codeFrance}"/>
+            </h:panelGroup>
+
+            <h:panelGroup>
+                <h:outputText value="#{msgs['INDIVIDU.CURSUS.ANNEE_UNI']}"
+                              styleClass="form-field-label"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+                <p:graphicImage url="/media/images/informationSmall.png"
+                                style="cursor:pointer;" id="helpAnneeUni"/>
+                <p:overlayPanel for="helpAnneeUni"
+                                showEvent="mouseover"
+                                hideEvent="mouseout"
+                                styleClass="containerPopup">
+                    <h:panelGroup>
+                        <h:panelGrid columns="1">
+                            <h:outputText styleClass="titrePopupAide"
+                                          value="#{msgs['INDIVIDU.CURSUS.ANNEE_UNI']}"/>
                             <h:panelGroup>
-                            	<h:panelGrid columns="1">
-                            		<h:outputText styleClass="titrePopupAide"
-                            			value="#{msgs['INDIVIDU.CURSUS_UNI']}" />
-                            		<h:outputText styleClass="libellesAide"
-                            			value="#{msgs['INDIVIDU.CURSUS_UNI.DESC']}" />
-                            		<h:outputText styleClass="libellesAide"
-                            			value="#{msgs['INDIVIDU.CURSUS_UNI.DESC2']}" />
-                            		<h:outputText styleClass="libellesAide"
-                            			value="#{msgs['INDIVIDU.CURSUS_UNI.DESC3']}" />
-                            	</h:panelGrid>
+                                <h:outputText styleClass="libellesAide"
+                                              value="#{msgs['INDIVIDU.CURSUS.ANNEE_UNI.HELP']}"/>
                             </h:panelGroup>
-        				</p:overlayPanel>
-        			</h:panelGroup>
-        
-        			<h:panelGroup>
-        				<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-        					action="#{cursusController.addCursusScol}" 
-        					rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"
-    						update=":addCursusForm"
-    						ajax="false"/>
-        				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-        					action="#{cursusController.initCursusScol}"
-        					rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}">
-        				</p:commandButton>
-        
-        				<p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
-        					rendered="#{cursusController.actionEnum.whatAction == cursusController.actionEnum.updateAction}"
-        					action="#{accueilController.verifyCursusScol}"
-        					ajax="false"
-        					immediate="true">
-        					<f:setPropertyActionListener value="goWelcomeCandidat" target="#{accueilController.methodIfVerified}" />
-        					<f:setPropertyActionListener value="#{accueilController}" target="#{accueilController.object}" />
-        				</p:commandButton>
-        			</h:panelGroup>
-        		</h:panelGrid>
-        	</div>
-        </ui:fragment>
-        <ui:fragment rendered="#{!cursusController.confirmeDelete}">
-        	<div class="blockTable">
-        		<h:panelGrid columns="2" width="100%"
-        			columnClasses="colUnQuart,colTroisQuart" id="infoscol">
-        			<h:panelGroup>
-        				<h:outputLabel value="#{msgs['ADRESS.PAY']}" for="paysBac" />
-        				<h:outputText value="*" styleClass="etoileForChpObli" />
-        			</h:panelGroup>
-        			<h:panelGroup>
-        				<p:selectOneMenu id="paysBac"
-        					onchange="javascript:{simulateLinkClick('addCursusForm:submitSelectPay');}"
-        					valueChangeListener="#{cursusController.selectPay}"
-        					value="#{cursusController.pojoCursusScol.codPay}">
-        					<f:selectItems var="pays" value="#{adressController.pays}"
-        						itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}" />
-        					<p:ajax update="infoscol" />
-        				</p:selectOneMenu>
-        			</h:panelGroup>
-        
-        			<h:panelGroup
-        				rendered="#{cursusController.pojoCursusScol.codPay == adressController.codeFrance}">
-        				<h:outputLabel value="#{msgs['FIELD_LABEL.DEPARTEMENT']}"
-        					for="depBac" />
-        			</h:panelGroup>
-        			<h:panelGroup
-        				rendered="#{cursusController.pojoCursusScol.codPay == adressController.codeFrance}">
-        				<p:selectOneMenu id="depBac"
-        					valueChangeListener="#{cursusController.selectDep}"
-        					value="#{cursusController.pojoCursusScol.codDep}">
-        					<f:selectItem itemLabel="" itemValue="" />
-        					<f:selectItems var="dept" value="#{adressController.departements}"
-        						itemLabel="#{dept.libDep}" itemValue="#{dept.codDep}" />
-        					<p:ajax update="infoscol" />
-        				</p:selectOneMenu>
-        			</h:panelGroup>
-        
-        			<h:panelGroup
-        				rendered="#{cursusController.pojoCursusScol.codPay == adressController.codeFrance}">
-        				<h:outputLabel value="#{msgs['ADRESS.VIL']}" for="commune" />
-        			</h:panelGroup>
-        			<h:panelGroup
-        				rendered="#{cursusController.pojoCursusScol.codPay == adressController.codeFrance}">
-        				<p:selectOneMenu id="commune"
-        					valueChangeListener="#{cursusController.selectCommune}"
-        					value="#{cursusController.pojoCursusScol.codCom}">
-        					<f:selectItem itemLabel="" itemValue="" />
-        					<f:selectItems var="commune" value="#{cursusController.communes}"
-        						itemLabel="#{commune.libCom}" itemValue="#{commune.codCom}" />
-        					<p:ajax update="infoscol" />
-        				</p:selectOneMenu>
-        			</h:panelGroup>
-        
-        
-        			<h:panelGroup>
-        				<h:outputText value="#{msgs['FIELD_LABEL.ETABLISSEMENT']}"
-        					styleClass="form-field-label" />
-        				<h:outputText value="*" styleClass="etoileForChpObli"
-        					rendered="#{cursusController.pojoCursusScol.codPay != adressController.codeFrance}" />
-        			</h:panelGroup>
-        			<h:panelGroup>
-        				<p:selectOneMenu id="codEtablissementUni"
-        					rendered="#{cursusController.pojoCursusScol.codPay == adressController.codeFrance}"
-        					value="#{cursusController.pojoCursusScol.cursus.codEtablissement}">
-        					<f:selectItem itemLabel="" itemValue="" />
-        					<f:selectItems var="etb" value="#{cursusController.etablissements}"
-        						itemLabel="#{etb.libOffEtb}" itemValue="#{etb.codEtb}" />
-        				</p:selectOneMenu>
-        				<h:inputText value="#{cursusController.pojoCursusScol.cursus.libEtbEtr}"  rendered="#{cursusController.pojoCursusScol.codPay != adressController.codeFrance}"/>
-        			</h:panelGroup>
-        
-        			<h:panelGroup>
-        				<h:outputText value="#{msgs['INDIVIDU.CURSUS.ANNEE_UNI']}"
-        					styleClass="form-field-label" />
-        				<h:outputText value="*" styleClass="etoileForChpObli" />
-                        <p:graphicImage url="/media/images/informationSmall.png"
-                            style="cursor:pointer;" id="helpAnneeUni"  />
-                        <p:overlayPanel for="helpAnneeUni"
-                            showEvent="mouseover"
-                            hideEvent="mouseout"
-                            styleClass="containerPopup">
-        					<h:panelGroup>
-        						<h:panelGrid columns="1">
-        							<h:outputText styleClass="titrePopupAide"
-        									value="#{msgs['INDIVIDU.CURSUS.ANNEE_UNI']}" />
-        							<h:panelGroup>
-        								<h:outputText styleClass="libellesAide"
-        									value="#{msgs['INDIVIDU.CURSUS.ANNEE_UNI.HELP']}" />
-        							</h:panelGroup>
-                                </h:panelGrid>
+                        </h:panelGrid>
+                    </h:panelGroup>
+                </p:overlayPanel>
+            </h:panelGroup>
+            <h:inputText id="anneeCursusUni"
+                         value="#{cursusController.pojoCursusScol.cursus.annee}" size="6"
+                         maxlength="4"/>
+
+            <h:panelGroup>
+                <h:outputText value="#{msgs['FIELD_LABEL.DIPLOME_PREP']}"
+                              styleClass="form-field-label"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+                <p:graphicImage url="/media/images/informationSmall.png"
+                                style="cursor:pointer;" id="helpDipPrep"/>
+                <p:overlayPanel for="helpDipPrep"
+                                showEvent="mouseover"
+                                hideEvent="mouseout"
+                                styleClass="containerPopup">
+                    <h:panelGroup>
+                        <h:panelGrid columns="1">
+                            <h:outputText styleClass="titrePopupAide"
+                                          value="#{msgs['FIELD_LABEL.DIPLOME_PREP']}"/>
+                            <h:panelGroup>
+                                <h:outputText styleClass="libellesAide"
+                                              value="#{msgs['FIELD_LABEL.DIPLOME_PREP.INFOS']}"/>
                             </h:panelGroup>
-                        </p:overlayPanel>
-        			</h:panelGroup>
-        			<h:inputText id="anneeCursusUni"
-        				value="#{cursusController.pojoCursusScol.cursus.annee}" size="6"
-        				maxlength="4" />
-        
-        			<h:panelGroup>
-        				<h:outputText value="#{msgs['FIELD_LABEL.DIPLOME_PREP']}"
-        					styleClass="form-field-label"/>
-        				<h:outputText value="*" styleClass="etoileForChpObli" />
-                        <p:graphicImage url="/media/images/informationSmall.png"
-                            style="cursor:pointer;" id="helpDipPrep"  />
-                        <p:overlayPanel for="helpDipPrep"
-                            showEvent="mouseover"
-                            hideEvent="mouseout"
-                            styleClass="containerPopup">
-    						<h:panelGroup>
-    							<h:panelGrid columns="1">
-    								<h:outputText styleClass="titrePopupAide"
-    									value="#{msgs['FIELD_LABEL.DIPLOME_PREP']}" />
-    								<h:panelGroup>
-    									<h:outputText styleClass="libellesAide"
-    										value="#{msgs['FIELD_LABEL.DIPLOME_PREP.INFOS']}" />
-    								</h:panelGroup>
-    							</h:panelGrid>
-    						</h:panelGroup>
-        				</p:overlayPanel>
-        			</h:panelGroup>
-        			<p:selectOneMenu id="codDiplomeUni"
-        				value="#{cursusController.pojoCursusScol.cursus.codDac}">
-        				<f:selectItems var="dipAutCur"
-        					value="#{cursusController.dipAutCurs}"
-        					itemLabel="#{dipAutCur.libDac}" itemValue="#{dipAutCur.codDac}" />
-        			</p:selectOneMenu>
-        
-        			<h:panelGroup>
-        				<h:outputText value="#{msgs['FIELD_LABEL.DIPLOME.OBT']}"
-        					styleClass="form-field-label" />
-        				<h:outputText value="*" styleClass="etoileForChpObli" />
-        			</h:panelGroup>
-        			<p:selectOneMenu id="resultatUni"
-        				value="#{cursusController.pojoCursusScol.cursus.resultat}">
-        				<f:selectItem itemLabel="" itemValue="" />
-        				<f:selectItems value="#{cursusController.resultItems}" />
-        			</p:selectOneMenu>
-        			
-        			<h:outputLabel value="#{msgs['INDIVIDU.CURSUS.MENTION']}"
-        					for="mention" />
-        			<p:selectOneMenu id="mention"
-        				 value="#{cursusController.pojoCursusScol.cursus.libMention}">
-        				<f:selectItem itemLabel="" itemValue="" />
-        				<f:selectItems var="mention" 
-        					value="#{indBacController.mentionNivBacs}"
-        					itemLabel="#{mention.libMnb}" itemValue="#{mention.libMnb}"/>
-        			</p:selectOneMenu>
-        
-        		</h:panelGrid>
-        		<br />
-        		<hr/>
-        		<div>
-        			<h:outputText value="#{msgs['FIELD_LABEL.DIPLOME.EXACT']}"
-        				styleClass="form-field-label" style="margin-right:10px;"/>
-        			<h:inputText size="100" maxlength="200" value="#{cursusController.pojoCursusScol.cursus.libelle}"/>
-        		</div>
-        	</div>
-        </ui:fragment>
-    	<br />
-    	<br />
-        <ui:fragment rendered="#{sessionController.currentInd.isManager and sessionController.currentInd.asRightsToUpdate
+                        </h:panelGrid>
+                    </h:panelGroup>
+                </p:overlayPanel>
+            </h:panelGroup>
+            <p:selectOneMenu id="codDiplomeUni"
+                             value="#{cursusController.pojoCursusScol.cursus.codDac}">
+                <f:selectItems var="dipAutCur"
+                               value="#{cursusController.dipAutCurs}"
+                               itemLabel="#{dipAutCur.libDac}" itemValue="#{dipAutCur.codDac}"/>
+            </p:selectOneMenu>
+
+            <h:panelGroup>
+                <h:outputText value="#{msgs['FIELD_LABEL.DIPLOME.OBT']}"
+                              styleClass="form-field-label"/>
+                <h:outputText value="*" styleClass="etoileForChpObli"/>
+            </h:panelGroup>
+            <p:selectOneMenu id="resultatUni"
+                             value="#{cursusController.pojoCursusScol.cursus.resultat}">
+                <f:selectItem itemLabel="" itemValue=""/>
+                <f:selectItems value="#{cursusController.resultItems}"/>
+            </p:selectOneMenu>
+
+            <h:outputLabel value="#{msgs['INDIVIDU.CURSUS.MENTION']}"
+                           for="mention"/>
+            <p:selectOneMenu id="mention"
+                             value="#{cursusController.pojoCursusScol.cursus.libMention}">
+                <f:selectItem itemLabel="" itemValue=""/>
+                <f:selectItems var="mention"
+                               value="#{indBacController.mentionNivBacs}"
+                               itemLabel="#{mention.libMnb}" itemValue="#{mention.libMnb}"/>
+            </p:selectOneMenu>
+
+        </h:panelGrid>
+        <br/>
+        <hr/>
+        <div>
+            <h:outputText value="#{msgs['FIELD_LABEL.DIPLOME.EXACT']}"
+                          styleClass="form-field-label" style="margin-right:10px;"/>
+            <h:inputText size="100" maxlength="200" value="#{cursusController.pojoCursusScol.cursus.libelle}"/>
+        </div>
+    </div>
+</ui:fragment>
+<br/>
+<br/>
+<ui:fragment rendered="#{sessionController.currentInd.isManager and sessionController.currentInd.asRightsToUpdate
                 and !cursusController.confirmeDelete}">
-        	<div style="text-align:right;width:100%;">
-        		<p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
-        					action="#{cursusController.updateCursusApogee}"/>
-        	</div>
-        </ui:fragment>
-    	<p:dataTable var="cursusPojo" value="#{cursusController.cursusList}"
-    		styleClass="displayInfo"
-    		rendered="#{not empty cursusController.cursusList}">
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['INDIVIDU.CURSUS.ANNEE_UNI']}" />
-    			</f:facet>
-    			<h:outputText value="#{cursusPojo.cursus.annee}" />
-    		</p:column>
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['FIELD_LABEL.FORMATION']}" />
-    			</f:facet>
-    			<h:outputText value="#{cursusPojo.libCur}" />
-    		</p:column>
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['FIELD_LABEL.ETABLISSEMENT']}" />
-    			</f:facet>
-    			<h:outputText value="#{cursusPojo.libEtb}" />
-    		</p:column>
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['FIELD_LABEL.DIPLOME.OBT']}" />
-    			</f:facet>
-    			<h:outputText value="#{cursusPojo.resultatExt}" />
-    		</p:column>
-    		<p:column>
-    			<f:facet name="header">
-    				<h:outputText value="#{msgs['FIELD_LABEL.MENTION']}" />
-    			</f:facet>
-    			<h:outputText value="#{cursusPojo.cursus.libMention}"/>
-    		</p:column>
-    		<p:column styleClass="buttonTD"
-    			rendered="#{!cursusController.confirmeDelete}">
-    			<p:commandButton icon="ui-icon-minus"
-    				styleClass="form-button-image" immediate="true"
-    				title="#{msgs['_.BUTTON.DELETE']}"
-    				rendered="#{!cursusPojo.cursus.temoinFromApogee and
+    <div style="text-align:right;width:100%;">
+        <p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
+                         action="#{cursusController.updateCursusApogee}"/>
+    </div>
+</ui:fragment>
+<p:dataTable var="cursusPojo" value="#{cursusController.cursusList}"
+             styleClass="displayInfo"
+             rendered="#{not empty cursusController.cursusList}">
+    <p:column>
+        <f:facet name="header">
+            <h:outputText value="#{msgs['INDIVIDU.CURSUS.ANNEE_UNI']}"/>
+        </f:facet>
+        <h:outputText value="#{cursusPojo.cursus.annee}"/>
+    </p:column>
+    <p:column>
+        <f:facet name="header">
+            <h:outputText value="#{msgs['FIELD_LABEL.FORMATION']}"/>
+        </f:facet>
+        <h:outputText value="#{cursusPojo.libCur}"/>
+    </p:column>
+    <p:column>
+        <f:facet name="header">
+            <h:outputText value="#{msgs['FIELD_LABEL.ETABLISSEMENT']}"/>
+        </f:facet>
+        <h:outputText value="#{cursusPojo.libEtb}"/>
+    </p:column>
+    <p:column>
+        <f:facet name="header">
+            <h:outputText value="#{msgs['FIELD_LABEL.DIPLOME.OBT']}"/>
+        </f:facet>
+        <h:outputText value="#{cursusPojo.resultatExt}"/>
+    </p:column>
+    <p:column>
+        <f:facet name="header">
+            <h:outputText value="#{msgs['FIELD_LABEL.MENTION']}"/>
+        </f:facet>
+        <h:outputText value="#{cursusPojo.cursus.libMention}"/>
+    </p:column>
+    <p:column styleClass="buttonTD"
+              rendered="#{!cursusController.confirmeDelete}">
+        <p:commandButton icon="ui-icon-minus"
+                         styleClass="form-button-image" immediate="true"
+                         title="#{msgs['_.BUTTON.DELETE']}"
+                         rendered="#{!cursusPojo.cursus.temoinFromApogee and
     				(sessionController.currentInd == null 
     				  || sessionController.currentInd.asRightsToUpdate)}"
-    				update=":addCursusForm"
-    				ajax="false"
-    				action="#{cursusController.setConfirmeDelete}">
-    				<f:setPropertyActionListener value="#{cursusPojo}" target="#{cursusController.pojoCursusScol}" />
-    			</p:commandButton>
-    		</p:column>
-    	</p:dataTable>
-    </div>
+                         update=":addCursusForm"
+                         ajax="false"
+                         action="#{cursusController.setConfirmeDelete}">
+            <f:setPropertyActionListener value="#{cursusPojo}" target="#{cursusController.pojoCursusScol}"/>
+        </p:commandButton>
+    </p:column>
+</p:dataTable>
+</div>
 </ui:fragment>

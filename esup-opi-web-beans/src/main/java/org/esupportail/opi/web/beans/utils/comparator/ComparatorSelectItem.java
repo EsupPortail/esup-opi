@@ -3,10 +3,9 @@
  */
 package org.esupportail.opi.web.beans.utils.comparator;
 
+import javax.faces.model.SelectItem;
 import java.io.Serializable;
 import java.util.Comparator;
-
-import javax.faces.model.SelectItem;
 
 /**
  * @author cleprous

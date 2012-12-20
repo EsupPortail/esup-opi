@@ -1,56 +1,56 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <ui:fragment rendered="#{pjController.currentCmiPojo != null 
 						and pjController.currentCmiPojo.state.displayPJ}">
-        	<h:form id="listePieceManquante">
-        		<div class="blockButton" style="text-align:right;">
-        			<h:panelGroup>
-        				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-        					rendered="#{managedAccess.updateAuthorized
+        <h:form id="listePieceManquante">
+            <div class="blockButton" style="text-align:right;">
+                <h:panelGroup>
+                    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                     rendered="#{managedAccess.updateAuthorized
         								|| managedAccess.addAuthorized}"
-        					action="#{pjController.saveMissingPiecePrincipal}"  ajax="false" />
-        				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-        					action="#{pjController.searchStudents}" immediate="true"  ajax="false" />
-        			</h:panelGroup>
-        		</div>
-        		<p:dataTable var="missingPiece" id="pjData"
-        			value="#{pjController.mpPojoSelected.piecesForCmi[pjController.currentCmiPojo.commission]}"
-                    selection="#{pjController.missingPiece}" rowKey="#{missingPiece}"
-        			styleClass="paginatorData">
-        			<p:column>
-                        <p:graphicImage url="/media/images/informationSmall.png"
-                            style="cursor:pointer;" id="helpMotivation" />
-                        <p:overlayPanel for="helpMotivation"
-                            showEvent="mouseover"
-                            hideEvent="mouseout"
-                            styleClass="containerPopup">
-    						<h:panelGroup>
-    							<h:panelGrid columns="1">
-    								<h:outputText styleClass="titrePopupAide"
-    									value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-    								<h:outputText styleClass="libellesAide"
-    												value="#{missingPiece.piece.libelle}" />
-    							</h:panelGrid>
-    						</h:panelGroup>
-        				</p:overlayPanel>
-        			</p:column>
-        			<p:column>
-        				<f:facet name="header">
-        					<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
-        				</f:facet>
-        				<h:outputText value="#{missingPiece.piece.libelle}" />
-        			</p:column>
-        			<p:column>
-        				<f:facet name="header">
-        					<h:outputText value="#{msgs['FIELD_LABEL.COMMENTAIRE']}" />
-        				</f:facet>
-        				<p:inputText value="#{missingPiece.libelle}" size="40" maxlength="500"/>
-        			</p:column>
-        			<p:column selectionMode="multiple"/>
-        		</p:dataTable>
-        	</h:form>
+                                     action="#{pjController.saveMissingPiecePrincipal}" ajax="false"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                                     action="#{pjController.searchStudents}" immediate="true" ajax="false"/>
+                </h:panelGroup>
+            </div>
+            <p:dataTable var="missingPiece" id="pjData"
+                         value="#{pjController.mpPojoSelected.piecesForCmi[pjController.currentCmiPojo.commission]}"
+                         selection="#{pjController.missingPiece}" rowKey="#{missingPiece}"
+                         styleClass="paginatorData">
+                <p:column>
+                    <p:graphicImage url="/media/images/informationSmall.png"
+                                    style="cursor:pointer;" id="helpMotivation"/>
+                    <p:overlayPanel for="helpMotivation"
+                                    showEvent="mouseover"
+                                    hideEvent="mouseout"
+                                    styleClass="containerPopup">
+                        <h:panelGroup>
+                            <h:panelGrid columns="1">
+                                <h:outputText styleClass="titrePopupAide"
+                                              value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+                                <h:outputText styleClass="libellesAide"
+                                              value="#{missingPiece.piece.libelle}"/>
+                            </h:panelGrid>
+                        </h:panelGroup>
+                    </p:overlayPanel>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+                    </f:facet>
+                    <h:outputText value="#{missingPiece.piece.libelle}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msgs['FIELD_LABEL.COMMENTAIRE']}"/>
+                    </f:facet>
+                    <p:inputText value="#{missingPiece.libelle}" size="40" maxlength="500"/>
+                </p:column>
+                <p:column selectionMode="multiple"/>
+            </p:dataTable>
+        </h:form>
     </ui:fragment>
 </ui:fragment>
 

@@ -3,6 +3,12 @@
  */
 package org.esupportail.opi.web.beans;
 
+import org.esupportail.commons.exceptions.ConfigException;
+import org.esupportail.commons.services.logging.Logger;
+import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.opi.web.beans.utils.Utilitaires;
+import org.springframework.util.StringUtils;
+
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -10,12 +16,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.esupportail.commons.exceptions.ConfigException;
-import org.esupportail.commons.services.logging.Logger;
-import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
-import org.springframework.util.StringUtils;
 
 /**
  * @author cleprous
@@ -66,7 +66,6 @@ public class ControlField implements Serializable {
 
 	/**
 	 * @param o
-	 * @param useFcFields if true use fieldsForSfc
 	 * @return Boolean
 	 */
 	public Boolean control(final Object o) {

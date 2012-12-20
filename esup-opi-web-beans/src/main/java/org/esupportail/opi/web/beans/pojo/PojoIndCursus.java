@@ -8,9 +8,6 @@
  */
 package org.esupportail.opi.web.beans.pojo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.domain.beans.user.indcursus.CursusPro;
@@ -18,6 +15,9 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.QualifNonDiplomante;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 

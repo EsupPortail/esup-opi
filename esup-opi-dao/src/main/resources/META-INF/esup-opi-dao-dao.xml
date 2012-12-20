@@ -132,8 +132,7 @@
 	<bean 
 		id="jndiSessionFactory" 
 		parent="abstractJndiHibernateSessionFactory" 
-		lazy-init="true" abstract="true"
-		>
+		lazy-init="true" abstract="true">
 		<description>
 			The session factory based on JNDI.
 		</description>
@@ -174,7 +173,7 @@
 		class="org.springframework.orm.hibernate3.HibernateTemplate"
           lazy-init="true">
 		<description>
-			The Hibernate template based on JNDI, 
+			The Hibernate template based on JNDI,
 			used by the DAO service to access the database from web requests.
 		</description>
 		<property name="sessionFactory" ref="jndiSessionFactory" />
@@ -193,6 +192,7 @@
 		<property name="useJndi" value="${hibernate.useJndi}" />
 		<property name="jdbcHibernateTemplateBeanName" value="${hibernate.jdbcTemplateBeanName}" />
 		<property name="jndiHibernateTemplateBeanName" value="${hibernate.jndiTemplateBeanName}" />
+        <property name="pf" ref="paginatorFactory" />
 	</bean>
 	
     <bean id="paramDaoService" 
@@ -220,6 +220,11 @@
 		<property name="jdbcHibernateTemplateBeanName" value="${hibernate.jdbcTemplateBeanName}" />
 		<property name="jndiHibernateTemplateBeanName" value="${hibernate.jndiTemplateBeanName}" />
 	</bean>
+    
+    <bean id="paginatorFactory" class="org.esupportail.opi.dao.utils.PaginatorFactory"
+    factory-method="pagFact">
+        <constructor-arg ref="txManager" />
+    </bean>
 		
     <bean id="opiDaoService" 
           class="org.esupportail.opi.dao.HibernateOpiDaoServiceImpl" 
@@ -234,3 +239,5 @@
         <property name="jndiHibernateTemplateBeanName" value="${hibernate.jndiTemplateBeanName}" />
     </bean>
 </beans>
+
+

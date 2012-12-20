@@ -1,85 +1,90 @@
-<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
+<ui:fragment
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui">
     <h:form id="navHeaderSearchEtu" styleClass="opiR1_form">
-    	<ui:include src="/stylesheets/candidat/_navigation/_navGlobal.xhtml" />
+        <ui:include src="/stylesheets/candidat/_navigation/_navGlobal.xhtml"/>
     </h:form>
-    <div id="maPageSearchEtu" class="div_body">    
-    	<div class="messageForUser">
-    		<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    	</div>
-    	<br />
-    	<br />
-    	<div id="div_subSectionSearchEtu" class="div_subSection">
-    		<h:form id="searchEtuR1Form" styleClass="opiR1_form">
-    			<br />
-    			<div class="blockImportant">
-    				<h:panelGrid columns="2" columnClasses="image,text">
-    					<p:graphicImage url="/media/images/important.png" />
-    					<h:outputText
-    						value="#{msgs['INFO.CANDIDAT.FIND.ETU_R1.IN_ENT']}"
-    						escape="false" />
-    				</h:panelGrid>
-    			</div>
-    			<br />
-    			<div style="padding-left:25%;">
-    				<div class="blockTable" style="width:60%;">
-    					<div id="blockFormSearchEtuR1">
-    						<div>
-    							<h:outputText value="#{msgs['INDIVIDU.VERIF.COD_ETU']} :"
-    								styleClass="form-field-label" style="font-size:18px;" />
-    						</div>
-    
-    						<div class="containerPopup"
-    							style="width:60%;margin-left:20%;">
-    							<h:panelGrid columns="1">
-    								<h:panelGroup>
-    									<h:outputText styleClass="libellesAide"
-    										value="#{msgs['INFO.CANDIDAT.CREATE_NUM_DOS']}" />
-    								</h:panelGroup>
-    							</h:panelGrid>
-    
-    						</div>
-    						<br />
-    						<div style="text-align:center;">
-    							<h:panelGroup>
-    								<h:panelGroup>
-    									<h:outputLabel value="#{msgs['INDIVIDU.NUM_ETU']} :   " for="email" />
-    								</h:panelGroup>
-    								<h:inputText id="email" value="#{sessionController.codEtu}"
-    									size="10" maxlength="8" />
-    							</h:panelGroup>
-    						</div>
-    						<div style="text-align:center;">
-    							<h:outputText value="#{msgs['INFO.CANDIDAT.LOOK_FOR.INE']}"
-    								styleClass="span-text-small" />
-    						</div>
-    						<br />
-    						<br />
-    						<div style="text-align:center;">
-    							<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    								action="#{individuController.goFindEtuR1}" />
-    						</div>
-    					</div>
-    					<br />
-    				</div>
-    			</div>
-    			<br />
-    			<br />
-    		</h:form>
-    	</div>
+    <div id="maPageSearchEtu" class="div_body">
+        <div class="messageForUser">
+            <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+        </div>
+        <br/>
+        <br/>
+
+        <div id="div_subSectionSearchEtu" class="div_subSection">
+            <h:form id="searchEtuR1Form" styleClass="opiR1_form">
+                <br/>
+
+                <div class="blockImportant">
+                    <h:panelGrid columns="2" columnClasses="image,text">
+                        <p:graphicImage url="/media/images/important.png"/>
+                        <h:outputText
+                                value="#{msgs['INFO.CANDIDAT.FIND.ETU_R1.IN_ENT']}"
+                                escape="false"/>
+                    </h:panelGrid>
+                </div>
+                <br/>
+
+                <div style="padding-left:25%;">
+                    <div class="blockTable" style="width:60%;">
+                        <div id="blockFormSearchEtuR1">
+                            <div>
+                                <h:outputText value="#{msgs['INDIVIDU.VERIF.COD_ETU']} :"
+                                              styleClass="form-field-label" style="font-size:18px;"/>
+                            </div>
+
+                            <div class="containerPopup"
+                                 style="width:60%;margin-left:20%;">
+                                <h:panelGrid columns="1">
+                                    <h:panelGroup>
+                                        <h:outputText styleClass="libellesAide"
+                                                      value="#{msgs['INFO.CANDIDAT.CREATE_NUM_DOS']}"/>
+                                    </h:panelGroup>
+                                </h:panelGrid>
+
+                            </div>
+                            <br/>
+
+                            <div style="text-align:center;">
+                                <h:panelGroup>
+                                    <h:panelGroup>
+                                        <h:outputLabel value="#{msgs['INDIVIDU.NUM_ETU']} :   " for="email"/>
+                                    </h:panelGroup>
+                                    <h:inputText id="email" value="#{sessionController.codEtu}"
+                                                 size="10" maxlength="8"/>
+                                </h:panelGroup>
+                            </div>
+                            <div style="text-align:center;">
+                                <h:outputText value="#{msgs['INFO.CANDIDAT.LOOK_FOR.INE']}"
+                                              styleClass="span-text-small"/>
+                            </div>
+                            <br/>
+                            <br/>
+
+                            <div style="text-align:center;">
+                                <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                                 action="#{individuController.goFindEtuR1}"/>
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+            </h:form>
+        </div>
     </div>
     <div id="div_navFooterSearchEtu">
-    	<h:form id="navFooterSearchEtu" styleClass="opiR1_form">
-    		<ui:include src="/stylesheets/candidat/_navigation/_navGlobal.xhtml" />
-    	</h:form>
+        <h:form id="navFooterSearchEtu" styleClass="opiR1_form">
+            <ui:include src="/stylesheets/candidat/_navigation/_navGlobal.xhtml"/>
+        </h:form>
     </div>
     <script type="text/javascript">
-    	highlightChildrenLiTags('navHeaderSearchEtu:navigationLogin');
-    	highlightChildrenLiTags('navFooterSearchEtu:navigationLogin');
-    	highlightInputAndSelect('searchEtuR1Form');
-    	highlightInputAndSelect('navFooterSearchEtu');
-    	highlightInputAndSelect('navHeaderSearchEtu');
+        highlightChildrenLiTags('navHeaderSearchEtu:navigationLogin');
+        highlightChildrenLiTags('navFooterSearchEtu:navigationLogin');
+        highlightInputAndSelect('searchEtuR1Form');
+        highlightInputAndSelect('navFooterSearchEtu');
+        highlightInputAndSelect('navHeaderSearchEtu');
     </script>
 </ui:fragment>

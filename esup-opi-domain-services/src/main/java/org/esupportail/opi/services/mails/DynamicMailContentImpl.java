@@ -232,7 +232,7 @@ public class DynamicMailContentImpl extends SimpleMailContentImpl {
 		while (findGroup) {
 			String ex = m.group();
 			if (ex.contains(MailContentUtils.KEY_WORD_FOR_END)) {
-				//on récupère le contenu HTML
+				//on rÃÂ©cupÃÂ¨re le contenu HTML
 				exp.setContains(body.substring(startContains, m.start()));
 				//fin de la boucle
 				return exp;
@@ -351,7 +351,7 @@ public class DynamicMailContentImpl extends SimpleMailContentImpl {
 		}
 		if (champs.length == 1 && expression instanceof BoucleExpression) {
 			//l'objet est une collection
-			//pas de method a invoqué il faut parcourir la collection
+			//pas de method a invoquÃÂ© il faut parcourir la collection
 			return executeCollection(o, o.getClass(), (BoucleExpression) expression);
 			
 		}
@@ -517,7 +517,7 @@ public class DynamicMailContentImpl extends SimpleMailContentImpl {
 				Object o = expression.getParent().getObjet();
 				Collection<Object> c = MailContentUtils.useCollection(o, o.getClass());
 				//on prend par defaut le premiere element pour devrire l'expression.
-				//Il est mise à jour dans le managedCollection
+				//Il est mise ÃÂ  jour dans le managedCollection
 				if (c != null) {
 					return c.iterator().next();
 				} 
@@ -535,7 +535,7 @@ public class DynamicMailContentImpl extends SimpleMailContentImpl {
 				return null;
 			}
 			if (expression instanceof BoucleExpression) {
-				//TODO a tester car logiquement ob devrait être une collection
+				//TODO a tester car logiquement ob devrait ÃÂªtre une collection
 				//permet de selectionner le bonne objet en fonction de l'expression
 				if (nameClazz.equalsIgnoreCase(s)) {
 					return MailContentUtils.useCollection(o, o.getClass());

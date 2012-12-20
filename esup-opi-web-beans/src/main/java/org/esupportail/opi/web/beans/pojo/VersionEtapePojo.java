@@ -3,11 +3,11 @@
  */
 package org.esupportail.opi.web.beans.pojo;
 
-import java.io.Serializable;
-
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+
+import java.io.Serializable;
 
 /**
  * @author cleprous

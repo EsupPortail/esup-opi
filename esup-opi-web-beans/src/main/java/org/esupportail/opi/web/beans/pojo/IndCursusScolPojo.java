@@ -9,7 +9,6 @@
 package org.esupportail.opi.web.beans.pojo;
 
 import org.esupportail.commons.services.i18n.I18nService;
-import org.esupportail.opi.domain.BusinessCacheService;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.beans.user.indcursus.CursusExt;
 import org.esupportail.opi.domain.beans.user.indcursus.CursusR1;

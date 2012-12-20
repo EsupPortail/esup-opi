@@ -1,552 +1,552 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<!--
-		/properties/web/controllers.xml This file declares the visual beans
-		used by the web interface. It should not be modified but by the
-		developers. This file is referenced by
-		/properties/applicationContext.xml.
-	-->
-
-	<bean id="sessionController"
-		class="org.esupportail.opi.web.controllers.SessionController"
-		parent="abstractDomainAwareBean" scope="session">
-		<description>
-			A bean to store the context of the application.
-		</description>
-		<property name="exceptionController" ref="exceptionController">
-			<description>The exception controller.</description>
-		</property>
-		<property name="authenticator" ref="authenticator">
-			<description>The authentication service.</description>
-		</property>
-         <property name="casLogoutUrl" value="${cas.url}/logout?service=%s">
+    <!--
+        /properties/web/controllers.xml This file declares the visual beans
+        used by the web interface. It should not be modified but by the
+        developers. This file is referenced by
+        /properties/applicationContext.xml.
+    -->
+    <bean id="sessionController"
+          class="org.esupportail.opi.web.controllers.SessionController"
+          parent="abstractDomainAwareBean" scope="session">
+        <description>
+            A bean to store the context of the application.
+        </description>
+        <property name="exceptionController" ref="exceptionController">
+            <description>The exception controller.</description>
+        </property>
+        <property name="authenticator" ref="authenticator">
+            <description>The authentication service.</description>
+        </property>
+        <property name="casLogoutUrl" value="${cas.url}/logout?service=%s">
             <description>The CAS logout URL.</description>
         </property>
-        <property name="serverNameUrl" value="${serverName}" />
-		<property name="allViewPJ" value="${init.allViewPJ}" />
-	</bean>
+        <property name="serverNameUrl" value="${serverName}"/>
+        <property name="allViewPJ" value="${init.allViewPJ}"/>
+    </bean>
 
-	<bean id="abstractContextAwareController" abstract="true"
-		parent="abstractDomainAwareBean" scope="session">
-		<description>
-			An abstract bean to factorize the declaration of beans of
-			which class inherits from AbstractContextAwareController.
-		</description>
-		<property name="sessionController" ref="sessionController">
-			<description>The session controller.</description>
-		</property>
-	</bean>
+    <bean id="abstractContextAwareController" abstract="true"
+          parent="abstractDomainAwareBean" scope="session">
+        <description>
+            An abstract bean to factorize the declaration of beans of
+            which class inherits from AbstractContextAwareController.
+        </description>
+        <property name="sessionController" ref="sessionController">
+            <description>The session controller.</description>
+        </property>
+    </bean>
 
-	<bean id="abstractAccessController" abstract="true"
-		parent="abstractContextAwareController" scope="session">
-		<property name="managedAccess" ref="managedAccess" />
-		<property name="managedRoadMap" ref="managedRoadMap" />
-		<property name="managedCalendar" ref="managedCalendar" />
-	</bean>
+    <bean id="abstractAccessController" abstract="true"
+          parent="abstractContextAwareController" scope="session">
+        <property name="managedAccess" ref="managedAccess"/>
+        <property name="managedRoadMap" ref="managedRoadMap"/>
+        <property name="managedCalendar" ref="managedCalendar"/>
+    </bean>
 
 
-	<bean id="preferencesController"
-		class="org.esupportail.opi.web.controllers.PreferencesController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage user preferences.</description>
-	</bean>
+    <bean id="preferencesController"
+          class="org.esupportail.opi.web.controllers.PreferencesController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage user preferences.</description>
+    </bean>
 
-	<bean id="welcomeController"
-		class="org.esupportail.opi.web.controllers.WelcomeController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage the welcome page.</description>
-		<property name="smtpService" ref="smtpService"/>
-		<property name="lienCalendrierDeCandidature" value="${URL.CalendrierDeCandidature}"/>
-	</bean>
+    <bean id="welcomeController"
+          class="org.esupportail.opi.web.controllers.WelcomeController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage the welcome page.</description>
+        <property name="smtpService" ref="smtpService"/>
+        <property name="lienCalendrierDeCandidature" value="${URL.CalendrierDeCandidature}"/>
+    </bean>
 
-	<bean id="aboutController"
-		class="org.esupportail.opi.web.controllers.AboutController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage the about page.</description>
-	</bean>
+    <bean id="aboutController"
+          class="org.esupportail.opi.web.controllers.AboutController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage the about page.</description>
+    </bean>
 
-	<bean id="exceptionController"
-		class="org.esupportail.commons.web.controllers.ExceptionController"
-		scope="session">
-		<description>A bean to manage exception reports.</description>
-	</bean>
+    <bean id="exceptionController"
+          class="org.esupportail.commons.web.controllers.ExceptionController"
+          scope="session">
+        <description>A bean to manage exception reports.</description>
+    </bean>
 
-	<!-- ########  MANAGED USERS ######### -->
-	<bean id="gestionnaireController"
-		class="org.esupportail.opi.web.controllers.user.GestionnaireController"
-		parent="abstractAccessController" scope="session">
-		<description>A bean to manage the user profil.</description>
-		<property name="commissionController" ref="commissionController" />
-	</bean>
+    <!-- ########  MANAGED USERS ######### -->
+    <bean id="gestionnaireController"
+          class="org.esupportail.opi.web.controllers.user.GestionnaireController"
+          parent="abstractAccessController" scope="session">
+        <description>A bean to manage the user profil.</description>
+        <property name="commissionController" ref="commissionController"/>
+    </bean>
 
-	<bean id="ldapSearchController"
-		class="org.esupportail.opi.web.controllers.user.LdapSearchController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage LDAP searches.</description>
-		<property name="ldapUserService" ref="ldapUserService">
-			<description>The LDAP service.</description>
-		</property>
-		<property name="ldapAttributes" ref="ldapAttributes" />
-	</bean>
+    <bean id="ldapSearchController"
+          class="org.esupportail.opi.web.controllers.user.LdapSearchController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage LDAP searches.</description>
+        <property name="ldapUserService" ref="ldapUserService">
+            <description>The LDAP service.</description>
+        </property>
+        <property name="ldapAttributes" ref="ldapAttributes"/>
+    </bean>
 
-	<bean id="accueilController"
-		class="org.esupportail.opi.web.controllers.AccueilController"
-		parent="abstractAccessController" scope="session">
-		<description>A bean to manage the individu's home page.</description>
-		<property name="castorService" ref="castorService" />
-		<property name="individuController" ref="individuController" />
-		<property name="formulairesController" ref="formulairesController" />
-		<property name="formationController" ref="formationController" />
-		<property name="context" value="${init.context}" />
-	</bean>
+    <bean id="accueilController"
+          class="org.esupportail.opi.web.controllers.AccueilController"
+          parent="abstractAccessController" scope="session">
+        <description>A bean to manage the individu's home page.</description>
+        <property name="castorService" ref="castorService"/>
+        <property name="individuController" ref="individuController"/>
+        <property name="formulairesController" ref="formulairesController"/>
+        <property name="formationController" ref="formationController"/>
+        <property name="context" value="${init.context}"/>
+    </bean>
 
-	<bean id="individuController"
-		class="org.esupportail.opi.web.controllers.user.IndividuController"
-		parent="abstractAccessController" scope="session">
-		<description>A bean to manage the individu.</description>
-		<property name="adressController" ref="adressController" />
-		<property name="cursusController" ref="cursusController" />
-		<property name="indBacController" ref="indBacController" />
-		<property name="situationController" ref="situationController" />
-		<property name="individuPaginator" ref="paginatorIndividu" />
-		<property name="formulairesController" ref="formulairesController"/>
-		<property name="isRecupCursus" value="${init.recupCursus}"/>
-		<property name="isRecupBac" value="${init.recupBac}"/>
-		<property name="isRecupInfos" value="${init.recupInfos}"/>
-		<property name="ldapUserService" ref="ldapUserService">
-			<description>The LDAP service.</description>
-		</property>
-	</bean>
+    <bean id="individuController"
+          class="org.esupportail.opi.web.controllers.user.IndividuController"
+          parent="abstractAccessController" scope="session">
+        <description>A bean to manage the individu.</description>
+        <property name="adressController" ref="adressController"/>
+        <property name="cursusController" ref="cursusController"/>
+        <property name="indBacController" ref="indBacController"/>
+        <property name="situationController" ref="situationController"/>
+        <property name="individuPaginator" ref="paginatorIndividu"/>
+        <property name="formulairesController" ref="formulairesController"/>
+        <property name="isRecupCursus" value="${init.recupCursus}"/>
+        <property name="isRecupBac" value="${init.recupBac}"/>
+        <property name="isRecupInfos" value="${init.recupInfos}"/>
+        <property name="transfert" ref="transfert"/>
+    </bean>
 
-	<bean id="adressController"
-		class="org.esupportail.opi.web.controllers.user.AdressController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage the individu's adresses.</description>
-	</bean>
+    <bean id="adressController"
+          class="org.esupportail.opi.web.controllers.user.AdressController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage the individu's adresses.</description>
+    </bean>
 
-	<bean id="cursusController"
-		class="org.esupportail.opi.web.controllers.user.CursusController"
-		parent="abstractAccessController" scope="session">
-		<description>A bean to manage the individu's cursus.</description>
-	</bean>
+    <bean id="cursusController"
+          class="org.esupportail.opi.web.controllers.user.CursusController"
+          parent="abstractAccessController" scope="session">
+        <description>A bean to manage the individu's cursus.</description>
+    </bean>
 
-	<bean id="situationController"
-		class="org.esupportail.opi.web.controllers.user.SituationController"
-		parent="abstractAccessController" scope="session">
-		<description>A bean to manage the individu's situation.</description>
-		<property name="adressController" ref="adressController" />
-	</bean>
+    <bean id="situationController"
+          class="org.esupportail.opi.web.controllers.user.SituationController"
+          parent="abstractAccessController" scope="session">
+        <description>A bean to manage the individu's situation.</description>
+        <property name="adressController" ref="adressController"/>
+    </bean>
 
-	<bean id="indBacController"
-		class="org.esupportail.opi.web.controllers.user.IndBacController"
-		parent="abstractAccessController" scope="session">
-		<description>A bean to manage the individu's bac.</description>
-	</bean>
+    <bean id="indBacController"
+          class="org.esupportail.opi.web.controllers.user.IndBacController"
+          parent="abstractAccessController" scope="session">
+        <description>A bean to manage the individu's bac.</description>
+    </bean>
 
-	<!-- ####  FORMULAIRE ##### -->
-	<bean id="formulairesController" 
-		class="org.esupportail.opi.web.controllers.formation.FormulairesController"
-		parent="abstractAccessController" scope="session">
-		<description>A bean to manage the individu's home page.</description>
-		<property name="orbeonService" ref="orbeonService"/>
-		<property name="trtCmiController" ref="trtCmiController" />
-		<property name="cheminFichier" value="${uploadedFiles.path}" />
-	</bean>
+    <!-- ####  FORMULAIRE ##### -->
+    <bean id="formulairesController"
+          class="org.esupportail.opi.web.controllers.formation.FormulairesController"
+          parent="abstractAccessController" scope="session">
+        <description>A bean to manage the individu's home page.</description>
+        <property name="orbeonService" ref="orbeonService"/>
+        <property name="trtCmiController" ref="trtCmiController"/>
+        <property name="cheminFichier" value="${uploadedFiles.path}"/>
+    </bean>
 
-	<!-- ####  FORMATION ##### -->
-	<bean id="formationController"
-		class="org.esupportail.opi.web.controllers.formation.FormationController"
-		parent="abstractAccessController" scope="session">
-		<description>A bean to manage the formation presentation.
-		</description>
-		<property name="smtpService" ref="smtpService"/>
-	</bean>
-	
-	<bean id="paramGrpTypDipController"
-		class="org.esupportail.opi.web.controllers.formation.ParamGrpTypDipController"
-		parent="abstractAccessController"
-		scope="session">
-		<description>A bean to manage the formation presentation.</description>
+    <!-- ####  FORMATION ##### -->
+    <bean id="formationController"
+          class="org.esupportail.opi.web.controllers.formation.FormationController"
+          parent="abstractAccessController" scope="session">
+        <description>A bean to manage the formation presentation.
+        </description>
+        <property name="smtpService" ref="smtpService"/>
+    </bean>
+
+    <bean id="paramGrpTypDipController"
+          class="org.esupportail.opi.web.controllers.formation.ParamGrpTypDipController"
+          parent="abstractAccessController"
+          scope="session">
+        <description>A bean to manage the formation presentation.</description>
         <property name="IApogee" ref="bddApogee"/>
-	</bean>
-	
-	<bean id="paramClefFormationController"
-		class="org.esupportail.opi.web.controllers.formation.ParamClefFormationController"
-		parent="abstractAccessController"
-		scope="session">
-		<description>A bean to manage the formation presentation.</description>
-		<property name="preferencesController" ref="preferencesController"/>
+    </bean>
+
+    <bean id="paramClefFormationController"
+          class="org.esupportail.opi.web.controllers.formation.ParamClefFormationController"
+          parent="abstractAccessController"
+          scope="session">
+        <description>A bean to manage the formation presentation.</description>
+        <property name="preferencesController" ref="preferencesController"/>
         <property name="IApogee" ref="bddApogee"/>
-	</bean>
-	
-	<bean id="paramDomainFormationController"
-		class="org.esupportail.opi.web.controllers.formation.ParamDomainFormationController"
-		parent="abstractAccessController"
-		scope="session">
-		<description>A bean to manage the formation presentation.</description>
-		<property name="preferencesController" ref="preferencesController"/>
+    </bean>
+
+    <bean id="paramDomainFormationController"
+          class="org.esupportail.opi.web.controllers.formation.ParamDomainFormationController"
+          parent="abstractAccessController"
+          scope="session">
+        <description>A bean to manage the formation presentation.</description>
+        <property name="preferencesController" ref="preferencesController"/>
         <property name="IApogee" ref="bddApogee"/>
-	</bean>
-	
-	<bean id="saisieRdvEtuController"
-		class="org.esupportail.opi.web.controllers.formation.SaisieRdvEtuController"
-		parent="abstractAccessController"
-		scope="session">
-		<description>A bean to manage the formation presentation.</description>
-		<property name="smtpService" ref="smtpService"/>
-	</bean>
+    </bean>
 
-	<bean id="confirmationController"
-		class="org.esupportail.opi.web.controllers.formation.ConfirmationController"
-		parent="abstractAccessController"
-		scope="session">
-		<description>A bean to manage the confirmation des voeux favorables</description>
-		<property name="saisieRdvEtuController" ref="saisieRdvEtuController"/>
-		<property name="validOpinionController" ref="validOpinionController"/>
-		<property name="inscriptionAdm" ref="inscriptionAdm"/>
-		<property name="opiWebService" ref="${init.opiWebService.bean}"/>
-		<property name="addressIAPrimo" value="${confirmation.IAWeb.addressIAPrimo}"/>
-		<property name="addressIAReins" value="${confirmation.IAWeb.addressIAReins}"/>
-		<property name="smtpService" ref="smtpService"/>
-	</bean>
+    <bean id="saisieRdvEtuController"
+          class="org.esupportail.opi.web.controllers.formation.SaisieRdvEtuController"
+          parent="abstractAccessController"
+          scope="session">
+        <description>A bean to manage the formation presentation.</description>
+        <property name="smtpService" ref="smtpService"/>
+    </bean>
 
-	<!-- ########  PARAMETERS ######### -->
+    <bean id="confirmationController"
+          class="org.esupportail.opi.web.controllers.formation.ConfirmationController"
+          parent="abstractAccessController"
+          scope="session">
+        <description>A bean to manage the confirmation des voeux favorables</description>
+        <property name="saisieRdvEtuController" ref="saisieRdvEtuController"/>
+        <property name="validOpinionController" ref="validOpinionController"/>
+        <property name="inscriptionAdm" ref="inscriptionAdm"/>
+        <property name="opiWebService" ref="${init.opiWebService.bean}"/>
+        <property name="addressIAPrimo" value="${confirmation.IAWeb.addressIAPrimo}"/>
+        <property name="addressIAReins" value="${confirmation.IAWeb.addressIAReins}"/>
+        <property name="smtpService" ref="smtpService"/>
+    </bean>
 
-	<bean id="profilController"
-		class="org.esupportail.opi.web.controllers.parameters.ProfilController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage the user profil.</description>
-		<property name="accessRController" ref="accessRController" />
-	</bean>
+    <!-- ########  PARAMETERS ######### -->
 
-	<bean id="fonctionController"
-		class="org.esupportail.opi.web.controllers.parameters.FonctionController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage the fonction.</description>
-	</bean>
+    <bean id="profilController"
+          class="org.esupportail.opi.web.controllers.parameters.ProfilController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage the user profil.</description>
+        <property name="accessRController" ref="accessRController"/>
+    </bean>
 
-	<bean id="domainController"
-		class="org.esupportail.opi.web.controllers.parameters.DomainController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage the domain.</description>
-	</bean>
+    <bean id="fonctionController"
+          class="org.esupportail.opi.web.controllers.parameters.FonctionController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage the fonction.</description>
+    </bean>
 
-	<bean id="accessRController"
-		class="org.esupportail.opi.web.controllers.parameters.AccessRightController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage the access right.</description>
-		<property name="accessTypes">
-			<map>
-				<entry>
-					<key>
-						<value>READ</value>
-					</key>
-					<ref bean="accessRead" />
-				</entry>
-				<entry>
-					<key>
-						<value>ADD</value>
-					</key>
-					<ref bean="accessAdd" />
-				</entry>
-				<entry>
-					<key>
-						<value>UPDATE</value>
-					</key>
-					<ref bean="accessUpdate" />
-				</entry>
-				<entry>
-					<key>
-						<value>DELETE</value>
-					</key>
-					<ref bean="accessDelete" />
-				</entry>
-			</map>
-		</property>
-	</bean>
+    <bean id="domainController"
+          class="org.esupportail.opi.web.controllers.parameters.DomainController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage the domain.</description>
+    </bean>
 
-	<bean id="nomenclatureController"
-		class="org.esupportail.opi.web.controllers.parameters.NomenclatureController"
-		parent="abstractContextAwareController" scope="session"
-		init-method="initTypesDec">
-		<description>A bean to manage the nomenclature.</description>
-		<property name="etapeController" ref="etapeController" />
-		<property name="inscriptionAdm" ref="inscriptionAdm"/>
-		<property name="uploadPath" value="${uploadedFiles.path}" />
-		<property name="useUpload" value="${uploadedFiles.use}"/>
-	</bean>
-	
-	<bean id="mailContentController"
-		class="org.esupportail.opi.web.controllers.parameters.MailContentController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage the mail content.</description>
-	</bean>
-	
-	<bean id="paramRdvController"
-		class="org.esupportail.opi.web.controllers.parameters.ParamRdvController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage the paramRdv.</description>
-	</bean>
-	
-	<bean id="paramRdvSupController"
-		class="org.esupportail.opi.web.controllers.parameters.ParamRdvSupController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage the paramRdv.</description>
-		<property name="paramRdvController" ref="paramRdvController" />
-	</bean>
-	
-	<bean id="autoLpController"
-		class="org.esupportail.opi.web.controllers.parameters.AutoLpController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage the paramRdv.</description>
-		<property name="inscriptionAdm" ref="inscriptionAdm" />
-		<property name="listeComplementaire" ref="listeComplementaire" />
-	</bean>
-	
-	<!-- ########  REFERENCES ######### -->
-	<bean id="commissionController"
-		class="org.esupportail.opi.web.controllers.references.CommissionController"
-		parent="abstractContextAwareController" scope="session"
-		init-method="initCommissions">
-		<description>A bean to manage the commissions.</description>
-		<property name="trtCmiController" ref="trtCmiController" />
-		<property name="adressController" ref="adressController"/>
-		<property name="castorService" ref="castorService"/>
-		<property name="convocMember" ref="convocMember" />
-		<property name="transfert" ref="transfert"/>
-		<property name="managerUsed" value="${init.cmi.manager}" />
-		<property name="listCmiByRight" value="${init.listcmi.byright}" />
-	</bean>
-	
-	<bean id="nbVoeuByCGEController"
-		class="org.esupportail.opi.web.controllers.references.NbVoeuByCGEController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage the nbVoeuByCGE.</description>
-	</bean>
-	
-	<bean id="consultRdvController"
-		class="org.esupportail.opi.web.controllers.references.ConsultRdvController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage the consultRdv.</description>
-		<property name="individuPaginator" ref="paginatorIndividuPojo" />
-	</bean>
+    <bean id="accessRController"
+          class="org.esupportail.opi.web.controllers.parameters.AccessRightController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage the access right.</description>
+        <property name="accessTypes">
+            <map>
+                <entry>
+                    <key>
+                        <value>READ</value>
+                    </key>
+                    <ref bean="accessRead"/>
+                </entry>
+                <entry>
+                    <key>
+                        <value>ADD</value>
+                    </key>
+                    <ref bean="accessAdd"/>
+                </entry>
+                <entry>
+                    <key>
+                        <value>UPDATE</value>
+                    </key>
+                    <ref bean="accessUpdate"/>
+                </entry>
+                <entry>
+                    <key>
+                        <value>DELETE</value>
+                    </key>
+                    <ref bean="accessDelete"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
 
-	<bean id="etapeController"
-		class="org.esupportail.opi.web.controllers.references.EtapeController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage the etape.</description>
-		<property name="paginator" ref="paginatorVET" />
-	</bean>
-	
-	<bean id="selectionController"
-		class="org.esupportail.opi.web.controllers.references.SelectionController"
-		parent="abstractAccessController" scope="session">
-		<description>A bean to manage the selection test.</description>
-		<property name="trtCmiController" ref="trtCmiController"/>
-	</bean>
-	
-	<bean id="trtCmiController"
-		class="org.esupportail.opi.web.controllers.references.TrtCmiController"
-		parent="abstractAccessController" scope="session">
-		<description>A bean to manage the selection test.</description>
-		<property name="etapeController" ref="etapeController"/>
-	</bean>
-	
+    <bean id="nomenclatureController"
+          class="org.esupportail.opi.web.controllers.parameters.NomenclatureController"
+          parent="abstractContextAwareController" scope="session"
+          init-method="initTypesDec">
+        <description>A bean to manage the nomenclature.</description>
+        <property name="etapeController" ref="etapeController"/>
+        <property name="inscriptionAdm" ref="inscriptionAdm"/>
+        <property name="uploadPath" value="${uploadedFiles.path}"/>
+        <property name="useUpload" value="${uploadedFiles.use}"/>
+    </bean>
 
-	<bean id="calendarController"
-		class="org.esupportail.opi.web.controllers.references.CalendarController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage the calendars.</description>
-		<property name="commissionController" ref="commissionController" />
-		<property name="calendarType">
-			<map>
-				<entry>
-					<key><value>CAL_INS</value></key>
-					 <value>Dépôt voeux</value>
-				</entry>
-				<entry>
-					<key>
-						<value>CAL_CMI</value>
-					</key>
-					<value>Commissions</value>
-				</entry>
-				<!--<entry>
-					<key>
-						<value>CAL_TYP_TRT</value>
-					</key>
-					<value>Type de traitements</value>
-				</entry>
-				<entry>
-					<key>
-						<value>CAL_SEV_FOR</value>
-					</key>
-					<value>Services de formations</value>
-				</entry>
-				<entry>
-					<key><value>CAL_RES</value></key>
-					<value>des résultats</value>
-				</entry>
-			--></map>
-		</property>
-	</bean>
-	
+    <bean id="mailContentController"
+          class="org.esupportail.opi.web.controllers.parameters.MailContentController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage the mail content.</description>
+    </bean>
 
-	<!-- ########  OPINION AND TRAITMENTS ######### -->
+    <bean id="paramRdvController"
+          class="org.esupportail.opi.web.controllers.parameters.ParamRdvController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage the paramRdv.</description>
+    </bean>
 
-	<bean id="typeTraitController"
-		class="org.esupportail.opi.web.controllers.opinions.TypeTraitController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage opinions and traitments.</description>
-		<property name="individuPaginator" ref="paginatorIndividuPojo" />
-		<property name="typeTraitementTR" ref="transfert"/>
-		<property name="typeTraitementVA" ref="validationAcquis"/>
-		<property name="typeTraitementET" ref="enAttente"/>
-		<property name="inscriptionAdm" ref="inscriptionAdm"/>
-		<property name="smtpService" ref="smtpService" />
-		<property name="typeTraitements">
-			<list>
-				<ref bean="validationAcquis"/>
-				<ref bean="transfert"/>
-				<ref bean="enAttente"/>
-			</list>
-		</property>
-	</bean>
+    <bean id="paramRdvSupController"
+          class="org.esupportail.opi.web.controllers.parameters.ParamRdvSupController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage the paramRdv.</description>
+        <property name="paramRdvController" ref="paramRdvController"/>
+    </bean>
 
-	<bean id="pjController"
-		class="org.esupportail.opi.web.controllers.opinions.PJController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage pj missed.</description>
-		<property name="individuController" ref="individuController"/>
-		<property name="commissionController" ref="commissionController"/>
-		<property name="smtpService" ref="smtpService"/>
-		<property name="transfert" ref="transfert"/>
-		<property name="paginatorPM" ref="paginatorPM" />
-	</bean>
+    <bean id="autoLpController"
+          class="org.esupportail.opi.web.controllers.parameters.AutoLpController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage the paramRdv.</description>
+        <property name="inscriptionAdm" ref="inscriptionAdm"/>
+        <property name="listeComplementaire" ref="listeComplementaire"/>
+    </bean>
 
-	<bean id="opinionController"
-		class="org.esupportail.opi.web.controllers.opinions.OpinionController"
-		parent="abstractAccessController" scope="session">
-		<description>A bean to manage opinions.</description>
-		<property name="individuPaginator" ref="paginatorIndividuPojo" />
-		<property name="nomenclatureController" ref="nomenclatureController"/>
-		<property name="commissionController" ref="commissionController"/>
-		<property name="refused" ref="refused"/>
-		<property name="preSelection" ref="preselection"/>
-		<property name="listeComplementaire" ref="listeComplementaire"/>
-		<property name="transfert" ref="transfert"/>
-		<property name="inscriptionAdm" ref="inscriptionAdm"/>
-	</bean>
+    <!-- ########  REFERENCES ######### -->
+    <bean id="commissionController"
+          class="org.esupportail.opi.web.controllers.references.CommissionController"
+          parent="abstractContextAwareController" scope="session"
+          init-method="initCommissions">
+        <description>A bean to manage the commissions.</description>
+        <property name="trtCmiController" ref="trtCmiController"/>
+        <property name="adressController" ref="adressController"/>
+        <property name="castorService" ref="castorService"/>
+        <property name="convocMember" ref="convocMember"/>
+        <property name="transfert" ref="transfert"/>
+        <property name="managerUsed" value="${init.cmi.manager}"/>
+        <property name="listCmiByRight" value="${init.listcmi.byright}"/>
+    </bean>
 
-	<bean id="validOpinionController"
-		class="org.esupportail.opi.web.controllers.opinions.ValidOpinionController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage validation of opinions.</description>
-		<property name="preselection" ref="preselection" />
-		<property name="inscriptionAdm" ref="inscriptionAdm" />
-		<property name="refused" ref="refused" />
-		<property name="intermediary" ref="intermediary" />
-		<property name="listeComplementaire" ref="listeComplementaire" />
-		<property name="printOpinionController" ref="printOpinionController" />	
-		<property name="infoValidWishesFC" ref="infoValidWishesFC"/>
-		<property name="commissionController" ref="commissionController"/>
-	</bean>
-	
-	<bean id="exportFormOrbeonController"
-		class="org.esupportail.opi.web.controllers.opinions.ExportFormOrbeonController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to export orbeon forms.</description>
-		<property name="pilotageService" ref="pilotageService" />
-	</bean>
+    <bean id="nbVoeuByCGEController"
+          class="org.esupportail.opi.web.controllers.references.NbVoeuByCGEController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage the nbVoeuByCGE.</description>
+    </bean>
 
-	<bean id="printOpinionController"
-		class="org.esupportail.opi.web.controllers.opinions.PrintOpinionController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to print opinions.</description>
-		<property name="commissionController" ref="commissionController"/>
-		<property name="exportFormOrbeonController" ref="exportFormOrbeonController"/>
-		<property name="castorService" ref="castorService" />
-		<property name="inscriptionAdm" ref="inscriptionAdm" />
-		<property name="refused" ref="refused" />
-		<property name="transfert" ref="transfert"/>
-	</bean>
+    <bean id="consultRdvController"
+          class="org.esupportail.opi.web.controllers.references.ConsultRdvController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage the consultRdv.</description>
+        <property name="individuPaginator" ref="paginatorIndividuPojo"/>
+    </bean>
+
+    <bean id="etapeController"
+          class="org.esupportail.opi.web.controllers.references.EtapeController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage the etape.</description>
+        <property name="paginator" ref="paginatorVET"/>
+    </bean>
+
+    <bean id="selectionController"
+          class="org.esupportail.opi.web.controllers.references.SelectionController"
+          parent="abstractAccessController" scope="session">
+        <description>A bean to manage the selection test.</description>
+        <property name="trtCmiController" ref="trtCmiController"/>
+    </bean>
+
+    <bean id="trtCmiController"
+          class="org.esupportail.opi.web.controllers.references.TrtCmiController"
+          parent="abstractAccessController" scope="session">
+        <description>A bean to manage the selection test.</description>
+        <property name="etapeController" ref="etapeController"/>
+    </bean>
 
 
-	<!-- ########  CANDIDATURES ######### -->
+    <bean id="calendarController"
+          class="org.esupportail.opi.web.controllers.references.CalendarController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage the calendars.</description>
+        <property name="commissionController" ref="commissionController"/>
+        <property name="calendarType">
+            <map>
+                <entry>
+                    <key>
+                        <value>CAL_INS</value>
+                    </key>
+                    <value>Dépôt voeux</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>CAL_CMI</value>
+                    </key>
+                    <value>Commissions</value>
+                </entry>
+                <!--<entry>
+                    <key>
+                        <value>CAL_TYP_TRT</value>
+                    </key>
+                    <value>Type de traitements</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>CAL_SEV_FOR</value>
+                    </key>
+                    <value>Services de formations</value>
+                </entry>
+                <entry>
+                    <key><value>CAL_RES</value></key>
+                    <value>des résultats</value>
+                </entry>
+            -->
+            </map>
+        </property>
+    </bean>
 
-	<bean id="monitorCandidaturesController"
-		class="org.esupportail.opi.web.controllers.candidatures.MonitorCandidaturesController"
-		parent="abstractAccessController" scope="session">
-		<description>A bean to monitor the all wishes.</description>
-		<property name="commissionController" ref="commissionController"/>
-		<property name="printOpinionController" ref="printOpinionController" />
-	</bean>
 
-	<!--
-	
-		uncomment this bean and include _debug.jsp to get debug info <bean
-		id="debugController"
-		class="org.esupportail.commons.web.controllers.DebugController"
-		scope="session" > <description>A bean to debug the current application
-		state.</description> <property name="applicationService"
-		ref="applicationService"> <description>The appplication
-		service.</description> </property> <property
-		name="authenticationService" ref="authenticationService">
-		<description>The authentication service.</description> </property>
-		</bean>
-	-->
-	
-	
-	<!-- ########  PILOTAGE ######### -->
-	<bean id="parametreStatController"
-		class="org.esupportail.opi.web.controllers.pilotage.ParametreStatController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage the statistical parameter.</description>
-		<property name="pilotageService" ref="pilotageService"/>
-		<property name="allTypeOrdonne">
-			<list>
-				<ref bean="commissionStat"/>
-				<ref bean="composantesStat"/>
-<!-- 				<ref bean="motCleStat"/> -->
-				<ref bean="riStat"/>
-				<ref bean="trCmi"/>
-				<ref bean="vetStat"/>
-			</list>
-		</property>
-		<property name="allTypeAbscisse">
-			<list>
-				<ref bean="dipAutCursStat"/>
-				<ref bean="etatIndividuStat"/>
-				<ref bean="etatVoeuStat"/>
-				<ref bean="motivationStat"/>
-				<ref bean="paysStat"/>
-				<ref bean="typeConvocationStat"/>
-				<ref bean="typeDecStat"/>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="seeStatController"
-		class="org.esupportail.opi.web.controllers.pilotage.SeeStatController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage the statistical parameter.</description>
-		<property name="castorService" ref="castorService" />
-		<property name="parametreStatController" ref="parametreStatController"/>
-	</bean>
-	
-	
-	<!-- ########  ARCHIVAGE ######### -->
+    <!-- ########  OPINION AND TRAITMENTS ######### -->
 
-	<bean id="archiveTaskController"
-		class="org.esupportail.opi.web.controllers.pilotage.ArchiveTaskController"
-		parent="abstractContextAwareController" scope="session">
-		<description>A bean to manage the archive tasks.</description>
-		<property name="trtCmiController" ref="trtCmiController"/>
-		<property name="archiveService" ref="archiveService"/>
-	</bean>
+    <bean id="typeTraitController"
+          class="org.esupportail.opi.web.controllers.opinions.TypeTraitController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage opinions and traitments.</description>
+        <property name="individuController" ref="individuController" />
+        <property name="typeTraitementTR" ref="transfert"/>
+        <property name="typeTraitementVA" ref="validationAcquis"/>
+        <property name="typeTraitementET" ref="enAttente"/>
+        <property name="inscriptionAdm" ref="inscriptionAdm"/>
+        <property name="smtpService" ref="smtpService"/>
+        <property name="typeTraitements">
+            <list>
+                <ref bean="validationAcquis"/>
+                <ref bean="transfert"/>
+                <ref bean="enAttente"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="pjController"
+          class="org.esupportail.opi.web.controllers.opinions.PJController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage pj missed.</description>
+        <property name="individuController" ref="individuController"/>
+        <property name="commissionController" ref="commissionController"/>
+        <property name="smtpService" ref="smtpService"/>
+        <property name="transfert" ref="transfert"/>
+        <property name="paginatorPM" ref="paginatorPM"/>
+    </bean>
+
+    <bean id="opinionController"
+          class="org.esupportail.opi.web.controllers.opinions.OpinionController"
+          parent="abstractAccessController" scope="session">
+        <description>A bean to manage opinions.</description>
+        <property name="nomenclatureController" ref="nomenclatureController"/>
+        <property name="commissionController" ref="commissionController"/>
+        <property name="individuController" ref="individuController" />
+        <property name="refused" ref="refused"/>
+        <property name="preSelection" ref="preselection"/>
+        <property name="listeComplementaire" ref="listeComplementaire"/>
+        <property name="transfert" ref="transfert"/>
+        <property name="inscriptionAdm" ref="inscriptionAdm"/>
+    </bean>
+
+    <bean id="validOpinionController"
+          class="org.esupportail.opi.web.controllers.opinions.ValidOpinionController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage validation of opinions.</description>
+        <property name="preselection" ref="preselection"/>
+        <property name="inscriptionAdm" ref="inscriptionAdm"/>
+        <property name="refused" ref="refused"/>
+        <property name="intermediary" ref="intermediary"/>
+        <property name="listeComplementaire" ref="listeComplementaire"/>
+        <property name="printOpinionController" ref="printOpinionController"/>
+        <property name="infoValidWishesFC" ref="infoValidWishesFC"/>
+        <property name="commissionController" ref="commissionController"/>
+    </bean>
+
+    <bean id="exportFormOrbeonController"
+          class="org.esupportail.opi.web.controllers.opinions.ExportFormOrbeonController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to export orbeon forms.</description>
+        <property name="pilotageService" ref="pilotageService"/>
+    </bean>
+
+    <bean id="printOpinionController"
+          class="org.esupportail.opi.web.controllers.opinions.PrintOpinionController"
+          parent="abstractContextAwareController" scope="session">
+        <property name="individuController" ref="individuController" />
+        <property name="commissionController" ref="commissionController"/>
+        <property name="exportFormOrbeonController" ref="exportFormOrbeonController"/>
+        <property name="castorService" ref="castorService"/>
+        <property name="inscriptionAdm" ref="inscriptionAdm"/>
+        <property name="refused" ref="refused"/>
+        <property name="transfert" ref="transfert"/>
+    </bean>
+
+
+    <!-- ########  CANDIDATURES ######### -->
+
+    <bean id="monitorCandidaturesController"
+          class="org.esupportail.opi.web.controllers.candidatures.MonitorCandidaturesController"
+          parent="abstractAccessController" scope="session">
+        <description>A bean to monitor the all wishes.</description>
+        <property name="commissionController" ref="commissionController"/>
+        <property name="printOpinionController" ref="printOpinionController"/>
+    </bean>
+
+    <!--
+
+        uncomment this bean and include _debug.jsp to get debug info <bean
+        id="debugController"
+        class="org.esupportail.commons.web.controllers.DebugController"
+        scope="session" > <description>A bean to debug the current application
+        state.</description> <property name="applicationService"
+        ref="applicationService"> <description>The appplication
+        service.</description> </property> <property
+        name="authenticationService" ref="authenticationService">
+        <description>The authentication service.</description> </property>
+        </bean>
+    -->
+
+
+    <!-- ########  PILOTAGE ######### -->
+    <bean id="parametreStatController"
+          class="org.esupportail.opi.web.controllers.pilotage.ParametreStatController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage the statistical parameter.</description>
+        <property name="pilotageService" ref="pilotageService"/>
+        <property name="allTypeOrdonne">
+            <list>
+                <ref bean="commissionStat"/>
+                <ref bean="composantesStat"/>
+                <!-- 				<ref bean="motCleStat"/> -->
+                <ref bean="riStat"/>
+                <ref bean="trCmi"/>
+                <ref bean="vetStat"/>
+            </list>
+        </property>
+        <property name="allTypeAbscisse">
+            <list>
+                <ref bean="dipAutCursStat"/>
+                <ref bean="etatIndividuStat"/>
+                <ref bean="etatVoeuStat"/>
+                <ref bean="motivationStat"/>
+                <ref bean="paysStat"/>
+                <ref bean="typeConvocationStat"/>
+                <ref bean="typeDecStat"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="seeStatController"
+          class="org.esupportail.opi.web.controllers.pilotage.SeeStatController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage the statistical parameter.</description>
+        <property name="castorService" ref="castorService"/>
+        <property name="parametreStatController" ref="parametreStatController"/>
+    </bean>
+
+
+    <!-- ########  ARCHIVAGE ######### -->
+
+    <bean id="archiveTaskController"
+          class="org.esupportail.opi.web.controllers.pilotage.ArchiveTaskController"
+          parent="abstractContextAwareController" scope="session">
+        <description>A bean to manage the archive tasks.</description>
+        <property name="trtCmiController" ref="trtCmiController"/>
+        <property name="archiveService" ref="archiveService"/>
+    </bean>
 
 
 </beans>

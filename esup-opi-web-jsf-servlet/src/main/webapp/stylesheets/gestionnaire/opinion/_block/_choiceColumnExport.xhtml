@@ -3,26 +3,30 @@
              xmlns:h="http://java.sun.com/jsf/html"
              xmlns:p="http://primefaces.org/ui">
     <h:form id="choiceColForm" styleClass="opiR1_form">
-        <p:confirmDialog id="choiceColumnExport" widgetVar="ccExp" dynamic="true" resizable="false" modal="true" styleClass="confirm-dialog-iconless">
+        <p:confirmDialog id="choiceColumnExport" widgetVar="ccExp" dynamic="true" resizable="false" modal="true"
+                         styleClass="confirm-dialog-iconless">
             <f:facet name="message">
-                <h:outputText value="#{msgs['COMMISSION.EXPORT_LISTE_PREPA_CHAMPS']}" />
+                <h:outputText value="#{msgs['COMMISSION.EXPORT_LISTE_PREPA_CHAMPS']}"/>
                 <div id="listcolumn">
                     <p:dataTable var="champ" id="choixChamps"
                                  selection="#{printOpinionController.champsChoisis}"
                                  value="#{printOpinionController.champsDispos}"
                                  rowKey="#{champ}" paginator="true" rows="10">
-                        <p:column selectionMode="multiple" />
+                        <p:column selectionMode="multiple"/>
                         <p:column>
-                            <h:outputText value="#{champ}" style="padding-right:10px;" />
+                            <h:outputText value="#{champ}" style="padding-right:10px;"/>
                         </p:column>
                     </p:dataTable>
-                </div> 
+                </div>
             </f:facet>
             <h:panelGroup styleClass="footer-buttons">
-                <p:commandButton id="button-validatecolumns" value="#{msgs['_.BUTTON.VALIDATE']}" oncomplete="ccExp.hide()">
-                    <f:setPropertyActionListener value="#{printOpinionController.actionEnum.emptyAction}" target="#{printOpinionController.actionEnum.whatAction}" />
+                <p:commandButton id="button-validatecolumns" value="#{msgs['_.BUTTON.VALIDATE']}"
+                                 oncomplete="ccExp.hide()">
+                    <f:setPropertyActionListener value="#{printOpinionController.actionEnum.emptyAction}"
+                                                 target="#{printOpinionController.actionEnum.whatAction}"/>
                 </p:commandButton>
-                <p:commandButton id="button-cancelcolumns" value="#{msgs['_.BUTTON.CANCEL']}" onclick="ccExp.hide()" type="button" />
+                <p:commandButton id="button-cancelcolumns" value="#{msgs['_.BUTTON.CANCEL']}" onclick="ccExp.hide()"
+                                 type="button"/>
             </h:panelGroup>
         </p:confirmDialog>
     </h:form>

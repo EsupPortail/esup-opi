@@ -3,22 +3,6 @@
  */
 package org.esupportail.opi.web.beans.utils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.sax.SAXResult;
-import javax.xml.transform.stream.StreamSource;
-
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.fop.apps.Driver;
 import org.apache.fop.messaging.MessageHandler;
@@ -28,6 +12,17 @@ import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.DownloadUtils;
 import org.esupportail.commons.web.servlet.DownloadServlet;
 import org.esupportail.opi.utils.Constantes;
+
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.xml.transform.*;
+import javax.xml.transform.sax.SAXResult;
+import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @author cleprous

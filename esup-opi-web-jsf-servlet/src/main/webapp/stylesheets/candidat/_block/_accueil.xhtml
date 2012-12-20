@@ -1,306 +1,308 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <div id="maPageCandidat" class="div_body">
-    	<div id="div_subSectionCandidat" class="div_subSection">
-    		
-    		<h:form id="accueilCandidatForm" styleClass="opiR1_form">
-    			<h:panelGroup>
-    				<h:outputText value="#{msgs['INDIVIDU.TITLE.RECAP_DOS']}" 
-    					styleClass="section-header"/>
-    				<h:outputText value="(#{sessionController.currentInd.campagneEnServ.libelle})"
-    					styleClass="span-text-small-italic" />
-    			</h:panelGroup>
-    			<div class="messageForUser">
-    				<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    			</div>
-    			<br />
-    			<br />
-    
-    
-    			<div id="blockInfoCoord" class="blockForm">
-    				<div style="width:100%;">
-    					<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    						styleClass="tableJustWidthMax">
-    						<h:outputText value="#{msgs['INDIVIDU.COORD']}"
-    							styleClass="section-smallTitle" />
-    						<p:commandButton value="#{msgs['_.BUTTON.DISPLAY_UPDATE']}"
-    							action="#{individuController.goSeeAccount}" />
-    					</h:panelGrid>
-    				</div>
-    				<h:panelGrid columns="5" styleClass="displayInfo"
-    					rowClasses="headerRow, ">
-    					<h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}" />
-    					<h:outputText value="#{msgs['INDIVIDU.NOM']}" />
-    					<h:outputText value="#{msgs['INDIVIDU.PRENOM']}" />
-    					<h:outputText value="#{msgs['INDIVIDU.NAISSANCE']}" />
-    					<h:outputText value="#{msgs['INDIVIDU.ETAT']}" />
-    
-    					<h:outputText
-    						value="#{sessionController.currentInd.individu.numDossierOpi}" />
-    					<h:outputText
-    						value="#{sessionController.currentInd.individu.nomPatronymique}" />
-    					<h:outputText value="#{sessionController.currentInd.individu.prenom}" />
-    					<h:outputText
-    						value="#{sessionController.currentInd.individu.dateNaissance}">
-    						<f:convertDateTime pattern="dd/MM/yyyy"
-    							timeZone="#{sessionController.timezone}" />
-    					</h:outputText>
-    					<h:outputText value="#{sessionController.currentInd.etat.label}" />
-    				</h:panelGrid>
-    			</div>
-    			<ui:fragment rendered="#{sessionController.currentInd.managerAsRightsToUpdate and sessionController.canUpdateRI}">
-        			<div id="blockRegInsc" class="blockForm">
-        				<div style="width:100%;">
-        					<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-        						styleClass="tableJustWidthMax">
-        						<h:outputText value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"
-        							styleClass="section-smallTitle" />
-        						<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-        							action="#{individuController.modifyRegimeInscription}" />
-        					</h:panelGrid>
-        				</div>
-        				<h:panelGrid columns="2" styleClass="tableWidthMax"
-        					columnClasses="col1UnDemi,col1UnDemi">
-        					<h:panelGroup>
-        						<h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION.SELECT']}"
-        							for="regimeInscription" />
-        					</h:panelGroup>
-        					<h:panelGroup>
-        						<p:selectOneMenu id="regimeInscription"
-        							converter="#{regimeInscriptionConverter}"
-        							value="#{sessionController.currentInd.regimeInscription}">
-        							<f:selectItems value="#{nomenclatureController.regimeInscriptionsItemsConv}" />
-        						</p:selectOneMenu>
-        					</h:panelGroup>
-        				</h:panelGrid>
-        				<br />
-        				<br />
-        			</div>
+        <div id="div_subSectionCandidat" class="div_subSection">
+
+            <h:form id="accueilCandidatForm" styleClass="opiR1_form">
+                <h:panelGroup>
+                    <h:outputText value="#{msgs['INDIVIDU.TITLE.RECAP_DOS']}"
+                                  styleClass="section-header"/>
+                    <h:outputText value="(#{sessionController.currentInd.campagneEnServ.libelle})"
+                                  styleClass="span-text-small-italic"/>
+                </h:panelGroup>
+                <div class="messageForUser">
+                    <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+                </div>
+                <br/>
+                <br/>
+
+
+                <div id="blockInfoCoord" class="blockForm">
+                    <div style="width:100%;">
+                        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                                     styleClass="tableJustWidthMax">
+                            <h:outputText value="#{msgs['INDIVIDU.COORD']}"
+                                          styleClass="section-smallTitle"/>
+                            <p:commandButton value="#{msgs['_.BUTTON.DISPLAY_UPDATE']}"
+                                             action="#{individuController.goSeeAccount}"/>
+                        </h:panelGrid>
+                    </div>
+                    <h:panelGrid columns="5" styleClass="displayInfo"
+                                 rowClasses="headerRow, ">
+                        <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}"/>
+                        <h:outputText value="#{msgs['INDIVIDU.NOM']}"/>
+                        <h:outputText value="#{msgs['INDIVIDU.PRENOM']}"/>
+                        <h:outputText value="#{msgs['INDIVIDU.NAISSANCE']}"/>
+                        <h:outputText value="#{msgs['INDIVIDU.ETAT']}"/>
+
+                        <h:outputText
+                            value="#{sessionController.currentInd.individu.numDossierOpi}"/>
+                        <h:outputText
+                            value="#{sessionController.currentInd.individu.nomPatronymique}"/>
+                        <h:outputText value="#{sessionController.currentInd.individu.prenom}"/>
+                        <h:outputText
+                            value="#{sessionController.currentInd.individu.dateNaissance}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"
+                                               timeZone="#{sessionController.timezone}"/>
+                        </h:outputText>
+                        <h:outputText value="#{sessionController.currentInd.etat.label}"/>
+                    </h:panelGrid>
+                </div>
+                <ui:fragment rendered="#{sessionController.currentInd.managerAsRightsToUpdate and sessionController.canUpdateRI}">
+                    <div id="blockRegInsc" class="blockForm">
+                        <div style="width:100%;">
+                            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                                         styleClass="tableJustWidthMax">
+                                <h:outputText value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"
+                                              styleClass="section-smallTitle"/>
+                                <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                                 action="#{individuController.modifyRegimeInscription}"/>
+                            </h:panelGrid>
+                        </div>
+                        <h:panelGrid columns="2" styleClass="tableWidthMax"
+                                     columnClasses="col1UnDemi,col1UnDemi">
+                            <h:panelGroup>
+                                <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION.SELECT']}"
+                                               for="regimeInscription"/>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneMenu id="regimeInscription"
+                                                 converter="#{regimeInscriptionConverter}"
+                                                 value="#{sessionController.currentInd.regimeInscription}">
+                                    <f:selectItems value="#{nomenclatureController.regimeInscriptionsItemsConv}"/>
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                        <br/>
+                        <br/>
+                    </div>
                 </ui:fragment>
-                <ui:fragment rendered="#{not empty formulairesController.indSelectedForms and not sessionController.currentInd.hideMessageInfoForm}">
-        			<div class="blockImportant">
-        				<h:panelGrid columns="2" columnClasses="image,text">
-        					<p:graphicImage url="/media/images/important.png" />
-        					<h:outputText value="#{msgs['INFO.CANDIDAT.FULL_FORMS']}" 
-        						escape="false" style="font-weight:bold;color:#a71817"
-        						/>
-        				</h:panelGrid>
-        			</div>
+                <ui:fragment
+                    rendered="#{not empty formulairesController.indSelectedForms and not sessionController.currentInd.hideMessageInfoForm}">
+                    <div class="blockImportant">
+                        <h:panelGrid columns="2" columnClasses="image,text">
+                            <p:graphicImage url="/media/images/important.png"/>
+                            <h:outputText value="#{msgs['INFO.CANDIDAT.FULL_FORMS']}"
+                                          escape="false" style="font-weight:bold;color:#a71817"
+                                          />
+                        </h:panelGrid>
+                    </div>
                 </ui:fragment>
-    			<ui:fragment rendered="#{not empty formulairesController.indSelectedForms
-    							and not sessionController.currentInd.hideMessageInfoForm}">
-                    <br />
+                <ui:fragment rendered="#{not empty formulairesController.indSelectedForms
+                                       and not sessionController.currentInd.hideMessageInfoForm}">
+                    <br/>
                 </ui:fragment>
                 <ui:fragment rendered="#{confirmationController.canConfirmVoeux}">
-        			<div class="blockImportant">
-        				<h:panelGrid columns="3" columnClasses="image,text">
-        					<p:graphicImage url="/media/images/important.png" />
-        					<h:outputText value="#{msgs['CONFIRMATION.INFO_MESSAGE']}" 
-        						rendered="#{!sessionController.currentInd.regimeInscription.displayInfoFC}"
-        						escape="false" style="font-weight:bold;color:#a71817"/>
-        					<h:outputText value="#{msgs['CONFIRMATION.INFO_MESSAGE_FC']}" 
-        						rendered="#{sessionController.currentInd.regimeInscription.displayInfoFC}"
-        						escape="false" style="font-weight:bold;color:#a71817"/>
-        				</h:panelGrid>
-        			</div>
-        			<br />
-    			</ui:fragment>
-    
-    			<ui:include src="_candidatures.xhtml" />
-    			
-    			<br />
-    			<br />
-    			
-    			<h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.TITRE_RDV']}" styleClass="section-smallTitle"
-    				rendered="#{not empty saisieRdvEtuController.allRdvEtu}"/>
-    			<h:panelGroup rendered="#{not empty saisieRdvEtuController.allRdvEtu}">
-    				<p:dataTable var="dateRdv" 
-    					value="#{saisieRdvEtuController.keyMapAllRdvEtu}"
-    					alternateColors="false" renderedIfEmpty="false"
-    					styleClass="displayInfo">
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.DATE']}"/>
-    						</f:facet>
-    						<h:outputText value="#{dateRdv}">
-    							<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
-    							timeZone="#{sessionController.timezone}" />
-    						</h:outputText>
-    					</p:column>
-    					
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.MESSAGE']}"/>
-    						</f:facet>
-    						<h:outputText escape="false" value="#{saisieRdvEtuController.allRdvEtu[dateRdv][0].messageRdv}"/>
-    					</p:column>
-    					
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.TITRE_VOEU']}"/>
-    						</f:facet>
-    						<p:dataList var="individuDatePojo" value="#{saisieRdvEtuController.allRdvEtu[dateRdv]}">
-    							<h:outputText value="#{individuDatePojo.voeuRdv.vrsEtape.libWebVet}"/>
-    						</p:dataList>
-    					</p:column>
-    				</p:dataTable>
-    			</h:panelGroup>
-    			
-    			<br />
-    			<br />
-    			<br />
-    			<div id="blockInfoDossier" class="blockForm">
-    				<div style="width:100%;">
-    					<h:panelGrid columns="" columnClasses="col1UnDemi"
-    						styleClass="tableJustWidthMax">
-    						<h:outputText value="#{msgs['INDIVIDU.DOS_ELEC']}"
-    							styleClass="section-smallTitle" />
-    					</h:panelGrid>
-    				</div>
-    				<h:panelGrid columns="3" styleClass="displayInfo"
-    					columnClasses=",,buttonTD" rowClasses="headerRow,,,,,">
-    					<h:outputText value="#{msgs['INFO.SAISIE']}" />
-    					<h:outputText value="#{msgs['INDIVIDU.ETAT']}" />
-    					<h:outputText value="#{msgs['INDIVIDU.DISPLAY_UPDATE']}" />
-    
-    					<p:commandButton value="#{msgs['INDIVIDU.BAC']}"
-    						styleClass="form-button-link" immediate="true"
-    						action="#{indBacController.goSeeIndBac}"
-    						rendered="#{sessionController.currentInd.canUpdateIndCursusPro}" 
-    						ajax="false"/>
-    					<h:outputText value="#{msgs['INDIVIDU.BAC']}"
-    						rendered="#{!sessionController.currentInd.canUpdateIndCursusPro}" />
-    					<h:outputText value="#{sessionController.currentInd.etatIndBac}"/>
-    					<h:panelGroup>
-    						<p:commandButton icon="ui-icon-plus"
-    							styleClass="form-button-image" immediate="true"
-    							action="#{indBacController.goSeeIndBac}"
-    							title="#{msgs['_.BUTTON.DISPLAY']}"
-    							rendered="#{sessionController.currentInd.canUpdateBac}"
-    							ajax="false" />
-    					</h:panelGroup>
-    
-    					<p:commandButton value="#{msgs['INDIVIDU.SITUATION']}"
-    						styleClass="form-button-link" immediate="true"
-    						action="#{situationController.goSeeSituation}"
-    						rendered="#{sessionController.currentInd.canUpdateIndCursusPro
-    								and sessionController.currentInd.regimeInscription.displayInfoSituation}" />
-    					<h:outputText value="#{msgs['INDIVIDU.SITUATION']}"
-    						rendered="#{!sessionController.currentInd.canUpdateIndCursusPro
-    								and sessionController.currentInd.regimeInscription.displayInfoSituation}" />
-    					<h:outputText value="#{situationController.etatSituation}"
-    						rendered="#{sessionController.currentInd.regimeInscription.displayInfoSituation}" />
-    					<h:panelGroup
-    							rendered="#{sessionController.currentInd.canUpdateIndCursusPro
-    								and sessionController.currentInd.regimeInscription.displayInfoSituation}" >
-    						<p:commandButton icon="ui-icon-plus"
-    							styleClass="form-button-image" immediate="true"
-    							action="#{situationController.goSeeSituation}"
-    							title="#{msgs['_.BUTTON.DISPLAY']}"/>
-    					</h:panelGroup>
-    
-    					<h:outputText value="#{msgs['INDIVIDU.CURSUS_UNI']}"
-    						rendered="#{!sessionController.currentInd.canUpdateIndCursusScol}" />
-    					<p:commandButton value="#{msgs['INDIVIDU.CURSUS_UNI']}"
-    						styleClass="form-button-link" immediate="true"
-    						action="#{cursusController.goSeeCursusScol}"
-    						rendered="#{sessionController.currentInd.canUpdateIndCursusScol}" 
-    						ajax="false"/>
-    					<h:outputText value="#{sessionController.currentInd.etatIndCursusScol}" />
-    					<h:panelGroup>
-    						<p:commandButton icon="ui-icon-plus"
-    							styleClass="form-button-image" immediate="true"
-    							action="#{cursusController.goSeeCursusScol}"
-    							title="#{msgs['_.BUTTON.DISPLAY']}"
-    							rendered="#{sessionController.currentInd.canUpdateIndCursusScol}" 
-    							ajax="false"/>
-    					</h:panelGroup>
-    
-    					<h:panelGroup>
-    						<h:outputText value="#{msgs['INDIVIDU.CURSUS_EXT']}"
-    							rendered="#{!sessionController.currentInd.canUpdateIndCursusPro}" />
-    						<p:commandButton value="#{msgs['INDIVIDU.CURSUS_EXT']}"
-    							action="#{cursusController.goSeeCursusPro}"
-    							styleClass="form-button-link" immediate="true"
-    							rendered="#{sessionController.currentInd.canUpdateIndCursusPro}" />
+                    <div class="blockImportant">
+                        <h:panelGrid columns="3" columnClasses="image,text">
+                            <p:graphicImage url="/media/images/important.png"/>
+                            <h:outputText value="#{msgs['CONFIRMATION.INFO_MESSAGE']}"
+                                          rendered="#{!sessionController.currentInd.regimeInscription.displayInfoFC}"
+                                          escape="false" style="font-weight:bold;color:#a71817"/>
+                            <h:outputText value="#{msgs['CONFIRMATION.INFO_MESSAGE_FC']}"
+                                          rendered="#{sessionController.currentInd.regimeInscription.displayInfoFC}"
+                                          escape="false" style="font-weight:bold;color:#a71817"/>
+                        </h:panelGrid>
+                    </div>
+                    <br/>
+                </ui:fragment>
+
+                <ui:include src="_candidatures.xhtml"/>
+
+                <br/>
+                <br/>
+
+                <h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.TITRE_RDV']}" styleClass="section-smallTitle"
+                              rendered="#{not empty saisieRdvEtuController.allRdvEtu}"/>
+                <h:panelGroup rendered="#{not empty saisieRdvEtuController.allRdvEtu}">
+                    <p:dataTable var="dateRdv"
+                                 value="#{saisieRdvEtuController.keyMapAllRdvEtu}"
+                                 alternateColors="false" renderedIfEmpty="false"
+                                 styleClass="displayInfo">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.DATE']}"/>
+                            </f:facet>
+                            <h:outputText value="#{dateRdv}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+                                                   timeZone="#{sessionController.timezone}"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.MESSAGE']}"/>
+                            </f:facet>
+                            <h:outputText escape="false" value="#{saisieRdvEtuController.allRdvEtu[dateRdv][0].messageRdv}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['CALENDAR_RDV.ACCUEIL.TITRE_VOEU']}"/>
+                            </f:facet>
+                            <p:dataList var="individuDatePojo" value="#{saisieRdvEtuController.allRdvEtu[dateRdv]}">
+                                <h:outputText value="#{individuDatePojo.voeuRdv.vrsEtape.libWebVet}"/>
+                            </p:dataList>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGroup>
+
+                <br/>
+                <br/>
+                <br/>
+
+                <div id="blockInfoDossier" class="blockForm">
+                    <div style="width:100%;">
+                        <h:panelGrid columns="" columnClasses="col1UnDemi"
+                                     styleClass="tableJustWidthMax">
+                            <h:outputText value="#{msgs['INDIVIDU.DOS_ELEC']}"
+                                          styleClass="section-smallTitle"/>
+                        </h:panelGrid>
+                    </div>
+                    <h:panelGrid columns="3" styleClass="displayInfo"
+                                 columnClasses=",,buttonTD" rowClasses="headerRow,,,,,">
+                        <h:outputText value="#{msgs['INFO.SAISIE']}"/>
+                        <h:outputText value="#{msgs['INDIVIDU.ETAT']}"/>
+                        <h:outputText value="#{msgs['INDIVIDU.DISPLAY_UPDATE']}"/>
+
+                        <p:commandButton value="#{msgs['INDIVIDU.BAC']}"
+                                         styleClass="form-button-link" immediate="true"
+                                         action="#{indBacController.goSeeIndBac}"
+                                         rendered="#{sessionController.currentInd.canUpdateIndCursusPro}"
+                                         ajax="false"/>
+                        <h:outputText value="#{msgs['INDIVIDU.BAC']}"
+                                      rendered="#{!sessionController.currentInd.canUpdateIndCursusPro}"/>
+                        <h:outputText value="#{sessionController.currentInd.etatIndBac}"/>
+                        <h:panelGroup>
+                            <p:commandButton icon="ui-icon-plus"
+                                             styleClass="form-button-image" immediate="true"
+                                             action="#{indBacController.goSeeIndBac}"
+                                             title="#{msgs['_.BUTTON.DISPLAY']}"
+                                             rendered="#{sessionController.currentInd.canUpdateBac}"
+                                             ajax="false"/>
+                        </h:panelGroup>
+
+                        <p:commandButton value="#{msgs['INDIVIDU.SITUATION']}"
+                                         styleClass="form-button-link" immediate="true"
+                                         action="#{situationController.goSeeSituation}"
+                                         rendered="#{sessionController.currentInd.canUpdateIndCursusPro
+                                                   and sessionController.currentInd.regimeInscription.displayInfoSituation}"/>
+                        <h:outputText value="#{msgs['INDIVIDU.SITUATION']}"
+                                      rendered="#{!sessionController.currentInd.canUpdateIndCursusPro
+                                                and sessionController.currentInd.regimeInscription.displayInfoSituation}"/>
+                        <h:outputText value="#{situationController.etatSituation}"
+                                      rendered="#{sessionController.currentInd.regimeInscription.displayInfoSituation}"/>
+                        <h:panelGroup
+                            rendered="#{sessionController.currentInd.canUpdateIndCursusPro
+                                      and sessionController.currentInd.regimeInscription.displayInfoSituation}">
+                            <p:commandButton icon="ui-icon-plus"
+                                             styleClass="form-button-image" immediate="true"
+                                             action="#{situationController.goSeeSituation}"
+                                             title="#{msgs['_.BUTTON.DISPLAY']}"/>
+                        </h:panelGroup>
+
+                        <h:outputText value="#{msgs['INDIVIDU.CURSUS_UNI']}"
+                                      rendered="#{!sessionController.currentInd.canUpdateIndCursusScol}"/>
+                        <p:commandButton value="#{msgs['INDIVIDU.CURSUS_UNI']}"
+                                         styleClass="form-button-link" immediate="true"
+                                         action="#{cursusController.goSeeCursusScol}"
+                                         rendered="#{sessionController.currentInd.canUpdateIndCursusScol}"
+                                         ajax="false"/>
+                        <h:outputText value="#{sessionController.currentInd.etatIndCursusScol}"/>
+                        <h:panelGroup>
+                            <p:commandButton icon="ui-icon-plus"
+                                             styleClass="form-button-image" immediate="true"
+                                             action="#{cursusController.goSeeCursusScol}"
+                                             title="#{msgs['_.BUTTON.DISPLAY']}"
+                                             rendered="#{sessionController.currentInd.canUpdateIndCursusScol}"
+                                             ajax="false"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <h:outputText value="#{msgs['INDIVIDU.CURSUS_EXT']}"
+                                          rendered="#{!sessionController.currentInd.canUpdateIndCursusPro}"/>
+                            <p:commandButton value="#{msgs['INDIVIDU.CURSUS_EXT']}"
+                                             action="#{cursusController.goSeeCursusPro}"
+                                             styleClass="form-button-link" immediate="true"
+                                             rendered="#{sessionController.currentInd.canUpdateIndCursusPro}"/>
                             <p:graphicImage url="/media/images/informationSmall.png"
-                                style="cursor:pointer;" id="helpCursusExt"/>
+                                            style="cursor:pointer;" id="helpCursusExt"/>
                             <p:overlayPanel for="helpCursusExt"
-                                showEvent="mouseover"
-                                hideEvent="mouseout"
-                                styleClass="popupAide">
-								<h:panelGroup>
-									<h:panelGrid columns="1">
-										<h:outputText styleClass="titrePopupAide"
-											value="#{msgs['INDIVIDU.CURSUS_EXT']}" />
-										<h:panelGroup>
-											<h:outputText styleClass="libellesAide"
-												value="#{msgs['INDIVIDU.CURSUS_EXT.DESC_WELC']}" />
-										</h:panelGroup>
-									</h:panelGrid>
-								</h:panelGroup>
-    						</p:overlayPanel>
-    					</h:panelGroup>
-    					<h:outputText value="#{sessionController.currentInd.etatIndCursusPro}" />
-    					<h:panelGroup>
-    						<p:commandButton icon="ui-icon-plus"
-    							styleClass="form-button-image" immediate="true"
-    							action="#{cursusController.goSeeCursusPro}"
-    							title="#{msgs['_.BUTTON.DISPLAY']}"
-    							rendered="#{sessionController.currentInd.canUpdateIndCursusPro}" />
-    					</h:panelGroup>
-    
-    
-    					<h:panelGroup>
-    						<h:outputText value="#{msgs['INDIVIDU.QUALIF.NO_DIP']}"
-    							rendered="#{!sessionController.currentInd.canUpdateIndCursusPro}" />
-    						<p:commandButton value="#{msgs['INDIVIDU.QUALIF.NO_DIP']}"
-    							styleClass="form-button-link" immediate="true"
-    							action="#{cursusController.goSeeQualif}"
-    							rendered="#{sessionController.currentInd.canUpdateIndCursusPro}" />
+                                            showEvent="mouseover"
+                                            hideEvent="mouseout"
+                                            styleClass="popupAide">
+                                <h:panelGroup>
+                                    <h:panelGrid columns="1">
+                                        <h:outputText styleClass="titrePopupAide"
+                                                      value="#{msgs['INDIVIDU.CURSUS_EXT']}"/>
+                                        <h:panelGroup>
+                                            <h:outputText styleClass="libellesAide"
+                                                          value="#{msgs['INDIVIDU.CURSUS_EXT.DESC_WELC']}"/>
+                                        </h:panelGroup>
+                                    </h:panelGrid>
+                                </h:panelGroup>
+                            </p:overlayPanel>
+                        </h:panelGroup>
+                        <h:outputText value="#{sessionController.currentInd.etatIndCursusPro}"/>
+                        <h:panelGroup>
+                            <p:commandButton icon="ui-icon-plus"
+                                             styleClass="form-button-image" immediate="true"
+                                             action="#{cursusController.goSeeCursusPro}"
+                                             title="#{msgs['_.BUTTON.DISPLAY']}"
+                                             rendered="#{sessionController.currentInd.canUpdateIndCursusPro}"/>
+                        </h:panelGroup>
+
+
+                        <h:panelGroup>
+                            <h:outputText value="#{msgs['INDIVIDU.QUALIF.NO_DIP']}"
+                                          rendered="#{!sessionController.currentInd.canUpdateIndCursusPro}"/>
+                            <p:commandButton value="#{msgs['INDIVIDU.QUALIF.NO_DIP']}"
+                                             styleClass="form-button-link" immediate="true"
+                                             action="#{cursusController.goSeeQualif}"
+                                             rendered="#{sessionController.currentInd.canUpdateIndCursusPro}"/>
                             <p:graphicImage url="/media/images/informationSmall.png"
-                                style="cursor:pointer;" id="entatVoeux" />
+                                            style="cursor:pointer;" id="entatVoeux"/>
                             <p:overlayPanel for="entatVoeux"
-                                showEvent="mouseover"
-                                hideEvent="mouseout"
-                                styleClass="popupAide">
-								<h:panelGroup>
-									<h:panelGrid columns="1">
-										<h:outputText styleClass="titrePopupAide"
-											value="#{msgs['INDIVIDU.QUALIF.NO_DIP']}" />
-										<h:panelGroup>
-											<h:outputText styleClass="libellesAide"
-												value="#{msgs['INDIVIDU.QUALIF.NO_DIP.DESC_WELC']}" />
-										</h:panelGroup>
-									</h:panelGrid>
-								</h:panelGroup>
-    						</p:overlayPanel>
-    					</h:panelGroup>
-    					<h:outputText
-    						value="#{sessionController.currentInd.etatQualifNonDiplomante}" />
-    					<h:panelGroup>
-    						<p:commandButton icon="ui-icon-plus"
-    							styleClass="form-button-image" immediate="true"
-    							action="#{cursusController.goSeeQualif}"
-    							title="#{msgs['_.BUTTON.DISPLAY']}"
-    							rendered="#{sessionController.currentInd.canUpdateQualifNonDiplomante}" />
-    					</h:panelGroup>
-    				</h:panelGrid>
-    			</div>
-    
-    			<br />
-    			<ui:include src="_formulaires.xhtml" />
-    
-    		</h:form>
-    	</div>
-    	<br />
-    	<br />
+                                            showEvent="mouseover"
+                                            hideEvent="mouseout"
+                                            styleClass="popupAide">
+                                <h:panelGroup>
+                                    <h:panelGrid columns="1">
+                                        <h:outputText styleClass="titrePopupAide"
+                                                      value="#{msgs['INDIVIDU.QUALIF.NO_DIP']}"/>
+                                        <h:panelGroup>
+                                            <h:outputText styleClass="libellesAide"
+                                                          value="#{msgs['INDIVIDU.QUALIF.NO_DIP.DESC_WELC']}"/>
+                                        </h:panelGroup>
+                                    </h:panelGrid>
+                                </h:panelGroup>
+                            </p:overlayPanel>
+                        </h:panelGroup>
+                        <h:outputText
+                            value="#{sessionController.currentInd.etatQualifNonDiplomante}"/>
+                        <h:panelGroup>
+                            <p:commandButton icon="ui-icon-plus"
+                                             styleClass="form-button-image" immediate="true"
+                                             action="#{cursusController.goSeeQualif}"
+                                             title="#{msgs['_.BUTTON.DISPLAY']}"
+                                             rendered="#{sessionController.currentInd.canUpdateQualifNonDiplomante}"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </div>
+
+                <br/>
+                <ui:include src="_formulaires.xhtml"/>
+
+            </h:form>
+        </div>
+        <br/>
+        <br/>
     </div>
     <script type="text/javascript">
-    	highlightChildrenLiTags('navFooterCandidat:navigationLogin');
-    	highlightChildrenLiTags('navHeaderCandidat:navigationLogin');
-    	highlightInputAndSelect('accueilCandidatForm');
+        highlightChildrenLiTags('navFooterCandidat:navigationLogin');
+        highlightChildrenLiTags('navHeaderCandidat:navigationLogin');
+        highlightInputAndSelect('accueilCandidatForm');
     </script>
 </ui:fragment>

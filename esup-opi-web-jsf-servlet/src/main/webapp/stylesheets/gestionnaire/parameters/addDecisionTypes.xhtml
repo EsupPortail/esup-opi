@@ -1,118 +1,123 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	
-    	
-    	<div id="maPage" class="div_body">
-    		<h1>
+
+
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{msgs['TYP_DECISION.TITLE.ADD']}" />
+                    <h:outputText value="#{msgs['TYP_DECISION.TITLE.ADD']}"/>
                 </span>
             </h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="addDecisionTypesForm">
-    				<br />
-    				<br />
-    				<br />
-    				<div id="blockFormInfo" class="blockForm">
-    					<div class="blockButton">
-    						<h:panelGroup>
-    							<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    								action="#{nomenclatureController.add}" />
-    							<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    								immediate="true"
-    								action="#{nomenclatureController.goSeeAllTypDecision}" />
-    						</h:panelGroup>
-    					</div>
-    					<p:dataTable var="typeDecision" 
-    							value="#{nomenclatureController.addNomenclatures}"
-    							styleClass="displayInfo" alternateColors="false">
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
-    							</f:facet>
-    							<h:outputText value="#{typeDecision.code}" rendered="#{typeDecision.id != 0}" />
-    							<p:inputText id="codeTypDecision" value="#{typeDecision.code}" size="6" maxlength="5"
-    								rendered="#{typeDecision.id == 0}" />
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['TYP_DECISION.CODE_APOGEE']}" />
-    							</f:facet>
-    							<h:outputText value="#{typeDecision.codeApogee}" 
-    								rendered="#{typeDecision.id != 0}"/>
-    							<p:selectOneMenu id="codeApogee" value="#{typeDecision.codeApogee}"
-    								rendered="#{typeDecision.id == 0}">
-    								<f:selectItem itemLabel="F" itemValue="F"/>
-    								<f:selectItem itemLabel="D" itemValue="D"/>
-    								<f:selectItem itemLabel="E" itemValue="E"/>
-    							</p:selectOneMenu>
-    						</p:column>						
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.LONG_LIB']}" />
-    							</f:facet>
-    							<h:outputText value="#{typeDecision.libelle}" rendered="#{typeDecision.id != 0}" />
-    							<p:inputText id="libTypDecision" value="#{typeDecision.libelle}" size="31" maxlength="30"
-    								rendered="#{typeDecision.id == 0}" />
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.SHORT_LIB']}" />
-    							</f:facet>
-    							<h:outputText value="#{typeDecision.shortLabel}" rendered="#{typeDecision.id != 0}" />
-    							<p:inputText id="licTypDecision" value="#{typeDecision.shortLabel}" size="11" maxlength="10"
-    								rendered="#{typeDecision.id == 0}" />
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['TYP_DECISION.CONVOCATION_TYPE']}" />
-    							</f:facet>
-    							<p:selectOneMenu id="typeConvocation" readonly="#{typeDecision.id != 0}"
-    								value="#{typeDecision.codeTypeConvocation}">
-    								<f:selectItems value="#{nomenclatureController.typeConvocationsItems}"/>
-    							</p:selectOneMenu>
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['TYP_CONV.IS_FINAL']}" />
-    							</f:facet>
-    							<p:selectBooleanCheckbox value="#{typeDecision.isFinal}" rendered="#{typeDecision.id == 0}" />
-    							<p:graphicImage url="/media/images/check2.gif" 
-    								rendered="#{typeDecision.id != 0 and typeDecision.isFinal}"/>
-    							<p:graphicImage url="/media/images/check0.gif" 
-    								rendered="#{typeDecision.id != 0 and !typeDecision.isFinal}"/>
-    						</p:column>
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
-    							</f:facet>
-    							<p:selectBooleanCheckbox value="#{typeDecision.temoinEnService}" rendered="#{typeDecision.id == 0}" />
-    							<p:graphicImage url="/media/images/check2.gif" 
-    								rendered="#{typeDecision.id != 0 and typeDecision.temoinEnService}"/>
-    							<p:graphicImage url="/media/images/check0.gif" 
-    								rendered="#{typeDecision.id != 0 and !typeDecision.temoinEnService}"/>
-    						</p:column>						
-    					</p:dataTable>
-    
-    				</div>
-    				<br />
-    				<br />
-    				<br />
-    			</h:form>
-    		</div>
-    	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        	highlightInputAndSelect('addDecisionTypesForm');
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
+            <div id="div_subSection" class="div_subSection">
+                <h:form id="addDecisionTypesForm">
+                    <br/>
+                    <br/>
+                    <br/>
+
+                    <div id="blockFormInfo" class="blockForm">
+                        <div class="blockButton">
+                            <h:panelGroup>
+                                <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                                 action="#{nomenclatureController.add}"/>
+                                <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                                                 immediate="true"
+                                                 action="#{nomenclatureController.goSeeAllTypDecision}"/>
+                            </h:panelGroup>
+                        </div>
+                        <p:dataTable var="typeDecision"
+                                     value="#{nomenclatureController.addNomenclatures}"
+                                     styleClass="displayInfo" alternateColors="false">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>
+                                </f:facet>
+                                <h:outputText value="#{typeDecision.code}" rendered="#{typeDecision.id != 0}"/>
+                                <p:inputText id="codeTypDecision" value="#{typeDecision.code}" size="6" maxlength="5"
+                                             rendered="#{typeDecision.id == 0}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['TYP_DECISION.CODE_APOGEE']}"/>
+                                </f:facet>
+                                <h:outputText value="#{typeDecision.codeApogee}"
+                                              rendered="#{typeDecision.id != 0}"/>
+                                <p:selectOneMenu id="codeApogee" value="#{typeDecision.codeApogee}"
+                                                 rendered="#{typeDecision.id == 0}">
+                                    <f:selectItem itemLabel="F" itemValue="F"/>
+                                    <f:selectItem itemLabel="D" itemValue="D"/>
+                                    <f:selectItem itemLabel="E" itemValue="E"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.LONG_LIB']}"/>
+                                </f:facet>
+                                <h:outputText value="#{typeDecision.libelle}" rendered="#{typeDecision.id != 0}"/>
+                                <p:inputText id="libTypDecision" value="#{typeDecision.libelle}" size="31"
+                                             maxlength="30"
+                                             rendered="#{typeDecision.id == 0}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.SHORT_LIB']}"/>
+                                </f:facet>
+                                <h:outputText value="#{typeDecision.shortLabel}" rendered="#{typeDecision.id != 0}"/>
+                                <p:inputText id="licTypDecision" value="#{typeDecision.shortLabel}" size="11"
+                                             maxlength="10"
+                                             rendered="#{typeDecision.id == 0}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['TYP_DECISION.CONVOCATION_TYPE']}"/>
+                                </f:facet>
+                                <p:selectOneMenu id="typeConvocation" readonly="#{typeDecision.id != 0}"
+                                                 value="#{typeDecision.codeTypeConvocation}">
+                                    <f:selectItems value="#{nomenclatureController.typeConvocationsItems}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['TYP_CONV.IS_FINAL']}"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{typeDecision.isFinal}"
+                                                         rendered="#{typeDecision.id == 0}"/>
+                                <p:graphicImage url="/media/images/check2.gif"
+                                                rendered="#{typeDecision.id != 0 and typeDecision.isFinal}"/>
+                                <p:graphicImage url="/media/images/check0.gif"
+                                                rendered="#{typeDecision.id != 0 and !typeDecision.isFinal}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="#{typeDecision.temoinEnService}"
+                                                         rendered="#{typeDecision.id == 0}"/>
+                                <p:graphicImage url="/media/images/check2.gif"
+                                                rendered="#{typeDecision.id != 0 and typeDecision.temoinEnService}"/>
+                                <p:graphicImage url="/media/images/check0.gif"
+                                                rendered="#{typeDecision.id != 0 and !typeDecision.temoinEnService}"/>
+                            </p:column>
+                        </p:dataTable>
+
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                </h:form>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            highlightChildrenLiTags('navigationHeader:navigation');
+            highlightChildrenLiTags('navigationFooter:navigation');
+            highlightInputAndSelect('addDecisionTypesForm');
         </script>
     </ui:define>
 </ui:composition>

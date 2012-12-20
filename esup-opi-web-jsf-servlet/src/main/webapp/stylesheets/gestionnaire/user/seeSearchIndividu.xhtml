@@ -1,90 +1,92 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	<div id="maPage" class="div_body">
-    		<h1>
+        <div id="maPage" class="div_body">
+            <h1>
                 <h:panelGroup styleClass="section-header">
-                    <h:outputText value="#{msgs['INDIVIDU.FOUND']}" />
+                    <h:outputText value="#{msgs['INDIVIDU.FOUND']}"/>
                 </h:panelGroup>
             </h1>
-    		<h:form id="seeManagersForm">
-    			
-    			<ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml" />
-    
-    			<br />
-    			<br />
-    			<div id="blockFormListDom" class="blockForm">
-    				<p:dataTable var="individu" id="managerData"
-    					value="#{paginatorIndividu.visibleItems}"
-                        paginator="true"
-                        currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
-                        paginatorTemplate="#{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
-                        rowsPerPageTemplate="10,20,30,40" rows="10"
-                        emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}"
-    					styleClass="paginatorData">
-<!--     					<f:facet name="header"> -->
-<!--     						<h:panelGroup > -->
-<!--     							<e:paginator id="paginatorIndividu" -->
-<!--     								paginator="#{paginatorIndividu}" -->
-<!--     								itemsName="#{msgs['INDIVIDUS']}" -->
-<!--     								onchange="javascript:{simulateLinkClick('seeManagersForm:managerData:submitPageSize');}" /> -->
-<!--     							<p:commandButton id="submitPageSize" -->
-<!--     								action="#{paginatorIndividu.forceReload}" /> -->
-<!--     						</h:panelGroup> -->
-<!--     					</f:facet> -->
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}" />
-    						</f:facet>
-    						<h:outputText value="#{individu.numDossierOpi}" />
-    					</p:column>
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['INDIVIDU.NOM']}" />
-    						</f:facet>
-    						<h:outputText value="#{individu.nomPatronymique}" />
-    					</p:column>
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['INDIVIDU.PRENOM']}" />
-    						</f:facet>
-    						<h:outputText value="#{individu.prenom}" />
-    					</p:column>
-    					<p:column>
-    						<f:facet name="header">
-    							<h:outputText value="#{msgs['INDIVIDU.DATE_NAI_COURT']}" />
-    						</f:facet>
-    						<h:outputText value="#{individu.dateNaissance}" >
-    							<f:convertDateTime pattern="dd/MM/yyyy"
-    								timeZone="#{sessionController.timezone}" />
-    						</h:outputText>
-    					</p:column>
-    					<p:column rendered="#{not empty paginatorIndividu.visibleItems}">
-    						<p:commandButton icon="ui-icon-search"
-    							styleClass="form-button-image" immediate="true"
-    							title="#{msgs['_.BUTTON.DISPLAY']}" 
-    							action="#{individuController.goSeeOneIndividu}">
-    							<f:setPropertyActionListener value="#{individu}" target="#{individuController.pojoIndividu.individu}" />
-    						</p:commandButton>
-    					</p:column>
-    				</p:dataTable>
-    			</div>
+            <h:form id="seeManagersForm">
+
+                <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml"/>
+
+                <br/>
+                <br/>
+
+                <div id="blockFormListDom" class="blockForm">
+                    <p:dataTable var="individu" id="managerData"
+                                 value="#{paginatorIndividu.visibleItems}"
+                                 paginator="true"
+                                 currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
+                                 paginatorTemplate="#{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
+                                 rowsPerPageTemplate="10,20,30,40" rows="10"
+                                 emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}"
+                                 styleClass="paginatorData">
+                        <!--     					<f:facet name="header"> -->
+                        <!--     						<h:panelGroup > -->
+                        <!--     							<e:paginator id="paginatorIndividu" -->
+                        <!--     								paginator="#{paginatorIndividu}" -->
+                        <!--     								itemsName="#{msgs['INDIVIDUS']}" -->
+                        <!--     								onchange="javascript:{simulateLinkClick('seeManagersForm:managerData:submitPageSize');}" /> -->
+                        <!--     							<p:commandButton id="submitPageSize" -->
+                        <!--     								action="#{paginatorIndividu.forceReload}" /> -->
+                        <!--     						</h:panelGroup> -->
+                        <!--     					</f:facet> -->
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}"/>
+                            </f:facet>
+                            <h:outputText value="#{individu.numDossierOpi}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['INDIVIDU.NOM']}"/>
+                            </f:facet>
+                            <h:outputText value="#{individu.nomPatronymique}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['INDIVIDU.PRENOM']}"/>
+                            </f:facet>
+                            <h:outputText value="#{individu.prenom}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msgs['INDIVIDU.DATE_NAI_COURT']}"/>
+                            </f:facet>
+                            <h:outputText value="#{individu.dateNaissance}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"
+                                                   timeZone="#{sessionController.timezone}"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column rendered="#{not empty paginatorIndividu.visibleItems}">
+                            <p:commandButton icon="ui-icon-search"
+                                             styleClass="form-button-image" immediate="true"
+                                             title="#{msgs['_.BUTTON.DISPLAY']}"
+                                             action="#{individuController.goSeeOneIndividu}">
+                                <f:setPropertyActionListener value="#{individu}"
+                                                             target="#{individuController.pojoIndividu.individu}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
                 <p:blockUI block="managerData" trigger="search-button">
-                    <p:graphicImage value="/media/images/ajax-loader.gif" />
+                    <p:graphicImage value="/media/images/ajax-loader.gif"/>
                 </p:blockUI>
-    		</h:form>
-    		<br />
-    		<br />
-    		<br />
-    	</div>
-    	
-<!--     	<script type="text/javascript"> -->
-<!--         	highlightChildrenLiTags('navigationHeader:navigation'); -->
-<!--         	highlightChildrenLiTags('navigationFooter:navigation'); -->
-<!--         	hideElement('seeManagersForm:managerData:submitPageSize'); -->
-<!--         </script> -->
+            </h:form>
+            <br/>
+            <br/>
+            <br/>
+        </div>
+
+        <!--     	<script type="text/javascript"> -->
+        <!--         	highlightChildrenLiTags('navigationHeader:navigation'); -->
+        <!--         	highlightChildrenLiTags('navigationFooter:navigation'); -->
+        <!--         	hideElement('seeManagersForm:managerData:submitPageSize'); -->
+        <!--         </script> -->
     </ui:define>
 </ui:composition>

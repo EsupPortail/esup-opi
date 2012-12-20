@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import fj.P2;
+import fj.data.Option;
+import fj.data.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.exceptions.UserNotFoundException;
@@ -56,6 +59,8 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
 import org.esupportail.opi.utils.ldap.LdapAttributes;
+import org.esupportail.opi.utils.primefaces.PFFilters;
+import org.primefaces.model.SortOrder;
 
 
 /**
@@ -342,6 +347,20 @@ public class DomainServiceImpl implements DomainService {
 		return daoService.getIndividus(trt);
 	}
 	
+	@Override
+	public P2<Long, Stream<Individu>> sliceOfInd(PFFilters pfFilters,
+                                                 Set<TypeDecision> typesDec,
+                                                 Option<Boolean> validWish,
+                                                 Option<Boolean> treatedWish,
+                                                 Option<Date> wishCreation,
+                                                 Option<String> codeTypeTrtmt,
+                                                 Set<TraitementCmi> trtCmis,
+                                                 Set<Integer> listCodesRI) {
+	    return daoService.sliceOfInd(
+                pfFilters, typesDec, treatedWish, validWish, wishCreation, codeTypeTrtmt, trtCmis, listCodesRI);
+	}
+	
+	
 	
 	/** 
 	 * @see org.esupportail.opi.domain.DomainService#getIndividuByMail(java.lang.String)
@@ -364,10 +383,6 @@ public class DomainServiceImpl implements DomainService {
 		
 	}
 	
-	/** 
-	 * @see org.esupportail.opi.domain.DomainService#getIndividusByCampagne(
-	 * org.esupportail.opi.domain.beans.parameters.Campagne)
-	 */
 	public List<Individu> getIndividusByCampagne(final Campagne campagne, final Boolean temSve) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getIndividusByCampagne( )");
@@ -376,10 +391,6 @@ public class DomainServiceImpl implements DomainService {
 		
 	}
 	
-	/** 
-	 * @see org.esupportail.opi.domain.DomainService#getIndividusByCampagne(
-	 * org.esupportail.opi.domain.beans.parameters.Campagne)
-	 */
 	public List<Individu> getIndividuSearch(final String nomPatronymique, final String prenom,
 			final Date dateNaissance, final String codPayNaissance, final String codDepPaysNaissance) {
 		if (log.isDebugEnabled()) {
@@ -702,13 +713,13 @@ public class DomainServiceImpl implements DomainService {
 	}
 
 	/** 
-	 * @see org.esupportail.opi.domain.DomainService#asGestionnaireRightsOnStudent(
+	 * @see org.esupportail.opi.domain.DomainService#hasGestionnaireRightsOnStudent(
 	 * java.util.Set, java.util.Set)
 	 */
-	public Boolean asGestionnaireRightsOnStudent(final Set <IndVoeu> lesVoeux,
-			final Set <Commission> lesCommissions) {
+	public Boolean hasGestionnaireRightsOnStudent(final Set<IndVoeu> lesVoeux,
+                                                  final Set<Commission> lesCommissions) {
 		if (log.isDebugEnabled()) {
-			log.debug("entering asGestionnaireRightsOnStudent( " + lesVoeux + " ---- "
+			log.debug("entering hasGestionnaireRightsOnStudent( " + lesVoeux + " ---- "
 			+ lesCommissions + " )");
 		}
 		if (lesVoeux == null ) { return false; }
@@ -814,9 +825,6 @@ public class DomainServiceImpl implements DomainService {
 		return new Version(versionManager.getVersion());
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.DomainService#setDatabaseVersion(java.lang.String)
-	 */
 	public void updateDatabaseVersion(final String version) {
 		if (log.isDebugEnabled()) {
 			log.debug("setting database version to '" + version + "'...");
@@ -829,10 +837,6 @@ public class DomainServiceImpl implements DomainService {
 		}
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.DomainService#setDatabaseVersion(
-	 * 	org.esupportail.commons.services.application.Version)
-	 */
 	public void updateDatabaseVersion(final Version version) {
 		updateDatabaseVersion(version.toString());
 	}
@@ -1041,10 +1045,6 @@ public class DomainServiceImpl implements DomainService {
 		return daoService.getAvis(indVoeu);
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.DomainService#getAvisByEtp(
-	 * String, String)
-	 */
 	public List<Avis> getAvisByEtp(final String codEtp, final Integer codVrsVet) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getAvis( " + codEtp + " , " + codVrsVet + " )");
@@ -1553,3 +1553,5 @@ public class DomainServiceImpl implements DomainService {
 	
 
 }
+
+

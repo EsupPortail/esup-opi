@@ -1,56 +1,56 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <h:form id="formAddGroupe">
-    	<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi" styleClass="tableJustWidthMax">
-    		<h:outputText value="#{msgs['GROUPE.TITLE.ENTER']}" styleClass="section-smallTitle"/>
-    		<h:panelGroup>
-    			<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    				rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.addAction}"
-    				action="#{paramGrpTypDipController.add}" ajax="false"/>
-    			<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    				rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.updateAction}"
-    				action="#{paramGrpTypDipController.update}" ajax="false"/>
-    			<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    				action="#{paramGrpTypDipController.reset}" ajax="false"/>
-    		</h:panelGroup>
-    	</h:panelGrid>
-    	<h:panelGrid columns="4" styleClass="displayInfo">
-    		<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}"
-    			styleClass="form-field-label-inHeader-validator" for="code"/>
-    		<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
-    			styleClass="form-field-label-inHeader-validator" for="lib"/>
-    		<h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}"
-    			styleClass="form-field-label-inHeader-validator" for="inUse"/>
-    		<h:outputLabel value="#{msgs['FIELD_LABEL.TYPE_DIPLOME']}"
-    			styleClass="form-field-label-inHeader-validator" for="dips"/>
-    
-    		<p:inputText id="code" size="10"
-    			value="#{paramGrpTypDipController.groupe.codGrpTpd}"/>
-    		<p:inputText id="lib" size="60"
-    			value="#{paramGrpTypDipController.groupe.libGrpTpd}"/>
-    		<p:selectOneMenu id="inUse" style="text-align:left;"
-    			value="#{paramGrpTypDipController.groupe.temEnSveGrpTpd}">
-    			<f:selectItems value="#{paramGrpTypDipController.temEnSveItems}"/>
-    		</p:selectOneMenu>
-    		<h:panelGrid columns="3" id="dips">
-    			<p:selectManyMenu styleClass="manyMenu"
-    				value="#{paramGrpTypDipController.selectDipsADI}">
-    				<f:selectItems value="#{paramGrpTypDipController.allDipsItems}"/>
-    			</p:selectManyMenu>
-    			<h:panelGrid columns="1">
+        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi" styleClass="tableJustWidthMax">
+            <h:outputText value="#{msgs['GROUPE.TITLE.ENTER']}" styleClass="section-smallTitle"/>
+            <h:panelGroup>
+                <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                 rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.addAction}"
+                                 action="#{paramGrpTypDipController.add}" ajax="false"/>
+                <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                 rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.updateAction}"
+                                 action="#{paramGrpTypDipController.update}" ajax="false"/>
+                <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                                 action="#{paramGrpTypDipController.reset}" ajax="false"/>
+            </h:panelGroup>
+        </h:panelGrid>
+        <h:panelGrid columns="4" styleClass="displayInfo">
+            <h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}"
+                           styleClass="form-field-label-inHeader-validator" for="code"/>
+            <h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
+                           styleClass="form-field-label-inHeader-validator" for="lib"/>
+            <h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}"
+                           styleClass="form-field-label-inHeader-validator" for="inUse"/>
+            <h:outputLabel value="#{msgs['FIELD_LABEL.TYPE_DIPLOME']}"
+                           styleClass="form-field-label-inHeader-validator" for="dips"/>
+
+            <p:inputText id="code" size="10"
+                         value="#{paramGrpTypDipController.groupe.codGrpTpd}"/>
+            <p:inputText id="lib" size="60"
+                         value="#{paramGrpTypDipController.groupe.libGrpTpd}"/>
+            <p:selectOneMenu id="inUse" style="text-align:left;"
+                             value="#{paramGrpTypDipController.groupe.temEnSveGrpTpd}">
+                <f:selectItems value="#{paramGrpTypDipController.temEnSveItems}"/>
+            </p:selectOneMenu>
+            <h:panelGrid columns="3" id="dips">
+                <p:selectManyMenu styleClass="manyMenu"
+                                  value="#{paramGrpTypDipController.selectDipsADI}">
+                    <f:selectItems value="#{paramGrpTypDipController.allDipsItems}"/>
+                </p:selectManyMenu>
+                <h:panelGrid columns="1">
                     <p:commandButton icon="ui-icon-arrowthick-1-e"
-                        action="#{paramGrpTypDipController.ajouDipsItems}" ajax="false"/>
-    				<p:commandButton icon="ui-icon-arrowthick-1-w"
-    					action="#{paramGrpTypDipController.suppDipsItems}" ajax="false"/>
-    			</h:panelGrid>
-    			<p:selectManyMenu styleClass="manyMenu"
-    				value="#{paramGrpTypDipController.selectDipsDI}">
-    				<f:selectItems value="#{paramGrpTypDipController.dipsItems}"/>
-    			</p:selectManyMenu>
-    		</h:panelGrid>
-    	</h:panelGrid>
-    	<p:message for="formAddGroupe"/>
+                                     action="#{paramGrpTypDipController.ajouDipsItems}" ajax="false"/>
+                    <p:commandButton icon="ui-icon-arrowthick-1-w"
+                                     action="#{paramGrpTypDipController.suppDipsItems}" ajax="false"/>
+                </h:panelGrid>
+                <p:selectManyMenu styleClass="manyMenu"
+                                  value="#{paramGrpTypDipController.selectDipsDI}">
+                    <f:selectItems value="#{paramGrpTypDipController.dipsItems}"/>
+                </p:selectManyMenu>
+            </h:panelGrid>
+        </h:panelGrid>
+        <p:message for="formAddGroupe"/>
     </h:form>
 </ui:fragment>

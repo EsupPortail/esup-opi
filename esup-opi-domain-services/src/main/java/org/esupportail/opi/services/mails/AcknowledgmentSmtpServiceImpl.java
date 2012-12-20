@@ -25,12 +25,12 @@ public class AcknowledgmentSmtpServiceImpl extends SimpleSmtpServiceImpl{
 	private final Logger logger = new LoggerImpl(AcknowledgmentSmtpServiceImpl.class);
 	
 	/**
-	 * Indique l'adresse à laquelle sont envoyées les exceptions
+	 * Indique l'adresse ÃÂ  laquelle sont envoyÃÂ©es les exceptions
 	 */
 	private String recipientEmail;
 	
 	/**
-	 * Indique l'adresse à laquelle sont envoyées les accusés de réception
+	 * Indique l'adresse ÃÂ  laquelle sont envoyÃÂ©es les accusÃÂ©s de rÃÂ©ception
 	 */
 	private String acknowledgementEmail;
 

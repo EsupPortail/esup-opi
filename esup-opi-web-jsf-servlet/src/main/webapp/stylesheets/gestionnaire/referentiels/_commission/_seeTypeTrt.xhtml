@@ -1,121 +1,122 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <div style="width:100%;">
-    	<h:outputText value="#{msgs['FIELD_LABEL.ETAPES']}"
-    		styleClass="section-smallTitle" />
+        <h:outputText value="#{msgs['FIELD_LABEL.ETAPES']}"
+                      styleClass="section-smallTitle"/>
     </div>
     <p:dataTable id="trtCmi" var="beanTrtCmi"
-    	value="#{trtCmiController.allTraitementCmi}" styleClass="displayInfo"
-    	alternateColors="false">
-    	<p:column>
-    		<f:facet name="header">
-    			<h:outputText value="#{msgs['FIELD_LABEL.CGE']}" />
-    		</f:facet>
-    		<h:outputText value="#{beanTrtCmi.traitementCmi.versionEtpOpi.codCge}" />
-    	</p:column>
-    	<p:column>
-    		<f:facet name="header">
-    			<h:outputText value="#{msgs['FIELD_LABEL.ETP']}" />
-    		</f:facet>
-    		<h:outputText value="#{beanTrtCmi.etape.libWebVet}" />
-    	</p:column>
-    	<p:column>
-    		<f:facet name="header">
-    			<h:outputText value="#{msgs['FIELD_LABEL.CAMPAGNES']}" />
-    		</f:facet>
+                 value="#{trtCmiController.allTraitementCmi}" styleClass="displayInfo"
+                 alternateColors="false">
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['FIELD_LABEL.CGE']}"/>
+            </f:facet>
+            <h:outputText value="#{beanTrtCmi.traitementCmi.versionEtpOpi.codCge}"/>
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['FIELD_LABEL.ETP']}"/>
+            </f:facet>
+            <h:outputText value="#{beanTrtCmi.etape.libWebVet}"/>
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['FIELD_LABEL.CAMPAGNES']}"/>
+            </f:facet>
             <p:graphicImage url="/media/images/informationSmall.png"
-                style="cursor:pointer;" id="allcampagnes" />
+                            style="cursor:pointer;" id="allcampagnes"/>
             <p:overlayPanel
-                for="allcampagnes" appendToBody="true"
-                showEvent="mouseover" hideEvent="mouseout"
-                styleClass="containerPopup" style="width:300px;">
-				<h:panelGrid columns="1">
-					<h:outputText styleClass="titrePopupAide"
-						value="#{msgs['FIELD_LABEL.CAMPAGNES']}" />
-					<h:panelGroup>
-						<h:outputText styleClass="libellesAide"
-							value="#{msgs['CAMPAGNES.INFO.VET']} : " />
-					</h:panelGroup>
-					<h:panelGroup>
-						<ui:repeat var="link"
-							value="#{beanTrtCmi.traitementCmi.listLinkTrtCmiCamp}">
-							<h:outputText value="#{link.campagne.code}"
-								styleClass="span-text-small" />
-							<h:outputText value=" : " styleClass="span-text-small" />
-							<h:outputText value="#{link.campagne.libelle}"
-								styleClass="span-text-small" />
-						</ui:repeat>
-					</h:panelGroup>
-				</h:panelGrid>
+                    for="allcampagnes" appendToBody="true"
+                    showEvent="mouseover" hideEvent="mouseout"
+                    styleClass="containerPopup" style="width:300px;">
+                <h:panelGrid columns="1">
+                    <h:outputText styleClass="titrePopupAide"
+                                  value="#{msgs['FIELD_LABEL.CAMPAGNES']}"/>
+                    <h:panelGroup>
+                        <h:outputText styleClass="libellesAide"
+                                      value="#{msgs['CAMPAGNES.INFO.VET']} : "/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <ui:repeat var="link"
+                                   value="#{beanTrtCmi.traitementCmi.listLinkTrtCmiCamp}">
+                            <h:outputText value="#{link.campagne.code}"
+                                          styleClass="span-text-small"/>
+                            <h:outputText value=" : " styleClass="span-text-small"/>
+                            <h:outputText value="#{link.campagne.libelle}"
+                                          styleClass="span-text-small"/>
+                        </ui:repeat>
+                    </h:panelGroup>
+                </h:panelGrid>
             </p:overlayPanel>
-    	</p:column>
-    	<p:column>
-    		<f:facet name="header">
-    			<h:outputText value="#{msgs['TYP_TRT']}" />
-    		</f:facet>
-    		<h:outputText value="#{beanTrtCmi.typeTraitement.label}" />
-    	</p:column>
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['TYP_TRT']}"/>
+            </f:facet>
+            <h:outputText value="#{beanTrtCmi.typeTraitement.label}"/>
+        </p:column>
     </p:dataTable>
-    <br />
-    <br />
+    <br/>
+    <br/>
+
     <div style="width:100%;">
-    	<h:outputText value="#{msgs['FIELD_LABEL.ETAPES_OFF']}"
-    		styleClass="section-smallTitle" />
+        <h:outputText value="#{msgs['FIELD_LABEL.ETAPES_OFF']}"
+                      styleClass="section-smallTitle"/>
     </div>
     <p:dataTable id="trtCmiOff" var="beanTrtCmi"
-    	value="#{trtCmiController.treatmentsCmiOff}" styleClass="displayInfo"
-    	alternateColors="false">
-    	<p:column>
-    		<f:facet name="header">
-    			<h:outputText value="#{msgs['FIELD_LABEL.CGE']}" />
-    		</f:facet>
-    		<h:outputText value="#{beanTrtCmi.traitementCmi.versionEtpOpi.codCge}" />
-    	</p:column>
-    	<p:column>
-    		<f:facet name="header">
-    			<h:outputText value="#{msgs['FIELD_LABEL.ETP']}" />
-    		</f:facet>
-    		<h:outputText value="#{beanTrtCmi.etape.libWebVet}" />
-    	</p:column>
-    	<p:column>
-    		<f:facet name="header">
-    			<h:outputText value="#{msgs['FIELD_LABEL.CAMPAGNES']}" />
-    		</f:facet>
+                 value="#{trtCmiController.treatmentsCmiOff}" styleClass="displayInfo"
+                 alternateColors="false">
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['FIELD_LABEL.CGE']}"/>
+            </f:facet>
+            <h:outputText value="#{beanTrtCmi.traitementCmi.versionEtpOpi.codCge}"/>
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['FIELD_LABEL.ETP']}"/>
+            </f:facet>
+            <h:outputText value="#{beanTrtCmi.etape.libWebVet}"/>
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['FIELD_LABEL.CAMPAGNES']}"/>
+            </f:facet>
             <p:graphicImage url="/media/images/informationSmall.png"
-                style="cursor:pointer;" id="allcampagnes" />
+                            style="cursor:pointer;" id="allcampagnes"/>
             <p:overlayPanel
-                for="allcampagnes" appendToBody="true"
-                showEvent="mouseover" hideEvent="mouseout"
-                styleClass="containerPopup" style="width:300px;">
-				<h:panelGrid columns="1">
-					<h:outputText styleClass="titrePopupAide"
-						value="#{msgs['FIELD_LABEL.CAMPAGNES']}" />
-					<h:panelGroup>
-						<h:outputText styleClass="libellesAide"
-							value="#{msgs['CAMPAGNES.INFO.VET']} : " />
-					</h:panelGroup>
-					<h:panelGroup>
-						<ui:repeat var="link"
-							value="#{beanTrtCmi.traitementCmi.listLinkTrtCmiCamp}">
+                    for="allcampagnes" appendToBody="true"
+                    showEvent="mouseover" hideEvent="mouseout"
+                    styleClass="containerPopup" style="width:300px;">
+                <h:panelGrid columns="1">
+                    <h:outputText styleClass="titrePopupAide"
+                                  value="#{msgs['FIELD_LABEL.CAMPAGNES']}"/>
+                    <h:panelGroup>
+                        <h:outputText styleClass="libellesAide"
+                                      value="#{msgs['CAMPAGNES.INFO.VET']} : "/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <ui:repeat var="link"
+                                   value="#{beanTrtCmi.traitementCmi.listLinkTrtCmiCamp}">
                             <div>
-        						<h:outputText value="#{link.campagne.code}"
-        							styleClass="span-text-small" />
-        						<h:outputText value=" : " styleClass="span-text-small" />
-        						<h:outputText value="#{link.campagne.libelle}"
-        							styleClass="span-text-small" />
+                                <h:outputText value="#{link.campagne.code}"
+                                              styleClass="span-text-small"/>
+                                <h:outputText value=" : " styleClass="span-text-small"/>
+                                <h:outputText value="#{link.campagne.libelle}"
+                                              styleClass="span-text-small"/>
                             </div>
-						</ui:repeat>
-					</h:panelGroup>
-				</h:panelGrid>
+                        </ui:repeat>
+                    </h:panelGroup>
+                </h:panelGrid>
             </p:overlayPanel>
-    	</p:column>
-    	<p:column>
-    		<f:facet name="header">
-    			<h:outputText value="#{msgs['TYP_TRT']}" />
-    		</f:facet>
-    		<h:outputText value="#{beanTrtCmi.typeTraitement.label}" />
-    	</p:column>
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['TYP_TRT']}"/>
+            </f:facet>
+            <h:outputText value="#{beanTrtCmi.typeTraitement.label}"/>
+        </p:column>
     </p:dataTable>
 </ui:fragment>

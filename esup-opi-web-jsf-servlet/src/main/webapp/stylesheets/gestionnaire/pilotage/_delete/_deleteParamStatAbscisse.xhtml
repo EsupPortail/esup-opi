@@ -1,28 +1,28 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <div style="width:100%;">
-    	<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    		styleClass="tableJustWidthMax">
-    		<h:outputFormat value="#{msgs['COORDONNE.CONFIRM.DELETE']}">
-    			<f:param value="#{parametreStatController.selectAbscisseCoordonne}"/>
-    		</h:outputFormat>
-    		<h:panelGroup>
-    			<p:commandButton value="#{msgs['_.BUTTON.YES']}" ajax="false"
-    				action="#{parametreStatController.delAbscisseCoordonne}">
-    				<f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}"
-    					target="#{parametreStatController.actionEnum.whatAction}" />
-    				<f:setPropertyActionListener value="#{parametreStatController.addUpdateCoordonne.emptyAction}"
-    					target="#{parametreStatController.addUpdateCoordonne.whatAction}" />
-    			</p:commandButton>
-    			<p:commandButton value="#{msgs['_.BUTTON.NO']}" ajax="false">
-    				<f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}"
-    					target="#{parametreStatController.actionEnum.whatAction}" />
-    				<f:setPropertyActionListener value="#{parametreStatController.addUpdateCoordonne.emptyAction}"
-    					target="#{parametreStatController.addUpdateCoordonne.whatAction}" />
-    			</p:commandButton>
-    		</h:panelGroup>
-    	</h:panelGrid>
+        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                     styleClass="tableJustWidthMax">
+            <h:outputFormat value="#{msgs['COORDONNE.CONFIRM.DELETE']}">
+                <f:param value="#{parametreStatController.selectAbscisseCoordonne}"/>
+            </h:outputFormat>
+            <h:panelGroup>
+                <p:commandButton value="#{msgs['_.BUTTON.YES']}" ajax="false"
+                                 action="#{parametreStatController.delAbscisseCoordonne}">
+                    <f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}"
+                                                 target="#{parametreStatController.actionEnum.whatAction}"/>
+                    <f:setPropertyActionListener value="#{parametreStatController.addUpdateCoordonne.emptyAction}"
+                                                 target="#{parametreStatController.addUpdateCoordonne.whatAction}"/>
+                </p:commandButton>
+                <p:commandButton value="#{msgs['_.BUTTON.NO']}" ajax="false">
+                    <f:setPropertyActionListener value="#{parametreStatController.actionEnum.emptyAction}"
+                                                 target="#{parametreStatController.actionEnum.whatAction}"/>
+                    <f:setPropertyActionListener value="#{parametreStatController.addUpdateCoordonne.emptyAction}"
+                                                 target="#{parametreStatController.addUpdateCoordonne.whatAction}"/>
+                </p:commandButton>
+            </h:panelGroup>
+        </h:panelGrid>
     </div>
 </ui:fragment>

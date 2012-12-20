@@ -22,68 +22,67 @@ import org.esupportail.opi.domain.beans.parameters.accessRight.Traitement;
 import org.esupportail.opi.web.beans.BeanAccess;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 
-
+import java.util.*;
 
 
 /**
  * Gere les modfication des droits pour chaque profil
  * et aussi controlle les droits pour chaque actions au sein des pages.
- * @author cleprous
  *
+ * @author cleprous
  */
 public class AccessRightController extends AbstractContextAwareController {
 
 
-	/**
-	 * The serialization id.
-	 */
-	private static final long serialVersionUID = 1222587868921680324L;
+    /**
+     * The serialization id.
+     */
+    private static final long serialVersionUID = 1222587868921680324L;
 
 
 	/*
-	 ******************* PROPERTIES ******************* */
+     ******************* PROPERTIES ******************* */
 
 
-	/**
-	 * A logger.
-	 */
-	private final Logger log = new LoggerImpl(getClass());
-	
-	
-	/**
-	 * All access type.
-	 */
-	private Map<String, AccessType> accessTypes;
+    /**
+     * A logger.
+     */
+    private final Logger log = new LoggerImpl(getClass());
+
+
+    /**
+     * All access type.
+     */
+    private Map<String, AccessType> accessTypes;
 
 	/*
 	 ******************* INIT ************************* */
 
-	/**
-	 *Construtor.
-	 */
-	public AccessRightController() {
-		super();
-	}
+    /**
+     * Construtor.
+     */
+    public AccessRightController() {
+        super();
+    }
 
 
+    /**
+     * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
+     */
+    @Override
+    public void reset() {
+        super.reset();
+    }
 
-	/** 
-	 * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
-	 */
-	@Override
-	public void reset() {
-		super.reset();
-	}
-	
-	/** 
-	 * @see org.esupportail.opi.web.controllers.AbstractContextAwareController#afterPropertiesSetInternal()
-	 */
-	@Override
-	public void afterPropertiesSetInternal() {
-		super.afterPropertiesSetInternal();
-		Assert.notNull(this.accessTypes, "property accessTypes of class " 
-				+ this.getClass().getName() + " can not be null");
-	}
+    /**
+     * @see org.esupportail.opi.web.controllers.AbstractContextAwareController#afterPropertiesSetInternal()
+     */
+    @Override
+    public void afterPropertiesSetInternal() {
+        super.afterPropertiesSetInternal();
+        Assert.notNull(this.accessTypes, "property accessTypes of class "
+                + this.getClass().getName() + " can not be null");
+    }
 
 	/*
 	 ******************* METHODS ********************** */
@@ -262,42 +261,43 @@ public class AccessRightController extends AbstractContextAwareController {
 	
 	/* ************FIN GESTION DES DROITS ************/
 
-	
-	/***
-	 * Return all key of AccessType.
-	 * @return Set< String>
-	 */
-	public Set<String> getCodeAccess() {
-		return getAccessTypes().keySet();
-	}
 
-	/**
-	 * List of BeanProfile in use.
-	 * @return
-	 */
-	public List<String> getCodeAccessItems() {
-		List<String> s = new ArrayList<String>();
-		s.addAll(getCodeAccess());
-		return s;		
-	}
+    /**
+     * Return all key of AccessType.
+     *
+     * @return Set< String>
+     */
+    public Set<String> getCodeAccess() {
+        return getAccessTypes().keySet();
+    }
 
-	/**
-	 * @return the accessTypes
-	 */
-	public Map<String, AccessType> getAccessTypes() {
-		return accessTypes;
-	}
+    /**
+     * List of BeanProfile in use.
+     *
+     * @return
+     */
+    public List<String> getCodeAccessItems() {
+        List<String> s = new ArrayList<String>();
+        s.addAll(getCodeAccess());
+        return s;
+    }
 
-	
+    /**
+     * @return the accessTypes
+     */
+    public Map<String, AccessType> getAccessTypes() {
+        return accessTypes;
+    }
 
 
-	/**
-	 * @param accessTypes the accessTypes to set
-	 */
-	public void setAccessTypes(final Map<String, AccessType> accessTypes) {
-		this.accessTypes = accessTypes;
-	}
-
+    /**
+     * @param accessTypes the accessTypes to set
+     */
+    public void setAccessTypes(final Map<String, AccessType> accessTypes) {
+        this.accessTypes = accessTypes;
+    }
 
 
 }
+
+

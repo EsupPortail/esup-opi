@@ -1049,7 +1049,7 @@ public class PilotageServiceImpl implements PilotageService {
 		}
 
 		if (methode == null || methode.isEmpty()) {
-			log.warn("Aucune m�thode est associ�e au type d'objet " + typeClass.getName());
+			log.warn("Aucune mÃ¯Â¿Â½thode est associÃ¯Â¿Â½e au type d'objet " + typeClass.getName());
 			return null; 
 		}
 
@@ -1075,7 +1075,7 @@ public class PilotageServiceImpl implements PilotageService {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
-			log.warn("la m�thode " + methode + " n'existe pas");
+			log.warn("la mÃ¯Â¿Â½thode " + methode + " n'existe pas");
 			e.printStackTrace();
 		}
 
@@ -1252,7 +1252,7 @@ public class PilotageServiceImpl implements PilotageService {
 	 */
 	private List<Map<String, String>> recupAllInfosParEtape(final VersionEtpOpi versionEtpOpi,
 			final String sLabelRI, final List<String> champsChoisis) {
-		// récupération de tous les individus
+		// rÃÂ©cupÃÂ©ration de tous les individus
 		TraitementCmi trtCmi = parameterService.getTraitementCmi(versionEtpOpi, null);
 		List<Individu> individus = new ArrayList<Individu>();
 		individus.addAll(domainService.getIndividusTrtCmi(trtCmi));
@@ -1272,7 +1272,7 @@ public class PilotageServiceImpl implements PilotageService {
 				mapAllInfo.putAll(getResultInfosBase(ind, numDos, versionEtpOpi, champsChoisis));
 			} else {
 				mapAllInfo.putAll(getResultInfosBaseNull(numDos));
-				log.warn("l'individu numéro de dossier " + numDos + " est null");
+				log.warn("l'individu numÃÂ©ro de dossier " + numDos + " est null");
 			}
 			mapAllInfo.putAll(mapInfoXml);
 			allInfos.add(mapAllInfo);
@@ -1298,7 +1298,7 @@ public class PilotageServiceImpl implements PilotageService {
 		//Bac de l'individu
 		IndBac bac = ind.getIndBac().iterator().next();
 		
-		//Récupération des cursus
+		//RÃÂ©cupÃÂ©ration des cursus
 		IndCursusScol cursusAnnee = null;
 		IndCursusScol cursusAvant = null;
 		for (IndCursusScol cursus : ind.getCursusScol()) {
@@ -1478,7 +1478,7 @@ public class PilotageServiceImpl implements PilotageService {
 	}
 	/**
 	 * @param bac
-	 * @return Le libellé du Bac
+	 * @return Le libellÃÂ© du Bac
 	 */
 	private String getBacSerie(final IndBac bac) {
 		if (bac.getDateObtention() != null && !bac.getDateObtention().isEmpty()
@@ -1494,7 +1494,7 @@ public class PilotageServiceImpl implements PilotageService {
 	}
 	/**
 	 * @param cursusAnnee
-	 * @return L'année du cursus de l'année courante
+	 * @return L'annÃÂ©e du cursus de l'annÃÂ©e courante
 	 */
 	private String getUnivAnnee(final IndCursusScol cursusAnnee) {
 		if (cursusAnnee != null) {
@@ -1505,7 +1505,7 @@ public class PilotageServiceImpl implements PilotageService {
 	}
 	/**
 	 * @param cursusAnnee
-	 * @return Le libellé de l'établissement du cursus de l'année courante
+	 * @return Le libellÃÂ© de l'ÃÂ©tablissement du cursus de l'annÃÂ©e courante
 	 */
 	private String getEtudAnnee(final IndCursusScol cursusAnnee) {
 		if (cursusAnnee != null && cursusAnnee.getCodEtablissement() != null
@@ -1521,7 +1521,7 @@ public class PilotageServiceImpl implements PilotageService {
 	}
 	/**
 	 * @param cursusAvant
-	 * @return L'année du cursus de l'année précédente
+	 * @return L'annÃÂ©e du cursus de l'annÃÂ©e prÃÂ©cÃÂ©dente
 	 */
 	private String getUnivAvant(final IndCursusScol cursusAvant) {
 		if (cursusAvant != null) {
@@ -1532,7 +1532,7 @@ public class PilotageServiceImpl implements PilotageService {
 	}
 	/**
 	 * @param cursusAvant
-	 * @return Le libellé de l'établissement du cursus de l'année précédente
+	 * @return Le libellÃÂ© de l'ÃÂ©tablissement du cursus de l'annÃÂ©e prÃÂ©cÃÂ©dente
 	 */
 	private String getEtudAvant(final IndCursusScol cursusAvant) {
 		if (cursusAvant != null && cursusAvant.getCodEtablissement() != null
@@ -1548,11 +1548,11 @@ public class PilotageServiceImpl implements PilotageService {
 	}
 	/**
 	 * @param cursusAvant
-	 * @return Le résultat du cursus de l'année précédente
+	 * @return Le rÃÂ©sultat du cursus de l'annÃÂ©e prÃÂ©cÃÂ©dente
 	 */
 	private String getResultAvant(final IndCursusScol cursusAvant) {
 		if (cursusAvant != null && "N".equals(cursusAvant.getResultat())) {
-			return "Ajourné";
+			return "AjournÃÂ©";
 		} else if (cursusAvant != null && "O".equals(cursusAvant.getResultat())) {
 			return "Obtenu";
 		}
@@ -1561,7 +1561,7 @@ public class PilotageServiceImpl implements PilotageService {
 	}
 	/**
 	 * @param cursusAvant
-	 * @return Le libellé du cursus de l'année présédente
+	 * @return Le libellÃÂ© du cursus de l'annÃÂ©e prÃÂ©sÃÂ©dente
 	 */
 	private String getDipAvant(final IndCursusScol cursusAvant) {
 		if (cursusAvant != null && cursusAvant instanceof CursusR1) {

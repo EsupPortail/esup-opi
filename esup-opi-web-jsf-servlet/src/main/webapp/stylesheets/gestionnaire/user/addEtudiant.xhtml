@@ -1,60 +1,64 @@
-<ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+<ui:composition
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        template="/stylesheets/template.xhtml">
     <ui:define name="content">
-    	<div id="maPage" class="div_body">
-    		<h1>
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{msgs['INDIVIDU.TITLE.AJOUT']}" />
+                    <h:outputText value="#{msgs['INDIVIDU.TITLE.AJOUT']}"/>
                 </span>
             </h1>
-    
-            <ui:fragment rendered="#{individuController.actionEnum.whatAction == individuController.actionEnum.addAction}">
-        		<div id="div_subSectionConfirmAdd" class="div_subSection">
-        			<ui:include src="_student/_confirmAddStudent.xhtml" />
-        		</div>
+
+            <ui:fragment
+                    rendered="#{individuController.actionEnum.whatAction == individuController.actionEnum.addAction}">
+                <div id="div_subSectionConfirmAdd" class="div_subSection">
+                    <ui:include src="_student/_confirmAddStudent.xhtml"/>
+                </div>
             </ui:fragment>
-            <ui:fragment rendered="#{individuController.actionEnum.whatAction == individuController.actionEnum.sendMail}">
-        		<div id="div_subSectionSendMail" class="div_subSection">
-        			<ui:include src="_student/_sendMailStudent.xhtml" />
-        		</div>
+            <ui:fragment
+                    rendered="#{individuController.actionEnum.whatAction == individuController.actionEnum.sendMail}">
+                <div id="div_subSectionSendMail" class="div_subSection">
+                    <ui:include src="_student/_sendMailStudent.xhtml"/>
+                </div>
             </ui:fragment>
-            <ui:fragment rendered="#{individuController.actionEnum.whatAction == individuController.actionEnum.readAction}">
-        		<div id="div_subSectionGoRecap" class="div_subSection">
-        			<ui:include src="_student/_gotoRecapIndividu.xhtml" />
-        		</div>
+            <ui:fragment
+                    rendered="#{individuController.actionEnum.whatAction == individuController.actionEnum.readAction}">
+                <div id="div_subSectionGoRecap" class="div_subSection">
+                    <ui:include src="_student/_gotoRecapIndividu.xhtml"/>
+                </div>
             </ui:fragment>
-    
-    		<h:form id="seeManagersForm">
-    			<div class="messageForUser">
-    				<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    			</div>
-    			<br />
-    			<br />
-    			<div id="blockFormButton" class="blockForm">
-    			<div class="blockButton">
-    				<h:panelGroup>
-    					<p:commandButton value="#{msgs['GESTIONNAIRE.GENERE.DOSSIER']}"
-    						action="#{individuController.addIndGestionnaire}" 
-    						rendered="#{individuController.actionEnum.whatAction == individuController.actionEnum.emptyAction}">
-    					</p:commandButton>
-    						
-    				</h:panelGroup>
-    			</div>    	
-    			<ui:include src="_student/_blockAddStudent.xhtml" />
-    			</div>
-    		</h:form>
-    		<br />
-    		<br />
-    		<br />
-    	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        	hideElement('seeManagersForm:managerData:submitPageSize');
+
+            <h:form id="seeManagersForm">
+                <div class="messageForUser">
+                    <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+                </div>
+                <br/>
+                <br/>
+
+                <div id="blockFormButton" class="blockForm">
+                    <div class="blockButton">
+                        <h:panelGroup>
+                            <p:commandButton value="#{msgs['GESTIONNAIRE.GENERE.DOSSIER']}"
+                                             action="#{individuController.addIndGestionnaire}"
+                                             rendered="#{individuController.actionEnum.whatAction == individuController.actionEnum.emptyAction}">
+                            </p:commandButton>
+
+                        </h:panelGroup>
+                    </div>
+                    <ui:include src="_student/_blockAddStudent.xhtml"/>
+                </div>
+            </h:form>
+            <br/>
+            <br/>
+            <br/>
+        </div>
+
+        <script type="text/javascript">
+            highlightChildrenLiTags('navigationHeader:navigation');
+            highlightChildrenLiTags('navigationFooter:navigation');
+            hideElement('seeManagersForm:managerData:submitPageSize');
         </script>
     </ui:define>
 </ui:composition>

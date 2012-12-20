@@ -3,10 +3,10 @@
  */
 package org.esupportail.opi.web.beans.utils.comparator;
 
+import org.esupportail.wssi.services.remote.Pays;
+
 import java.io.Serializable;
 import java.util.Comparator;
-
-import org.esupportail.wssi.services.remote.Pays;
 
 
 

@@ -1,179 +1,179 @@
-<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-xmlns:ui="http://java.sun.com/jsf/facelets"
-xmlns:h="http://java.sun.com/jsf/html"
-xmlns:p="http://primefaces.org/ui">
+<ui:fragment
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui">
     <ui:fragment rendered="#{situationController.indSituation == null}">
         <div id="blockFormChoiceSituation" class="blockForm">
-        	<div style="width:100%;">
-        		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-        			styleClass="tableJustWidthMax">
-        			<h:panelGroup>
-        				<h:outputText value="#{msgs['SITUATION.TITRE_CHOICE']}"
-        					styleClass="section-smallTitle" style="margin-right:4px;"/>
-        			</h:panelGroup>
-        
-        			<h:panelGroup>
-        				<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-        					action="#{situationController.selectTypeSituation}"/>
-        				<p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
-        					rendered="#{situationController.displayCreateDossier}"
-        					action="#{accueilController.goWelcomeCandidat}"/>
-        			</h:panelGroup>
-        		</h:panelGrid>
-        	</div>
-        	<div class="blockTable">
-        		<p:dataList var="typeSit" value="#{situationController.typeSituations}"
-        			layout="unorderedList">
-        			<p:column>
-        				<opi:radioButton id="myRadioId1" overrideName="true"
-        					name="radioTypeSit"
-        					value="#{situationController.codeTypeSituation}"
-        					itemValue="#{typeSit.code}"/>
-        				<h:outputText value="#{typeSit.label}" styleClass="form-field-label" />
-        			</p:column>
-        		</p:dataList>
-        	</div>
+            <div style="width:100%;">
+                <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                             styleClass="tableJustWidthMax">
+                    <h:panelGroup>
+                        <h:outputText value="#{msgs['SITUATION.TITRE_CHOICE']}"
+                                      styleClass="section-smallTitle" style="margin-right:4px;"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                         action="#{situationController.selectTypeSituation}"/>
+                        <p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
+                                         rendered="#{situationController.displayCreateDossier}"
+                                         action="#{accueilController.goWelcomeCandidat}"/>
+                    </h:panelGroup>
+                </h:panelGrid>
+            </div>
+            <div class="blockTable">
+                <p:dataList var="typeSit" value="#{situationController.typeSituations}"
+                            layout="unorderedList">
+                    <p:column>
+                        <opi:radioButton id="myRadioId1" overrideName="true"
+                                         name="radioTypeSit"
+                                         value="#{situationController.codeTypeSituation}"
+                                         itemValue="#{typeSit.code}"/>
+                        <h:outputText value="#{typeSit.label}" styleClass="form-field-label"/>
+                    </p:column>
+                </p:dataList>
+            </div>
         </div>
     </ui:fragment>
     <ui:fragment
-        rendered="#{situationController.indSituation != null}">
+            rendered="#{situationController.indSituation != null}">
         <div id="blockFormSaveSituation" class="blockForm">
-        	<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-        		styleClass="tableJustWidthMax">
-        			<h:panelGroup/>
-        
-        			<h:panelGroup>
-        				<p:commandButton value="#{msgs['_.BUTTON.SAVE']}"
-        					rendered="#{situationController.actionEnum.whatAction 
+            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                         styleClass="tableJustWidthMax">
+                <h:panelGroup/>
+
+                <h:panelGroup>
+                    <p:commandButton value="#{msgs['_.BUTTON.SAVE']}"
+                                     rendered="#{situationController.actionEnum.whatAction
         						== situationController.actionEnum.addAction
         						and situationController.displayCreateDossier}"
-        					action="#{situationController.add}"/>
-        				<p:commandButton value="#{msgs['_.BUTTON.SAVE']}"
-        					rendered="#{situationController.actionEnum.whatAction 
+                                     action="#{situationController.add}"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.SAVE']}"
+                                     rendered="#{situationController.actionEnum.whatAction
         						== situationController.actionEnum.updateAction
         						and situationController.displayCreateDossier}"
-        					action="#{situationController.update}"/>
-        				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-        					rendered="#{situationController.actionEnum.whatAction 
+                                     action="#{situationController.update}"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                                     rendered="#{situationController.actionEnum.whatAction
         						!= situationController.actionEnum.readAction}"
-        					action="#{situationController.cancelSituation}"/>
-        				<p:commandButton value="#{msgs['BUTTON.UPDATE']}"
-        					rendered="#{situationController.actionEnum.whatAction 
+                                     action="#{situationController.cancelSituation}"/>
+                    <p:commandButton value="#{msgs['BUTTON.UPDATE']}"
+                                     rendered="#{situationController.actionEnum.whatAction
         						== situationController.actionEnum.readAction}"
-        					action="#{situationController.goUpdateSituation}"/>
-        				<p:commandButton value="#{msgs['_.BUTTON.CHANGE_SIT']}"
-        					rendered="#{situationController.actionEnum.whatAction 
+                                     action="#{situationController.goUpdateSituation}"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.CHANGE_SIT']}"
+                                     rendered="#{situationController.actionEnum.whatAction
         						== situationController.actionEnum.readAction}"
-        					action="#{situationController.reset}"/>
-        				<p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
-        					rendered="#{situationController.actionEnum.whatAction 
+                                     action="#{situationController.reset}"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
+                                     rendered="#{situationController.actionEnum.whatAction
         						== situationController.actionEnum.readAction
         						and situationController.displayCreateDossier}"
-        					action="#{accueilController.goWelcomeCandidat}"/>
-        			</h:panelGroup>
-        	</h:panelGrid>
+                                     action="#{accueilController.goWelcomeCandidat}"/>
+                </h:panelGroup>
+            </h:panelGrid>
         </div>
     </ui:fragment>
     <ui:fragment rendered="#{situationController.indSituation != null
             and situationController.codeTypeSituation == situationController.typeSal}">
         <div id="blockSituationSal" class="blockForm">
-        	<ui:include src="_situation/_blockEnterSituationSalarie.xhtml" />
-        	
-        	<ui:include src="_situation/_blockSeeSituationSalarie.xhtml" />
+            <ui:include src="_situation/_blockEnterSituationSalarie.xhtml"/>
+
+            <ui:include src="_situation/_blockSeeSituationSalarie.xhtml"/>
         </div>
     </ui:fragment>
     <ui:fragment rendered="#{situationController.indSituation != null
             and situationController.codeTypeSituation == situationController.typeProLib}">
         <div id="blockSituationProLib" class="blockForm">
-        	<ui:include src="_situation/_blockEnterSituationProLib.xhtml" />
-        	
-        	<ui:include src="_situation/_blockSeeSituationProLib.xhtml" />
+            <ui:include src="_situation/_blockEnterSituationProLib.xhtml"/>
+
+            <ui:include src="_situation/_blockSeeSituationProLib.xhtml"/>
         </div>
     </ui:fragment>
     <ui:fragment rendered="#{situationController.indSituation != null
             and situationController.codeTypeSituation == situationController.typeDemEmp}">
         <div id="blockSituationDemEmpl" class="blockForm">
-        	<ui:include src="_situation/_blockEnterSituationDemEmpl.xhtml" />
-        	<ui:include src="_situation/_blockSeeSituationDemEmpl.xhtml" />
+            <ui:include src="_situation/_blockEnterSituationDemEmpl.xhtml"/>
+            <ui:include src="_situation/_blockSeeSituationDemEmpl.xhtml"/>
         </div>
     </ui:fragment>
     <ui:fragment rendered="#{situationController.indSituation != null
             and situationController.codeTypeSituation == situationController.typeEtu}">
         <div id="blockSituationEtu" class="blockForm">
-        	<ui:include src="_situation/_blockEnterSituationEtu.xhtml" />
+            <ui:include src="_situation/_blockEnterSituationEtu.xhtml"/>
         </div>
     </ui:fragment>
     <ui:fragment rendered="#{situationController.indSituation != null
             and situationController.codeTypeSituation == situationController.typeOther}">
         <div id="blockSituationOther" class="blockForm">
-        	<ui:include src="_situation/_blockEnterSituationOther.xhtml" />
-        	<ui:include src="_situation/_blockSeeSituationOther.xhtml" />
+            <ui:include src="_situation/_blockEnterSituationOther.xhtml"/>
+            <ui:include src="_situation/_blockSeeSituationOther.xhtml"/>
         </div>
     </ui:fragment>
     <ui:fragment rendered="#{situationController.indSituation != null}">
         <div id="blockFormSituationHandi" class="blockForm">
-        	<br />
-        	<hr/>
-        	<h:panelGrid columns="2" width="100%"
-        		columnClasses="colUnQuart,colTroisQuart">
-        		<h:panelGroup>
-        			<h:outputLabel value="#{msgs['SITUATION.HANDI.LABEL']}" />
+            <br/>
+            <hr/>
+            <h:panelGrid columns="2" width="100%"
+                         columnClasses="colUnQuart,colTroisQuart">
+                <h:panelGroup>
+                    <h:outputLabel value="#{msgs['SITUATION.HANDI.LABEL']}"/>
                     <p:graphicImage url="/media/images/informationSmall.png"
-                        style="cursor:pointer;" id="helpSituHandi" />
+                                    style="cursor:pointer;" id="helpSituHandi"/>
                     <p:overlayPanel for="helpSituHandi"
-                        showEvent="mouseover"
-                        hideEvent="mouseout"
-                        styleClass="containerPopup">
-    					<h:panelGroup>
-    						<h:panelGrid columns="1">
-    							<h:outputText styleClass="libellesAide"
-    								value="#{msgs['SITUATION.HANDI.INFO']}" />
-    						</h:panelGrid>
-    					</h:panelGroup>
-        			</p:overlayPanel>
-        		</h:panelGroup>
-        		<h:panelGroup>
-        			<p:graphicImage url="/media/images/check2.gif"
-        				rendered="#{situationController.indSituation.handicapTravail and
+                                    showEvent="mouseover"
+                                    hideEvent="mouseout"
+                                    styleClass="containerPopup">
+                        <h:panelGroup>
+                            <h:panelGrid columns="1">
+                                <h:outputText styleClass="libellesAide"
+                                              value="#{msgs['SITUATION.HANDI.INFO']}"/>
+                            </h:panelGrid>
+                        </h:panelGroup>
+                    </p:overlayPanel>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:graphicImage url="/media/images/check2.gif"
+                                    rendered="#{situationController.indSituation.handicapTravail and
         							situationController.actionEnum.whatAction 
-        								== situationController.actionEnum.readAction}" />
-        			<p:graphicImage url="/media/images/check0.gif"
-        				rendered="#{!situationController.indSituation.handicapTravail and
+        								== situationController.actionEnum.readAction}"/>
+                    <p:graphicImage url="/media/images/check0.gif"
+                                    rendered="#{!situationController.indSituation.handicapTravail and
         							situationController.actionEnum.whatAction 
-        								== situationController.actionEnum.readAction}" />
-        			<p:selectBooleanCheckbox id="handiWork"
-        				rendered="#{situationController.actionEnum.whatAction 
+        								== situationController.actionEnum.readAction}"/>
+                    <p:selectBooleanCheckbox id="handiWork"
+                                             rendered="#{situationController.actionEnum.whatAction
         								!= situationController.actionEnum.readAction}"
-        				value="#{situationController.indSituation.handicapTravail}" />
-        			<h:outputLabel value="#{msgs['SITUATION.HANDI.WORK']}" style="margin-left:4px;"
-        				for="handiWork" />
-        		</h:panelGroup>
-        		<h:panelGroup/>
-        		<h:panelGroup>
-        			<p:graphicImage url="/media/images/check2.gif"
-        				rendered="#{situationController.indSituation.handicapAdulte and
+                                             value="#{situationController.indSituation.handicapTravail}"/>
+                    <h:outputLabel value="#{msgs['SITUATION.HANDI.WORK']}" style="margin-left:4px;"
+                                   for="handiWork"/>
+                </h:panelGroup>
+                <h:panelGroup/>
+                <h:panelGroup>
+                    <p:graphicImage url="/media/images/check2.gif"
+                                    rendered="#{situationController.indSituation.handicapAdulte and
         							situationController.actionEnum.whatAction 
-        								== situationController.actionEnum.readAction}" />
-        			<p:graphicImage url="/media/images/check0.gif"
-        				rendered="#{!situationController.indSituation.handicapAdulte and
+        								== situationController.actionEnum.readAction}"/>
+                    <p:graphicImage url="/media/images/check0.gif"
+                                    rendered="#{!situationController.indSituation.handicapAdulte and
         							situationController.actionEnum.whatAction 
-        								== situationController.actionEnum.readAction}" />
-        			<p:selectBooleanCheckbox id="handiAd"
-        				rendered="#{situationController.actionEnum.whatAction 
+        								== situationController.actionEnum.readAction}"/>
+                    <p:selectBooleanCheckbox id="handiAd"
+                                             rendered="#{situationController.actionEnum.whatAction
         								!= situationController.actionEnum.readAction}"
-        				value="#{situationController.indSituation.handicapAdulte}" />
-        			<h:outputLabel value="#{msgs['SITUATION.HANDI.ADULTE']}" style="margin-left:4px;"
-        				for="handiAd" />
-        		</h:panelGroup>
-        	</h:panelGrid>
+                                             value="#{situationController.indSituation.handicapAdulte}"/>
+                    <h:outputLabel value="#{msgs['SITUATION.HANDI.ADULTE']}" style="margin-left:4px;"
+                                   for="handiAd"/>
+                </h:panelGroup>
+            </h:panelGrid>
         </div>
     </ui:fragment>
     <ui:fragment rendered="#{situationController.indSituation != null
             and situationController.codeTypeSituation == situationController.typeEtu}">
         <div id="blockFormSituationEtuEnd" class="blockForm">
-        	<h:outputText value="#{msgs['SITUATION.ETU.TEXT2']}" 
-        					escape="false" 
-        					style="font-weight:bold;color:#a71817;text-align: left;"/>
+            <h:outputText value="#{msgs['SITUATION.ETU.TEXT2']}"
+                          escape="false"
+                          style="font-weight:bold;color:#a71817;text-align: left;"/>
         </div>
     </ui:fragment>
 </ui:fragment>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>esup-opi</artifactId>
@@ -9,14 +10,6 @@
     <artifactId>esup-opi-web-jsf-servlet</artifactId>
     <packaging>war</packaging>
     <description>couche d'acces aux donnees</description>
-    <repositories>
-        <repository>
-            <id>prime-repo</id>
-            <name>Prime Technology Maven Repository</name>
-            <url>http://repository.primefaces.org</url>
-            <layout>default</layout>
-        </repository>
-    </repositories>
     <build>
         <defaultGoal>install</defaultGoal>
         <resources>
@@ -27,28 +20,14 @@
         </resources>
         <plugins>
             <plugin>
-                <groupId>org.mortbay.jetty</groupId>
+                <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>8.1.5.v20120716</version>
+                <version>9.0.0.M3</version>
                 <configuration>
                     <configurationDiscovered>false</configurationDiscovered>
                     <webAppConfig>
                         <overrideDescriptor>src/main/jetty/web-jetty.xml</overrideDescriptor>
                     </webAppConfig>
-                    <!-- <scanIntervalSeconds>3</scanIntervalSeconds> -->
-                    <!-- <scanTargetPatterns>  -->
-                    <!--     <scanTargetPattern> -->
-                    <!--         <directory>src/main/webapp/WEB-INF</directory> -->
-                    <!--         <excludes>  -->
-                    <!--             <exclude>**/*.jsp</exclude> -->
-                    <!--             <exclude>**/*.xhtml</exclude> -->
-                    <!--         </excludes> -->
-                    <!--         <includes>  -->
-                    <!--             <include>**/*.properties</include> -->
-                    <!--             <include>**/*.xml</include> -->
-                    <!--         </includes>  -->
-                    <!--     </scanTargetPattern> -->
-                    <!-- </scanTargetPatterns> -->
                 </configuration>
             </plugin>
             <plugin>
@@ -105,16 +84,6 @@
             <version>3.8</version>
         </dependency>
         <dependency>
-            <groupId>org.primefaces</groupId>
-            <artifactId>primefaces</artifactId>
-            <version>3.4.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.primefaces.extensions</groupId>
-            <artifactId>primefaces-extensions</artifactId>
-            <version>0.6.1</version>
-        </dependency>
-        <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-commons2-jsf2-exception</artifactId>
             <version>${esupcommons.version}</version>
@@ -130,7 +99,7 @@
             <artifactId>servlet-api</artifactId>
             <version>${javax.servlet.version}</version>
             <scope>provided</scope>
-        </dependency>        
+        </dependency>
     </dependencies>
     <properties>
         <cas.url>https://sso-cas.univ-rennes1.fr</cas.url>

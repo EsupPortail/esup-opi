@@ -5,12 +5,7 @@
 package org.esupportail.opi.web.beans;
 
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.ibm.icu.text.SimpleDateFormat;
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
@@ -32,7 +27,11 @@ import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.beans.factory.InitializingBean;
 
-import com.ibm.icu.text.SimpleDateFormat;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 
@@ -100,9 +99,6 @@ public class ManagedCalendar implements Resettable, InitializingBean, Serializab
 		reset();
 	}
 
-	/** 
-	 * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
-	 */
 	@Override
 	public void reset() {
 		//TODO

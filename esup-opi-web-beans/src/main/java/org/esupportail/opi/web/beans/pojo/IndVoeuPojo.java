@@ -8,17 +8,8 @@
  */
 package org.esupportail.opi.web.beans.pojo;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import org.esupportail.commons.services.i18n.I18nService;
-import org.esupportail.opi.domain.beans.etat.Etat;
-import org.esupportail.opi.domain.beans.etat.EtatArriveComplet;
-import org.esupportail.opi.domain.beans.etat.EtatConfirme;
-import org.esupportail.opi.domain.beans.etat.EtatDesiste;
-import org.esupportail.opi.domain.beans.etat.EtatVoeu;
+import org.esupportail.opi.domain.beans.etat.*;
 import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV;
 import org.esupportail.opi.domain.beans.references.rendezvous.IndividuDate;
@@ -28,6 +19,10 @@ import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -111,32 +106,43 @@ public class IndVoeuPojo implements Serializable {
 	 * calendrier de rendez-vous.
 	 */
 	private CalendarRDV calendrierRdv;
-	
-	/**
-	 * The avis du vows.
-	 */
+
 	private List<Avis> avisAsList;
 	
-	/**
-	 * A logger.
-	 */
-	//private final Logger log = new LoggerImpl(getClass());
-	
-	
-	/*
-	 ******************* INIT ************************* */
-	
 
-	
-	/**
+	 // ******************* INIT *************************
+
+    public IndVoeuPojo(final IndVoeu indVoeu, final VersionEtapeDTO vrsEtp,
+                       final EtatVoeu etat, final Boolean calIsopen,
+                       final TypeTraitement typeTraitement, final CalendarRDV calendrierRdv) {
+        this.indVoeu = indVoeu;
+        newAvis = new Avis();
+        this.vrsEtape = vrsEtp;
+        this.calIsOpen = calIsopen;
+        this.etat = etat;
+        this.typeTraitement = typeTraitement;
+        isUsingLC = false;
+        isUsingDEF = false;
+        stateConf = "";
+        initAvisInUse();
+        this.calendrierRdv = calendrierRdv;
+    }
+
+
+    /**
 	 * Constructors.
+     *
 	 * @param indVoeu
 	 * @param vrsEtp
 	 * @param i18Service
 	 * @param calIsopen
 	 * @param typeTraitement
+     *
+     * @deprecated Use {@link IndVoeuPojo#IndVoeuPojo(org.esupportail.opi.domain.beans.user.candidature.IndVoeu,
+     * org.esupportail.wssi.services.remote.VersionEtapeDTO, org.esupportail.opi.domain.beans.etat.EtatVoeu, Boolean, org.esupportail.opi.domain.beans.parameters.TypeTraitement, org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV)}
 	 */
-	public IndVoeuPojo(final IndVoeu indVoeu, final VersionEtapeDTO vrsEtp, 
+    @Deprecated
+	public IndVoeuPojo(final IndVoeu indVoeu, final VersionEtapeDTO vrsEtp,
 			final I18nService i18Service, final Boolean calIsopen, 
 			final TypeTraitement typeTraitement, final CalendarRDV calendrierRdv) {
 		super();
@@ -228,8 +234,8 @@ public class IndVoeuPojo implements Serializable {
 	 * @return String
 	 */
 	public String getShortLibVet() {
-		return Utilitaires.limitStrLength(vrsEtape.getLibWebVet(), 
-									Constantes.STR_LENGTH_LIMIT_SMALL);
+		return Utilitaires.limitStrLength(vrsEtape.getLibWebVet(),
+                Constantes.STR_LENGTH_LIMIT_SMALL);
 	}
 	
 	/**
@@ -295,7 +301,7 @@ public class IndVoeuPojo implements Serializable {
 	}
 	
 	/**
-	 * @return true si le candidat a un numéro INE
+	 * @return true si le candidat a un numÃ©ro INE
 	 */
 	public Boolean getHasNNE() {
 		return StringUtils.hasText(indVoeu.getIndividu().getCodeNNE());
@@ -496,9 +502,10 @@ public class IndVoeuPojo implements Serializable {
 	}
 	
 	/**
-	 * @param calendrierRdvPojo
+	 * @param calendrierRdv
 	 */
 	public void setCalendrierRdv(final CalendarRDV calendrierRdv) {
 		this.calendrierRdv = calendrierRdv;
 	}
 }
+

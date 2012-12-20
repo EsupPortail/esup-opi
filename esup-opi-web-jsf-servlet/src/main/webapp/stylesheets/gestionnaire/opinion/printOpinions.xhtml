@@ -3,130 +3,161 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 template="/stylesheets/templateGestionnaire.xhtml">
-    <ui:define name="content">
-    	<div id="maPage" class="div_body">
-            <div class="messageForUser">
-                <p:messages id="messages" showDetail="true" autoUpdate="true" />
+<ui:define name="content">
+    <p:blockUI block="maPage" trigger=":lookForOpinionForm:individuData :lookForOpinionForm:requestIndsData">
+        <p:graphicImage value="/media/images/ajax-loader.gif"/>
+    </p:blockUI>
+    <p:blockUI block=":lookForOpinionForm:dataPanel" trigger=":lookForOpinionForm:renderTable">
+        <p:graphicImage value="/media/images/ajax-loader.gif"/>
+    </p:blockUI>
+    <p:panel id="maPage" styleClass="div_body">
+        <div class="messageForUser">
+            <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+        </div>
+        <h1>
+            <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
+        </h1>
+        <ui:fragment
+                rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.confirmAction}">
+            <div id="div_subSectionPdf" class="div_subSection">
+                <ui:include src="_block/_confirmPdfNotification.xhtml"/>
             </div>
-            <h1><h:outputText value="#{managedAccess.currentTraitement.libelle}" /></h1>
-            <ui:fragment rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.confirmAction}">
-                <div id="div_subSectionPdf" class="div_subSection">
-                    <ui:include src="_block/_confirmPdfNotification.xhtml" />
+        </ui:fragment>
+        <ui:fragment>
+            <div id="choiceColumnExport">
+                <ui:include src="_block/_choiceColumnExport.xhtml"/>
+            </div>
+        </ui:fragment>
+        <h:form id="lookForOpinionForm" styleClass="opiR1_form">
+            <div id="blockFormSearch" class="blockForm">
+                <div style="text-align:right;">
+                    <p:commandButton value="#{msgs['_.BUTTON.DISPLAY']}" id="requestIndsData"
+                                     rendered="#{printOpinionController.actionEnum.whatAction
+                                                   != printOpinionController.actionEnum.confirmAction}"
+                                     update="individuData"/>
+                    <!-- action="#{printOpinionController.seeCandidats}" -->
+                    <p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="ccExp.show()" type="button"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.EXPORT']}"
+                                     action="#{printOpinionController.makeCsvValidation}"
+                                     rendered="#{printOpinionController.actionEnum.whatAction
+                                                   != printOpinionController.actionEnum.confirmAction}" ajax="false"/>
+                    <p:commandButton value="#{msgs['OPINION.EDIT.VALIDATION']}"
+                                     action="#{printOpinionController.printPDFValidation}"
+                                     rendered="#{printOpinionController.actionEnum.whatAction
+                                                   != printOpinionController.actionEnum.confirmAction}" ajax="false"/>
+                    <p:commandButton value="#{msgs['OPINION.EDIT.NOTIFICATION']}"
+                                     action="#{printOpinionController.printPDFAllNotifications}"
+                                     rendered="#{printOpinionController.actionEnum.whatAction
+                                                   != printOpinionController.actionEnum.confirmAction}" ajax="false"/>
                 </div>
-            </ui:fragment>
-            <ui:fragment>
-                <div id="choiceColumnExport">
-                    <ui:include src="_block/_choiceColumnExport.xhtml" />
-                </div>
-            </ui:fragment>
-            <h:form id="lookForOpinionForm" styleClass="opiR1_form">
-                <div id="blockFormSearch" class="blockForm">
-                    <div style="text-align:right;">
-                        <p:commandButton value="#{msgs['_.BUTTON.DISPLAY']}"
-                                         action="#{printOpinionController.seeCandidats}" 
-                                         rendered="#{printOpinionController.actionEnum.whatAction 
-                                                   != printOpinionController.actionEnum.confirmAction}"  ajax="false" />
-                        <p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="ccExp.show()" type="button" />
-                        <p:commandButton value="#{msgs['_.BUTTON.EXPORT']}" 
-                                         action="#{printOpinionController.makeCsvValidation}" 
-                                         rendered="#{printOpinionController.actionEnum.whatAction 
-                                                   != printOpinionController.actionEnum.confirmAction}"  ajax="false" />
-                        <p:commandButton value="#{msgs['OPINION.EDIT.VALIDATION']}" 
-                                         action="#{printOpinionController.printPDFValidation}"
-                                         rendered="#{printOpinionController.actionEnum.whatAction 
-                                                   != printOpinionController.actionEnum.confirmAction}"  ajax="false" />
-                        <p:commandButton value="#{msgs['OPINION.EDIT.NOTIFICATION']}" 
-                                         action="#{printOpinionController.printPDFAllNotifications}"
-                                         rendered="#{printOpinionController.actionEnum.whatAction 
-                                                   != printOpinionController.actionEnum.confirmAction}"  ajax="false" />
-                    </div>
-                    <p:fieldset style="margin-top: 5px; margin-left: auto; margin-right: auto;">
-                        <fieldset style="border-style: dashed; border-color: #A8A8A8; margin-bottom: 8px;">
-                            <legend>#{msgs['AVIS.LABEL_DECISION']}</legend>
-                            <p:selectCheckboxMenu value="#{printOpinionController.resultSelected}"
-                                                  id="typeOpinionData" label="Sélectionner"
-                                                  converter="#{typeDecisionConverter}" style="margin-left: 6%;">
-                                <f:selectItems value="#{nomenclatureController.typeDecisionsSorted}"
-                                               var="td" itemLabel="#{td.libelle}" itemValue="#{td}" />
-                            </p:selectCheckboxMenu>
-                        </fieldset>
-                        <fieldset style="border-style: dashed; border-color: #A8A8A8; margin-bottom: 8px;">
-                            <legend>#{msgs['OPINION.SELECT_CANDIDAT.LABEL']}</legend>
-                            <p:selectOneRadio id="choixValid"
-                                              value="#{printOpinionController.selectValid}" style="margin-left: 6%;">
-                                <f:selectItem itemLabel="#{msgs['OPINION.SELECT_CANDIDAT.NOT_VALID']}" itemValue="#{false}" />
-                                <f:selectItem itemLabel="#{msgs['OPINION.SELECT_CANDIDAT.VALID']}" itemValue="#{true}" />
-                            </p:selectOneRadio>                            
-                        </fieldset>
-                        <fieldset style="border-style: dashed; border-color: #A8A8A8; margin-bottom: 8px;">
-                            <legend>#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}</legend>
-                            <p:selectManyCheckbox value="#{commissionController.listeRI}" converter="#{regimeInscriptionConverter}"
-                                                  disabled="#{!paginatorIndividu.indRechPojo.canModifyRISearch}"
-                                                  layout="lineDirection" style="margin-left: 6%;">
-                                <f:selectItems var="ri" 
-                                               itemLabel="#{ri.shortLabel}" itemValue="#{ri}"
-                                               value="#{nomenclatureController.allRegimeInscription}"/>
-                            </p:selectManyCheckbox>
-                        </fieldset>
-                        <fieldset style="border-style: dashed; border-color: #A8A8A8; margin-bottom: 8px;">
-                            <legend>#{msgs['COMMISSIONS']}</legend>
-                            <p:selectOneMenu id="lesCommissions" converter="javax.faces.Integer"
-                                             value="#{printOpinionController.idCommissionSelected}" style="margin-left: 6%; margin-bottom: 1px;">
-                                <f:selectItem itemLabel="" itemValue="" />
-                                <f:selectItems var="commission"
-                                               value="#{commissionController.commissionsItemsByRight}"
-                                               itemLabel="#{commission.libelle}" itemValue="#{commission.id}" />
-                            </p:selectOneMenu>                            
-                        </fieldset>
-                    </p:fieldset>
-                </div>
-                <div style="width:100%;">
-                    <h:panelGrid columns="1" columnClasses="col1UnDemi,col2UnDemi"
-                                 styleClass="tableJustWidthMax">
-                        <h:panelGroup>
-                            <h:outputText value="#{msgs['INDIVIDU.FOUND']}"
-                                          styleClass="section-smallTitle" style="margin-right:4px;"/>
-                        </h:panelGroup>
-                    </h:panelGrid>
+                <p:fieldset style="margin-top: 5px; margin-left: auto; margin-right: auto;">
+                    <fieldset
+                            style="border-style: dotted; border-color: #A8A8A8; border-width: 0.1em; margin-bottom: 8px;">
+                        <legend>#{msgs['AVIS.LABEL_DECISION']}</legend>
+                        <p:selectCheckboxMenu value="#{printOpinionController.resultSelected}"
+                                              id="typeOpinionData" label="Filtrer sur"
+                                              converter="#{typeDecisionConverter}" style="margin-left: 6%;"
+                                              widgetVar="typeOpinion">
+                            <f:selectItems value="#{nomenclatureController.typeDecisionsSorted}"
+                                           var="td" itemLabel="#{td.libelle}" itemValue="#{td}"/>
+                        </p:selectCheckboxMenu>
+                    </fieldset>
+                    <fieldset
+                            style="border-style: dotted; border-color: #A8A8A8; border-width: 0.1em; margin-bottom: 8px;">
+                        <legend>#{msgs['OPINION.SELECT_CANDIDAT.LABEL']}</legend>
+                        <p:selectOneRadio id="choixValid"
+                                          value="#{paginatorIndividu.indRechPojo.selectValid}" style="margin-left: 6%;">
+                            <f:selectItem itemLabel="#{msgs['OPINION.SELECT_CANDIDAT.NOT_VALID']}"
+                                          itemValue="#{false}"/>
+                            <f:selectItem itemLabel="#{msgs['OPINION.SELECT_CANDIDAT.VALID']}" itemValue="#{true}"/>
+                        </p:selectOneRadio>
+                    </fieldset>
+                    <fieldset
+                            style="border-style: dotted; border-color: #A8A8A8; border-width: 0.1em; margin-bottom: 8px;">
+                        <legend>#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}</legend>
+                        <p:selectManyCheckbox value="#{commissionController.listeRI}" id="choixRI"
+                                              converter="#{regimeInscriptionConverter}"
+                                              disabled="#{!paginatorIndividu.indRechPojo.canModifyRISearch}"
+                                              layout="lineDirection" style="margin-left: 6%;">
+                            <f:selectItems var="ri"
+                                           itemLabel="#{ri.shortLabel}" itemValue="#{ri}"
+                                           value="#{nomenclatureController.allRegimeInscription}"/>
+                        </p:selectManyCheckbox>
+                    </fieldset>
+                    <fieldset
+                            style="border-style: dotted; border-color: #A8A8A8; border-width: 0.1em; margin-bottom: 8px;">
+                        <legend>#{msgs['COMMISSIONS']}</legend>
+                        <p:selectOneMenu id="lesCommissions" converter="javax.faces.Integer"
+                                         value="#{paginatorIndividu.indRechPojo.idCmi}"
+                                         style="margin-left: 6%; margin-bottom: 1px;">
+                            <f:selectItem itemLabel="" itemValue=""/>
+                            <f:selectItems var="commission"
+                                           value="#{commissionController.commissionsItemsByRight}"
+                                           itemLabel="#{commission.libelle}" itemValue="#{commission.id}"/>
+                        </p:selectOneMenu>
+                    </fieldset>
+                </p:fieldset>
+            </div>
+            <p:remoteCommand id="renderTable" name="renderTable" autoRun="true" async="true"
+                             update="dataPanel"
+                             actionListener="#{printOpinionController.doRenderTable}"/>
+            <p:panel id="dataPanel" layout="block"
+                     style="border: none; height: 1000px; width:101.5%; margin-left: -1%;">
+                <h:panelGrid columns="1" columnClasses="col1UnDemi,col2UnDemi"
+                             styleClass="tableJustWidthMax">
+                    <h:panelGroup>
+                        <h:outputText value="#{msgs['INDIVIDU.FOUND']}"
+                                      styleClass="section-smallTitle" style="margin-right:4px;"/>
+                    </h:panelGroup>
+                </h:panelGrid>
+                <p:panel style="clear: both; border: none; margin: -0.5em -1em;">
+                    <p:effect type="puff" event="load">
+                        <f:param name="mode" value="'show'"/>
+                        <f:param name="percent" value="100"/>
+                    </p:effect>
                     <p:dataTable var="individuPojo" id="individuData"
-                                 value="#{printOpinionController.lesIndividus}"
+                                 value="#{printOpinionController.indPojoLDM}"
                                  styleClass="paginatorData"
+                                 paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40"
+                                 rowKey="#{individuPojo.individu}"
+                                 paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
+                                 sortBy="#{nomPatronymique}" lazy="true"
+                                 currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
                                  emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}"
-                                 rendered="#{not empty printOpinionController.lesIndividus}"
-                                 rowIndexVar="variable">
+                                 rendered="#{printOpinionController.renderTable}">
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}" />
+                                <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}"/>
                             </f:facet>
-                            <h:outputText value="#{individuPojo.individu.numDossierOpi}" />
+                            <h:outputText value="#{individuPojo.individu.numDossierOpi}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{msgs['INDIVIDU.NOM']}" /> 
+                                <h:outputText value="#{msgs['INDIVIDU.NOM']}"/>
                             </f:facet>
-                            <h:outputText value="#{individuPojo.individu.nomPatronymique}" />
+                            <h:outputText value="#{individuPojo.individu.nomPatronymique}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{msgs['INDIVIDU.PRENOM']}" />
+                                <h:outputText value="#{msgs['INDIVIDU.PRENOM']}"/>
                             </f:facet>
-                            <h:outputText value="#{individuPojo.individu.prenom}" />
+                            <h:outputText value="#{individuPojo.individu.prenom}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{msgs['INDIVIDU.DATE_NAI_COURT']}" />
+                                <h:outputText value="#{msgs['INDIVIDU.DATE_NAI_COURT']}"/>
                             </f:facet>
                             <h:outputText value="#{individuPojo.individu.dateNaissance}">
                                 <f:convertDateTime pattern="dd/MM/yyyy"
-                                                   timeZone="#{sessionController.timezone}" />
+                                                   timeZone="#{sessionController.timezone}"/>
                             </h:outputText>
                         </p:column>
                         <p:column>
-                            <p:dataTable var="ivp" id="indVoeux" 
+                            <p:dataTable var="ivp" id="indVoeux"
                                          value="#{individuPojo.indVoeuxPojoAsList}">
                                 <p:column>
                                     <h:outputText value="#{ivp.shortLibVet}"
-                                                  style="cursor:pointer;" id="shortLibVet" />
+                                                  style="cursor:pointer;" id="shortLibVet"/>
                                     <p:overlayPanel for="shortLibVet"
                                                     showEffect="fade" hideEffect="fade" appendToBody="true"
                                                     showEvent="mouseover"
@@ -135,34 +166,36 @@
                                         <h:panelGroup>
                                             <h:panelGrid columns="1">
                                                 <h:outputText styleClass="titrePopupAide"
-                                                              value="#{msgs['FIELD_LABEL.LIBELLE']} #{msgs['FIELD_LABEL.VRS_VET']}" />
+                                                              value="#{msgs['FIELD_LABEL.LIBELLE']} #{msgs['FIELD_LABEL.VRS_VET']}"/>
                                                 <h:outputText styleClass="libellesAide"
-                                                              value="#{ivp.vrsEtape.libWebVet}" />
+                                                              value="#{ivp.vrsEtape.libWebVet}"/>
                                             </h:panelGrid>
                                         </h:panelGroup>
                                     </p:overlayPanel>
                                 </p:column>
                                 <p:column>
-                                    <h:outputText value="#{ivp.avisEnService.result.libelle}" />
+                                    <h:outputText value="#{ivp.avisEnService.result.libelle}"/>
                                 </p:column>
                                 <p:column>
-                                    <p:commandButton 
-                                        icon="ui-icon-mail-closed"
-                                        title="#{msgs['INFO.MAIL.TEST']}" immediate="true"
-                                        action="#{validOpinionController.sendOneMail}" ajax="false" >
+                                    <p:commandButton
+                                            icon="ui-icon-mail-closed"
+                                            title="#{msgs['INFO.MAIL.TEST']}" immediate="true"
+                                            action="#{validOpinionController.sendOneMail}" ajax="false">
                                         <f:setPropertyActionListener value="#{ivp}"
-                                                                     target="#{validOpinionController.indVoeuPojo}" />
-                                        <f:setPropertyActionListener value="#{individuPojo}" target="#{printOpinionController.individuPojoSelected}" />		 
+                                                                     target="#{validOpinionController.indVoeuPojo}"/>
+                                        <f:setPropertyActionListener value="#{individuPojo}"
+                                                                     target="#{printOpinionController.individuPojoSelected}"/>
                                     </p:commandButton>
                                 </p:column>
                                 <p:column>
-                                    <p:commandButton 
-                                        icon="ui-icon-mail-open"
-                                        title="#{msgs['INFO.MAIL.RESEND']}" immediate="true"
-                                        action="#{validOpinionController.sendOneMailCandidat}" ajax="false" >
+                                    <p:commandButton
+                                            icon="ui-icon-mail-open"
+                                            title="#{msgs['INFO.MAIL.RESEND']}" immediate="true"
+                                            action="#{validOpinionController.sendOneMailCandidat}" ajax="false">
                                         <f:setPropertyActionListener value="#{ivp}"
-                                                                     target="#{validOpinionController.indVoeuPojo}" />
-                                        <f:setPropertyActionListener value="#{individuPojo}" target="#{printOpinionController.individuPojoSelected}" />		 
+                                                                     target="#{validOpinionController.indVoeuPojo}"/>
+                                        <f:setPropertyActionListener value="#{individuPojo}"
+                                                                     target="#{printOpinionController.individuPojoSelected}"/>
                                     </p:commandButton>
                                 </p:column>
                             </p:dataTable>
@@ -171,14 +204,17 @@
                             <p:commandButton icon="ui-icon-print"
                                              action="#{printOpinionController.printOneNotification}"
                                              title="#{msgs['INFO.CANDIDAT.NOTIFICATION']}"
-                                             rendered="#{printOpinionController.actionEnum.whatAction 
-                                                       != printOpinionController.actionEnum.confirmAction}"  ajax="false" >
-                                <f:setPropertyActionListener value="#{individuPojo}" target="#{printOpinionController.individuPojoSelected}" />
+                                             rendered="#{printOpinionController.actionEnum.whatAction
+                                                           != printOpinionController.actionEnum.confirmAction}"
+                                             ajax="false">
+                                <f:setPropertyActionListener value="#{individuPojo}"
+                                                             target="#{printOpinionController.individuPojoSelected}"/>
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
-                </div>
-            </h:form>
-    	</div>
-    </ui:define>
+                </p:panel>
+            </p:panel>
+        </h:form>
+    </p:panel>
+</ui:define>
 </ui:composition>

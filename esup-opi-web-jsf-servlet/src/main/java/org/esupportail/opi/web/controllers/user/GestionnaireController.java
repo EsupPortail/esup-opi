@@ -1,13 +1,7 @@
 /**
- * 
+ *
  */
 package org.esupportail.opi.web.controllers.user;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-
-import javax.faces.event.ValueChangeEvent;
 
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
@@ -24,87 +18,90 @@ import org.esupportail.opi.web.controllers.references.CommissionController;
 import org.esupportail.wssi.services.remote.CentreGestion;
 import org.springframework.util.StringUtils;
 
+import javax.faces.event.ValueChangeEvent;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
 /**
  * @author cleprous
- *
  */
 public class GestionnaireController extends AbstractAccessController {
 
-	/**
-	 * The serialization id.
-	 */
-	private static final long serialVersionUID = 1739075202274589002L;
+    /**
+     * The serialization id.
+     */
+    private static final long serialVersionUID = 1739075202274589002L;
 
 
 	
 	/*
-	 ******************* PROPERTIES ******************* */
+     ******************* PROPERTIES ******************* */
 
-	/**
-	 * The manager.
-	 */
-	private Gestionnaire manager;
-	
-	/**
-	 * The list of managers.
-	 */
-	private List<Gestionnaire> listeGestionnaires;
-	
-	/**
-	 * The actionEnum.
-	 */
-	private ActionEnum actionEnum;
+    /**
+     * The manager.
+     */
+    private Gestionnaire manager;
 
-	/**
-	 * The id profil selected.
-	 */
-	private Integer idProfilSelected;
-	
-	/**
-	 * The CommissionController.
-	 */
-	private CommissionController commissionController;
-	
-	/**
-	 * A logger.
-	 */
-	private final Logger log = new LoggerImpl(getClass());
+    /**
+     * The list of managers.
+     */
+    private List<Gestionnaire> listeGestionnaires;
+
+    /**
+     * The actionEnum.
+     */
+    private ActionEnum actionEnum;
+
+    /**
+     * The id profil selected.
+     */
+    private Integer idProfilSelected;
+
+    /**
+     * The CommissionController.
+     */
+    private CommissionController commissionController;
+
+    /**
+     * A logger.
+     */
+    private final Logger log = new LoggerImpl(getClass());
 	
 	
 	
 	/*
 	 ******************* INIT ************************* */
 
-	
 
-	/**
-	 * Constructors.
-	 */
-	public GestionnaireController() {
-		super();
-	}
-	
-	/** 
-	 * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
-	 */
-	@Override
-	public void reset() {
-		super.reset();
-		manager = new Gestionnaire();
-		actionEnum = new ActionEnum();
-		
+    /**
+     * Constructors.
+     */
+    public GestionnaireController() {
+        super();
+    }
 
-	}
+    /**
+     * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
+     */
+    @Override
+    public void reset() {
+        super.reset();
+        manager = new Gestionnaire();
+        actionEnum = new ActionEnum();
 
-	/** 
-	 * @see org.esupportail.opi.web.controllers.AbstractContextAwareController#afterPropertiesSetInternal()
-	 */
-	@Override
-	public void afterPropertiesSetInternal() {
-		super.afterPropertiesSetInternal();
-		Assert.notNull(this.commissionController, "property commissionController of class " 
-				+ this.getClass().getName() + " can not be null");
-	}
+
+    }
+
+    /**
+     * @see org.esupportail.opi.web.controllers.AbstractContextAwareController#afterPropertiesSetInternal()
+     */
+    @Override
+    public void afterPropertiesSetInternal() {
+        super.afterPropertiesSetInternal();
+        Assert.notNull(this.commissionController, "property commissionController of class "
+                + this.getClass().getName() + " can not be null");
+    }
 	
 	/*
 	 ******************* CALLBACK ********************** */
@@ -282,149 +279,150 @@ public class GestionnaireController extends AbstractAccessController {
 	}
 	
 	/* ### ALL CONTROL ####*/
-	
-	/**
-	 * Control manager attributes for the adding and updating.
-	 * @param g
-	 * @return Boolean
-	 */
-	private Boolean ctrlEnter(final Gestionnaire g) {
-		Boolean ctrlOk = true;
-		if (!StringUtils.hasText(g.getNomUsuel())) {
-			addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.NAME"));
-			ctrlOk = false;
-		} 
-		if (!StringUtils.hasText(g.getPrenom())) {
-			addErrorMessage(null, Constantes.I18N_EMPTY, getString("INDIVIDU.PRENOM"));
-			ctrlOk = false;
-		}
-		if (!StringUtils.hasText(g.getLogin())) {
-			addErrorMessage(null, Constantes.I18N_EMPTY, getString("GESTIONNAIRE.LOGIN"));
-			ctrlOk = false;
-		} else {
-			if (!getDomainService().gestionnaireLoginIsUnique(g)) {
-				ctrlOk = false;
-				addErrorMessage(null, "ERROR.FIELD.NOT_UNIQUE", getString("GESTIONNAIRE.LOGIN"));
-			}
-		}
-		if (!StringUtils.hasText(g.getAdressMail())) {
-			addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.MAIL"));
-			ctrlOk = false;
-		}
-		if (getIdProfilSelected() == null || getIdProfilSelected() == 0) {
-			addErrorMessage(null, Constantes.I18N_EMPTY, getString("PROFIL"));
-			ctrlOk = false;
-		}
-		if (g.getDateDbtValidite() == null) {
-			addErrorMessage(null, Constantes.I18N_EMPTY, getString("GESTIONNAIRE.DBT_VALID"));
-			ctrlOk = false;
-		} else if (g.getDateFinValidite() != null) {
-			//si dateDbt et dateFin != null alors la date de Fin doit etre superieure e la date de debut
-			if (g.getDateFinValidite().before(g.getDateDbtValidite())) {
-				addErrorMessage(null, "ERROR.FIELD.DAT_FIN.VAL");
-				ctrlOk = false;
-			}
-		}
-		
-			
-		if (log.isDebugEnabled()) {
-			log.debug("leaving ctrlEnter return = " + ctrlOk);
-		}
-		return ctrlOk;
-	}
-	
-	
-	/**
-	 * to upper case attributes nomUsuel ans Prenom.
-	 * @param gest
-	 * @return Gestionnaire
-	 */
-	private Gestionnaire toUpperCase(final Gestionnaire gest) {
-		Gestionnaire g = gest;
-		g.setNomUsuel(gest.getNomUsuel().toUpperCase());
-		g.setPrenom(gest.getPrenom().toUpperCase());
-		
-		return g;
-	}
+
+    /**
+     * Control manager attributes for the adding and updating.
+     *
+     * @param g
+     * @return Boolean
+     */
+    private Boolean ctrlEnter(final Gestionnaire g) {
+        Boolean ctrlOk = true;
+        if (!StringUtils.hasText(g.getNomUsuel())) {
+            addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.NAME"));
+            ctrlOk = false;
+        }
+        if (!StringUtils.hasText(g.getPrenom())) {
+            addErrorMessage(null, Constantes.I18N_EMPTY, getString("INDIVIDU.PRENOM"));
+            ctrlOk = false;
+        }
+        if (!StringUtils.hasText(g.getLogin())) {
+            addErrorMessage(null, Constantes.I18N_EMPTY, getString("GESTIONNAIRE.LOGIN"));
+            ctrlOk = false;
+        } else {
+            if (!getDomainService().gestionnaireLoginIsUnique(g)) {
+                ctrlOk = false;
+                addErrorMessage(null, "ERROR.FIELD.NOT_UNIQUE", getString("GESTIONNAIRE.LOGIN"));
+            }
+        }
+        if (!StringUtils.hasText(g.getAdressMail())) {
+            addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.MAIL"));
+            ctrlOk = false;
+        }
+        if (getIdProfilSelected() == null || getIdProfilSelected() == 0) {
+            addErrorMessage(null, Constantes.I18N_EMPTY, getString("PROFIL"));
+            ctrlOk = false;
+        }
+        if (g.getDateDbtValidite() == null) {
+            addErrorMessage(null, Constantes.I18N_EMPTY, getString("GESTIONNAIRE.DBT_VALID"));
+            ctrlOk = false;
+        } else if (g.getDateFinValidite() != null) {
+            //si dateDbt et dateFin != null alors la date de Fin doit etre superieure e la date de debut
+            if (g.getDateFinValidite().before(g.getDateDbtValidite())) {
+                addErrorMessage(null, "ERROR.FIELD.DAT_FIN.VAL");
+                ctrlOk = false;
+            }
+        }
+
+
+        if (log.isDebugEnabled()) {
+            log.debug("leaving ctrlEnter return = " + ctrlOk);
+        }
+        return ctrlOk;
+    }
+
+
+    /**
+     * to upper case attributes nomUsuel ans Prenom.
+     *
+     * @param gest
+     * @return Gestionnaire
+     */
+    private Gestionnaire toUpperCase(final Gestionnaire gest) {
+        Gestionnaire g = gest;
+        g.setNomUsuel(gest.getNomUsuel().toUpperCase());
+        g.setPrenom(gest.getPrenom().toUpperCase());
+
+        return g;
+    }
 	
 	/*
 	 ******************* ACCESSORS ******************** */
 
-	/**
-	 * @return List< CentreGestion>
-	 */
-	public List<CentreGestion> getCentreGestion() {
-		return getDomainApoService().getCentreGestion();
-	}
-	
-	
-	/**
-	 * @param manager the manager to set
-	 */
-	public void setManager(final Gestionnaire manager) {
-		//Clone est utilise afin que l'utilisateur puisse modifier l'objet sans toucher au CACHE (par reference)
-		//Probleme rencontre lors du modification annulee(par exemple), le cache etait tout de meme modifier
-		this.manager = manager.clone();
-	}
-	
-	/**
-	 * @return the manager
-	 */
-	public Gestionnaire getManager() {
-		return manager;
-	}
-
-	
-
-	/**
-	 * @return the listeGestionnaires
-	 */
-	public List<Gestionnaire> getListeGestionnaires() {
-		return listeGestionnaires;
-	}
-
-	/**
-	 * @param listeGestionnaires the listeGestionnaires to set
-	 */
-	public void setListeGestionnaires(final List<Gestionnaire> listeGestionnaires) {
-		this.listeGestionnaires = listeGestionnaires;
-	}
-
-	/**
-	 * @return the actionEnum
-	 */
-	public ActionEnum getActionEnum() {
-		return actionEnum;
-	}
-
-	/**
-	 * @param actionEnum the actionEnum to set
-	 */
-	public void setActionEnum(final ActionEnum actionEnum) {
-		this.actionEnum = actionEnum;
-	}
-
-	/**
-	 * @return the idProfilSelected
-	 */
-	public Integer getIdProfilSelected() {
-		return idProfilSelected;
-	}
-
-	/**
-	 * @param idProfilSelected the idProfilSelected to set
-	 */
-	public void setIdProfilSelected(final Integer idProfilSelected) {
-		this.idProfilSelected = idProfilSelected;
-	}
+    /**
+     * @return List< CentreGestion>
+     */
+    public List<CentreGestion> getCentreGestion() {
+        return getDomainApoService().getCentreGestion();
+    }
 
 
-	/**
-	 * @param commissionController the commissionController to set
-	 */
-	public void setCommissionController(final CommissionController commissionController) {
-		this.commissionController = commissionController;
-	}
+    /**
+     * @param manager the manager to set
+     */
+    public void setManager(final Gestionnaire manager) {
+        //Clone est utilise afin que l'utilisateur puisse modifier l'objet sans toucher au CACHE (par reference)
+        //Probleme rencontre lors du modification annulee(par exemple), le cache etait tout de meme modifier
+        this.manager = manager.clone();
+    }
 
-	
+    /**
+     * @return the manager
+     */
+    public Gestionnaire getManager() {
+        return manager;
+    }
+
+
+    /**
+     * @return the listeGestionnaires
+     */
+    public List<Gestionnaire> getListeGestionnaires() {
+        return listeGestionnaires;
+    }
+
+    /**
+     * @param listeGestionnaires the listeGestionnaires to set
+     */
+    public void setListeGestionnaires(final List<Gestionnaire> listeGestionnaires) {
+        this.listeGestionnaires = listeGestionnaires;
+    }
+
+    /**
+     * @return the actionEnum
+     */
+    public ActionEnum getActionEnum() {
+        return actionEnum;
+    }
+
+    /**
+     * @param actionEnum the actionEnum to set
+     */
+    public void setActionEnum(final ActionEnum actionEnum) {
+        this.actionEnum = actionEnum;
+    }
+
+    /**
+     * @return the idProfilSelected
+     */
+    public Integer getIdProfilSelected() {
+        return idProfilSelected;
+    }
+
+    /**
+     * @param idProfilSelected the idProfilSelected to set
+     */
+    public void setIdProfilSelected(final Integer idProfilSelected) {
+        this.idProfilSelected = idProfilSelected;
+    }
+
+
+    /**
+     * @param commissionController the commissionController to set
+     */
+    public void setCommissionController(final CommissionController commissionController) {
+        this.commissionController = commissionController;
+    }
+
+
 }

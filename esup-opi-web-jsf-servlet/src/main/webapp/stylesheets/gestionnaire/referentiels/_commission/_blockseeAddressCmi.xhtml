@@ -1,49 +1,48 @@
-<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui">
+<ui:fragment
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui">
     <div id="blockFormAdresseFix" class="blockForm">
-    	<div style="width:100%;">
-    		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    			styleClass="tableJustWidthMax">
-    			<h:outputText value="#{msgs['ADRESS']}" styleClass="section-smallTitle" />
-    			<h:panelGroup />
-    		</h:panelGrid>
-    	</div>
-    	<h:panelGrid styleClass="tableWidthMax" columns="4"
-    		columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['ADRESS.PAY']}" for="paysAdr" />
-    		</h:panelGroup>
-    		<h:outputText id="seePaysAdr" value="#{adressController.fixAdrPojo.pays.libPay}" />
-    		<h:panelGroup />
-    		<h:panelGroup />
-    
-    		<h:panelGroup>
-    			<h:outputLabel value="#{msgs['ADRESS']}" for="adr1" />
-    		</h:panelGroup>
-    		<h:outputText id="seeAdr1" value="#{adressController.fixAdrPojo.adresse.adr1}" />
-    		<h:outputLabel value="#{msgs['ADRESS.COMP']}" for="seeAdr2" />
-    		<h:outputText id="seeAdr2" value="#{adressController.fixAdrPojo.adresse.adr2}" />
-    		
-    		<h:outputLabel value="#{msgs['ADRESS.COMP']}" for="seeAdr3" />
-    		<h:outputText id="seeAdr3" value="#{adressController.fixAdrPojo.adresse.adr3}" />
-    		<h:outputLabel value="#{msgs['ADRESS.COD_POST']}" for="seeCodePostal" />
-    		<h:outputText id="seeCodePostal" value="#{adressController.fixAdrPojo.adresse.codBdi}" />
-    
-    		<h:outputLabel value="#{msgs['ADRESS.VIL']}" for="seeVille" />
-    		<h:outputText id="seeVille" value="#{adressController.fixAdrPojo.commune.libCommune}" />
-    
-    
-    
-    		<h:panelGroup>
-    			<p:selectBooleanCheckbox readonly="true" disabled="true"
-    				value="#{adressController.fixAdrPojo.isCedex}" />
-    			<h:outputLabel id="labeladrCedex" value=" #{msgs['ADRESS.CEDEX']}"
-    				for="cedex" />
-    		</h:panelGroup>
-    		<h:outputText id="cedex"
-    				value="#{adressController.fixAdrPojo.adresse.cedex}" />
-    	</h:panelGrid>
+        <div style="width:100%;">
+            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                         styleClass="tableJustWidthMax">
+                <h:outputText value="#{msgs['ADRESS']}" styleClass="section-smallTitle"/>
+                <h:panelGroup/>
+            </h:panelGrid>
+        </div>
+        <h:panelGrid styleClass="tableWidthMax" columns="4"
+                     columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['ADRESS.PAY']}" for="paysAdr"/>
+            </h:panelGroup>
+            <h:outputText id="seePaysAdr" value="#{adressController.fixAdrPojo.pays.libPay}"/>
+            <h:panelGroup/>
+            <h:panelGroup/>
+
+            <h:panelGroup>
+                <h:outputLabel value="#{msgs['ADRESS']}" for="adr1"/>
+            </h:panelGroup>
+            <h:outputText id="seeAdr1" value="#{adressController.fixAdrPojo.adresse.adr1}"/>
+            <h:outputLabel value="#{msgs['ADRESS.COMP']}" for="seeAdr2"/>
+            <h:outputText id="seeAdr2" value="#{adressController.fixAdrPojo.adresse.adr2}"/>
+
+            <h:outputLabel value="#{msgs['ADRESS.COMP']}" for="seeAdr3"/>
+            <h:outputText id="seeAdr3" value="#{adressController.fixAdrPojo.adresse.adr3}"/>
+            <h:outputLabel value="#{msgs['ADRESS.COD_POST']}" for="seeCodePostal"/>
+            <h:outputText id="seeCodePostal" value="#{adressController.fixAdrPojo.adresse.codBdi}"/>
+
+            <h:outputLabel value="#{msgs['ADRESS.VIL']}" for="seeVille"/>
+            <h:outputText id="seeVille" value="#{adressController.fixAdrPojo.commune.libCommune}"/>
+
+
+            <h:panelGroup>
+                <p:selectBooleanCheckbox readonly="true" disabled="true"
+                                         value="#{adressController.fixAdrPojo.isCedex}"/>
+                <h:outputLabel id="labeladrCedex" value=" #{msgs['ADRESS.CEDEX']}"
+                               for="cedex"/>
+            </h:panelGroup>
+            <h:outputText id="cedex"
+                          value="#{adressController.fixAdrPojo.adresse.cedex}"/>
+        </h:panelGrid>
     </div>
 </ui:fragment>

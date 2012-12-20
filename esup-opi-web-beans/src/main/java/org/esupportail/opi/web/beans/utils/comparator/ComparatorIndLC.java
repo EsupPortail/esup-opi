@@ -3,11 +3,11 @@
  */
 package org.esupportail.opi.web.beans.utils.comparator;
 
-import java.io.Serializable;
-import java.util.Comparator;
-
 import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
+
+import java.io.Serializable;
+import java.util.Comparator;
 
 
 

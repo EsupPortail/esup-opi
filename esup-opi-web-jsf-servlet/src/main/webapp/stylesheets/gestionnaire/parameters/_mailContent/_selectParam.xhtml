@@ -1,44 +1,44 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <h:form id="formselectParam">
-    	<div id="blockFormButton" class="blockForm">
-    		<div style="width:100%;text-align:right;">
-    			<h:panelGroup>
-    				<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
-    					action="#{mailContentController.reset}">
-    				</p:commandButton>
-    			</h:panelGroup>
-    		</div>
-    
-    		<h:panelGrid styleClass="tableWidthMax" columns="2"
-    			columnClasses="col1UnDemi,col2UnDemi">
-    			<h:panelGroup>
-    				<h:outputLabel value="#{msgs['MAIL_CONTENT.SELECT_PARAM']}" for="param" />
-    			</h:panelGroup>
-    			<h:panelGroup>
-    				<p:selectOneMenu id="param"
-    					valueChangeListener="#{mailContentController.selectAttribut}"
-    					onchange="javascript:{simulateLinkClick('formselectParam:selectAttribut');}"
-    					value="#{mailContentController.attributSelected}">
-    					<f:selectItem itemLabel="" itemValue=""/>
-    					<f:selectItems value="#{mailContentController.attributes}" />
-    				</p:selectOneMenu>
-    				<p:commandButton id="selectAttribut" 
-    						value="#{msgs['_.BUTTON.CHANGE']}"/>
-    			</h:panelGroup>
-    		</h:panelGrid>
-    
-    		<h:outputFormat rendered="#{mailContentController.attributSelected != null}"
-    			value="#{msgs['MAIL_CONTENT.ATTRIBUT_SELECT']}" escape="false">
-    			<f:param value="#{mailContentController.attributSelected}"/>
-    		</h:outputFormat>
-    
-    	</div>
+        <div id="blockFormButton" class="blockForm">
+            <div style="width:100%;text-align:right;">
+                <h:panelGroup>
+                    <p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
+                                     action="#{mailContentController.reset}">
+                    </p:commandButton>
+                </h:panelGroup>
+            </div>
+
+            <h:panelGrid styleClass="tableWidthMax" columns="2"
+                         columnClasses="col1UnDemi,col2UnDemi">
+                <h:panelGroup>
+                    <h:outputLabel value="#{msgs['MAIL_CONTENT.SELECT_PARAM']}" for="param"/>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:selectOneMenu id="param"
+                                     valueChangeListener="#{mailContentController.selectAttribut}"
+                                     onchange="javascript:{simulateLinkClick('formselectParam:selectAttribut');}"
+                                     value="#{mailContentController.attributSelected}">
+                        <f:selectItem itemLabel="" itemValue=""/>
+                        <f:selectItems value="#{mailContentController.attributes}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton id="selectAttribut"
+                                     value="#{msgs['_.BUTTON.CHANGE']}"/>
+                </h:panelGroup>
+            </h:panelGrid>
+
+            <h:outputFormat rendered="#{mailContentController.attributSelected != null}"
+                            value="#{msgs['MAIL_CONTENT.ATTRIBUT_SELECT']}" escape="false">
+                <f:param value="#{mailContentController.attributSelected}"/>
+            </h:outputFormat>
+
+        </div>
     </h:form>
     <script type="text/javascript">
-    	highlightInputAndSelect('formselectParam');
-    	hideElement('formselectParam:selectAttribut');
+        highlightInputAndSelect('formselectParam');
+        hideElement('formselectParam:selectAttribut');
     </script>
 </ui:fragment>

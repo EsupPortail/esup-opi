@@ -81,7 +81,7 @@ public class OpiWebServiceImpl implements OpiWebService {
 	private Transfert transfert;
 
 	/**
-	 * Code type etab correspondant aux universités.
+	 * Code type etab correspondant aux universitÃÂ©s.
 	 */
 	private String typeEtabUniv;
 	
@@ -124,7 +124,7 @@ public class OpiWebServiceImpl implements OpiWebService {
 			
 //			DonneesOpiDTO2 donneesOPI = initDonneesOpi(serviceOpi, individu, voeux);
 //			DonneesOpiDTO donneesOPI = initDonneesOpiTest();
-			DonneesOpiDTO2 donneesOPI = initDonneesOpi(remoteApoRenOpiMetier, individu, voeux);
+			DonneesOpiDTO2 donneesOPI = initDonneesOpi(individu, voeux);
 			log.info("derversement dans Apo du candidat (numero dossier = " + individu.getNumDossierOpi());
 
 			
@@ -208,8 +208,8 @@ public class OpiWebServiceImpl implements OpiWebService {
 		adresseFixe.setCodBdi("35000");
 		adresseFixe.setCodCom("35238");
 		adresseFixe.setLib1("rue test");
-		adresseFixe.setLib2("test complément 1");
-		adresseFixe.setLib3("test complément 2");
+		adresseFixe.setLib2("test complÃÂ©ment 1");
+		adresseFixe.setLib3("test complÃÂ©ment 2");
 		adresseFixe.setLibAde("");
 		adresseFixe.setNumTel("0626801729");
 		adresseFixe.setCodPay("100");
@@ -278,13 +278,11 @@ public class OpiWebServiceImpl implements OpiWebService {
 	
 	/**
 	 * charge des donnees OPI.
-	 * @param _opiMetierService 
 	 * @param individu 
 	 * @param wishes 
 	 * @return DonneesOpiDTO
 	 */
 	private DonneesOpiDTO2 initDonneesOpi(
-			final OpiMetierServiceInterface _opiMetierService,
 			final Individu individu,
 			final List<IndVoeu> wishes) {
 
@@ -324,7 +322,7 @@ public class OpiWebServiceImpl implements OpiWebService {
 		IndCursusScol firstCursusEtab = null;
 		String oldYearEtabStr = null;
 		for (IndCursusScol c : individu.getCursusScol()) {
-			// première inscription dans l'enseignement supérieur
+			// premiÃÂ¨re inscription dans l'enseignement supÃÂ©rieur
 			if (oldYearStr == null ) {
 				oldYearStr = c.getAnnee();
 				firstCursus =  c;
@@ -343,7 +341,7 @@ public class OpiWebServiceImpl implements OpiWebService {
 					log.error("error parse date annee cursus " + e);
 				}
 			}
-			// première inscription dans une université
+			// premiÃÂ¨re inscription dans une universitÃÂ©
 			if (c.getCodTypeEtab() != null && c.getCodTypeEtab().equals(typeEtabUniv)) {
 				if (oldYearUniStr == null ) {
 					oldYearUniStr = c.getAnnee();
@@ -364,7 +362,7 @@ public class OpiWebServiceImpl implements OpiWebService {
 					}
 				}
 			}
-			// première inscription dans l'établissement
+			// premiÃÂ¨re inscription dans l'ÃÂ©tablissement
 			if (c.getCodEtablissement() != null && c.getCodEtablissement().equals(codEtabUniv)) {
 				if (oldYearEtabStr == null ) {
 					oldYearEtabStr = c.getAnnee();
@@ -387,19 +385,19 @@ public class OpiWebServiceImpl implements OpiWebService {
 			}
 		}
 
-		// première inscription dans l'enseignement supérieur
+		// premiÃÂ¨re inscription dans l'enseignement supÃÂ©rieur
 		if (firstCursus != null) {
 			premiereInscription.setDaaEnsSupOpi(firstCursus.getAnnee());
 			premiereInscription.setDaaEtrSup(null);
 
 		}
-		// première inscription dans une université
+		// premiÃÂ¨re inscription dans une universitÃÂ©
 		if (firstCursusUni != null) {
 			premiereInscription.setDaaEtbOpi(firstCursusUni.getAnnee());
 			premiereInscription.setCodEtb(firstCursusUni.getCodEtablissement());
 
 		}
-		// première inscription dans l'établissement
+		// premiÃÂ¨re inscription dans l'ÃÂ©tablissement
 		if (firstCursusEtab != null) {
 			premiereInscription.setDaaEntEtbOpi(firstCursusEtab.getAnnee());
 
@@ -460,7 +458,7 @@ public class OpiWebServiceImpl implements OpiWebService {
 		MAJOpiBacDTO bac = mettreajourOpiBac(individu);
 
 		// DAC
-		//TODO à voir si on continue d'ajouter les DAC
+		//TODO ÃÂ  voir si on continue d'ajouter les DAC
 		// manque le niveau de formation pour ajouter correctement
 //		MAJOpiDacDTO dac = mettreajourOpiDac(individu);
 		MAJOpiDacDTO dac = new MAJOpiDacDTO();
@@ -615,7 +613,7 @@ public class OpiWebServiceImpl implements OpiWebService {
 			//tous les voeux dans OPI passe par une validation
 			voeux[i].setTemValPsd("O");
 
-			//TODO inclure codDip et codvrsVdi dans trtcmi (FAIT le 28/09/2009 à tester)	    	
+			//TODO inclure codDip et codvrsVdi dans trtcmi (FAIT le 28/09/2009 ÃÂ  tester)	    	
 			String codDip = wishes.get(i).getLinkTrtCmiCamp().getTraitementCmi().getCodDip();
 			Integer codVrsVdi = wishes.get(i).getLinkTrtCmiCamp().getTraitementCmi().getCodVrsDip();
 			if (StringUtils.hasText(codDip)) {

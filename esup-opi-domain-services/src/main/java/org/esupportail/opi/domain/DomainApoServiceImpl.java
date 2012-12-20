@@ -19,6 +19,10 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import fj.Equal;
+import fj.F;
+import fj.F2;
+import fj.data.Stream;
 import org.esupportail.commons.exceptions.ObjectNotFoundException;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
@@ -90,6 +94,8 @@ import gouv.education.apogee.commun.transverse.dto.geographie.communedto.Commune
 import gouv.education.apogee.commun.transverse.dto.pedagogique.contratpedagogiqueresultatvdivetdto.ContratPedagogiqueResultatVdiVetDTO;
 import gouv.education.apogee.commun.transverse.dto.pedagogique.etaperesvdivetdto.EtapeResVdiVetDTO;
 import gouv.education.apogee.commun.transverse.dto.pedagogique.resultatvetdto.ResultatVetDTO;
+
+import static fj.data.Stream.iterableStream;
 
 /**
  * The basic implementation of DomainApoService.
@@ -289,9 +295,6 @@ public class DomainApoServiceImpl implements DomainApoService {
 	// Etape
 	//////////////////////////////////////////////////////////////
 
-	/** 
-	 * @see org.esupportail.opi.domain.DomainApoService#getEtapes(java.lang.String)
-	 */
 	@Deprecated
 	public List<Etape> getEtapes(final String codCge) {
 		if (log.isDebugEnabled()) {
@@ -310,7 +313,7 @@ public class DomainApoServiceImpl implements DomainApoService {
 	 * @see org.esupportail.opi.domain.DomainApoService#getEtape(java.lang.String)
 	 */
 	/**
-	 * TODO : à supprimer (11/01/2012)
+	 * TODO : ÃÂ  supprimer (11/01/2012)
 	 */
 //	public Etape getEtape(final String codeEtp) {
 //		if (log.isDebugEnabled()) {
@@ -516,7 +519,7 @@ public class DomainApoServiceImpl implements DomainApoService {
 			return c;
 		} catch (WebBaseException e) {
 			//technical.data.nullretrieve.commune
-			throw new ObjectNotFoundException("Ce code postal ( " + codBdi + " ) n'existe pas dans la base de données APOGEE");
+			throw new ObjectNotFoundException("Ce code postal ( " + codBdi + " ) n'existe pas dans la base de donnÃÂ©es APOGEE");
 		} catch (NullPointerException e) {
 			throw new CommunicationApogeeException(e);
 		}
@@ -1315,11 +1318,8 @@ public class DomainApoServiceImpl implements DomainApoService {
 	//////////////////////////////////////////////////////////////
 
 
-	/** 
-	 * @see org.esupportail.opi.domain.DomainApoService#getSignataire(java.lang.String)
-	 */
 //	@Override
-	// TODO : à supprimer 18/01/2012
+	// TODO : À supprimer 18/01/2012
 	public SignataireDTO getSignataire(final String codSig) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getSignataire with " + codSig);
@@ -1471,7 +1471,7 @@ public class DomainApoServiceImpl implements DomainApoService {
 	        tOpi.setLibCmtLpa("Avis Favorable en OPI dossier n " + ind.getNumDossierOpi());
 	        //manque le code Ind 
 	        //meme ind pour tous les voeux
-	        //TODO récupérer codIndOpi
+	        //TODO rÃÂ©cupÃÂ©rer codIndOpi
 	        IndOpiDTO opiDTO = getIndOpiDTO(ind);
 	        if (opiDTO != null) {
 	            tOpi.setCodIndOpi(opiDTO.getCodIndOpi());
@@ -1745,44 +1745,43 @@ public class DomainApoServiceImpl implements DomainApoService {
 	}
 
     /**
-    	 * List of the commisions managed by the gestionnaire.
-    	 * @param gest
-    	 * @param temEnSve
-    	 * @return Set<Commission>
-    	 */
-    	public Set<Commission> getListCommissionsByRight(
-    			final Gestionnaire gest, 
-    			final Boolean temEnSve) {
-    		Set<Commission> lesCommissions = new HashSet<Commission>();	
-    		if (StringUtils.hasText(gest.getCodeCge())) {
-    			Set<VersionEtapeDTO> vet = new HashSet<VersionEtapeDTO>();
-    			vet.addAll(getVersionEtapes(null, null, 	gest.getCodeCge(), null));
-    			Set<VersionEtpOpi> vOpi = Conversions.convertVetInVetOpi(new HashSet<VersionEtapeDTO>(vet));
-    			Set<Commission> lCom = parameterService.getCommissions(temEnSve);
-                if (lCom != null) {
-                    for (Commission c : lCom) {
-                        if (!c.getTemoinEnService()) {
-                            log.info("cas d'une comm HS");
+     * TODO : Méthode TRÈS lente (nombreux appels hibernate)
+     * TODO : À optimiser
+     * TODO : Éviter d'y avoir recours
+     *
+     * List of the commisions managed by the gestionnaire.
+     * @param gest
+     * @param temEnSve
+     * @return Set<Commission>
+     */
+    public Set<Commission> getListCommissionsByRight(
+            final Gestionnaire gest,
+            final Boolean temEnSve) {
+        Set<Commission> lesCommissions = new HashSet<Commission>();
+        if (StringUtils.hasText(gest.getCodeCge())) {
+            final Set<VersionEtpOpi> vOpi = Conversions.convertVetInVetOpi(
+                    new HashSet<VersionEtapeDTO>(
+                            getVersionEtapes(null, null, gest.getCodeCge(), null)));
+            Set<Commission> lCom = parameterService.getCommissions(temEnSve);
+            if (lCom != null)
+                for (Commission c : lCom) {
+                    if (!c.getTemoinEnService()) log.info("cas d'une comm HS");
+                    for (TraitementCmi trt : c.getTraitementCmi())
+                        if (vOpi.contains(trt.getVersionEtpOpi())) {
+                            lesCommissions.add(c);
+                            break;
                         }
-                        for (TraitementCmi trt : c.getTraitementCmi()) {
-                            if (vOpi.contains(trt.getVersionEtpOpi())) {
-                                lesCommissions.add(c);
-                                break;
-                            }
-                        }
-                    }
                 }
-    
-    		} else if (gest.getRightOnCmi()!= null && !gest.getRightOnCmi().isEmpty()) {
-    			//si pas cge, renvoie les cmi auxquelles ils ont droit
-    		    // TODO: change getRightOnCmi to return a list ?
-    			lesCommissions = gest.getRightOnCmi();
-    		} else {
-    			lesCommissions = parameterService.getCommissions(null);
-    		}
-    
-    		return lesCommissions;
-    	}
+        } else if (gest.getRightOnCmi()!= null && !gest.getRightOnCmi().isEmpty()) {
+            //si pas cge, renvoie les cmi auxquelles ils ont droit
+            // TODO: change getRightOnCmi to return a list ?
+            lesCommissions = gest.getRightOnCmi();
+        } else {
+            lesCommissions = parameterService.getCommissions(null);
+        }
+
+        return lesCommissions;
+    }
 
 	
 	

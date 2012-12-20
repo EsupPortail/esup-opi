@@ -1,23 +1,23 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <h:form id="formDeleteVoeu">
-    	<div style="width:100%;">
-    		<h:outputText value="#{msgs['FORMATION.CONFIRM.DELETE']}" escape="false">
-    			<f:param value="#{formationController.indVoeuPojo.vrsEtape.libWebVet}"/>
-    		</h:outputText>
-    		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    			styleClass="tableJustWidthMax">
-    			<h:outputText value="#{msgs['FIELD_LABEL.CONFIRM']}"/>
-    			<h:panelGroup>
-    				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    					action="#{formationController.delete}"/>
-    				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
-    					action="#{formationController.reset}"
-    					immediate="true"/>
-    			</h:panelGroup>
-    		</h:panelGrid>
-    	</div>
+        <div style="width:100%;">
+            <h:outputText value="#{msgs['FORMATION.CONFIRM.DELETE']}" escape="false">
+                <f:param value="#{formationController.indVoeuPojo.vrsEtape.libWebVet}"/>
+            </h:outputText>
+            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                         styleClass="tableJustWidthMax">
+                <h:outputText value="#{msgs['FIELD_LABEL.CONFIRM']}"/>
+                <h:panelGroup>
+                    <p:commandButton value="#{msgs['_.BUTTON.YES']}"
+                                     action="#{formationController.delete}"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.NO']}"
+                                     action="#{formationController.reset}"
+                                     immediate="true"/>
+                </h:panelGroup>
+            </h:panelGrid>
+        </div>
     </h:form>
 </ui:fragment>

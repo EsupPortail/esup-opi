@@ -4,15 +4,15 @@
 package org.esupportail.opi.web.beans.pojo;
 
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.esupportail.opi.domain.beans.parameters.PieceJustificative;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 
@@ -91,8 +91,8 @@ public class IndDocument implements Serializable {
 	private String anneeUniversitaire;
 	
 	/**
-	 * Annee universitaire d'Apogée de la campagne en cours.
-	 * Exemple : pour 2009-2010 l'annee universitaire dans Apogée est 2009.
+	 * Annee universitaire d'ApogÃ©e de la campagne en cours.
+	 * Exemple : pour 2009-2010 l'annee universitaire dans ApogÃ©e est 2009.
 	 */
 	private String anneeUniversitaireApogee;
 	

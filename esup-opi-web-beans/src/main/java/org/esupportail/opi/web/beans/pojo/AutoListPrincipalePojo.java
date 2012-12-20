@@ -1,9 +1,9 @@
 package org.esupportail.opi.web.beans.pojo;
 
 
-import java.util.List;
-
 import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
+
+import java.util.List;
 
 
 /**
@@ -20,7 +20,7 @@ public class AutoListPrincipalePojo {
 	private AutoListPrincipale autoLp;
 
 	/**
-	 * libellé du centre de gestion.
+	 * libellÃ© du centre de gestion.
 	 */
 	private String libelleCge;
 

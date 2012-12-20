@@ -11,6 +11,7 @@ import org.esupportail.commons.services.i18n.I18nService;
 /**
  * @author cleprous
  *
+ * TODO : This class is a EtatVoeu factory. It should move to the service layer where it could *legitimately* be injected the I18nService
  */
 public abstract class Etat<T> implements Serializable {
 

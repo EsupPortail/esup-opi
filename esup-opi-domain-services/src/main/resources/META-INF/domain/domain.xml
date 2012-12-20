@@ -20,7 +20,7 @@
         <aop:advisor advice-ref="txAdvice" pointcut-ref="bddApoMethods" />
     </aop:config>
 
-    <tx:advice id="txAdvice" transaction-manager="txManager">
+    <tx:advice id="txAdvice" transaction-manager="txManager"> 
         <tx:attributes>
             <tx:method name="add*" propagation="REQUIRED" />
             <tx:method name="save*" propagation="REQUIRED" />
@@ -41,7 +41,7 @@
 		<property name="codStudentRegex" value="${init.codStudent.regex}"/>
 		<property name="codStudentPattern" value="${init.codStudent.pattern}"/>
 	</bean>
-	
+
 	<bean
 		id="parameterService"
 		class="org.esupportail.opi.domain.ParameterServiceImpl"
@@ -189,3 +189,5 @@
 
 
 </beans>
+
+

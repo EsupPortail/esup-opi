@@ -1,92 +1,97 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/template.xhtml">
     <ui:define name="content">
-    	<div id="maPage" class="div_body">
-    		<h1><h:outputText value="#{msgs['CONFIRMATION.TITLE']}" /></h1>
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="choiceEtapeForm" styleClass="opiR1_form">
-    				<div id="div_subSection" class="div_subSection">
-    					<div id="blockCandidaturesConfirm" class="blockForm">
-    
-    						<div class="messageForUser">
-    							<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    						</div>
-    						<br />
-    						<div style="width:100%;">
-    							<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    								styleClass="tableJustWidthMax">
-    								<h:panelGroup>
-    									<h:outputText value="#{msgs['_.BUTTON.CONFIRMER_DESISTER']}"
-    										styleClass="section-smallTitle" style="margin-right:4px;" />
-    								</h:panelGroup>
-    
-    								<h:panelGroup>
-    									<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    										rendered="#{sessionController.currentInd.asRightsToUpdate}"
-    										action="#{confirmationController.finishCandidature}"
-    										ajax="false" />
-    									<p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
-    										immediate="true"
-    										action="#{accueilController.goWelcomeCandidat}" />
-    								</h:panelGroup>
-    							</h:panelGrid>
-    						</div>
-    						<p:dataTable var="indVoeuPojo"
-    							value="#{confirmationController.indVoeuxPojoFavItems}"
-    							alternateColors="false" renderedIfEmpty="false"
-    							styleClass="displayInfo" rowIndexVar="rowVar">
-    							<p:column>
-    								<f:facet name="header">
-    									<h:outputText value="#{msgs['FIELD_LABEL.ETAPES']}" />
-    								</f:facet>
-    								<h:outputText value="#{indVoeuPojo.vrsEtape.libWebVet}" />
-    							</p:column>
-    							<p:column>
-    								<f:facet name="header">
-    									<h:outputText value="#{msgs['STATE.CONFIRM.TITLE']} - #{msgs['STATE.DESIST.TITLE']}" />
-    								</f:facet>
-    								<p:selectOneRadio id="myRadioId1" value="#{indVoeuPojo.stateConf}">  
-							             <f:selectItem itemLabel="#{msgs['STATE.CONFIRM.TITLE']}" itemValue="STATE.CONFIRM"
-							             		disabled="#{indVoeuPojo.disableConfirm}" />  
-							             <f:selectItem itemLabel="#{msgs['STATE.DESIST.TITLE']}" itemValue="STATE.DESIST"
-							             		disabled="#{indVoeuPojo.disableConfirm}" />   
-							         </p:selectOneRadio> 
+        <div id="maPage" class="div_body">
+            <h1>
+                <h:outputText value="#{msgs['CONFIRMATION.TITLE']}"/>
+            </h1>
+            <div id="div_subSection" class="div_subSection">
+                <h:form id="choiceEtapeForm" styleClass="opiR1_form">
+                    <div id="div_subSection" class="div_subSection">
+                        <div id="blockCandidaturesConfirm" class="blockForm">
 
-    							</p:column>
-    							<p:column>
-    								<f:facet name="header">
-    									<h:outputText value="#{msgs['CALENDAR_RDV.TEXT.RDV.TEXT']}" />
-    								</f:facet>
-    								<p:commandButton image="/media/images/calendar.png"
-    									styleClass="form-button-image" immediate="true"
-    									title="#{msgs['CALENDAR_RDV.ADD.TITLE']}"
-    									rendered="#{indVoeuPojo.isEtatConfirme 
+                            <div class="messageForUser">
+                                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+                            </div>
+                            <br/>
+
+                            <div style="width:100%;">
+                                <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                                             styleClass="tableJustWidthMax">
+                                    <h:panelGroup>
+                                        <h:outputText value="#{msgs['_.BUTTON.CONFIRMER_DESISTER']}"
+                                                      styleClass="section-smallTitle" style="margin-right:4px;"/>
+                                    </h:panelGroup>
+
+                                    <h:panelGroup>
+                                        <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                                         rendered="#{sessionController.currentInd.asRightsToUpdate}"
+                                                         action="#{confirmationController.finishCandidature}"
+                                                         ajax="false"/>
+                                        <p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
+                                                         immediate="true"
+                                                         action="#{accueilController.goWelcomeCandidat}"/>
+                                    </h:panelGroup>
+                                </h:panelGrid>
+                            </div>
+                            <p:dataTable var="indVoeuPojo"
+                                         value="#{confirmationController.indVoeuxPojoFavItems}"
+                                         alternateColors="false" renderedIfEmpty="false"
+                                         styleClass="displayInfo" rowIndexVar="rowVar">
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs['FIELD_LABEL.ETAPES']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{indVoeuPojo.vrsEtape.libWebVet}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText
+                                                value="#{msgs['STATE.CONFIRM.TITLE']} - #{msgs['STATE.DESIST.TITLE']}"/>
+                                    </f:facet>
+                                    <p:selectOneRadio id="myRadioId1" value="#{indVoeuPojo.stateConf}">
+                                        <f:selectItem itemLabel="#{msgs['STATE.CONFIRM.TITLE']}"
+                                                      itemValue="STATE.CONFIRM"
+                                                      disabled="#{indVoeuPojo.disableConfirm}"/>
+                                        <f:selectItem itemLabel="#{msgs['STATE.DESIST.TITLE']}" itemValue="STATE.DESIST"
+                                                      disabled="#{indVoeuPojo.disableConfirm}"/>
+                                    </p:selectOneRadio>
+
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs['CALENDAR_RDV.TEXT.RDV.TEXT']}"/>
+                                    </f:facet>
+                                    <p:commandButton image="/media/images/calendar.png"
+                                                     styleClass="form-button-image" immediate="true"
+                                                     title="#{msgs['CALENDAR_RDV.ADD.TITLE']}"
+                                                     rendered="#{indVoeuPojo.isEtatConfirme
     												and (!indVoeuPojo.hasIAForVoeu || !indVoeuPojo.hasNNE)
     												and indVoeuPojo.individuDate == null
     												and indVoeuPojo.calendrierRdv != null}"
-    									action="#{saisieRdvEtuController.goAddRdvEtu}">
-    									<f:setPropertyActionListener value="#{indVoeuPojo}"
-    										target="#{saisieRdvEtuController.voeu}" />
-    								</p:commandButton>
-    								<h:outputText value="#{indVoeuPojo.individuDate.dateRdv}"
-    									rendered="#{indVoeuPojo.individuDate != null}">
-    									<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
-    										timeZone="#{sessionController.timezone}" />
-    								</h:outputText>
-    							</p:column>
-    						</p:dataTable>
-    					</div>
-    				</div>
-    			</h:form>
+                                                     action="#{saisieRdvEtuController.goAddRdvEtu}">
+                                        <f:setPropertyActionListener value="#{indVoeuPojo}"
+                                                                     target="#{saisieRdvEtuController.voeu}"/>
+                                    </p:commandButton>
+                                    <h:outputText value="#{indVoeuPojo.individuDate.dateRdv}"
+                                                  rendered="#{indVoeuPojo.individuDate != null}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"
+                                                           timeZone="#{sessionController.timezone}"/>
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                    </div>
+                </h:form>
                 <ui:fragment rendered="#{confirmationController.hasIAForVoeux}">
-        			<div class="messageForUser">
-        				<h:outputText value="#{confirmationController.htmlBlockIAWeb}" escape="false"/>
-        			</div>
+                    <div class="messageForUser">
+                        <h:outputText value="#{confirmationController.htmlBlockIAWeb}" escape="false"/>
+                    </div>
                 </ui:fragment>
-    		</div>
-    	</div>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>

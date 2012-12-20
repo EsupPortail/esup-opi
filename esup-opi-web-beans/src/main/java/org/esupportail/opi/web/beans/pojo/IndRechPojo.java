@@ -1,10 +1,11 @@
 package org.esupportail.opi.web.beans.pojo;
 
-import java.util.Date;
-import java.util.Set;
-
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author tducreux
@@ -47,7 +48,7 @@ public class IndRechPojo {
 	/**
 	 * Liste des régimes d'inscription pour la recherche.
 	 */
-	private Set<RegimeInscription> listeRI;
+	private Set<RegimeInscription> listeRI = new HashSet<RegimeInscription>();
 
 	/**
 	 * La commision recherchee.
@@ -63,6 +64,11 @@ public class IndRechPojo {
 	 * Exclude the wishes processed.
 	 */
 	private Boolean excludeWishProcessed;
+
+    /**
+     * Validité des voeux
+     */
+    private Boolean selectValid;
 	
 	/**
 	 * true si le gestionnaire peut modifier.
@@ -76,9 +82,8 @@ public class IndRechPojo {
 	 * Constructor.
 	 */
 	public IndRechPojo() {
-		super();
-		this.excludeWishProcessed = true;
-		this.listeRI = null;
+		//this.excludeWishProcessed = true;
+		//this.listeRI = null;
 	}
 
 	/*
@@ -268,6 +273,18 @@ public class IndRechPojo {
 		this.canModifyRISearch = canModifyRISearch;
 	}
 
+    /**
+     * @return the selectValid
+     */
+    public Boolean getSelectValid() {
+        return selectValid;
+    }
 
+    /**
+     * @param selectValid the selectValid to set
+     */
+    public void setSelectValid(final Boolean selectValid) {
+        this.selectValid = selectValid;
+    }
 
 }

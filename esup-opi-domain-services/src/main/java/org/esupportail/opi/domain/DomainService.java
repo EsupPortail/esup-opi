@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import fj.data.Seq;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.application.Version;
 import org.esupportail.commons.services.ldap.LdapUser;
@@ -19,6 +20,7 @@ import org.esupportail.opi.domain.beans.NormeSI;
 import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.PieceJustificative;
+import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.domain.beans.parameters.VetAutoLp;
 import org.esupportail.opi.domain.beans.parameters.accessRight.Profile;
 import org.esupportail.opi.domain.beans.pilotage.ArchiveTask;
@@ -43,6 +45,12 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
+import org.esupportail.opi.utils.primefaces.PFFilters;
+import org.primefaces.model.SortOrder;
+
+import fj.P2;
+import fj.data.Option;
+import fj.data.Stream;
 
 
 
@@ -166,6 +174,19 @@ public interface DomainService extends Serializable {
 	 */
 	List<Individu> getIndividuSearch(String nomPatronymique, String prenom,
 			Date dateNaissance, String codPayNaissance, String codDepPaysNaissance);
+	
+	/**
+	 * Retrieves a slice of {@link Individu}
+	 * 
+	 */
+	P2<Long, Stream<Individu>> sliceOfInd(PFFilters pfFilters,
+                                          Set<TypeDecision> typesDec,
+                                          Option<Boolean> validWish,
+                                          Option<Boolean> treatedWish,
+                                          Option<Date> wishCreation,
+                                          Option<String> codeTypeTrtmt,
+                                          Set<TraitementCmi> trtCmis,
+                                          Set<Integer> listCodesRI);
 
 	/**
 	 * @param individu
@@ -251,7 +272,6 @@ public interface DomainService extends Serializable {
 	 * update individu's state. 
 	 * @param individu
 	 * @param manager
-	 * @param controlField
 	 * @return Individu.
 	 */
 	//TODO: FIx this !!
@@ -264,8 +284,8 @@ public interface DomainService extends Serializable {
 	 * @param lesCommissions : les commssions oe le gestionnaire e des droits
 	 * @return Booelan : true if the gestionaire as rights false if not
 	 */
-	Boolean asGestionnaireRightsOnStudent(Set <IndVoeu> lesVoeux,
-			Set <Commission> lesCommissions);
+	Boolean hasGestionnaireRightsOnStudent(Set<IndVoeu> lesVoeux,
+                                           Set<Commission> lesCommissions);
 	
 
 	//////////////////////////////////////////////////////////////

@@ -1,22 +1,22 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
-    	<div style="width:100%;">
-    		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    			styleClass="tableJustWidthMax">
-    			<h:outputFormat value="#{msgs['FUNCTION.CONFIRM.DELETE']}">
-    				<f:param value="#{fonctionController.fonction.code}"/>
-    			</h:outputFormat>
-    			<h:panelGroup>
-    				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    					action="#{fonctionController.delete}"
-    					ajax="false"/>
-    				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
-    					action="#{fonctionController.reset}"
-    					immediate="true"
-    					ajax="false"/>
-    			</h:panelGroup>
-    		</h:panelGrid>
-    	</div>
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
+    <div style="width:100%;">
+        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                     styleClass="tableJustWidthMax">
+            <h:outputFormat value="#{msgs['FUNCTION.CONFIRM.DELETE']}">
+                <f:param value="#{fonctionController.fonction.code}"/>
+            </h:outputFormat>
+            <h:panelGroup>
+                <p:commandButton value="#{msgs['_.BUTTON.YES']}"
+                                 action="#{fonctionController.delete}"
+                                 ajax="false"/>
+                <p:commandButton value="#{msgs['_.BUTTON.NO']}"
+                                 action="#{fonctionController.reset}"
+                                 immediate="true"
+                                 ajax="false"/>
+            </h:panelGroup>
+        </h:panelGrid>
+    </div>
 </ui:fragment>

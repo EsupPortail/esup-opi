@@ -1,121 +1,124 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-            xmlns:ui="http://java.sun.com/jsf/facelets"
-            xmlns:h="http://java.sun.com/jsf/html"
-            xmlns:p="http://primefaces.org/ui"
-            rendered="#{not empty trtCmiController.treatmentsCmiOff}">
-	<div style="width:100%;">
-		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-			styleClass="tableJustWidthMax">
-			<h:outputText value="#{msgs['FIELD_LABEL.ETAPES_OFF']}"
-				styleClass="section-smallTitle" />
-			<h:panelGroup>
-				<p:commandButton value="Ajouter une campagne"
-					rendered="#{trtCmiController.actionEnum.whatAction 
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             rendered="#{not empty trtCmiController.treatmentsCmiOff}">
+    <div style="width:100%;">
+        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                     styleClass="tableJustWidthMax">
+            <h:outputText value="#{msgs['FIELD_LABEL.ETAPES_OFF']}"
+                          styleClass="section-smallTitle"/>
+            <h:panelGroup>
+                <p:commandButton value="Ajouter une campagne"
+                                 rendered="#{trtCmiController.actionEnum.whatAction
 						== trtCmiController.actionEnum.readAction}">
-					<f:setPropertyActionListener value="#{trtCmiController.actionEnum.addAction}" target="#{trtCmiController.actionEnum.whatAction}" />
-				</p:commandButton>
-				<p:commandButton value="#{msgs['_.BUTTON.ETAPES.ADD_CAMPAGNE']}" 
-					rendered="#{trtCmiController.actionEnum.whatAction 
+                    <f:setPropertyActionListener value="#{trtCmiController.actionEnum.addAction}"
+                                                 target="#{trtCmiController.actionEnum.whatAction}"/>
+                </p:commandButton>
+                <p:commandButton value="#{msgs['_.BUTTON.ETAPES.ADD_CAMPAGNE']}"
+                                 rendered="#{trtCmiController.actionEnum.whatAction
 						== trtCmiController.actionEnum.addAction}"
-					action="#{trtCmiController.addCampToVet}" />
-				<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-					rendered="#{trtCmiController.actionEnum.whatAction 
+                                 action="#{trtCmiController.addCampToVet}"/>
+                <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                                 rendered="#{trtCmiController.actionEnum.whatAction
 						== trtCmiController.actionEnum.addAction}">
-					<f:setPropertyActionListener value="#{trtCmiController.actionEnum.readAction}" target="#{trtCmiController.actionEnum.whatAction}" />
-				</p:commandButton>
-			</h:panelGroup>
-				
-		</h:panelGrid>
-	</div>
-	<ui:fragment rendered="#{trtCmiController.actionEnum.whatAction 
+                    <f:setPropertyActionListener value="#{trtCmiController.actionEnum.readAction}"
+                                                 target="#{trtCmiController.actionEnum.whatAction}"/>
+                </p:commandButton>
+            </h:panelGroup>
+
+        </h:panelGrid>
+    </div>
+    <ui:fragment rendered="#{trtCmiController.actionEnum.whatAction
 			== trtCmiController.actionEnum.addAction}">
-        <br />
-    </ui:fragment>				
-	<h:panelGrid styleClass="tableWidthMax" columns="2"
-		columnClasses="col1UnDemi,col2UnDemi" 
-		rendered="#{trtCmiController.actionEnum.whatAction 
+        <br/>
+    </ui:fragment>
+    <h:panelGrid styleClass="tableWidthMax" columns="2"
+                 columnClasses="col1UnDemi,col2UnDemi"
+                 rendered="#{trtCmiController.actionEnum.whatAction
 			== trtCmiController.actionEnum.addAction}">
-		<h:panelGroup>
-			<h:outputLabel value="#{msgs['CAMPAGNES.SELECT']}" for="campagne" />
-		</h:panelGroup>
-		<h:panelGroup>
-			<p:selectOneMenu id="campagne" converter="#{campagneConverter}"
-				value="#{trtCmiController.campagneSelected}">
-				<f:selectItems var="camp"
-					value="#{nomenclatureController.campagnesItems}"
-					itemValue="#{camp}"
-					itemLabel="#{camp.code} : #{camp.libelle}" />
-			</p:selectOneMenu>
-		</h:panelGroup>
-	</h:panelGrid>
+        <h:panelGroup>
+            <h:outputLabel value="#{msgs['CAMPAGNES.SELECT']}" for="campagne"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <p:selectOneMenu id="campagne" converter="#{campagneConverter}"
+                             value="#{trtCmiController.campagneSelected}">
+                <f:selectItems var="camp"
+                               value="#{nomenclatureController.campagnesItems}"
+                               itemValue="#{camp}"
+                               itemLabel="#{camp.code} : #{camp.libelle}"/>
+            </p:selectOneMenu>
+        </h:panelGroup>
+    </h:panelGrid>
     <ui:fragment rendered="#{trtCmiController.actionEnum.whatAction 
 			== trtCmiController.actionEnum.addAction}">
-        <br />				
-	</ui:fragment>
-	<p:dataTable id="trtCmiOff" var="beanTrtCmi"
-		value="#{trtCmiController.treatmentsCmiOff}" rowIndexVar="rowVar"
-		styleClass="displayInfo">
-		<p:column>
-			<f:facet name="header">
-				<h:outputText value="#{msgs['FIELD_LABEL.CGE']}" />
-			</f:facet>
-			<h:outputText value="#{beanTrtCmi.traitementCmi.versionEtpOpi.codCge}" />
-		</p:column>
-		<p:column>
-			<f:facet name="header">
-				<h:outputText value="#{msgs['FIELD_LABEL.ETP']}" />
-			</f:facet>
-			<h:outputText value="#{beanTrtCmi.etape.libWebVet}" />
-		</p:column>
-		<p:column>
-			<f:facet name="header">
-				<h:outputText value="#{msgs['FIELD_LABEL.CAMPAGNES']}" />
-			</f:facet>
+        <br/>
+    </ui:fragment>
+    <p:dataTable id="trtCmiOff" var="beanTrtCmi"
+                 value="#{trtCmiController.treatmentsCmiOff}" rowIndexVar="rowVar"
+                 styleClass="displayInfo">
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['FIELD_LABEL.CGE']}"/>
+            </f:facet>
+            <h:outputText value="#{beanTrtCmi.traitementCmi.versionEtpOpi.codCge}"/>
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['FIELD_LABEL.ETP']}"/>
+            </f:facet>
+            <h:outputText value="#{beanTrtCmi.etape.libWebVet}"/>
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['FIELD_LABEL.CAMPAGNES']}"/>
+            </f:facet>
             <p:graphicImage url="/media/images/informationSmall.png"
-                    style="cursor:pointer;" id="allcampagnes" />
+                            style="cursor:pointer;" id="allcampagnes"/>
             <p:overlayPanel for="allcampagnes" appendToBody="true"
-                    showEvent="mouseover" hideEvent="mouseout"
-                    styleClass="containerPopup" style="width:300px;">
-					<h:panelGroup>
-						<h:panelGrid columns="1">
-							<h:outputText styleClass="titrePopupAide"
-								value="#{msgs['FIELD_LABEL.CAMPAGNES']}" />
-							<h:panelGroup>
-								<h:outputText styleClass="libellesAide"
-									value="#{msgs['CAMPAGNES.INFO.VET']} : " />
-							</h:panelGroup>
-							<h:panelGroup>
-								<ui:repeat var="link"
-									value="#{beanTrtCmi.traitementCmi.listLinkTrtCmiCamp}"
-									layout="unorderedList">
-									<div>
-										<h:outputText value="#{link.campagne.code}"
-											styleClass="span-text-small" />
-										<h:outputText value=" : " styleClass="span-text-small" />
-										<h:outputText value="#{link.campagne.libelle}"
-											styleClass="span-text-small" />
-									</div>
-								</ui:repeat>
-							</h:panelGroup>
-						</h:panelGrid>
-					</h:panelGroup>
-			</p:overlayPanel>
+                            showEvent="mouseover" hideEvent="mouseout"
+                            styleClass="containerPopup" style="width:300px;">
+                <h:panelGroup>
+                    <h:panelGrid columns="1">
+                        <h:outputText styleClass="titrePopupAide"
+                                      value="#{msgs['FIELD_LABEL.CAMPAGNES']}"/>
+                        <h:panelGroup>
+                            <h:outputText styleClass="libellesAide"
+                                          value="#{msgs['CAMPAGNES.INFO.VET']} : "/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <ui:repeat var="link"
+                                       value="#{beanTrtCmi.traitementCmi.listLinkTrtCmiCamp}"
+                                       layout="unorderedList">
+                                <div>
+                                    <h:outputText value="#{link.campagne.code}"
+                                                  styleClass="span-text-small"/>
+                                    <h:outputText value=" : " styleClass="span-text-small"/>
+                                    <h:outputText value="#{link.campagne.libelle}"
+                                                  styleClass="span-text-small"/>
+                                </div>
+                            </ui:repeat>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </h:panelGroup>
+            </p:overlayPanel>
 
-		</p:column>
-		<p:column>
-			<f:facet name="header">
-				<h:outputText value="#{msgs['TYP_TRT']}" />
-			</f:facet>
-			<h:outputText value="#{beanTrtCmi.typeTraitement.label}" />
-		</p:column>
-		<p:column
-			rendered="#{trtCmiController.actionEnum.whatAction 
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="#{msgs['TYP_TRT']}"/>
+            </f:facet>
+            <h:outputText value="#{beanTrtCmi.typeTraitement.label}"/>
+        </p:column>
+        <p:column
+                rendered="#{trtCmiController.actionEnum.whatAction
 							== trtCmiController.actionEnum.addAction}">
-			<f:facet name="header">
-				<p:selectBooleanCheckbox value="#{etapeController.allChecked}" onclick="checkAllInElement('campToVetForm:trtCmiOff' ,this.checked)" />
-			</f:facet>
-<!-- 			<jdt:multipleRowsSelector selectionList="#{etapeController.objectToAdd}" /> -->
-		</p:column>
-	</p:dataTable>
+            <f:facet name="header">
+                <p:selectBooleanCheckbox value="#{etapeController.allChecked}"
+                                         onclick="checkAllInElement('campToVetForm:trtCmiOff' ,this.checked)"/>
+            </f:facet>
+            <!-- 			<jdt:multipleRowsSelector selectionList="#{etapeController.objectToAdd}" /> -->
+        </p:column>
+    </p:dataTable>
 
 </ui:fragment>

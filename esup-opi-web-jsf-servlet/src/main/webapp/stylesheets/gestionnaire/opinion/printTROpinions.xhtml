@@ -1,55 +1,55 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	
-    	
-    	<div id="maPage" class="div_body">
-    		<h1>
+
+
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
+                    <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
                 </span>
             </h1>
-    		
-    		<p:outputPanel id="div_subSectionPdf" styleClass="div_subSection" 
-                    rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.confirmAction}">
-				<ui:include src="_block/_confirmPdfNotification.xhtml" />
-    		</p:outputPanel>
-            <p:outputPanel id="choiceColumnExport">
-				<ui:include src="_block/_choiceColumnExport.xhtml" />
+
+            <p:outputPanel id="div_subSectionPdf" styleClass="div_subSection"
+                           rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.confirmAction}">
+                <ui:include src="_block/_confirmPdfNotification.xhtml"/>
             </p:outputPanel>
-    		<h:form id="printListsForm" styleClass="opiR1_form">		
-    			<div id="blockFormSearch" class="blockForm">
-    				<div style="text-align:right;">
-    					<p:commandButton value="#{msgs['_.BUTTON.EXPORT']}"
-    							rendered="#{commissionController.commission.code != null}"
-    							action="#{printOpinionController.generateCSVListesTransfert}" ajax="false" />
-                        <p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="ccExp.show()" type="button" />
-    				</div>
-    				<h:panelGrid styleClass="tableWidthMax" columns="4"
-    					columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-    					<h:panelGroup>
-    						<h:outputLabel value="#{msgs['COMMISSIONS']}" for="lacommision" />
-    					</h:panelGroup>
-    					<h:panelGroup>
-    						<p:selectOneMenu id="lesCommissions" converter="javax.faces.Integer"
-    							value="#{commissionController.commission.id}">
-    							<f:selectItem itemLabel="" itemValue="" />
-    							<f:selectItems var="commission"
-    								value="#{commissionController.commissionsItemsByRight}"
-    								itemLabel="#{commission.libelle}" itemValue="#{commission.id}" />
+            <p:outputPanel id="choiceColumnExport">
+                <ui:include src="_block/_choiceColumnExport.xhtml"/>
+            </p:outputPanel>
+            <h:form id="printListsForm" styleClass="opiR1_form">
+                <div id="blockFormSearch" class="blockForm">
+                    <div style="text-align:right;">
+                        <p:commandButton value="#{msgs['_.BUTTON.EXPORT']}"
+                                         rendered="#{commissionController.commission.code != null}"
+                                         action="#{printOpinionController.generateCSVListesTransfert}" ajax="false"/>
+                        <p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="ccExp.show()" type="button"/>
+                    </div>
+                    <h:panelGrid styleClass="tableWidthMax" columns="4"
+                                 columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+                        <h:panelGroup>
+                            <h:outputLabel value="#{msgs['COMMISSIONS']}" for="lacommision"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:selectOneMenu id="lesCommissions" converter="javax.faces.Integer"
+                                             value="#{commissionController.commission.id}">
+                                <f:selectItem itemLabel="" itemValue=""/>
+                                <f:selectItems var="commission"
+                                               value="#{commissionController.commissionsItemsByRight}"
+                                               itemLabel="#{commission.libelle}" itemValue="#{commission.id}"/>
                                 <p:ajax listener="#{commissionController.selectCommissionForLists}" update="@form"/>
-    						</p:selectOneMenu>
-    					</h:panelGroup>
-    				</h:panelGrid>
-    		
-    			</div>
-    		</h:form>
-    		<br />
-    		<br />
-    		<br />
-    	</div>
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+                    </h:panelGrid>
+
+                </div>
+            </h:form>
+            <br/>
+            <br/>
+            <br/>
+        </div>
     </ui:define>
 </ui:composition>

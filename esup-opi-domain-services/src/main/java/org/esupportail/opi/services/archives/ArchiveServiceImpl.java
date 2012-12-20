@@ -77,7 +77,7 @@ public class ArchiveServiceImpl implements ArchiveService {
 	 */
 	@Override
 	public void archiveIndividu(final Individu ind) {
-		// suppression des pièces manquantes
+		// suppression des piÃÂ¨ces manquantes
 //		List<MissingPiece> listMP = new ArrayList<MissingPiece>(
 //				ind.getMissingPieces());
 //		ind.getMissingPieces().clear();
@@ -101,7 +101,7 @@ public class ArchiveServiceImpl implements ArchiveService {
 		if (parameterService.getLinkTrtCmiCamp(trtCmi, camp) == null) {
 			// on teste si on peut ajouter le traitement pour la nouvelle campagne
 			Set<VersionEtapeDTO> etapes = new HashSet<VersionEtapeDTO>();
-			// on récupère les étapes ouvertes au recrutement pour la nouvelle campagne
+			// on rÃÂ©cupÃÂ¨re les ÃÂ©tapes ouvertes au recrutement pour la nouvelle campagne
 			etapes.addAll(domainApoService.getVersionEtapes(
 					trtCmi.getVersionEtpOpi().getCodEtp(), null, 
 					null, camp.getCodAnu()));

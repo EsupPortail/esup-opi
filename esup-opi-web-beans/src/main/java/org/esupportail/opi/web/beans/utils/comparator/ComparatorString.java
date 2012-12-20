@@ -6,10 +6,6 @@ package org.esupportail.opi.web.beans.utils.comparator;
 
 import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Cles2AnnuFormDTO;
 import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
-
-import java.io.Serializable;
-import java.util.Comparator;
-
 import org.esupportail.apogee.domain.dto.enseignement.VersionEtapeDTO;
 import org.esupportail.opi.domain.beans.NormeSI;
 import org.esupportail.opi.domain.beans.formation.GrpTypDip;
@@ -27,22 +23,12 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.web.beans.BeanAccess;
 import org.esupportail.opi.web.beans.BeanTrtCmi;
-import org.esupportail.opi.web.beans.pojo.CommissionPojo;
-import org.esupportail.opi.web.beans.pojo.IndCursusScolPojo;
-import org.esupportail.opi.web.beans.pojo.IndListePrepaPojo;
-import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
-import org.esupportail.opi.web.beans.pojo.IndividuPojo;
-import org.esupportail.opi.web.beans.pojo.NomenclaturePojo;
-import org.esupportail.wssi.services.remote.BacOuxEqu;
-import org.esupportail.wssi.services.remote.CentreGestion;
-import org.esupportail.wssi.services.remote.Departement;
-import org.esupportail.wssi.services.remote.DipAutCur;
-import org.esupportail.wssi.services.remote.Diplome;
-import org.esupportail.wssi.services.remote.Etablissement;
-import org.esupportail.wssi.services.remote.Etape;
-import org.esupportail.wssi.services.remote.SecDisSis;
-import org.esupportail.wssi.services.remote.SignataireDTO;
+import org.esupportail.opi.web.beans.pojo.*;
+import org.esupportail.wssi.services.remote.*;
 import org.springframework.util.StringUtils;
+
+import java.io.Serializable;
+import java.util.Comparator;
 
 
 

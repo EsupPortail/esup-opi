@@ -11,7 +11,7 @@ declinaison 4 : #f9f9f9 (tres tres clair)
 couleur tertiaire : orange : #f28d00
 declianison 1 : #fff6eb (tres clair)
 
-autres : pr�coniser d�clinaison � partir de la couleur secondaire.
+autres : préconiser déclinaison à partir de la couleur secondaire.
 
 
 --------------------------------------------------------------*/
@@ -878,6 +878,25 @@ table.displayAddRdv tr td.right {
    border-style: none;
 }
 
+/*########  p:panel ##########*/
+
+.dataPanel {
+   border: none;
+   height: 1000px;
+   width:101.5%;
+   margin-left: -1%;
+}
+
+.dataPanelButtons {
+   float:right;
+}
+
+.dataSubPanel {
+   clear: both;
+   border: none;
+   margin: -0.5em -1em;
+}
+
 /*########  PAGINATOR ##########*/
 .esup-opiR1 div.paginator {
 	clear: both;
@@ -893,7 +912,7 @@ table.displayAddRdv tr td.right {
 	float: left;
 	text-align: center;
 	width: 55%;
-	/*utilis� dans le cas o� ce div serait vide : permet de conserver sa taille*/
+	/*utilisé dans le cas où ce div serait vide : permet de conserver sa taille*/
 	border: 1px solid transparent;
 }
 

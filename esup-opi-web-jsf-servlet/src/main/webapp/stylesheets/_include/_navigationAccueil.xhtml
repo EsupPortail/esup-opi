@@ -1,19 +1,16 @@
-<p:menubar id="navigation" styleClass="menuWelcome" 
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui">
-	<p:menuitem id="login" action="#{welcomeController.goWelcomeManager}"
-		rendered="#{sessionController.isServlet}"
-		value="#{msgs['NAVIGATION.TEXT.LOGIN']} #{msgs['GESTIONNAIRES']}"/>
-	<p:menuitem id="faq" value="#{msgs['NAVIGATION.TEXT.FAQ']}" 
-		onclick="openPage('/stylesheets/help/faq.html#whatIne','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
-	<p:menuitem id="help" value="#{msgs['NAVIGATION.TEXT.CONTACT']}" 
-		rendered="#{sessionController.regimeInsUser == null || !sessionController.regimeInsUser.displayInfoFC}" 
-		onclick="openPage('/stylesheets/help/contact.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
-	<p:menuitem id="helpFC" value="#{msgs['NAVIGATION.TEXT.CONTACT']}" 
-		rendered="#{sessionController.regimeInsUser != null and sessionController.regimeInsUser.displayInfoFC}" 
-		onclick="openPage('/stylesheets/help/contactFC.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
-	<p:menuitem id="seeFormation" value="#{msgs['NAVIGATION.TEXT.SEE_FORMATION']}"
-		action="#{welcomeController.goSeeFormation}"/>
+<p:menubar id="navigation" styleClass="menuWelcome"
+           xmlns:p="http://primefaces.org/ui">
+    <p:menuitem id="login" action="#{welcomeController.goWelcomeManager}"
+                rendered="#{sessionController.isServlet}"
+                value="#{msgs['NAVIGATION.TEXT.LOGIN']} #{msgs['GESTIONNAIRES']}"/>
+    <p:menuitem id="faq" value="#{msgs['NAVIGATION.TEXT.FAQ']}"
+                onclick="openPage('/stylesheets/help/faq.html#whatIne','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
+    <p:menuitem id="help" value="#{msgs['NAVIGATION.TEXT.CONTACT']}"
+                rendered="#{sessionController.regimeInsUser == null || !sessionController.regimeInsUser.displayInfoFC}"
+                onclick="openPage('/stylesheets/help/contact.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
+    <p:menuitem id="helpFC" value="#{msgs['NAVIGATION.TEXT.CONTACT']}"
+                rendered="#{sessionController.regimeInsUser != null and sessionController.regimeInsUser.displayInfoFC}"
+                onclick="openPage('/stylesheets/help/contactFC.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
+    <p:menuitem id="seeFormation" value="#{msgs['NAVIGATION.TEXT.SEE_FORMATION']}"
+                action="#{welcomeController.goSeeFormation}"/>
 </p:menubar>

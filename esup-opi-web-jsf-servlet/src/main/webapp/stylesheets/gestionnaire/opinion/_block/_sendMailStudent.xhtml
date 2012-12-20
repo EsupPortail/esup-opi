@@ -1,27 +1,27 @@
-<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
+<ui:fragment
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui"
         rendered="#{pjController.actionEnum.whatAction == pjController.actionEnum.sendMail}">
     <div id="div_subSectionSendMail" class="div_subSection">
         <h:form id="formSendMail">
-        	<div style="width:100%;">
-        		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-        			styleClass="tableJustWidthMax">
-        			<h:panelGroup>
-        				<h:outputText value="#{msgs['GESTIONNAIRE.CONFIRM.SEND.MAIL']}" />
-        			</h:panelGroup>
-        			
-        			<h:panelGroup>
-        				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-        					action="#{pjController.sendMail}" ajax="false" >
-        				</p:commandButton>
-        				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
-        					immediate="true"
-        					action="#{pjController.reset}" ajax="false" />
-        			</h:panelGroup>
-        		</h:panelGrid>
-        	</div>
-        </h:form>    
+            <div style="width:100%;">
+                <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                             styleClass="tableJustWidthMax">
+                    <h:panelGroup>
+                        <h:outputText value="#{msgs['GESTIONNAIRE.CONFIRM.SEND.MAIL']}"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:commandButton value="#{msgs['_.BUTTON.YES']}"
+                                         action="#{pjController.sendMail}" ajax="false">
+                        </p:commandButton>
+                        <p:commandButton value="#{msgs['_.BUTTON.NO']}"
+                                         immediate="true"
+                                         action="#{pjController.reset}" ajax="false"/>
+                    </h:panelGroup>
+                </h:panelGrid>
+            </div>
+        </h:form>
     </div>
 </ui:fragment>

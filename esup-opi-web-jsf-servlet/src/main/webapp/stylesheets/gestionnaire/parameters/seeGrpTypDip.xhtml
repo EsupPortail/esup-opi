@@ -1,135 +1,138 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
         <h1>
             <span class="section-header">
-            <h:outputText value="#{msgs['GROUPE.MANAGED']}" />
+            <h:outputText value="#{msgs['GROUPE.MANAGED']}"/>
             </span>
         </h1>
         <p:messages id="messages" showDetail="true" autoUpdate="true" styleClass="messageForUser"/>
-    	<h:panelGroup id="div_subSectionDelete" styleClass="div_subSection"
-    		rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.deleteAction}">
-    		<ui:include src="_delete/_deleteGrpTypDip.xhtml" />
-    	</h:panelGroup>
-    	<h:form id="seeGrpTypDipForm" styleClass="div_subSection">
-            <ui:fragment rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.emptyAction}">
-        		<div class="twoGroupsButton">
-        			<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-                        ajax="false" immediate="true"
-        				rendered="#{managedAccess.addAuthorized}"
-        				action="#{paramGrpTypDipController.goAddGrp}"/>
-        		</div>
+        <h:panelGroup id="div_subSectionDelete" styleClass="div_subSection"
+                      rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.deleteAction}">
+            <ui:include src="_delete/_deleteGrpTypDip.xhtml"/>
+        </h:panelGroup>
+        <h:form id="seeGrpTypDipForm" styleClass="div_subSection">
+            <ui:fragment
+                    rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.emptyAction}">
+                <div class="twoGroupsButton">
+                    <p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+                                     ajax="false" immediate="true"
+                                     rendered="#{managedAccess.addAuthorized}"
+                                     action="#{paramGrpTypDipController.goAddGrp}"/>
+                </div>
             </ui:fragment>
-            <ui:fragment rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.updateAction}">
-        		<div class="twoGroupsButton">
-        			<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-        				action="#{paramGrpTypDipController.update}" 
-                        ajax="false" />
-        			<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" 
-                        ajax="false" immediate="true"
-        				action="#{paramGrpTypDipController.reset}"/>
-        		</div>
+            <ui:fragment
+                    rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.updateAction}">
+                <div class="twoGroupsButton">
+                    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                     action="#{paramGrpTypDipController.update}"
+                                     ajax="false"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                                     ajax="false" immediate="true"
+                                     action="#{paramGrpTypDipController.reset}"/>
+                </div>
             </ui:fragment>
-    		<p:dataTable var="groupeSelect"
-    			value="#{paramGrpTypDipController.grpTypDip}"
-    			styleClass="paginatorData" alternateColors="true">
-    			<p:column>
-    				<f:facet name="header">
-    					<h:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>
-    				</f:facet>
-    				<h:outputText value="#{groupeSelect.codGrpTpd}"/>
-    			</p:column>
-    			<p:column>
-    				<f:facet name="header">
-    					<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
-    				</f:facet>
-    				<h:outputText value="#{groupeSelect.libGrpTpd}"
-    					rendered="#{paramGrpTypDipController.actionEnum.whatAction != paramGrpTypDipController.actionEnum.updateAction
+            <p:dataTable var="groupeSelect"
+                         value="#{paramGrpTypDipController.grpTypDip}"
+                         styleClass="paginatorData" alternateColors="true">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>
+                    </f:facet>
+                    <h:outputText value="#{groupeSelect.codGrpTpd}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+                    </f:facet>
+                    <h:outputText value="#{groupeSelect.libGrpTpd}"
+                                  rendered="#{paramGrpTypDipController.actionEnum.whatAction != paramGrpTypDipController.actionEnum.updateAction
     						|| groupeSelect != paramGrpTypDipController.groupe}"/>
-    				<p:inputText value="#{paramGrpTypDipController.groupe.libGrpTpd}"
-    					size="60"
-    					rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.updateAction
+                    <p:inputText value="#{paramGrpTypDipController.groupe.libGrpTpd}"
+                                 size="60"
+                                 rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.updateAction
     						and groupeSelect == paramGrpTypDipController.groupe}"/>
-    			</p:column>
-    			<p:column>
-    				<f:facet name="header">
-    					<h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}"/>
-    				</f:facet>
-    				<p:selectOneMenu value="#{paramGrpTypDipController.groupe.temEnSveGrpTpd}" style="text-align:left;"
-    					rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.updateAction
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}"/>
+                    </f:facet>
+                    <p:selectOneMenu value="#{paramGrpTypDipController.groupe.temEnSveGrpTpd}" style="text-align:left;"
+                                     rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.updateAction
     						and groupeSelect.codGrpTpd == paramGrpTypDipController.groupe.codGrpTpd}">
-    						<f:selectItems value="#{paramGrpTypDipController.temEnSveItems}"/>
-    				</p:selectOneMenu>
-    				<p:graphicImage url="/media/images/check2.gif"
-    					rendered="#{groupeSelect.temEnSveGrpTpd == 'O'
+                        <f:selectItems value="#{paramGrpTypDipController.temEnSveItems}"/>
+                    </p:selectOneMenu>
+                    <p:graphicImage url="/media/images/check2.gif"
+                                    rendered="#{groupeSelect.temEnSveGrpTpd == 'O'
     					and (paramGrpTypDipController.actionEnum.whatAction != paramGrpTypDipController.actionEnum.updateAction
     						|| groupeSelect.codGrpTpd != paramGrpTypDipController.groupe.codGrpTpd)}"/>
-    				<p:graphicImage url="/media/images/check0.gif"
-    					rendered="#{groupeSelect.temEnSveGrpTpd == 'N'
+                    <p:graphicImage url="/media/images/check0.gif"
+                                    rendered="#{groupeSelect.temEnSveGrpTpd == 'N'
     					and (paramGrpTypDipController.actionEnum.whatAction != paramGrpTypDipController.actionEnum.updateAction
     						|| groupeSelect.codGrpTpd != paramGrpTypDipController.groupe.codGrpTpd)}"/>
-    			</p:column>
-    			<p:column>
-    				<f:facet name="header">
-    					<h:outputText value="#{msgs['FIELD_LABEL.TYPE_DIPLOME']}"/>
-    				</f:facet>
-    				<ui:repeat var="corresps"
-    					value="#{groupeSelect.listGrpTypDipCorresps}"
-    					rendered="#{paramGrpTypDipController.actionEnum.whatAction != paramGrpTypDipController.actionEnum.updateAction
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msgs['FIELD_LABEL.TYPE_DIPLOME']}"/>
+                    </f:facet>
+                    <ui:repeat var="corresps"
+                               value="#{groupeSelect.listGrpTypDipCorresps}"
+                               rendered="#{paramGrpTypDipController.actionEnum.whatAction != paramGrpTypDipController.actionEnum.updateAction
     						|| groupeSelect.codGrpTpd != paramGrpTypDipController.groupe.codGrpTpd}">
                         <div>
-    					   <h:outputText value="#{corresps.codTpdEtb} (#{paramGrpTypDipController.mapCodTpdEtbLib[corresps.codTpdEtb]})"/>
+                            <h:outputText
+                                    value="#{corresps.codTpdEtb} (#{paramGrpTypDipController.mapCodTpdEtbLib[corresps.codTpdEtb]})"/>
                         </div>
-    				</ui:repeat>
-                    <p:panelGrid columns="3" id="dips" 
-                            rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.updateAction
+                    </ui:repeat>
+                    <p:panelGrid columns="3" id="dips"
+                                 rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.updateAction
                             and groupeSelect.codGrpTpd == paramGrpTypDipController.groupe.codGrpTpd}">
-                        <p:selectManyMenu styleClass="manyMenu" 
-                            value="#{paramGrpTypDipController.selectDipsADI}">
+                        <p:selectManyMenu styleClass="manyMenu"
+                                          value="#{paramGrpTypDipController.selectDipsADI}">
                             <f:selectItems value="#{paramGrpTypDipController.allDipsItems}"/>
                         </p:selectManyMenu>
                         <p:panelGrid columns="1">
                             <p:commandButton icon="ui-icon-arrowthick-1-e" ajax="false"
-                                action="#{paramGrpTypDipController.ajouDipsItems}"/>
+                                             action="#{paramGrpTypDipController.ajouDipsItems}"/>
                             <p:commandButton icon="ui-icon-arrowthick-1-w" ajax="false"
-                                action="#{paramGrpTypDipController.suppDipsItems}"/>
+                                             action="#{paramGrpTypDipController.suppDipsItems}"/>
                         </p:panelGrid>
                         <p:selectManyMenu styleClass="manyMenu"
-                            value="#{paramGrpTypDipController.selectDipsDI}">
+                                          value="#{paramGrpTypDipController.selectDipsDI}">
                             <f:selectItems value="#{paramGrpTypDipController.dipsItems}"/>
                         </p:selectManyMenu>
                     </p:panelGrid>
-    			</p:column>
-    			<p:column styleClass="buttonTD"
-    				rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.emptyAction
+                </p:column>
+                <p:column styleClass="buttonTD"
+                          rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.emptyAction
     							and managedAccess.updateAuthorized}">
-    				<p:commandButton icon="ui-icon-pencil"
-    					rendered="#{managedAccess.updateAuthorized}"
-                        immediate="true" ajax="false"
-    					title="#{msgs['BUTTON.UPDATE']}">
-    					<f:setPropertyActionListener value="#{paramGrpTypDipController.actionEnum.updateAction}"
-    						target="#{paramGrpTypDipController.actionEnum.whatAction}" />
-    					<f:setPropertyActionListener value="#{groupeSelect}"
-    						target="#{paramGrpTypDipController.groupe}" />
-    				</p:commandButton>
-    				<p:commandButton icon="ui-icon-minus"
-    					rendered="#{managedAccess.deleteAuthorized}"
-                        immediate="true" ajax="false"
-    					title="#{msgs['_.BUTTON.DELETE']}">
-    					<f:setPropertyActionListener value="#{paramGrpTypDipController.actionEnum.deleteAction}"
-    						target="#{paramGrpTypDipController.actionEnum.whatAction}" />
-    					<f:setPropertyActionListener value="#{groupeSelect}"
-    						target="#{paramGrpTypDipController.groupe}" />
-    				</p:commandButton>
-    			</p:column>
-    		</p:dataTable>
-		</h:form>
-		<h:panelGroup id="addGrp"
-			rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.addAction}">
-			<ui:include src="_add/_enterGrpTypDip.xhtml" />
-		</h:panelGroup>    	
+                    <p:commandButton icon="ui-icon-pencil"
+                                     rendered="#{managedAccess.updateAuthorized}"
+                                     immediate="true" ajax="false"
+                                     title="#{msgs['BUTTON.UPDATE']}">
+                        <f:setPropertyActionListener value="#{paramGrpTypDipController.actionEnum.updateAction}"
+                                                     target="#{paramGrpTypDipController.actionEnum.whatAction}"/>
+                        <f:setPropertyActionListener value="#{groupeSelect}"
+                                                     target="#{paramGrpTypDipController.groupe}"/>
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-minus"
+                                     rendered="#{managedAccess.deleteAuthorized}"
+                                     immediate="true" ajax="false"
+                                     title="#{msgs['_.BUTTON.DELETE']}">
+                        <f:setPropertyActionListener value="#{paramGrpTypDipController.actionEnum.deleteAction}"
+                                                     target="#{paramGrpTypDipController.actionEnum.whatAction}"/>
+                        <f:setPropertyActionListener value="#{groupeSelect}"
+                                                     target="#{paramGrpTypDipController.groupe}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <h:panelGroup id="addGrp"
+                      rendered="#{paramGrpTypDipController.actionEnum.whatAction == paramGrpTypDipController.actionEnum.addAction}">
+            <ui:include src="_add/_enterGrpTypDip.xhtml"/>
+        </h:panelGroup>
     </ui:define>
 </ui:composition>

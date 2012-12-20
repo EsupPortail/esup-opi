@@ -1,45 +1,47 @@
-<ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+<ui:composition
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        template="/stylesheets/template.xhtml">
     <ui:define name="content">
-    	<div id="maPage" class="div_body">
-    		<h1>
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
-                    <h:outputText value="#{msgs['CALENDAR.TITLE.UPDATE']}" />
+                    <h:outputText value="#{msgs['CALENDAR.TITLE.UPDATE']}"/>
                 </span>
             </h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    		<div class="maxDivTextRight">
-    			<h:panelGroup>
-    				<h:outputText value="#{msgs['INFO.CHAMP']}" />
-    				<h:outputText value="*" styleClass="etoileForChpObli" />
-    			</h:panelGroup>
-    		</div>
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="updateCalendarForm">
-    				<br />
-    				<br />
-    				<br />
-    				<h:panelGroup id="calTypInscription" rendered="#{calendarController.beanCalendar.typeSelected == calendarController.typCalInscription}">
-    					<ui:include src="_calendar/_enterCalInscription.xhtml" />
-    				</h:panelGroup>
-    				<h:panelGroup id="calTypCommission" rendered="#{calendarController.beanCalendar.typeSelected == calendarController.typCalCommission}">
-    					<ui:include src="_calendar/_enterCalCommission.xhtml" />
-    				</h:panelGroup>
-    			</h:form>
-    		</div>
-    	</div>
-    	
-    	<script type="text/javascript">
-    		highlightChildrenLiTags('navigationHeader:navigation');
-    		highlightChildrenLiTags('navigationFooter:navigation');
-    		hideElement('addCalendarForm:submitTypCal');
-    		highlightInputAndSelect('addCalendarForm');
-    		hideElement('submitCmi');
-    	</script>
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
+            <div class="maxDivTextRight">
+                <h:panelGroup>
+                    <h:outputText value="#{msgs['INFO.CHAMP']}"/>
+                    <h:outputText value="*" styleClass="etoileForChpObli"/>
+                </h:panelGroup>
+            </div>
+            <div id="div_subSection" class="div_subSection">
+                <h:form id="updateCalendarForm">
+                    <br/>
+                    <br/>
+                    <br/>
+                    <h:panelGroup id="calTypInscription"
+                                  rendered="#{calendarController.beanCalendar.typeSelected == calendarController.typCalInscription}">
+                        <ui:include src="_calendar/_enterCalInscription.xhtml"/>
+                    </h:panelGroup>
+                    <h:panelGroup id="calTypCommission"
+                                  rendered="#{calendarController.beanCalendar.typeSelected == calendarController.typCalCommission}">
+                        <ui:include src="_calendar/_enterCalCommission.xhtml"/>
+                    </h:panelGroup>
+                </h:form>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            highlightChildrenLiTags('navigationHeader:navigation');
+            highlightChildrenLiTags('navigationFooter:navigation');
+            hideElement('addCalendarForm:submitTypCal');
+            highlightInputAndSelect('addCalendarForm');
+            hideElement('submitCmi');
+        </script>
     </ui:define>
 </ui:composition>

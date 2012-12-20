@@ -1,8 +1,8 @@
 package org.esupportail.opi.web.beans.pojo;
 
-import java.util.List;
-
 import org.esupportail.opi.domain.beans.parameters.Campagne;
+
+import java.util.List;
 
 /**
  * @author root
@@ -31,7 +31,7 @@ public class RechVetDTO {
 	private String codCge;
 	
 	/**
-	 * The code de l'année universitaire.
+	 * The code de l'annÃ©e universitaire.
 	 */
 	private String codAnu;
 	

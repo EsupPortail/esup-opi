@@ -3,12 +3,6 @@
  */
 package org.esupportail.opi.web.beans.parameters;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.opi.domain.beans.parameters.TypeConvocation;
 import org.esupportail.opi.domain.beans.user.Individu;
@@ -16,6 +10,12 @@ import org.esupportail.opi.services.mails.MailContentService;
 import org.esupportail.opi.web.beans.ControlField;
 import org.esupportail.opi.web.beans.ManagedCalendar;
 import org.springframework.beans.factory.InitializingBean;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -177,35 +177,35 @@ public abstract class RegimeInscription  implements Serializable, InitializingBe
 	 ******************* METHODS ********************** */
 
 	/**
-	 * Selon le régime, le gestionnaire peut ou non modifier.
-	 * le filtre sur le régime d'inscription
+	 * Selon le rÃ©gime, le gestionnaire peut ou non modifier.
+	 * le filtre sur le rÃ©gime d'inscription
 	 * @return boolean
 	 */
 	public abstract boolean canModifyRISearch();
 	
 	/**
-	 * Selon le régime, l'individu peut ou non éditer.
+	 * Selon le rÃ©gime, l'individu peut ou non Ã©diter.
 	 * les informations sur son bac
 	 * @return boolean
 	 */
 	public abstract boolean getDisplayInfoBac();
 	
 	/**
-	 * Selon le régime, l'individu peut ou non ajouter.
+	 * Selon le rÃ©gime, l'individu peut ou non ajouter.
 	 * des voeux sans notion de calendrier
 	 * @return boolean
 	 */
 	public abstract boolean getCanAlwaysAddVows();
 	
 	/**
-	 * Selon le régime, l'individu peut ou non éditer.
+	 * Selon le rÃ©gime, l'individu peut ou non Ã©diter.
 	 * les informations sur sa situation
 	 * @return boolean
 	 */
 	public abstract boolean getDisplayInfoSituation();
 
 	/**
-	 * Selon le régime, on affiche certaines choses pour les FC.
+	 * Selon le rÃ©gime, on affiche certaines choses pour les FC.
 	 * @return boolean
 	 */
 	public abstract boolean getDisplayInfoFC();

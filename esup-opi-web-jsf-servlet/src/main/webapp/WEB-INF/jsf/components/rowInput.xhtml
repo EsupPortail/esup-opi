@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:t="http://myfaces.apache.org/tomahawk"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.prime.com.tr/ui"
-	xmlns:e="http://commons.esup-portail.org">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.prime.com.tr/ui"
+        >
     <ui:fragment rendered="#{rendered == null || rendered}">
-    	<li>
+        <li>
     		<span class="fl-label">
-    			<h:outputLabel id="label#{id}" for="#{id}" value="#{label}" />
+    			<h:outputLabel id="label#{id}" for="#{id}" value="#{label}"/>
     			<h:outputLabel value="*" styleClass="etoileForChpObli"
-    				rendered="#{obligatory == null || obligatory}" for="label#{id}" />
+                               rendered="#{obligatory == null || obligatory}" for="label#{id}"/>
     		</span>
-    		<h:panelGroup>
-    			<p:inputText id="#{id}" value="#{text}" size="#{size}"
-    				maxlength="#{maxlength}" required="#{required}"
-    				disabled="#{disabledInput != null and disabledInput}" />
-    		</h:panelGroup>
-    		<br />
-    	</li>
+            <h:panelGroup>
+                <p:inputText id="#{id}" value="#{text}" size="#{size}"
+                             maxlength="#{maxlength}" required="#{required}"
+                             disabled="#{disabledInput != null and disabledInput}"/>
+            </h:panelGroup>
+            <br/>
+        </li>
     </ui:fragment>
 </ui:composition>
 

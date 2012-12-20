@@ -1,12 +1,12 @@
 package org.esupportail.opi.web.beans.pojo;
 
 
-import java.io.Serializable;
-
 import org.esupportail.opi.domain.beans.parameters.Nomenclature;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
+
+import java.io.Serializable;
 
 
 /**
@@ -33,7 +33,7 @@ public class NomenclaturePojo implements Serializable {
 	private RegimeInscription regimeInscription;
 
 	/**
-	 * l'utilisateur poss�de tous les droits.
+	 * l'utilisateur possï¿½de tous les droits.
 	 */
 	private boolean allRight;
 	
@@ -88,8 +88,8 @@ public class NomenclaturePojo implements Serializable {
 	 * @return String
 	 */
 	public String getShortLabel() {
-		return Utilitaires.limitStrLength(nomenclature.getLibelle(), 
-				Constantes.STR_LENGTH_LIMIT);
+		return Utilitaires.limitStrLength(nomenclature.getLibelle(),
+                Constantes.STR_LENGTH_LIMIT);
 	}
 
 	/**

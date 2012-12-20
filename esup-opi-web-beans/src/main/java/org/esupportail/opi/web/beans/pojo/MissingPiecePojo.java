@@ -8,15 +8,6 @@
  */
 package org.esupportail.opi.web.beans.pojo;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
@@ -29,6 +20,8 @@ import org.esupportail.opi.utils.Conversions;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+
+import java.util.*;
 
 /**
  * @author tducreux
@@ -108,8 +101,8 @@ public class MissingPiecePojo {
 			final Integer idCommissionCherchee) {
 		Map<Commission, Set<VersionEtapeDTO>> mapCmi = 
 		    Utilitaires.getCmiForIndVoeux(parameterService.getCommissions(true)
-		        , this.individuPojo.getIndVoeuxPojo(), 
-		        this.individuPojo.getCampagneEnServ(domainService));
+                    , this.individuPojo.getIndVoeuxPojo(),
+                    this.individuPojo.getCampagneEnServ(domainService));
 		for (Commission cmi : mapCmi.keySet()) {
 			if (idCommissionCherchee != null) {
 				if (idCommissionCherchee.compareTo(cmi.getId()) == 0) {

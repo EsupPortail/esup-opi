@@ -8,7 +8,11 @@ package org.esupportail.opi.dao;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import fj.P3;
+import fj.data.Seq;
 import org.esupportail.opi.domain.beans.VersionManager;
 import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
@@ -37,6 +41,12 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
+import org.esupportail.opi.utils.primefaces.PFFilters;
+import org.primefaces.model.SortOrder;
+
+import fj.P2;
+import fj.data.Option;
+import fj.data.Stream;
 
 
 
@@ -162,6 +172,23 @@ public interface DaoService extends Serializable {
 	 * @return List< Individu>
 	 */
 	List<Individu> getIndividusByCampagne(Campagne campagne, Boolean temSve);
+	
+	/**
+	 * Retrieve a slice of {@link Individu}
+	 * 
+	 *
+     * @param pfFilters
+     * @param wishCreation
+     * @return
+	 */
+	P2<Long, Stream<Individu>> sliceOfInd(PFFilters pfFilters,
+                                          Set<TypeDecision> typesDec,
+                                          Option<Boolean> validWish,
+                                          Option<Boolean> treatedWish,
+                                          Option<Date> wishCreation,
+                                          Option<String> codeTypeTrtmt,
+                                          Set<TraitementCmi> trtCmis,
+                                          Set<Integer> listCodesRI);
 	
 	/**
 	 * Login gest = uid@domain.

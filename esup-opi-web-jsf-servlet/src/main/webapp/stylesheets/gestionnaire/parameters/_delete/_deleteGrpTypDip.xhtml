@@ -1,24 +1,24 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui">
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
     <h:form id="formDeleteFunction">
-    	<div style="width:100%;">
-    		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    			styleClass="tableJustWidthMax">
-    			<h:outputFormat value="#{msgs['GROUPE.CONFIRM.DELETE']}">
-    				<f:param value="#{paramGrpTypDipController.groupe.codGrpTpd}"/>
-    			</h:outputFormat>
-    			<h:panelGroup>
-    				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    					action="#{paramGrpTypDipController.delete}" 
-                        ajax="false"/>
-    				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
-    					action="#{paramGrpTypDipController.reset}" 
-                        ajax="false"
-    					immediate="true"/>
-    			</h:panelGroup>
-    		</h:panelGrid>
-    	</div>
+        <div style="width:100%;">
+            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                         styleClass="tableJustWidthMax">
+                <h:outputFormat value="#{msgs['GROUPE.CONFIRM.DELETE']}">
+                    <f:param value="#{paramGrpTypDipController.groupe.codGrpTpd}"/>
+                </h:outputFormat>
+                <h:panelGroup>
+                    <p:commandButton value="#{msgs['_.BUTTON.YES']}"
+                                     action="#{paramGrpTypDipController.delete}"
+                                     ajax="false"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.NO']}"
+                                     action="#{paramGrpTypDipController.reset}"
+                                     ajax="false"
+                                     immediate="true"/>
+                </h:panelGroup>
+            </h:panelGrid>
+        </div>
     </h:form>
 </ui:fragment>

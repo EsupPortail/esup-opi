@@ -1,23 +1,21 @@
-<ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/template.xhtml">
+<ui:composition
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        template="/stylesheets/template.xhtml">
     <ui:define name="content">
         <ui:fragment rendered="#{sessionController.whoIsConnectInPortlet == 'manager'}">
-        	<div id="accueilGest">
-        		<ui:include src="gestionnaire/_block/_accueil.xhtml" />
-        	</div>
+            <div id="accueilGest">
+                <ui:include src="gestionnaire/_block/_accueil.xhtml"/>
+            </div>
         </ui:fragment>
         <ui:fragment rendered="#{sessionController.whoIsConnectInPortlet == 'individu.exist'}">
-        	<div id="accueilCandidat">
-        		<ui:include src="candidat/_block/_accueil.xhtml" />
-        	</div>
+            <div id="accueilCandidat">
+                <ui:include src="candidat/_block/_accueil.xhtml"/>
+            </div>
         </ui:fragment>
         <ui:fragment rendered="#{sessionController.whoIsConnectInPortlet == 'individu.not_exist'}">
-        	<div id="lookForEtu">
-        		<ui:include src="candidat/_block/_lookforEtu.xhtml" />
-        	</div>
+            <div id="lookForEtu">
+                <ui:include src="candidat/_block/_lookforEtu.xhtml"/>
+            </div>
         </ui:fragment>
     </ui:define>
 </ui:composition>

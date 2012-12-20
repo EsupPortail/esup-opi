@@ -57,8 +57,8 @@ public class AvisPojo {
 	 * @return the short commentaire ou motivation 
 	 */
 	public String getShortCommentaireMotiv() {
-		return Utilitaires.limitStrLength(getCommentaireMotiv(), 
-				Constantes.STR_LENGTH_LIMIT);
+		return Utilitaires.limitStrLength(getCommentaireMotiv(),
+                Constantes.STR_LENGTH_LIMIT);
 	}
 	
 	/**

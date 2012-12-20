@@ -8,11 +8,11 @@
  */
 package org.esupportail.opi.web.beans;
 
-import java.util.Map;
-
 import org.esupportail.opi.domain.beans.parameters.accessRight.AccessType;
 import org.esupportail.opi.domain.beans.parameters.accessRight.Fonction;
 import org.esupportail.opi.domain.beans.parameters.accessRight.Traitement;
+
+import java.util.Map;
 
 
 

@@ -1,21 +1,21 @@
-<ui:fragment xmlns:f="http://java.sun.com/jsf/core"
+<ui:fragment
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui">
     <div id="blockrecapDossier" class="blockForm">
-    	<div style="width:100%;">
-    		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    			styleClass="tableJustWidthMax">
-    			<h:outputText value="Récapitulatif des données saisies"
-    				styleClass="section-smallTitle" />
-    			<p:commandButton value="Imprimer TODO" action="#{accueilController.printDossier}"/>
-    		</h:panelGrid>
-    	</div>
-    	<div style="width:100%;" class="blockImportant">
-    		<br />
-    	</div>
+        <div style="width:100%;">
+            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                         styleClass="tableJustWidthMax">
+                <h:outputText value="Récapitulatif des données saisies"
+                              styleClass="section-smallTitle"/>
+                <p:commandButton value="Imprimer TODO" action="#{accueilController.printDossier}"/>
+            </h:panelGrid>
+        </div>
+        <div style="width:100%;" class="blockImportant">
+            <br/>
+        </div>
     </div>
-    <br />
-    <br />
-    <br />
+    <br/>
+    <br/>
+    <br/>
 </ui:fragment>
