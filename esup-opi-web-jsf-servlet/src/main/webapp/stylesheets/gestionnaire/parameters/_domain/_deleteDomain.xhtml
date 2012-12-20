@@ -10,15 +10,15 @@
     	<div style="width:100%;">
     		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
     			styleClass="tableJustWidthMax">
-    			<h:outputText value="#{msgs['DOMAIN.CONFIRM.DELETE']}">
+    			<h:outputFormat value="#{msgs['DOMAIN.CONFIRM.DELETE']}">
     				<f:param value="#{domainController.domain.code}"/>
-    			</h:outputText>
+    			</h:outputFormat>
     			<h:panelGroup>
     				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    					action="#{domainController.delete}"/>
+    					action="#{domainController.delete}" ajax="false"/>
     				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
     					action="#{domainController.reset}"
-    					immediate="true"/>
+    					immediate="true" ajax="false"/>
     			</h:panelGroup>
     		</h:panelGrid>
     	</div>

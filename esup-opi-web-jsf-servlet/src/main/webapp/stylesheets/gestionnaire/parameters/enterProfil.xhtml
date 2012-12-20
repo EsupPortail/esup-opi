@@ -83,123 +83,105 @@
     						columnClasses="col1UnDemi,col2UnDemi">
     						<h:outputLabel value="#{msgs['DOMAIN.CHOOSE.ONE']}" for="choiceDomain" />
     						<h:panelGroup>
-    								<p:selectOneMenu id="choiceDomain" converter="javax.faces.Integer"
-    									valueChangeListener="#{profilController.selectDomain}"
-    									value="#{profilController.idDomainSelected}">
-    									<!-- onchange="javascript:{simulateLinkClick('enterProfilForm:submitSelectDomain');}" -->
-    									<f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}"
-    										itemValue="" />
-    									<f:selectItems var="domain" value="#{domainController.domains}"
-    										itemLabel="#{domain.libelle}" itemValue="#{domain.id}" />
-    									<f:selectItem itemLabel="#{msgs['DOMAIN.SELECTED.ALL']}"
-    										itemValue="#{profilController.selectAllDomain}" />
-    									<p:ajax update="access" />
-    								</p:selectOneMenu>
-    								<!-- <p:commandButton id="submitSelectDomain" 
-    										value="#{msgs['_.BUTTON.CHANGE']}"
-    										action="#{profilController.selectDomain}"/> -->
+								<p:selectOneMenu id="choiceDomain" converter="javax.faces.Integer"
+									value="#{profilController.idDomainSelected}">
+									<f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}"
+										itemValue="" />
+									<f:selectItems var="domain" value="#{domainController.domains}"
+										itemLabel="#{domain.libelle}" itemValue="#{domain.id}" />
+									<f:selectItem itemLabel="#{msgs['DOMAIN.SELECTED.ALL']}"
+										itemValue="#{profilController.selectAllDomain}" />
+									<p:ajax update="displayAccess" listener="#{profilController.selectDomain}" />
+								</p:selectOneMenu>
     						</h:panelGroup>
     					</h:panelGrid>
     				
     				</div>
-    				<div id="displayAccess">
-    				<p:panel id="access">
-    					<br />
-    					<br />
-    					<br />
-    					<div id="blockDataDomain" class="blockForm">
-    						<p:dataTable id="domainData"  var="beanAccess" value="#{profilController.accessDomain }"
-    							styleClass="paginatorData" alternateColors="true"
-    							rowIndexVar="variable"  renderedIfEmpty="false" >
-    							<p:column style="width:80%;">
-    								<f:facet name="header">
-    									<h:outputText value="#{msgs['DOMAIN']}" />
-    								</f:facet>
-    								<h:outputText value="#{beanAccess.traitement.libelle}" />
-                                    <h:panelGroup rendered="#{beanAccess.onlyReadDomain}">
-                                        <p:graphicImage url="/media/images/informationSmall.png"
-                                            style="cursor:pointer;" id="infoAnneeUni" />
-                                        <p:overlayPanel for="infoAnneeUni"
-                                            showEvent="mouseover"
-                                            hideEvent="mouseout"
-                                            styleClass="containerPopup">
-    										<h:panelGroup>
-    											<h:panelGrid columns="1">
-    												<h:outputText styleClass="titrePopupAide"
-    													value="#{beanAccess.traitement.libelle}" />
-    												<h:outputText styleClass="libellesAide"
-    														value="#{msgs['PROFIL.INFO.DOM.READ']}" />
-    											</h:panelGrid>
-    										</h:panelGroup>
-    									</p:overlayPanel>
-    								</h:panelGroup>    								
-    							</p:column>
-    							<p:columns var="codeAccess" value="#{accessRController.codeAccessItems}" style="width:5%;">
-    								<f:facet name="header">
-    									<h:outputText value="#{accessRController.accessTypes[codeAccess].libelle} " />
-    								</f:facet>
-    								<p:selectBooleanCheckbox value="#{beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}" rendered="#{!beanAccess.onlyReadDomain}"/>
-<!--     								<p:graphicImage url="/media/images/check2.gif" 
-    								rendered="#{beanAccess.onlyReadDomain 
-    									and beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/>
-    								<p:graphicImage url="/media/images/check0.gif" 
-    									rendered="#{beanAccess.onlyReadDomain 
-    										and !beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/> -->
-    							</p:columns>
-    							<p:column style="width:5%;">
-    								<f:facet name="header">
-    									<h:outputText value="#{msgs['FIELD_LABEL.ALL']}" />
-    								</f:facet>
-    								<p:selectBooleanCheckbox onchange="checkRows('enterProfilForm:domainData',#{variable}, this.checked);"
-    									rendered="#{!beanAccess.onlyReadDomain}"/>
-    							</p:column>
-    						</p:dataTable>
-    					</div>
-    					
-    					<br />
-    					<br />
-    					<br />
-    					<div id="blockFormFonction" class="blockForm">
-    						<p:dataTable id="functionData"  var="beanAccess" value="#{profilController.accessFct }"
-    							styleClass="paginatorData" alternateColors="true"
-    							rowIndexVar="variable" renderedIfEmpty="false" >
-    							<p:column>
-    								<f:facet name="header">
-    									<h:outputText value="#{msgs['DOMAIN']}" />
-    								</f:facet>
-    								<h:outputText value="#{beanAccess.traitement.domain.libelle}" />
-    							</p:column>
-    							<p:column>
-    								<f:facet name="header">
-    									<h:outputText value="#{msgs['FUNCTION']}" />
-    								</f:facet>
-    								<h:outputText value="#{beanAccess.traitement.libelle }" />
-    							</p:column>
-    							<p:columns var="codeAccess" value="#{accessRController.codeAccessItems}" style="width:5%;">
-    								<f:facet name="header">
-    									<h:outputText value="#{accessRController.accessTypes[codeAccess].libelle} " />
-    								</f:facet>
-    								<p:selectBooleanCheckbox value="#{beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}" />
-    							</p:columns>
-    							<p:column style="width:5%;">
-    								<f:facet name="header">
-    									<h:outputText value="#{msgs['FIELD_LABEL.ALL']}" />
-    								</f:facet>
-    								<p:selectBooleanCheckbox onchange="checkRows('enterProfilForm:functionData',#{variable}, this.checked);"/>
-    							</p:column>
-    						</p:dataTable>
-    					</div>
+    				<p:outputPanel id="displayAccess" layout="block">
+        				<p:panel id="access" rendered="#{not empty profilController.idDomainSelected}">
+        					<br />
+        					<br />
+        					<br />
+        					<div id="blockDataDomain" class="blockForm">
+        						<p:dataTable id="domainData" var="beanAccess" 
+                                    value="#{profilController.accessDomain }"
+        							styleClass="paginatorData" rowIndexVar="variable">
+        							<p:column style="width:80%;">
+        								<f:facet name="header">
+        									<h:outputText value="#{msgs['DOMAIN']}" />
+        								</f:facet>
+        								<h:outputText value="#{beanAccess.traitement.libelle}" />
+                                        <h:panelGroup rendered="#{beanAccess.onlyReadDomain}">
+                                            <p:graphicImage url="/media/images/informationSmall.png"
+                                                style="cursor:pointer;" id="infoAnneeUni" />
+                                            <p:overlayPanel for="infoAnneeUni"
+                                                showEvent="mouseover"
+                                                hideEvent="mouseout"
+                                                styleClass="containerPopup">
+        										<h:panelGroup>
+        											<h:panelGrid columns="1">
+        												<h:outputText styleClass="titrePopupAide"
+        													value="#{beanAccess.traitement.libelle}" />
+        												<h:outputText styleClass="libellesAide"
+        														value="#{msgs['PROFIL.INFO.DOM.READ']}" />
+        											</h:panelGrid>
+        										</h:panelGroup>
+        									</p:overlayPanel>
+        								</h:panelGroup>    								
+        							</p:column>
+        							<p:columns var="codeAccess" value="#{accessRController.codeAccessItems}" style="width:5%;">
+        								<f:facet name="header">
+        									<h:outputText value="#{accessRController.accessTypes[codeAccess].libelle} " />
+        								</f:facet>
+        								<p:selectBooleanCheckbox value="#{beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}" converter="#{booleanConverter}" rendered="#{!beanAccess.onlyReadDomain}"/>
+        							</p:columns>
+        							<p:column style="width:5%;">
+        								<f:facet name="header">
+        									<h:outputText value="#{msgs['FIELD_LABEL.ALL']}" />
+        								</f:facet>
+        								<p:selectBooleanCheckbox onchange="checkRows('enterProfilForm:domainData',#{variable}, this.checked);"
+        									rendered="#{!beanAccess.onlyReadDomain}"/>
+        							</p:column>
+        						</p:dataTable>
+        					</div>
+        					
+        					<br />
+        					<br />
+        					<br />
+        					<div id="blockFormFonction" class="blockForm">
+        						<p:dataTable id="functionData" var="beanAccess" 
+                                    value="#{profilController.accessFct}"
+        							styleClass="paginatorData" rowIndexVar="variable">
+        							<p:column>
+        								<f:facet name="header">
+        									<h:outputText value="#{msgs['DOMAIN']}" />
+        								</f:facet>
+        								<h:outputText value="#{beanAccess.traitement.domain.libelle}" />
+        							</p:column>
+        							<p:column>
+        								<f:facet name="header">
+        									<h:outputText value="#{msgs['FUNCTION']}" />
+        								</f:facet>
+        								<h:outputText value="#{beanAccess.traitement.libelle }" />
+        							</p:column>
+        							<p:columns var="codeAccess" value="#{accessRController.codeAccessItems}" style="width:5%;">
+        								<f:facet name="header">
+        									<h:outputText value="#{accessRController.accessTypes[codeAccess].libelle} " />
+        								</f:facet>
+        								<p:selectBooleanCheckbox value="#{beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}" converter="#{booleanConverter}" />
+        							</p:columns>
+        							<p:column style="width:5%;">
+        								<f:facet name="header">
+        									<h:outputText value="#{msgs['FIELD_LABEL.ALL']}" />
+        								</f:facet>
+        								<p:selectBooleanCheckbox onchange="checkRows('enterProfilForm:functionData',#{variable}, this.checked);"/>
+        							</p:column>
+        						</p:dataTable>
+        					</div>
     					</p:panel>
-    				</div>
+    				</p:outputPanel>
     			</h:form>
     		</div>
     	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        	highlightInputAndSelect('enterProfilForm');
-        	hideElement('enterProfilForm:submitSelectDomain');
-        </script>
     </ui:define>
 </ui:composition>

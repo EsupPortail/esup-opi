@@ -165,8 +165,9 @@ public class GestionnaireController extends AbstractAccessController {
 	public String goAffectRightManager() {
 		Gestionnaire g = getCurrentGest();
 		if (g != null) {
+			List<Commission> cmiSelected = commissionController.getSelectedCommissions();
 			commissionController.reset();
-			commissionController.setSelectedCommissions(new ArrayList<Commission>(g.getRightOnCmi()));
+			commissionController.setSelectedCommissions(cmiSelected);
 			setIdProfilSelected(g.getProfile().getId());
 			return NavigationRulesConst.AFFECT_RIGHT_MANAGER;
 		}
@@ -264,7 +265,7 @@ public class GestionnaireController extends AbstractAccessController {
 	/**
 	 * Delete a Manager to the dataBase.
 	 */
-	public void delete() {
+	public String delete() {
 		if (log.isDebugEnabled()) {
 			log.debug("entering delete with manager = " + manager);
 		}
@@ -277,20 +278,8 @@ public class GestionnaireController extends AbstractAccessController {
 		if (log.isDebugEnabled()) {
 			log.debug("leaving delete");
 		}
+		return goSeeAllManagers();
 	}
-
-	
-	/**
-	 * The selected cge.
-	 * @param event
-	 */
-	public void selectCge(final ValueChangeEvent event) {
-		String codeCge = (String) event.getNewValue();
-		manager.setCodeCge(codeCge);
-
-	}
-	
-	
 	
 	/* ### ALL CONTROL ####*/
 	

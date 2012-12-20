@@ -6,15 +6,15 @@
     	<div style="width:100%;">
     		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
     			styleClass="tableJustWidthMax">
-    			<h:outputText value="#{msgs['COMMISSION.CONFIRM.DELETE']}">
+    			<h:outputFormat value="#{msgs['COMMISSION.CONFIRM.DELETE']}">
     				<f:param value="#{commissionController.commission.libelle}"/>
-    			</h:outputText>
+    			</h:outputFormat>
     			<h:panelGroup>
     				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    					action="#{commissionController.delete}"/>
+    					action="#{commissionController.delete}" update=":div_subSectionDelete,:div_subSection"  />
     				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
     					action="#{commissionController.reset}"
-    					immediate="true"/>
+    					immediate="true" update=":div_subSectionDelete,:div_subSection" />
     			</h:panelGroup>
     		</h:panelGrid>
     	</div>

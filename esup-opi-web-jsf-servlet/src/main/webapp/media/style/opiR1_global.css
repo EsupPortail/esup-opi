@@ -1028,3 +1028,9 @@ table.displayAddRdv tr td.right {
 .ui-datatable .ui-selectoneradio td {
 	border: 0;
 }
+
+a.ui-button:hover {
+	background: -moz-linear-gradient(center top, rgba(255,255,255,0.6),rgba(255,255,255,0)) repeat scroll 0 0 #85b2cb;
+	border-color: #7096ab;
+	box-shadow: 0 0 8px #85b2cb, 0 1px #ffffff inset;
+}

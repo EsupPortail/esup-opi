@@ -52,10 +52,6 @@
     									<f:selectItems var="domain" value="#{domainController.domains}"
     										itemLabel="#{domain.shortLabel}" itemValue="#{domain.id}" />
     								</p:selectOneMenu>
-    								<p:commandButton image="/media/images/add.png"
-    									styleClass="form-button-image" title="#{_.BUTTON.ADD}">
-    									<f:setPropertyActionListener value="#{domainController.actionEnum.addAction}" target="#{domainController.actionEnum.whatAction}" />
-    								</p:commandButton>
     							</h:panelGroup>
     						</p:column>
     						<p:column>
@@ -95,11 +91,5 @@
     			</h:form>
     		</div>
     	</div>
-    	
-    	<script type="text/javascript">
-        	highlightChildrenLiTags('navigationHeader:navigation');
-        	highlightChildrenLiTags('navigationFooter:navigation');
-        	highlightInputAndSelect('addFonctionForm');
-        </script>
     </ui:define>
 </ui:composition>

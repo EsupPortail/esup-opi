@@ -608,7 +608,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 					boolean hasCodeBac = false;
 					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
 						for (IndBac iB : ind.getIndividu().getIndBac()) {
-							BacOuxEqu b = getBusinessCacheService().getBacOuxEqu(
+							BacOuxEqu b = getDomainApoService().getBacOuxEqu(
 									iB.getDateObtention(),
 									ExportUtils.isNotNull(iB.getCodBac()));
 							if (b != null) {
@@ -935,7 +935,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 					// bac de l'individu from IndividuPojo.individu.indBac 
 					// (premier element de la liste)
 					IndBac iB = iP.getIndividu().getIndBac().iterator().next();
-					BacOuxEqu b = getBusinessCacheService().getBacOuxEqu(
+					BacOuxEqu b = getDomainApoService().getBacOuxEqu(
 							iB.getDateObtention(),
 							ExportUtils.isNotNull(iB.getCodBac()));
 					if (b != null) {

@@ -292,7 +292,7 @@ public class CommissionController
 			this.listeRI.add(regimeIns);
 			this.canModifyRISearch = regimeIns.canModifyRISearch();
 		}
-		
+		filteredListCmiPojo = null;
 	}
 
 	
@@ -343,6 +343,7 @@ public class CommissionController
 	 */
 	public String goAddCmi() {
 		reset();
+		commission = getParameterService().getCommission(commission.getId(), null);
 		adressController.init(new AdresseCommission(), false);
 		Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
 		int codeRI = gest.getProfile().getCodeRI();
@@ -1289,6 +1290,15 @@ public class CommissionController
 	public Set<Commission> getCommissionsItemsWithoutTrt() {
 		return comsNoTrt;
 	}
+
+	/**
+	 * Commissions items for the select menu.
+	 * the list is function the commissions without treatment
+	 * @return List<Commission>
+	 */
+	public List<Commission> getCommissionsItemsWithoutTrtAsList() {
+		return new ArrayList<Commission>(comsNoTrt);
+	}
 	
 	/**
 	 * Commissions items for managedTrtCmi list.
@@ -1297,7 +1307,7 @@ public class CommissionController
 	 */
 	@SuppressWarnings("synthetic-access")
 	public Set<Commission> getAllCommissionsItemsByRight() {
-		return new TreeSet<Commission>() {{
+		return new TreeSet<Commission>(comparatorCmi) {{
 			addAll(comsInUseByRight);
 			addAll(comsNoTrt);
 		}};
@@ -1315,7 +1325,8 @@ public class CommissionController
 		return new ArrayList<Commission>(iterableStream(comsInUseByRight).filter(
 				new F<Commission, Boolean>() {
 					public Boolean f(Commission c) {
-						return c.getContactsCommission().get(codeRI) != null;
+						final Commission cmi = getParameterService().getCommission(c.getId(), null);
+						return cmi.getContactsCommission().get(codeRI) != null;
 					}}).toCollection());
 	}
 	

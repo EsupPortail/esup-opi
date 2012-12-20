@@ -1483,7 +1483,7 @@ public class PilotageServiceImpl implements PilotageService {
 	private String getBacSerie(final IndBac bac) {
 		if (bac.getDateObtention() != null && !bac.getDateObtention().isEmpty()
 				&& bac.getCodBac() != null && !bac.getCodBac().isEmpty()) {
-			BacOuxEqu bacOuxEqu = businessCacheService.getBacOuxEqu(
+			BacOuxEqu bacOuxEqu = domainApoService.getBacOuxEqu(
 					bac.getDateObtention(), bac.getCodBac());
 			if (bacOuxEqu != null) {
 				return bacOuxEqu.getLibBac();

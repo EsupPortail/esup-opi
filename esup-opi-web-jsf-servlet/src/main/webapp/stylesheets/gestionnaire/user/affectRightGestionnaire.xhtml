@@ -71,7 +71,8 @@
     						</h:panelGroup>
     						<h:outputText id="profil"
     							value="#{gestionnaireController.manager.profile.libelle}" />
-    						<h:outputLabel value="#{msgs['FIELD_LABEL.CGE']}" for="cge" />
+    						<h:outputLabel value="#{msgs['FIELD_LABEL.CGE']}" for="cge"
+                                    styleClass="form-field-label-validator" />
     						<h:panelGroup>
     							<p:selectOneMenu id="cge"
     								value="#{gestionnaireController.manager.codeCge}">
@@ -83,7 +84,6 @@
     									itemValue="#{centreGestion.codCge}" />
                                     <p:ajax update="@form" listener="#{gestionnaireController.selectCge}" />
     							</p:selectOneMenu>
-    							<p:commandButton id="submitCodCge" />
     						</h:panelGroup>
     
     						<h:panelGroup>
@@ -97,6 +97,7 @@
     								timeZone="#{sessionController.timezone}" />
     						</h:outputText>
     						<h:outputLabel value="#{msgs['GESTIONNAIRE.END_VALID']}"
+                                styleClass="form-field-label-validator"
     							for="datfinvalid" />
     						<h:outputText id="datfinvalid"
     							value="#{gestionnaireController.manager.dateFinValidite}">

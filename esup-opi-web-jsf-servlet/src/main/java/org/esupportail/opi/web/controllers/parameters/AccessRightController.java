@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.opi.domain.beans.BeanProfile;
 import org.esupportail.opi.domain.beans.parameters.accessRight.AccessRight;
 import org.esupportail.opi.domain.beans.parameters.accessRight.AccessType;
 import org.esupportail.opi.domain.beans.parameters.accessRight.Fonction;
@@ -201,14 +201,13 @@ public class AccessRightController extends AbstractContextAwareController {
 	 * @param profile
 	 */
 	private void updateRights(final List<BeanAccess> beanAccess, final Profile profile) {
-		for (int i = 0; i < beanAccess.size(); ++i) {
-			Traitement traitmt = beanAccess.get(i).getTraitement();
-			for (AccessType typeA : beanAccess.get(i).getTheDroits().keySet()) {
+		for (BeanAccess access : beanAccess) {
+			Traitement traitmt = access.getTraitement();
+			for (Entry<AccessType,Boolean> entry : access.getTheDroits().entrySet()) {
+				final AccessType typeA = entry.getKey();
+				final Boolean coche = entry.getValue();
 				boolean estPresent = false;
 				AccessRight aUpdate = new AccessRight();
-				//traitmt = getParameterService().getTraitement(traitmt.getId());
-				//INIT THE ACCESS RIGHT
-				getDomainService().initOneProxyHib(traitmt, traitmt.getAccessRight(), Set.class);
 				
 				for (Iterator<AccessRight> iA = traitmt.getAccessRight().iterator(); iA.hasNext();) {
 					//si le droit existe on regarde s'il a ete modifie
@@ -234,13 +233,13 @@ public class AccessRightController extends AbstractContextAwareController {
 				}
 				if (estPresent) {
 					//s'il n'est plus coche on enleve ce droit
-					if (!beanAccess.get(i).getTheDroits().get(typeA)) {
+					if (!coche) {
 						aUpdate.setCodeAccessType(null);
 						getParameterService().updateAccessRight(aUpdate);
 					}
 				} else {
 					//s'il est coche on doit lui creer le droit
-					if (beanAccess.get(i).getTheDroits().get(typeA)) {
+					if (coche) {
 						if (!aUpdate.getId().equals(0)) {
 							aUpdate.setCodeAccessType(typeA.getCode());
 							getParameterService().updateAccessRight(aUpdate);

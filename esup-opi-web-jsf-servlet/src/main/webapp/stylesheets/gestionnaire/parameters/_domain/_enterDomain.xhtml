@@ -11,13 +11,12 @@
     				<h:panelGroup>
     					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     						rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.addAction}"
-    						action="#{domainController.add}" />
+    						action="#{domainController.add}" ajax="false" />
     					<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
     						rendered="#{domainController.actionEnum.whatAction == domainController.actionEnum.updateAction}"
-    						action="#{domainController.update}" />
+    						action="#{domainController.update}" ajax="false" />
     					<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    						action="#{domainController.reset}"
-    						onclick="javascript:{clickAnnuler = true;}"/>
+    						action="#{domainController.reset}" ajax="false"/>
     				</h:panelGroup>
     			</h:panelGrid>
     		</div>

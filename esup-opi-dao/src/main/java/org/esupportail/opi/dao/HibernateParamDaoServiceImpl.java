@@ -455,7 +455,7 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
 		DetachedCriteria criteria = DetachedCriteria.forClass(Avis.class);
 		criteria.add(Restrictions.eq("result", typeD))
 				.setProjection(Projections.rowCount());
-		Integer nb = (Integer) getHibernateTemplate().findByCriteria(criteria).get(0);
+		Long nb = (Long) getHibernateTemplate().findByCriteria(criteria).get(0);
 		if (nb == null || nb.intValue() == 0) {
 			return true;
 		}
@@ -474,7 +474,7 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
 		DetachedCriteria criteria = DetachedCriteria.forClass(Avis.class);
 		criteria.add(Restrictions.eq("motivationAvis", motiv))
 				.setProjection(Projections.rowCount());
-		Integer nb = (Integer) getHibernateTemplate().findByCriteria(criteria).get(0);
+		Long nb = (Long) getHibernateTemplate().findByCriteria(criteria).get(0);
 		if (nb == null || nb.intValue() == 0) {
 			return true;
 		}

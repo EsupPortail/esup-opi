@@ -233,18 +233,6 @@ public class ProfilController extends AbstractContextAwareController {
 		}
 	}
 
-
-	/**
-	 * The selected domain.
-	 * @param event
-	 */
-	public void selectDomain(final ValueChangeEvent event) {
-		Integer value = (Integer) event.getNewValue();
-		idDomainSelected = value;
-		selectDomain();
-		FacesContext.getCurrentInstance().renderResponse();
-	}
-
 	/**
 	 * The selected domain.
 	 */

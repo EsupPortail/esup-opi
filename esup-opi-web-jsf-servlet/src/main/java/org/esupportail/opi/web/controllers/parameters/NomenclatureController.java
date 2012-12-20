@@ -3,7 +3,6 @@
  */
 package org.esupportail.opi.web.controllers.parameters;
 
-import static fj.data.IterableW.wrap;
 import static fj.data.Stream.iterableStream;
 
 import java.io.File;
@@ -555,8 +554,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 			} else if (nomenclature instanceof PieceJustificative) {
 				target = NavigationRulesConst.MANAGED_PJ;
 				Set<PieceJustiVet> listP = new HashSet<PieceJustiVet>();
-				for (PieceJustiVetPojo p : allEtapes) {
-					
+				for (PieceJustiVetPojo p : allEtapes) {					
 					listP.add(p.getPieceJustiVet());
 				}
 				PieceJustificative piece = (PieceJustificative) nomenclature;
@@ -613,7 +611,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 				}
 			}
 			reset();
-
 			addInfoMessage(null, "INFO.ENTER.SUCCESS");
 		}
 
@@ -1411,7 +1408,12 @@ public class NomenclatureController extends AbstractContextAwareController {
 	 * @return List< TypeDecision>
 	 */
 	public List<TypeDecision> getTypeDecisionsSorted() {
-		return sortedTypesDec;
+		List<TypeDecision> typesDec2 = new ArrayList<TypeDecision>(
+				getParameterService().getTypeDecisions(null));
+		List<TypeDecision> sortedTypesDec2 = new ArrayList<TypeDecision>(typesDec2);
+		Collections.sort(sortedTypesDec2,
+				new ComparatorString(TypeDecision.class));
+		return sortedTypesDec2;
 	}
 	
 	/**
@@ -1446,6 +1448,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 		//Clone est utilise afin que l'utilisateur puisse modifier l'objet sans toucher au CACHE (par r?f?rence)
 		//Probleme rencontre lors du modification annulee(par exemple), le cache etait tout de meme modifier
 		if (nomenclature instanceof TypeDecision) {
+			
 			TypeDecision t = (TypeDecision) nomenclature;
 			this.nomenclature = t.clone();
 		} else if (nomenclature instanceof PieceJustificative) {
@@ -1458,7 +1461,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 			Campagne m = (Campagne) nomenclature;
 			this.nomenclature = m.clone();
 		}
-
 	}
 
 	/**

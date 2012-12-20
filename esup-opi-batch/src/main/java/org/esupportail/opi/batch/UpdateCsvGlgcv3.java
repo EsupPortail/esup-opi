@@ -310,7 +310,7 @@ public class UpdateCsvGlgcv3  {
 				String bacSerie = "";
 				if (bac.getDateObtention() != null && !bac.getDateObtention().isEmpty()
 						&& bac.getCodBac() != null && !bac.getCodBac().isEmpty()) {
-					BacOuxEqu bacOuxEqu = businessCacheService.getBacOuxEqu(
+					BacOuxEqu bacOuxEqu = domainApoService.getBacOuxEqu(
 							bac.getDateObtention(), bac.getCodBac());
 					if (bacOuxEqu != null) {
 						bacSerie = bacOuxEqu.getLibBac();
