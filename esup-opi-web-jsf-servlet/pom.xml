@@ -20,28 +20,14 @@
         </resources>
         <plugins>
             <plugin>
-                <groupId>org.mortbay.jetty</groupId>
+                <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>8.1.5.v20120716</version>
+                <version>9.0.0.M3</version>
                 <configuration>
                     <configurationDiscovered>false</configurationDiscovered>
                     <webAppConfig>
                         <overrideDescriptor>src/main/jetty/web-jetty.xml</overrideDescriptor>
                     </webAppConfig>
-                    <!-- <scanIntervalSeconds>3</scanIntervalSeconds> -->
-                    <!-- <scanTargetPatterns>  -->
-                    <!--     <scanTargetPattern> -->
-                    <!--         <directory>src/main/webapp/WEB-INF</directory> -->
-                    <!--         <excludes>  -->
-                    <!--             <exclude>**/*.jsp</exclude> -->
-                    <!--             <exclude>**/*.xhtml</exclude> -->
-                    <!--         </excludes> -->
-                    <!--         <includes>  -->
-                    <!--             <include>**/*.properties</include> -->
-                    <!--             <include>**/*.xml</include> -->
-                    <!--         </includes>  -->
-                    <!--     </scanTargetPattern> -->
-                    <!-- </scanTargetPatterns> -->
                 </configuration>
             </plugin>
             <plugin>
