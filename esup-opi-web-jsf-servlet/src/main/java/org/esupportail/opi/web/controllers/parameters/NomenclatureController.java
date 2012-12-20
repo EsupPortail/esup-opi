@@ -1408,12 +1408,12 @@ public class NomenclatureController extends AbstractContextAwareController {
 	 * @return List< TypeDecision>
 	 */
 	public List<TypeDecision> getTypeDecisionsSorted() {
-		List<TypeDecision> typesDec2 = new ArrayList<TypeDecision>(
+		typesDec = new ArrayList<TypeDecision>(
 				getParameterService().getTypeDecisions(null));
-		List<TypeDecision> sortedTypesDec2 = new ArrayList<TypeDecision>(typesDec2);
-		Collections.sort(sortedTypesDec2,
+		sortedTypesDec = new ArrayList<TypeDecision>(typesDec);
+		Collections.sort(sortedTypesDec,
 				new ComparatorString(TypeDecision.class));
-		return sortedTypesDec2;
+		return sortedTypesDec;
 	}
 	
 	/**
