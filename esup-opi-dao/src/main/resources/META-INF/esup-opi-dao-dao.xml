@@ -93,7 +93,7 @@
 		</property>
         <property name="hibernateProperties" >
             <props>
-                <prop key="hibernate.dialect">org.esupportail.opi.dao.CustomOracle10gDialect</prop>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.hbm2ddl.auto">#{ systemProperties[hbm2ddl]?:'validate' }</prop>
             </props>
 		</property>
