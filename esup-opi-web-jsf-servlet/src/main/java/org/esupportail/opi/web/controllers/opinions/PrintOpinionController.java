@@ -50,6 +50,7 @@ import org.esupportail.opi.web.beans.pojo.IndCursusScolPojo;
 import org.esupportail.opi.web.beans.pojo.IndListePrepaPojo;
 import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
+import org.esupportail.opi.web.beans.pojo.LigneListePrepaPojo;
 import org.esupportail.opi.web.beans.pojo.NotificationOpinion;
 import org.esupportail.opi.web.beans.utils.ExportUtils;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
@@ -93,17 +94,16 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		private static final long serialVersionUID = 4451087010675988608L;
 
 		{ add("Commission"); add("Num_Dos_OPI"); add("Nom_Patrony");
-		add("Prenom"); add("Date_Naiss"); add("Code/clef INE");
+		add("Prenom"); add("Date_Naiss"); add("Code_clef_INE");
 		add("Adresse_1"); add("Adresse_2"); add("Adresse_3");
-		add("Cedex"); add("Code_Postale"); add("Lib_Commune");
-		add("Lib_Pays"); add("Telephone fixe");
+		add("Cedex"); add("Code_Postal"); add("Lib_Commune");
+		add("Lib_Pays"); add("Telephone_fixe");
 		add("Mail"); add("Bac"); add("Dernier_Etab_Cur");
 		add("Dernier_Etab_Etb"); add("Dernier_Etab_Result_Ext"); 
 		add("Date_depot_voeu"); add("Type_Traitement"); add("Voeu_Lib_Vet"); 
 		add("Etat_Voeu"); add("Avis_Result_Lib"); add("Rang");
-		add("Avis_Motivation/Commentaire"); add("Avis_Result_Code");
+		add("Avis_Motivation_Commentaire"); add("Avis_Result_Code");
 		add("Avis_Result_Code_Apogee"); add("Avis_temoin_validation"); add("Avis_date_validation"); } };
-
 
 
 		/**
@@ -120,6 +120,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		 * Champs dispo pour l'export.
 		 */
 		private List<String> champsDispos;
+		
 		/**
 		 * liste des champs selectionnes.
 		 */
@@ -160,6 +161,11 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		 * see {@link CommissionController}.
 		 */
 		private CommissionController commissionController;
+		
+		/**
+		 * see {@link LigneListePrepaPojo}.
+		 */
+		private LigneListePrepaPojo ligneListePrepaPojo;
 		
 		/**
 		 * see {@link ExportFormOrbeonController}.
@@ -429,10 +435,9 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 					this.lesIndividus.add(iPojo);
 				}
 
-			}
-			
+			}			
 			csvGeneration(lesIndividus, 
-					"listePrepa_" + commissionController.getCommission().getCode() + ".csv");
+					"listePrepa_" + commissionController.getCommission().getCode() + ".csv");			
 			this.lesIndividus = new ArrayList<IndividuPojo>();
 		}
 		
@@ -461,8 +466,7 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 						getParameterService().getTypeTraitements(), 
 						getParameterService().getCalendarRdv(), null, false);
 
-			// on filtre les voeux 
-			
+			// on filtre les voeux			
 			for (IndividuPojo iPojo : listeIndPojo) {
 				iPojo.initIndCursusScolPojo(getDomainApoService(), getI18nService());
 				
@@ -479,7 +483,6 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 				if (!iPojo.getIndVoeuxPojo().isEmpty()) {
 					this.lesIndividus.add(iPojo);
 				}
-
 			}
 			csvGeneration(lesIndividus, 
 					"listePrepa_" + commissionController.getCommission().getCode() + ".csv");
@@ -492,29 +495,35 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 		 * @param individus 
 		 * @param fileName 
 		 * @return String
-		 */
+		 */		
 		public String csvGeneration(final List<IndividuPojo> individus, final String fileName) {
-			//key ligne value value list
-			Map<Integer, List<String>> mapCsv = new HashMap<Integer, List<String>>(); 
-			Integer counter = 0;
-			Integer colonne = 0;
-			Array<String> tabChampschoisis = array(champsChoisis);
-			if (champsChoisis == null || tabChampschoisis.isEmpty()) {
+			if (champsChoisis == null) {
 				champsChoisis = HEADER_CVS.toArray(new String[0]);
 			}
+			List<LigneListePrepaPojo> listePrepa = getLigneListPrepa(individus);
+			try {
+				ExportUtils.superCsvGenerate(listePrepa, champsChoisis, fileName);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
 
-			log.info("Champs choisis : " + champsChoisis);
-
-			mapCsv.put(counter, Arrays.asList(champsChoisis));
+		/**
+		 * Generate a CSV of the list of student. 
+		 * @param individus 
+		 * @param fileName 
+		 * @return String superCsvGeneration
+		 */
+		public List<LigneListePrepaPojo> getLigneListPrepa(final List<IndividuPojo> individus) {
+			//key ligne value value list
+			List<LigneListePrepaPojo> listePrepaPojo = new ArrayList<LigneListePrepaPojo>(); 
 			Collections.sort(individus, new ComparatorString(IndividuPojo.class));
 			for (IndividuPojo ind : individus) {
 				Pays p = null;
 				CommuneDTO c = null;
-				
-				//init hib proxy adresse
-//				getDomainService().initOneProxyHib(ind.getIndividu(), 
-//						ind.getIndividu().getAdresses(), Adresse.class);
-				// récupération de l'adresse
 				Adresse adresse =  ind.getIndividu().getAdresses().get(Constantes.ADR_FIX);
 				if (adresse != null) {
 					if (c == null || !c.getCodeCommune().equals(adresse.getCodCommune())) {
@@ -526,150 +535,99 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 								adresse.getCodPays());
 					}
 				}
-				
 				for (IndVoeuPojo v : ind.getIndVoeuxPojo()) {
-					List<String> ligne = new ArrayList<String>();
-					++counter;
-					colonne = 0;
-					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(colonne)))) {
-						ligne.add(this.commissionController.getCommission().getLibelle());
-					}
-					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-						ligne.add(ind.getIndividu().getNumDossierOpi());
-					}
-
-					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {	
-						ligne.add(ind.getIndividu().getNomPatronymique());
-					}
-
-					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-						ligne.add(ind.getIndividu().getPrenom());
-					}
-
-					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-						ligne.add("" + ind.getIndividu().getDateNaissance());
-					}
-					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-						String ine = ExportUtils.isNotNull(ind.getIndividu().getCodeNNE()) 
-							+ ExportUtils.isNotNull(ind.getIndividu().getCodeClefNNE());
-						ligne.add(ExportUtils.isNotNull(ine));
-					}
-				
+					LigneListePrepaPojo ligne = new LigneListePrepaPojo();
+					ligne.setCommission(this.commissionController.getCommission().getLibelle());
+					ligne.setNum_Dos_OPI(ind.getIndividu().getNumDossierOpi());
+					ligne.setNom_Patrony(ind.getIndividu().getNomPatronymique());
+					ligne.setPrenom(ind.getIndividu().getPrenom());
+					ligne.setDate_Naiss(ind.getIndividu().getDateNaissance());
+					
+					String ine = ExportUtils.isNotNull(ind.getIndividu().getCodeNNE()) 
+					+ ExportUtils.isNotNull(ind.getIndividu().getCodeClefNNE());
+					ligne.setCode_clef_INE(ExportUtils.isNotNull(ine));
+					
+					// adresse
 					if (adresse != null) {
-						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-							ligne.add(ExportUtils.isNotNull(adresse.getAdr1()));
+						ligne.setAdresse_1(ExportUtils.isNotNull(adresse.getAdr1()));
+						ligne.setAdresse_2(ExportUtils.isNotNull(adresse.getAdr2()));
+						ligne.setAdresse_3(ExportUtils.isNotNull(adresse.getAdr3()));
+						ligne.setCedex(ExportUtils.isNotNull(adresse.getCedex()));
+						ligne.setCode_Postal(ExportUtils.isNotNull(adresse.getCodBdi()));
+						
+						if (c != null) {
+							ligne.setLib_Commune(c.getLibCommune());
+						} else { 
+							ligne.setLib_Commune(ExportUtils.isNotNull(
+								adresse.getLibComEtr())); 
 						}
-						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-							ligne.add(ExportUtils.isNotNull(adresse.getAdr2()));
+						
+						if (p != null) {
+							ligne.setLib_Pays(p.getLibPay());
+						} else {
+							ligne.setLib_Pays("");
 						}
-
-						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-							ligne.add(ExportUtils.isNotNull(adresse.getAdr3()));
-						}
-
-						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-							ligne.add(ExportUtils.isNotNull(adresse.getCedex()));
-						}
-
-						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-							ligne.add(ExportUtils.isNotNull(adresse.getCodBdi()));
-						}
-						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-							if (c != null) {
-								ligne.add(c.getLibCommune());
-							} else { 
-								ligne.add(ExportUtils.isNotNull(
-									adresse.getLibComEtr())); 
-							}
-						}
-						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-							if (p != null) {
-								ligne.add(p.getLibPay());
-							} else {
-								ligne.add("");
-							}
-						}
-						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-							ligne.add(ExportUtils.isNotNull(adresse.getPhoneNumber()));
-						}
+						 ligne.setTelephone_fixe(ExportUtils.isNotNull(adresse.getPhoneNumber()));
 					} else {
-						for (int i = 0; i < 8; i++) {
-							if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-								ligne.addAll(ExportUtils.addBlankList(1));
-							}
-						}
-						//ExportUtils.addBlankList(8);
+						ligne.setAdresse_1("");
+						ligne.setAdresse_2("");
+						ligne.setAdresse_3("");
+						ligne.setCedex("");
+						ligne.setCode_Postal("");
+						ligne.setLib_Commune("");
+						ligne.setLib_Pays("");
+						ligne.setTelephone_fixe("");
 					}
-					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-						ligne.add(ExportUtils.isNotNull(ind.getIndividu().getAdressMail()));
-					}
+					
+					ligne.setMail(ind.getIndividu().getAdressMail());
 
 					// bac
 					boolean hasCodeBac = false;
-					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-						for (IndBac iB : ind.getIndividu().getIndBac()) {
-							BacOuxEqu b = getDomainApoService().getBacOuxEqu(
-									iB.getDateObtention(),
-									ExportUtils.isNotNull(iB.getCodBac()));
-							if (b != null) {
-								ligne.add(b.getLibBac());
-							} else {
-								ligne.add(iB.getCodBac());
-							}
-							hasCodeBac = true;
-							break;
+					for (IndBac iB : ind.getIndividu().getIndBac()) {
+						BacOuxEqu b = getDomainApoService().getBacOuxEqu(
+								iB.getDateObtention(),
+								ExportUtils.isNotNull(iB.getCodBac()));
+						if (b != null) {
+							ligne.setBac(b.getLibBac());
+						} else {
+							ligne.setBac(iB.getCodBac());
 						}
-						
-						if (!hasCodeBac) { ligne.add(""); }
-					}
+						hasCodeBac = true;
+						break;
+					}					
+					if (!hasCodeBac) { ligne.setBac(""); }
+
 					// dernier cursus
 					IndCursusScolPojo d = ind.getDerniereAnneeEtudeCursus();
 					if (d != null) {
-						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-							ligne.add(ExportUtils.isNotNull(d.getLibCur()));
-						}
-						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-							ligne.add(ExportUtils.isNotNull(d.getLibEtb()));
-						}
-						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-							ligne.add(ExportUtils.isNotNull(d.getResultatExt()));
-						}
+						ligne.setDernier_Etab_Cur(ExportUtils.isNotNull(d.getLibCur()));
+						ligne.setDernier_Etab_Etb(ExportUtils.isNotNull(d.getLibEtb()));
+						ligne.setDernier_Etab_Result_Ext(ExportUtils.isNotNull(d.getResultatExt()));
 					} else {
-						for (int i = 0; i < 3; i++) {
-							if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-								ligne.addAll(ExportUtils.addBlankList(1));
-							}
-						}
+						ligne.setDernier_Etab_Cur("");
+						ligne.setDernier_Etab_Etb("");
+						ligne.setDernier_Etab_Result_Ext("");
 					}
 
 					// Voeux
-					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-						DateFormat sdf = new SimpleDateFormat(Constantes.DATE_HOUR_FORMAT); 
-						ligne.add(sdf.format(v.getIndVoeu().getDateCreaEnr()));
-					}
+					DateFormat sdf = new SimpleDateFormat(Constantes.DATE_HOUR_FORMAT);
+					ligne.setDate_depot_voeu(sdf.format(v.getIndVoeu().getDateCreaEnr()));
 
-					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-						ligne.add(ExportUtils.isNotNull(v.getTypeTraitement().getCode()));
-					}
-
-					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-						ligne.add(ExportUtils.isNotNull(v.getVrsEtape().getLibWebVet()));
-					}
-					if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-						ligne.add(ExportUtils.isNotNull(v.getEtat().getLabel()));
-					}
+					ligne.setType_Traitement(ExportUtils.isNotNull(v.getTypeTraitement().getCode()));
+					ligne.setVoeu_Lib_Vet(ExportUtils.isNotNull(v.getVrsEtape().getLibWebVet()));
+					ligne.setEtat_Voeu(ExportUtils.isNotNull(v.getEtat().getLabel()));
+					
 					if (v.getAvisEnService() != null) {
-						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-							ligne.add(ExportUtils.isNotNull(v.getAvisEnService().
-									getResult().getLibelle()));
+						
+						ligne.setAvis_Result_Lib(ExportUtils.isNotNull(v.getAvisEnService().
+								getResult().getLibelle()));
+						
+						if (v.getAvisEnService().getRang() != null) {
+							ligne.setRang(v.getAvisEnService().getRang().toString());
+						} else {
+							ligne.setRang("");
 						}
-						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-							if (v.getAvisEnService().getRang() != null) {
-								ligne.add(v.getAvisEnService().getRang().toString());
-							} else {
-								ligne.add("");
-							}
-						}						
+						
 						String comm = null;
 						if (v.getAvisEnService().getMotivationAvis() != null) {
 							comm = v.getAvisEnService().getMotivationAvis().getLibelle();
@@ -681,61 +639,39 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 							comm += ExportUtils.isNotNull(
 									v.getAvisEnService().getCommentaire()); 
 						}
-
-						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-							ligne.add(ExportUtils.isNotNull(comm));
-						}
-						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-							ligne.add(ExportUtils.isNotNull(v.getAvisEnService().
-									getResult().getCode()));
-						}
-						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-							ligne.add(ExportUtils.isNotNull(v.getAvisEnService().
-									getResult().getCodeApogee()));
-						}
-						if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-							ligne.add(ExportUtils.isNotNull("" + v.getAvisEnService().
-									getValidation()));
-						}
+						ligne.setAvis_Motivation_Commentaire(ExportUtils.isNotNull(comm));
+						
+						ligne.setAvis_Result_Code(ExportUtils.isNotNull(v.getAvisEnService().
+								getResult().getCode()));
+						ligne.setAvis_Result_Code_Apogee(ExportUtils.isNotNull(v.getAvisEnService().
+								getResult().getCodeApogee()));
+						ligne.setAvis_temoin_validation(ExportUtils.isNotNull("" + v.getAvisEnService().
+								getValidation()));
+						
 						if (v.getAvisEnService().getValidation()) {
-							if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-								ligne.add(ExportUtils.isNotNull(
+							ligne.setAvis_date_validation(ExportUtils.isNotNull(
 										Utilitaires.convertDateToString(
 											v.getAvisEnService().
 											getDateModifEnr(), 
 											Constantes.DATE_FORMAT)));
-							}
 						} else {
-							if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-								ligne.add(""); 
-							}
+							ligne.setAvis_date_validation(""); 
 						}
 					} else {
-						for (int i = 0; i < 7; i++) {
-							if (tabChampschoisis.exists(stringEqual.eq(HEADER_CVS.get(++colonne)))) {
-								ligne.addAll(ExportUtils.addBlankList(1));
-							}
-						}
-
+						ligne.setAvis_Result_Lib("");
+						ligne.setRang("");
+						ligne.setAvis_Motivation_Commentaire("");
+						ligne.setAvis_Result_Code("");
+						ligne.setAvis_Result_Code_Apogee("");
+						ligne.setAvis_temoin_validation("");
+						ligne.setAvis_date_validation("");
 					}
-					if (ligne.size() != tabChampschoisis.length()) {
-						throw new ConfigException("Construction du csv avis : " 
-								+ "le nombre de colonne par ligne ("
-								+ ligne.size() + ")est different " 
-								+ "que celui du header("
-								+ tabChampschoisis.length() + ")(method csvGeneration in " 
-								+ getClass().getName() + " )");
-					}
-
-					mapCsv.put(counter, ligne);
+					listePrepaPojo.add(ligne);
 				}
-
-
 			}
-
-			ExportUtils.csvGenerate(mapCsv, fileName);
-			return null;
+			return listePrepaPojo;
 		}
+	
 		
 		/**
 		 * clear and found the list of IndividuPojo and IndVoeuPjo
@@ -1310,6 +1246,13 @@ public class PrintOpinionController  extends AbstractContextAwareController  {
 			this.commissionController = commissionController;
 		}
 
+		/**
+		 * @param ligneListePrepaPojo the ligneListePrepaPojo to set
+		 */
+		public void setLigneListePrepaPojo(final LigneListePrepaPojo ligneListePrepaPojo) {
+			this.ligneListePrepaPojo = ligneListePrepaPojo;
+		}
+		
 		/**
 		 * @param castorService the castorService to set
 		 */
