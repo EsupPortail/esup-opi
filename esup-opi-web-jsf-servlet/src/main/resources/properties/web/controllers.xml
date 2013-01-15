@@ -472,6 +472,7 @@
         <property name="inscriptionAdm" ref="inscriptionAdm"/>
         <property name="refused" ref="refused"/>
         <property name="transfert" ref="transfert"/>
+		<property name="ligneListePrepaPojo" ref="ligneListePrepaPojo"/>
     </bean>
 
 
@@ -548,5 +549,8 @@
         <property name="archiveService" ref="archiveService"/>
     </bean>
 
-
+    <bean id="ligneListePrepaPojo"
+        class="org.esupportail.opi.web.beans.pojo.LigneListePrepaPojo"
+        scope="session">
+    </bean>
 </beans>
