@@ -58,28 +58,18 @@
                                 <h:outputText value="#{nomenclaturePojo.nomenclature.code}"/>
                             </p:column>
                             <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
-                                </f:facet>
-                                <h:outputText value="#{nomenclaturePojo.shortLabel}"/>
-                                <t:popup styleClass="containerPopup" style="width:350px;"
-                                         closePopupOnExitingElement="true"
-                                         closePopupOnExitingPopup="true" displayAtDistanceX="-50"
-                                         displayAtDistanceY="0"
-                                         rendered="#{nomenclaturePojo.isShortLabel}">
-                                    <p:graphicImage url="/media/images/informationSmall.png"
-                                                    style="cursor:pointer;"/>
-                                    <f:facet name="popup">
-                                        <h:panelGroup>
-                                            <h:panelGrid columns="1">
-                                                <h:outputText styleClass="titrePopupAide"
-                                                              value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
-                                                <h:outputText styleClass="libellesAide"
-                                                              value="#{nomenclaturePojo.nomenclature.libelle}"/>
-                                            </h:panelGrid>
-                                        </h:panelGroup>
-                                    </f:facet>
-                                </t:popup>
+                               
+                              <f:facet name="header">
+                                   <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+                              </f:facet>
+                              <h:outputText value="#{nomenclaturePojo.shortLabel}"/>          
+             
+                              <p:tooltip for="info" hideEffect="fade" style="width:50%;" > 
+                              			<h:outputText value="#{nomenclaturePojo.nomenclature.libelle}"/>      
+                              </p:tooltip>
+                              <p:graphicImage id="info" url="/media/images/informationSmall.png" style="cursor:pointer;"/>
+      
+                  
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
@@ -97,23 +87,7 @@
     								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"/>
-                                </f:facet>
-                                <p:selectOneMenu id="regimeInscription"
-                                                 value="#{nomenclatureController.nomenclature.codeRI}"
-                                                 rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction
-    									and nomenclaturePojo.nomenclature == nomenclatureController.nomenclature}">
-                                    <f:selectItems value="#{nomenclatureController.regimeInscriptionsItems}"/>
-                                </p:selectOneMenu>
-                                <p:selectOneMenu id="regimeInscription2" readonly="true"
-                                                 value="#{nomenclaturePojo.nomenclature.codeRI}"
-                                                 rendered="#{nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
-    									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature}">
-                                    <f:selectItems value="#{nomenclatureController.regimeInscriptionsItems}"/>
-                                </p:selectOneMenu>
-                            </p:column>
+                            
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}"/>
@@ -180,10 +154,12 @@
                 </div>
             </h:form>
         </div>
-
+        
         <script type="text/javascript">
             highlightChildrenLiTags('navigationHeader:navigation');
             highlightChildrenLiTags('navigationFooter:navigation');
-        </script>
+        </script>  
+
+       
     </ui:define>
 </ui:composition>
