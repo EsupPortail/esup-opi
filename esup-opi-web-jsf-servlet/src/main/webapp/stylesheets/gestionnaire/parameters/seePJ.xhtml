@@ -63,11 +63,13 @@
                                    <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
                               </f:facet>
                               <h:outputText value="#{nomenclaturePojo.shortLabel}"/>          
-             
-                              <p:tooltip for="info" hideEffect="fade" style="width:50%;" > 
-                              			<h:outputText value="#{nomenclaturePojo.nomenclature.libelle}"/>      
-                              </p:tooltip>
-                              <p:graphicImage id="info" url="/media/images/informationSmall.png" style="cursor:pointer;"/>
+             					
+             				  <h:panelGroup rendered="#{nomenclaturePojo.isShortLabel}">	
+                              	<p:tooltip for="info" hideEffect="fade" style="width:50%;" > 
+                              				<h:outputText value="#{nomenclaturePojo.nomenclature.libelle}"/>      
+                              	</p:tooltip>
+                              	<p:graphicImage id="info" url="/media/images/informationSmall.png" style="cursor:pointer;"/>
+                              </h:panelGroup>
       
                   
                             </p:column>
