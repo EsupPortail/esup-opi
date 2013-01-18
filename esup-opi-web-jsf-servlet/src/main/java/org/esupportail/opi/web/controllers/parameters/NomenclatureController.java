@@ -919,74 +919,89 @@ public class NomenclatureController extends AbstractContextAwareController {
 				
 			}
 		}
-		if (nom instanceof Campagne) {
-			Campagne c = (Campagne) nom;
-			// on controle si les dates sont saisis correctement
-			// les dates ne doivent pas être nulles
-			if (c.getDateDebCamp() == null) {
-				addErrorMessage(null, "ERROR.CAMP.DATE_DEB_EMPTY");
-				ctrlOk = false;
+		
+		//Ajout try par rapport au bug 26 pour exception non-catchée
+		try{
+			if (nom instanceof Campagne) {
+				Campagne c = (Campagne) nom;
+				// on controle si les dates sont saisis correctement
+				// les dates ne doivent pas être nulles
+				if (c.getDateDebCamp() == null) {
+					addErrorMessage(null, "ERROR.CAMP.DATE_DEB_EMPTY");
+					ctrlOk = false;
+				}
+				if (c.getDateFinCamp() == null) {
+					addErrorMessage(null, "ERROR.CAMP.DATE_FIN_EMPTY");
+					ctrlOk = false;
+				}
+				// la date de fin de campagne doit être supérieure à celle de début
+				if (c.getDateDebCamp() != null && c.getDateFinCamp() != null
+						&& !c.getDateFinCamp().after(c.getDateDebCamp())) {
+					addErrorMessage(null, "ERROR.CAMP.DATE_FIN_SUP_DEB");
+					ctrlOk = false;
+				}
+				
+				
+				// on controle que le codeAnu saisi est correct
+				if (getDomainApoService().getAnneeUni(c.getCodAnu()) == null) {
+					addErrorMessage(null, "ERROR.CAMP.COD_ANU_APOGEE");
+					ctrlOk = false;
+				}
+				
+				
+				Set<Campagne> camps = getParameterService().getCampagnes(null, null);
+				RegimeInscription rI = getRegimeIns().get(c.getCodeRI());
+				for (Campagne camp : camps) {
+					// on ne peut pas avoir 2 campagnes avec le même code
+					// sauf si l'une est en FC et l'autre non
+					if (!camp.equals(c) && camp.getCode().equals(c.getCode())
+							&& camp.getCodeRI() == c.getCodeRI()) {
+						if (camp.getCodeRI() != FormationContinue.CODE) {
+							addErrorMessage(null, "ERROR.CAMP.JUST_ONE_YEAR",
+									camp.getCodAnu());
+						} else if (camp.getCodeRI() == FormationContinue.CODE) {
+							addErrorMessage(null, "ERROR.CAMP.JUST_ONE_YEAR_SFC",
+									camp.getCodAnu());
+						}
+						ctrlOk = false;
+						break;
+					}
+				}
+				for (Campagne camp : camps) {
+					// on ne peut pas avoir 2 campagnes avec le même codAnu
+					// sauf si l'une est en FC et l'autre non
+					if (!camp.equals(c) && camp.getCodAnu().equals(c.getCodAnu())
+							&& camp.getCodeRI() == c.getCodeRI()) {
+						if (camp.getCodeRI() != FormationContinue.CODE) {
+							addErrorMessage(null, "ERROR.CAMP.JUST_ONE_ANU",
+									camp.getCode());
+						} else if (camp.getCodeRI() == FormationContinue.CODE) {
+							addErrorMessage(null, "ERROR.CAMP.JUST_ONE_ANU_SFC",
+									camp.getCode());
+						}
+						ctrlOk = false;
+						break;
+					}
+				}
+				for (Campagne camp : camps) {
+					// on ne peut pas avoir 2 campagnes FI en service
+					if (!camp.equals(c) && !(rI instanceof FormationInitiale)
+							&& camp.getTemoinEnService().equals(c.getTemoinEnService())
+							&& camp.getCodeRI() == c.getCodeRI()) {
+						addErrorMessage(null, "ERROR.CAMP.JUST_ONE_EN_SERV");
+						ctrlOk = false;
+						break;
+					}
+				}
 			}
-			if (c.getDateFinCamp() == null) {
-				addErrorMessage(null, "ERROR.CAMP.DATE_FIN_EMPTY");
-				ctrlOk = false;
-			}
-			// la date de fin de campagne doit être supérieure à celle de début
-			if (c.getDateDebCamp() != null && c.getDateFinCamp() != null
-					&& !c.getDateFinCamp().after(c.getDateDebCamp())) {
-				addErrorMessage(null, "ERROR.CAMP.DATE_FIN_SUP_DEB");
-				ctrlOk = false;
-			}
-			// on controle que le codeAnu saisi est correct
-			if (getDomainApoService().getAnneeUni(c.getCodAnu()) == null) {
+		
+		}catch(Exception e){
+			//Si le contrôle du code anu renvoi une erreur du type SOAPFaultException c'est que la campagne n'existe pas dans Apogee
+			if (e instanceof javax.xml.ws.soap.SOAPFaultException) {
 				addErrorMessage(null, "ERROR.CAMP.COD_ANU_APOGEE");
-				ctrlOk = false;
 			}
 			
-			Set<Campagne> camps = getParameterService().getCampagnes(null, null);
-			RegimeInscription rI = getRegimeIns().get(c.getCodeRI());
-			for (Campagne camp : camps) {
-				// on ne peut pas avoir 2 campagnes avec le même code
-				// sauf si l'une est en FC et l'autre non
-				if (!camp.equals(c) && camp.getCode().equals(c.getCode())
-						&& camp.getCodeRI() == c.getCodeRI()) {
-					if (camp.getCodeRI() != FormationContinue.CODE) {
-						addErrorMessage(null, "ERROR.CAMP.JUST_ONE_YEAR",
-								camp.getCodAnu());
-					} else if (camp.getCodeRI() == FormationContinue.CODE) {
-						addErrorMessage(null, "ERROR.CAMP.JUST_ONE_YEAR_SFC",
-								camp.getCodAnu());
-					}
-					ctrlOk = false;
-					break;
-				}
-			}
-			for (Campagne camp : camps) {
-				// on ne peut pas avoir 2 campagnes avec le même codAnu
-				// sauf si l'une est en FC et l'autre non
-				if (!camp.equals(c) && camp.getCodAnu().equals(c.getCodAnu())
-						&& camp.getCodeRI() == c.getCodeRI()) {
-					if (camp.getCodeRI() != FormationContinue.CODE) {
-						addErrorMessage(null, "ERROR.CAMP.JUST_ONE_ANU",
-								camp.getCode());
-					} else if (camp.getCodeRI() == FormationContinue.CODE) {
-						addErrorMessage(null, "ERROR.CAMP.JUST_ONE_ANU_SFC",
-								camp.getCode());
-					}
-					ctrlOk = false;
-					break;
-				}
-			}
-			for (Campagne camp : camps) {
-				// on ne peut pas avoir 2 campagnes FI en service
-				if (!camp.equals(c) && !(rI instanceof FormationInitiale)
-						&& camp.getTemoinEnService().equals(c.getTemoinEnService())
-						&& camp.getCodeRI() == c.getCodeRI()) {
-					addErrorMessage(null, "ERROR.CAMP.JUST_ONE_EN_SERV");
-					ctrlOk = false;
-					break;
-				}
-			}
+			ctrlOk=false;
 		}
 
 		if (log.isDebugEnabled()) {
