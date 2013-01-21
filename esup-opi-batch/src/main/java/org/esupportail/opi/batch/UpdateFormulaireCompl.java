@@ -1,13 +1,5 @@
 package org.esupportail.opi.batch;
 
-import org.esupportail.opi.domain.ParameterService;
-import org.esupportail.opi.domain.PilotageService;
-import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
-import org.esupportail.opi.web.beans.parameters.FormationContinue;
-import org.esupportail.opi.web.beans.parameters.FormationInitiale;
-import org.esupportail.opi.web.beans.parameters.RegimeInscription;
-import org.esupportail.opi.web.beans.utils.ExportUtils;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,13 +9,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.services.application.ApplicationService;
 import org.esupportail.commons.services.application.ApplicationUtils;
-import org.esupportail.commons.services.database.DatabaseUtils;
 import org.esupportail.commons.services.exceptionHandling.ExceptionUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.opi.domain.ParameterService;
+import org.esupportail.opi.domain.PilotageService;
+import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
+import org.esupportail.opi.web.beans.parameters.FormationContinue;
+import org.esupportail.opi.web.beans.parameters.FormationInitiale;
+import org.esupportail.opi.web.beans.parameters.RegimeInscription;
+import org.esupportail.opi.web.beans.utils.ExportUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * @author cgomez
@@ -35,16 +34,17 @@ public class UpdateFormulaireCompl {
 	 */
 	private static final Logger LOG = new LoggerImpl(
 			UpdateFormulaireCompl.class);
-	/**
-	 * 
-	 */
-	private static final ParameterService PARAMETER_SERVICE = (ParameterService) ApplicationContextHolder.getContext().getBean("parameterService");
+	
+	private static final ApplicationContext CTX = 
+			new ClassPathXmlApplicationContext("/properties/applicationContext.xml");
+	
+	private static final ParameterService PARAMETER_SERVICE = (ParameterService) CTX.getBean("parameterService");
 
-	private static final PilotageService PILOTAGE_SERVICE = (PilotageService) ApplicationContextHolder.getContext().getBean("pilotageService");
+	private static final PilotageService PILOTAGE_SERVICE = (PilotageService) CTX.getBean("pilotageService");
 	
-	private static final FormationContinue BEAN_FC = (FormationContinue) ApplicationContextHolder.getContext().getBean("formationContinue");
+	private static final FormationContinue BEAN_FC = (FormationContinue) CTX.getBean("formationContinue");
 	
-	private static final FormationInitiale BEAN_FI = (FormationInitiale) ApplicationContextHolder.getContext().getBean("formationInitiale");
+	private static final FormationInitiale BEAN_FI = (FormationInitiale) CTX.getBean("formationInitiale");
 	
 	private static final int TROIS = 3;
 	
@@ -125,8 +125,6 @@ public class UpdateFormulaireCompl {
 		LOG.info("début de la procédure");
 
 		try {
-			DatabaseUtils.open();
-			DatabaseUtils.begin();
 			
 			champsChoisis = new ArrayList<String>();
 			
@@ -164,13 +162,10 @@ public class UpdateFormulaireCompl {
 			randomAccessFile.close();
 
 			LOG.info("procédure terminée");
-			DatabaseUtils.commit();
-
+			
 		} catch (Exception e) {
-			DatabaseUtils.rollback();
-			e.printStackTrace();
-		} finally {
-			DatabaseUtils.close();
+			LOG.error(e);
+			ExceptionUtils.catchException(e);
 		}
 	}
 
@@ -179,9 +174,12 @@ public class UpdateFormulaireCompl {
 	 */
 	private static void syntax() {
 		throw new IllegalArgumentException("syntax: "
-				+ UpdateFormulaireCompl.class.getSimpleName() + " <options>"
-				+ "\nwhere option can be:"
-				+ "\n- test-beans: test the required beans");
+				+ UpdateFormulaireCompl.class.getSimpleName() + " <parameters>"
+				+ "\nwhere parameters are separated with a white space and have to be :"
+				+ "\n- codCge: code centre de gestion"
+				+ "\n- codEtp: code etape"
+				+ "\n- codVrsVet: code version etape"
+				+ "\n- ri: FI ou FC");
 	}
 
 	/**
@@ -220,7 +218,6 @@ public class UpdateFormulaireCompl {
 				codVrsVet = Integer.parseInt(args[2]);
 				ri = args[TROIS];
 			}
-			
 			
 			ApplicationService applicationService = ApplicationUtils
 					.createApplicationService();
