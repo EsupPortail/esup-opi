@@ -330,21 +330,7 @@
 		<property name="domain" ref="domain_reference" />
 		<property name="action" value="#{new java.lang.String('#{etapeController.goSearchVetForGestPJ}')}" />
 	</bean>
-	
-	<!-- ## domain_managedUser ## -->
-	
-	<bean 
-		id="function_affect_right_user"
-		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
-		lazy-init="true"
-		>
-		<property name="code" value="OPIR1_03F01"/>
-		<property name="libelle" value="Affecter des droits" />
-		<property name="rang" value="1" />
-		<property name="domain" ref="domain_managedUser" />
-		<property name="action" value="#{new java.lang.String('#{gestionnaireController.goAffectRightManager}')}" />
-	</bean>
-	
+		
 	<!-- ## domain_candi ## -->
 	
 	<bean 
@@ -470,16 +456,6 @@
 		<property name="rang" value="7" />
 		<property name="domain" ref="domain_commission" />
 		<property name="action" value="#{new java.lang.String('#{printOpinionController.goPrintTROpinions}')}" />
-	</bean>
-	
-	<bean id="function_print_lists_form"
-		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
-		lazy-init="true">
-		<property name="code" value="OPIR1_05F08"/>
-		<property name="libelle" value="Extraction des formulaires complémentaires" />
-		<property name="rang" value="8" />
-		<property name="domain" ref="domain_commission" />
-		<property name="action" value="#{new java.lang.String('#{exportFormOrbeonController.goPrintListsForm}')}" />
 	</bean>
 	
 	<!-- ## domain_formations ## -->

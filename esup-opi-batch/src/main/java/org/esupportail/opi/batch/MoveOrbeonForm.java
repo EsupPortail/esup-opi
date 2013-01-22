@@ -38,13 +38,12 @@ public class MoveOrbeonForm {
 	 * send the mail. 
 	 */
 	private static void moveOrbeonForm() {
-//		DomainService domainService = (DomainService) BeanUtils.getBean("domainService");
 		ParameterService parameterService = (ParameterService) BeanUtils.getBean("parameterService");
 		OrbeonService orbeonService = (OrbeonService) BeanUtils.getBean("orbeonService");
 		
 		try { 
-			DatabaseUtils.open();
-			DatabaseUtils.begin();
+//			DatabaseUtils.open();
+//			DatabaseUtils.begin();
 
 			LOG.info("lancement de la procédure moveOrbeonForm");
 			// on récupère toutes les commissions
@@ -53,24 +52,6 @@ public class MoveOrbeonForm {
 			for (Commission cmi : commissions) {
 				Set<TraitementCmi> traitements = cmi.getTraitementCmi();
 				
-//				List<Individu> individus = domainService.getIndividus(cmi, null);
-				// pour chaque individu de la commission, déplace les réponses au formulaire
-				// dans l'arborescence FI
-//				for (Individu ind : individus) {
-//					Map<VersionEtpOpi, IndFormulaire> indF = 
-//						parameterService.getIndFormulaires(ind);
-//					if (indF != null && !indF.isEmpty()) {
-//						for (VersionEtpOpi vOpi : indF.keySet()) {
-//							String formNameFrom = vOpi.getCodEtp() + "-" 
-//									+ vOpi.getCodVrsVet();
-//							String formNameTo = formNameFrom + "-FI";
-//							String numDossier = ind.getNumDossierOpi();
-//							orbeonService.copyResponse(formNameFrom, formNameTo, 
-//									numDossier);
-//						}
-//					}
-//				}
-
 				for (TraitementCmi trt : traitements) {
 					String formNameFrom = trt.getVersionEtpOpi().getCodEtp() + "-" 
 							+ trt.getVersionEtpOpi().getCodVrsVet();
@@ -90,14 +71,16 @@ public class MoveOrbeonForm {
 				
 			}
 
-			DatabaseUtils.commit();
+//			DatabaseUtils.commit();
 			
 			LOG.info("procédure moveOrbeonForm terminée");
 
 		} catch (Exception e) {
-			DatabaseUtils.rollback();
-		} finally {
-			DatabaseUtils.close();
+			LOG.error(e);
+			ExceptionUtils.catchException(e);
+//			DatabaseUtils.rollback();
+//		} finally {
+//			DatabaseUtils.close();
 		}
 	}
 
@@ -107,9 +90,7 @@ public class MoveOrbeonForm {
 	 */
 	private static void syntax() {
 		throw new IllegalArgumentException(
-				"syntax: " + SetCampagneToInd.class.getSimpleName() + " <options>"
-				+ "\nwhere option can be:"
-				+ "\n- test-beans: test the required beans");
+				"syntax: " + MoveOrbeonForm.class.getSimpleName());
 	}
 
 
