@@ -141,8 +141,10 @@ public class GestionnaireController extends AbstractAccessController {
 	 * @return String 
 	 */
 	public String goSeeOneManager() {
-		commissionController.reset();
-		commissionController.setSelectedCommissions(new ArrayList<Commission>(manager.getRightOnCmi()));
+		commissionController.reset(); 
+		if(manager.getRightOnCmi() != null) {
+			commissionController.setSelectedCommissions(new ArrayList<Commission>(manager.getRightOnCmi()));
+		}		 
 		return NavigationRulesConst.SEE_MANAGER;
 	}
 	
