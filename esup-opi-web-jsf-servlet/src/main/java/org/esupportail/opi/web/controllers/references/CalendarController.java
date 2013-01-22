@@ -182,10 +182,11 @@ public class CalendarController extends AbstractContextAwareController {
             commissionController.setSelectedCommissions(new ArrayList<Commission>(cal.getCommissions()));
         } else if (beanCalendar.getCalendar() instanceof CalendarCmi) {
             CalendarCmi cal = (CalendarCmi) beanCalendar.getCalendar();
+            beanCalendar.setTypeSelected(getTypCalCommission());
             setReunions(new ArrayList<ReunionCmi>(cal.getReunions()));
             if (cal.getCommission() != null) {
                 //initialize the proxy hibernate
-//				getDomainService().initOneProxyHib(cal, cal.getCommission(), Set.class);
+				getDomainService().initOneProxyHib(cal, cal.getCommission(), Set.class);
                 commissionController.getCommission().setId(cal.getCommission().getId());
             }
         }
@@ -240,12 +241,12 @@ public class CalendarController extends AbstractContextAwareController {
     public String goSeeCalCmi() {
         if (commissionController.getCommission().getCalendarCmi() != null) {
 
-//			getDomainService().initOneProxyHib(
-//					commissionController.getCommission(), 
-//					commissionController.getCommission().getCalendarCmi(), CalendarCmi.class);
+			getDomainService().initOneProxyHib(
+					commissionController.getCommission(), 
+					commissionController.getCommission().getCalendarCmi(), CalendarCmi.class);
             CalendarCmi cal = commissionController.getCommission().getCalendarCmi();
             //initialize the proxy hibernate
-            //getDomainService().initOneProxyHib(cal, cal.getCommission(), Commission.class);
+            getDomainService().initOneProxyHib(cal, cal.getCommission(), Commission.class);
             setReunions(new ArrayList<ReunionCmi>(cal.getReunions()));
 
             beanCalendar.setCalendar(cal);
