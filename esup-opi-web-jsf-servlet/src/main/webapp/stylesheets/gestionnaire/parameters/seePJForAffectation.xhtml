@@ -47,7 +47,7 @@
                                 <h:outputText value="#{nomenclaturePojo.shortLabel}"/>
                                 
                                 <h:panelGroup rendered="#{nomenclaturePojo.isShortLabel}">
-                                	<p:tooltip for="info" hideEffect="fade" style="width:50%;" > 
+                                	<p:tooltip for="info" hideEffect="fade" style="width:50%;" styleClass="containerPopup"> 
                               				<h:outputText value="#{nomenclaturePojo.nomenclature.libelle}"/>      
                              	 	</p:tooltip>
                               		<p:graphicImage id="info" url="/media/images/informationSmall.png" style="cursor:pointer;"/>
