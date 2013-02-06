@@ -39,7 +39,9 @@ public class CastorService implements ISerializationService {
 						throw new ExportException("Problem opening or using a java.io.Writer : ", e);
 					} finally {
 						try {
-							w.close();
+							if(w != null) {
+								w.close();
+							}							
 						} catch (IOException e) {
 							throw new ExportException("Problem closing a java.io.Writer : ", e);
 						}	
