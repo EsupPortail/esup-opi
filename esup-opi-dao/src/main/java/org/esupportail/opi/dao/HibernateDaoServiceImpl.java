@@ -741,10 +741,11 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 		DetachedCriteria criteria = DetachedCriteria.forClass(Gestionnaire.class);
 		criteria.add(Restrictions.like("login", uid + "%"));
 		criteria.add(Restrictions.eq(IN_USE_ATTRIBUTE, true));
-		criteria.add(Restrictions.le("dateDbtValidite", new Date()));
-		criteria.add(Restrictions.or(
-				Restrictions.ge("dateFinValidite", new Date()),
-				Restrictions.isNull("dateFinValidite")));
+		//TODO Pertinence du critere test date validite
+//		criteria.add(Restrictions.le("dateDbtValidite", new Date()));
+//		criteria.add(Restrictions.or(
+//				Restrictions.ge("dateFinValidite", new Date()),
+//				Restrictions.isNull("dateFinValidite")));
 		List<Gestionnaire> list = getHibernateTemplate().findByCriteria(criteria);
 		if (list != null && !list.isEmpty()) {
 			if (list.size() > 1) {
