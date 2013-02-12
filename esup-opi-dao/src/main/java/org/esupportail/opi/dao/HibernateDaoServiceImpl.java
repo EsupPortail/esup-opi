@@ -693,6 +693,7 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
                                                  Option<String> codeTypeTrtmt,
                                                  Set<TraitementCmi> trtCmis,
                                                  Set<Integer> listCodesRI) {
+
         final F<HibernateQuery, HibernateQuery> customFilter =
                 somes(list(
                         some(temoinFilter),
@@ -703,7 +704,8 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
                         validWish.map(validWishFilter),
                         wishCreation.map(wishCreationFilter),
                         codeTypeTrtmt.map(notCodeTypeTrtmtFilter),
-                        some(trtCmiFilter.f(trtCmis)))).foldLeft1(Function.<HibernateQuery, HibernateQuery, HibernateQuery>andThen());
+                        some(trtCmiFilter.f(trtCmis))
+                )).foldLeft1(Function.<HibernateQuery, HibernateQuery, HibernateQuery>andThen());
 	    
         return pf.indPaginator().lazySliceOf(
                 pfFilters.first,
