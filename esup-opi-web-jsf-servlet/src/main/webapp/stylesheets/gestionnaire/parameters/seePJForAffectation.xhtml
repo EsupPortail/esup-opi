@@ -45,24 +45,13 @@
                                     <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
                                 </f:facet>
                                 <h:outputText value="#{nomenclaturePojo.shortLabel}"/>
-                                <t:popup styleClass="containerPopup" style="width:350px;"
-                                         closePopupOnExitingElement="true"
-                                         closePopupOnExitingPopup="true" displayAtDistanceX="-50"
-                                         displayAtDistanceY="0"
-                                         rendered="#{nomenclaturePojo.isShortLabel}">
-                                    <p:graphicImage url="/media/images/informationSmall.png"
-                                                    style="cursor:pointer;"/>
-                                    <f:facet name="popup">
-                                        <h:panelGroup>
-                                            <h:panelGrid columns="1">
-                                                <h:outputText styleClass="titrePopupAide"
-                                                              value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
-                                                <h:outputText styleClass="libellesAide"
-                                                              value="#{nomenclaturePojo.nomenclature.libelle}"/>
-                                            </h:panelGrid>
-                                        </h:panelGroup>
-                                    </f:facet>
-                                </t:popup>
+                                
+                                <h:panelGroup rendered="#{nomenclaturePojo.isShortLabel}">
+                                	<p:tooltip for="info" hideEffect="fade" style="width:50%;" styleClass="containerPopup"> 
+                              				<h:outputText value="#{nomenclaturePojo.nomenclature.libelle}"/>      
+                             	 	</p:tooltip>
+                              		<p:graphicImage id="info" url="/media/images/informationSmall.png" style="cursor:pointer;"/>
+                              	</h:panelGroup>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">

@@ -4,19 +4,19 @@
 	<parent>
 		<artifactId>esup-opi</artifactId>
 		<groupId>org.esupportail</groupId>
-		<version>2.0.0-beta3-SNAPSHOT</version>
+		<version>2.0.0-beta3-pre4-SNAPSHOT</version>
 	</parent>
 	<artifactId>esup-opi-web-beans</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>org.esupportail</groupId>
 			<artifactId>esup-opi-domain-services</artifactId>
-			<version>2.0.0-beta3-SNAPSHOT</version>
+			<version>2.0.0-beta3-pre4-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.esupportail</groupId>
 			<artifactId>esup-opi-domain-beans</artifactId>
-			<version>2.0.0-beta3-SNAPSHOT</version>
+			<version>2.0.0-beta3-pre4-SNAPSHOT</version>
 		</dependency>
         <dependency>
             <groupId>org.apache.avalon.framework</groupId>
@@ -33,6 +33,11 @@
             		<groupId>xerces</groupId>
             	</exclusion>
             </exclusions>
-        </dependency> 
+        </dependency>
+        <dependency>
+		    <groupId>net.sf.supercsv</groupId>
+		    <artifactId>super-csv</artifactId>
+		    <version>2.0.1</version>
+		</dependency> 
 	</dependencies>
 </project>

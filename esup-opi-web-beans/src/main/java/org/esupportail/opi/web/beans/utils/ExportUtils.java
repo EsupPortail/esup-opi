@@ -4,6 +4,7 @@
 package org.esupportail.opi.web.beans.utils;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,11 @@ import javax.faces.context.FacesContext;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.utils.Constantes;
+import org.esupportail.opi.web.beans.pojo.LigneListePrepaPojo;
 import org.springframework.util.StringUtils;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
 
 /**
  * @author tducreux
@@ -53,6 +58,39 @@ public class ExportUtils {
 				Constantes.HTTP_TYPE_EXCEL,
 				fileName);
 	}
+	
+	
+	/**
+	 * Generate a csv format send by http.
+	 * @param map key the key column name and value is the list value.
+	 * @param fileName 
+	 * @throws IOException 
+	 */
+	public static void superCsvGenerate(List<LigneListePrepaPojo> ligneList, String[] champsChoisis, final String fileName) throws IOException {
+		ICsvBeanWriter beanWriter = null;
+		StringWriter sw = new StringWriter();
+        try {       		
+            beanWriter = new CsvBeanWriter(sw, CsvPreference.EXCEL_NORTH_EUROPE_PREFERENCE);
+            
+            // write the header
+            beanWriter.writeHeader(champsChoisis);
+            
+            // write the beans
+            for( final LigneListePrepaPojo ligneListePrepa : ligneList ) {
+                    beanWriter.write(ligneListePrepa, champsChoisis);
+            }
+        }
+        finally {
+                if( beanWriter != null ) {
+                        beanWriter.close();
+                }
+        }
+        PDFUtils.setDownLoadAndSend(sw.toString().getBytes(),
+				FacesContext.getCurrentInstance(),
+				Constantes.HTTP_TYPE_EXCEL,
+				fileName);
+	}
+	 
 	
 	/**
 	 * @param zipStream
