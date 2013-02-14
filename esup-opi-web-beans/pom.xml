@@ -4,19 +4,19 @@
 	<parent>
 		<artifactId>esup-opi</artifactId>
 		<groupId>org.esupportail</groupId>
-		<version>2.0.0-beta3-pre5-SNAPSHOT</version>
+		<version>2.0.0-beta3</version>
 	</parent>
 	<artifactId>esup-opi-web-beans</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>org.esupportail</groupId>
 			<artifactId>esup-opi-domain-services</artifactId>
-			<version>2.0.0-beta3-pre5-SNAPSHOT</version>
+			<version>2.0.0-beta3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.esupportail</groupId>
 			<artifactId>esup-opi-domain-beans</artifactId>
-			<version>2.0.0-beta3-pre5-SNAPSHOT</version>
+			<version>2.0.0-beta3</version>
 		</dependency>
         <dependency>
             <groupId>org.apache.avalon.framework</groupId>
