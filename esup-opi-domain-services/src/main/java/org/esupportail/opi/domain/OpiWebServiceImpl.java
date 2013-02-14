@@ -713,8 +713,21 @@ public class OpiWebServiceImpl implements OpiWebService {
 //	public void setDomainApoService(final DomainApoService domainApoService) {
 //		this.domainApoService = domainApoService;
 //	}
-
-
+	
+	/**
+	 * @return OpiMetierService
+	 */	
+	public OpiMetierServiceInterface getRemoteApoRenOpiMetier() {
+		return remoteApoRenOpiMetier;
+	}
+	
+	/**
+	 * @param remoteApoRenOpiMetier the remoteApoRenOpiMetier to set
+	 */
+	public void setRemoteApoRenOpiMetier(final OpiMetierServiceInterface remoteApoRenOpiMetier) {
+		this.remoteApoRenOpiMetier = remoteApoRenOpiMetier;
+	}
+	
 	/**
 	 * @param transfert the transfert to set
 	 */

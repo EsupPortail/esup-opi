@@ -1758,28 +1758,31 @@ public class DomainApoServiceImpl implements DomainApoService {
             final Gestionnaire gest,
             final Boolean temEnSve) {
         Set<Commission> lesCommissions = new HashSet<Commission>();
-        if (StringUtils.hasText(gest.getCodeCge())) {
-            final Set<VersionEtpOpi> vOpi = Conversions.convertVetInVetOpi(
-                    new HashSet<VersionEtapeDTO>(
-                            getVersionEtapes(null, null, gest.getCodeCge(), null)));
-            Set<Commission> lCom = parameterService.getCommissions(temEnSve);
-            if (lCom != null)
-                for (Commission c : lCom) {
-                    if (!c.getTemoinEnService()) log.info("cas d'une comm HS");
-                    for (TraitementCmi trt : c.getTraitementCmi())
-                        if (vOpi.contains(trt.getVersionEtpOpi())) {
-                            lesCommissions.add(c);
-                            break;
-                        }
-                }
-        } else if (gest.getRightOnCmi()!= null && !gest.getRightOnCmi().isEmpty()) {
-            //si pas cge, renvoie les cmi auxquelles ils ont droit
-            // TODO: change getRightOnCmi to return a list ?
-            lesCommissions = gest.getRightOnCmi();
+        if(gest != null){
+            if (StringUtils.hasText(gest.getCodeCge())) {
+                final Set<VersionEtpOpi> vOpi = Conversions.convertVetInVetOpi(
+                        new HashSet<VersionEtapeDTO>(
+                                getVersionEtapes(null, null, gest.getCodeCge(), null)));
+                Set<Commission> lCom = parameterService.getCommissions(temEnSve);
+                if (lCom != null)
+                    for (Commission c : lCom) {
+                        if (!c.getTemoinEnService()) log.info("cas d'une comm HS");
+                        for (TraitementCmi trt : c.getTraitementCmi())
+                            if (vOpi.contains(trt.getVersionEtpOpi())) {
+                                lesCommissions.add(c);
+                                break;
+                            }
+                    }
+            } else if (gest.getRightOnCmi()!= null && !gest.getRightOnCmi().isEmpty()) {
+                //si pas cge, renvoie les cmi auxquelles ils ont droit
+                // TODO: change getRightOnCmi to return a list ?
+                lesCommissions = gest.getRightOnCmi();
+            } else {
+                lesCommissions = parameterService.getCommissions(null);
+            }
         } else {
             lesCommissions = parameterService.getCommissions(null);
         }
-
         return lesCommissions;
     }
 
