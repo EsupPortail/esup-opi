@@ -34,7 +34,7 @@
 		<many-to-one name="selection" column="id_sel" cascade="all" lazy="false"/>
 		
 		<set name="linkTrtCmiCamp" 
-			inverse="true" lazy="false">
+			inverse="true" lazy="false" cascade="all">
 			<key column="id_trt_cmi"/>
 			<one-to-many class="org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp"/>
 		</set>	

@@ -160,31 +160,31 @@ public class DomainServiceImpl implements DomainService {
 		Gestionnaire gestU = gest;
 
 		List<String> ldapAttribute = ldapUser.getAttributes().get(
-				ldapAttributes.getDisplayNameAttribute());
+				ldapAttributes.displayNameAttribute);
 		if (ldapAttribute != null) {
 			gestU.setDisplayName(ldapAttribute.get(0));
 		}
 
 		ldapAttribute = ldapUser.getAttributes().get(
-				ldapAttributes.getPrenomAttribute());
+				ldapAttributes.prenomAttribute);
 		if (ldapAttribute != null) {
 			gestU.setPrenom(ldapAttribute.get(0));
 		}
 
 		ldapAttribute = ldapUser.getAttributes().get(
-				ldapAttributes.getNomUsuelAttribute());
+				ldapAttributes.nomUsuelAttribute);
 		if (ldapAttribute != null) {
 			gestU.setNomUsuel(ldapAttribute.get(0));
 		}
 
 		ldapAttribute = ldapUser.getAttributes().get(
-				ldapAttributes.getEduPersonPrincipalNameAttribute());
+				ldapAttributes.eduPersonPrincipalNameAttribute);
 		if (ldapAttribute != null) {
 			gestU.setLogin(ldapAttribute.get(0));
 		}
 
 		ldapAttribute = ldapUser.getAttributes().get(
-				ldapAttributes.getEmailAttribute());
+				ldapAttributes.emailAttribute);
 		if (ldapAttribute != null) {
 			gestU.setAdressMail(ldapAttribute.get(0));
 		}

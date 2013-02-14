@@ -1,8 +1,8 @@
 <ui:composition
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:p="http://primefaces.org/ui"
-        template="/stylesheets/templateGestionnaire.xhtml">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
         <div id="maPage" class="div_body">
             <h1>
@@ -16,12 +16,6 @@
             <div id="div_subSection" class="div_subSection">
                 <h:form id="searchMembersForm">
                     <ui:include src="../user/_manager/_searchLdap.xhtml"/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
                     <ui:fragment rendered="#{not empty ldapSearchController.managers}">
                         <div id="div_subSectionList" class="div_subSection">
                             <div style="width:100%;">
@@ -31,20 +25,22 @@
                                                   styleClass="section-smallTitle"/>
                                     <h:panelGroup>
                                         <p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-                                                         action="#{commissionController.addMembers}"/>
+                                                         action="#{commissionController.addMembers}"
+                                                         ajax="false" />
                                     </h:panelGroup>
                                 </h:panelGrid>
                             </div>
                             <p:dataTable var="manager" id="managerData"
-                                         value="#{ldapSearchController.managers}" rowKey="#{manager.login}"
+                                         value="#{ldapSearchController.managers}"
                                          selection="#{commissionController.objectToAdd}"
+                                         rowKey="#{manager.login}"
                                          styleClass="paginatorData">
-                                <!--                                 <p:ajax event="toggleSelect" -->
-                                <!--                                     update="managerData" /> -->
-                                <!--                                 <p:ajax event="rowSelectCheckbox" -->
-                                <!--                                     update="managerData" /> -->
-                                <!--                                 <p:ajax event="rowUnselectCheckbox" -->
-                                <!--                                     update="managerData" /> -->
+                                <!-- <p:ajax event="toggleSelect" -->
+                                <!--         update="managerData" /> -->
+                                <!-- <p:ajax event="rowSelectCheckbox" -->
+                                <!--         update="managerData" /> -->
+                                <!-- <p:ajax event="rowUnselectCheckbox" -->
+                                <!--         update="managerData" /> -->
                                 <p:column headerText="#{msgs['GESTIONNAIRE.LOGIN']}">
                                     <h:outputText value="#{manager.login}"/>
                                 </p:column>

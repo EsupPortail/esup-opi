@@ -18,7 +18,7 @@
 		<many-to-one name="traitementCmi"  column="id_trt_cmi" not-null="true" unique-key="key_link_trt_camp"/>
 	
 		<set name="voeux"
-			inverse="true">
+			inverse="true" cascade="all">
 			<key column="id_link"/>
 			<one-to-many class="org.esupportail.opi.domain.beans.user.candidature.IndVoeu"/>
 		</set>	

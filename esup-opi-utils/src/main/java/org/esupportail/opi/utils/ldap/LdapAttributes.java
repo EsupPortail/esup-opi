@@ -6,243 +6,96 @@ package org.esupportail.opi.utils.ldap;
 import org.esupportail.commons.utils.Assert;
 import org.springframework.beans.factory.InitializingBean;
 
-/**
- * All LDAP attributes used to OPI.
- * This class is used to domainService
- * @author cleprous
- */
-public class LdapAttributes implements InitializingBean {
+import static fj.Bottom.error;
+import static fj.data.Option.fromNull;
 
-	/*
-	 ******************* PROPERTIES ******************* */
+/**
+ * All LDAP attributes used in OPI.
+ */
+public class LdapAttributes {
 
 	/**
 	 * The LDAP attribute that contains the uid. 
 	 */
-	private String uidAttribute;
+    public final String uidAttribute;
 	
 	/**
 	 * The LDAP attribute that contains the display name. 
 	 */
-	private String displayNameAttribute;
+    public final String displayNameAttribute;
 	
 	/**
 	 * The LDAP attribute that contains the mail. 
 	 */
-	private String emailAttribute;
+	public final String emailAttribute;
 	
 	/**
 	 * The LDAP attribute that contains the cn. 
 	 */
-	private String cnAttribute;
+	public final String cnAttribute;
 	
 	/**
 	 * The LDAP attribute that contains the SurName. 
 	 */
-	private String nomUsuelAttribute;
+	public final String nomUsuelAttribute;
 	
 	/**
 	 * The LDAP attribute that contains the firstName. 
 	 */
-	private String prenomAttribute;
+	public final String prenomAttribute;
 	
 	/**
 	 * The LDAP attribute that contains the eduPersonPrincipalName. 
 	 */
-	private String eduPersonPrincipalNameAttribute;
+	public final String eduPersonPrincipalNameAttribute;
 	
 	/**
 	 * The LDAP filter that filters the pers. 
 	 */
-	private String filterPers;
-	/*
-	 ******************* INIT ************************* */
-	
-	/**
-	 * Constructors.
-	 */
-	public LdapAttributes() {
-		super();
-	}
-
-	/**
-	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
-	 */
-	public void afterPropertiesSet() throws Exception {
-		
-		Assert.notNull(this.uidAttribute, 
-				"property uidAttribute of class " + this.getClass().getName() 
-				+ " can not be null");
-		Assert.notNull(this.displayNameAttribute, 
-				"property displayNameAttribute of class " + this.getClass().getName() 
-				+ " can not be null");
-		Assert.hasText(this.emailAttribute, 
-				"property emailAttribute of class " + this.getClass().getName() 
-				+ " can not be null");
-		Assert.hasText(this.cnAttribute, 
-				"property cnAttribute of class " + this.getClass().getName() 
-				+ " can not be null");
-		Assert.hasText(this.nomUsuelAttribute, 
-				"property nomUsuelAttribute of class " + this.getClass().getName() 
-				+ " can not be null");
-		Assert.hasText(this.prenomAttribute, 
-				"property prenomAttribute of class " + this.getClass().getName() 
-				+ " can not be null");
-		Assert.hasText(this.eduPersonPrincipalNameAttribute, 
-				"property eduPersonPrincipalNameAttribute of class " + this.getClass().getName() 
-				+ " can not be null");
-		Assert.hasText(this.filterPers, 
-				"property filterPers of class " + this.getClass().getName() 
-				+ " can not be null");
-	}
-	
-
-	/*
-	 ******************* METHODS ********************** */
-
-	/*
-	 ******************* ACCESSORS ******************** */
-	
-
-	/**
-	 * @return the uidAttribute
-	 */
-	public String getUidAttribute() {
-		return uidAttribute;
-	}
+	public final String filterPers;
 
 
+    private LdapAttributes() {
+        uidAttribute = error("unauthorized constructor").toString();
+        displayNameAttribute = error("unauthorized constructor").toString();
+        emailAttribute = error("unauthorized constructor").toString();
+        cnAttribute = error("unauthorized constructor").toString();
+        nomUsuelAttribute = error("unauthorized constructor").toString();
+        prenomAttribute = error("unauthorized constructor").toString();
+        eduPersonPrincipalNameAttribute = error("unauthorized constructor").toString();
+        filterPers = error("unauthorized constructor").toString();
+    }
 
-	/**
-	 * @param uidAttribute the uidAttribute to set
-	 */
-	public void setUidAttribute(final String uidAttribute) {
-		this.uidAttribute = uidAttribute;
-	}
+    private LdapAttributes(
+            String uidAttribute,
+            String displayNameAttribute,
+            String emailAttribute,
+            String cnAttribute,
+            String nomUsuelAttribute,
+            String prenomAttribute,
+            String eduPersonPrincipalNameAttribute,
+            String filterPers) {
+        this.uidAttribute = fromNull(uidAttribute).valueE("uidAttribute is null !");
+        this.displayNameAttribute = fromNull(displayNameAttribute).valueE("displayNameAttribute is null !");
+        this.emailAttribute = fromNull(emailAttribute).valueE("emailAttribute us null !");
+        this.cnAttribute = fromNull(cnAttribute).valueE("cnAttribute is null !");
+        this.nomUsuelAttribute = fromNull(nomUsuelAttribute).valueE("nomUsuelAttribute is null !");
+        this.prenomAttribute = fromNull(prenomAttribute).valueE("prenomAttribute is null !");
+        this.eduPersonPrincipalNameAttribute =
+                fromNull(eduPersonPrincipalNameAttribute).valueE("eduPersonPrincipalName is null !");
+        this.filterPers = fromNull(filterPers).valueE("filterPers is null !");
+    }
 
-
-
-	/**
-	 * @return the displayNameAttribute
-	 */
-	public String getDisplayNameAttribute() {
-		return displayNameAttribute;
-	}
-
-
-
-	/**
-	 * @param displayNameAttribute the displayNameAttribute to set
-	 */
-	public void setDisplayNameAttribute(final String displayNameAttribute) {
-		this.displayNameAttribute = displayNameAttribute;
-	}
-
-
-
-	/**
-	 * @return the emailAttribute
-	 */
-	public String getEmailAttribute() {
-		return emailAttribute;
-	}
-
-
-
-	/**
-	 * @param emailAttribute the emailAttribute to set
-	 */
-	public void setEmailAttribute(final String emailAttribute) {
-		this.emailAttribute = emailAttribute;
-	}
-
-
-
-	/**
-	 * @return the cnAttribute
-	 */
-	public String getCnAttribute() {
-		return cnAttribute;
-	}
-
-
-
-	/**
-	 * @param cnAttribute the cnAttribute to set
-	 */
-	public void setCnAttribute(final String cnAttribute) {
-		this.cnAttribute = cnAttribute;
-	}
-
-
-
-	/**
-	 * @return the nomUsuelAttribute
-	 */
-	public String getNomUsuelAttribute() {
-		return nomUsuelAttribute;
-	}
-
-
-
-	/**
-	 * @param nomUsuel the nomUsuel to set
-	 */
-	public void setNomUsuelAttribute(final String nomUsuel) {
-		this.nomUsuelAttribute = nomUsuel;
-	}
-
-
-
-	/**
-	 * @return the prenomAttribute
-	 */
-	public String getPrenomAttribute() {
-		return prenomAttribute;
-	}
-
-
-
-	/**
-	 * @param prenomAttribute the prenomAttribute to set
-	 */
-	public void setPrenomAttribute(final String prenomAttribute) {
-		this.prenomAttribute = prenomAttribute;
-	}
-
-
-
-	/**
-	 * @return the eduPersonPrincipalNameAttribute
-	 */
-	public String getEduPersonPrincipalNameAttribute() {
-		return eduPersonPrincipalNameAttribute;
-	}
-
-
-
-	/**
-	 * @param eduPersonPrincipalNameAttribute the eduPersonPrincipalNameAttribute to set
-	 */
-	public void setEduPersonPrincipalNameAttribute(final 
-			String eduPersonPrincipalNameAttribute) {
-		this.eduPersonPrincipalNameAttribute = eduPersonPrincipalNameAttribute;
-	}
-
-	/**
-	 * @return the filterPers
-	 */
-	public String getFilterPers() {
-		return filterPers;
-	}
-
-	/**
-	 * @param filterPers the filterPers to set
-	 */
-	public void setFilterPers(final String filterPers) {
-		this.filterPers = filterPers;
-	}
-
-	
-
+    public static LdapAttributes ldapAttributes(
+            String uidAttribute,
+            String displayNameAttribute,
+            String emailAttribute,
+            String cnAttribute,
+            String nomUsuelAttribute,
+            String prenomAttribute,
+            String eduPersonPrincipalNameAttribute,
+            String filterPers) {
+        return new LdapAttributes(uidAttribute, displayNameAttribute, emailAttribute, cnAttribute,
+                nomUsuelAttribute, prenomAttribute, eduPersonPrincipalNameAttribute, filterPers);
+    }
 }

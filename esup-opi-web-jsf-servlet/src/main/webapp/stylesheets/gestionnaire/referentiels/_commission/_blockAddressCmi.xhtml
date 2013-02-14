@@ -24,7 +24,6 @@
             </p:selectOneMenu>
             <h:panelGroup/>
             <h:panelGroup/>
-
             <h:panelGroup>
                 <h:outputLabel value="#{msgs['ADRESS']}" for="adr1"/>
                 <h:outputText value="*" styleClass="etoileForChpObli"/>
@@ -50,21 +49,19 @@
                     <p:ajax listener="#{adressController.selectCpFix}" update="ville"/>
                 </p:inputText>
             </h:panelGroup>
-
             <h:panelGroup>
                 <h:outputLabel value="#{msgs['ADRESS.VIL']}" for="ville"/>
                 <h:outputText value="*" styleClass="etoileForChpObli"/>
             </h:panelGroup>
             <p:selectOneMenu id="ville"
                              value="#{adressController.fixAdrPojo.adresse.codCommune}">
+                <f:selectItem itemLabel="[----------]" itemValue="" />
                 <f:selectItems var="ville" value="#{adressController.communesFix}"
                                itemLabel="#{ville.libCommune}" itemValue="#{ville.codeCommune}"/>
             </p:selectOneMenu>
-
-
             <h:panelGroup>
                 <p:selectBooleanCheckbox
-                        value="#{adressController.fixAdrPojo.isCedex}"/>
+                    value="#{adressController.fixAdrPojo.isCedex}"/>
                 <h:outputLabel id="labeladrCedex" value=" #{msgs['ADRESS.CEDEX']}"
                                for="cedex"/>
             </h:panelGroup>
@@ -75,9 +72,9 @@
                 <p:graphicImage url="/media/images/help.png" id="icon-help-cedex"
                                 title="#{msgs['ADRESS.INFO.POST.CEDEX'] }" style="cursor:pointer;"/>
                 <p:overlayPanel
-                        for="icon-help-cedex"
-                        showEvent="mouseover" hideEvent="mouseout"
-                        styleClass="containerPopup" style="width:200px;">
+                    for="icon-help-cedex"
+                    showEvent="mouseover" hideEvent="mouseout"
+                    styleClass="containerPopup" style="width:200px;">
                     <h:panelGrid columns="1">
                         <h:outputText styleClass="titrePopupAide"
                                       value="#{msgs['ADRESS.CEDEX']}"/>

@@ -776,7 +776,7 @@ public class ParameterServiceImpl implements ParameterService {
 			log.debug("entering addCommission( " + commission + " )");
 		}
 		
-		// on crÃÂ©e le calendrier de la commission par dÃÂ©faut
+		// on crée le calendrier de la commission par défaut
 		CalendarCmi calendarCmi = new CalendarCmi();
 		calendarCmi.setCode(prefixCodCalCmi + commission.getCode());
 		calendarCmi.setLibelle(prefixLibCalCmi + commission.getLibelle());
@@ -804,10 +804,7 @@ public class ParameterServiceImpl implements ParameterService {
 			log.debug("entering deleteCommission( " + commission + " )");
 		}
 		Commission c = getCommission(commission.getId(), null);
-		deleteMember(new ArrayList<Member>(c.getMembers()));
-		c.setMembers(null);
-		deleteTraitementCmi(new ArrayList<TraitementCmi>(c.getTraitementCmi()));
-		c.setTraitementCmi(null);
+
 		//delete the calendar
 		for (CalendarIns cal : getCalendarIns(c)) {
 			cal.getCommissions().remove(c);
@@ -822,7 +819,7 @@ public class ParameterServiceImpl implements ParameterService {
 			g.getRightOnCmi().remove(c);
 		}
 		
-		daoService.deleteCommission(commission);
+		daoService.deleteCommission(c);
 	}
 
 	/** 

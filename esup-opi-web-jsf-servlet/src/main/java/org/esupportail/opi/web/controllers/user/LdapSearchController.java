@@ -141,22 +141,29 @@ public class LdapSearchController extends AbstractContextAwareController {
      */
     public void searchManager() {
         //make filter
-        String filter = "&(" + ldapAttributes.getFilterPers() + ")";
+        String filter = "&(" + ldapAttributes.filterPers + ")";
         boolean emptyAllFields = true;
         if (StringUtils.hasText(login)) {
             emptyAllFields = false;
-            filter = "&(" + ldapAttributes.getUidAttribute() + "=*" + login + "*)";
+            filter = "&(" + ldapAttributes.uidAttribute + "=*" + login + "*)";
         }
         if (StringUtils.hasText(name)) {
             emptyAllFields = false;
-            filter = "&(" + ldapAttributes.getNomUsuelAttribute() + "=*" + name + "*)";
+            filter = "&(" + ldapAttributes.nomUsuelAttribute + "=*" + name + "*)";
         }
         if (StringUtils.hasText(firstName)) {
             emptyAllFields = false;
-            filter += "(" + ldapAttributes.getPrenomAttribute() + "=*" + firstName + "*)";
+            filter += "(" + ldapAttributes.prenomAttribute + "=*" + firstName + "*)";
         }
         if (!emptyAllFields) {
-            ldapManagers = ldapUserService.getLdapUsersFromFilter(filter);
+            try {
+                ldapManagers = ldapUserService.getLdapUsersFromFilter(filter);
+            } catch (Throwable t) {
+                ldapManagers = new ArrayList<LdapUser>();
+                log.warn(t);
+                addErrorMessage(null, "GESTIONNAIRE.ERROR.LDAP");
+            }
+
         } else {
             addInfoMessage(null, "GESTIONNAIRE.INFO.SEARCH_LDAP.FIELD.EMPTY");
         }
