@@ -4,19 +4,24 @@
              xmlns:p="http://primefaces.org/ui">
     <h:form id="formDeleteCmi">
     	<div style="width:100%;">
-    		<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    			styleClass="tableJustWidthMax">
-    			<h:outputFormat value="#{msgs['COMMISSION.CONFIRM.DELETE']}">
-    				<f:param value="#{commissionController.commission.libelle}"/>
-    			</h:outputFormat>
-    			<h:panelGroup>
-    				<p:commandButton value="#{msgs['_.BUTTON.YES']}"
-    					action="#{commissionController.delete}" update=":div_subSectionDelete,:div_subSection"  />
-    				<p:commandButton value="#{msgs['_.BUTTON.NO']}"
-    					action="#{commissionController.reset}"
-    					immediate="true" update=":div_subSectionDelete,:div_subSection" />
-    			</h:panelGroup>
-    		</h:panelGrid>
+    	    <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+    			 styleClass="tableJustWidthMax">
+    		<h:panelGroup>
+                    <b>
+    		        <h:outputFormat value="#{msgs['COMMISSION.CONFIRM.DELETE']}">
+    		            <f:param value="#{commissionController.commission.libelle}"/>
+    		        </h:outputFormat>
+                    </b>
+                </h:panelGroup>
+    		<h:panelGroup>
+    		    <p:commandButton value="#{msgs['_.BUTTON.YES']}"
+    				     action="#{commissionController.delete}"
+                                     ajax="false"  />
+    		    <p:commandButton value="#{msgs['_.BUTTON.NO']}"
+    				     action="#{commissionController.reset}"
+    				     immediate="true" update=":div_subSectionDelete,:div_subSection" />
+    		</h:panelGroup>
+    	    </h:panelGrid>
     	</div>
     </h:form>
 </ui:fragment>

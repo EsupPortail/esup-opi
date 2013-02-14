@@ -305,7 +305,7 @@ public class AdressController extends AbstractContextAwareController {
         //not use at the moment (11/09/2008) cf ticket : 36313
         //getDomainService().updateAdresse(currentAdrPojo.getAdresse());
 
-        // COMMENT : 22/03/10 : ctrlEnter appeler dans chaque méthode appelant l'update
+        // COMMENT : 22/03/10 : ctrlEnter appelé dans chaque méthode appelant l'update
         // si besoin (cas de l'adresseEmployeur)
         //if (ctrlEnter(fixAdrPojo.getAdresse(), true)) {
         // Update Fix Adress
@@ -329,9 +329,11 @@ public class AdressController extends AbstractContextAwareController {
             adressePojo.getAdresse().setLibComEtr(null);
         }
 
-        AdresseFix adresseFix = (AdresseFix) fixAdrPojo.getAdresse();
-        Individu individu = adresseFix.getIndividu();
-        individu.getAdresses().put(Constantes.ADR_FIX, adressePojo.getAdresse());
+        Adresse adresseFix = fixAdrPojo.getAdresse();
+        if (adresseFix instanceof AdresseFix) {
+            Individu individu = ((AdresseFix) adresseFix).getIndividu();
+            individu.getAdresses().put(Constantes.ADR_FIX, adressePojo.getAdresse());
+        }
 
         getDomainService().updateAdresse(adressePojo.getAdresse());
         reset();

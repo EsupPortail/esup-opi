@@ -1,47 +1,50 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	<div id="maPage" class="div_body">
-    		<h1>
+    	<p:outputPanel id="maPage" styleClass="div_body"
+                       layout="block">
+    	    <h1>
                 <span class="section-header">
                     <h:outputText value="#{msgs['COMMISSION.TITLE.LIST']}"/>
                 </span>
             </h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
+    	    <div class="messageForUser">
+    		<p:messages id="messages" showDetail="true" autoUpdate="true" />
+    	    </div>
             <p:outputPanel autoUpdate="true">
-        		<p:outputPanel id="div_subSectionDelete" layout="block" styleClass="div_subSection" rendered="#{commissionController.actionEnum.whatAction == commissionController.actionEnum.deleteAction}">
-        			<ui:include src="_commission/_deleteCmi.xhtml" />
-        		</p:outputPanel>
+        	<p:outputPanel id="div_subSectionDelete" layout="block" styleClass="div_subSection"
+                               rendered="#{commissionController.actionEnum.whatAction == commissionController.actionEnum.deleteAction}">
+        	    <ui:include src="_commission/_deleteCmi.xhtml" />
+        	</p:outputPanel>
             </p:outputPanel>
-            
-    		<p:outputPanel id="div_subSection" layout="block" styleClass="div_subSection">
+    	    <p:outputPanel id="div_subSection" layout="block"
+                           styleClass="div_subSection">
                 <h:form>
                     <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-                        styleClass="tableJustWidthMax">
+                                 styleClass="tableJustWidthMax">
                         <h:outputText value="#{msgs['COMMISSIONS']}"
-                            styleClass="section-smallTitle" />
+                                      styleClass="section-smallTitle" />
                         <h:panelGroup>
                             <p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-                                rendered="#{managedAccess.addAuthorized}"
-                                action="#{commissionController.goAddCmi}" />
+                                             rendered="#{managedAccess.addAuthorized}"
+                                             action="#{commissionController.goAddCmi}"
+                                             ajax="false" />
                         </h:panelGroup>
                     </h:panelGrid>
                 </h:form>
                 <h:form id="seeCommissionForm">
                     <p:dataTable id="dataCommission" paginator="true"
-                        value="#{commissionController.listCmiPojo}"
-                        var="commissionPojo" rowIndexVar="variable"
-                        rows="10" rowsPerPageTemplate="10,20,30,40"
-                        paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
-                        currentPageReportTemplate="#{msgs['COMMISSIONS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
-                        emptyMessage="#{msgs['COMMISSION.NOT.FOUND']}" 
-                        filteredValue="#{commissionController.filteredListCmiPojo}"
-                        filterDelay="1000" styleClass="paginatorData">
+                                 value="#{commissionController.listCmiPojo}"
+                                 var="commissionPojo" rowIndexVar="variable"
+                                 rows="10" rowsPerPageTemplate="10,20,30,40"
+                                 paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
+                                 currentPageReportTemplate="#{msgs['COMMISSIONS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
+                                 emptyMessage="#{msgs['COMMISSION.NOT.FOUND']}" 
+                                 filteredValue="#{commissionController.filteredListCmiPojo}"
+                                 filterDelay="1000" styleClass="paginatorData">
                         <p:columnGroup type="header">
                             <p:row>
                                 <p:column headerText="#{msgs['FIELD_LABEL.CODE']}" filterMatchMode="contains" filterBy="#{commissionPojo.commission.code}"  />
@@ -107,15 +110,14 @@
                                     rendered="#{commissionPojo.flagWithoutTrtActive}"
                                     style="cursor:pointer;"
                                     id="noActiveEtp" />
-
                             </h:panelGroup>
                         </p:column>
                         <p:column styleClass="buttonTD"
-                            style="width:18px;">
+                                  style="width:18px;">
                             <p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
-                                style="padding: .4em;"
-                                action="#{commissionController.goSeeOneCmi}"
-                                title="#{msgs['_.BUTTON.DISPLAY']}">
+                                           style="padding: .4em;"
+                                           action="#{commissionController.goSeeOneCmi}"
+                                           title="#{msgs['_.BUTTON.DISPLAY']}">
                                 <div class="ui-button-icon-left ui-icon ui-icon-search" />
                                 <f:setPropertyActionListener
                                     value="#{commissionController.actionEnum.readAction}"
@@ -126,12 +128,12 @@
                             </p:commandLink>
                         </p:column>
                         <p:column styleClass="buttonTD"
-                            style="width:18px;">
+                                  style="width:18px;">
                             <p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
-                                style="padding: .4em;"
-                                title="#{msgs['BUTTON.UPDATE']}"
-                                action="#{commissionController.goUpdateCmi}"
-                                rendered="#{managedAccess.updateAuthorized}">
+                                           style="padding: .4em;"
+                                           title="#{msgs['BUTTON.UPDATE']}"
+                                           action="#{commissionController.goUpdateCmi}"
+                                           rendered="#{managedAccess.updateAuthorized}">
                                 <div class="ui-button-icon-left ui-icon ui-icon-pencil" />
                                 <f:setPropertyActionListener
                                     value="#{commissionController.actionEnum.updateAction}"
@@ -142,11 +144,11 @@
                             </p:commandLink>
                         </p:column>
                         <p:column styleClass="buttonTD"
-                            style="width:18px;">
+                                  style="width:18px;">
                             <p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
-                                style="padding: .4em;"
-                                title="#{msgs['_.BUTTON.DELETE']}"
-                                rendered="#{managedAccess.deleteAuthorized}">
+                                           style="padding: .4em;"
+                                           title="#{msgs['_.BUTTON.DELETE']}"
+                                           rendered="#{managedAccess.deleteAuthorized}">
                                 <div class="ui-button-icon-left ui-icon ui-icon-minus" />
                                 <f:setPropertyActionListener
                                     value="#{commissionController.actionEnum.deleteAction}"
@@ -158,28 +160,25 @@
                         </p:column>
                     </p:dataTable>
                 </h:form>
-                <br />
-                <br />
-                <br />
                 <p:outputPanel rendered="#{not empty commissionController.currentGest.rightOnCmi || commissionController.currentGest.codeCge != null}">
-
                     <div id="blockFormInfoWithoutTrt" class="blockForm">                        
                         <h:form>
-    						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    							styleClass="tableJustWidthMax">
-    							<h:outputText value="#{msgs['COMMISSIONS.WITHOUT_TRT']}"
-    								styleClass="section-smallTitle" />
-    							<h:panelGroup>
-    								<p:commandButton value="#{msgs['_.BUTTON.ADD']}"
-    									rendered="#{managedAccess.addAuthorized}"
-    									action="#{commissionController.goAddCmi}" />
-    							</h:panelGroup>
-    						</h:panelGrid>
+    			    <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+    					 styleClass="tableJustWidthMax">
+    				<h:outputText value="#{msgs['COMMISSIONS.WITHOUT_TRT']}"
+    					      styleClass="section-smallTitle" />
+    				<h:panelGroup>
+    				    <p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+    						     rendered="#{managedAccess.addAuthorized}"
+    						     action="#{commissionController.goAddCmi}"
+                                                     ajax="false" />
+    				</h:panelGroup>
+    			    </h:panelGrid>
                         </h:form>
                         <h:form>
-        					<p:dataTable var="commission"
-        						value="#{commissionController.commissionsItemsWithoutTrtAsList}"
-        						 styleClass="paginatorData">
+        		    <p:dataTable var="commission"
+        				 value="#{commissionController.commissionsItemsWithoutTrtAsList}"
+        				 styleClass="paginatorData">
                                 <p:columnGroup type="header">
                                     <p:row>
                                         <p:column headerText="#{msgs['FIELD_LABEL.CODE']}"/>
@@ -188,54 +187,56 @@
                                         <p:column colspan="3"/>
                                     </p:row>
                                 </p:columnGroup>
-        						<p:column>
-        							<h:outputText value="#{commission.code}" />
-        						</p:column>
-        						<p:column>
-        							<h:outputText value="#{commission.libelle}" />
-        						</p:column>
-        						<p:column>
-        							<p:graphicImage url="/media/images/check2.gif"
-        								rendered="#{commission.temoinEnService}" />
-        							<p:graphicImage url="/media/images/check0.gif"
-        								rendered="#{!commission.temoinEnService}" />
-        						</p:column>
-        						<p:column styleClass="buttonTD" style="width:18px;">
+        			<p:column>
+        			    <h:outputText value="#{commission.code}" />
+        			</p:column>
+        			<p:column>
+        			    <h:outputText value="#{commission.libelle}" />
+        			</p:column>
+        			<p:column>
+        			    <p:graphicImage url="/media/images/check2.gif"
+        					    rendered="#{commission.temoinEnService}" />
+        			    <p:graphicImage url="/media/images/check0.gif"
+        					    rendered="#{!commission.temoinEnService}" />
+        			</p:column>
+        			<p:column styleClass="buttonTD" style="width:18px;">
                                     <p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
-                                        style="padding: .4em;"
-        								action="#{commissionController.goSeeOneCmi}"
-        								title="#{msgs['_.BUTTON.DISPLAY']}">
+                                                   style="padding: .4em;"
+        					   action="#{commissionController.goSeeOneCmi}"
+        					   title="#{msgs['_.BUTTON.DISPLAY']}">
                                         <div class="ui-button-icon-left ui-icon ui-icon-search" />
-        								<f:setPropertyActionListener value="#{commissionController.actionEnum.readAction}" target="#{commissionController.actionEnum.whatAction}" />
-        								<f:setPropertyActionListener value="#{commission}" target="#{commissionController.commission}" />
-        							</p:commandLink>
-        						</p:column>
-        						<p:column styleClass="buttonTD" style="width:18px;">
-        							<p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
-                                        style="padding: .4em;"
-        								title="#{msgs['BUTTON.UPDATE']}"
-        								action="#{commissionController.goUpdateCmi}"
-        								rendered="#{managedAccess.updateAuthorized}">
+        				<f:setPropertyActionListener value="#{commissionController.actionEnum.readAction}"
+                                                                     target="#{commissionController.actionEnum.whatAction}" />
+        				<f:setPropertyActionListener value="#{commission}" target="#{commissionController.commission}" />
+        			    </p:commandLink>
+        			</p:column>
+        			<p:column styleClass="buttonTD" style="width:18px;">
+        			    <p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
+                                                   style="padding: .4em;"
+        					   title="#{msgs['BUTTON.UPDATE']}"
+        					   action="#{commissionController.goUpdateCmi}"
+        					   rendered="#{managedAccess.updateAuthorized}">
                                         <div class="ui-button-icon-left ui-icon ui-icon-pencil" />
-        								<f:setPropertyActionListener value="#{commissionController.actionEnum.updateAction}" target="#{commissionController.actionEnum.whatAction}" />
-        								<f:setPropertyActionListener value="#{commission}" target="#{commissionController.commission}" />
-        							</p:commandLink>
-        						</p:column>
-        						<p:column styleClass="buttonTD" style="width:18px;">
-        							<p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
-                                        style="padding: .4em;"
-        								title="#{msgs['_.BUTTON.DELETE']}"
-        								rendered="#{managedAccess.deleteAuthorized}">
+        				<f:setPropertyActionListener value="#{commissionController.actionEnum.updateAction}" target="#{commissionController.actionEnum.whatAction}" />
+        				<f:setPropertyActionListener value="#{commission}" target="#{commissionController.commission}" />
+        			    </p:commandLink>
+        			</p:column>
+        			<p:column styleClass="buttonTD" style="width:18px;">
+        			    <p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
+                                                   style="padding: .4em;"
+        					   title="#{msgs['_.BUTTON.DELETE']}"
+        					   rendered="#{managedAccess.deleteAuthorized}"
+                                                   onclick="window.scrollTo(0, 0);">
                                         <div class="ui-button-icon-left ui-icon ui-icon-minus" />
-        								<f:setPropertyActionListener value="#{commissionController.actionEnum.deleteAction}" target="#{commissionController.actionEnum.whatAction}" />
-        								<f:setPropertyActionListener value="#{commission}" target="#{commissionController.commission}" />
-        							</p:commandLink>
-        						</p:column>
-        					</p:dataTable>
+        				<f:setPropertyActionListener value="#{commissionController.actionEnum.deleteAction}" target="#{commissionController.actionEnum.whatAction}" />
+        				<f:setPropertyActionListener value="#{commission}" target="#{commissionController.commission}" />
+        			    </p:commandLink>
+        			</p:column>
+        		    </p:dataTable>
                         </h:form>
-    				</div>
+    		    </div>
                 </p:outputPanel>
             </p:outputPanel>
-		</div>
+        </p:outputPanel>
     </ui:define>
 </ui:composition>

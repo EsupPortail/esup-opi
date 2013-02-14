@@ -3,229 +3,208 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 template="/stylesheets/templateGestionnaire.xhtml">
-<ui:define name="content">
-
-
-<div id="maPage" class="div_body">
-<h1>
+    <ui:define name="content">
+        <div id="maPage" class="div_body">
+            <h1>
                 <span class="section-header">
                     <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
                 </span>
-</h1>
-<div class="messageForUser">
-    <p:messages id="messages" showDetail="true" autoUpdate="true"/>
-</div>
-<div id="div_subSectionFirstForm" class="div_subSection">
-<ui:fragment rendered="#{not empty trtCmiController.listVETToTransfert}">
-    <div id="div_subSectionTransfert" class="div_subSection">
-        <ui:include src="_commission/_transfertTrtCmi.xhtml"/>
-    </div>
-</ui:fragment>
-<br/>
-<br/>
-<br/>
-<h:form id="enterTrtCmiForm">
-    <ui:fragment rendered="#{trtCmiController.commission.id == null}">
-        <div id="div_subSection">
-            <h:outputFormat value="Rechercher une commission"/>
-            <div id="blockFormInfo" class="blockForm">
-                <div class="blockButton">
-                    <h:panelGroup>
-                        <p:commandButton value="#{msgs['_.BUTTON.SEARCH']}" ajax="false"
-                                         action="#{trtCmiController.lookForCmi}"/>
-                    </h:panelGroup>
-                </div>
-
-                <h:panelGrid styleClass="tableWidthMax" columns="4"
-                             columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-                    <h:outputLabel
-                            value="#{msgs['FIELD_LABEL.CODE']} #{msgs['COMMISSIONS']}"
-                            for="commissions"/>
-                    <p:inputText id="codEtp" size="10" maxlength="10"
-                                 value="#{trtCmiController.codeCmi}"/>
-
-                    <h:outputLabel value="#{msgs['COMMISSIONS']}" for="commissions"/>
-                    <p:selectOneMenu id="lesCommissions"
-                                     converter="javax.faces.Integer"
-                                     value="#{trtCmiController.idCmi}">
-                        <f:selectItem itemLabel="" itemValue=""/>
-                        <f:selectItems var="commission"
-                                       value="#{commissionController.allCommissionsItemsByRight}"
-                                       itemLabel="#{commission.libelle}" itemValue="#{commission.id}"/>
-                    </p:selectOneMenu>
-                </h:panelGrid>
-
+            </h1>
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
             </div>
-        </div>
-    </ui:fragment>
-    <ui:fragment rendered="#{trtCmiController.commission != null}">
-        <div id="info_valider" class="messageForUser">
-            <h:outputText styleClass="msg-info" value="#{msgs['INFO.VALIDATE']}"/>
-        </div>
-        <br/>
-        <br/>
-
-        <div id="div_cmi_selected">
-            <div class="blockForm">
-                <div class="blockButton">
-                    <h:panelGroup>
-                        <p:commandButton ajax="false"
-                                         value="#{msgs['_.BUTTON.VALIDATE']}"
-                                         action="#{trtCmiController.update}"/>
-                        <p:commandButton ajax="false"
-                                         immediate="true"
-                                         value="#{msgs['_.BUTTON.CANCEL']}"
-                                         action="#{trtCmiController.goMangedTrtCmi}"/>
-
-                    </h:panelGroup>
-                </div>
-                <div class="blockTable" style="text-align:center;">
-                    <h:outputFormat value="#{msgs['COMMISSION.SELECTED']}">
-                        <f:param value="#{trtCmiController.commission.libelle}"/>
-                    </h:outputFormat>
-                </div>
-            </div>
-        </div>
-
-        <br/>
-        <br/>
-        <br/>
-
-        <div id="blockFormUpdateTrtCmi" class="blockForm">
-            <div style="width:100%;">
-                <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-                             styleClass="tableJustWidthMax">
-                    <h:outputText value="#{msgs['FIELD_LABEL.ETAPES']}"
-                                  styleClass="section-smallTitle"/>
-                    <h:panelGroup>
-                        <p:commandButton value="#{msgs['CAMPAGNES.TITLE.MANAGED_ETAPES']}"
-                                         action="#{trtCmiController.managedCamp}"/>
-                        <p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
-                                         action="#{etapeController.goSearchEtpForCmi}"/>
-                    </h:panelGroup>
-                </h:panelGrid>
-            </div>
-            <p:dataTable id="trtCmi" var="beanTrtCmi"
-                         value="#{trtCmiController.allTraitementCmi}" rowIndexVar="rowVar"
-                         styleClass="displayInfo">
-
-                <p:column headerText="#{msgs['FIELD_LABEL.CGE']}">
-                    <h:outputText value="#{beanTrtCmi.traitementCmi.versionEtpOpi.codCge}"/>
-                </p:column>
-                <p:column headerText="#{msgs['FIELD_LABEL.ETP']}">
-                    <h:outputText value="#{beanTrtCmi.etape.libWebVet}"/>
-                </p:column>
-                <p:column headerText="#{msgs['FIELD_LABEL.CAMPAGNES']}">
-                    <p:graphicImage url="/media/images/informationSmall.png"
-                                    style="cursor:pointer;" id="allcampagnes"/>
-                    <p:overlayPanel for="allcampagnes" appendToBody="true"
-                                    showEvent="mouseover" hideEvent="mouseout"
-                                    styleClass="containerPopup" style="width:300px;">
-                        <h:panelGroup>
-                            <h:panelGrid columns="1">
-                                <h:outputText styleClass="titrePopupAide"
-                                              value="#{msgs['FIELD_LABEL.CAMPAGNES']}"/>
-                                <h:panelGroup>
-                                    <h:outputText styleClass="libellesAide"
-                                                  value="#{msgs['CAMPAGNES.INFO.VET']} : "/>
-                                </h:panelGroup>
-                                <h:panelGroup>
-                                    <ui:repeat var="link"
-                                               value="#{beanTrtCmi.traitementCmi.listLinkTrtCmiCamp}">
-                                        <div>
-                                            <h:outputText value="#{link.campagne.code}"
-                                                          styleClass="span-text-small"/>
-                                            <h:outputText value=" : " styleClass="span-text-small"/>
-                                            <h:outputText value="#{link.campagne.libelle}"
-                                                          styleClass="span-text-small"/>
-                                        </div>
-                                    </ui:repeat>
-                                </h:panelGroup>
+            <div id="div_subSectionFirstForm" class="div_subSection">
+                <ui:fragment rendered="#{not empty trtCmiController.listVETToTransfert}">
+                    <div id="div_subSectionTransfert" class="div_subSection">
+                        <ui:include src="_commission/_transfertTrtCmi.xhtml"/>
+                    </div>
+                </ui:fragment>
+                <h:form id="enterTrtCmiForm">
+                    <ui:fragment rendered="#{trtCmiController.commission.id == null}">
+                        <div id="div_subSection">
+                            <h:outputFormat value="Rechercher une commission"/>
+                            <div id="blockFormInfo" class="blockForm">
+                                <div class="blockButton">
+                                    <h:panelGroup>
+                                        <p:commandButton value="#{msgs['_.BUTTON.SEARCH']}" ajax="false"
+                                                         action="#{trtCmiController.lookForCmi}"/>
+                                    </h:panelGroup>
+                                </div>
+                                <h:panelGrid styleClass="tableWidthMax" columns="4"
+                                             columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+                                    <h:outputLabel
+                                        value="#{msgs['FIELD_LABEL.CODE']} #{msgs['COMMISSIONS']}"
+                                        for="commissions"/>
+                                    <p:inputText id="codEtp" size="10" maxlength="10"
+                                                 value="#{trtCmiController.codeCmi}"/>
+                                    <h:outputLabel value="#{msgs['COMMISSIONS']}" for="commissions"/>
+                                    <p:selectOneMenu id="lesCommissions"
+                                                     converter="javax.faces.Integer"
+                                                     value="#{trtCmiController.idCmi}">
+                                        <f:selectItem itemLabel="" itemValue=""/>
+                                        <f:selectItems var="commission"
+                                                       value="#{commissionController.allCommissionsItemsByRight}"
+                                                       itemLabel="#{commission.libelle}" itemValue="#{commission.id}"/>
+                                    </p:selectOneMenu>
+                                </h:panelGrid>
+                            </div>
+                        </div>
+                    </ui:fragment>
+                    <ui:fragment rendered="#{trtCmiController.commission != null}">
+                        <div id="info_valider" class="messageForUser">
+                            <h:outputText styleClass="msg-info" value="#{msgs['INFO.VALIDATE']}"/>
+                        </div>
+                        <div id="div_cmi_selected">
+                            <div class="blockForm">
+                                <div class="blockButton">
+                                    <h:panelGroup>
+                                        <p:commandButton ajax="false"
+                                                         value="#{msgs['_.BUTTON.VALIDATE']}"
+                                                         action="#{trtCmiController.update}"/>
+                                        <p:commandButton ajax="false"
+                                                         immediate="true"
+                                                         value="#{msgs['_.BUTTON.CANCEL']}"
+                                                         action="#{trtCmiController.goMangedTrtCmi}"/>
+                                    </h:panelGroup>
+                                </div>
+                                <div class="blockTable" style="text-align:center;">
+                                    <h:outputFormat value="#{msgs['COMMISSION.SELECTED']}">
+                                        <f:param value="#{trtCmiController.commission.libelle}"/>
+                                    </h:outputFormat>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="blockFormUpdateTrtCmi" class="blockForm">
+                            <div style="width:100%;">
+                                <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                                             styleClass="tableJustWidthMax">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.ETAPES']}"
+                                                  styleClass="section-smallTitle"/>
+                                    <h:panelGroup>
+                                        <p:commandButton value="#{msgs['CAMPAGNES.TITLE.MANAGED_ETAPES']}"
+                                                         action="#{trtCmiController.managedCamp}"/>
+                                        <p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
+                                                         action="#{etapeController.goSearchEtpForCmi}"/>
+                                    </h:panelGroup>
+                                </h:panelGrid>
+                            </div>
+                            <p:dataTable id="trtCmi" var="beanTrtCmi"
+                                         value="#{trtCmiController.allTraitementCmi}" rowIndexVar="rowVar"
+                                         styleClass="displayInfo">
+                                <p:column headerText="#{msgs['FIELD_LABEL.CGE']}">
+                                    <h:outputText value="#{beanTrtCmi.traitementCmi.versionEtpOpi.codCge}"/>
+                                </p:column>
+                                <p:column headerText="#{msgs['FIELD_LABEL.ETP']}">
+                                    <h:outputText value="#{beanTrtCmi.etape.libWebVet}"/>
+                                </p:column>
+                                <p:column headerText="#{msgs['FIELD_LABEL.CAMPAGNES']}">
+                                    <p:graphicImage url="/media/images/informationSmall.png"
+                                                    style="cursor:pointer;" id="allcampagnes"/>
+                                    <p:overlayPanel for="allcampagnes" appendToBody="true"
+                                                    showEvent="mouseover" hideEvent="mouseout"
+                                                    styleClass="containerPopup" style="width:300px;">
+                                        <h:panelGroup>
+                                            <h:panelGrid columns="1">
+                                                <h:outputText styleClass="titrePopupAide"
+                                                              value="#{msgs['FIELD_LABEL.CAMPAGNES']}"/>
+                                                <h:panelGroup>
+                                                    <h:outputText styleClass="libellesAide"
+                                                                  value="#{msgs['CAMPAGNES.INFO.VET']} : "/>
+                                                </h:panelGroup>
+                                                <h:panelGroup>
+                                                    <ui:repeat var="link"
+                                                               value="#{beanTrtCmi.traitementCmi.listLinkTrtCmiCamp}">
+                                                        <div>
+                                                            <h:outputText value="#{link.campagne.code}"
+                                                                          styleClass="span-text-small"/>
+                                                            <h:outputText value=" : " styleClass="span-text-small"/>
+                                                            <h:outputText value="#{link.campagne.libelle}"
+                                                                          styleClass="span-text-small"/>
+                                                        </div>
+                                                    </ui:repeat>
+                                                </h:panelGroup>
+                                            </h:panelGrid>
+                                        </h:panelGroup>
+                                    </p:overlayPanel>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <p:selectOneRadio id="checkAll" value="#{trtCmiController.codeTypeTrtselected}"
+                                                          valueChangeListener="#{trtCmiController.selectTypTrt}">
+                                            <f:selectItems value="#{nomenclatureController.typeTrts}" var="typeTrt"
+                                                           itemValue="#{typeTrt.code}" itemLabel="#{typeTrt.code}"/>
+                                            <p:ajax update="trtCmi"/>
+                                        </p:selectOneRadio>
+                                    </f:facet>
+                                    <p:selectOneRadio id="trtCmiTypTrt#{rowVar}" value="#{beanTrtCmi.traitementCmi.codTypeTrait}"
+                                                      style="border:none;">
+                                        <f:selectItems value="#{nomenclatureController.typeTrts}" var="typeTrt"
+                                                       itemValue="#{typeTrt.code}" itemLabel=""/>
+                                    </p:selectOneRadio>
+                                </p:column>
+                                <p:column style="width:18px;">
+                                    <p:commandButton icon="ui-icon-minus"
+                                                     update="trtCmi" immediate="true"
+                                                     action="#{trtCmiController.removeTrtCmi}"
+                                                     title="#{msgs['_.BUTTON.DELETE']}">
+                                        <f:setPropertyActionListener value="#{beanTrtCmi}" target="#{trtCmiController.beanTrtCmi}"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                            <ui:include src="_commission/_enterTrtCmiOff.xhtml"/>
+                        </div>
+                    </ui:fragment>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <ui:fragment rendered="#{formulairesController.orbeonBuilderUrl != null
+                                           and trtCmiController.commission != null}">
+                        <div id="blockFormOrbeon" class="blockForm">
+                            <div style="width:100%;">
+                                <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                                             styleClass="tableJustWidthMax">
+                                    <h:outputText value="#{msgs['FORMULAIRE']}"
+                                                  styleClass="section-smallTitle"/>
+                                    <h:panelGroup>
+                                    </h:panelGroup>
+                                </h:panelGrid>
+                            </div>
+                            <h:panelGrid styleClass="tableWidthMax" columns="1"
+                                         columnClasses="colUnQuart">
+                                <h:outputText value="#{msgs['FORMULAIRE.INFO']}"/>
+                                <ui:repeat id="trtCmiForm" var="beanTrtCmi"
+                                           value="#{trtCmiController.allTraitementCmi}">
+                                    <h:panelGrid columns="2">
+                                        <h:outputText value="#{beanTrtCmi.etape.libWebVet}"/>
+                                        <h:panelGroup rendered="#{formulairesController.modifiable}">
+                                            <p:commandButton value="#{msgs['FORMULAIRE.NEW']}"
+                                                             action="#{formulairesController.createFormInBuilder}"
+                                                             rendered="#{formulairesController.formulairesCmi[beanTrtCmi.traitementCmi.versionEtpOpi] == null}">
+                                                <f:setPropertyActionListener value="#{beanTrtCmi.traitementCmi}"
+                                                                             target="#{formulairesController.traitementCmiSelected}"/>
+                                            </p:commandButton>
+                                            <h:outputLink target="_blank" styleClass="form-button"
+                                                          value="#{formulairesController.orbeonBuilderUrl}#{beanTrtCmi.traitementCmi.versionEtpOpi.codEtp}-#{beanTrtCmi.traitementCmi.versionEtpOpi.codVrsVet}
+        							 -#{trtCmiController.currentRegime.shortLabel}"
+                                                          rendered="#{formulairesController.formulairesCmi[beanTrtCmi.traitementCmi.versionEtpOpi] != null}">
+                                                <h:outputText value="#{msgs['FORMULAIRE.EDIT']}"/>
+                                            </h:outputLink>
+                                            <p:commandButton value="#{msgs['FORMULAIRE.DELETE']}"
+                                                             action="#{formulairesController.deleteFormInBuilder}"
+                                                             rendered="#{formulairesController.formulairesCmi[beanTrtCmi.traitementCmi.versionEtpOpi] != null}">
+                                                <f:setPropertyActionListener value="#{beanTrtCmi.traitementCmi}"
+                                                                             target="#{formulairesController.traitementCmiSelected}"/>
+                                            </p:commandButton>
+                                        </h:panelGroup>
+                                        <h:panelGroup rendered="#{not formulairesController.modifiable}"/>
+                                    </h:panelGrid>
+                                </ui:repeat>
+                                <h:outputText value="#{msgs['FORMULAIRE.WARN']}"/>
                             </h:panelGrid>
-                        </h:panelGroup>
-                    </p:overlayPanel>
-                </p:column>
-                <p:column>
-                    <f:facet name="header">
-                        <p:selectOneRadio id="checkAll" value="#{trtCmiController.codeTypeTrtselected}"
-                                          valueChangeListener="#{trtCmiController.selectTypTrt}">
-                            <f:selectItems value="#{nomenclatureController.typeTrts}" var="typeTrt"
-                                           itemValue="#{typeTrt.code}" itemLabel="#{typeTrt.code}"/>
-                            <p:ajax update="trtCmi"/>
-                        </p:selectOneRadio>
-                    </f:facet>
-                    <p:selectOneRadio id="trtCmiTypTrt#{rowVar}" value="#{beanTrtCmi.traitementCmi.codTypeTrait}"
-                                      style="border:none;">
-                        <f:selectItems value="#{nomenclatureController.typeTrts}" var="typeTrt"
-                                       itemValue="#{typeTrt.code}" itemLabel=""/>
-                    </p:selectOneRadio>
-                </p:column>
-                <p:column style="width:18px;">
-                    <p:commandButton icon="ui-icon-minus"
-                                     update="trtCmi" immediate="true"
-                                     action="#{trtCmiController.removeTrtCmi}"
-                                     title="#{msgs['_.BUTTON.DELETE']}">
-                        <f:setPropertyActionListener value="#{beanTrtCmi}" target="#{trtCmiController.beanTrtCmi}"/>
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>
-            <ui:include src="_commission/_enterTrtCmiOff.xhtml"/>
-        </div>
-    </ui:fragment>
-    <br/>
-    <br/>
-    <br/>
-    <ui:fragment rendered="#{formulairesController.orbeonBuilderUrl != null
-                            and trtCmiController.commission != null}">
-        <div id="blockFormOrbeon" class="blockForm">
-            <div style="width:100%;">
-                <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-                             styleClass="tableJustWidthMax">
-                    <h:outputText value="#{msgs['FORMULAIRE']}"
-                                  styleClass="section-smallTitle"/>
-                    <h:panelGroup>
-                    </h:panelGroup>
-                </h:panelGrid>
+                        </div>
+                    </ui:fragment>
+                </h:form>
             </div>
-            <h:panelGrid styleClass="tableWidthMax" columns="1"
-                         columnClasses="colUnQuart">
-                <h:outputText value="#{msgs['FORMULAIRE.INFO']}"/>
-
-                <ui:repeat id="trtCmiForm" var="beanTrtCmi"
-                           value="#{trtCmiController.allTraitementCmi}">
-
-                    <h:panelGrid columns="2">
-                        <h:outputText value="#{beanTrtCmi.etape.libWebVet}"/>
-
-                        <h:panelGroup rendered="#{formulairesController.modifiable}">
-                            <p:commandButton value="#{msgs['FORMULAIRE.NEW']}"
-                                             action="#{formulairesController.createFormInBuilder}"
-                                             rendered="#{formulairesController.formulairesCmi[beanTrtCmi.traitementCmi.versionEtpOpi] == null}">
-                                <f:setPropertyActionListener value="#{beanTrtCmi.traitementCmi}"
-                                                             target="#{formulairesController.traitementCmiSelected}"/>
-                            </p:commandButton>
-                            <h:outputLink target="_blank" styleClass="form-button"
-                                          value="#{formulairesController.orbeonBuilderUrl}#{beanTrtCmi.traitementCmi.versionEtpOpi.codEtp}-#{beanTrtCmi.traitementCmi.versionEtpOpi.codVrsVet}
-        										-#{trtCmiController.currentRegime.shortLabel}"
-                                          rendered="#{formulairesController.formulairesCmi[beanTrtCmi.traitementCmi.versionEtpOpi] != null}">
-                                <h:outputText value="#{msgs['FORMULAIRE.EDIT']}"/>
-                            </h:outputLink>
-                            <p:commandButton value="#{msgs['FORMULAIRE.DELETE']}"
-                                             action="#{formulairesController.deleteFormInBuilder}"
-                                             rendered="#{formulairesController.formulairesCmi[beanTrtCmi.traitementCmi.versionEtpOpi] != null}">
-                                <f:setPropertyActionListener value="#{beanTrtCmi.traitementCmi}"
-                                                             target="#{formulairesController.traitementCmiSelected}"/>
-                            </p:commandButton>
-                        </h:panelGroup>
-                        <h:panelGroup rendered="#{not formulairesController.modifiable}"/>
-                    </h:panelGrid>
-                </ui:repeat>
-                <h:outputText value="#{msgs['FORMULAIRE.WARN']}"/>
-            </h:panelGrid>
         </div>
-    </ui:fragment>
-</h:form>
-</div>
-</div>
-</ui:define>
+    </ui:define>
 </ui:composition>

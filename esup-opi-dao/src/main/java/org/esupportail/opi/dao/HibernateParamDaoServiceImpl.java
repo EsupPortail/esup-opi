@@ -548,10 +548,7 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteCommission( " + commission + " )");
 		}
-		Commission cmi = getCommission(commission.getId(), null);
-
-		deleteObject(cmi);
-
+		deleteObject(commission);
 	}
 
 	/** 

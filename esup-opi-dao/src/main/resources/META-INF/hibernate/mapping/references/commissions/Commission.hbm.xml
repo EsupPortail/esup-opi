@@ -21,7 +21,7 @@
    lazy="false" name="codUserToUpdate"/>
   <property column="tem_en_sve_cmi" generated="never" lazy="false"
    name="temoinEnService" type="yes_no"/>
-  <set inverse="true" name="members" sort="unsorted">
+  <set cascade="all" inverse="true" name="members" sort="unsorted">
    <key column="id_cmi"/>
    <one-to-many class="Member"/>
   </set>

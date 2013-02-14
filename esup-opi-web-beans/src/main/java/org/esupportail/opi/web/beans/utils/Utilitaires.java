@@ -449,7 +449,6 @@ public class Utilitaires {
 		}
 	}
 
-
 	/**
 	 * Tous les mails commencent et finissent par les memes textes.
 	 * On ajoute e htmlBody ces 2 parties.

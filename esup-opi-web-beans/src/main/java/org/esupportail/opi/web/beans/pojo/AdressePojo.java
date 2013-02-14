@@ -69,7 +69,6 @@ public class AdressePojo {
 	 * Constructor.
 	 */
 	public AdressePojo(final Adresse address, final DomainApoService apoService) {
-		super();
 		adresse = address.clone();
 		adresse.setAdr1(address.getAdr1());
 		adresse.setAdr2(address.getAdr2());

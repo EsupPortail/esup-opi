@@ -317,6 +317,7 @@
         <property name="transfert" ref="transfert"/>
         <property name="managerUsed" value="${init.cmi.manager}"/>
         <property name="listCmiByRight" value="${init.listcmi.byright}"/>
+        <property name="ldapAttrs" ref="ldapAttributes" />
     </bean>
 
     <bean id="nbVoeuByCGEController"

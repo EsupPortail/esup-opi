@@ -95,6 +95,7 @@ import gouv.education.apogee.commun.transverse.dto.pedagogique.contratpedagogiqu
 import gouv.education.apogee.commun.transverse.dto.pedagogique.etaperesvdivetdto.EtapeResVdiVetDTO;
 import gouv.education.apogee.commun.transverse.dto.pedagogique.resultatvetdto.ResultatVetDTO;
 
+import static fj.data.Option.fromNull;
 import static fj.data.Stream.iterableStream;
 
 /**
@@ -1766,10 +1767,11 @@ public class DomainApoServiceImpl implements DomainApoService {
             if (lCom != null)
                 for (Commission c : lCom) {
                     if (!c.getTemoinEnService()) log.info("cas d'une comm HS");
-                    for (TraitementCmi trt : c.getTraitementCmi())
-                        if (vOpi.contains(trt.getVersionEtpOpi())) {
+                    for (Set<TraitementCmi> trts : fromNull(c.getTraitementCmi()))
+                      for (TraitementCmi trt : trts)
+                          if (vOpi.contains(trt.getVersionEtpOpi())) {
                             lesCommissions.add(c);
-                            break;
+                              break;
                         }
                 }
         } else if (gest.getRightOnCmi()!= null && !gest.getRightOnCmi().isEmpty()) {

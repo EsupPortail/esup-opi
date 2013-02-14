@@ -3,26 +3,10 @@
  */
 package org.esupportail.opi.web.controllers.references;
 
-import static fj.data.IterableW.wrap;
-import static fj.data.Stream.iterableStream;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
-import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
-import javax.faces.model.SelectItem;
-
+import fj.F;
+import fj.F2;
+import fj.F3;
+import fj.Unit;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.exceptions.UserNotFoundException;
 import org.esupportail.commons.services.logging.Logger;
@@ -45,14 +29,11 @@ import org.esupportail.opi.services.export.CastorService;
 import org.esupportail.opi.services.export.ISerializationService;
 import org.esupportail.opi.services.mails.MailContentService;
 import org.esupportail.opi.utils.Constantes;
+import org.esupportail.opi.utils.ldap.LdapAttributes;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.beanEnum.WayfEnum;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
-import org.esupportail.opi.web.beans.pojo.CommissionPojo;
-import org.esupportail.opi.web.beans.pojo.IndListePrepaPojo;
-import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
-import org.esupportail.opi.web.beans.pojo.IndividuPojo;
-import org.esupportail.opi.web.beans.pojo.ListePrepaPojo;
+import org.esupportail.opi.web.beans.pojo.*;
 import org.esupportail.opi.web.beans.utils.ExportUtils;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.PDFUtils;
@@ -65,10 +46,19 @@ import org.esupportail.wssi.services.remote.SignataireDTO;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
 
-import fj.F;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.SelectItem;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-
-
+import static fj.Function.curry;
+import static fj.Semigroup.stringSemigroup;
+import static fj.Unit.unit;
+import static fj.data.IterableW.wrap;
+import static fj.data.Option.fromNull;
+import static fj.data.Stream.iterableStream;
+import static fj.data.Validation.validation;
 
 
 /**
@@ -128,7 +118,7 @@ public class CommissionController
 	/**
 	 * The manager of the versionEtape to add to the cmi.
 	 */
-	private Object[] objectToAdd;
+	private List<Object> objectToAdd;
 
 	/**
 	 * key : he member to the cmi.
@@ -213,6 +203,7 @@ public class CommissionController
 	 */
 	private boolean listCmiByRight;
 
+    private LdapAttributes ldapAttrs;
 
 	private Set<Commission> commissions;
 	private Set<Commission> comsInUse;
@@ -273,7 +264,7 @@ public class CommissionController
 		commission = new Commission();
 		contactCommission = new ContactCommission();
 		actionEnum = new ActionEnum();
-		objectToAdd = new Object[0];
+		objectToAdd = new ArrayList<Object>();
 		membersToDisplay = new HashMap<Member, String>();
 		selectedCommissions = new ArrayList<Commission>();
 		idCmiForAdress = 0;
@@ -332,6 +323,7 @@ public class CommissionController
 	 */
 	public String goSeeAllCmi() {
 		reset();
+        initCommissions();
 		listCmiPojo = getData();
 		return NavigationRulesConst.MANAGED_CMI;
 	}
@@ -343,7 +335,8 @@ public class CommissionController
 	 */
 	public String goAddCmi() {
 		reset();
-		commission = getParameterService().getCommission(commission.getId(), null);
+        // TODO: get rid of that
+		//commission = getParameterService().getCommission(commission.getId(), null);
 		adressController.init(new AdresseCommission(), false);
 		Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
 		int codeRI = gest.getProfile().getCodeRI();
@@ -430,7 +423,7 @@ public class CommissionController
 	 * @return String
 	 */
 	public String goSearchMembers() {
-		objectToAdd = new Object[0];
+		objectToAdd = new ArrayList<Object>();
 		trtCmiController.reset();
 		return NavigationRulesConst.SEARCH_MEMBER;
 	}
@@ -452,28 +445,55 @@ public class CommissionController
 	 * @return String
 	 */
 	public String addMembers() {
+        F3<String, String, String, F2<Gestionnaire, String, Unit>> buildAndPutMember =
+                new F3<String, String, String, F2<Gestionnaire, String, Unit>>() {
+                    public F2<Gestionnaire, String, Unit> f(final String mail, final String prenom, final String nom) {
+                        return new F2<Gestionnaire, String, Unit>() {
+                            public Unit f(Gestionnaire gest, String message) {
+                                membersToDisplay.put(
+                                        new Member(nom.toUpperCase(), prenom, mail, "", gest),
+                                        message);
+                                return unit();
+                            }
+                        };
+                    }
+                };
 
+        String where = "";
 		for (Object o : objectToAdd) {
-			Gestionnaire g = (Gestionnaire) o;
+			final Gestionnaire g = (Gestionnaire) o;
 			Gestionnaire g1 = null;
 			try {
 				g1 = getDomainService().getManager(g.getLogin());
 			} catch (UserNotFoundException e) {
 				log.info("Le gestionnaire " + g.getLogin() + " n'existe pas");
 			}
-			if (g1 == null) {
-				Member m = new Member(g.getNomUsuel().toUpperCase(), g.getPrenom(),
-						g.getAdressMail(), "", g);
-				membersToDisplay.put(m, MUST_BE_ADD_GEST);
-			} else {
-				Member m = new Member(g.getNomUsuel().toUpperCase(), g.getPrenom(),
-						g.getAdressMail(), "", g1);
-				membersToDisplay.put(m, IS_GESTIONNAIRE);
-			}
-		}
 
-		objectToAdd = new Object[0];
-		return NavigationRulesConst.ENTER_CMI;
+            final Gestionnaire gg1 = g1;
+            where = validation(fromNull(g.getNomUsuel()).toEither(ldapAttrs.nomUsuelAttribute + ","))
+                    .accumapply(stringSemigroup,
+                            validation(fromNull(g.getPrenom()).toEither(ldapAttrs.prenomAttribute + ","))
+                                    .accumapply(stringSemigroup,
+                                            validation(fromNull(g.getAdressMail()).toEither(ldapAttrs.emailAttribute + ","))
+                                                    .map(curry(buildAndPutMember))))
+                    .validation(
+                            new F<String, String>() {
+                                public String f(String missingVals) {
+                                    addWarnMessage(null, "GESTIONNAIRE.WARN.LDAP", missingVals);
+                                    return NavigationRulesConst.SEARCH_MEMBER;
+                                }
+                            },
+                            new F<F2<Gestionnaire, String, Unit>, String>() {
+                                public String f(F2<Gestionnaire, String, Unit> ff) {
+                                    if (gg1 == null) ff.f(g, MUST_BE_ADD_GEST);
+                                    else ff.f(gg1, IS_GESTIONNAIRE);
+                                    return NavigationRulesConst.ENTER_CMI;
+                                }
+                            }
+                    );
+        }
+		objectToAdd = new ArrayList<Object>();
+		return where;
 	}
 
 
@@ -508,7 +528,7 @@ public class CommissionController
 			} else {
 				adressController.update(adressController.getFixAdrPojo());
 			}
-
+            commission.setTraitementCmi(new HashSet<TraitementCmi>());
 			commission = (Commission) getDomainService().add(commission, getCurrentGest().getLogin());
 			getParameterService().addCommission(commission);
 
@@ -519,9 +539,10 @@ public class CommissionController
 			contactCommission.setCommission(commission);
 			getParameterService().addContactCommission(contactCommission);
 
+            // need that to see the just added Commission in the dataTables
+            initCommissions();
 
-			//reset();
-			addInfoMessage(null, "INFO.ENTER.SUCCESS");
+            addInfoMessage(null, "INFO.ENTER.SUCCESS");
 			addInfoMessage(null, "COMMISSION.INFO.ADD.CAL_CMI", getParameterService().getDateBackDefault());
 			return NavigationRulesConst.SEE_CMI;
 		}
@@ -593,19 +614,13 @@ public class CommissionController
 	/**
 	 * Delete a Commission to the dataBase.
 	 */
-	public void delete() {
-		if (log.isDebugEnabled()) {
-			log.debug("enterind delete with Commission = " + commission);
-		}
-
+	public String delete() {
 		getParameterService().deleteCommission(commission);
-		reset();
-
-		addInfoMessage(null, "INFO.DELETE.SUCCESS");
-
-		if (log.isDebugEnabled()) {
-			log.debug("leaving delete");
-		}
+        reset();
+        initCommissions();
+        listCmiPojo = getData();
+        addInfoMessage(null, "INFO.DELETE.SUCCESS");
+        return null;
 	}
 
 
@@ -641,8 +656,9 @@ public class CommissionController
 	public void selectCommAdress() {
 		Commission commSelected = getParameterService().getCommission(idCmiForAdress, null);
 		Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
-		int codeRI = gest.getProfile().getCodeRI();
-		AdresseCommission adrRI = commSelected.getContactsCommission().get(codeRI).getAdresse();
+		AdresseCommission adrRI =
+                commSelected.getContactsCommission().get(
+                        gest.getProfile().getCodeRI()).getAdresse();
 		adressController.init(adrRI, true);
 		addInfoMessage(null, "COMMISSION.WARN_CHANGE_ADRESS");
 	}
@@ -1474,14 +1490,14 @@ public class CommissionController
 	 * @return the objectToAdd
 	 */
 	public Object[] getObjectToAdd() {
-		return objectToAdd;
+		return objectToAdd.toArray();
 	}
 
 	/**
-	 * @param objectToAdd the objectToAdd to set
-	 */
+     * @param objectToAdd the objectToAdd to set
+     */
 	public void setObjectToAdd(final Object[] objectToAdd) {
-		this.objectToAdd = objectToAdd;
+		this.objectToAdd = Arrays.asList(objectToAdd);
 	}
 
 	/**
@@ -1691,4 +1707,12 @@ public class CommissionController
 	public void setManagerUsed(final boolean managerUsed) {
 		this.managerUsed = managerUsed;
 	}
+
+    public LdapAttributes getLdapAttrs() {
+        return ldapAttrs;
+    }
+
+    public void setLdapAttrs(LdapAttributes ldapAttrs) {
+        this.ldapAttrs = ldapAttrs;
+    }
 }
