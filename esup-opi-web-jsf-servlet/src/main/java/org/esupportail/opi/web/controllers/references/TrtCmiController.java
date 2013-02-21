@@ -321,8 +321,10 @@ public class TrtCmiController extends AbstractAccessController {
         int codeRI = gest.getProfile().getCodeRI();
         // maj du régime d'inscription
         currentRegime = getRegimeIns().get(codeRI);
+        // Avoid a hibernate LazyInitException
+        Commission com = getParameterService().getCommission(c.getId(), c.getCode());
 
-        for (TraitementCmi t : c.getTraitementCmi()) {
+        for (TraitementCmi t : com.getTraitementCmi()) {
             //init proxy hib
             // passage du link en lazy false
             //getDomainService().initOneProxyHib(t, t.getLinkTrtCmiCamp(), Set.class);
