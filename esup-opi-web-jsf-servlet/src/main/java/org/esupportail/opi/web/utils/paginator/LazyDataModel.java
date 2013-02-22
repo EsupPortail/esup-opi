@@ -49,9 +49,7 @@ public final class LazyDataModel<T> extends org.primefaces.model.LazyDataModel<T
         // on garde les résultats
         data = resTuple._2();
         // retour en collection jaja
-        return new ArrayList<T>() {{
-            addAll(data.toCollection());
-        }};
+        return new ArrayList<T>(data.toCollection());
     }
 
     public List<T> getData() {

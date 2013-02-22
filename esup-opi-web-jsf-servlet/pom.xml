@@ -25,6 +25,7 @@
                 <configuration>
                     <configurationDiscovered>false</configurationDiscovered>
                     <webAppConfig>
+                        <jettyEnvXml>src/main/jetty/jetty-env.xml</jettyEnvXml>
                         <overrideDescriptor>src/main/jetty/web-jetty.xml</overrideDescriptor>
                     </webAppConfig>
                 </configuration>

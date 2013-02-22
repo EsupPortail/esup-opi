@@ -63,8 +63,8 @@ public class Conversions {
 		    			r1g.getLibGrpTpd(),
 		    			r1g.getTemEnSveGrpTpd(),
 		    			new HashSet<GrpTypDipCorresp>(
-		    					wrap(r1g.getRen1GrpTypDipCorresps().getRen1GrpTypDipCorresp()).map(
-		    							toGrpTypDipCorresp).toStandardList()));
+                                wrap(r1g.getRen1GrpTypDipCorresps().getRen1GrpTypDipCorresp())
+                                        .map(toGrpTypDipCorresp).toStandardList()));
 		    }
 	};
 	
@@ -82,8 +82,9 @@ public class Conversions {
 		    	.withRen1GrpTypDipCorresps(
 		    			new ArrayOfRen1GrpTypDipCorresp()
 		    			.withRen1GrpTypDipCorresp(
-		    					wrap(g.getGrpTypDipCorresps()).map(
-		    							toR1GrpTypDipCorresp).toStandardList()));
+		    					wrap(g.getGrpTypDipCorresps())
+                                        .map(toR1GrpTypDipCorresp)
+                                        .toStandardList()));
 		    }
 	};
 
@@ -115,15 +116,14 @@ public class Conversions {
 					return new HashMap<Domaine2AnnuForm, List<Cles2AnnuForm>>() {
 						{
 							put(p(d).map(toDomaine2AnnuForm)._1(),
-								new ArrayList<Cles2AnnuForm>(
-									iterableStream(
-										d.getRen1Cles2AnnuFormDTO()
-												.getRen1Cles2AnnuFormDTO()).map(
-										toCles2AnnuForm(d.getCodDom()))
-										.toCollection()));
-						}};
-				}
-
+                                    new ArrayList<Cles2AnnuForm>(
+                                            iterableStream(
+                                                    d.getRen1Cles2AnnuFormDTO()
+                                                            .getRen1Cles2AnnuFormDTO())
+                                                    .map(toCles2AnnuForm(d.getCodDom()))
+                                                    .toCollection()));
+                        }};
+                }
 			};
 	
 	public static final F<Ren1Cles2AnnuFormDTO, Cles2AnnuForm> toCles2AnnuForm(final String codDom){
