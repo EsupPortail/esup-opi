@@ -107,8 +107,8 @@ public class HPilotageDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 	public int getResutRequete(final DetachedCriteria criteria) {
 		criteria.setProjection(Projections.rowCount());
 		
-		return (Integer) DataAccessUtils.uniqueResult(
-				getHibernateTemplate().findByCriteria(criteria));
+		return ((Number) DataAccessUtils.uniqueResult(
+				getHibernateTemplate().findByCriteria(criteria))).intValue();
 	}
 	/**
 	 * @param listCriteria
@@ -155,8 +155,8 @@ public class HPilotageDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 					criteria.add(Restrictions.in(indId, listId))
 						.setProjection(Projections.rowCount());
 					
-					nb = (Integer) DataAccessUtils.uniqueResult(
-						getHibernateTemplate().findByCriteria(criteria));
+					nb = ((Number) DataAccessUtils.uniqueResult(
+						getHibernateTemplate().findByCriteria(criteria))).intValue();
 				}
 				/*En plusieurs requ�tes*/
 			} else {
@@ -165,9 +165,9 @@ public class HPilotageDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 				//(s'ils sont inscris dans plusieurs �tapes).
 				if (listCriteria != null && !listCriteria.isEmpty()) {
 					for (DetachedCriteria c : listCriteria) {
-						nb += (Integer) DataAccessUtils.uniqueResult(
+						nb += ((Number) DataAccessUtils.uniqueResult(
 							getHibernateTemplate().findByCriteria(
-								c.setProjection(Projections.rowCount())));
+								c.setProjection(Projections.rowCount())))).intValue();
 					}
 				}
 			}
@@ -1002,7 +1002,7 @@ public class HPilotageDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 	 * @return List
 	 */
 	@SuppressWarnings("unchecked")
-	public List getAllCoordonne(final Class< ? > typeClass) {
+	public <T> List<T> getAllCoordonne(final Class<T> typeClass) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getAllCoordonne");
 			log.debug("entering class = " + typeClass.getName());

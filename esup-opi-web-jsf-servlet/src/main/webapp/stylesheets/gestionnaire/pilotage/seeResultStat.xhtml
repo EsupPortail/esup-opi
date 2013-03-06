@@ -24,14 +24,12 @@
                 </div>
                 <table class="displayInfo">
                     <tr class="trCampagne">
-                        <th class="thCampagne"/>
+                        <th class="thCampagne" />
                         <ui:repeat value="#{seeStatController.resultCampagne}" var="campagne">
-                            <th class="thCampagne">
-                                <h:outputFormat value="#{msgs['STAT.RESULT_CAMP_TAB']}" escape="false">
-                                    <f:param value="#{seeStatController.tailleAbscisse}"/>
-                                    <f:param value="#{campagne}"/>
-                                </h:outputFormat>
-                            </th>
+                            <h:outputFormat value="#{msgs['STAT.RESULT_CAMP_TAB']}" escape="false">
+                                <f:param value="#{seeStatController.tailleAbscisse}"/>
+                                <f:param value="#{campagne}"/>
+                            </h:outputFormat>
                         </ui:repeat>
                     </tr>
                     <tr class="trAbscisse">
@@ -43,13 +41,9 @@
                     </tr>
                     <ui:repeat value="#{seeStatController.resultKey}" var="key">
                         <tr>
-                            <th class="thOrdonne">
-                                <h:outputText value="#{key}"/>
-                            </th>
+                            <th class="thOrdonne"><h:outputText value="#{key}" /></th>
                             <ui:repeat value="#{seeStatController.result[key]}" var="result">
-                                <td>
-                                    <h:outputText value="#{result}"/>
-                                </td>
+                                <td><h:outputText value="#{result}" /></td>
                             </ui:repeat>
                         </tr>
                     </ui:repeat>

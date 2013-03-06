@@ -406,6 +406,5 @@ public interface PilotageDaoService extends Serializable {
 	 * @param typeClass
 	 * @return List
 	 */
-	@SuppressWarnings("unchecked")
-	List getAllCoordonne(Class< ? > typeClass);
+	<T> List<T> getAllCoordonne(Class<T> typeClass);
 }

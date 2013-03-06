@@ -202,8 +202,9 @@ public class SeeStatController extends AbstractContextAwareController {
     /**
      * @return list
      */
-    public Set<String> getResultKey() {
-        return getResult().keySet();
+    public List<String> getResultKey() {
+    	final Set<String> keys = getResult().keySet(); 
+        return new ArrayList<String>(keys);
     }
 	
 	
