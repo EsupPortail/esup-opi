@@ -501,7 +501,7 @@ autres : préconiser déclinaison à partir de la couleur secondaire.
 }
 
 .esup-opiR1 table th.thWrap {
-	white-space: wrap;
+	white-space: normal;
 }
 
 .esup-opiR1 .paginatorData > table[role="grid"] tr {
@@ -542,7 +542,9 @@ autres : préconiser déclinaison à partir de la couleur secondaire.
 }
 
 .esup-opiR1 .displayInfo td.buttonTD,
-.esup-opiR1 .paginatorData td.buttonTD {
+.esup-opiR1 .paginatorData td.buttonTD,
+.esup-opiR1 .ui-datatable th.buttonTD,
+.esup-opiR1 .ui-datatable td.buttonTD {
 	width: 18px!important;
 }
 
@@ -1053,3 +1055,80 @@ a.ui-button:hover {
 	border-color: #7096ab;
 	box-shadow: 0 0 8px #85b2cb, 0 1px #ffffff inset;
 }
+
+.ui-outputlabel.ui-state-error {
+	background: transparent;
+}
+
+/** TEST **/
+.form-section {
+    background-color: rgba(234,234,234,0.1);
+    background-color: #f9f9f9;
+    border: 1px solid #b7b6b6;
+    display: block;
+    padding: 10px;
+    font-weight:normal;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    
+}
+
+.form-section-line {
+    font: 12/24px;
+    display: block;
+    margin: 5px 0;
+    position: relative;
+}
+
+.form-section-line-label {
+    display: inline-block;
+    line-height: 24px;
+    font-weight: bold;
+    max-width: 50%;
+    min-width: 25%;
+    text-align: left;
+    vertical-align: top;
+    width: 300px;
+}
+
+.form-section-line-label + * {
+    display: inline-block;
+}
+
+.form-section-line-help {
+    top: 0;
+    right: 0px;
+    position: absolute;
+}
+
+.form-section-columns {
+    display: table;
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+
+.form-section-column {
+    display: table-cell;
+    margin: 0;
+    max-width: 20%;
+    vertical-align: top;
+    width: 20%;
+}
+
+.form-section-column-label {
+    color: #000000;
+    display: block;
+    font-weight: bold;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.form-section-column dd {
+    margin: 0;
+    text-align: center;
+    vertical-align: middle;
+}
+/** FIN TEST **/

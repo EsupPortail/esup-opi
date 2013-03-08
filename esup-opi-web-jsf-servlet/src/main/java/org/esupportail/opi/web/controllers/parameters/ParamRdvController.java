@@ -1,6 +1,19 @@
 package org.esupportail.opi.web.controllers.parameters;
 
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.faces.model.SelectItem;
+
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections.comparators.NullComparator;
 import org.esupportail.commons.services.logging.Logger;
@@ -9,7 +22,12 @@ import org.esupportail.opi.domain.BusinessUtil;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
-import org.esupportail.opi.domain.beans.references.rendezvous.*;
+import org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV;
+import org.esupportail.opi.domain.beans.references.rendezvous.Horaire;
+import org.esupportail.opi.domain.beans.references.rendezvous.IndividuDate;
+import org.esupportail.opi.domain.beans.references.rendezvous.JourHoraire;
+import org.esupportail.opi.domain.beans.references.rendezvous.TrancheFermee;
+import org.esupportail.opi.domain.beans.references.rendezvous.VetCalendar;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.pojo.CalendarRDVPojo;
@@ -19,9 +37,14 @@ import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.wssi.services.remote.CentreGestion;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+import org.primefaces.model.DualListModel;
 
-import javax.faces.model.SelectItem;
-import java.util.*;
+import fj.F;
+import fj.Ord;
+import fj.Ordering;
+
+import static fj.data.Option.fromNull;
+import static fj.data.List.iterableList;
 
 
 /**
@@ -120,22 +143,7 @@ public class ParamRdvController extends AbstractContextAwareController {
      * Liste des codes CGE.
      */
     private List<SelectItem> allCge;
-    /**
-     * allCommItems.
-     */
-    private List<SelectItem> allCommItems;
-    /**
-     * CommItems.
-     */
-    private List<SelectItem> commItems;
-    /**
-     * allVetItems.
-     */
-    private List<SelectItem> allVetItems;
-    /**
-     * vetItems.
-     */
-    private List<SelectItem> vetItems;
+    
     /**
      * liste des choix (Vet, Commission ou CGE).
      */
@@ -148,22 +156,16 @@ public class ParamRdvController extends AbstractContextAwareController {
      * Code CGE selectionne.
      */
     private String codeCge;
+    
     /**
-     * selectCommADI.
+     * Primefaces picklist model to choose {@link Commission} objects.
      */
-    private List<String> selectCommADI;
+    private DualListModel<Commission> commissions;
+
     /**
-     * selectCommDI.
+     * Primefaces picklist model to choose {@link VersionEtapeDTO} objects.
      */
-    private List<String> selectCommDI;
-    /**
-     * selectVetADI.
-     */
-    private List<String> selectVetADI;
-    /**
-     * selectVetDI.
-     */
-    private List<String> selectVetDI;
+    private DualListModel<VersionEtapeDTO> vets;
 	
 	
 	
@@ -177,15 +179,6 @@ public class ParamRdvController extends AbstractContextAwareController {
         listCalendarRdv = new ArrayList<CalendarRDVPojo>();
         allCge = new ArrayList<SelectItem>();
 
-        allCommItems = new ArrayList<SelectItem>();
-        selectCommADI = new ArrayList<String>();
-        commItems = new ArrayList<SelectItem>();
-        selectCommDI = new ArrayList<String>();
-
-        allVetItems = new ArrayList<SelectItem>();
-        selectVetADI = new ArrayList<String>();
-        vetItems = new ArrayList<SelectItem>();
-        selectVetDI = new ArrayList<String>();
     }
 
     /**
@@ -200,15 +193,6 @@ public class ParamRdvController extends AbstractContextAwareController {
         calendarRDV = null;
         codeCge = null;
 
-        allCommItems.clear();
-        selectCommADI.clear();
-        commItems.clear();
-        selectCommDI.clear();
-
-        allVetItems.clear();
-        selectVetADI.clear();
-        vetItems.clear();
-        selectVetDI.clear();
     }
 	
 	
@@ -231,11 +215,43 @@ public class ParamRdvController extends AbstractContextAwareController {
      * @return String
      */
     public String goAddParamRdv() {
-        reset();
+        reset();        
         getActionEnum().setWhatAction(ActionEnum.ADD_ACTION);
         return NavigationRulesConst.SEE_PARAM_RDV;
     }
 	
+	private final F<Commission, F<Commission, Ordering>> commissionOrdering = new F<Commission, F<Commission, Ordering>>() {
+		public F<Commission, Ordering> f(final Commission a1) {
+			return new F<Commission, Ordering>() {
+				public Ordering f(final Commission a2) {
+					final String lib1 = a1.getCode() + "(" + a1.getLibelle() + ")";
+					final String lib2 = a2.getCode() + "(" + a2.getLibelle() + ")";
+					final int x = lib1.compareToIgnoreCase(lib2);
+					return x < 0 ? Ordering.LT : x == 0 ? Ordering.EQ : Ordering.GT;
+				}
+			};
+		}
+	};
+	
+	private final F<VersionEtapeDTO, F<VersionEtapeDTO, Ordering>> vetOrdering = new F<VersionEtapeDTO, F<VersionEtapeDTO, Ordering>>() {
+		public F<VersionEtapeDTO, Ordering> f(final VersionEtapeDTO a1) {
+			return new F<VersionEtapeDTO, Ordering>() {
+				public Ordering f(final VersionEtapeDTO a2) {
+					final String lib1 = a1.getCodEtp() + "(" + a1.getLibWebVet() + ")";
+					final String lib2 = a2.getCodEtp() + "(" + a2.getLibWebVet() + ")";
+					final int x = lib1.compareToIgnoreCase(lib2);
+					return x < 0 ? Ordering.LT : x == 0 ? Ordering.EQ : Ordering.GT;
+				}
+			};
+		}
+	};
+	
+	private final F<Set<Commission>, fj.data.List<Commission>> toListCommission = new F<Set<Commission>, fj.data.List<Commission>>() {
+		@Override
+		public fj.data.List<Commission> f(Set<Commission> a) {
+			return iterableList(a);
+		}
+	};
 	
 	/*
 	 * ******************* ADD ET UPDATE ************************* */
@@ -243,9 +259,9 @@ public class ParamRdvController extends AbstractContextAwareController {
     /**
      * Add a Domain to the dataBase.
      */
-    public void add() {
+    public String add() {
         if (testErreurSave()) {
-            return;
+            return null;
         }
 
         if (log.isDebugEnabled()) {
@@ -260,36 +276,29 @@ public class ParamRdvController extends AbstractContextAwareController {
             getCalendarRDV().setCodeCge(codeCge);
 
         } else if (isChoixCommission()) {
-            for (SelectItem comm : commItems) {
-                getCalendarRDV().getCommissions().add(recupCommission((String) comm.getValue()));
+            for (Commission comm : commissions.getTarget()) {
+                getCalendarRDV().getCommissions().add(comm);
             }
 
         }
 
-        //getListCalendarRdv().add(getCalendarRDV());
         getParameterService().addCalendarRdv(getCalendarRDV());
 
         if (isChoixVet()) {
-            for (SelectItem vet : vetItems) {
-                VetCalendar vetCal = new VetCalendar((String) vet.getValue(),
-                        Integer.parseInt(vet.getDescription()),
-                        getCalendarRDV(),
-                        getCommissionVet((String) vet.getValue(), Integer.parseInt(vet.getDescription())));
-
+        	for(VersionEtapeDTO vet : vets.getTarget()) {
+				VetCalendar vetCal = new VetCalendar(vet.getCodEtp(),
+						vet.getCodVrsVet(), 
+						getCalendarRDV(), 
+						getCommissionVet(vet.getCodEtp(), vet.getCodVrsVet()));
                 getDomainService().addVetCalendar(vetCal);
                 getCalendarRDV().getVets().add(vetCal);
             }
         }
 
         initCalendar();
-
-        //Collections.sort(getListCalendarRdv(), new BeanComparator("titre", new NullComparator()));
-        reset();
-
         addInfoMessage(null, "INFO.ENTER.SUCCESS");
-        if (log.isDebugEnabled()) {
-            log.debug("leaving add");
-        }
+        
+        return goSeeAllParamRdv();
     }
 
     /**
@@ -310,73 +319,82 @@ public class ParamRdvController extends AbstractContextAwareController {
             getCalendarRDV().getVets().clear();
 
         } else if (isChoixCommission()) {
-            int index;
-            List<Commission> listComm = new ArrayList<Commission>();
-
-            for (Commission comm : getCalendarRDV().getCommissions()) {
-                index = getExistCommItems(comm.getCode());
-                if (index == -1) {
-                    //recuperation des commissions ne se trouvant pas dans la liste des items
-                    listComm.add(comm);
-                } else {
-                    //suppression des commissions se trouvant dans la liste des items
-                    commItems.remove(index);
-                }
-            }
-
-            for (Commission comm : listComm) {
-                //suppression des commissions
-                getCalendarRDV().getCommissions().remove(comm);
-            }
-
-            for (SelectItem comm : commItems) {
-                //ajout des commissions
-                getCalendarRDV().getCommissions().add(recupCommission((String) comm.getValue()));
-            }
-
+            final Set<Commission> currentCmis = new HashSet<Commission>(
+            		getCalendarRDV().getCommissions());
+            final List<Commission> newCmis = commissions.getTarget();
+            
+            for (Commission commission : currentCmis) {
+				if (!newCmis.contains(commission)) {
+					getCalendarRDV().getCommissions().remove(commission);
+				}
+			}
+            
+            for (Commission commission : newCmis) {
+				if (!currentCmis.contains(commission)) {
+					getCalendarRDV().getCommissions().add(commission);
+				}
+			}
             getCalendarRDV().setCodeCge(null);
             getCalendarRDV().getVets().clear();
 
         } else {
-            int index;
-            List<VetCalendar> listVets = new ArrayList<VetCalendar>();
+            final fj.data.List<VetCalendar> currentVets = 
+            		iterableList(getCalendarRDV().getVets());
+            final fj.data.List<VetCalendar> newVets = 
+            		iterableList(vets.getTarget())
+            		.map(new F<VersionEtapeDTO, VetCalendar>() {
+				@Override
+				public VetCalendar f(VersionEtapeDTO vet) {
+					return new VetCalendar(vet.getCodEtp(),
+							vet.getCodVrsVet(), 
+							getCalendarRDV(), 
+							getCommissionVet(vet.getCodEtp(), vet.getCodVrsVet()));
+				}
+			});
 
-            for (VetCalendar vet : getCalendarRDV().getVets()) {
-                index = getExistVetItems(vet.getCodEtp(), vet.getCodVrsVet());
-                if (index == -1) {
-                    //recuperation des vets ne se trouvant pas dans la liste des items
-                    listVets.add(vet);
-                } else {
-                    //suppression des vets se trouvant dans la liste des items
-                    vetItems.remove(index);
-                }
+            final Collection<VetCalendar> toAdd = newVets.filter(new F<VetCalendar, Boolean>() {
+				@Override
+				public Boolean f(VetCalendar vet) {
+					for (VetCalendar vetCalendar : currentVets) {
+						if (vetCalendar.getCodEtp().equals(vet.getCodEtp()) 
+								&& vetCalendar.getCodVrsVet().equals(vet.getCodVrsVet())) {
+							return false;
+						}
+					}
+					return true;
+				}
+			}).toCollection();
+            
+            final Collection<VetCalendar> toDelete = currentVets.filter(new F<VetCalendar, Boolean>() {
+				@Override
+				public Boolean f(VetCalendar vet) {
+					for (VetCalendar vetCalendar : newVets) {
+						if (vetCalendar.getCodEtp().equals(vet.getCodEtp()) 
+								&& vetCalendar.getCodVrsVet().equals(vet.getCodVrsVet())) {
+							return false;
+						}
+					}
+					return true;
+				}
+			}).toCollection();
+            
+            for (VetCalendar vetCalendar : toDelete) {
+                getCalendarRDV().getVets().remove(vetCalendar);
+                getDomainService().deleteVetCalendar(vetCalendar);
+			}
+
+            if (isChoixVet()) {
+	            for (VetCalendar vetCalendar : toAdd) {
+	                getDomainService().addVetCalendar(vetCalendar);
+	                getCalendarRDV().getVets().add(vetCalendar);
+				}
             }
-
-            for (VetCalendar vet : listVets) {
-                //suppression des vets
-                getDomainService().deleteVetCalendar(vet);
-                getCalendarRDV().getVets().remove(vet);
-            }
-
-
+            
             getCalendarRDV().setCodeCge(null);
             getCalendarRDV().getCommissions().clear();
         }
 
         getParameterService().updateCalendarRdv(getCalendarRDV());
-
-        if (isChoixVet()) {
-            for (SelectItem vet : vetItems) {
-                //ajout des vets
-                VetCalendar vetCal = new VetCalendar((String) vet.getValue(),
-                        Integer.parseInt(vet.getDescription()),
-                        getCalendarRDV(),
-                        getCommissionVet((String) vet.getValue(), Integer.parseInt(vet.getDescription())));
-
-                getDomainService().addVetCalendar(vetCal);
-                getCalendarRDV().getVets().add(vetCal);
-            }
-        }
 
         initCalendar();
         reset();
@@ -389,18 +407,19 @@ public class ParamRdvController extends AbstractContextAwareController {
     /**
      * Delete a fonction to the dataBase.
      */
-    public void delete() {
+    public String delete() {
         if (log.isDebugEnabled()) {
             log.debug("enterind delete with calendarRDV = " + getCalendarRDV().getTitre());
         }
 
         getListCalendarRdv().remove(getCalendarRDV());
         getParameterService().deleteCalendarRdv(getCalendarRDV());
-        reset();
-
+        
         if (log.isDebugEnabled()) {
             log.debug("leaving delete");
         }
+        
+        return goSeeAllParamRdv();
     }
 
     /**
@@ -487,12 +506,12 @@ public class ParamRdvController extends AbstractContextAwareController {
      * @return boolean
      */
     private boolean testErreurUpdate() {
-        if (isChoixCommission() && (commItems == null || commItems.isEmpty())) {
+        if (isChoixCommission() && (commissions.getTarget().isEmpty())) {
             addErrorMessage(FORMULAIRE_ADD_RDV, "ERROR.LIST.EMPTY", "Liste des commissions");
             return true;
         }
 
-        if (isChoixVet() && (vetItems == null || vetItems.isEmpty())) {
+        if (isChoixVet() && (vets.getTarget().isEmpty())) {
             addErrorMessage(FORMULAIRE_ADD_RDV, "ERROR.LIST.EMPTY", "Liste des vets");
             return true;
         }
@@ -638,147 +657,9 @@ public class ParamRdvController extends AbstractContextAwareController {
     public boolean isChoixVet() {
         return choix.equals(VET);
     }
-
-    /**
-     * @param codeComm
-     * @return int
-     */
-    private int getExistCommItems(final String codeComm) {
-        for (int i = 0; i < commItems.size(); i++) {
-            if (codeComm.equals(commItems.get(i).getValue())) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    /**
-     * @param codEtp
-     * @param codVrsVet
-     * @return int
-     */
-    private int getExistVetItems(final String codEtp, final int codVrsVet) {
-        for (int i = 0; i < vetItems.size(); i++) {
-            if (codEtp.equals(vetItems.get(i).getValue())
-                    && codVrsVet == Integer.parseInt(vetItems.get(i).getDescription())) {
-                return i;
-            }
-        }
-        return -1;
-    }
-	
-	
-	/*
-	 ******************* METHODS COMMISSIONS ********************** */
-
-    /**
-     * Ajoute la selection dans DipsItems.
-     */
-    @SuppressWarnings("unchecked")
-    public void ajouCommItems() {
-        int index = -1;
-        for (String c : selectCommADI) {
-            for (int i = 0; i < allCommItems.size() && index == -1; i++) {
-                if (allCommItems.get(i).getValue().equals(c)) {
-                    index = i;
-                }
-            }
-            if (index >= 0) {
-                commItems.add(allCommItems.get(index));
-                allCommItems.remove(index);
-            }
-            index = -1;
-        }
-        Collections.sort(commItems, new BeanComparator(VALUE, new NullComparator()));
-        Collections.sort(allCommItems, new BeanComparator(VALUE, new NullComparator()));
-        selectCommADI.clear();
-    }
-
-    /**
-     * Supprime la selection dans DipsItems.
-     */
-    @SuppressWarnings("unchecked")
-    public void suppCommItems() {
-        int index = -1;
-        for (String c : selectCommDI) {
-            for (int i = 0; i < commItems.size() && index == -1; i++) {
-                if (commItems.get(i).getValue().equals(c)) {
-                    index = i;
-                }
-            }
-            if (index >= 0) {
-                allCommItems.add(commItems.get(index));
-                commItems.remove(index);
-            }
-            index = -1;
-        }
-        Collections.sort(commItems, new BeanComparator(VALUE, new NullComparator()));
-        Collections.sort(allCommItems, new BeanComparator(VALUE, new NullComparator()));
-        selectCommDI.clear();
-    }
-
-    /**
-     * @param codeComm
-     * @return Commission
-     */
-    private Commission recupCommission(final String codeComm) {
-        for (Commission comm : getParameterService().getCommissions(null)) {
-            if (comm.getCode().equals(codeComm)) {
-                return comm;
-            }
-        }
-        return null;
-    }
-	
 	
 	/*
 	 ******************* METHODS VETS ********************** */
-
-    /**
-     * Ajoute la selection dans DipsItems.
-     */
-    @SuppressWarnings("unchecked")
-    public void ajouVetItems() {
-        int index = -1;
-        for (String c : selectVetADI) {
-            for (int i = 0; i < allVetItems.size() && index == -1; i++) {
-                if (allVetItems.get(i).getValue().equals(c)) {
-                    index = i;
-                }
-            }
-            if (index >= 0) {
-                vetItems.add(allVetItems.get(index));
-                allVetItems.remove(index);
-            }
-            index = -1;
-        }
-        Collections.sort(vetItems, new BeanComparator(VALUE, new NullComparator()));
-        Collections.sort(allVetItems, new BeanComparator(VALUE, new NullComparator()));
-        selectVetADI.clear();
-    }
-
-    /**
-     * Supprime la selection dans DipsItems.
-     */
-    @SuppressWarnings("unchecked")
-    public void suppVetItems() {
-        int index = -1;
-        for (String c : selectVetDI) {
-            for (int i = 0; i < vetItems.size() && index == -1; i++) {
-                if (vetItems.get(i).getValue().equals(c)) {
-                    index = i;
-                }
-            }
-            if (index >= 0) {
-                allVetItems.add(vetItems.get(index));
-                vetItems.remove(index);
-            }
-            index = -1;
-        }
-        Collections.sort(vetItems, new BeanComparator(VALUE, new NullComparator()));
-        Collections.sort(allVetItems, new BeanComparator(VALUE, new NullComparator()));
-        selectVetDI.clear();
-    }
 
     /**
      * @param codEtp
@@ -788,7 +669,6 @@ public class ParamRdvController extends AbstractContextAwareController {
     public Commission getCommissionVet(final String codEtp, final int codVrsVet) {
         for (Commission comm : getParameterService().getCommissions(null)) {
             for (TraitementCmi traitementCmi : comm.getTraitementCmi()) {
-                //TODO:toutes les vets (codEtp) ne retourne pas une commissions.
                 if (traitementCmi.getVersionEtpOpi().getCodEtp().equals(codEtp)
                         && traitementCmi.getVersionEtpOpi().getCodVrsVet() == codVrsVet) {
                     return comm;
@@ -940,187 +820,42 @@ public class ParamRdvController extends AbstractContextAwareController {
     }
 
     /**
-     * @return la liste de toute les commissions
+     * @return allVets
      */
-    @SuppressWarnings("unchecked")
-    public List<SelectItem> getAllCommItems() {
-        if (allCommItems.isEmpty()) {
-            Set<Commission> allCommissions = getParameterService().getCommissions(null);
-            if (allCommissions != null) {
-                for (Commission comm : allCommissions) {
-                    if (!testExistCommItems(comm.getCode())) {
-                        allCommItems.add(new SelectItem(comm.getCode(),
-                                comm.getCode() + " (" + comm.getLibelle() + ")"));
-                    }
-                }
-            }
-            Collections.sort(allCommItems, new BeanComparator(VALUE, new NullComparator()));
+    public List<VersionEtapeDTO> getAllVets() {    	
+        Set<Campagne> camps = getParameterService().getCampagnes(true,
+                String.valueOf(getCurrentGest().getProfile().getCodeRI()));
+        Set<VersionEtapeDTO> allVets = new HashSet<VersionEtapeDTO>();
+        for (Campagne camp : camps) {
+            allVets.addAll(getDomainApoService().getVersionEtapes(
+                    null, null, getCurrentGest().getCodeCge(), camp.getCodAnu()));
         }
-        return allCommItems;
-    }
 
-    /**
-     * @param allCommItems
-     */
-    public void setAllCommItems(final List<SelectItem> allCommItems) {
-        this.allCommItems = allCommItems;
-    }
+        fj.data.List<VersionEtapeDTO> result = fj.data.List.nil();
+        if (!allVets.isEmpty()) {
+            Set<Commission> cmi = getDomainApoService().getListCommissionsByRight(
+                    getCurrentGest(),
+                    true);
 
-    /**
-     * @return la liste de commissions selectionne
-     */
-    @SuppressWarnings("unchecked")
-    public List<SelectItem> getCommItems() {
-        if (commItems.isEmpty()) {
-            Set<Commission> listCommissions = getCalendarRDV().getCommissions();
-            if (listCommissions != null) {
-                for (Commission comm : listCommissions) {
-                    commItems.add(new SelectItem(comm.getCode(),
-                            comm.getCode() + " (" + comm.getLibelle() + ")"));
+            Set<VersionEtapeDTO> allVets2 = new HashSet<VersionEtapeDTO>();
+
+            for (VersionEtapeDTO versionEtapeDTO : allVets) {
+                if (BusinessUtil.getCmiForVetDTO(cmi, versionEtapeDTO) != null) {
+                    allVets2.add(versionEtapeDTO);
                 }
             }
-            Collections.sort(commItems, new BeanComparator(VALUE, new NullComparator()));
+            allVets = allVets2;
+            
+            for (VersionEtapeDTO vet : allVets) {
+                if (!testExistVetItems(vet.getCodEtp(), vet.getCodVrsVet())) {
+                    result = result.snoc(vet);
+                }
+            }
         }
-        return commItems;
+        return new ArrayList<VersionEtapeDTO>(
+        		result.sort(Ord.ord(vetOrdering)).toCollection());
     }
-
-    /**
-     * @param commItems
-     */
-    public void setCommItems(final List<SelectItem> commItems) {
-        this.commItems = commItems;
-    }
-
-    /**
-     * @return allVetItems
-     */
-    @SuppressWarnings("unchecked")
-    public List<SelectItem> getAllVetItems() {
-        if (allVetItems.isEmpty()) {
-            Set<Campagne> camps = getParameterService().getCampagnes(true,
-                    String.valueOf(getCurrentGest().getProfile().getCodeRI()));
-            Set<VersionEtapeDTO> allVets = new HashSet<VersionEtapeDTO>();
-            for (Campagne camp : camps) {
-                allVets.addAll(getDomainApoService().getVersionEtapes(
-                        null, null, getCurrentGest().getCodeCge(), camp.getCodAnu()));
-            }
-
-            if (!allVets.isEmpty()) {
-                Set<Commission> cmi = getDomainApoService().getListCommissionsByRight(
-                        getCurrentGest(),
-                        true);
-
-                Set<VersionEtapeDTO> allVets2 = new HashSet<VersionEtapeDTO>();
-
-                for (VersionEtapeDTO versionEtapeDTO : allVets) {
-                    if (BusinessUtil.getCmiForVetDTO(cmi, versionEtapeDTO) != null) {
-                        allVets2.add(versionEtapeDTO);
-                    }
-                }
-                allVets = allVets2;
-                for (VersionEtapeDTO vet : allVets) {
-                    if (!testExistVetItems(vet.getCodEtp(), vet.getCodVrsVet())) {
-                        allVetItems.add(new SelectItem(vet.getCodEtp(),
-                                vet.getCodEtp() + "(" + vet.getLibWebVet() + ")",
-                                String.valueOf(vet.getCodVrsVet())));
-                    }
-                }
-            }
-            Collections.sort(allVetItems, new BeanComparator(VALUE, new NullComparator()));
-        }
-        return allVetItems;
-    }
-
-    /**
-     * @param allVetItems
-     */
-    public void setAllVetItems(final List<SelectItem> allVetItems) {
-        this.allVetItems = allVetItems;
-    }
-
-    /**
-     * @return vetItems
-     */
-    @SuppressWarnings("unchecked")
-    public List<SelectItem> getVetItems() {
-        if (vetItems.isEmpty()) {
-            Set<VetCalendar> listVets = getCalendarRDV().getVets();
-            if (listVets != null) {
-                for (VetCalendar vet : listVets) {
-                    String libWebVet = getDomainApoService().getVersionEtape(vet.getCodEtp(), vet.getCodVrsVet()).getLibWebVet();
-                    vetItems.add(new SelectItem(vet.getCodEtp(),
-                            vet.getCodEtp() + "(" + libWebVet + ")",
-                            String.valueOf(vet.getCodVrsVet())));
-                }
-            }
-            Collections.sort(vetItems, new BeanComparator(VALUE, new NullComparator()));
-        }
-        return vetItems;
-    }
-
-    /**
-     * @param vetItems
-     */
-    public void setVetItems(final List<SelectItem> vetItems) {
-        this.vetItems = vetItems;
-    }
-
-    /**
-     * @return selectCommADI
-     */
-    public List<String> getSelectCommADI() {
-        return selectCommADI;
-    }
-
-    /**
-     * @param selectCommADI
-     */
-    public void setSelectCommADI(final List<String> selectCommADI) {
-        this.selectCommADI = selectCommADI;
-    }
-
-    /**
-     * @return selectCommDI
-     */
-    public List<String> getSelectCommDI() {
-        return selectCommDI;
-    }
-
-    /**
-     * @param selectCommDI
-     */
-    public void setSelectCommDI(final List<String> selectCommDI) {
-        this.selectCommDI = selectCommDI;
-    }
-
-    /**
-     * @return selectVetADI
-     */
-    public List<String> getSelectVetADI() {
-        return selectVetADI;
-    }
-
-    /**
-     * @param selectVetADI
-     */
-    public void setSelectVetADI(final List<String> selectVetADI) {
-        this.selectVetADI = selectVetADI;
-    }
-
-    /**
-     * @return selectVetDI
-     */
-    public List<String> getSelectVetDI() {
-        return selectVetDI;
-    }
-
-    /**
-     * @param selectVetDI
-     */
-    public void setSelectVetDI(final List<String> selectVetDI) {
-        this.selectVetDI = selectVetDI;
-    }
-
+    
     /**
      * @return allChoix
      */
@@ -1207,4 +942,53 @@ public class ParamRdvController extends AbstractContextAwareController {
     public static int getDefaultMinuteFinPM() {
         return DEFAULT_MINUTE_FIN_PM;
     }
+
+	/**
+	 * @return the commissions
+	 */
+	public DualListModel<Commission> getCommissions() {
+		final List<Commission> sourceCommissions = new ArrayList<Commission>(
+				fromNull(getParameterService().getCommissions(null))
+						.toList().bind(toListCommission)
+						.sort(Ord.ord(commissionOrdering)).toCollection());
+        commissions = new DualListModel<Commission>();
+        commissions.setTarget(new ArrayList<Commission>(getCalendarRDV().getCommissions()));
+        commissions.setSource(new ArrayList<Commission>(sourceCommissions));
+        commissions.getSource().removeAll(commissions.getTarget());
+		return commissions;
+	}
+
+	/**
+	 * @param commissions the commissions to set
+	 */
+	public void setCommissions(final DualListModel<Commission> commissions) {
+		this.commissions = commissions;
+	}
+
+	/**
+	 * @return the vets
+	 */
+	public DualListModel<VersionEtapeDTO> getVets() {
+        vets = new DualListModel<VersionEtapeDTO>();
+        if (!getCalendarRDV().getVets().isEmpty()) {
+        	List<VersionEtapeDTO> listVetDto = new ArrayList<VersionEtapeDTO>();
+        	for (VetCalendar vetCalendar : getCalendarRDV().getVets()) {
+				listVetDto.add(getDomainApoService()
+						.getVersionEtape(vetCalendar.getCodEtp(),
+								vetCalendar.getCodVrsVet()));
+			}
+	        vets.setTarget(listVetDto);
+        }
+        vets.setSource(getAllVets());
+        vets.getSource().removeAll(vets.getTarget());
+		return vets;
+	}
+
+	/**
+	 * @param vets the vets to set
+	 */
+	public void setVets(final DualListModel<VersionEtapeDTO> vets) {
+		this.vets = vets;
+	}
+    
 }

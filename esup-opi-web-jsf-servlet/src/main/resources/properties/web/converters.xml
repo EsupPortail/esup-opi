@@ -69,4 +69,14 @@
         </description>
         <property name="parameterService" ref="parameterService"/>
     </bean>
+
+    <bean id="versionEtapeDTOConverter"
+          class="org.esupportail.opi.web.converter.VersionEtapeDTOConverter">
+        <description>
+            A converter for VersionEtapeDTO.
+        </description>
+        <property name="domainApoService" ref="domainApoService"/>
+    </bean>
+    
+    
 </beans>

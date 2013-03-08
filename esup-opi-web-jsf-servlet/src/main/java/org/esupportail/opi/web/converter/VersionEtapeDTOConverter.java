@@ -3,30 +3,35 @@
  */
 package org.esupportail.opi.web.converter;
 
-import org.esupportail.opi.domain.ParameterService;
-import org.esupportail.opi.domain.beans.references.commission.Commission;
-import org.springframework.util.StringUtils;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
+import org.esupportail.opi.domain.DomainApoService;
+import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+import org.springframework.util.StringUtils;
+
 /**
  *
  *
  */
-public class CommissionConverter implements Converter {
+public class VersionEtapeDTOConverter implements Converter {
 
     /**
-     * The {@link ParameterService}.
+     * The {@link DomainApoService}.
      */
-    private ParameterService parameterService;
+    private DomainApoService domainApoService;
+    
+    /**
+     * A separator.
+     */
+    private final String separator = "-";
 
     /**
      * Constructor.
      */
-    public CommissionConverter() {
+    public VersionEtapeDTOConverter() {
         super();
     }
 
@@ -42,12 +47,11 @@ public class CommissionConverter implements Converter {
             throws ConverterException {
         if (!StringUtils.hasText(value)) {
             return null;
-        }	
-        try {
-        	return parameterService.getCommission(null, value);
-        } catch (Throwable e) {
-			return null;
-		}
+        }
+        String[] tab = value.split(separator);
+        if(tab.length < 2) return null;
+        
+        return domainApoService.getVersionEtape(tab[0], Integer.valueOf(tab[1]));
     }
 
     /**
@@ -65,20 +69,19 @@ public class CommissionConverter implements Converter {
                 return "";
             }
         }
-        if (!(value instanceof Commission)) {
+        if (!(value instanceof VersionEtapeDTO)) {
             throw new UnsupportedOperationException(
-                    "object " + value + " is not a Commission.");
+                    "object " + value + " is not a VersionEtapeDTO.");
         }
-        Commission comm = (Commission) value;
-        return String.valueOf(comm.getCode());
+        VersionEtapeDTO vet = (VersionEtapeDTO) value;
+        return vet.getCodEtp() + separator + vet.getCodVrsVet();
     }
 
-
-    /**
-     * @param parameterService the parameterService to set
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
+	/**
+	 * @param domainApoService the domainApoService to set
+	 */
+	public void setDomainApoService(final DomainApoService domainApoService) {
+		this.domainApoService = domainApoService;
+	}
 
 }
