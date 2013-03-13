@@ -31,7 +31,6 @@
                         <f:selectItems var="commission"
                                        value="#{commissionController.commissionsItemsByRightParametrable}"
                                        itemLabel="#{commission.libelle}" itemValue="#{commission.id}"/>
-                        <p:ajax partialSubmit="true" listener="#{individuController.doRenderTable}" update="#{toUpdate}" />
                     </p:selectOneMenu>
                 </h:panelGroup>
                 <h:panelGroup>

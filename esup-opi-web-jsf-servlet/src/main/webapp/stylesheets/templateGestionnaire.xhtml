@@ -5,6 +5,7 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:pe="http://primefaces.org/ui/extensions"
                 template="template_basic.xhtml">
     <ui:define name="header">
@@ -14,7 +15,7 @@
         <h:form id="navHeaderManager" styleClass="opiR1_form">
             <pe:ajaxErrorHandler/>
             <!-- Initialisation du pojo de recherche d'individu -->
-            <f:event type="postAddToView" listener="#{individuController.initIndRechPojo}" />
+            <f:event type="postValidate" listener="#{individuController.initIndRechPojo}" />
             <ui:include src="/stylesheets/gestionnaire/_navigation/_navGestionnaire.xhtml"/>
         </h:form>
     </ui:define>

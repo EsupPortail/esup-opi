@@ -225,7 +225,7 @@ public class IndividuController extends AbstractAccessController {
                             sessionCont.getManager() : (Gestionnaire) user;
 
                     // les filtres :
-                    IndRechPojo indRechPojo = individuPaginator.getIndRechPojo();
+                    final IndRechPojo indRechPojo = individuPaginator.getIndRechPojo();
                     // 1. les numdossier, nom, prenom
                     filters.put("numDossierOpi", fromString(indRechPojo.getNumDossierOpiRecherche()).orSome(""));
                     filters.put("nomPatronymique", fromString(indRechPojo.getNomRecherche()).orSome(""));
