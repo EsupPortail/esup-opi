@@ -44,11 +44,6 @@ import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
  */
 public class PJController extends AbstractContextAwareController {
 
-
-	/*
-     ******************* PROPERTIES ******************* */
-
-
     /**
      * serialization.
      */
@@ -120,17 +115,10 @@ public class PJController extends AbstractContextAwareController {
 
     private boolean renderTable = false;
 
-
-	/*
-	 ******************* INIT ************************* */
-
     /**
      * Constructors.
      */
-    public PJController() {
-        super();
-
-    }
+    public PJController() {}
 
     /**
      * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
@@ -218,12 +206,6 @@ public class PJController extends AbstractContextAwareController {
     @SuppressWarnings({"serial", "synthetic-access"})
     public void searchStudents() {
         reset();
-        this.paginatorPM.filterInMannagedCmi(
-                new TreeSet<Commission>(new ComparatorString(NormeSI.class)) {{
-                    addAll(commissionController.getCommissionsItemsByRight());
-                }},
-                transfert.getCode(), false);
-        paginatorPM.forceReload();
     }
 
     /**

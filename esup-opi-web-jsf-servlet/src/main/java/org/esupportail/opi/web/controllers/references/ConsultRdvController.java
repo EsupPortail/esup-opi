@@ -888,6 +888,6 @@ public class ConsultRdvController extends AbstractContextAwareController {
      * Search method to list the students with the filter.
      */
     public void searchStudents() {
-        individuPaginator.filtreRechercheEtudiants();
+        //individuPaginator.filtreRechercheEtudiants();
     }
 }
