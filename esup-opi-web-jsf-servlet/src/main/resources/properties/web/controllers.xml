@@ -331,6 +331,7 @@
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the consultRdv.</description>
         <property name="individuPaginator" ref="paginatorIndividuPojo"/>
+        <property name="individuController" ref="individuController" />
     </bean>
 
     <bean id="etapeController"

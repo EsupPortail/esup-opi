@@ -25,7 +25,7 @@
    <key column="id_cmi"/>
    <one-to-many class="Member"/>
   </set>
-  <set cascade="all" inverse="true" lazy="true" name="traitementCmi" sort="unsorted">
+  <set cascade="all" inverse="true" lazy="false" name="traitementCmi" sort="unsorted">
    <key column="id_cmi"/>
    <one-to-many class="TraitementCmi"/>
   </set>

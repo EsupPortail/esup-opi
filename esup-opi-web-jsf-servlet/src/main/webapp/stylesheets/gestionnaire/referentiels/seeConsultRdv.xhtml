@@ -5,15 +5,13 @@
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
         <h1>
-                <span class="section-header">
-                    <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
-                </span>
+            <span class="section-header">
+                <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
+            </span>
         </h1>
-
         <h:form id="seeRdvForm" styleClass="div_subSection">
-
             <h:panelGroup
-                    rendered="#{consultRdvController.actionEnum.emptyAction == consultRdvController.actionEnum.whatAction}">
+                rendered="#{consultRdvController.actionEnum.emptyAction == consultRdvController.actionEnum.whatAction}">
                 <h:panelGroup class="twoGroupsButton"
                               rendered="#{paramRdvController.actionEnum.whatAction == paramRdvController.actionEnum.updateAction}">
                     <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
@@ -24,23 +22,18 @@
                 <p:dataTable var="rdvSelect"
                              value="#{paramRdvController.listCalendarRdv}"
                              styleClass="paginatorData" alternateColors="true">
-
                     <p:column rendered="#{rdvSelect.calendarRDV.participeOK}">
                         <f:facet name="header">
                             <h:outputText value="#{msgs['FIELD_LABEL.LIB_RDV']}"/>
                         </f:facet>
                         <h:outputText value="#{rdvSelect.calendarRDV.titre}"/>
                     </p:column>
-
-
                     <p:column rendered="#{rdvSelect.calendarRDV.participeOK}">
                         <f:facet name="header">
                             <h:outputText value="#{msgs['FIELD_LABEL.LIST_CGE_COMMISSION_VET']}"/>
                         </f:facet>
-
                         <h:outputText value="#{rdvSelect.calendarRDV.codeCge}"
                                       rendered="#{rdvSelect.calendarRDV.codeCge != null}"/>
-
                         <p:dataTable var="commissionPojo" value="#{rdvSelect.listCommissionPojo}"
                                      rendered="#{not empty rdvSelect.listCommissionPojo}">
                             <p:column>
@@ -56,7 +49,6 @@
                                 <h:outputText value="#{commissionPojo.contactCommission.corresponding}"/>
                             </p:column>
                         </p:dataTable>
-
                         <p:dataTable var="vetCalendarPojo" value="#{rdvSelect.listVetCalendarPojo}"
                                      rendered="#{not empty rdvSelect.listVetCalendarPojo}">
                             <p:column>
@@ -73,40 +65,32 @@
                             </p:column>
                         </p:dataTable>
                     </p:column>
-
                     <p:column rendered="#{rdvSelect.calendarRDV.participeOK}">
                         <f:facet name="header">
                             <h:outputText value="#{msgs['FIELD_LABEL.DATE_DEBUT']}"/>
                         </f:facet>
-
                         <h:outputText value="#{rdvSelect.calendarRDV.dateDebutInsc}"
                                       rendered="#{rdvSelect.calendarRDV.participeOK}">
                             <f:convertDateTime timeZone="Europe/Paris" locale="fr_FR"
                                                type="date" dateStyle="short" pattern="dd/MM/yy"/>
                         </h:outputText>
                     </p:column>
-
-
                     <p:column rendered="#{rdvSelect.calendarRDV.participeOK}">
                         <f:facet name="header">
                             <h:outputText value="#{msgs['FIELD_LABEL.DATE_FIN']}"/>
                         </f:facet>
-
                         <h:outputText value="#{rdvSelect.calendarRDV.dateFinInsc}"
                                       rendered="#{rdvSelect.calendarRDV.participeOK}">
                             <f:convertDateTime timeZone="Europe/Paris" locale="fr_FR"
                                                type="date" dateStyle="short" pattern="dd/MM/yy"/>
                         </h:outputText>
                     </p:column>
-
                     <p:column styleClass="buttonTD">
                         <p:commandButton icon="ui-icon-pencil"
                                          immediate="true" ajax="false"
                                          title="#{msgs['BUTTON.UPDATE']}"
-                                         action="#{consultRdvController.goSeeAllConsultRdv}"
+                                         action="#{consultRdvController.goConsultRdv}"
                                          rendered="#{managedAccess.readAuthorized}">
-                            <f:setPropertyActionListener value="#{consultRdvController.actionEnum.readAction}"
-                                                         target="#{consultRdvController.actionEnum.whatAction}"/>
                             <f:setPropertyActionListener value="#{rdvSelect.calendarRDV}"
                                                          target="#{consultRdvController.calendarRdv}"/>
                         </p:commandButton>
@@ -120,11 +104,6 @@
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>
-            </h:panelGroup>
-            <h:panelGroup id="addParamRdv"
-                          rendered="#{consultRdvController.actionEnum.whatAction == consultRdvController.actionEnum.readAction
-    						|| consultRdvController.actionEnum.whatAction == consultRdvController.actionEnum.updateAction}">
-                <ui:include src="_rdv/_consultRdv.xhtml"/>
             </h:panelGroup>
         </h:form>
     </ui:define>

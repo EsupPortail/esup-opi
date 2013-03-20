@@ -68,10 +68,7 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
     private final PathBuilder<T> tPath;
 
     private Paginator() {
-        ttype = null;
-        dataProvider = null;
-        ent = null;
-        tPath = null;
+        throw new Error("Unauthorized");
     }
 	    
     /**
@@ -109,7 +106,7 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
         final ParameterizedType ptype = (ParameterizedType) type;
         return ptype.getActualTypeArguments()[typeIndex];
     }
-    
+
     /**
      * Une {@link F}onction qui, étant donné le nom d'un attribut de la classe de
      * type {@link T}, retourne son type.
@@ -121,7 +118,7 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
 	                        new Object().getClass(),
 	                        new F<Field, Class>() {
 	                            public Class f(Field field) {
-	                                return field.getClass();
+	                                return field.getType();
 	                            }});
 	    }};
 	
@@ -143,9 +140,9 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
 	private final F<Map<String, String>, List<P3<String, String, Class>>> typedFilters =
 	    new F<Map<String, String>, List<P3<String, String, Class>>>() {
 	        public List<P3<String, String, Class>> f(Map<String, String> filters) {
-	            return iterableList(filters.keySet()).zip(
-	                iterableList(filters.values())).map(
-	                    new F<P2<String, String>, P3<String, String, Class>>() {
+	            return iterableList(filters.keySet())
+                        .zip(iterableList(filters.values()))
+                        .map(new F<P2<String, String>, P3<String, String, Class>>() {
 	                        public P3<String, String, Class> f(P2<String, String> kv) {
 	                            return p(kv._1(), kv._2(), getType.f(kv._1()));}});
 	        }};
@@ -203,9 +200,11 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
 	private final F3<Q, String, SortOrder, Q> orderBy =
 	    new F3<Q, String, SortOrder, Q>() {
             public Q f(Q q, String sortField, SortOrder sortOrder) {
-                return (Q) q.orderBy(new OrderSpecifier(
-                    sorder2Order.f(sortOrder),
-                    tPath.get(sortField, getType.f(sortField))));
+                return (!sortField.isEmpty()) ?
+                        (Q) q.orderBy(new OrderSpecifier(
+                                sorder2Order.f(sortOrder),
+                                tPath.get(sortField, getType.f(sortField)))) :
+                        q;
             }};
 	
     // ################ querying #####################
@@ -265,11 +264,9 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
 	public final P2<Long, java.util.List<T>> sliceOf(Long offset, Long limit, String sortField,
 	    SortOrder sortOrder, Map<String,String> filters, Option<F<Q, Q>> optCustomfilter) {
 	    final F<Q, Q> customFilter = optCustomfilter.orSome(Function.<Q>identity());
-
-        long c = query(full.constant(), filters, customFilter).f(unit()).f(sortField).f(sortOrder).count();
-        java.util.List<T> l = query(tuple(slice), filters, customFilter).f(p(offset, limit)).f(sortField).f(sortOrder).list(ent);
-
-        return p(c, l);
+        return p(
+                query(full.constant(), filters, customFilter).f(unit()).f(sortField).f(sortOrder).count(),
+                query(tuple(slice), filters, customFilter).f(p(offset, limit)).f(sortField).f(sortOrder).list(ent));
 	}
 
 	/**

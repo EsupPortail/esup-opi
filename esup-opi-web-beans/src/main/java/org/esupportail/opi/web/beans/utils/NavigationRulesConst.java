@@ -423,7 +423,12 @@ public class NavigationRulesConst {
 	 * Go to /stylesheets/gestionnaire/referentiels/seeNbVoeuByCGE.xhtml.
 	 */
 	public static final String SEE_NB_VOEUX_CGE = "go_see_nb_voeux_cge";
-	
+
+    /**
+     * Go to /stylesheets/gestionnaire/referentiels/rdv/consultRdv.xhtml.
+     */
+    public static final String CONSULT_RDV = "go_consult_rdv";
+
 	/**
 	 * Go to /stylesheets/gestionnaire/referentiels/seeConsultRdv.xhtml.
 	 */

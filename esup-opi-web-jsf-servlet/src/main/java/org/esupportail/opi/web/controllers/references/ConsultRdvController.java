@@ -25,9 +25,12 @@ import org.esupportail.opi.utils.Conversions;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.components.ExtendedEntry;
 import org.esupportail.opi.web.beans.paginator.IndividuPaginator;
+import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.opi.web.beans.utils.ExportUtils;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
+import org.esupportail.opi.web.controllers.user.IndividuController;
+import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
 import javax.faces.event.ActionEvent;
@@ -35,6 +38,8 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
 
 
 /**
@@ -59,7 +64,6 @@ public class ConsultRdvController extends AbstractContextAwareController {
     /**     */
     private static final List<String> HEADER_CVS = new ArrayList<String>() {
         private static final long serialVersionUID = 4451087010675988608L;
-
         {
             add("Commission_CGE_VersionEtape");
             add("Date_RDV");
@@ -74,81 +78,45 @@ public class ConsultRdvController extends AbstractContextAwareController {
             add("Autres_voeux");
         }
     };
-    /**     */
+
     private int startHour = DOUZE;
-    /**     */
+
     private int endHour = DOUZE;
 
-	/*
-	 * ****************** PROPERTIES *******************
-	 */
-    /**
-     * A logger.
-     */
     private final Logger log = new LoggerImpl(getClass());
 
-    /**
-     * The actionEnum.
-     */
     private ActionEnum actionEnum;
 
-    /**
-     * see {@link IndividuPaginator}.
-     */
+    IndividuController individuController;
+
     private IndividuPaginator individuPaginator;
 
-    /**  */
+    private LazyDataModel<IndividuPojo> indPojoLDM;
+
     private CalendarRDV calendarRdv;
 
-    /**  */
     private Individu candidat;
 
-    /**
-     * Calendar.
-     */
     private Date dateSelect;
 
-    /**
-     * Schedule Model.
-     */
     private ScheduleModel weekScheduleModel;
 
-    /**
-     * Flag Moved entry.
-     */
     private boolean movedEntryMode;
 
-    /**
-     * Id of Entry Selected.
-     */
     private String idEntrySelected;
 
-    /**  */
     private UISchedule uiSchedule;
 
-    /**  */
     private boolean inSearch;
 
-	/*
-	 * ****************** INIT *************************
-	 */
-
-    /**
-     * Controller.
-     */
     public ConsultRdvController() {
-        //Controller.
         movedEntryMode = false;
         dateSelect = new Date();
     }
 
-    /**
-     * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
-     */
     @Override
     public void reset() {
         super.reset();
-        log.debug("Reset ConsultRdvController");
         movedEntryMode = false;
         weekScheduleModel = null;
         dateSelect = new Date();
@@ -160,46 +128,27 @@ public class ConsultRdvController extends AbstractContextAwareController {
         }
     }
 
-    /**
-     * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#afterPropertiesSetInternal()
-     */
     @Override
     public void afterPropertiesSetInternal() {
-        //
+        indPojoLDM = individuController.getIndLDM().map(
+                individuToPojo(getDomainApoService(), getParameterService(), getI18nService()));
     }
 
-	/*
-	 * ****************** CALLBACK **********************
-	 */
-
-    /**
-     * Callback to calendar list.
-     *
-     * @return String
-     */
     public String goSeeAllConsultRdv() {
         reset();
         return NavigationRulesConst.SEE_CONSULT_RDV;
     }
 
-    /**
-     * Callback to calendar add.
-     *
-     * @return String
-     */
+    public String goConsultRdv() {
+        return NavigationRulesConst.CONSULT_RDV;
+    }
+
     public String goAddConsultRdv() {
         reset();
         getActionEnum().setWhatAction(ActionEnum.ADD_ACTION);
         return null;
     }
 
-	/*
-	 * ****************** METHODS **********************
-	 */
-
-    /**
-     * @return list
-     */
     private List<IndVoeu> getVoeuIndCal() {
         String cge = calendarRdv.getCodeCge();
         List<IndVoeu> listIndVoeu = new ArrayList<IndVoeu>();
@@ -250,12 +199,7 @@ public class ConsultRdvController extends AbstractContextAwareController {
         return listIndVoeu;
     }
 
-    /**
-     * @return la chaine de retour
-     */
     public String ajouter() {
-        // Rafraichissement des objets
-
         // Recuperation de l'entry ==> message si aucune selectionnee
         ExtendedEntry entry = (ExtendedEntry) weekScheduleModel
                 .getSelectedEntry();
@@ -884,10 +828,15 @@ public class ConsultRdvController extends AbstractContextAwareController {
         this.uiSchedule = uiSchedule;
     }
 
-    /**
-     * Search method to list the students with the filter.
-     */
-    public void searchStudents() {
-        //individuPaginator.filtreRechercheEtudiants();
+    public IndividuController getIndividuController() {
+        return individuController;
+    }
+
+    public void setIndividuController(IndividuController individuController) {
+        this.individuController = individuController;
+    }
+
+    public LazyDataModel<IndividuPojo> getIndPojoLDM() {
+        return indPojoLDM;
     }
 }

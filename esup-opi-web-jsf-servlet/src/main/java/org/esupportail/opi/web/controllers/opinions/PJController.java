@@ -157,15 +157,13 @@ public class PJController extends AbstractContextAwareController {
                 "property paginatorPM of class " + this.getClass().getName()
                         + " can not be null");
 
-        missingPiecePojoLDM = individuController.getIndLDM().map(
-                individuToPojo(getDomainApoService(), getParameterService(), getI18nService()).andThen(
-                        paginatorPM.indPojoToMPPojo()));
+        missingPiecePojoLDM =
+                individuController.getIndLDM().map(
+                        individuToPojo(getDomainApoService(), getParameterService(), getI18nService())
+                                .andThen(paginatorPM.indPojoToMPPojo()));
 
         reset();
     }
-
-	/*
-	 ******************* CALLBACK ********************** */
 
     /**
      * Callback to see the students in a commission for the PM treatment.
@@ -196,9 +194,6 @@ public class PJController extends AbstractContextAwareController {
         reset();
         return NavigationRulesConst.DISPLAY_PIECE_MANQUANTE_STUDENTS;
     }
-
-	/*
-	 ******************* METHODS ********************** */
 
     /**
      * search Students.
@@ -244,7 +239,6 @@ public class PJController extends AbstractContextAwareController {
         }
         addInfoMessage(null, "INFO.PM.ALL.SUCCESS");
         reset();
-//		paginatorPM.reset();
     }
 
     /**
@@ -443,10 +437,6 @@ public class PJController extends AbstractContextAwareController {
         }
 
     }
-	
-
-	/*
-	 ******************* ACCESSORS ******************** */
 
     /**
      * @return the currentCmiPojo

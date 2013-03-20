@@ -464,6 +464,11 @@
             <redirect/>
         </navigation-case>
         <navigation-case>
+            <from-outcome>go_consult_rdv</from-outcome>
+            <to-view-id>/stylesheets/gestionnaire/referentiels/rdv/consultRdv.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>go_see_consult_rdv</from-outcome>
             <to-view-id>/stylesheets/gestionnaire/referentiels/seeConsultRdv.xhtml</to-view-id>
             <redirect/>

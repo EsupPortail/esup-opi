@@ -8,10 +8,12 @@ import fj.data.Stream;
 import org.primefaces.model.SortOrder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static fj.Function.apply;
+import static fj.data.Option.fromNull;
 import static fj.data.Stream.nil;
 
 public final class LazyDataModel<T> extends org.primefaces.model.LazyDataModel<T> {
@@ -43,7 +45,12 @@ public final class LazyDataModel<T> extends org.primefaces.model.LazyDataModel<T
     @Override
     public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, String> filters) {
         // le 2-tuple de résultat
-        final P2<Long, Stream<T>> resTuple = getData.f(first, pageSize, sortField, sortOrder, filters);
+        final P2<Long, Stream<T>> resTuple =
+                getData.f(fromNull(first).orSome(1),
+                        fromNull(pageSize).orSome(10),
+                        fromNull(sortField).orSome(""),
+                        fromNull(sortOrder).orSome(SortOrder.ASCENDING),
+                        fromNull(filters).orSome(new HashMap<String, String>()));
         // le nombre total d'enregistrements
         setRowCount(resTuple._1().intValue());
         // on garde les résultats
