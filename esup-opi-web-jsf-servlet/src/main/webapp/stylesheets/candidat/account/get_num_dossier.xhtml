@@ -2,14 +2,12 @@
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui"
-        template="/stylesheets/template.xhtml">
+        template="/stylesheets/templateMisc.xhtml">
     <ui:define name="content">
-        <ui:include src="../../_include/_header.jsp"/>
-        <ui:include src="../../_include/_roadMap.xhtml"/>
-
         <div id="maPage" class="div_body">
+            <ui:include src="../../_include/_roadMap.xhtml"/>
             <h1>
-                <h:outputText value="#{msgs['INDIVIDU.INIT.CANDI_NUM_DOS']}"/>
+                <h:outputText value="#{msgs['INDIVIDU.INIT.CANDI_NUM_DOS']}" styleClass="section-header" />
             </h1>
 
             <div class="messageForUser">
@@ -71,9 +69,5 @@
             </div>
             <br/>
         </div>
-        <script type="text/javascript">
-            highlightChildrenLiTags('navigationHeader:navigationLogin');
-            highlightChildrenLiTags('navigationFooter:navigationLogin');
-        </script>
     </ui:define>
 </ui:composition>

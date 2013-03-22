@@ -4,11 +4,11 @@
         xmlns:p="http://primefaces.org/ui"
         template="/stylesheets/templateCandidat.xhtml">
     <ui:define name="content">
-        <ui:include src="../../_include/_roadMap.xhtml"/>
         <div id="maPage" class="div_body">
+            <ui:include src="../../_include/_roadMap.xhtml"/>
             <h:form id="addCursusForm" styleClass="opiR1_form">
                 <h1>
-                    <h:outputText value="#{msgs['WELCOME.CREATE']}"/>
+                    <h:outputText value="#{msgs['WELCOME.CREATE']}" styleClass="section-header"/>
                 </h1>
                 <div class="messageForUser">
                     <p:messages id="messages" showDetail="true" autoUpdate="true"/>
@@ -48,9 +48,6 @@
         </div>
 
         <script type="text/javascript">
-            highlightChildrenLiTags('navigationHeader:navigationLogin');
-            highlightChildrenLiTags('navigationFooter:navigationLogin');
-            highlightInputAndSelect('addCursusForm');
             hideElement('addCursusForm:submitSelectCommune');
             hideElement('addCursusForm:submitSelectDep');
             hideElement('addCursusForm:submitSelectPay');

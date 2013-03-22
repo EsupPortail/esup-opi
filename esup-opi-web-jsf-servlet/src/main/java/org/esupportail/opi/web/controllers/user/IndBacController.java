@@ -431,14 +431,9 @@ public class IndBacController extends AbstractAccessController {
      */
     public List<Etablissement> getLycees() {
         List<Etablissement> e = new ArrayList<Etablissement>();
-        //firstElement for selectItem (men deroulant)
-        Etablissement et = new Etablissement();
-        et.setCodEtb("");
-        et.setLibEtb("");
 
         if (indBac.getCodPay() != null
                 && indBac.getCodPay().equals(Constantes.CODEFRANCE)) {
-            e.add(et);
             if (StringUtils.hasText(indBac.getCodCom())) {
                 e.addAll(getDomainApoService().getLycees(indBac.getCodCom(), indBac.getCodDep()));
             }
@@ -446,9 +441,6 @@ public class IndBacController extends AbstractAccessController {
         } else {
             //the dep = etranger
             e.addAll(getDomainApoService().getLycees(null, Constantes.COD_DEP_ETR));
-        }
-        if (e.isEmpty()) {
-            e.add(et);
         }
 
         return e;

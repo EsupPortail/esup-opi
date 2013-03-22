@@ -6,24 +6,25 @@
         <h:form id="roadMapForm">
             <h:outputText value="Piste : " styleClass="span-text-small"/>
             <ul class="roadMap">
-                <p:dataList var="rang" value="#{managedRoadMap.roadsKey}">
+                <ui:repeat var="rang" value="#{managedRoadMap.roadsKey}">
                     <li>
-                        <p:commandButton value="#{managedRoadMap.roads[rang].label}"
+                        <p:commandLink value="#{managedRoadMap.roads[rang].label}"
                                          immediate="true"
                                          title="#{managedRoadMap.roads[rang].title}"
                                          rendered="#{!managedRoadMap.roads[rang].isCurrentPage}"
-                                         action="#{managedRoadMap.goToRoadSelect}">
+                                         action="#{managedRoadMap.goToRoadSelect}"
+                                         styleClass="span-text-small">
                             <f:setPropertyActionListener value="#{managedRoadMap.roads[rang]}"
                                                          target="#{managedRoadMap.roadSelected}"/>
-                        </p:commandButton>
+                        </p:commandLink>
                         <h:outputText value="#{managedRoadMap.roads[rang].label}"
                                       title="#{managedRoadMap.roads[rang].title}"
                                       styleClass="span-text-small"
                                       rendered="#{managedRoadMap.roads[rang].isCurrentPage}"/>
-                        <h:outputText value=" > "
-                                      rendered="#{managedRoadMap.isMoreTwoElt && !managedRoadMap.roads[rang].isCurrentPage}"/>
+                        <h:outputText value=" > " styleClass="span-text-small"
+                                      rendered="#{managedRoadMap.isMoreTwoElt and !managedRoadMap.roads[rang].isCurrentPage}"/>
                     </li>
-                </p:dataList>
+                </ui:repeat>
             </ul>
         </h:form>
     </div>

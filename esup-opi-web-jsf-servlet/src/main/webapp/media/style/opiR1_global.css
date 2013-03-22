@@ -36,7 +36,7 @@ autres : préconiser déclinaison à partir de la couleur secondaire.
 }
 
 /* ## Section maPage ##*/
-.esup-opiR1 div.div_body {
+.esup-opiR1 .div_body {
 	background-color: white;
 	width: auto;
 	border: 1px solid #CCCCCC;
@@ -44,46 +44,47 @@ autres : préconiser déclinaison à partir de la couleur secondaire.
 	min-height: 400px;
 }
 
-.esup-opiR1 div.div_subSection {
+.esup-opiR1 .div_subSection {
 	margin-left: 20px;
 	margin-right: 20px;
 	width: auto;
 }
 
-.esup-opiR1 div.div_subSection div.blockTable input {
+.esup-opiR1 .div_subSection .blockTable input {
 	white-space: normal;
 }
 
 /*##  Section BLOCK (DIV) ##*/
-.esup-opiR1 div.blockForm {
+.esup-opiR1 .blockForm {
 	margin-top: 5px;
 	margin-bottom: 5px;
 	display: block;
 	width: 100%;
 }
 
-.esup-opiR1 div.blockTable {
+.esup-opiR1 .blockTable {
 	width: auto;
 	border: 1px solid #b7b6b6;
 	padding: 2px 5px 2px 5px;
 	background-color: #f9f9f9;
 }
 
-.esup-opiR1 div.blockBlue {
+.esup-opiR1 .blockBlue {
 	background-color: #eadede;
+	display:block; 
 	margin-bottom: 20px;
 	border: 1px solid #c0c0c0;
 }
 
-.esup-opiR1 div.labelListCreateDoss {
+.esup-opiR1 .labelListCreateDoss {
 	margin-bottom: 10px;
 }
 
-.esup-opiR1 div.blockForm div.blockButton {
+.esup-opiR1 .blockForm .blockButton {
 	text-align: right;
 }
 
-.esup-opiR1 div.blockForm div.blockButton table.twoGroupsButton {
+.esup-opiR1 .blockForm .blockButton .twoGroupsButton {
 	width: 100%;
 	margin-top: 40px;
 	text-align: right;

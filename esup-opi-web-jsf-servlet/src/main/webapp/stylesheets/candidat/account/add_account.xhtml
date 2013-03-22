@@ -4,10 +4,8 @@
         xmlns:p="http://primefaces.org/ui"
         template="/stylesheets/templateCandidat.xhtml">
     <ui:define name="content">
-
-
-        <ui:include src="../../_include/_roadMap.xhtml"/>
         <div id="maPage" class="div_body">
+            <ui:include src="../../_include/_roadMap.xhtml"/>
             <h:form id="addAccountForm" styleClass="opiR1_form">
                 <h1>
                     <h:outputText value="#{msgs['WELCOME.CREATE']}"/>
@@ -59,9 +57,6 @@
         </div>
 
         <script type="text/javascript">
-            highlightChildrenLiTags('navigationHeader:navigationLogin');
-            highlightChildrenLiTags('navigationFooter:navigationLogin');
-            highlightInputAndSelect('addAccountForm');
             hideElement('addAccountForm:submitSelectCpFix');
             hideElement('addAccountForm:submitSelectCpCurrent');
             hideElement('addAccountForm:submitSelectPay');

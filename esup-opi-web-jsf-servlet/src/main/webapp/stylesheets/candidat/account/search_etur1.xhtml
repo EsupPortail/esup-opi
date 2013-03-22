@@ -2,55 +2,54 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                template="/stylesheets/template.xhtml">
+                template="/stylesheets/templateMisc.xhtml">
 <ui:define name="content">
-<ui:include src="../../_include/_roadMap.xhtml"/>
 
 <div id="maPage" class="div_body">
+    <ui:include src="../../_include/_roadMap.xhtml"/>
     <h1>
-        <h:outputText value="#{msgs['APPLICATION.BIG_TITLE']} : #{msgs['WELCOME.CREATE']}"/>
+        <span class="section-header">
+            <h:outputText value="#{msgs['APPLICATION.BIG_TITLE']} : #{msgs['WELCOME.CREATE']}"/>
+        </span>
     </h1>
     <br/>
     <p:messages id="messages" showDetail="true" autoUpdate="true" styleClass="messageForUser"/>
 
-    <h:form id="searchEtuR1Form" styleClass="opiR1_form">
-        <div style="width:650px; margin-left:5%;">
-            <h1>
-                <h:outputLabel value="#{msgs['INFO.CANDIDAT.SERVER_RI']}">
-                    <f:param value="#{sessionController.regimeInsUser.label}"/>
-                </h:outputLabel>
-            </h1>
+    <div style="margin-left:3%;">
+        <h1>
+            <h:outputFormat value="#{msgs['INFO.CANDIDAT.SERVER_RI']}" styleClass="section-header">
+                <f:param value="#{sessionController.regimeInsUser.label}"/>
+            </h:outputFormat>
+        </h1>
+    </div>
+    <ui:fragment rendered="#{sessionController.regimeInsUser.displayInfoFC}">
+        <div class="blockTable" style="width:700px; margin-left:3%;">
+            <h:outputFormat value="#{msgs['INFO.CANDIDAT.RESERVED_FC']}"
+                            escape="false" styleClass="section-header"/>
         </div>
-        <ui:fragment rendered="#{sessionController.regimeInsUser.displayInfoFC}">
-            <div class="blockTable" style="width:650px; margin-left:5%;">
-                <h:outputFormat value="#{msgs['INFO.CANDIDAT.RESERVED_FC']}"
-                                escape="false" styleClass="section-header"/>
-            </div>
-        </ui:fragment>
-        <br/>
-        <br/>
+    </ui:fragment>
+    <br/>
+    <br/>
 
-        <div class="blockTable" style="width:650px; margin-left:5%;">
-            <h:outputFormat value="#{msgs['INFO.CANDIDAT.RENNES1']}"
-                            escape="false" styleClass="section-black-smallTitle"/>
+    <div class="blockTable" style="width:700px; margin-left:3%; margin-bottom:40px;">
+        <h:outputFormat value="#{msgs['INFO.CANDIDAT.RENNES1']}"
+                        escape="false" styleClass="section-black-smallTitle"/>
+    </div>
+    
+    <div class="blockTable" style="width:700px; margin-left:3%; margin-bottom:40px;">
+        <div>
+            <h:outputFormat value="#{msgs['INFO.CANDIDAT.NO_INSCRIT']} : "
+                            styleClass="section-black-smallTitle"/>
         </div>
-
-        <br/>
-        <br/>
-
-        <div class="blockTable" style="width:650px; margin-left:5%;">
-            <div>
-                <h:outputFormat value="#{msgs['INFO.CANDIDAT.NO_INSCRIT']} : "
-                                styleClass="section-black-smallTitle"/>
-            </div>
-            <ul class="listCreateDoss">
-                <ui:fragment rendered="#{!sessionController.regimeInsUser.displayInfoFC}">
-                    <li>
-                        <div class="labelListCreateDoss">
-                            <h:outputText value="#{msgs['FIELD_LABEL.KNOW_INE']} : " escape="false"
-                                          styleClass="form-field-label" style="font-size:14px;"/>
-                        </div>
-                        <div class="blockBlue" style="width:350px;">
+        <ul class="listCreateDoss">
+            <ui:fragment rendered="#{!sessionController.regimeInsUser.displayInfoFC}">
+                <li>
+                    <span class="labelListCreateDoss">
+                        <h:outputText value="#{msgs['FIELD_LABEL.KNOW_INE']} : " escape="false"
+                                      styleClass="form-field-label" style="font-size:14px;"/>
+                    </span>
+                    <h:form styleClass="opiR1_form">
+                        <span class="blockBlue" style="width:550px;">
                             <h:panelGrid columns="2" style="margin-left:30%;">
                                 <h:panelGroup>
                                     <h:inputText id="numNNE" size="11" maxlength="10"
@@ -66,149 +65,140 @@
                                 <h:outputText value="#{msgs['FIELD_LABEL.INFO_INE']}" styleClass="span-text-small"/>
                             </h:panelGrid>
 
-                            <div style="text-align:center;">
+                            <span style="display:block; text-align:center;">
                                 <h:outputText
                                         value="#{msgs['INFO.CANDIDAT.LOOK_FOR.INE']}"
                                         styleClass="span-text-small"/>
-                            </div>
+                            </span>
 
-                            <div style="text-align:center;">
+                            <span style="display:block; text-align:center;">
                                 <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
                                                  action="#{individuController.goFindEtuR1}"/>
-                            </div>
+                            </span>
                             <br/>
 
-                            <div style="text-align:center;">
+                            <span style="display:block; text-align:center;">
                                 <h:outputText
                                         value="#{msgs['INFO.CANDIDAT.LOOK_FOR.WHAT_INE']}"
                                         styleClass="span-text-small" escape="false"/>
-                            </div>
-                        </div>
-                    </li>
-                </ui:fragment>
-                <li>
-                    <div class="labelListCreateDoss">
-                        <h:outputText value="#{msgs['FIELD_LABEL.NEVER_CANDIDATE']} #{msgs['APPLICATION.BIG_TITLE']} : "
-                                      styleClass="form-field-label" style="font-size:14px;"/>
-                    </div>
-                    <ul>
-                        <li>
-                            <div class="labelListCreateDoss">
-                                <h:outputText value="#{msgs['FIELD_LABEL.NOT_KNOW_INE']} : "
-                                              styleClass="form-field-label" style="font-size:14px;"/>
-                            </div>
-                            <div style="text-align:center; width:350px;">
+                            </span>
+                        </span>
+                    </h:form>
+                </li>
+            </ui:fragment>
+            <li>
+                <div class="labelListCreateDoss">
+                    <h:outputText value="#{msgs['FIELD_LABEL.NEVER_CANDIDATE']} #{msgs['APPLICATION.BIG_TITLE']} : "
+                                  styleClass="form-field-label" style="font-size:14px;"/>
+                </div>
+                <ul>
+                    <li>
+                        <span class="labelListCreateDoss">
+                            <h:outputText value="#{msgs['FIELD_LABEL.NOT_KNOW_INE']} : "
+                                          styleClass="form-field-label" style="font-size:14px;"/>
+                        </span>
+                        <span style="display:block; text-align:center; width:470px; margin:15px 0;">
+                            <h:form styleClass="opiR1_form">
                                 <p:commandButton value="#{msgs['_.BUTTON.CREATE.DOSSIER']}"
                                                  action="#{individuController.goFindEtuR1}">
                                     <f:setPropertyActionListener value="#{true}"
                                                                  target="#{individuController.pojoIndividu.doNotHaveCodeNne}"/>
                                 </p:commandButton>
-                                <br/>
-                                <br/>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="labelListCreateDoss">
-                        <h:outputText value="#{msgs['FIELD_LABEL.EVER_CANDIDATE']} : "
-                                      styleClass="form-field-label" style="font-size:14px;">
-                            <f:param value="#{msgs['APPLICATION.BIG_TITLE']}"/>
-                        </h:outputText>
-                    </div>
+                            </h:form>
+                        </span>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <span class="labelListCreateDoss">
+                    <h:outputFormat value="#{msgs['FIELD_LABEL.EVER_CANDIDATE']} : "
+                                  styleClass="form-field-label" style="font-size:14px;">
+                        <f:param value="#{msgs['APPLICATION.BIG_TITLE']}"/>
+                    </h:outputFormat>
+                </span>
 
-                    <div class="blockBlue" style="width:550px;">
-                        <h:panelGrid columns="2" columnClasses="col1UnDemi,col1UnDemi">
-                            <h:panelGroup>
-                                <h:outputLabel value="#{msgs['INDIVIDU.NOM']}" for="nom"/>
-                                <p:graphicImage url="/media/images/informationSmall.png"
-                                                style="cursor:pointer;" id="helpNom"/>
-                                <p:overlayPanel for="helpNom"
-                                                showEvent="mouseover"
-                                                hideEvent="mouseout"
-                                                styleClass="containerPopup">
-                                    <h:panelGroup>
-                                        <h:panelGrid columns="1">
-                                            <h:outputText styleClass="titrePopupAide"
-                                                          value="#{msgs['INDIVIDU.NOM']}"/>
-                                            <h:panelGroup>
-                                                <h:outputText styleClass="libellesAide"
-                                                              value="#{msgs['INDIVIDU.NOM.HELP']}"/>
-                                            </h:panelGroup>
-                                        </h:panelGrid>
-                                    </h:panelGroup>
-                                </p:overlayPanel>
-                            </h:panelGroup>
-                            <h:inputText id="nom" size="32" maxlength="30"
-                                         value="#{individuController.pojoIndividu.individu.nomPatronymique}"/>
-                            <h:panelGroup>
-                                <h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom"/>
-                            </h:panelGroup>
-                            <h:inputText id="prenom" size="22" maxlength="20"
-                                         value="#{individuController.pojoIndividu.individu.prenom}"/>
-                            <h:panelGroup>
-                                <h:outputLabel value="#{msgs['INDIVIDU.DATE_NAI']}"
-                                               for="dateNaissance"/>
-                            </h:panelGroup>
-                            <h:inputText id="dateNaissance" size="10" maxlength="8"
-                                         value="#{individuController.pojoIndividu.individu.dateNaissance}">
-                                <f:convertDateTime pattern="ddMMyyyy"
-                                                   timeZone="#{sessionController.timezone}"/>
-                                <f:validateLength minimum="8"/>
-                            </h:inputText>
-                            <h:panelGroup>
-                                <h:outputLabel value="#{msgs['INDIVIDU.PAY_NAI']}"
-                                               for="paysNaissance"/>
-                                <h:outputText value="*" styleClass="etoileForChpObli"/>
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                <p:selectOneMenu id="paysNaissance"
-                                                 valueChangeListener="#{individuController.selectPay}"
-                                                 onchange="javascript:{simulateLinkClick('searchEtuR1Form:submitSelectPays');}"
-                                                 value="#{individuController.pojoIndividu.individu.codPayNaissance}">
-                                    <f:selectItem itemLabel="" itemValue=""/>
-                                    <f:selectItems var="pays" value="#{adressController.pays}"
-                                                   itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}"/>
-                                </p:selectOneMenu>
-                                <p:commandButton id="submitSelectPays"/>
-                            </h:panelGroup>
-                            <h:panelGroup
-                                    rendered="#{individuController.pojoIndividu.individu.codPayNaissance == adressController.codeFrance}">
-                                <h:outputLabel value="#{msgs['INDIVIDU.DEP_NAI']}" for="depNaissance"/>
-                            </h:panelGroup>
-                            <h:panelGroup
-                                    rendered="#{individuController.pojoIndividu.individu.codPayNaissance == adressController.codeFrance}">
-                                <p:selectOneMenu id="depNaissance"
-                                                 value="#{individuController.pojoIndividu.individu.codDepPaysNaissance}">
-                                    <f:selectItem itemLabel="" itemValue=""/>
-                                    <f:selectItems var="dept" value="#{adressController.departements}"
-                                                   itemLabel="#{dept.libDep}" itemValue="#{dept.codDep}"/>
-                                </p:selectOneMenu>
-                            </h:panelGroup>
-                        </h:panelGrid>
+                <span class="blockBlue" style="width:550px;">
+                    <h:form styleClass="opiR1_form">
+                    <h:panelGrid columns="2" columnClasses="col1UnDemi,col1UnDemi">
+                        <h:panelGroup>
+                            <h:outputLabel value="#{msgs['INDIVIDU.NOM']}" for="nom"/>
+                            <p:graphicImage url="/media/images/informationSmall.png"
+                                            style="cursor:pointer;" id="helpNom"/>
+                            <p:overlayPanel for="helpNom"
+                                            showEvent="mouseover"
+                                            hideEvent="mouseout"
+                                            styleClass="containerPopup">
+                                <h:panelGroup>
+                                    <h:panelGrid columns="1">
+                                        <h:outputText styleClass="titrePopupAide"
+                                                      value="#{msgs['INDIVIDU.NOM']}"/>
+                                        <h:panelGroup>
+                                            <h:outputText styleClass="libellesAide"
+                                                          value="#{msgs['INDIVIDU.NOM.HELP']}"/>
+                                        </h:panelGroup>
+                                    </h:panelGrid>
+                                </h:panelGroup>
+                            </p:overlayPanel>
+                        </h:panelGroup>
+                        <h:inputText id="nom" size="32" maxlength="30"
+                                     value="#{individuController.pojoIndividu.individu.nomPatronymique}"/>
+                        <h:panelGroup>
+                            <h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom"/>
+                        </h:panelGroup>
+                        <h:inputText id="prenom" size="22" maxlength="20"
+                                     value="#{individuController.pojoIndividu.individu.prenom}"/>
+                        <h:panelGroup>
+                            <h:outputLabel value="#{msgs['INDIVIDU.DATE_NAI']}"
+                                           for="dateNaissance"/>
+                        </h:panelGroup>
+                        <h:inputText id="dateNaissance" size="10" maxlength="8"
+                                     value="#{individuController.pojoIndividu.individu.dateNaissance}">
+                            <f:convertDateTime pattern="ddMMyyyy"
+                                               timeZone="#{sessionController.timezone}"/>
+                            <f:validateLength minimum="8"/>
+                        </h:inputText>
+                        <h:panelGroup>
+                            <h:outputLabel value="#{msgs['INDIVIDU.PAY_NAI']}"
+                                           for="paysNaissance"/>
+                            <h:outputText value="*" styleClass="etoileForChpObli"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:selectOneMenu id="paysNaissance"
+                                             value="#{individuController.pojoIndividu.individu.codPayNaissance}">
+                                <f:selectItem itemLabel="" itemValue=""/>
+                                <f:selectItems var="pays" value="#{adressController.pays}"
+                                               itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}"/>
+                                <p:ajax listener="#{individuController.selectPay}" update="@form" />
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+                        <h:panelGroup
+                                rendered="#{individuController.pojoIndividu.individu.codPayNaissance == adressController.codeFrance}">
+                            <h:outputLabel value="#{msgs['INDIVIDU.DEP_NAI']}" for="depNaissance"/>
+                        </h:panelGroup>
+                        <h:panelGroup
+                                rendered="#{individuController.pojoIndividu.individu.codPayNaissance == adressController.codeFrance}">
+                            <p:selectOneMenu id="depNaissance"
+                                             value="#{individuController.pojoIndividu.individu.codDepPaysNaissance}">
+                                <f:selectItem itemLabel="" itemValue=""/>
+                                <f:selectItems var="dept" value="#{adressController.departements}"
+                                               itemLabel="#{dept.libDep}" itemValue="#{dept.codDep}"/>
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+                    </h:panelGrid>
 
-                        <div style="text-align:center;">
-                            <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-                                             action="#{individuController.goFindEtuR1}">
-                                <f:setPropertyActionListener value="#{true}"
-                                                             target="#{individuController.pojoIndividu.isUsingSearch}"/>
-                            </p:commandButton>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </h:form>
-    <br/>
-    <br/>
-    <br/>
+                    <span style="display:block; text-align:center;">
+                        <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                         action="#{individuController.goFindEtuR1}">
+                            <f:setPropertyActionListener value="#{true}"
+                                                         target="#{individuController.pojoIndividu.isUsingSearch}"/>
+                        </p:commandButton>
+                    </span>
+                    </h:form>
+                </span>
+            </li>
+        </ul>
+    </div>
 </div>
-<script type="text/javascript">
-    highlightChildrenLiTags('navigationHeader:navigationLogin');
-    highlightChildrenLiTags('navigationFooter:navigationLogin');
-    hideElement('searchEtuR1Form:submitSelectPays');
-    highlightInputAndSelect('searchEtuR1Form');
-</script>
 </ui:define>
 </ui:composition>
 

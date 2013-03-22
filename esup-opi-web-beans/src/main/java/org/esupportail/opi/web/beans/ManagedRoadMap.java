@@ -11,6 +11,8 @@ import org.esupportail.opi.web.beans.pojo.RoadMap;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -134,8 +136,8 @@ public class ManagedRoadMap implements Resettable, InitializingBean, Serializabl
 	/**
 	 * @return Set< Integer>
 	 */
-	public Set<Integer> getRoadsKey() {
-		return roads.keySet();
+	public List<Integer> getRoadsKey() {
+		return new ArrayList<Integer>(roads.keySet());
 	}
 	
 	

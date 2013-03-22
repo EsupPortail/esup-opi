@@ -1251,9 +1251,8 @@ public class IndividuController extends AbstractAccessController {
      *
      * @param event
      */
-    public void selectPay(final ValueChangeEvent event) {
-        String codePay = (String) event.getNewValue();
-        pojoIndividu.getIndividu().setCodPayNaissance(codePay);
+    public void selectPay() {
+        String codePay = pojoIndividu.getIndividu().getCodPayNaissance();
         //SI Pays != france  on remet à null le département.
         if (!StringUtils.equals(codePay, adressController.getCodeFrance())) {
             pojoIndividu.getIndividu().setCodDepPaysNaissance(null);

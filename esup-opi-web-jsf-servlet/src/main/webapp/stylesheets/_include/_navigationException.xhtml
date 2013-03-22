@@ -8,6 +8,6 @@
                 rendered="#{sessionController.regimeInsUser == null || !sessionController.regimeInsUser.displayInfoFC}"
                 onclick="openPage('#{accueilController.context}/stylesheets/help/contact.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
     <p:menuitem id="helpFC" value="#{msgs['NAVIGATION.TEXT.CONTACT']}"
-                rendered="#{sessionController.regimeInsUser != null && sessionController.regimeInsUser.displayInfoFC}"
+                rendered="#{sessionController.regimeInsUser != null and sessionController.regimeInsUser.displayInfoFC}"
                 onclick="openPage('#{accueilController.context}/stylesheets/help/contactFC.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
 </p:menubar>

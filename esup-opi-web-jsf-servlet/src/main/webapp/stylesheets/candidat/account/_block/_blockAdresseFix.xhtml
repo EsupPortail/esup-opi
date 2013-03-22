@@ -3,225 +3,223 @@
              xmlns:h="http://java.sun.com/jsf/html"
              xmlns:p="http://primefaces.org/ui">
 
-<div id="blockFormAdresseFix" class="blockForm">
-<h:form id="formAdresseFix" styleClass="opiR1_form">
-<div style="width: 100%;">
-    <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-                 styleClass="tableJustWidthMax">
-        <h:outputText value="#{msgs['FIELD_LABEL.CONTACT']}"
-                      styleClass="section-smallTitle"/>
-        <h:panelGroup>
-            <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-                             action="#{individuController.update}"
-                             rendered="#{adressController.actionEnum.whatAction eq
-    								adressController.actionEnum.updateAction}"
-                             update=":content_panel"/>
-            <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-                             immediate="true" action="#{individuController.initAdresse}"
-                             rendered="#{adressController.actionEnum.whatAction eq
-    								adressController.actionEnum.updateAction}"
-                             update=":content_panel"
-                             ajax="false">
-                <f:setPropertyActionListener
-                        value="#{adressController.actionEnum.emptyAction}"
-                        target="#{adressController.actionEnum.whatAction}"/>
-            </p:commandButton>
-        </h:panelGroup>
-    </h:panelGrid>
-</div>
-<h:panelGrid styleClass="tableWidthMax" columns="2"
-             columnClasses="colUnQuart,colTroisQuart">
-    <h:panelGroup>
-        <p:outputLabel value="#{msgs['FIELD_LABEL.MAIL_PERSO']}"
-                       for="email"/>
-        <h:outputText value="*" styleClass="etoileForChpObli"/>
-        <p:graphicImage url="/media/images/informationSmall.png"
-                        style="cursor:pointer;" id="helpMailPerso"/>
-        <p:overlayPanel for="helpMailPerso" showEvent="mouseover"
-                        hideEvent="mouseout" styleClass="containerPopup">
+<p:outputPanel id="blockFormAdresseFix" layout="block" styleClass="blockForm">
+    <div style="width: 100%;">
+        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                     styleClass="tableJustWidthMax">
+            <h:outputText value="#{msgs['FIELD_LABEL.CONTACT']}"
+                          styleClass="section-smallTitle"/>
             <h:panelGroup>
-                <h:panelGrid columns="1">
-                    <h:outputText styleClass="titrePopupAide"
-                                  value="#{msgs['FIELD_LABEL.MAIL_PERSO']}"/>
-                    <h:panelGroup>
-                        <h:outputText styleClass="libellesAide"
-                                      value="#{msgs['FIELD_LABEL.MAIL_PERSO.HELP']}"/>
-                    </h:panelGroup>
-                </h:panelGrid>
+                <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                 action="#{individuController.update}"
+                                 rendered="#{adressController.actionEnum.whatAction eq
+        								adressController.actionEnum.updateAction}"
+                                 update=":content_panel"/>
+                <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                                 immediate="true" action="#{individuController.initAdresse}"
+                                 rendered="#{adressController.actionEnum.whatAction eq
+        								adressController.actionEnum.updateAction}"
+                                 update=":content_panel"
+                                 ajax="false">
+                    <f:setPropertyActionListener
+                            value="#{adressController.actionEnum.emptyAction}"
+                            target="#{adressController.actionEnum.whatAction}"/>
+                </p:commandButton>
             </h:panelGroup>
-        </p:overlayPanel>
-    </h:panelGroup>
-    <p:inputText id="email"
-                 value="#{individuController.pojoIndividu.individu.adressMail}"
-                 size="35" maxlength="50"
-                 onkeypress="javascript:{return disableCtrlKeyCombination(event);}"
-                 onkeydown="javascript:{return disableCtrlKeyCombination(event);}"/>
-
-    <h:panelGroup>
-        <p:outputLabel styleClass="form-field-label"
-                       value="#{msgs['FIELD_LABEL.MAIL_CHECK']}" for="emailCheck"/>
-        <h:outputText value="*" styleClass="etoileForChpObli"/>
-    </h:panelGroup>
-    <h:panelGroup>
-        <p:inputText id="emailCheck"
-                     value="#{individuController.checkEmail}" size="35" maxlength="50"
+        </h:panelGrid>
+    </div>
+    <h:panelGrid styleClass="tableWidthMax" columns="2"
+                 columnClasses="colUnQuart,colTroisQuart">
+        <h:panelGroup>
+            <p:outputLabel value="#{msgs['FIELD_LABEL.MAIL_PERSO']}"
+                           for="email"/>
+            <h:outputText value="*" styleClass="etoileForChpObli"/>
+            <p:graphicImage url="/media/images/informationSmall.png"
+                            style="cursor:pointer;" id="helpMailPerso"/>
+            <p:overlayPanel for="helpMailPerso" showEvent="mouseover"
+                            hideEvent="mouseout" styleClass="containerPopup">
+                <h:panelGroup>
+                    <h:panelGrid columns="1">
+                        <h:outputText styleClass="titrePopupAide"
+                                      value="#{msgs['FIELD_LABEL.MAIL_PERSO']}"/>
+                        <h:panelGroup>
+                            <h:outputText styleClass="libellesAide"
+                                          value="#{msgs['FIELD_LABEL.MAIL_PERSO.HELP']}"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </h:panelGroup>
+            </p:overlayPanel>
+        </h:panelGroup>
+        <p:inputText id="email"
+                     value="#{individuController.pojoIndividu.individu.adressMail}"
+                     size="35" maxlength="50"
                      onkeypress="javascript:{return disableCtrlKeyCombination(event);}"
                      onkeydown="javascript:{return disableCtrlKeyCombination(event);}"/>
-    </h:panelGroup>
-    <h:panelGroup>
-        <p:outputLabel value="#{msgs['FIELD_LABEL.MAIL_ANNUAIRE']}"
-                       rendered="#{individuController.pojoIndividu.individu.emailAnnuaire != null}"
-                       for="emailAnnuaire"/>
-    </h:panelGroup>
-    <h:panelGroup>
-        <h:outputText id="emailAnnuaire"
-                      rendered="#{individuController.pojoIndividu.individu.emailAnnuaire != null}"
-                      value="#{individuController.pojoIndividu.individu.emailAnnuaire}"/>
-    </h:panelGroup>
-    <h:panelGroup>
-        <p:outputLabel value="#{msgs['ADRESS.TEL_FIX']}" for="telephone"/>
-        <h:outputText value="*" styleClass="etoileForChpObli"/>
-        <p:graphicImage url="/media/images/informationSmall.png"
-                        style="cursor:pointer;" id="helpTelFix"/>
-        <p:overlayPanel for="helpTelFix" showEvent="mouseover"
-                        hideEvent="mouseout" styleClass="containerPopup">
-            <h:panelGroup>
-                <h:panelGrid columns="1">
-                    <h:outputText styleClass="titrePopupAide"
-                                  value="#{msgs['ADRESS.TEL_FIX']}"/>
-                    <h:panelGroup>
-                        <h:outputText styleClass="libellesAide"
-                                      value="#{msgs['ADRESS.TEL_POR.HELP']}"/>
-                    </h:panelGroup>
-                </h:panelGrid>
-            </h:panelGroup>
-        </p:overlayPanel>
-    </h:panelGroup>
-    <p:inputText id="telephone" size="11" maxlength="15"
-                 value="#{adressController.fixAdrPojo.adresse.phoneNumber}"/>
-    <h:panelGroup>
-        <p:outputLabel value="#{msgs['ADRESS.TEL_POR']}" for="portable"/>
-        <p:graphicImage url="/media/images/informationSmall.png"
-                        style="cursor:pointer;" id="helpTelPor"/>
-        <p:overlayPanel for="helpTelPor" showEvent="mouseover"
-                        hideEvent="mouseout" styleClass="containerPopup">
-            <h:panelGroup>
-                <h:panelGrid columns="1">
-                    <h:outputText styleClass="titrePopupAide"
-                                  value="#{msgs['ADRESS.TEL_POR']}"/>
-                    <h:panelGroup>
-                        <h:outputText styleClass="libellesAide"
-                                      value="#{msgs['ADRESS.TEL_POR.HELP']}"/>
-                    </h:panelGroup>
-                </h:panelGrid>
-            </h:panelGroup>
-        </p:overlayPanel>
-    </h:panelGroup>
-    <p:inputText id="portable" size="11" maxlength="15"
-                 value="#{individuController.pojoIndividu.individu.numeroTelPortable}"/>
-    <h:panelGroup>
-        <p:outputLabel value="#{msgs['ADRESS.PAY']}" for="paysAdr"/>
-        <h:outputText value="*" styleClass="etoileForChpObli"/>
-    </h:panelGroup>
-    <h:panelGroup>
-        <p:selectOneMenu id="paysAdr"
-                         value="#{adressController.fixAdrPojo.adresse.codPays}"
-                         valueChangeListener="#{adressController.selectPayAdr}">
+    
+        <h:panelGroup>
+            <p:outputLabel styleClass="form-field-label"
+                           value="#{msgs['FIELD_LABEL.MAIL_CHECK']}" for="emailCheck"/>
+            <h:outputText value="*" styleClass="etoileForChpObli"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <p:inputText id="emailCheck"
+                         value="#{individuController.checkEmail}" size="35" maxlength="50"
+                         onkeypress="javascript:{return disableCtrlKeyCombination(event);}"
+                         onkeydown="javascript:{return disableCtrlKeyCombination(event);}"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <p:outputLabel value="#{msgs['FIELD_LABEL.MAIL_ANNUAIRE']}"
+                           rendered="#{individuController.pojoIndividu.individu.emailAnnuaire != null}"
+                           for="emailAnnuaire"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <h:outputText id="emailAnnuaire"
+                          rendered="#{individuController.pojoIndividu.individu.emailAnnuaire != null}"
+                          value="#{individuController.pojoIndividu.individu.emailAnnuaire}"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <p:outputLabel value="#{msgs['ADRESS.TEL_FIX']}" for="telephone"/>
+            <h:outputText value="*" styleClass="etoileForChpObli"/>
+            <p:graphicImage url="/media/images/informationSmall.png"
+                            style="cursor:pointer;" id="helpTelFix"/>
+            <p:overlayPanel for="helpTelFix" showEvent="mouseover"
+                            hideEvent="mouseout" styleClass="containerPopup">
+                <h:panelGroup>
+                    <h:panelGrid columns="1">
+                        <h:outputText styleClass="titrePopupAide"
+                                      value="#{msgs['ADRESS.TEL_FIX']}"/>
+                        <h:panelGroup>
+                            <h:outputText styleClass="libellesAide"
+                                          value="#{msgs['ADRESS.TEL_POR.HELP']}"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </h:panelGroup>
+            </p:overlayPanel>
+        </h:panelGroup>
+        <p:inputText id="telephone" size="11" maxlength="15"
+                     value="#{adressController.fixAdrPojo.adresse.phoneNumber}"/>
+        <h:panelGroup>
+            <p:outputLabel value="#{msgs['ADRESS.TEL_POR']}" for="portable"/>
+            <p:graphicImage url="/media/images/informationSmall.png"
+                            style="cursor:pointer;" id="helpTelPor"/>
+            <p:overlayPanel for="helpTelPor" showEvent="mouseover"
+                            hideEvent="mouseout" styleClass="containerPopup">
+                <h:panelGroup>
+                    <h:panelGrid columns="1">
+                        <h:outputText styleClass="titrePopupAide"
+                                      value="#{msgs['ADRESS.TEL_POR']}"/>
+                        <h:panelGroup>
+                            <h:outputText styleClass="libellesAide"
+                                          value="#{msgs['ADRESS.TEL_POR.HELP']}"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </h:panelGroup>
+            </p:overlayPanel>
+        </h:panelGroup>
+        <p:inputText id="portable" size="11" maxlength="15"
+                     value="#{individuController.pojoIndividu.individu.numeroTelPortable}"/>
+        <h:panelGroup>
+            <p:outputLabel value="#{msgs['ADRESS.PAY']}" for="paysAdr"/>
+            <h:outputText value="*" styleClass="etoileForChpObli"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <p:selectOneMenu id="paysAdr"
+                             value="#{adressController.fixAdrPojo.adresse.codPays}"
+                             valueChangeListener="#{adressController.selectPayAdr}">
+                <f:selectItem itemLabel="" itemValue=""/>
+                <f:selectItems var="pays" value="#{adressController.pays}"
+                               itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}"/>
+                <p:ajax update="blockFormAdresseFix"/>
+            </p:selectOneMenu>
+        </h:panelGroup>
+        <h:panelGroup/>
+        <h:panelGroup/>
+        <h:panelGroup>
+            <p:outputLabel value="#{msgs['ADRESS']}" for="adr1"/>
+            <h:outputText value="*" styleClass="etoileForChpObli"/>
+            <p:graphicImage url="/media/images/informationSmall.png"
+                            style="cursor:pointer;" id="helpAdress"/>
+            <p:overlayPanel for="helpAdress" showEvent="mouseover"
+                            hideEvent="mouseout" styleClass="containerPopup">
+                <h:panelGroup>
+                    <h:panelGrid columns="1">
+                        <h:outputText styleClass="titrePopupAide"
+                                      value="#{msgs['ADRESS']}"/>
+                        <h:panelGroup>
+                            <h:outputText styleClass="libellesAide"
+                                          value="#{msgs['ADRESS.HELP']}"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </h:panelGroup>
+            </p:overlayPanel>
+        </h:panelGroup>
+        <p:inputText id="adr1"
+                     value="#{adressController.fixAdrPojo.adresse.adr1}" size="32"
+                     maxlength="32"/>
+        <h:outputLabel value="#{msgs['ADRESS.COMP']}" for="adr2"/>
+        <p:inputText id="adr2"
+                     value="#{adressController.fixAdrPojo.adresse.adr2}" size="40"
+                     maxlength="70"/>
+        <h:outputLabel value="#{msgs['ADRESS.COMP']}" for="adr3"/>
+        <p:inputText id="adr3"
+                     value="#{adressController.fixAdrPojo.adresse.adr3}" size="40"
+                     maxlength="70"/>
+        <h:panelGroup
+                rendered="#{adressController.fixAdrPojo.adresse.codPays
+    	    					eq adressController.codeFrance}">
+            <p:outputLabel value="#{msgs['ADRESS.COD_POST']}"
+                           for="codePostalFix"/>
+            <h:outputText value="*" styleClass="etoileForChpObli"/>
+            <p:graphicImage url="/media/images/informationSmall.png"
+                            style="cursor:pointer;" id="helpCodPost"/>
+            <p:overlayPanel for="helpCodPost" showEvent="mouseover"
+                            hideEvent="mouseout" styleClass="containerPopup">
+                <h:panelGroup>
+                    <h:panelGrid columns="1">
+                        <h:outputText styleClass="titrePopupAide"
+                                      value="#{msgs['ADRESS.COD_POST']}"/>
+                        <h:panelGroup>
+                            <h:outputText styleClass="libellesAide"
+                                          value="#{msgs['ADRESS.COD_POST.HELP']}"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </h:panelGroup>
+            </p:overlayPanel>
+        </h:panelGroup>
+        <h:panelGroup
+                rendered="#{adressController.fixAdrPojo.adresse.codPays
+    	    					eq adressController.codeFrance}">
+            <p:inputText id="codePostalFix"
+                         value="#{adressController.fixAdrPojo.adresse.codBdi}" size="6"
+                         maxlength="5">
+                <p:ajax event="change" listener="#{adressController.selectCpFix}" update="ville"/>
+            </p:inputText>
+        </h:panelGroup>
+        <h:panelGroup
+                rendered="#{adressController.fixAdrPojo.adresse.codPays
+    	    					eq adressController.codeFrance}">
+            <p:outputLabel value="#{msgs['ADRESS.VIL']}" for="ville"/>
+            <h:outputText value="*" styleClass="etoileForChpObli"/>
+        </h:panelGroup>
+        <p:selectOneMenu id="ville"
+                         rendered="#{adressController.fixAdrPojo.adresse.codPays
+    	    					eq adressController.codeFrance}"
+                         value="#{adressController.fixAdrPojo.adresse.codCommune}">
             <f:selectItem itemLabel="" itemValue=""/>
-            <f:selectItems var="pays" value="#{adressController.pays}"
-                           itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}"/>
-            <p:ajax update=":formAdresseFix"/>
+            <f:selectItems var="ville" value="#{adressController.communesFix}"
+                           itemLabel="#{ville.libCommune}" itemValue="#{ville.codeCommune}"/>
         </p:selectOneMenu>
-    </h:panelGroup>
-    <h:panelGroup/>
-    <h:panelGroup/>
-    <h:panelGroup>
-        <p:outputLabel value="#{msgs['ADRESS']}" for="adr1"/>
-        <h:outputText value="*" styleClass="etoileForChpObli"/>
-        <p:graphicImage url="/media/images/informationSmall.png"
-                        style="cursor:pointer;" id="helpAdress"/>
-        <p:overlayPanel for="helpAdress" showEvent="mouseover"
-                        hideEvent="mouseout" styleClass="containerPopup">
-            <h:panelGroup>
-                <h:panelGrid columns="1">
-                    <h:outputText styleClass="titrePopupAide"
-                                  value="#{msgs['ADRESS']}"/>
-                    <h:panelGroup>
-                        <h:outputText styleClass="libellesAide"
-                                      value="#{msgs['ADRESS.HELP']}"/>
-                    </h:panelGroup>
-                </h:panelGrid>
-            </h:panelGroup>
-        </p:overlayPanel>
-    </h:panelGroup>
-    <p:inputText id="adr1"
-                 value="#{adressController.fixAdrPojo.adresse.adr1}" size="32"
-                 maxlength="32"/>
-    <h:outputLabel value="#{msgs['ADRESS.COMP']}" for="adr2"/>
-    <p:inputText id="adr2"
-                 value="#{adressController.fixAdrPojo.adresse.adr2}" size="40"
-                 maxlength="70"/>
-    <h:outputLabel value="#{msgs['ADRESS.COMP']}" for="adr3"/>
-    <p:inputText id="adr3"
-                 value="#{adressController.fixAdrPojo.adresse.adr3}" size="40"
-                 maxlength="70"/>
-    <h:panelGroup
-            rendered="#{adressController.fixAdrPojo.adresse.codPays
-	    					eq adressController.codeFrance}">
-        <p:outputLabel value="#{msgs['ADRESS.COD_POST']}"
-                       for="codePostalFix"/>
-        <h:outputText value="*" styleClass="etoileForChpObli"/>
-        <p:graphicImage url="/media/images/informationSmall.png"
-                        style="cursor:pointer;" id="helpCodPost"/>
-        <p:overlayPanel for="helpCodPost" showEvent="mouseover"
-                        hideEvent="mouseout" styleClass="containerPopup">
-            <h:panelGroup>
-                <h:panelGrid columns="1">
-                    <h:outputText styleClass="titrePopupAide"
-                                  value="#{msgs['ADRESS.COD_POST']}"/>
-                    <h:panelGroup>
-                        <h:outputText styleClass="libellesAide"
-                                      value="#{msgs['ADRESS.COD_POST.HELP']}"/>
-                    </h:panelGroup>
-                </h:panelGrid>
-            </h:panelGroup>
-        </p:overlayPanel>
-    </h:panelGroup>
-    <h:panelGroup
-            rendered="#{adressController.fixAdrPojo.adresse.codPays
-	    					eq adressController.codeFrance}">
-        <p:inputText id="codePostalFix"
-                     value="#{adressController.fixAdrPojo.adresse.codBdi}" size="6"
-                     maxlength="5">
-            <p:ajax event="change" listener="#{adressController.selectCpFix}" update="ville"/>
-        </p:inputText>
-    </h:panelGroup>
-    <h:panelGroup
-            rendered="#{adressController.fixAdrPojo.adresse.codPays
-	    					eq adressController.codeFrance}">
-        <p:outputLabel value="#{msgs['ADRESS.VIL']}" for="ville"/>
-        <h:outputText value="*" styleClass="etoileForChpObli"/>
-    </h:panelGroup>
-    <p:selectOneMenu id="ville"
+        <h:panelGroup
+                rendered="#{adressController.fixAdrPojo.adresse.codPays
+    	    					!= adressController.codeFrance}">
+            <p:outputLabel value="#{msgs['ADRESS.VIL.ETR']}" for="villeEtr"/>
+            <h:outputText value="*" styleClass="etoileForChpObli"/>
+        </h:panelGroup>
+        <p:inputText id="villeEtr"
                      rendered="#{adressController.fixAdrPojo.adresse.codPays
-	    					eq adressController.codeFrance}"
-                     value="#{adressController.fixAdrPojo.adresse.codCommune}">
-        <f:selectItem itemLabel="" itemValue=""/>
-        <f:selectItems var="ville" value="#{adressController.communesFix}"
-                       itemLabel="#{ville.libCommune}" itemValue="#{ville.codeCommune}"/>
-    </p:selectOneMenu>
-    <h:panelGroup
-            rendered="#{adressController.fixAdrPojo.adresse.codPays
-	    					!= adressController.codeFrance}">
-        <p:outputLabel value="#{msgs['ADRESS.VIL.ETR']}" for="villeEtr"/>
-        <h:outputText value="*" styleClass="etoileForChpObli"/>
-    </h:panelGroup>
-    <p:inputText id="villeEtr"
-                 rendered="#{adressController.fixAdrPojo.adresse.codPays
-	    					!= adressController.codeFrance}"
-                 value="#{adressController.fixAdrPojo.adresse.libComEtr}">
-    </p:inputText>
-</h:panelGrid>
-</h:form>
-</div>
+    	    					!= adressController.codeFrance}"
+                     value="#{adressController.fixAdrPojo.adresse.libComEtr}">
+        </p:inputText>
+    </h:panelGrid>
+</p:outputPanel>
 </ui:fragment>
