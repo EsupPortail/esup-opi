@@ -8,20 +8,20 @@
                          value="#{trtCmiController.listVETToTransfert}" rowIndexVar="rowVar"
                          styleClass="displayInfo" alternateColors="false">
                 <p:column>
-                    <h:outputText value="#{msgs['ETAPES.CONFIRM.TRANSFERT']}">
+                    <h:outputFormat value="#{msgs['ETAPES.CONFIRM.TRANSFERT']}">
                         <f:param value="#{vetDTO.codEtp}"/>
                         <f:param value="#{vetDTO.codVrsVet}"/>
                         <f:param value="#{vetDTO.licEtp}"/>
-                    </h:outputText>
+                    </h:outputFormat>
                 </p:column>
                 <p:column>
                     <h:panelGroup>
-                        <p:commandButton value="#{msgs['_.BUTTON.YES']}"
+                        <p:commandButton value="#{msgs['_.BUTTON.YES']}" ajax="false"
                                          action="#{trtCmiController.transfertVetToComm}">
                             <f:setPropertyActionListener value="#{true}" target="#{trtCmiController.transfertVet}"/>
                             <f:setPropertyActionListener value="#{vetDTO}" target="#{trtCmiController.vetToTransfert}"/>
                         </p:commandButton>
-                        <p:commandButton value="#{msgs['_.BUTTON.NO']}"
+                        <p:commandButton value="#{msgs['_.BUTTON.NO']}" ajax="false"
                                          action="#{trtCmiController.transfertVetToComm}">
                             <f:setPropertyActionListener value="#{false}" target="#{trtCmiController.transfertVet}"/>
                             <f:setPropertyActionListener value="#{vetDTO}" target="#{trtCmiController.vetToTransfert}"/>

@@ -477,7 +477,7 @@ public interface DomainService extends Serializable {
 	 * @param codeCurrentUser 
 	 * @return NormeSI
 	 */
-	NormeSI add(NormeSI norme, String codeCurrentUser);
+	<T extends NormeSI> T add(T norme, String codeCurrentUser);
 	
 	/**
 	 * Check the attributes required for a changes.
@@ -485,7 +485,7 @@ public interface DomainService extends Serializable {
 	 * @param codeCurrentUser 
 	 * @return NormeSI
 	 */
-	NormeSI update(NormeSI norme, String codeCurrentUser);
+	<T extends NormeSI> T update(T norme, String codeCurrentUser);
 	
 	
 	//////////////////////////////////////////////////////////////

@@ -13,9 +13,9 @@
                                  action="#{individuController.update}"
                                  rendered="#{individuController.actionEnum.whatAction ==
         								individuController.actionEnum.updateAction}"
-                                 update=":content_panel"/>
+                                 update="content_panel"/>
                 <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-                                 update=":content_panel"
+                                 update="content_panel"
                                  immediate="true"
                                  rendered="#{individuController.actionEnum.whatAction ==
         								individuController.actionEnum.updateAction}">

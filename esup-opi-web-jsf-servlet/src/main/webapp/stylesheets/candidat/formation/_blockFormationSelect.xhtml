@@ -17,12 +17,14 @@
                             </h:panelGrid>
                         </div>
                         <div class="blockTable">
-                            <p:dataList var="versionEtpPojo"
-                                        value="#{formationController.searchFormationPojo.vrsEtpSelected}">
+                            <ul>
+                            <ui:repeat var="versionEtpPojo"
+                                        value="#{formationController.searchFormationPojo.vrsEtpSelectedAsList}">
                                 <li>
                                     <h:outputText value="#{versionEtpPojo.versionEtape.libWebVet}"/>
                                 </li>
-                            </p:dataList>
+                            </ui:repeat>
+                            </ul>
                         </div>
                     </div>
                 </div>

@@ -215,7 +215,7 @@ public class FormulairesController extends AbstractAccessController {
 
                 mapFormulairesVet.put(traitementCmiSelected.getVersionEtpOpi(), form);
 
-                FormulaireCmi formNorme = (FormulaireCmi) trtCmiController.getDomainService().add(
+                FormulaireCmi formNorme = trtCmiController.getDomainService().add(
                         form, getCurrentGest().getLogin());
                 trtCmiController.getParameterService().addFormulaireCmi(formNorme);
 
@@ -255,7 +255,7 @@ public class FormulairesController extends AbstractAccessController {
                 mapFormulairesVet.remove(traitementCmiSelected.getVersionEtpOpi());
 
                 addInfoMessage(null, "FORMULAIRE.DELETE.SUCCESS");
-                return "";
+                return null;
             }
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
@@ -266,7 +266,7 @@ public class FormulairesController extends AbstractAccessController {
         }
 
         addErrorMessage(null, "FORMULAIRE.DELETE.ERROR");
-        return "";
+        return null;
     }
 
     /**
@@ -288,16 +288,16 @@ public class FormulairesController extends AbstractAccessController {
             if (orbeonService.createResponse(formName, indVoeuSelected.getIndividu().getNumDossierOpi())) {
                 // On sauvegarde le form
                 IndFormulaire form = new IndFormulaire(
-                        trtCmi.getVersionEtpOpi(), (Individu) indVoeuSelected.getIndividu());
+                        trtCmi.getVersionEtpOpi(), indVoeuSelected.getIndividu());
 
-                IndFormulaire formNorme = (IndFormulaire) trtCmiController.getDomainService().add(
+                IndFormulaire formNorme = trtCmiController.getDomainService().add(
                         form, indVoeuSelected.getIndividu().getNumDossierOpi());
                 trtCmiController.getParameterService().addIndFormulaire(formNorme);
 
                 mapIndFormulaires.put(trtCmi.getVersionEtpOpi(), formNorme);
 
                 addInfoMessage(null, "FORMULAIRE.NEW.SUCCESS");
-                return "";
+                return null;
             }
         } catch (SAXException e) {
             e.printStackTrace();
@@ -308,7 +308,7 @@ public class FormulairesController extends AbstractAccessController {
         }
 
         addErrorMessage(null, "FORMULAIRE.NEW.ERROR");
-        return "";
+        return null;
     }
 
     /**

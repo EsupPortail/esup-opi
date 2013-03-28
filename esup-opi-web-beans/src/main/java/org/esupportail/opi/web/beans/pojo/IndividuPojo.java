@@ -9,6 +9,7 @@
 package org.esupportail.opi.web.beans.pojo;
 
 import fj.F;
+import fj.data.Option;
 import fj.data.Stream;
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections.comparators.NullComparator;
@@ -341,20 +342,27 @@ public class IndividuPojo {
 			Set<IndVoeu> indVoeu = individu.getVoeux();
 			for (IndVoeu i : indVoeu) {
 				final TraitementCmi trtCmi = i.getLinkTrtCmiCamp().getTraitementCmi();
-                final boolean trtsMatch = iterableStream(commissions).bind(
-                        new F<Commission, Stream<TraitementCmi>>() {
-                            public Stream<TraitementCmi> f(Commission commission) {
-                                return iterableStream(commission.getTraitementCmi());
-                            }}).exists(
-                        new F<TraitementCmi, Boolean>() {
-                            public Boolean f(TraitementCmi traitementCmi) {
-                                return traitementCmi.equals(trtCmi); }});
-
+				final boolean trtsMatch = fromNull(commissions).option(Boolean.TRUE, new F<Set<Commission>, Boolean>() {
+					public Boolean f(Set<Commission> a) {
+						return iterableStream(a).bind(
+		                        new F<Commission, Stream<TraitementCmi>>() {
+	                            public Stream<TraitementCmi> f(final Commission commission) {
+	                                return iterableStream(commission.getTraitementCmi());
+	                            }}).exists(
+			                        new F<TraitementCmi, Boolean>() {
+			                            public Boolean f(final TraitementCmi traitementCmi) {
+			                                return traitementCmi.equals(trtCmi); 
+		                                }
+		                            }
+                        		);
+					}
+				});
+                			
                 if (trtsMatch) {
 					Boolean calIsOpen = null;
                     //si il y a des commission c'est que
                     //c'est la vue gestionnaire on n'a donc pas besoin des calendriers.
-                    if (commissions == null)
+                    if (commissions == null || commissions.isEmpty())
 						calIsOpen = testIfCalIsOpen(i, parameterService);
 
 					TypeTraitement t = null;

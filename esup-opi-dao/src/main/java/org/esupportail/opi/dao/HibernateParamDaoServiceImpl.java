@@ -1027,12 +1027,10 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
 	 * @param voeu
 	 * @return boolean
 	 */
-	public boolean isExitFormulaireInd(final Individu indSelected, final IndVoeu voeu) {
+	public boolean isExitFormulaireInd(final Individu indSelected, final VersionEtpOpi vet) {
 		if (log.isDebugEnabled()) {
 			log.debug("");
 		}
-		VersionEtpOpi vet = voeu.getLinkTrtCmiCamp().getTraitementCmi().getVersionEtpOpi();
-		
 		DetachedCriteria criteria = DetachedCriteria.forClass(IndFormulaire.class, "i");
 		criteria.add(Restrictions.eq("i.individu", indSelected))
 				.add(Restrictions.eq("i.versionEtpOpi.codEtp", vet.getCodEtp()))

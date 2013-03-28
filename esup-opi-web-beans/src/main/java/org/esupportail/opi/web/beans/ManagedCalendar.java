@@ -178,7 +178,7 @@ public class ManagedCalendar implements Resettable, InitializingBean, Serializab
 		for (VersionEtapeDTO v : vet) {
 			VersionEtapePojo vPojo = new VersionEtapePojo(v, isOpen, periodCalIns);
 			for (IndVoeu iV : individu.getVoeux()) {
-				TraitementCmi trtCmi = iV.getLinkTrtCmiCamp().getTraitementCmi();
+				TraitementCmi trtCmi = parameterService.getTraitementCmi(iV.getLinkTrtCmiCamp().getTraitementCmi().getId());
 				VersionEtpOpi vOpi = new VersionEtpOpi(v);
 				if (trtCmi.getVersionEtpOpi().equals(vOpi)) {
 					//le candidat est deja inscrit

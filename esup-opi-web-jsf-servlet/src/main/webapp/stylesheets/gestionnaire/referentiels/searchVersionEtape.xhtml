@@ -123,23 +123,23 @@
     					</div>
     					<div style="width:100%;">
                             <ui:fragment rendered="#{etapeController.wayfEnum.whereAreYouFrom == etapeController.wayfEnum.memberCmiValue}">
-                                <p:dataTable var="versionEtape" id="versionEtapeData"
+                                <p:dataTable var="versionEtape" id="versionEtapeData" 
                                     selection="#{etapeController.objectToAdd}" rowKey="#{versionEtape}"
                                     value="#{etapeController.etapes}"
                                     styleClass="paginatorData">
-                                    <p:column>
+                                    <p:column sortBy="#{versionEtape.codEtp}">
                                         <f:facet name="header">
                                             <h:outputText value="#{msgs['FIELD_LABEL.COD_ETP']}" />
                                         </f:facet>
                                         <h:outputText value="#{versionEtape.codEtp}" />
                                     </p:column>
-                                    <p:column>
+                                    <p:column sortBy="#{versionEtape.codVrsVet}">
                                         <f:facet name="header">
                                             <h:outputText value="#{msgs['FIELD_LABEL.CODE']} #{msgs['FIELD_LABEL.VRS_VET']}" />
                                         </f:facet>
                                         <h:outputText value="#{versionEtape.codVrsVet}" />
                                     </p:column>
-                                    <p:column>
+                                    <p:column sortBy="#{versionEtape.libWebVet}">
                                         <f:facet name="header">
                                             <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']} #{msgs['FIELD_LABEL.VRS_VET']}" />
                                         </f:facet>

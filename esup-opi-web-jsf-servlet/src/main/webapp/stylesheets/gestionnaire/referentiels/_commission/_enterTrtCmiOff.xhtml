@@ -11,17 +11,20 @@
             <h:panelGroup>
                 <p:commandButton value="Ajouter une campagne"
                                  rendered="#{trtCmiController.actionEnum.whatAction
-						== trtCmiController.actionEnum.readAction}">
+						== trtCmiController.actionEnum.readAction}"
+                                 ajax="false" >
                     <f:setPropertyActionListener value="#{trtCmiController.actionEnum.addAction}"
                                                  target="#{trtCmiController.actionEnum.whatAction}"/>
                 </p:commandButton>
                 <p:commandButton value="#{msgs['_.BUTTON.ETAPES.ADD_CAMPAGNE']}"
                                  rendered="#{trtCmiController.actionEnum.whatAction
 						== trtCmiController.actionEnum.addAction}"
-                                 action="#{trtCmiController.addCampToVet}"/>
+                                 action="#{trtCmiController.addCampToVet}"
+                                 ajax="false" />
                 <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
                                  rendered="#{trtCmiController.actionEnum.whatAction
-						== trtCmiController.actionEnum.addAction}">
+						== trtCmiController.actionEnum.addAction}"
+                                 ajax="false" >
                     <f:setPropertyActionListener value="#{trtCmiController.actionEnum.readAction}"
                                                  target="#{trtCmiController.actionEnum.whatAction}"/>
                 </p:commandButton>
@@ -55,7 +58,9 @@
         <br/>
     </ui:fragment>
     <p:dataTable id="trtCmiOff" var="beanTrtCmi"
+                 selection="#{etapeController.objectToAdd}"
                  value="#{trtCmiController.treatmentsCmiOff}" rowIndexVar="rowVar"
+                 rowKey="#{beanTrtCmi}"
                  styleClass="displayInfo">
         <p:column>
             <f:facet name="header">
@@ -110,13 +115,13 @@
             </f:facet>
             <h:outputText value="#{beanTrtCmi.typeTraitement.label}"/>
         </p:column>
-        <p:column
+        <p:column selectionMode="multiple"
                 rendered="#{trtCmiController.actionEnum.whatAction
 							== trtCmiController.actionEnum.addAction}">
-            <f:facet name="header">
-                <p:selectBooleanCheckbox value="#{etapeController.allChecked}"
-                                         onclick="checkAllInElement('campToVetForm:trtCmiOff' ,this.checked)"/>
-            </f:facet>
+<!--             <f:facet name="header"> -->
+<!--                 <p:selectBooleanCheckbox value="#{etapeController.allChecked}" -->
+<!--                                          onclick="checkAllInElement('campToVetForm:trtCmiOff' ,this.checked)"/> -->
+<!--             </f:facet> -->
             <!-- 			<jdt:multipleRowsSelector selectionList="#{etapeController.objectToAdd}" /> -->
         </p:column>
     </p:dataTable>

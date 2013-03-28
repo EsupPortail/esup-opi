@@ -19,8 +19,8 @@
                 </div>
                 <p:dataTable var="versionEtapePojo" id="versionEtapeData"
                              value="#{formationController.searchFormationPojo.versionEtapesAsList}"
-                             selectionMode="multiple" selection="#{formationController.searchFormationPojo.objectToAdd}"
-                             rowKey="#{versionEtapePojo}"
+                             selection="#{formationController.searchFormationPojo.objectToAdd}"
+                             rowKey="#{versionEtapePojo.versionEtape}"
                              styleClass="paginatorData">
                     <p:column rendered="#{versionEtapePojo.isAlReadyChoice}">
                         <p:graphicImage url="/media/images/flag_red.png"
@@ -56,7 +56,8 @@
                                 rendered="#{versionEtapePojo.calPeriod != null}">
                             <h:outputText value="#{versionEtapePojo.shortCalPeriod}"/>
                             <p:graphicImage url="/media/images/informationSmall.png"
-                                            style="cursor:pointer;" id="infoAnneeUni"/>
+                                            style="cursor:pointer;" id="infoAnneeUni"
+                                            rendered="#{versionEtapePojo.isShortCalPeriod}"/>
                             <p:overlayPanel for="infoAnneeUni"
                                             showEvent="mouseover"
                                             hideEvent="mouseout"

@@ -3,22 +3,22 @@
         xmlns:p="http://primefaces.org/ui">
     <p:menubar id="navigationLogin">
         <p:menuitem id="accueil" action="#{accueilController.goLoginCandidat}"
-                    value="#{msgs['NAVIGATION.TEXT.WELCOME']} "/>
-        <p:menuitem id="faq" value="#{msgs['NAVIGATION.TEXT.FAQ']}"
+                    value="#{msgs['NAVIGATION.TEXT.WELCOME']}" ajax="false" />
+        <p:menuitem id="faq" value="#{msgs['NAVIGATION.TEXT.FAQ']}" ajax="false"
                     onclick="openPage('#{accueilController.context}/stylesheets/help/faq.html#whatIne','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
-        <p:menuitem id="help" value="#{msgs['NAVIGATION.TEXT.CONTACT']}"
+        <p:menuitem id="help" value="#{msgs['NAVIGATION.TEXT.CONTACT']}" ajax="false"
                     rendered="#{sessionController.currentInd.regimeInscription == null || !sessionController.currentInd.regimeInscription.displayInfoFC}"
                     onclick="openPage('#{accueilController.context}/stylesheets/help/contact.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
-        <p:menuitem id="helpFC" value="#{msgs['NAVIGATION.TEXT.CONTACT']}"
+        <p:menuitem id="helpFC" value="#{msgs['NAVIGATION.TEXT.CONTACT']}" ajax="false"
                     rendered="#{sessionController.currentInd.regimeInscription != null and sessionController.currentInd.regimeInscription.displayInfoFC}"
                     onclick="openPage('#{accueilController.context}/stylesheets/help/contactFC.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
         <p:menuitem id="logout" value="#{msgs['NAVIGATION.TEXT.LOGOUT']}"
                     action="#{sessionController.logoutInd}"
                     rendered="#{sessionController.isServlet
-        			and !sessionController.currentInd.isManager}"/>
+        			and !sessionController.currentInd.isManager}" ajax="false" />
         <p:menuitem id="retourGestionnaire" value="#{msgs['NAVIGATION.TEXT.BACK.GESTIONNAIRE']}"
                     action="#{sessionController.goBackManager}"
                     rendered="#{sessionController.currentInd != null
-        				and sessionController.currentInd.isManager}"/>
+        				and sessionController.currentInd.isManager}" ajax="false"/>
     </p:menubar>
 </ui:fragment>

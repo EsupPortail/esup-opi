@@ -80,11 +80,11 @@
                                     <h:outputLabel value="#{msgs['FORMATION.SELECT.KEY_WORD']}" for="motClef"/>
                                 </h:panelGroup>
                                 <h:panelGroup>
-                                    <h:selectOneMenu
+                                    <h:selectOneMenu id="motClef"
                                             value="#{formationController.searchFormationPojo.codKeyWordSelected}">
                                         <f:selectItems value="#{formationController.keyWordItems}"/>
                                         <p:ajax listener="#{formationController.selectKeyWord}" partialSubmit="true"
-                                                update="@form"/>
+                                                update="@form,:div_sectionSelectEtape"/>
                                     </h:selectOneMenu>
                                 </h:panelGroup>
                             </h:panelGrid>

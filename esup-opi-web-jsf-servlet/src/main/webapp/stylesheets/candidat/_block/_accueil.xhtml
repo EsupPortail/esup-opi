@@ -89,9 +89,6 @@
                                           />
                         </h:panelGrid>
                     </div>
-                </ui:fragment>
-                <ui:fragment rendered="#{not empty formulairesController.indSelectedForms
-                                       and not sessionController.currentInd.hideMessageInfoForm}">
                     <br/>
                 </ui:fragment>
                 <ui:fragment rendered="#{confirmationController.canConfirmVoeux}">
@@ -176,8 +173,7 @@
                                       rendered="#{!sessionController.currentInd.canUpdateIndCursusPro}"/>
                         <h:outputText value="#{sessionController.currentInd.etatIndBac}"/>
                         <h:panelGroup>
-                            <p:commandButton icon="ui-icon-plus"
-                                             styleClass="form-button-image" immediate="true"
+                            <p:commandButton icon="ui-icon-plus" immediate="true"
                                              action="#{indBacController.goSeeIndBac}"
                                              title="#{msgs['_.BUTTON.DISPLAY']}"
                                              rendered="#{sessionController.currentInd.canUpdateBac}"
@@ -197,8 +193,7 @@
                         <h:panelGroup
                             rendered="#{sessionController.currentInd.canUpdateIndCursusPro
                                       and sessionController.currentInd.regimeInscription.displayInfoSituation}">
-                            <p:commandButton icon="ui-icon-plus"
-                                             styleClass="form-button-image" immediate="true"
+                            <p:commandButton icon="ui-icon-plus" immediate="true"
                                              action="#{situationController.goSeeSituation}"
                                              title="#{msgs['_.BUTTON.DISPLAY']}"/>
                         </h:panelGroup>
@@ -212,8 +207,7 @@
                                          ajax="false"/>
                         <h:outputText value="#{sessionController.currentInd.etatIndCursusScol}"/>
                         <h:panelGroup>
-                            <p:commandButton icon="ui-icon-plus"
-                                             styleClass="form-button-image" immediate="true"
+                            <p:commandButton icon="ui-icon-plus" immediate="true"
                                              action="#{cursusController.goSeeCursusScol}"
                                              title="#{msgs['_.BUTTON.DISPLAY']}"
                                              rendered="#{sessionController.currentInd.canUpdateIndCursusScol}"
@@ -247,8 +241,7 @@
                         </h:panelGroup>
                         <h:outputText value="#{sessionController.currentInd.etatIndCursusPro}"/>
                         <h:panelGroup>
-                            <p:commandButton icon="ui-icon-plus"
-                                             styleClass="form-button-image" immediate="true"
+                            <p:commandButton icon="ui-icon-plus" immediate="true"
                                              action="#{cursusController.goSeeCursusPro}"
                                              title="#{msgs['_.BUTTON.DISPLAY']}"
                                              rendered="#{sessionController.currentInd.canUpdateIndCursusPro}"/>
@@ -283,8 +276,7 @@
                         <h:outputText
                             value="#{sessionController.currentInd.etatQualifNonDiplomante}"/>
                         <h:panelGroup>
-                            <p:commandButton icon="ui-icon-plus"
-                                             styleClass="form-button-image" immediate="true"
+                            <p:commandButton icon="ui-icon-plus" immediate="true"
                                              action="#{cursusController.goSeeQualif}"
                                              title="#{msgs['_.BUTTON.DISPLAY']}"
                                              rendered="#{sessionController.currentInd.canUpdateQualifNonDiplomante}"/>

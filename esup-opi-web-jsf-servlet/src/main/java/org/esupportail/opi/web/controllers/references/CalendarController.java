@@ -178,7 +178,7 @@ public class CalendarController extends AbstractContextAwareController {
         if (beanCalendar.getCalendar() instanceof CalendarIns) {
             CalendarIns cal = (CalendarIns) beanCalendar.getCalendar();
             //initialize the proxy hibernate
-//			getDomainService().initOneProxyHib(cal, cal.getCommissions(), Set.class);
+			getDomainService().initOneProxyHib(cal, cal.getCommissions(), Set.class);
             commissionController.setSelectedCommissions(new ArrayList<Commission>(cal.getCommissions()));
         } else if (beanCalendar.getCalendar() instanceof CalendarCmi) {
             CalendarCmi cal = (CalendarCmi) beanCalendar.getCalendar();
@@ -222,13 +222,13 @@ public class CalendarController extends AbstractContextAwareController {
             CalendarIns cal = (CalendarIns) beanCalendar.getCalendar();
 
             //initialize the proxy hibernate
-//			getDomainService().initOneProxyHib(cal, cal.getCommissions(), Set.class);
+			getDomainService().initOneProxyHib(cal, cal.getCommissions(), Set.class);
             commissionController.setSelectedCommissions(new ArrayList<Commission>(cal.getCommissions()));
 
         } else if (beanCalendar.getCalendar() instanceof CalendarCmi) {
             CalendarCmi cal = (CalendarCmi) beanCalendar.getCalendar();
             //initialize the proxy hibernate
-//			getDomainService().initOneProxyHib(cal, cal.getCommission(), Commission.class);
+			getDomainService().initOneProxyHib(cal, cal.getCommission(), Commission.class);
             setReunions(new ArrayList<ReunionCmi>(cal.getReunions()));
         }
         return NavigationRulesConst.SEE_ONE_CAL;

@@ -2,173 +2,205 @@
              xmlns:ui="http://java.sun.com/jsf/facelets"
              xmlns:h="http://java.sun.com/jsf/html"
              xmlns:p="http://primefaces.org/ui">
-    <ui:fragment rendered="#{not empty sessionController.currentInd.indVoeuxPojo}">
-        <div id="blockCandidatureWithVoeu" class="blockForm">
-            <div style="width:100%;">
-                <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-                             styleClass="tableJustWidthMax">
-                    <h:panelGroup>
-                        <h:outputText value="#{msgs['INDIVIDU.YOUR.CANDIDATURES']}"
-                                      styleClass="section-smallTitle" style="margin-right:4px;"/>
-                        <h:outputText value="#{msgs['INFO.CANDIDATURE.WELCOME']}"
-                                      styleClass="span-text-small-italic"/>
-                    </h:panelGroup>
+             
+    <p:outputPanel id="blockCandidatureWithVoeu" layout="block"
+        styleClass="blockForm"
+        rendered="#{not empty sessionController.currentInd.indVoeuxPojo}">
+        <div style="width: 100%;">
+            <h:panelGrid columns="2"
+                columnClasses="col1UnDemi,col2UnDemi"
+                styleClass="tableJustWidthMax">
+                <h:panelGroup>
+                    <h:outputText
+                        value="#{msgs['INDIVIDU.YOUR.CANDIDATURES']}"
+                        styleClass="section-smallTitle"
+                        style="margin-right:4px;" />
+                    <h:outputText
+                        value="#{msgs['INFO.CANDIDATURE.WELCOME']}"
+                        styleClass="span-text-small-italic" />
+                </h:panelGroup>
 
+                <h:panelGroup>
+                    <p:commandButton
+                        value="#{msgs['_.BUTTON.CONFIRMER_DESISTER']}"
+                        ajax="false" immediate="true"
+                        action="#{confirmationController.goConfirmCandidatures}"
+                        rendered="#{confirmationController.canConfirmVoeux}" />
+                    <p:commandButton
+                        value="#{msgs['_.BUTTON.DOWNLOAD.DOSSIER']}"
+                        ajax="false" immediate="true"
+                        action="#{accueilController.validatePrintDossier}" />
+                    <p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
+                        ajax="false" immediate="true"
+                        action="#{formationController.goSeeVoeux}" />
+                </h:panelGroup>
+            </h:panelGrid>
+        </div>
+        <p:dataTable var="indVoeuPojo"
+            value="#{sessionController.currentInd.indVoeuxPojoAsList}"
+            styleClass="displayInfo">
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText
+                        value="#{msgs['FIELD_LABEL.FORMATION_ASK']}" />
+                </f:facet>
+                <p:commandLink styleClass="form-button-link"
+                    immediate="true"
+                    action="#{formationController.goSummaryWishes}"
+                    value="#{indVoeuPojo.vrsEtape.libWebVet}">
+                    <f:setPropertyActionListener value="#{indVoeuPojo}"
+                        target="#{formationController.indVoeuPojo}" />
+                </p:commandLink>
+<!--     			<p:commandButton icon="ui-icon-search" immediate="true" -->
+<!--     								action="#{formationController.goSummaryWishes}" -->
+<!--     							title="#{msgs['_.BUTTON.DISPLAY']}"> -->
+<!--     				<f:setPropertyActionListener value="#{indVoeuPojo}" target="#{formationController.indVoeuPojo}" /> -->
+<!--     			</p:commandButton> -->
+            </p:column>
+            <p:column>
+                <f:facet name="header">
                     <h:panelGroup>
-                        <p:commandButton value="#{msgs['_.BUTTON.CONFIRMER_DESISTER']}" ajax="false"
-                                         immediate="true" action="#{confirmationController.goConfirmCandidatures}"
-                                         rendered="#{confirmationController.canConfirmVoeux}"/>
-                        <p:commandButton value="#{msgs['_.BUTTON.DOWNLOAD.DOSSIER']}" ajax="false"
-                                         immediate="true" action="#{accueilController.validatePrintDossier}"/>
-                        <p:commandButton value="#{msgs['_.BUTTON.UPDATE']}" ajax="false"
-                                         immediate="true" action="#{formationController.goSeeVoeux}"/>
+                        <h:outputText value="#{msgs['INDIVIDU.ETAT']}" />
+                        <p:graphicImage
+                            url="/media/images/informationSmall.png"
+                            style="cursor:pointer;" id="entatVoeux" />
+                        <p:overlayPanel for="entatVoeux"
+                            showEvent="mouseover" hideEvent="mouseout"
+                            styleClass="popupAide" appendToBody="true">
+                            <h:panelGroup>
+                                <h:panelGrid columns="1">
+                                    <h:outputText
+                                        styleClass="titrePopupAide"
+                                        value="#{msgs['INDIVIDU.ETAT']}" />
+                                    <h:panelGroup>
+                                        <h:outputText
+                                            styleClass="libellesAide"
+                                            value="#{msgs['VOEU.INFO.STATE']} : " />
+                                    </h:panelGroup>
+                                    <h:panelGroup
+                                        styleClass="contenuAide">
+                                        <ul>
+                                            <li><h:outputText
+                                                    value="#{msgs['STATE.NON_ARRIVE']}"
+                                                    styleClass="span-text-small" />
+                                                <h:outputText
+                                                    value=" : "
+                                                    styleClass="span-text-small" />
+                                                <h:outputText
+                                                    value="#{msgs['STATE.NON_ARRIVE.COMMENT']}"
+                                                    styleClass="span-text-small" />
+                                            </li>
+                                            <li><h:outputText
+                                                    value="#{msgs['STATE.ARRIVE_COMPLET']}"
+                                                    styleClass="span-text-small" />
+                                                <h:outputText
+                                                    value=" : "
+                                                    styleClass="span-text-small" />
+                                                <h:outputText
+                                                    value="#{msgs['STATE.ARRIVE_COMPLET.COMMENT']}"
+                                                    styleClass="span-text-small" />
+                                            </li>
+                                            <li><h:outputText
+                                                    value="#{msgs['STATE.ARRIVE_INCOMPLET']}"
+                                                    styleClass="span-text-small" />
+                                                <h:outputText
+                                                    value=" : "
+                                                    styleClass="span-text-small" />
+                                                <h:outputText
+                                                    value="#{msgs['STATE.ARRIVE_INCOMPLET.COMMENT']}"
+                                                    styleClass="span-text-small" />
+                                            </li>
+                                            <li><h:outputText
+                                                    value="#{msgs['STATE.CONFIRM']}"
+                                                    styleClass="span-text-small" />
+                                                <h:outputText
+                                                    value=" : "
+                                                    styleClass="span-text-small" />
+                                                <h:outputText
+                                                    value="#{msgs['STATE.CONFIRM.COMMENT']}"
+                                                    styleClass="span-text-small" />
+                                            </li>
+                                            <li><h:outputText
+                                                    value="#{msgs['STATE.DESIST']}"
+                                                    styleClass="span-text-small" />
+                                                <h:outputText
+                                                    value=" : "
+                                                    styleClass="span-text-small" />
+                                                <h:outputText
+                                                    value="#{msgs['STATE.DESIST.COMMENT']}"
+                                                    styleClass="span-text-small" />
+                                            </li>
+                                        </ul>
+                                    </h:panelGroup>
+                                </h:panelGrid>
+                            </h:panelGroup>
+                        </p:overlayPanel>
                     </h:panelGroup>
-                </h:panelGrid>
-            </div>
-            <p:dataTable var="indVoeuPojo"
-                         value="#{sessionController.currentInd.indVoeuxPojoAsList}"
-                         alternateColors="false" renderedIfEmpty="false"
-                         styleClass="displayInfo">
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msgs['FIELD_LABEL.FORMATION_ASK']}"/>
-                    </f:facet>
-                    <p:commandLink styleClass="form-button-link" immediate="true"
-                                   action="#{formationController.goSummaryWishes}"
-                                   value="#{indVoeuPojo.vrsEtape.libWebVet}">
-                        <f:setPropertyActionListener value="#{indVoeuPojo}"
-                                                     target="#{formationController.indVoeuPojo}"/>
-                    </p:commandLink>
-                    <!--         			<p:commandButton icon="ui-icon-search" immediate="true" -->
-                    <!--         								action="#{formationController.goSummaryWishes}" -->
-                    <!--         							title="#{msgs['_.BUTTON.DISPLAY']}"> -->
-                    <!--         				<f:setPropertyActionListener value="#{indVoeuPojo}" target="#{formationController.indVoeuPojo}" /> -->
-                    <!--         			</p:commandButton> -->
-                </p:column>
-                <p:column>
-                    <f:facet name="header">
-                        <h:panelGroup>
-                            <h:outputText value="#{msgs['INDIVIDU.ETAT']}"/>
-                            <p:graphicImage url="/media/images/informationSmall.png"
-                                            style="cursor:pointer;" id="entatVoeux"/>
-                            <p:overlayPanel for="entatVoeux"
-                                            showEvent="mouseover"
-                                            hideEvent="mouseout"
-                                            styleClass="popupAide">
-                                <h:panelGroup>
-                                    <h:panelGrid columns="1">
-                                        <h:outputText styleClass="titrePopupAide"
-                                                      value="#{msgs['INDIVIDU.ETAT']}"/>
-                                        <h:panelGroup>
-                                            <h:outputText styleClass="libellesAide"
-                                                          value="#{msgs['VOEU.INFO.STATE']} : "/>
-                                        </h:panelGroup>
-                                        <h:panelGroup styleClass="contenuAide">
-                                            <ul>
-                                                <li>
-                                                    <h:outputText value="#{msgs['STATE.NON_ARRIVE']}"
-                                                                  styleClass="span-text-small"/>
-                                                    <h:outputText value=" : " styleClass="span-text-small"/>
-                                                    <h:outputText value="#{msgs['STATE.NON_ARRIVE.COMMENT']}"
-                                                                  styleClass="span-text-small"/>
-                                                </li>
-                                                <li>
-                                                    <h:outputText value="#{msgs['STATE.ARRIVE_COMPLET']}"
-                                                                  styleClass="span-text-small"/>
-                                                    <h:outputText value=" : " styleClass="span-text-small"/>
-                                                    <h:outputText value="#{msgs['STATE.ARRIVE_COMPLET.COMMENT']}"
-                                                                  styleClass="span-text-small"/>
-                                                </li>
-                                                <li>
-                                                    <h:outputText value="#{msgs['STATE.ARRIVE_INCOMPLET']}"
-                                                                  styleClass="span-text-small"/>
-                                                    <h:outputText value=" : " styleClass="span-text-small"/>
-                                                    <h:outputText value="#{msgs['STATE.ARRIVE_INCOMPLET.COMMENT']}"
-                                                                  styleClass="span-text-small"/>
-                                                </li>
-                                                <li>
-                                                    <h:outputText value="#{msgs['STATE.CONFIRM']}"
-                                                                  styleClass="span-text-small"/>
-                                                    <h:outputText value=" : " styleClass="span-text-small"/>
-                                                    <h:outputText value="#{msgs['STATE.CONFIRM.COMMENT']}"
-                                                                  styleClass="span-text-small"/>
-                                                </li>
-                                                <li>
-                                                    <h:outputText value="#{msgs['STATE.DESIST']}"
-                                                                  styleClass="span-text-small"/>
-                                                    <h:outputText value=" : " styleClass="span-text-small"/>
-                                                    <h:outputText value="#{msgs['STATE.DESIST.COMMENT']}"
-                                                                  styleClass="span-text-small"/>
-                                                </li>
-                                            </ul>
-                                        </h:panelGroup>
-                                    </h:panelGrid>
-                                </h:panelGroup>
-                            </p:overlayPanel>
-                        </h:panelGroup>
-                    </f:facet>
-                    <h:outputText value="#{indVoeuPojo.etat.label}"/>
-                </p:column>
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msgs['FIELD_LABEL.RESULT']}"/>
-                    </f:facet>
-                    <h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
-                                  rendered="#{empty indVoeuPojo.indVoeu.avis}"/>
-                    <ui:repeat id="datalistavis" style="myStyle"
-                               var="avis"
-                               value="#{indVoeuPojo.indVoeu.avisAsList}">
-                        <div>
-                            <h:outputText value="#{avis.result.libelle}"
-                                          rendered="#{avis.temoinEnService and avis.validation}"/>
-                        </div>
-                    </ui:repeat>
-                </p:column>
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msgs['FIELD_LABEL.COMMENTAIRE']}"/>
-                    </f:facet>
-                    <ui:repeat id="datalistavis2" style="myStyle"
-                               var="avis2"
-                               value="#{indVoeuPojo.indVoeu.avisAsList}">
-                        <div>
-                            <h:outputText value="#{avis2.commentaire}"
-                                          rendered="#{avis2.temoinEnService and avis2.validation}"/>
-                        </div>
-                    </ui:repeat>
-                </p:column>
-            </p:dataTable>
+                </f:facet>
+                <h:outputText value="#{indVoeuPojo.etat.label}" />
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{msgs['FIELD_LABEL.RESULT']}" />
+                </f:facet>
+                <h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
+                    rendered="#{empty indVoeuPojo.indVoeu.avis}" />
+                <ui:repeat id="datalistavis" style="myStyle" var="avis"
+                    value="#{indVoeuPojo.indVoeu.avisAsList}">
+                    <div>
+                        <h:outputText value="#{avis.result.libelle}"
+                            rendered="#{avis.temoinEnService and avis.validation}" />
+                    </div>
+                </ui:repeat>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText
+                        value="#{msgs['FIELD_LABEL.COMMENTAIRE']}" />
+                </f:facet>
+                <ui:repeat id="datalistavis2" style="myStyle"
+                    var="avis2"
+                    value="#{indVoeuPojo.indVoeu.avisAsList}">
+                    <div>
+                        <h:outputText value="#{avis2.commentaire}"
+                            rendered="#{avis2.temoinEnService and avis2.validation}" />
+                    </div>
+                </ui:repeat>
+            </p:column>
+        </p:dataTable>
+    </p:outputPanel>
+    <p:outputPanel id="blockCandidatureWithoutVoeu" layout="block"
+        rendered="#{empty sessionController.currentInd.indVoeuxPojo}">
+        <div style="width: 100%;">
+            <h:panelGrid columns="2"
+                columnClasses="col1UnDemi,col2UnDemi"
+                styleClass="tableJustWidthMax">
+                <h:outputText value="#{msgs['APPLICATION.BIG_TITLE']}"
+                    styleClass="section-smallTitle" />
+                <p:commandButton value="#{msgs['_.BUTTON.MAKE.CHOICE']}"
+                    immediate="true"
+                    rendered="#{sessionController.currentInd.isManager ||
+    								(sessionController.currentInd.etat.canDoChoiceEtape
+    											and sessionController.currentInd.regimeInscription.calInsIsOpen)}"
+                    action="#{formationController.goSearchFormation}" />
+            </h:panelGrid>
         </div>
-    </ui:fragment>
-    <ui:fragment rendered="#{empty sessionController.currentInd.indVoeuxPojo}">
-        <div id="blockCandidatureWithoutVoeu">
-            <div style="width:100%;">
-                <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-                             styleClass="tableJustWidthMax">
-                    <h:outputText value="#{msgs['APPLICATION.BIG_TITLE']}"
-                                  styleClass="section-smallTitle"/>
-                    <p:commandButton value="#{msgs['_.BUTTON.MAKE.CHOICE']}"
-                                     immediate="true"
-                                     rendered="#{sessionController.currentInd.isManager ||
-        								(sessionController.currentInd.etat.canDoChoiceEtape
-        											and sessionController.currentInd.regimeInscription.calInsIsOpen)}"
-                                     action="#{formationController.goSearchFormation}"/>
-                </h:panelGrid>
-            </div>
 
-            <div class="blockTable" style="text-align:center;">
-                <h:outputText value="#{msgs['INDIVIDU.WITHOUT_CANDI']}" style="font-weight:bold;font-size:16px;"
-                              rendered="#{sessionController.currentInd.etat.canDoChoiceEtape and sessionController.currentInd.regimeInscription.calInsIsOpen}"/>
-                <h:outputText value="#{msgs['INDIVIDU.INFO.STATE_INCOMPLET']}"
-                              rendered="#{!sessionController.currentInd.etat.canDoChoiceEtape and
-        						!sessionController.currentInd.regimeInscription.displayInfoFC}"/>
-                <h:outputText value="#{msgs['INDIVIDU.INFO.STATE_INCOMPLET.FC']}"
-                              rendered="#{!sessionController.currentInd.etat.canDoChoiceEtape and
-        						sessionController.currentInd.regimeInscription.displayInfoFC}"
-                              escape="false" style="font-weight:bold;color:#a71817"/>
-                <h:outputText value="#{msgs['INDIVIDU.INFO.CAL_CLOSE']}"
-                              rendered="#{!sessionController.currentInd.regimeInscription.calInsIsOpen}"/>
-            </div>
+        <div class="blockTable" style="text-align: center;">
+            <h:outputText value="#{msgs['INDIVIDU.WITHOUT_CANDI']}"
+                style="font-weight:bold;font-size:16px;"
+                rendered="#{sessionController.currentInd.etat.canDoChoiceEtape and sessionController.currentInd.regimeInscription.calInsIsOpen}" />
+            <h:outputText
+                value="#{msgs['INDIVIDU.INFO.STATE_INCOMPLET']}"
+                rendered="#{!sessionController.currentInd.etat.canDoChoiceEtape and
+    						!sessionController.currentInd.regimeInscription.displayInfoFC}" />
+            <h:outputText
+                value="#{msgs['INDIVIDU.INFO.STATE_INCOMPLET.FC']}"
+                rendered="#{!sessionController.currentInd.etat.canDoChoiceEtape and
+    						sessionController.currentInd.regimeInscription.displayInfoFC}"
+                escape="false" style="font-weight:bold;color:#a71817" />
+            <h:outputText value="#{msgs['INDIVIDU.INFO.CAL_CLOSE']}"
+                rendered="#{!sessionController.currentInd.regimeInscription.calInsIsOpen}" />
         </div>
-    </ui:fragment>
+    </p:outputPanel>
 </ui:fragment>

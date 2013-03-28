@@ -6,8 +6,10 @@ package org.esupportail.opi.domain.beans.references.calendar;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -123,6 +125,14 @@ public class CalendarIns extends Calendar {
 	 */
 	public Set<Commission> getCommissions() {
 		return commissions;
+	}
+
+
+	/**
+	 * @return the commissions
+	 */
+	public List<Commission> getCommissionsAsList() {
+		return new ArrayList<Commission>(commissions);
 	}
 
 

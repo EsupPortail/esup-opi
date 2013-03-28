@@ -242,7 +242,8 @@ public class IndVoeuPojo implements Serializable {
 	 * Find and set the avis in use.
 	 */
 	public void initAvisInUse() {
-		if (!this.indVoeu.getAvis().isEmpty()) {
+		if (this.indVoeu != null && this.indVoeu.getAvis() != null
+				&& !this.indVoeu.getAvis().isEmpty()) {
 			for (Avis a : this.indVoeu.getAvis()) {
 				if (a.getTemoinEnService()) { 
 					this.avisEnService =  a; 

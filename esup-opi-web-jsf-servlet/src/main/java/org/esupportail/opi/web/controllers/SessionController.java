@@ -5,9 +5,20 @@
 package org.esupportail.opi.web.controllers;
 
 
-import fj.F;
-import fj.P2;
-import fj.data.Option;
+import static fj.data.Option.fromNull;
+import static fj.data.Option.fromString;
+import static org.esupportail.opi.web.beans.utils.Utilitaires.upperCaseFirstChar;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+
 import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.authentication.info.AuthInfoImpl;
@@ -32,18 +43,9 @@ import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
 
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import static fj.data.Option.fromNull;
-import static fj.data.Option.fromString;
-import static org.esupportail.opi.web.beans.utils.Utilitaires.upperCaseFirstChar;
+import fj.F;
+import fj.P2;
+import fj.data.Option;
 
 
 /**
@@ -55,11 +57,6 @@ public class SessionController extends AbstractDomainAwareBean {
      * The serialization id.
      */
     private static final long serialVersionUID = -5936434246704000653L;
-
-    /**
-     * The name of the parameter that gives the logout URL service.
-     */
-    private static final String LOGOUT_URL_PARAM_SERVICE = "edu.yale.its.tp.cas.client.logoutUrl.service";
 
     /**
      * The name of the request attribute that holds the current individu.
@@ -252,7 +249,7 @@ public class SessionController extends AbstractDomainAwareBean {
                         getI18nService(), getParameterService(),
                         getRegimeIns().get(Utilitaires.getCodeRIIndividu(individu,
                                 getDomainService())), getParameterService().getTypeTraitements(),
-                        getParameterService().getCalendarRdv(), new HashSet<Commission>());
+                        getParameterService().getCalendarRdv(), null);
                 // put boolean for the management and rights of update
                 indPojo.setIsManager(isManager);
                 indPojo.setIsUpdaterOfThisStudent(canUpdateStudent);
@@ -272,6 +269,7 @@ public class SessionController extends AbstractDomainAwareBean {
      * @param isManager
      * @param canUpdateStudent
      */
+    @SuppressWarnings("hiding") 
     public void initCurrentInd(final String numeroDossier, final Date dateDeNaissance,
                                final Boolean isManager, final Boolean canUpdateStudent) {
         User user = getCurrentUser();
@@ -392,7 +390,8 @@ public class SessionController extends AbstractDomainAwareBean {
      *
      * @return a String.
      */
-    public String restart() {
+    @SuppressWarnings("deprecation")
+	public String restart() {
         Map<String, Resettable> resettables = BeanUtils.getBeansOfClass(Resettable.class);
         Boolean isManagerConnect = true;
         Boolean isEnt = isInEnt;

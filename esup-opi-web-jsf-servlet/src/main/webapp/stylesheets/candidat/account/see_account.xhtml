@@ -17,33 +17,34 @@
                     <h:outputText value="*" styleClass="etoileForChpObli"/>
                 </h:panelGroup>
             </div>
-
-            <div id="div_subSection" class="div_subSection">
-                <p:panel id="content_panel" visible="true">
-                    <ui:fragment
-                            rendered="#{individuController.actionEnum.whatAction != individuController.actionEnum.updateAction}">
-                        <ui:include src="_block/_blockSeeEtatCivil.xhtml"/>
-                    </ui:fragment>
-                    <ui:fragment
-                            rendered="#{individuController.actionEnum.whatAction == individuController.actionEnum.updateAction}">
-                        <ui:include src="_block/_blockEtatCivil.xhtml"/>
-                    </ui:fragment>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <ui:fragment
-                            rendered="#{adressController.actionEnum.whatAction != adressController.actionEnum.updateAction}">
-                        <ui:include src="_block/_blockSeeAdresseFix.xhtml"/>
-                    </ui:fragment>
-                    <ui:fragment
-                            rendered="#{adressController.actionEnum.whatAction == adressController.actionEnum.updateAction}">
-                        <ui:include src="_block/_blockAdresseFix.xhtml"/>
-                    </ui:fragment>
-                    <br/>
-                    <br/>
-                    <br/>
-                </p:panel>
-            </div>
+            <h:form>
+                <p:outputPanel id="div_subSection" layout="block" styleClass="div_subSection" autoUpdate="true">
+                    <p:outputPanel id="content_panel" layout="block">
+                        <ui:fragment
+                                rendered="#{individuController.actionEnum.whatAction != individuController.actionEnum.updateAction}">
+                            <ui:include src="_block/_blockSeeEtatCivil.xhtml"/>
+                        </ui:fragment>
+                        <ui:fragment
+                                rendered="#{individuController.actionEnum.whatAction == individuController.actionEnum.updateAction}">
+                            <ui:include src="_block/_blockEtatCivil.xhtml"/>
+                        </ui:fragment>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <ui:fragment
+                                rendered="#{adressController.actionEnum.whatAction != adressController.actionEnum.updateAction}">
+                            <ui:include src="_block/_blockSeeAdresseFix.xhtml"/>
+                        </ui:fragment>
+                        <ui:fragment
+                                rendered="#{adressController.actionEnum.whatAction == adressController.actionEnum.updateAction}">
+                            <ui:include src="_block/_blockAdresseFix.xhtml"/>
+                        </ui:fragment>
+                        <br/>
+                        <br/>
+                        <br/>
+                    </p:outputPanel>
+                </p:outputPanel>
+            </h:form>
         </div>
 
         <script type="text/javascript">
