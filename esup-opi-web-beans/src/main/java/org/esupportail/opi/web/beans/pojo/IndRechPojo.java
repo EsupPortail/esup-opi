@@ -59,7 +59,12 @@ public class IndRechPojo {
 	 * La date de creation des voeux recherchee.
 	 */
 	private Date dateCreationVoeuRecherchee;
-	
+
+    /**
+     * Filtre-t-on les individus sans voeux ?
+     */
+    private Boolean useVoeuFilter = true;
+
 	/**
 	 * Exclude the wishes processed.
 	 */
@@ -244,8 +249,15 @@ public class IndRechPojo {
 		this.dateCreationVoeuRecherchee = dateCreationVoeuRecherchee;
 	}
 
+    public Boolean isUseVoeuFilter() {
+        return useVoeuFilter;
+    }
 
-	/**
+    public void setUseVoeuFilter(Boolean useVoeuFilter) {
+        this.useVoeuFilter = useVoeuFilter;
+    }
+
+    /**
 	 * @return the excludeWishProcessed
 	 */
 	public Boolean getExcludeWishProcessed() {

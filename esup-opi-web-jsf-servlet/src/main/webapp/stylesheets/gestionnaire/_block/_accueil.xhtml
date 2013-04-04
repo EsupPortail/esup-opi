@@ -3,6 +3,13 @@
              xmlns:f="http://java.sun.com/jsf/core"
              xmlns:p="http://primefaces.org/ui">
     <p:panel id="maPageGest" styleClass="div_body">
+        <f:event type="preValidate" listener="#{individuController.useVoeuFilter(false)}" />
+        <p:blockUI block="maPageGest"
+                   trigger="accueilGestionnaireForm:search-button
+                            accueilGestionnaireForm:lesCommissions
+                            accueilGestionnaireForm:individuTable">
+            <p:graphicImage value="/media/images/ajax-loader.gif"/>
+        </p:blockUI>
         <div id="div_subSectionGest" class="div_subSection">
             <h:form id="accueilGestionnaireForm" styleClass="opiR1_form">
                 <p:remoteCommand id="doRenderTable" name="doRenderTable"
@@ -14,12 +21,9 @@
                 </p:remoteCommand>
                 <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml">
                     <ui:param name="toUpdate" value="dataPanel" />
+                    <ui:param name="useVoeuFilter" value="#{false}" />
                 </ui:include>
                 <p:panel id="dataPanel" layout="block" styleClass="dataPanel">
-                    <p:blockUI block="dataPanel"
-                               trigger="doRenderTable search-button lesCommissions">
-                        <p:graphicImage value="/media/images/ajax-loader.gif"/>
-                    </p:blockUI>
                     <p:panel styleClass="dataSubPanel">
                         <p:effect type="puff" event="load">
                             <f:param name="mode" value="'show'"/>

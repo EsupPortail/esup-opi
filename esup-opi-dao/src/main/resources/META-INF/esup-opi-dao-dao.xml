@@ -196,8 +196,12 @@
 		<property name="useJndi" value="${hibernate.useJndi}" />
 		<property name="jdbcHibernateTemplateBeanName" value="${hibernate.jdbcTemplateBeanName}" />
 		<property name="jndiHibernateTemplateBeanName" value="${hibernate.jndiTemplateBeanName}" />
-        <property name="pf" ref="paginatorFactory" />
 	</bean>
+
+    <bean id="individuDaoService" class="org.esupportail.opi.dao.IndividuDaoServiceImpl"
+          factory-method="individuDaoSrv">
+        <constructor-arg ref="paginatorFactory" />
+    </bean>
 	
     <bean id="paramDaoService" 
 		class="org.esupportail.opi.dao.HibernateParamDaoServiceImpl" 

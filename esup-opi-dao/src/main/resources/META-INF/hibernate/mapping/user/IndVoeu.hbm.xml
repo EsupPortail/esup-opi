@@ -12,11 +12,6 @@
 				<param name="sequence">ind_voeu_seq</param>
 			</generator>
 		</id>
-<!--		<component name="versionEtpOpi">-->
-<!--			<property name="codEtp" column="cod_etp_ind_voeu" length="6"/>-->
-<!--			<property name="codVrsVet" column="cod_vrs_vet_ind_voeu"/>-->
-<!--			<property name="codCge" column="cod_cge_ind_voeu" length="3"/>-->
-<!--		</component>-->
 
 		<property name="state" column="state_ind_voeu" length="70" not-null="true"/>
 		

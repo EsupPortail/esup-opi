@@ -4,10 +4,7 @@
 package org.esupportail.opi.web.controllers.user;
 
 
-import fj.F;
-import fj.F2;
-import fj.F5;
-import fj.P2;
+import fj.*;
 import fj.data.Option;
 import fj.data.Stream;
 import org.apache.commons.lang.StringUtils;
@@ -50,6 +47,7 @@ import org.esupportail.opi.web.controllers.AbstractAccessController;
 import org.esupportail.opi.web.controllers.SessionController;
 import org.esupportail.opi.web.controllers.formation.FormulairesController;
 import org.esupportail.opi.web.utils.fj.Conversions;
+import org.esupportail.opi.web.utils.fj.Functions;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
@@ -64,6 +62,8 @@ import static fj.data.Option.fromString;
 import static fj.data.Stream.*;
 import static fj.data.Stream.join;
 import static org.esupportail.opi.utils.primefaces.PFFilters.pfFilters;
+import static org.esupportail.opi.web.utils.fj.Functions.apply2;
+import static org.esupportail.opi.web.utils.fj.Functions.put_;
 import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
 
@@ -214,40 +214,57 @@ public class IndividuController extends AbstractAccessController {
 
     private boolean renderTable = false;
 
+    private F<String, Unit> applyPut(String key, Map<String, String> map) {
+        return Functions.<String, Map<String, String>, Unit>apply2(key, map).o(Functions.<String, String>put_());
+    }
+
     private final LazyDataModel<Individu> indLDM = lazyModel(
             new F5<Integer, Integer, String, SortOrder, Map<String, String>, P2<Long, Stream<Individu>>>() {
                 public P2<Long, Stream<Individu>> f(
                         Integer first, Integer pageSize, String sortField, SortOrder sortOrder, Map<String, String> filters) {
                     // le gestionnaire courant
-                    final SessionController sessionCont = getSessionController();
-                    final User user = sessionCont.getCurrentUser();
-                    final Gestionnaire gest = !(user instanceof Gestionnaire) ?
+                    SessionController sessionCont = getSessionController();
+                    User user = sessionCont.getCurrentUser();
+                    Gestionnaire gest = !(user instanceof Gestionnaire) ?
                             sessionCont.getManager() : (Gestionnaire) user;
 
                     // les filtres :
-                    final IndRechPojo indRechPojo = individuPaginator.getIndRechPojo();
+                    IndRechPojo indRechPojo = individuPaginator.getIndRechPojo();
                     // 1. les numdossier, nom, prenom
-                    filters.put("numDossierOpi", fromString(indRechPojo.getNumDossierOpiRecherche()).orSome(""));
-                    filters.put("nomPatronymique", fromString(indRechPojo.getNomRecherche()).orSome(""));
-                    filters.put("prenom", fromString(indRechPojo.getPrenomRecherche()).orSome(""));
+                    fromString(indRechPojo.getNumDossierOpiRecherche())
+                            .map(applyPut("numDossierOpi", filters));
+                    fromString(indRechPojo.getNomRecherche())
+                            .map(applyPut("nomPatronymique", filters));
+                    fromString(indRechPojo.getPrenomRecherche())
+                            .map(applyPut("prenom", filters));
 
-                    // 2. les types de décision
-                    final Set<TypeDecision> typesDec = new HashSet<TypeDecision>(
-                            fromNull(indRechPojo.getTypeDecRecherchee()).toStream().toCollection());
+                    // Hack pour filtrer ou non les individus sans voeux :
+                    // indRechPojo.useVoeuFilter est positionné dans les vues par f:event
+                    iif(indRechPojo.isUseVoeuFilter(), "true")
+                            .map(applyPut("useVoeuFilter", filters));
+
+                    // 2. le type de décision
+                    Option<TypeDecision> typesDec = fromNull(indRechPojo.getTypeDecRecherchee());
 
                     // 3. les étapes (TraitementCmi) de la commission
-                    final Integer idCmi = indRechPojo.getIdCmi();
-                    final Stream<Commission> cmis = (idCmi != null) ?
-                            single(getParameterService().getCommission(idCmi, null)) :
-                            iterableStream(getDomainApoService().getListCommissionsByRight(gest, true));
+                    Option<Stream<Commission>> cmis = fromNull(indRechPojo.getIdCmi()).map(new F<Integer, Stream<Commission>>() {
+                        public Stream<Commission> f(Integer idCmi) {
+                            return single(getParameterService().getCommission(idCmi, null));
+                        }
+                    });
 
-                    final Set<TraitementCmi> trtCmis = new HashSet<TraitementCmi>(
-                            cmis.bind(new F<Commission, Stream<TraitementCmi>>() {
-                                public Stream<TraitementCmi> f(Commission com) {
-                                    return join(fromNull(com.getTraitementCmi()).toStream().map(
-                                            Conversions.<TraitementCmi>setToStream_()));
+                    Option<Set<TraitementCmi>> trtCmis =
+                            cmis.map(new F<Stream<Commission>, Stream<TraitementCmi>>() {
+                                public Stream<TraitementCmi> f(Stream<Commission> commissions) {
+                                    return commissions.bind(new F<Commission, Stream<TraitementCmi>>() {
+                                        public Stream<TraitementCmi> f(Commission com) {
+                                            return join(fromNull(com.getTraitementCmi()).toStream().map(
+                                                    Conversions.<TraitementCmi>setToStream_()));
+                                        }
+                                    });
                                 }
-                            }).toCollection());
+                            }.andThen(Conversions.<TraitementCmi>streamToSet_()));
+
 
                     // 4. les régimes d'inscription
                     Set<Integer> listCodesRI = new HashSet<Integer>(
@@ -260,13 +277,14 @@ public class IndividuController extends AbstractAccessController {
 
                     // 5. caractère 'traité' ou non du voeu
                     Boolean excludeTreated = indRechPojo.getExcludeWishProcessed();
-                    final Option<Boolean> wishTreated = iif(excludeTreated != null && excludeTreated, false);
+                    Option<Boolean> wishTreated = iif(excludeTreated != null && excludeTreated, false);
 
                     // 6. caratère 'validé' ou non du voeu
                     Option<Boolean> validWish = fromNull(indRechPojo.getSelectValid());
 
                     // 7. le type de traitement
-                    final Option<String> codeTypeTrtmt = fromNull(transfert).map(new F<Transfert, String>() {
+                    Option<String> codeTypeTrtmt =
+                            fromNull(transfert).map(new F<Transfert, String>() {
                         public String f(Transfert t) {
                             return t.getCode();
                         }
@@ -290,19 +308,10 @@ public class IndividuController extends AbstractAccessController {
     // ******************* INIT *************************
 
     /**
-     * Constructors.
-     */
-    public IndividuController() {
-        super();
-
-    }
-
-    /**
      * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
      */
     @Override
     public void reset() {
-        super.reset();
         actionEnum = new ActionEnum();
 
         pojoIndividu = new IndividuPojo(getI18nService());
@@ -340,7 +349,6 @@ public class IndividuController extends AbstractAccessController {
                 "property individuPaginator of class " + this.getClass().getName() + CAN_NO_BE_NULL);
         Assert.notNull(this.formulairesController,
                 "property formulairesController of class " + this.getClass().getName() + CAN_NO_BE_NULL);
-        reset();
     }
 
 
@@ -864,15 +872,19 @@ public class IndividuController extends AbstractAccessController {
     public void initIndRechPojo() {
         final IndRechPojo indRechPojo = new IndRechPojo();
         final SessionController sessionController = getSessionController();
-        if (sessionController.getCurrentUser() != null
-                && sessionController.getCurrentUser() instanceof Gestionnaire) {
-            Gestionnaire gest = (Gestionnaire) sessionController.getCurrentUser();
+        final User user = sessionController.getCurrentUser();
+        if (user != null && user instanceof Gestionnaire) {
+            Gestionnaire gest = (Gestionnaire) user;
             int codeRI = gest.getProfile().getCodeRI();
             RegimeInscription regimeIns = sessionController.getRegimeIns().get(codeRI);
             indRechPojo.getListeRI().add(regimeIns);
             indRechPojo.setCanModifyRISearch(regimeIns.canModifyRISearch());
         }
         individuPaginator.setIndRechPojo(indRechPojo);
+    }
+
+    public void useVoeuFilter(Boolean bool) {
+        individuPaginator.getIndRechPojo().setUseVoeuFilter(bool);
     }
 
     /**

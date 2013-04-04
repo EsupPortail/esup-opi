@@ -78,7 +78,6 @@ public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu>
         Assert.notNull(this.sessionController,
                 "property sessionController of class " + this.getClass().getName()
                         + " can not be null");
-        reset();
     }
 
     @Override

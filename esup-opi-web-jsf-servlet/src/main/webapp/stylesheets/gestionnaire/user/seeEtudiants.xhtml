@@ -10,6 +10,7 @@
             <p:graphicImage value="/media/images/ajax-loader.gif"/>
         </p:blockUI>
         <p:panel id="maPage" styleClass="div_body">
+        <f:event type="postAddToView" listener="#{individuController.useVoeuFilter(false)}" />
             <h1>
                 <span class="section-header">
                     <h:outputText value="#{msgs['INDIVIDU.TITLE.LISTE']}"/>
@@ -24,6 +25,7 @@
             <h:form id="seeManagersForm">
                 <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml">
                     <ui:param name="toUpdate" value=":seeManagersForm:managerData"/>
+                    <ui:param name="useVoeuFilter" value="#{false}" />
                 </ui:include>
                 <div class="messageForUser">
                     <p:messages id="messages" showDetail="true" autoUpdate="true"/>
@@ -37,6 +39,7 @@
                         </h:panelGroup>
                     </div>
                     <p:panel styleClass="dataSubPanel">
+                        
                         <p:effect type="puff" event="load">
                             <f:param name="mode" value="'show'"/>
                             <f:param name="percent" value="100"/>

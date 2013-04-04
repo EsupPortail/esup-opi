@@ -26,6 +26,7 @@ import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.services.urlGeneration.UrlGenerator;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.dao.DaoService;
+import org.esupportail.opi.dao.IndividuDaoService;
 import org.esupportail.opi.domain.beans.NormeSI;
 import org.esupportail.opi.domain.beans.VersionManager;
 import org.esupportail.opi.domain.beans.etat.EtatComplet;
@@ -80,6 +81,9 @@ public class DomainServiceImpl implements DomainService {
 	 * {@link DaoService}.
 	 */
 	private DaoService daoService;
+
+    private IndividuDaoService individuDaoSrv;
+
 	/**
 	 * The URL generator.
 	 */
@@ -95,27 +99,11 @@ public class DomainServiceImpl implements DomainService {
 	 */
 	private LdapAttributes ldapAttributes;
 	
-	/**
-	 * 
-	 */
 	private String codStudentRegex;
 	
-	/**
-	 * 
-	 */
 	private String codStudentPattern;
 	
-	/**
-	 * A log.
-	 */
 	private final Logger log = new LoggerImpl(getClass());
-
-	/**
-	 * Bean constructor.
-	 */
-	public DomainServiceImpl() {
-		super();
-	}
 
 	/**
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
@@ -349,14 +337,14 @@ public class DomainServiceImpl implements DomainService {
 	
 	@Override
 	public P2<Long, Stream<Individu>> sliceOfInd(PFFilters pfFilters,
-                                                 Set<TypeDecision> typesDec,
+                                                 Option<TypeDecision> typesDec,
                                                  Option<Boolean> validWish,
                                                  Option<Boolean> treatedWish,
                                                  Option<Date> wishCreation,
                                                  Option<String> codeTypeTrtmt,
-                                                 Set<TraitementCmi> trtCmis,
+                                                 Option<Set<TraitementCmi>> trtCmis,
                                                  Set<Integer> listCodesRI) {
-	    return daoService.sliceOfInd(
+	    return individuDaoSrv.sliceOfInd(
                 pfFilters, typesDec, treatedWish, validWish, wishCreation, codeTypeTrtmt, trtCmis, listCodesRI);
 	}
 	
@@ -889,7 +877,11 @@ public class DomainServiceImpl implements DomainService {
 		this.daoService = daoService;
 	}
 
-	/**
+    public void setIndividuDaoSrv(IndividuDaoService individuDaoSrv) {
+        this.individuDaoSrv = individuDaoSrv;
+    }
+
+    /**
 	 * @param ldapUserService
 	 *            the ldapUserService to set
 	 */
@@ -1546,12 +1538,4 @@ public class DomainServiceImpl implements DomainService {
 		}
 		return daoService.getIndSituation(ind);
 	}
-
-	///////////////////////////////////////////////
-	// Regimes inscriptions
-	/////////////////////////////////////////////////
-	
-
 }
-
-

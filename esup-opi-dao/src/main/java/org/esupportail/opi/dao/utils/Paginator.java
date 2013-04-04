@@ -14,6 +14,7 @@ import fj.data.List;
 import fj.data.Option;
 import fj.data.Stream;
 import org.hibernate.Session;
+import org.hibernate.stat.Statistics;
 import org.primefaces.model.SortOrder;
 
 import javax.persistence.EntityManager;
@@ -76,7 +77,6 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
      * ou la {@link Session} Hibernate si utilisation conjointe à Hibernate (donc pour {@link Q} = {@link HibernateQuery})
      */
     public Paginator(P1<?> mgr) {
-        // TODO : untiliser un ADT DataProvider = EntityManager | Session + pattern matching ?
         Type genParam = getTType(mgr.getClass().getGenericSuperclass(), 0);
         dataProvider = (Either<P1<EntityManager>, P1<Session>>)
                 ((genParam.equals(Session.class)) ? right(mgr) : left(mgr));
@@ -115,8 +115,8 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
 	    public Class f(String fieldName) {
 	        return fromNull(ReflectionUtils.getFieldOrNull(
 	                ttype, fieldName)).option(
-	                        new Object().getClass(),
-	                        new F<Field, Class>() {
+                    Object.class,
+                    new F<Field, Class>() {
 	                            public Class f(Field field) {
 	                                return field.getType();
 	                            }});
@@ -221,7 +221,20 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
      * Requête de base (simple select from)
      */
     private final P1<Q> full = new P1<Q>() { public Q _1() { return from(ent); }};
-    
+
+    /**
+     * La requête sans ordre : base + filtres + filtres supplémentaires
+     *
+     *
+     * @param base
+     * @param filters
+     * @param customFilter
+     * @return Une fonction retournant la requête complète (sans clause d'ordre)
+     */
+    private <A> F<A, Q> unOrderedQuery(F<A, Q> base, Map<String, String> filters, F<Q, Q> customFilter) {
+        return base.andThen(filter.f(filters)).andThen(customFilter);
+    }
+
     /**
      * La requête complète : base + filtres + filtres supplémentaires + ordre
      * 
@@ -230,9 +243,8 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
      * @param customFilter
      * @return Une fonction retournant la requête complète
      */
-	private <A> F<A, F<String, F<SortOrder, Q>>> query(F<A, Q> base, Map<String,String> filters,
-	    F<Q, Q> customFilter) {
-	    return base.andThen(filter.f(filters)).andThen(customFilter).andThen(curry(orderBy));
+	private <A> F<A, F<String, F<SortOrder, Q>>> query(F<A, Q> base, Map<String,String> filters, F<Q, Q> customFilter) {
+	    return unOrderedQuery(base, filters, customFilter).andThen(curry(orderBy));
 	}
 	
 	private Q from(final EntityPath<T>... o) {
@@ -263,10 +275,26 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
 	 */
 	public final P2<Long, java.util.List<T>> sliceOf(Long offset, Long limit, String sortField,
 	    SortOrder sortOrder, Map<String,String> filters, Option<F<Q, Q>> optCustomfilter) {
+
 	    final F<Q, Q> customFilter = optCustomfilter.orSome(Function.<Q>identity());
-        return p(
-                query(full.constant(), filters, customFilter).f(unit()).f(sortField).f(sortOrder).count(),
-                query(tuple(slice), filters, customFilter).f(p(offset, limit)).f(sortField).f(sortOrder).list(ent));
+
+        long beforeCount = System.currentTimeMillis();
+
+        long count = unOrderedQuery(full.constant(), filters, customFilter).f(unit()).count();
+
+        long afterCount = System.currentTimeMillis();
+
+        long beforeQuery = System.currentTimeMillis();
+
+        java.util.List<T> list =
+                query(tuple(slice), filters, customFilter).f(p(offset, limit)).f(sortField).f(sortOrder).list(ent);
+
+        long afterQuery = System.currentTimeMillis();
+
+        System.out.println("Count : " + (afterCount - beforeCount));
+        System.out.println("Query : " + (afterQuery - beforeQuery));
+
+        return p(count, list);
 	}
 
 	/**

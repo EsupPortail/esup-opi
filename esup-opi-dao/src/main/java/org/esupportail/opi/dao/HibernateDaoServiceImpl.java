@@ -5,6 +5,7 @@
 package org.esupportail.opi.dao;
 
 import static com.mysema.query.types.ConstantImpl.create;
+import static fj.data.List.iterableList;
 import static fj.data.List.list;
 import static fj.data.Option.some;
 import static fj.data.Option.somes;
@@ -15,6 +16,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import com.mysema.query.jpa.JPQLSubQuery;
+import com.mysema.query.jpa.hibernate.HibernateSubQuery;
+import com.mysema.query.types.Predicate;
+import com.mysema.query.types.path.EntityPathBase;
+import com.mysema.query.types.path.SetPath;
 import fj.*;
 import org.esupportail.commons.dao.AbstractJdbcJndiHibernateDaoService;
 import org.esupportail.commons.dao.HqlUtils;
@@ -91,8 +97,6 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 	 */
 	private static final String IN_USE_ATTRIBUTE = "temoinEnService";
 
-	private PaginatorFactory pf;
-	
 	/**
 	 * A logger.
 	 */
@@ -104,12 +108,6 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 	public HibernateDaoServiceImpl() {
 		super();
 	}
-	
-	public void setPf(PaginatorFactory pf) {
-	    this.pf = pf;
-	}
-	
-	
 
 	//////////////////////////////////////////////////////////////
 	// OBJECT
@@ -560,163 +558,6 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 		return individus;	
 	}
 
-    // TODO : move all the below filters and the sliceOfInd method in an IndividuDAO
-    final F<Set<TraitementCmi>, F<HibernateQuery, HibernateQuery>> trtCmiFilter =
-            new F<Set<TraitementCmi>, F<HibernateQuery,HibernateQuery>>() {
-                public F<HibernateQuery, HibernateQuery> f(final Set<TraitementCmi> trtCmis) {
-                    return new F<HibernateQuery, HibernateQuery>() {
-                        public HibernateQuery f(final HibernateQuery query) {
-                            final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();
-                            final PathBuilder<TraitementCmi> subPath =
-                                    path.getSet("voeux", IndVoeu.class).any()
-                                            .get("linkTrtCmiCamp", LinkTrtCmiCamp.class)
-                                            .get("traitementCmi", TraitementCmi.class);
-                            return (trtCmis.size() > 0) ? query.where(subPath.in(trtCmis)) : query;
-                        }
-                    };
-                }
-            };
-	
-    final F<Set<TypeDecision>, F<HibernateQuery, HibernateQuery>> typeDecSeqFilter =
-            new F<Set<TypeDecision>, F<HibernateQuery, HibernateQuery>>() {
-                public F<HibernateQuery, HibernateQuery> f(final Set<TypeDecision> typeDecisions) {
-                    return new F<HibernateQuery, HibernateQuery>() {
-                        public HibernateQuery f(HibernateQuery query) {
-                            final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();
-                            PathBuilder<Avis> avisPath =
-                                    path.getSet("voeux", IndVoeu.class).any()
-                                            .getSet("avis", Avis.class).any();
-                            PathBuilder<TypeDecision> typeDecPath = avisPath.get("result", TypeDecision.class);
-                            HibernateQuery base = query.where(avisPath.get("temoinEnService").eq(true));
-                            return (typeDecisions.size() > 0) ? base.where(typeDecPath.in(typeDecisions)) : base;
-                        }
-                    };
-                }
-            };
-
-    final F<HibernateQuery, HibernateQuery> temoinFilter =
-            new F<HibernateQuery, HibernateQuery>() {
-                public HibernateQuery f(final HibernateQuery query) {
-                    final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();
-                    return query.where(path.get("temoinEnService").eq(true));
-                }
-            };
-	
-    final F<HibernateQuery, HibernateQuery> campagneFilter =
-            new F<HibernateQuery, HibernateQuery>() {
-                public HibernateQuery f(HibernateQuery query) {
-                    final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();
-                    return query.where(path.getSet("campagnes", Campagne.class).any()
-                            .get("temoinEnService").eq(true));
-                }
-            };
-            
-
-    final F<Set<Integer>, F<HibernateQuery, HibernateQuery>> regInscrFilter =
-            new F<Set<Integer>, F<HibernateQuery,HibernateQuery>>() {
-                public F<HibernateQuery, HibernateQuery> f(final Set<Integer> listCodesRI) {
-                    return new F<HibernateQuery, HibernateQuery>() {
-                        public HibernateQuery f(HibernateQuery query) {
-                            final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();	            
-                            return (listCodesRI.size() > 0) ? query.where(
-                                    path.getSet("campagnes", Campagne.class).any()
-                                            .get("codeRI").in(listCodesRI)) : query;
-                        }
-                    };
-                }
-            };
-            
-    final F<Boolean, F<HibernateQuery, HibernateQuery>> treatedWishFilter =
-            new F<Boolean, F<HibernateQuery,HibernateQuery>>() {
-                public F<HibernateQuery, HibernateQuery> f(final Boolean treated) {
-                    return new F<HibernateQuery, HibernateQuery>() {
-                        public HibernateQuery f(HibernateQuery query) {
-                            final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();
-                            return query.where(
-                                    path.getSet("voeux", IndVoeu.class).any()
-                                            .get("haveBeTraited").eq(treated));
-                        }
-                    };
-                }
-            };
-	
-    final F<String, F<HibernateQuery, HibernateQuery>> notCodeTypeTrtmtFilter =
-            new F<String, F<HibernateQuery,HibernateQuery>>() {
-                public F<HibernateQuery, HibernateQuery> f(final String code) {
-                    return new F<HibernateQuery, HibernateQuery>() {
-                        public HibernateQuery f(HibernateQuery query) {
-                            final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();
-                            return query.where(
-                                    path.getSet("voeux", IndVoeu.class).any()
-                                            .get("codTypeTrait").ne(code));
-                        }
-                    };
-                }
-            };
-
-    final F<Boolean, F<HibernateQuery, HibernateQuery>> validWishFilter =
-            new F<Boolean, F<HibernateQuery, HibernateQuery>>() {
-                public F<HibernateQuery, HibernateQuery> f(final Boolean valid) {
-                    return new F<HibernateQuery, HibernateQuery>() {
-                        public HibernateQuery f(HibernateQuery query) {
-                            final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();
-                            return query.where(
-                                    path.getSet("voeux", IndVoeu.class).any()
-                                            .getSet("avis", Avis.class).any()
-                                            .get("validation", Boolean.class).eq(valid));
-                        }
-                    };
-                }
-            };
-
-    final F<Date, F<HibernateQuery, HibernateQuery>> wishCreationFilter =
-            new F<Date, F<HibernateQuery, HibernateQuery>>() {
-                public F<HibernateQuery, HibernateQuery> f(final Date date) {
-                    return new F<HibernateQuery, HibernateQuery>() {
-                        public HibernateQuery f(HibernateQuery query) {
-                            final PathBuilder<Individu> path = pf.indPaginator().getTPathBuilder();
-                            return query.where(
-                                    path.getSet("voeux", IndVoeu.class).any()
-                                            .getDate("dateCreaEnr", Date.class).eq(date));
-                        }
-                    };
-                }
-            };
-	
-    @SuppressWarnings("unchecked")
-    @Override
-    public P2<Long, Stream<Individu>> sliceOfInd(PFFilters pfFilters,
-                                                 Set<TypeDecision> typesDec,
-                                                 Option<Boolean> treatedWish,
-                                                 Option<Boolean> validWish,
-                                                 Option<Date> wishCreation,
-                                                 Option<String> codeTypeTrtmt,
-                                                 Set<TraitementCmi> trtCmis,
-                                                 Set<Integer> listCodesRI) {
-
-        final F<HibernateQuery, HibernateQuery> customFilter =
-                somes(list(
-                        some(temoinFilter),
-                        some(campagneFilter),
-                        some(regInscrFilter.f(listCodesRI)),
-                        some(typeDecSeqFilter.f(typesDec)),
-                        treatedWish.map(treatedWishFilter),
-                        validWish.map(validWishFilter),
-                        wishCreation.map(wishCreationFilter),
-                        codeTypeTrtmt.map(notCodeTypeTrtmtFilter),
-                        some(trtCmiFilter.f(trtCmis))
-                )).foldLeft1(Function.<HibernateQuery, HibernateQuery, HibernateQuery>andThen());
-	    
-        return pf.indPaginator().lazySliceOf(
-                pfFilters.first,
-                pfFilters.pageSize,
-                pfFilters.sortField,
-                pfFilters.sortOrder,
-                pfFilters.filters,
-                some(customFilter));
-    }
-	
-	
     /**
 	 * @see org.esupportail.opi.dao.DaoService#getVoeuxAcceptes()
 	 */

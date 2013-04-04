@@ -135,7 +135,7 @@ public interface DaoService extends Serializable {
 	 * Return the individuals managed by commission.
 	 * @param commission 
 	 * @param validate
-	 * @param listeRI
+	 * @param listeRICodes
 	 * @return List< Individu>
 	 */
 	List<Individu> getIndividus(Commission commission, Boolean validate, List<String> listeRICodes);
@@ -172,23 +172,6 @@ public interface DaoService extends Serializable {
 	 * @return List< Individu>
 	 */
 	List<Individu> getIndividusByCampagne(Campagne campagne, Boolean temSve);
-	
-	/**
-	 * Retrieve a slice of {@link Individu}
-	 * 
-	 *
-     * @param pfFilters
-     * @param wishCreation
-     * @return
-	 */
-	P2<Long, Stream<Individu>> sliceOfInd(PFFilters pfFilters,
-                                          Set<TypeDecision> typesDec,
-                                          Option<Boolean> validWish,
-                                          Option<Boolean> treatedWish,
-                                          Option<Date> wishCreation,
-                                          Option<String> codeTypeTrtmt,
-                                          Set<TraitementCmi> trtCmis,
-                                          Set<Integer> listCodesRI);
 	
 	/**
 	 * Login gest = uid@domain.

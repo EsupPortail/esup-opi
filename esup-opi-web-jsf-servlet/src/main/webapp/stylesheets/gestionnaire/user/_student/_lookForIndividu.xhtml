@@ -11,7 +11,8 @@
                 <h:panelGroup>
                     <p:commandButton id="search-button" value="#{msgs['_.BUTTON.SEARCH']}"
                                      actionListener="#{individuController.doRenderTable}"
-                                     update="#{toUpdate}" />
+                                     update="#{toUpdate}">
+                    </p:commandButton>
                 </h:panelGroup>
             </h:panelGrid>
             <h:panelGrid styleClass="tableWidthMax" columns="4"

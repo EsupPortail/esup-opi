@@ -382,6 +382,8 @@ public interface ParameterDaoService extends Serializable {
 	 */
 	List<CalendarIns> getCalendarIns(Commission commission);
 
+    Set<CalendarIns> getCalendars(VersionEtpOpi versionEtpOpi);
+
 	//////////////////////////////////////////////////////////////
 	// ReunionCmi
 	//////////////////////////////////////////////////////////////

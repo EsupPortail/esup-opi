@@ -6,9 +6,15 @@ package org.esupportail.opi.dao;
 
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.mysema.query.jpa.hibernate.HibernateQuery;
+import com.mysema.query.types.EntityPath;
+import com.mysema.query.types.path.EntityPathBase;
+import com.mysema.query.types.path.PathBuilder;
+import com.mysema.query.types.path.SetPath;
 import org.esupportail.commons.dao.AbstractJdbcJndiHibernateDaoService;
 import org.esupportail.commons.dao.HqlUtils;
 import org.esupportail.commons.exceptions.ConfigException;
@@ -841,6 +847,29 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
 		return getHibernateTemplate().findByCriteria(criteria);
 		
 	}
+
+    private HibernateQuery from(EntityPath<?>... ents) {
+        return new HibernateQuery(getHibernateTemplate().getSessionFactory().getCurrentSession()).from(ents);
+    }
+
+    @Override
+    public Set<CalendarIns> getCalendars(VersionEtpOpi versionEtpOpi) {
+        EntityPathBase<Commission> comBase = new EntityPathBase<Commission>(Commission.class, "commission");
+        PathBuilder<Commission> com = new PathBuilder<Commission>(Commission.class, comBase.getMetadata());
+
+        EntityPath<CalendarIns> calBase = new EntityPathBase<CalendarIns>(CalendarIns.class, "calendar");
+        PathBuilder<CalendarIns> cal = new PathBuilder<CalendarIns>(CalendarIns.class, calBase.getMetadata());
+
+        EntityPath<TraitementCmi> trtCmiBase = new EntityPathBase<TraitementCmi>(TraitementCmi.class, "trtCmi");
+        PathBuilder<TraitementCmi> trtCmi = new PathBuilder<TraitementCmi>(TraitementCmi.class, trtCmiBase.getMetadata());
+
+        return new HashSet<CalendarIns>(
+                from(comBase, calBase, trtCmiBase)
+                        .where(com.get("id").eq(trtCmi.get("commission"))
+                                .and(trtCmi.get("versionEtpOpi").eq(versionEtpOpi))
+                                .and(com.in(cal.getSet("commissions", Commission.class))))
+                        .list(calBase));
+    }
 	
 	//////////////////////////////////////////////////////////////
 	// Formulaire
@@ -870,9 +899,6 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
 		deleteObject(form);
 	}
 
-	/** 
-	 * @see org.esupportail.opi.dao.ParameterDaoService#getFormulairesCmi(java.util.Set)
-	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<FormulaireCmi> getFormulairesCmi(
@@ -1042,11 +1068,7 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
 		return getHibernateTemplate().findByCriteria(criteria).size() > 0;
 	}
 	
-	/**
-	 * @param vet
-	 * @param ri
-	 * @return boolean
-	 */
+    @Override
 	public boolean isExitFormulaireEtp(final VersionEtpOpi vet, final String codeRI) {
 		if (log.isDebugEnabled()) {
 			log.debug("");
@@ -1060,10 +1082,6 @@ public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoSe
 		return getHibernateTemplate().findByCriteria(criteria).size() > 0;
 	}
 	
-	/**
-	 * @see org.esupportail.opi.dao.ParameterDaoService#nbFormulairesToCreateForIndividu(
-	 *      Set, RegimeInscription)
-	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public Integer nbFormulairesToCreateForIndividu(
