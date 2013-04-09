@@ -584,7 +584,7 @@ public class FormationController extends AbstractAccessController {    /*
     private Boolean controlNbVowByCge(final Set<IndVoeu> listIndVoeu, final String codCge) {
         Integer cpt = 0;
         for (IndVoeu i : listIndVoeu) {
-            TraitementCmi trtCmi = i.getLinkTrtCmiCamp().getTraitementCmi();
+            TraitementCmi trtCmi = getParameterService().getTraitementCmi(i.getLinkTrtCmiCamp().getTraitementCmi().getId());
             if (trtCmi.getVersionEtpOpi().getCodCge().equals(codCge)) {
                 cpt++;
             }

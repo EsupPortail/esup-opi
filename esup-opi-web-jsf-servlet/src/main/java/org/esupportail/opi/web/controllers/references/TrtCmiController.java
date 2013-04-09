@@ -454,40 +454,46 @@ public class TrtCmiController extends AbstractAccessController {
                     campagnesAdd.add(camp);
                 }
             }
+            
+            List<TraitementCmi> listTrtCmi = new ArrayList<TraitementCmi>();
+            for (BeanTrtCmi b : allTraitementCmi) {
+            	listTrtCmi.add(b.getTraitementCmi());
+            }
+            listTrtCmi.removeAll(trtcmiToDelete);
 
             //update or add trtCmi
-            for (BeanTrtCmi b : allTraitementCmi) {
-                b.getTraitementCmi().setCommission(commission);
-                if (b.getTraitementCmi().getId().equals(0)) {
-                    Campagne campFI = getParameterService()
-                            .getCampagneEnServ(FormationInitiale.CODE);
-                    VersionDiplomeDTO vdiDTO =
-                            getDomainApoService().getVersionDiplomes(
-                                    b.getTraitementCmi().getVersionEtpOpi(), campFI);
-                    b.getTraitementCmi().setCodDip(vdiDTO.getCodDip());
-                    b.getTraitementCmi().setCodVrsDip(vdiDTO.getCodVrsVdi());
-
-                    TraitementCmi trt =
-                            (TraitementCmi) getDomainService().add(b.getTraitementCmi(),
-                                    getCurrentGest().getLogin());
-                    getParameterService().addTraitementCmi(trt);
-
-                    // création du linkTrtCmiCamp pour chaque campagne
-                    for (Campagne camp : campagnesAdd) {
-                        LinkTrtCmiCamp linkTrtCmiCamp = new LinkTrtCmiCamp();
-                        linkTrtCmiCamp.setTraitementCmi(trt);
-                        linkTrtCmiCamp.setCampagne(camp);
-                        linkTrtCmiCamp.setTemoinEnService(camp.getTemoinEnService());
-                        // sauvegarde en base
-                        getParameterService().addLinkTrtCmiCamp(linkTrtCmiCamp);
-                    }
-
-                } else {
-                    TraitementCmi trt =
-                            (TraitementCmi) getDomainService().update(b.getTraitementCmi(),
-                                    getCurrentGest().getLogin());
-                    getParameterService().updateTraitementCmi(trt);
-                }
+            for (TraitementCmi b : listTrtCmi) {
+            	TraitementCmi trtcmi = getParameterService().getTraitementCmi(b.getId());
+            	if (trtcmi == null) { //n'existe pas donc à ajouter
+            		trtcmi = new TraitementCmi(b);
+            		trtcmi.setLinkTrtCmiCamp(null);
+					Campagne campFI = getParameterService().getCampagneEnServ(FormationInitiale.CODE);
+					VersionDiplomeDTO vdiDTO = getDomainApoService().getVersionDiplomes(trtcmi.getVersionEtpOpi(), campFI);
+					trtcmi.setCodDip(vdiDTO.getCodDip());
+					trtcmi.setCodVrsDip(vdiDTO.getCodVrsVdi());
+					trtcmi.setCommission(commission);
+					trtcmi = getDomainService().add(trtcmi, getCurrentGest().getLogin());
+					
+					getParameterService().addTraitementCmi(trtcmi);
+					
+					// création du linkTrtCmiCamp pour chaque campagne
+					for (Campagne camp : campagnesAdd) {
+					    LinkTrtCmiCamp linkTrtCmiCamp = new LinkTrtCmiCamp();
+					    linkTrtCmiCamp.setTraitementCmi(trtcmi);
+					    linkTrtCmiCamp.setCampagne(camp);
+					    linkTrtCmiCamp.setTemoinEnService(camp.getTemoinEnService());
+					    // sauvegarde en base
+					    getParameterService().addLinkTrtCmiCamp(linkTrtCmiCamp);
+					}
+            		
+            	} else { //existe donc à mettre à jour
+//            		trtcmi.setSelection(b.getTraitementCmi().getSelection());
+//            		trtcmi.setLinkTrtCmiCamp(b.getTraitementCmi().getLinkTrtCmiCamp());
+					trtcmi.setCommission(commission);
+					trtcmi = getDomainService().update(trtcmi, getCurrentGest().getLogin());
+					getParameterService().updateTraitementCmi(trtcmi);
+            		
+            	}
             }
 
             // on boucle sur la liste des trtCmi à supprimer
@@ -505,6 +511,7 @@ public class TrtCmiController extends AbstractAccessController {
                     if (link.getVoeux().isEmpty()) {
                         trtCmi.getLinkTrtCmiCamp().remove(link);
                         getParameterService().deleteLinkTrtCmiCamp(link);
+                        getParameterService().updateTraitementCmi(trtCmi);
                     } else {
                         link.setTemoinEnService(false);
                         getParameterService().updateLinkTrtCmiCamp(link);
@@ -512,6 +519,7 @@ public class TrtCmiController extends AbstractAccessController {
                     }
                 }
                 if (deleteTrt) {
+                	trtCmi.setLinkTrtCmiCamp(null);
                     trtcmiToDeleteFinal.add(trtCmi);
                 } else {
                     VersionEtapeDTO v = getDomainApoService().getVersionEtape(
@@ -598,8 +606,7 @@ public class TrtCmiController extends AbstractAccessController {
                     LinkTrtCmiCamp l = new LinkTrtCmiCamp();
                     l.setCampagne(campagneSelected);
                     l.setTraitementCmi(t);
-                    LinkTrtCmiCamp lAdd =
-                            (LinkTrtCmiCamp) getDomainService().add(l, getCurrentGest().getLogin());
+                    LinkTrtCmiCamp lAdd = getDomainService().add(l, getCurrentGest().getLogin());
                     getParameterService().addLinkTrtCmiCamp(lAdd);
                     linkCreated = true;
                     break;

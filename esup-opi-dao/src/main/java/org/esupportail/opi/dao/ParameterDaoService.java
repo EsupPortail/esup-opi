@@ -450,7 +450,7 @@ public interface ParameterDaoService extends Serializable {
 	 * @param voeu
 	 * @return boolean
 	 */
-	boolean isExitFormulaireInd(Individu indSelected, IndVoeu voeu);
+	boolean isExitFormulaireInd(Individu indSelected, VersionEtpOpi vet);
 	
 	/**
 	 * @param vet

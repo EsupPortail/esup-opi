@@ -63,7 +63,7 @@ public class Conversions {
 		    			r1g.getLibGrpTpd(),
 		    			r1g.getTemEnSveGrpTpd(),
 		    			new HashSet<GrpTypDipCorresp>(
-                                wrap(r1g.getRen1GrpTypDipCorresps().getRen1GrpTypDipCorresp())
+                                wrap(r1g.getRen1GrpTypDipCorresps().getRen1GrpTypDipCorresps())
                                         .map(toGrpTypDipCorresp).toStandardList()));
 		    }
 	};
@@ -81,7 +81,7 @@ public class Conversions {
 		    	.withTemEnSveGrpTpd(g.getTemEnSveGrpTpd())
 		    	.withRen1GrpTypDipCorresps(
 		    			new ArrayOfRen1GrpTypDipCorresp()
-		    			.withRen1GrpTypDipCorresp(
+		    			.withRen1GrpTypDipCorresps(
 		    					wrap(g.getGrpTypDipCorresps())
                                         .map(toR1GrpTypDipCorresp)
                                         .toStandardList()));
@@ -119,7 +119,7 @@ public class Conversions {
                                     new ArrayList<Cles2AnnuForm>(
                                             iterableStream(
                                                     d.getRen1Cles2AnnuFormDTO()
-                                                            .getRen1Cles2AnnuFormDTO())
+                                                            .getRen1Cles2AnnuFormDTOs())
                                                     .map(toCles2AnnuForm(d.getCodDom()))
                                                     .toCollection()));
                         }};

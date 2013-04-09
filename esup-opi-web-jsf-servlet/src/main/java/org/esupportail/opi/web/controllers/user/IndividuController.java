@@ -4,12 +4,27 @@
 package org.esupportail.opi.web.controllers.user;
 
 
-import fj.F;
-import fj.F2;
-import fj.F5;
-import fj.P2;
-import fj.data.Option;
-import fj.data.Stream;
+import static fj.data.Option.fromNull;
+import static fj.data.Option.fromString;
+import static fj.data.Option.iif;
+import static fj.data.Stream.iterableStream;
+import static fj.data.Stream.join;
+import static fj.data.Stream.single;
+import static org.esupportail.opi.utils.primefaces.PFFilters.pfFilters;
+import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.faces.model.SelectItem;
+
 import org.apache.commons.lang.StringUtils;
 import org.esupportail.commons.services.ldap.LdapUser;
 import org.esupportail.commons.services.ldap.LdapUserService;
@@ -36,7 +51,6 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.utils.GenNumDosOPI;
-import org.esupportail.opi.utils.primefaces.PFFilters;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.paginator.IndividuPaginator;
 import org.esupportail.opi.web.beans.parameters.FormationContinue;
@@ -53,18 +67,12 @@ import org.esupportail.opi.web.utils.fj.Conversions;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
-import javax.faces.event.ValueChangeEvent;
-import javax.faces.model.SelectItem;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import static fj.data.Option.*;
-import static fj.data.Option.fromString;
-import static fj.data.Stream.*;
-import static fj.data.Stream.join;
-import static org.esupportail.opi.utils.primefaces.PFFilters.pfFilters;
-import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
+import fj.F;
+import fj.F2;
+import fj.F5;
+import fj.P2;
+import fj.data.Option;
+import fj.data.Stream;
 
 
 /**

@@ -10,7 +10,7 @@
                    layout="unorderedList">
             <div>
                 <p:commandLink value="#{versionDiplome.libWebVdi}" styleClass="form-button-link"
-                               action="#{formationController.selectEtape}" partialSubmit="true"
+                               actionListener="#{formationController.selectEtape}" partialSubmit="true"
                                update="@form,:div_sectionSelectEtape,:div_sectionEtpEmpty">
                     <f:setPropertyActionListener value="#{versionDiplome}"
                                                  target="#{formationController.searchFormationPojo.vrsDipSelected}"/>

@@ -58,8 +58,8 @@
                           styleClass="section-smallTitle"/>
         </div>
         <p:dataTable var="commission"
-                     value="#{calendarController.beanCalendar.calendar.commissions}"
-                     styleClass="displayInfo" alternateColors="false">
+                     value="#{calendarController.beanCalendar.calendar.commissionsAsList}"
+                     styleClass="displayInfo">
             <p:column>
                 <f:facet name="header">
                     <h:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>

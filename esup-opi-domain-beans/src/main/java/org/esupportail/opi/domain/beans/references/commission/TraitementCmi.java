@@ -80,6 +80,19 @@ public class TraitementCmi extends NormeSI {
 	
 	/**
 	 * Constructors.
+	 */
+	public TraitementCmi(TraitementCmi trt) {
+		this.codDip = trt.getCodDip();
+		this.codTypeTrait = trt.getCodTypeTrait();
+		this.codVrsDip = trt.getCodVrsDip();
+		this.commission = trt.getCommission();
+		this.linkTrtCmiCamp = trt.getLinkTrtCmiCamp();
+		this.selection = trt.getSelection();
+		this.versionEtpOpi = trt.getVersionEtpOpi();		
+	}
+	
+	/**
+	 * Constructors.
 	 * @param codCge 
 	 * @param vet
 	 */

@@ -47,7 +47,7 @@ public class WSApogee implements IApogee {
 	@Cacheable(cacheName = CacheModelConst.RENNES1_APOGEE_MODEL)	
 	public List<String> getCodesDiplomes(final String codeKeyWord) {
 		try {
-			return wsApo.getCodesDiplomes(codeKeyWord).getString();
+			return wsApo.getCodesDiplomes(codeKeyWord).getStrings();
 		} catch (Exception e) {
 			log.error(new CommunicationApogeeException(e));
 			return new ArrayList<String>();
@@ -58,7 +58,7 @@ public class WSApogee implements IApogee {
 	@Cacheable(cacheName = CacheModelConst.RENNES1_APOGEE_MODEL)	
 	public List<GrpTypDip> getGrpTypDip(final String bool) {
 		try {
-			return wrap(wsApo.getRen1GrpTypDip(bool).getRen1GrpTypDip()).map(
+			return wrap(wsApo.getRen1GrpTypDip(bool).getRen1GrpTypDips()).map(
 					toGrpTypDip).toStandardList();
 		} catch (Exception e) {
 			log.error(new CommunicationApogeeException(e));
@@ -79,12 +79,12 @@ public class WSApogee implements IApogee {
 				new Ren1GrpTypDip().withCodGrpTpd(grpTypDip.getCodGrpTpd())
 				.withLibGrpTpd(grpTypDip.getLibGrpTpd())
 				.withRen1GrpTypDipCorresps(
-						new ArrayOfRen1GrpTypDipCorresp().withRen1GrpTypDipCorresp(
+						new ArrayOfRen1GrpTypDipCorresp().withRen1GrpTypDipCorresps(
 								wrap(grpTypDip.getGrpTypDipCorresps()).map(
 										toR1GrpTypDipCorresp).toStandardList())); 
 		try {
 			return wrap(wsApo.getRen1Domaine2AnnuFormDTO(
-					r1g, locale).getRen1Domaine2AnnuFormDTO()).map(
+					r1g, locale).getRen1Domaine2AnnuFormDTOs()).map(
 							toMapDomaine2AnnuForm).foldLeft(toMapDomCles, new HashMap<Domaine2AnnuForm,List<Cles2AnnuForm>>());
 		} catch (Exception e) {
 			log.error(new CommunicationApogeeException(e));

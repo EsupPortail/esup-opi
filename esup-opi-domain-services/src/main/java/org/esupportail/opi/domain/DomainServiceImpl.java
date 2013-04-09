@@ -12,9 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import fj.P2;
-import fj.data.Option;
-import fj.data.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.exceptions.UserNotFoundException;
@@ -60,7 +57,10 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
 import org.esupportail.opi.utils.ldap.LdapAttributes;
 import org.esupportail.opi.utils.primefaces.PFFilters;
-import org.primefaces.model.SortOrder;
+
+import fj.P2;
+import fj.data.Option;
+import fj.data.Stream;
 
 
 /**
@@ -849,12 +849,13 @@ public class DomainServiceImpl implements DomainService {
 	 * @see org.esupportail.opi.domain.DomainService#add(org.esupportail.opi.domain.beans.NormeSI,
 	 *      java.lang.String)
 	 */
-	public NormeSI add(final NormeSI norme, final String codeCurrentUser) {
+	@Override
+	public <T extends NormeSI> T add(final T norme, final String codeCurrentUser) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering add with norme = " + norme
 					+ "and codCurrentUSer  = " + codeCurrentUser);
 		}
-		NormeSI newNorme = norme;
+		T newNorme = norme;
 		newNorme.setCodUserToCreate(codeCurrentUser);
 		newNorme.setDateCreaEnr(new Date());
 
@@ -865,12 +866,13 @@ public class DomainServiceImpl implements DomainService {
 	 * @see org.esupportail.opi.domain.DomainService#update(org.esupportail.opi.domain.beans.NormeSI,
 	 *      java.lang.String)
 	 */
-	public NormeSI update(final NormeSI norme, final String codeCurrentUser) {
+	@Override
+	public <T extends NormeSI> T update(final T norme, final String codeCurrentUser) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering update with norme = " + norme
 					+ "and codCurrentUSer  = " + codeCurrentUser);
 		}
-		NormeSI newNorme = norme;
+		T newNorme = norme;
 		newNorme.setCodUserToUpdate(codeCurrentUser);
 		newNorme.setDateModifEnr(new Date());
 

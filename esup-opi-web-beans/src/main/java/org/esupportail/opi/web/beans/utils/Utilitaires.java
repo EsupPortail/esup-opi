@@ -958,7 +958,7 @@ public class Utilitaires {
 			RegimeInscription ri =  mapRegimeInscription.get(
 					voeu.getLinkTrtCmiCamp().getCampagne().getCodeRI());
 			if (parameterService.isExitFormulaireEtp(vet, String.valueOf(ri.getCode()))) {
-				if (parameterService.isExitFormulaireInd(ind, voeu)) {
+				if (parameterService.isExitFormulaireInd(ind, vet)) {
 					mapValidForm.put(voeu, true);
 				} else {
 					mapValidForm.put(voeu, false);

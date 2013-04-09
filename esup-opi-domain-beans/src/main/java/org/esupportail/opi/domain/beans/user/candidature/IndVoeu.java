@@ -230,7 +230,9 @@ public class IndVoeu extends NormeSI {
 	 * @return the avis
 	 */
 	public List<Avis> getAvisAsList() {
-		return new ArrayList<Avis>(avis);
+		List<Avis> result = new ArrayList<Avis>();
+		if (avis != null) result.addAll(avis);
+		return result;
 	}
 
 	/**

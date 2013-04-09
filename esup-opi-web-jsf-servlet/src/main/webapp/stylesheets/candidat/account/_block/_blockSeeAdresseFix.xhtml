@@ -3,7 +3,6 @@
              xmlns:h="http://java.sun.com/jsf/html"
              xmlns:p="http://primefaces.org/ui">
     <div id="seeBlockFormAdresseFix" class="blockForm">
-        <h:form id="seeFormAdresseFix" styleClass="opiR1_form">
             <div style="width: 100%;">
                 <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
                              styleClass="tableJustWidthMax">
@@ -14,7 +13,7 @@
                                          immediate="true" action="#{adressController.initUpdate}"
                                          rendered="#{individuController.pojoIndividu.asRightsToUpdate
     					and individuController.actionEnum.whatAction != individuController.actionEnum.updateAction}"
-                                         update=":content_panel">
+                                         update="content_panel">
                             <f:setPropertyActionListener
                                     value="#{adressController.actionEnum.updateAction}"
                                     target="#{adressController.actionEnum.whatAction}"/>
@@ -98,6 +97,5 @@
     					!= adressController.codeFrance}"
                               value="#{adressController.fixAdrPojo.adresse.libComEtr}"/>
             </h:panelGrid>
-        </h:form>
     </div>
 </ui:fragment>

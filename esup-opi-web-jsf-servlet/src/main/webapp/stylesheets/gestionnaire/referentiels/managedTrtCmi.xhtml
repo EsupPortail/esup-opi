@@ -177,24 +177,24 @@
                                     <h:panelGrid columns="2">
                                         <h:outputText value="#{beanTrtCmi.etape.libWebVet}"/>
                                         <h:panelGroup rendered="#{formulairesController.modifiable}">
-                                            <p:commandButton value="#{msgs['FORMULAIRE.NEW']}"
+                                            <p:commandLink value="#{msgs['FORMULAIRE.NEW']}" styleClass="form-button"
                                                              action="#{formulairesController.createFormInBuilder}"
                                                              rendered="#{formulairesController.formulairesCmi[beanTrtCmi.traitementCmi.versionEtpOpi] == null}">
                                                 <f:setPropertyActionListener value="#{beanTrtCmi.traitementCmi}"
                                                                              target="#{formulairesController.traitementCmiSelected}"/>
-                                            </p:commandButton>
+                                            </p:commandLink>
                                             <h:outputLink target="_blank" styleClass="form-button"
                                                           value="#{formulairesController.orbeonBuilderUrl}#{beanTrtCmi.traitementCmi.versionEtpOpi.codEtp}-#{beanTrtCmi.traitementCmi.versionEtpOpi.codVrsVet}
         							 -#{trtCmiController.currentRegime.shortLabel}"
                                                           rendered="#{formulairesController.formulairesCmi[beanTrtCmi.traitementCmi.versionEtpOpi] != null}">
                                                 <h:outputText value="#{msgs['FORMULAIRE.EDIT']}"/>
                                             </h:outputLink>
-                                            <p:commandButton value="#{msgs['FORMULAIRE.DELETE']}"
-                                                             action="#{formulairesController.deleteFormInBuilder}"
+                                            <p:commandLink value="#{msgs['FORMULAIRE.DELETE']}" styleClass="form-button"
+                                                             actionListener="#{formulairesController.deleteFormInBuilder}"
                                                              rendered="#{formulairesController.formulairesCmi[beanTrtCmi.traitementCmi.versionEtpOpi] != null}">
                                                 <f:setPropertyActionListener value="#{beanTrtCmi.traitementCmi}"
                                                                              target="#{formulairesController.traitementCmiSelected}"/>
-                                            </p:commandButton>
+                                            </p:commandLink>
                                         </h:panelGroup>
                                         <h:panelGroup rendered="#{not formulairesController.modifiable}"/>
                                     </h:panelGrid>

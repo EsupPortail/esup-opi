@@ -786,7 +786,7 @@ public class ParameterServiceImpl implements ParameterService {
 		calendarCmi.setDatEndBackDossier(dateBack);
 		calendarCmi.setCommission(commission);
 		
-		calendarCmi = (CalendarCmi) domainService.add(calendarCmi, 
+		calendarCmi = domainService.add(calendarCmi, 
 				"Batch createMissingCalendarCmi");
 		addCalendar(calendarCmi);
 		
@@ -1270,8 +1270,8 @@ public class ParameterServiceImpl implements ParameterService {
 	 * @param voeu
 	 * @return boolean
 	 */
-	public boolean isExitFormulaireInd(final Individu indSelected, final IndVoeu voeu) {
-		return daoService.isExitFormulaireInd(indSelected, voeu);
+	public boolean isExitFormulaireInd(final Individu indSelected, final VersionEtpOpi vet) {
+		return daoService.isExitFormulaireInd(indSelected, vet);
 	}
 	
 	/**
@@ -1295,12 +1295,12 @@ public class ParameterServiceImpl implements ParameterService {
 		Integer nbFormsToCreate = 0;
 		Integer nbFormsCreated = 0;
 		for (IndVoeu indVoeu : indSelected.getVoeux()) {
-			if (isExitFormulaireEtp(
-			    indVoeu.getLinkTrtCmiCamp().getTraitementCmi().getVersionEtpOpi(),
-			    codeRI)) {
-				nbFormsToCreate ++;
+			TraitementCmi trt = getTraitementCmi(indVoeu.getLinkTrtCmiCamp()
+					.getTraitementCmi().getId());
+			if (isExitFormulaireEtp(trt.getVersionEtpOpi(), codeRI)) {
+				nbFormsToCreate++;
 			}
-			if (isExitFormulaireInd(indSelected, indVoeu)) {
+			if (isExitFormulaireInd(indSelected, trt.getVersionEtpOpi())) {
 				nbFormsCreated ++;
 			}
 		}

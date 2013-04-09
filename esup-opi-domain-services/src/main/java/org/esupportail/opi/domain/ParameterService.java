@@ -535,10 +535,10 @@ public interface ParameterService extends Serializable {
 	
 	/**
 	 * @param indSelected
-	 * @param voeu
+	 * @param vet
 	 * @return boolean
 	 */
-	boolean isExitFormulaireInd(Individu indSelected, IndVoeu voeu);
+	boolean isExitFormulaireInd(Individu indSelected, VersionEtpOpi vet);
 	
 	/**
 	 * @param vet

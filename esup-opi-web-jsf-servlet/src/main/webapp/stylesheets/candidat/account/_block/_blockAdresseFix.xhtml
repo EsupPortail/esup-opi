@@ -14,12 +14,12 @@
                                  action="#{individuController.update}"
                                  rendered="#{adressController.actionEnum.whatAction eq
         								adressController.actionEnum.updateAction}"
-                                 update=":content_panel"/>
+                                 update="content_panel"/>
                 <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-                                 immediate="true" action="#{individuController.initAdresse}"
+                                 immediate="true" actionListener="#{individuController.initAdresse}"
                                  rendered="#{adressController.actionEnum.whatAction eq
         								adressController.actionEnum.updateAction}"
-                                 update=":content_panel"
+                                 update="content_panel"
                                  ajax="false">
                     <f:setPropertyActionListener
                             value="#{adressController.actionEnum.emptyAction}"

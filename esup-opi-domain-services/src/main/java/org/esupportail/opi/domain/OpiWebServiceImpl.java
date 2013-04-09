@@ -272,7 +272,7 @@ public class OpiWebServiceImpl implements OpiWebService {
 			voeux[0].setConvocation(convocation1);
 		}
 		donneesOPI.setVoeux(
-		    new TableauVoeu().withItem(Arrays.asList(voeux)));
+		    new TableauVoeu().withItems(Arrays.asList(voeux)));
 		return donneesOPI;
 	}
 	
@@ -479,7 +479,7 @@ public class OpiWebServiceImpl implements OpiWebService {
 		donneesOPI.setBac(bac);
 		donneesOPI.setDac(dac);
 		donneesOPI.setVoeux(
-		    new TableauVoeu().withItem(Arrays.asList(voeux)));
+		    new TableauVoeu().withItems(Arrays.asList(voeux)));
 
 		return donneesOPI;
 	}

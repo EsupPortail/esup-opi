@@ -854,10 +854,10 @@ public class DomainApoServiceImpl implements DomainApoService {
 		}
 		
 		CritereVdiDTO criteria = new CritereVdiDTO() {{
-		    getCodeDiplome().addAll(codDiplome);
+		    getCodeDiplomes().addAll(codDiplome);
 		    dateRct = codAnu;
-		    getCodTpdEtb().addAll(listCodTpdEtb);
-		    getMethodToExecute().add(MethodToLookForVdi.VDI_TO_LIST_COD_DIP);		    
+		    getCodTpdEtbs().addAll(listCodTpdEtb);
+		    getMethodToExecutes().add(MethodToLookForVdi.VDI_TO_LIST_COD_DIP);		    
 		}};
 		
 		List<VersionDiplomeDTO> list = 
@@ -877,9 +877,9 @@ public class DomainApoServiceImpl implements DomainApoService {
 		codDiplome.addAll(remoteApo.getCodesDiplomes(codeKeyWord));
 		
 		CritereVdiDTO criteria = new CritereVdiDTO() {{
-		    getCodeDiplome().addAll(codDiplome);
+		    getCodeDiplomes().addAll(codDiplome);
 		    dateRct = annee;
-		    getMethodToExecute().add(MethodToLookForVdi.VDI_TO_LIST_COD_DIP);
+		    getMethodToExecutes().add(MethodToLookForVdi.VDI_TO_LIST_COD_DIP);
 		}};
 		//criteria.buildCritVdiToListVdi(codDiplome, annee, null);
 		
@@ -1004,7 +1004,7 @@ public class DomainApoServiceImpl implements DomainApoService {
 			// Recuperation des infos de l'etudiant dans Apogee			
 			InfoAdmEtuDTO infosAdmEtu = remoteApoRenEtuMetier.recupererInfosAdmEtu(codeEtudiant);
 			
-			List<IndBacDTO> indBacDtos = infosAdmEtu.getListeBacs().getItem();
+			List<IndBacDTO> indBacDtos = infosAdmEtu.getListeBacs().getItems();
 			for (IndBacDTO indBacDto : indBacDtos) {
 				IndBac indBac = new IndBac();
 
@@ -1050,7 +1050,7 @@ public class DomainApoServiceImpl implements DomainApoService {
 					CursusExternesEtTransfertsDTO curEtTrans = remoteApoRenAdminMetier
 					.recupererCursusExterne(individu.getCodeEtu());
 					if (curEtTrans != null) {
-						for (CursusExterneDTO curE : curEtTrans.getListeCursusExternes().getItem()) {
+						for (CursusExterneDTO curE : curEtTrans.getListeCursusExternes().getItems()) {
 							CursusExt curExt = new CursusExt(curE.getAnnee());
 							if (curE.getEtablissement() != null) {
 								curExt.setCodEtablissement(curE
@@ -1157,14 +1157,14 @@ public class DomainApoServiceImpl implements DomainApoService {
 
 		CursusR1 cR1 = cursusR1;
 		for (ContratPedagogiqueResultatVdiVetDTO resultat : resultatVdiVet) {
-			for (EtapeResVdiVetDTO etape : resultat.getEtapes().getItem()) {
+			for (EtapeResVdiVetDTO etape : resultat.getEtapes().getItems()) {
 				if (cR1.getCodEtape().equals(etape.getEtape().getCodEtp())
 						&& cR1.getCodVersionEtape().equals(
 								String.valueOf(etape.getEtape().getCodVrsVet()))
 								&& cR1.getAnnee().equals(etape.getCodAnu())) {
 					if (etape.getResultatVet() != null) {
 
-						for (ResultatVetDTO resVet : etape.getResultatVet().getItem()) {									
+						for (ResultatVetDTO resVet : etape.getResultatVet().getItems()) {									
 							if (resVet.getTypResultat() != null) {
 								if (log.isDebugEnabled()) {
 									log.debug("session lib = " 
