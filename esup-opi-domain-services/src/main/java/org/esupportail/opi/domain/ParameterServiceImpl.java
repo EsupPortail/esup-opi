@@ -540,7 +540,7 @@ public class ParameterServiceImpl implements ParameterService {
 		Set<PieceJustificative> pjInUse = getPJs(true); 
 		for (PieceJustificative p : pjInUse) {
 			// on garde les piÃÂ¨ces du rÃÂ©gime
-			if (codeRI == null || codeRI.equals(p.getCodeRI())) {
+			if (codeRI == null || codeRI.equals(String.valueOf(p.getCodeRI()))) {
 				if (p.getIsForAllVet()) {
 					pj.add(p);
 				} else {

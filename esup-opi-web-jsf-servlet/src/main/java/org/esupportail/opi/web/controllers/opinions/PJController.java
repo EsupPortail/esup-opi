@@ -17,6 +17,7 @@ import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.MissingPiece;
+import org.esupportail.opi.utils.primefaces.MissingPieceDataModel;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.paginator.PMPaginator;
 import org.esupportail.opi.web.beans.parameters.FormationContinue;
@@ -68,7 +69,12 @@ public class PJController extends AbstractContextAwareController {
     /**
      * Missing piece selected.
      */
-    private Object[] missingPiece;
+    private MissingPiece[] missingPiece;
+    
+    /**
+     * Missing piece selected.
+     */
+    private MissingPieceDataModel missingPieceModel;    
 
     /**
      * MissPiece just save.
@@ -129,10 +135,14 @@ public class PJController extends AbstractContextAwareController {
         allChecked = false;
         stateSelected = "";
         currentCmiPojo = null;
-        missingPiece = new Object[0];
+        missingPiece = new MissingPiece[0];
         actionEnum = new ActionEnum();
         missPieceForInd = new HashSet<MissingPiece>();
-
+        missingPieceModel = new MissingPieceDataModel();
+    }
+    
+    public void resetPm() {
+    	actionEnum = new ActionEnum();
     }
 
     /**
@@ -200,7 +210,7 @@ public class PJController extends AbstractContextAwareController {
      */
     @SuppressWarnings({"serial", "synthetic-access"})
     public void searchStudents() {
-        reset();
+    	resetPm();
     }
 
     /**
@@ -308,14 +318,18 @@ public class PJController extends AbstractContextAwareController {
      */
     public void seeMissingPiecePrincipal() {
         IndividuPojo pojoIndividu = this.mpPojoSelected.getIndividuPojo();
-
         if (currentCmiPojo.getState()
                 instanceof EtatArriveIncomplet) {
             List<MissingPiece> missP =
                     getDomainService().getMissingPiece(
                             pojoIndividu.getIndividu(), currentCmiPojo.getCommission());
-            if (missP != null) {
-                missingPiece = missP.toArray();
+            if (missP != null && !missP.isEmpty()) {
+            	missingPiece = new MissingPiece[missP.size()];	
+            	for(int i=0; i<missP.size(); i++) {
+            		missingPiece[i] = missP.get(i);
+            	}
+            } else {
+            	missingPiece = new MissingPiece[0];
             }
         } else {
             addInfoMessage(null, "MISSING_PIECE.NOT_EMPTY_STATE", getString("STATE.ARRIVE_INCOMPLET"));
@@ -333,8 +347,7 @@ public class PJController extends AbstractContextAwareController {
                     this.mpPojoSelected.getPiecesForCmi().get(currentCmiPojo.getCommission()));
         } else {
             //TODO probleme de lazy aleatoire a voir 01042009
-            for (Object o : missingPiece) {
-                MissingPiece mp = (MissingPiece) o;
+            for (MissingPiece mp : missingPiece) {
                 missPieceForInd.add(mp);
             }
             for (MissingPiece mp
@@ -469,17 +482,25 @@ public class PJController extends AbstractContextAwareController {
     /**
      * @return the missingPiece
      */
-    public Object[] getMissingPiece() {
+    public MissingPiece[] getMissingPiece() {
         return missingPiece;
     }
 
     /**
      * @param missingPiece the missingPiece to set
      */
-    public void setMissingPiece(final Object[] missingPiece) {
-        this.missingPiece = missingPiece;
+    public void setMissingPiece(final MissingPiece[] missingPiece) {
+    	this.missingPiece = missingPiece;
     }
-
+    
+    /**
+     * @return the missingPieceModel
+     */
+    public MissingPieceDataModel getMissingPieceModel() {
+    	missingPieceModel = new MissingPieceDataModel(this.mpPojoSelected.getPiecesForCmi().get(currentCmiPojo.getCommission()));
+        return missingPieceModel;
+    }
+    
     /**
      * @param individuController the individuController to set
      */

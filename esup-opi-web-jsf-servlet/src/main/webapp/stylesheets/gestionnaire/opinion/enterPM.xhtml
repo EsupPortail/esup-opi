@@ -4,7 +4,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-        <div id="maPage" class="div_body">
+		<p:panel id="maPage" styleClass="div_body">
+        <div>
             <h1>
                 <span class="section-header">
                     <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
@@ -105,9 +106,13 @@
                     <p:column styleClass="buttonTD">
                         <p:commandButton icon="ui-icon-search" immediate="true"
                                          action="#{pjController.seeMissingPiecePrincipal}"
-                                         title="#{msgs['_.BUTTON.DISPLAY']}" ajax="false">
+                                         title="#{msgs['_.BUTTON.DISPLAY']}" ajax="false"
+                                         update=":listePieceManquante"
+                                         disabled="#{!(commissionPojo.stateCurrent eq 'STATE.ARRIVE_INCOMPLET')}">
                             <f:setPropertyActionListener value="#{commissionPojo}"
                                                          target="#{pjController.currentCmiPojo}"/>
+                            <f:setPropertyActionListener value="#{pjController.actionEnum.listePm}"
+                            							 target="#{pjController.actionEnum.whatAction}"/>
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>
@@ -118,5 +123,6 @@
 
             <ui:include src="_block/_enterPM.xhtml"/>
         </div>
+        </p:panel>
     </ui:define>
 </ui:composition>

@@ -123,7 +123,6 @@ public class DomainApoServiceImpl implements DomainApoService {
 	private final Logger log = new LoggerImpl(getClass());
 
 
-
 	/**
 	 * Can read the reference Apogee.
 	 */

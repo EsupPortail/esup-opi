@@ -53,6 +53,11 @@ public class ActionEnum {
 	 * Value to the LISTE_PREPA action.
 	 */
 	public static final String LISTE_PREPA = "LISTE_PREPA";
+
+	/**
+	 * Value to the LISTE_PM action.
+	 */
+	public static final String LISTE_PM = "LISTE_PM";
 	
 	/**
 	 * Value to the PROPOSITION action.
@@ -185,6 +190,13 @@ public class ActionEnum {
 	 */
 	public String getListePrepa() {
 		return LISTE_PREPA;
+	}
+
+	/**
+	 * @return the LISTE_PM
+	 */
+	public String getListePm() {
+		return LISTE_PM;
 	}
 	
 	/**

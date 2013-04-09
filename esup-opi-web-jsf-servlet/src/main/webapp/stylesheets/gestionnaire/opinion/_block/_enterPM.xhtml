@@ -1,24 +1,25 @@
 <ui:fragment xmlns:f="http://java.sun.com/jsf/core"
              xmlns:ui="http://java.sun.com/jsf/facelets"
              xmlns:h="http://java.sun.com/jsf/html"
-             xmlns:p="http://primefaces.org/ui">
-    <ui:fragment rendered="#{pjController.currentCmiPojo != null 
-						and pjController.currentCmiPojo.state.displayPJ}">
+             xmlns:p="http://primefaces.org/ui">    
+    <ui:fragment rendered="#{pjController.actionEnum.whatAction == pjController.actionEnum.listePm}">	
+    
         <h:form id="listePieceManquante">
             <div class="blockButton" style="text-align:right;">
                 <h:panelGroup>
                     <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
                                      rendered="#{managedAccess.updateAuthorized
         								|| managedAccess.addAuthorized}"
-                                     action="#{pjController.saveMissingPiecePrincipal}" ajax="false"/>
-                    <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-                                     action="#{pjController.searchStudents}" immediate="true" ajax="false"/>
+                                     action="#{pjController.saveMissingPiecePrincipal}"
+                                     update=":maPage"/>
                 </h:panelGroup>
-            </div>
-            <p:dataTable var="missingPiece" id="pjData"
-                         value="#{pjController.mpPojoSelected.piecesForCmi[pjController.currentCmiPojo.commission]}"
-                         selection="#{pjController.missingPiece}" rowKey="#{missingPiece}"
-                         styleClass="paginatorData">
+            </div>         
+            
+            <p:dataTable id="pmData"
+                         value="#{pjController.missingPieceModel}"
+                         selection="#{pjController.missingPiece}"
+                         var="missingPiece" rowKey="#{missingPiece.piece.id}"
+                         styleClass="displayInfo">
                 <p:column>
                     <p:graphicImage url="/media/images/informationSmall.png"
                                     style="cursor:pointer;" id="helpMotivation"/>
@@ -53,5 +54,3 @@
         </h:form>
     </ui:fragment>
 </ui:fragment>
-
-
