@@ -47,7 +47,7 @@
                             <f:selectItems var="commission"
                                            value="#{commissionController.commissionsItemsByRight}"
                                            itemLabel="#{commission.libelle}" itemValue="#{commission.id}"/>
-                            <p:ajax update="#{toUpdate} @form" listener="#{opinionController.searchStudentsByComm}"/>
+                            <p:ajax update="@form" listener="#{opinionController.searchStudentsByComm}"/>
                         </p:selectOneMenu>
                     </h:panelGroup>
                     <h:panelGroup>
@@ -57,8 +57,7 @@
                         <p:selectOneMenu id="lesTypesDecision" converter="#{typeDecisionConverter}"
                                          value="#{paginatorIndividu.indRechPojo.typeDecRecherchee}">
                             <f:selectItems value="#{nomenclatureController.typeDecisionItems}"/>
-                            <p:ajax update="#{toUpdate} @form"
-                                    listener="#{opinionController.searchStudentsByTypeDec}"/>
+                            <p:ajax update="@form" listener="#{opinionController.searchStudentsByTypeDec}"/>
                             <!-- disabled="#{paginatorIndividu.indRechPojo.typeDecRecherchee.codeTypeConvocation == 'LC'}" -->
                         </p:selectOneMenu>
                     </h:panelGroup>
@@ -73,7 +72,7 @@
                                            value="#{trtCmiController.allTraitementCmi}"
                                            itemLabel="#{beanTrtCmi.etape.licEtp}"
                                            itemValue="#{beanTrtCmi.traitementCmi.id}"/>
-                            <p:ajax update="#{toUpdate} @form" listener="#{opinionController.searchStudentsByEtp}"/>
+                            <p:ajax update="@form" listener="#{opinionController.searchStudentsByEtp}"/>
                         </p:selectOneMenu>
                     </h:panelGroup>
                     <h:panelGroup>

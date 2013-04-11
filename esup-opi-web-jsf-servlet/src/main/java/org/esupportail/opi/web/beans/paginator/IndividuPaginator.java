@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * TODO : get rid of that class
+ *
  * @author tducreux
  */
 public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu> {
@@ -78,7 +80,6 @@ public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu>
         Assert.notNull(this.sessionController,
                 "property sessionController of class " + this.getClass().getName()
                         + " can not be null");
-        reset();
     }
 
     @Override

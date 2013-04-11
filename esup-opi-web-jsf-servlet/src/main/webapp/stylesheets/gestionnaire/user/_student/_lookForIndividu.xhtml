@@ -11,10 +11,11 @@
                 <h:panelGroup>
                     <p:commandButton id="search-button" value="#{msgs['_.BUTTON.SEARCH']}"
                                      actionListener="#{individuController.doRenderTable}"
-                                     update="#{toUpdate}" />
+                                     update="#{toUpdate}">
+                    </p:commandButton>
                 </h:panelGroup>
             </h:panelGrid>
-            <h:panelGrid styleClass="tableWidthMax" columns="4"
+            <h:panelGrid styleClass="tableWidthMax" columns="4" id="formGrid"
                          columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
                 <h:panelGroup>
                     <h:outputLabel value="#{msgs['INDIVIDU.NUM_DOSSIER']}" for="numDossierOpi"/>
@@ -29,8 +30,10 @@
                                      value="#{paginatorIndividu.indRechPojo.idCmi}">
                         <f:selectItem itemLabel="" itemValue=""/>
                         <f:selectItems var="commission"
-                                       value="#{commissionController.commissionsItemsByRightParametrable}"
+                                       value="#{commissionController.getCommissionsItemsByRightParametrable(filterCommsByRight)}"
                                        itemLabel="#{commission.libelle}" itemValue="#{commission.id}"/>
+                        <p:ajax disabled="#{!renderOpinionBlocks}" update="formGrid"
+                                listener="#{opinionController.searchStudentsByComm}"/>
                     </p:selectOneMenu>
                 </h:panelGroup>
                 <h:panelGroup>
@@ -53,6 +56,49 @@
                                    itemLabel="#{ri.shortLabel}" itemValue="#{ri.code}"
                                    value="#{nomenclatureController.allRegimeInscription}"/>
                 </p:selectManyCheckbox>
+                <h:panelGroup rendered="#{renderOpinionBlocks}">
+                    <h:outputLabel value="#{msgs['AVIS.LABEL_DECISION']}" for="lesTypesDecision"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{renderOpinionBlocks}">
+                    <p:selectOneMenu id="lesTypesDecision" converter="#{typeDecisionConverter}"
+                                     value="#{paginatorIndividu.indRechPojo.typeDec}">
+                        <f:selectItems value="#{nomenclatureController.typeDecisionItems}"/>
+                        <p:ajax update="formGrid" partialSubmit="true"
+                                listener="#{opinionController.searchStudentsByTypeDec}"/>
+                    </p:selectOneMenu>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{opinionController.isFilterLCAndCommissionOK}">
+                    <h:outputLabel value="#{msgs['FIELD_LABEL.ETAPES']}" for="lesEtapes"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{opinionController.isFilterLCAndCommissionOK}">
+                    <p:selectOneMenu id="lesEtapes" converter="javax.faces.Integer"
+                                     value="#{paginatorIndividu.indRechPojo.codeTrtCmiRecherchee}">
+                        <f:selectItem itemLabel="" itemValue=""/>
+                        <f:selectItems var="beanTrtCmi"
+                                       value="#{trtCmiController.allTraitementCmi}"
+                                       itemLabel="#{beanTrtCmi.etape.licEtp}"
+                                       itemValue="#{beanTrtCmi.traitementCmi.id}"/>
+                        <p:ajax listener="#{opinionController.searchStudentsByEtp}"/>
+                    </p:selectOneMenu>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{renderTypeTrtBlocks}">
+                    <h:outputLabel value="#{msgs['TYP_TRT.EXCLURE_TRAITE']}"
+                                   for="pasIncTraites"/>
+                </h:panelGroup>
+                <p:selectBooleanCheckbox id="pasIncTraites"
+                                         value="#{paginatorIndividu.indRechPojo.excludeWishProcessed}"
+                                         rendered="#{renderTypeTrtBlocks}"/>
+                <h:panelGroup rendered="#{renderTypeTrtBlocks}">
+                    <h:outputLabel value="#{msgs['FIELD_LABEL.DATE_CREATION']}"
+                                   for="dateCreationVoeu"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{renderTypeTrtBlocks}">
+                    <p:calendar id="dateCreationVoeu" size="10"
+                                value="#{paginatorIndividu.indRechPojo.dateCreationVoeuRecherchee}"
+                                pattern="yyyy-MM-dd" timeZone="#{sessionController.timezone}">
+                        <f:validateLength minimum="8"/>
+                    </p:calendar>
+                </h:panelGroup>
             </h:panelGrid>
         </div>
     </ui:fragment>

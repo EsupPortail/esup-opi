@@ -373,7 +373,7 @@ public class IndividuPojo {
 
 					Boolean addVoeuType = false;
 					if (typeDecisions != null) {
-						// must be filtred by typeDecision
+						// must be filtered by typeDecision
 						for (Avis a : i.getAvis())
 							if (a.getTemoinEnService())
 								if (typeDecisions.contains(a.getResult())) {
@@ -386,7 +386,7 @@ public class IndividuPojo {
                     final VersionEtapeDTO vet = apoServ.getVersionEtape(
                             trtCmi.getVersionEtpOpi().getCodEtp(),
                             trtCmi.getVersionEtpOpi().getCodVrsVet());
-                    // must be filtred by versionEtp
+                    // must be filtered by versionEtp
                     if (versionsEtp != null)
                         addVoeuVet = versionsEtp.contains(vet);
 
@@ -586,8 +586,8 @@ public class IndividuPojo {
 	private Boolean testIfCalIsOpen(
 			final IndVoeu i, 
 			final ParameterService parameterService) {
-		Set<CalendarIns> cIns = parameterService.getCalendars(i.getLinkTrtCmiCamp()
-				.getTraitementCmi().getVersionEtpOpi());
+		Set<CalendarIns> cIns = parameterService.getCalendars(
+                i.getLinkTrtCmiCamp().getTraitementCmi().getVersionEtpOpi());
 		Boolean calIsOpen = false;
 		for (CalendarIns cI : cIns) {
 			if (Utilitaires.calIsOpen(cI)) {

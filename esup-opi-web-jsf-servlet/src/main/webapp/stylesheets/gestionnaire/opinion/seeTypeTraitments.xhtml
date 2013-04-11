@@ -4,99 +4,28 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-        <f:event type="preRenderView" listener="#{typeTraitController.doNotRenderTable}" />
-        <p:blockUI block="maPage" trigger=":lookForIndForm:searchInds
-                                           :lookForIndForm:lesCommissions
-                                           :seeTypeTrtForm:individuData">
-            <p:graphicImage value="/media/images/ajax-loader.gif"/>
-        </p:blockUI>
-        <p:blockUI block=":seeTypeTrtForm:dataPanel" trigger=":seeTypeTrtForm:renderTable">
-            <p:graphicImage value="/media/images/ajax-loader.gif"/>
-        </p:blockUI>
-        <p:panel id="maPage" styleClass="div_body">
-            <h1>
-                <span class="section-header">
-                    <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
-                </span>
-            </h1>
-            <ui:fragment rendered="#{not empty managedAccess.menuModel.contents}">
-                <div id="blockFormSearch" class="blockForm">
-                    <h:form id="lookForIndForm" styleClass="opiR1_form">
-                        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-                                     styleClass="tableJustWidthMax">
-                            <h:outputText value="#{msgs['FIELD_LABEL.LOOK_FOR.IND']}"
-                                          styleClass="section-smallTitle"/>
-                            <h:panelGroup>
-                                <p:commandButton id="searchInds" value="#{msgs['_.BUTTON.SEARCH']}"
-                                                 update="@form,:seeTypeTrtForm:individuData"/>
-                            </h:panelGroup>
-                        </h:panelGrid>
-                        <h:panelGrid styleClass="tableWidthMax" columns="4"
-                                     columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-                            <h:panelGroup>
-                                <h:outputLabel value="#{msgs['INDIVIDU.NUM_DOSSIER']}"
-                                               for="numDossierOpi"/>
-                            </h:panelGroup>
-                            <p:inputText id="numDossierOpi"
-                                         value="#{paginatorIndividu.indRechPojo.numDossierOpiRecherche}"/>
-                            <h:panelGroup>
-                                <h:outputLabel value="#{msgs['TYP_TRT.EXCLURE_TRAITE']}"
-                                               for="pasIncTraites"/>
-                            </h:panelGroup>
-                            <p:selectBooleanCheckbox id="pasIncTraites"
-                                                     value="#{paginatorIndividu.indRechPojo.excludeWishProcessed}"/>
-                            <h:panelGroup>
-                                <h:outputLabel value="#{msgs['INDIVIDU.NOM']}" for="nom"/>
-                            </h:panelGroup>
-                            <p:inputText id="nom"
-                                         value="#{paginatorIndividu.indRechPojo.nomRecherche}"/>
-                            <h:panelGroup>
-                                <h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom"/>
-                            </h:panelGroup>
-                            <p:inputText id="prenom"
-                                         value="#{paginatorIndividu.indRechPojo.prenomRecherche}"/>
-                            <h:panelGroup>
-                                <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc"/>
-                            </h:panelGroup>
-                            <p:selectManyCheckbox id="fc" value="#{paginatorIndividu.indRechPojo.listeRI}"
-                                                  converter="javax.faces.Integer"
-                                                  disabled="#{!paginatorIndividu.indRechPojo.canModifyRISearch}"
-                                                  layout="lineDirection">
-                                <f:selectItems var="ri"
-                                               itemLabel="#{ri.shortLabel}" itemValue="#{ri.code}"
-                                               value="#{nomenclatureController.allRegimeInscription}"/>
-                            </p:selectManyCheckbox>
-                            <h:panelGroup>
-                                <h:outputLabel value="#{msgs['COMMISSION.CHOICE']}"
-                                               for="lesCommissions"/>
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                <p:selectOneMenu id="lesCommissions"
-                                                 converter="javax.faces.Integer"
-                                                 value="#{paginatorIndividu.indRechPojo.idCmi}">
-                                    <f:selectItem itemLabel="" itemValue=""/>
-                                    <f:selectItems var="commission"
-                                                   value="#{commissionController.commissionsItemsByRight}"
-                                                   itemLabel="#{commission.libelle}" itemValue="#{commission.id}"/>
-                                    <p:ajax partialSubmit="true" update=":seeTypeTrtForm:individuData" />
-                                </p:selectOneMenu>
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                <h:outputLabel value="#{msgs['FIELD_LABEL.DATE_CREATION']}"
-                                               for="dateCreationVoeu"/>
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                <p:calendar id="dateCreationVoeu" size="10"
-                                            value="#{paginatorIndividu.indRechPojo.dateCreationVoeuRecherchee}"
-                                            pattern="yyyy-MM-dd" timeZone="#{sessionController.timezone}">
-                                    <f:validateLength minimum="8"/>
-                                </p:calendar>
-                            </h:panelGroup>
-                        </h:panelGrid>
-                    </h:form>
-                </div>
-            </ui:fragment>
-            <h:form id="seeTypeTrtForm">
+        <h:form id="seeTypeTrtForm">
+            <f:event type="preRenderView" listener="#{typeTraitController.doNotRenderTable}" />
+            <f:event type="postValidate" listener="#{individuController.useGestCommsFilter(true)}" />
+            <p:blockUI block="maPage" trigger="individuData search-button">
+                <p:graphicImage value="/media/images/ajax-loader.gif"/>
+            </p:blockUI>
+            <p:blockUI block=":seeTypeTrtForm:dataPanel" trigger=":seeTypeTrtForm:renderTable">
+                <p:graphicImage value="/media/images/ajax-loader.gif"/>
+            </p:blockUI>
+            <p:panel id="maPage" styleClass="div_body">
+                <h1>
+                    <span class="section-header">
+                        <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
+                    </span>
+                </h1>
+                <ui:fragment rendered="#{not empty managedAccess.menuModel.contents}">
+                    <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml">
+                        <ui:param name="toUpdate" value="individuData"/>
+                        <ui:param name="renderTypeTrtBlocks" value="true" />
+                        <ui:param name="filterCommsByRight" value="true" />
+                    </ui:include>
+                </ui:fragment>
                 <p:remoteCommand id="renderTable" name="renderTable"
                                  autoRun="true" async="true"
                                  update="dataPanel"
@@ -112,7 +41,7 @@
                                                    || managedAccess.addAuthorized}" update="individuData" />
                         <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
                                          immediate="true" action="#{typeTraitController.goSeeAllTypeTraitments}"
-                                         update=":lookForIndForm,individuData"/>
+                                         update="@form,individuData"/>
                     </h:panelGroup>
                 </div>
                 <p:panel id="dataPanel" layout="block" styleClass="dataPanel">
@@ -263,7 +192,7 @@
                         </p:dataTable>
                     </p:panel>
                 </p:panel>
-            </h:form>
-        </p:panel>
+            </p:panel>
+        </h:form>
     </ui:define>
 </ui:composition>

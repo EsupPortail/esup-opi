@@ -4,24 +4,29 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-        <p:blockUI block="maPage" trigger=":seeOpinionsForm:choiceTypDecision :seeOpinionsForm:saveAll
-                                           :seeOpinionsForm:individuData :seeOpinionsForm:individuData:checkAll
-                                           :lookForIndForm:lesCommissions :lookForIndForm:lesTypesDecision
-                                           :lookForIndForm:lesEtapes :lookForIndForm:lookForIndividu">
-            <p:graphicImage value="/media/images/ajax-loader.gif"/>
-        </p:blockUI>
-        <p:blockUI block=":seeOpinionsForm:dataPanel" trigger=":seeOpinionsForm:renderTable">
-            <p:graphicImage value="/media/images/ajax-loader.gif"/>
-        </p:blockUI>
-        <p:panel id="maPage" styleClass="div_body">
-            <h1>
-                <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
-            </h1>
-            <ui:include src="/stylesheets/gestionnaire/opinion/_block/_lookForIndividu.xhtml">
-                <ui:param name="toUpdate" value=":seeOpinionsForm:individuData"/>
-            </ui:include>
-            <ui:include src="/stylesheets/gestionnaire/opinion/_block/_proposition.xhtml"/>
-            <h:form id="seeOpinionsForm">
+        <h:form id="seeOpinionsForm">
+            <f:event type="postValidate" listener="#{individuController.useTypeTrtFilter(true)}" />
+            <f:event type="postValidate" listener="#{individuController.useGestCommsFilter(true)}" />
+            <p:blockUI block="maPage" trigger="choiceTypDecision saveAll individuData individuData:checkAll search-button">
+                <p:graphicImage value="/media/images/ajax-loader.gif"/>
+            </p:blockUI>
+            <p:blockUI block=":seeOpinionsForm:dataPanel" trigger=":seeOpinionsForm:renderTable">
+                <p:graphicImage value="/media/images/ajax-loader.gif"/>
+            </p:blockUI>
+            <p:panel id="maPage" styleClass="div_body">
+                <h1>
+                    <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
+                </h1>
+                <ui:fragment rendered="#{opinionController.actionEnum.whatAction != opinionController.actionEnum.propositionAction}">
+                    <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml">
+                        <ui:param name="toUpdate" value="individuData" />
+                        <ui:param name="renderOpinionBlocks" value="true" />
+                        <ui:param name="filterCommsByRight" value="true" />
+                    </ui:include>
+                </ui:fragment>
+                <ui:fragment rendered="#{opinionController.actionEnum.whatAction == opinionController.actionEnum.propositionAction}">
+                    <ui:include src="/stylesheets/gestionnaire/opinion/_block/_proposition.xhtml"/>
+                </ui:fragment>
                 <p:remoteCommand id="renderTable" name="renderTable"
                                  autoRun="true" async="true"
                                  update="dataPanel"
@@ -36,7 +41,7 @@
                                      value="#{opinionController.selectedTypeDec}" style="width: 10%;">
                         <f:selectItems value="#{nomenclatureController.typeDecisionItems}"/>
                         <p:ajax listener="#{opinionController.selectTypeDecisionOpinion}"
-                                update=":seeOpinionsForm:individuData"/>
+                                update="individuData"/>
                     </p:selectOneMenu>
                 </div>
                 <p:panel id="dataPanel" layout="block" styleClass="dataPanel">
@@ -148,7 +153,7 @@
                                                                  and indVoeuxPojo.avisEnService.validation}"/>
                                 </p:selectManyCheckbox>
                             </p:column>
-                            <p:column rendered="#{paginatorIndividuPojo.isUsingDEF}">
+                            <p:column rendered="#{opinionController.isUsingDEF}">
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['AVIS.PROPOSITION.SMALL_TITLE']}"/>
                                 </f:facet>
@@ -165,7 +170,7 @@
                                     </div>
                                 </ui:repeat>
                             </p:column>
-                            <p:column rendered="#{paginatorIndividuPojo.isUsingLC}">
+                            <p:column rendered="#{opinionController.isUsingLC}">
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['AVIS.RANG']}"/>
                                 </f:facet>
@@ -179,7 +184,7 @@
                                     </div>
                                 </ui:repeat>
                             </p:column>
-                            <p:column rendered="#{paginatorIndividuPojo.isUsingDEF}">
+                            <p:column rendered="#{opinionController.isUsingDEF}">
                                 <f:facet name="header">
                                     <h:panelGroup>
                                         <h:outputText value="#{msgs['AVIS.MOTIVATION']}"/>
@@ -245,7 +250,7 @@
                         </p:dataTable>
                     </p:panel>
                 </p:panel>
-            </h:form>
-        </p:panel>
+            </p:panel>
+        </h:form>
     </ui:define>
 </ui:composition>

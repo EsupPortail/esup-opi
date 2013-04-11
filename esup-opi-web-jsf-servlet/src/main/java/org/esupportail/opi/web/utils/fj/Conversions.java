@@ -35,6 +35,14 @@ public class Conversions {
         };
     }
 
+    public static <T> F<Stream<T>, Set<T>> streamToSet_() {
+        return new F<Stream<T>, Set<T>>() {
+            public Set<T> f(Stream<T> ts) {
+                return new HashSet<T>(ts.toCollection());
+            }
+        };
+    }
+
     /**
      * Transforms a {@link IndVoeu} to a {@link IndVoeuPojo} using the given services.
      */

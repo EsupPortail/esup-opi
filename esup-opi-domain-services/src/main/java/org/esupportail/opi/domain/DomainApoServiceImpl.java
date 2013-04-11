@@ -1754,6 +1754,7 @@ public class DomainApoServiceImpl implements DomainApoService {
      * @param temEnSve
      * @return Set<Commission>
      */
+    @Cacheable(cacheName = CacheModelConst.RENNES1_APOGEE_MODEL)
     public Set<Commission> getListCommissionsByRight(
             final Gestionnaire gest,
             final Boolean temEnSve) {

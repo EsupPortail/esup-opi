@@ -180,12 +180,12 @@ public interface DomainService extends Serializable {
 	 * 
 	 */
 	P2<Long, Stream<Individu>> sliceOfInd(PFFilters pfFilters,
-                                          Set<TypeDecision> typesDec,
+                                          List<TypeDecision> typesDec,
                                           Option<Boolean> validWish,
                                           Option<Boolean> treatedWish,
                                           Option<Date> wishCreation,
                                           Option<String> codeTypeTrtmt,
-                                          Set<TraitementCmi> trtCmis,
+                                          Option<Set<TraitementCmi>> trtCmis,
                                           Set<Integer> listCodesRI);
 
 	/**

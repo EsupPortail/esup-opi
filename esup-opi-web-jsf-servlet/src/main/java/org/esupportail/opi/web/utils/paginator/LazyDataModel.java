@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static fj.Function.apply;
 import static fj.data.Option.fromNull;
 import static fj.data.Stream.nil;
 

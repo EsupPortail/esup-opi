@@ -19,6 +19,7 @@ import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorIndLC;
+import org.esupportail.opi.web.controllers.opinions.OpinionController;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
 import java.util.*;
@@ -60,25 +61,6 @@ public class IndividuPojoPaginator extends IndividuPaginator {
      */
     private Boolean forceReload;
 
-
-    /**
-     * true if the type of decision is LC.
-     * Default value : false.
-     */
-    private Boolean isUsingLC;
-
-    /**
-     * true if the type of decision is DEF.
-     * Default value : false.
-     */
-    private Boolean isUsingDEF;
-
-    /**
-     * true if the type of decision is Preselection.
-     * Default value : false.
-     */
-    private Boolean isUsingPreselect;
-
     /**
      * true if use  individuPojos list or not release the other list pojo in forceReload.
      * Default value false.
@@ -115,9 +97,6 @@ public class IndividuPojoPaginator extends IndividuPaginator {
             this.individuPojos = new ArrayList<IndividuPojo>();
         }
         forceReload = false;
-        isUsingLC = false;
-        isUsingDEF = false;
-        isUsingPreselect = false;
         useIndividuPojo = false;
     }
 
@@ -126,10 +105,6 @@ public class IndividuPojoPaginator extends IndividuPaginator {
     public void forceReload() {
         super.forceReload();
         forceReload = true;
-        if (!useIndividuPojo) {
-            updateIndPojosWithWishForOneCmi();
-        }
-
     }
 
     /**
@@ -225,8 +200,8 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 
         // filtrage sur le type de decision
         Set<TypeDecision> typeD = new HashSet<TypeDecision>();
-        if (getIndRechPojo().getTypeDecRecherchee() != null) {
-            typeD.add(getIndRechPojo().getTypeDecRecherchee());
+        if (!getIndRechPojo().getTypesDec().isEmpty()) {
+            typeD.add(getIndRechPojo().getTypesDec().get(0));
         } else {
             typeD = null;
         }
@@ -264,48 +239,7 @@ public class IndividuPojoPaginator extends IndividuPaginator {
         return individuPojos;
     }
 
-    /**
-     * update for the decision type.
-     * <p/>
-     * TODO : get rid of that method
-     */
-    public void updateIndPojosWithWishForOneCmi() {
-        for (IndividuPojo iPojo : getIndPojosWithWishForOneCmi()) {
-            iPojo.setIsUsingLC(isUsingLC);
-            iPojo.setIsUsingDEF(isUsingDEF);
-            for (IndVoeuPojo voeuPojo : iPojo.getIndVoeuxPojo()) {
-                Avis a = new Avis();
-                voeuPojo.setNewAvis(a);
-                voeuPojo.setIsUsingLC(isUsingLC);
-                voeuPojo.setIsUsingDEF(isUsingDEF);
-                if (isUsingPreselect) {
-                    // cas de la selection de la preselection
-                    //charge le commentaire
-                    TraitementCmi t = voeuPojo.getIndVoeu().getLinkTrtCmiCamp().getTraitementCmi();
-                    //init proxy HIB
-//					sessionController.getDomainService().initOneProxyHib(
-//							t, t.getSelection(), Selection.class);
-                    if (t.getSelection() != null) {
-                        voeuPojo.getNewAvis().setCommentaire(
-                                t.getSelection().getComment());
-                    }
-                }
-                if (isUsingPreselect) {
-                    // cas de la selection de la preselection
-                    //charge le commentaire
-                    TraitementCmi t = voeuPojo.getIndVoeu().getLinkTrtCmiCamp().getTraitementCmi();
-                    //init proxy HIB
-//					sessionController.getDomainService().initOneProxyHib(
-//							t, t.getSelection(), Selection.class);
-                    if (t.getSelection() != null) {
-                        voeuPojo.getNewAvis().setCommentaire(
-                                t.getSelection().getComment());
-                    }
-                }
-            }
-        }
-    }
-	
+
 	/*
 	 ******************* ACCESSORS ******************** */
 
@@ -329,48 +263,6 @@ public class IndividuPojoPaginator extends IndividuPaginator {
      */
     public void setForceReload(final Boolean forceReload) {
         this.forceReload = forceReload;
-    }
-
-    /**
-     * @return the isUsingLC
-     */
-    public Boolean getIsUsingLC() {
-        return isUsingLC;
-    }
-
-    /**
-     * @param isUsingLC the isUsingLC to set
-     */
-    public void setIsUsingLC(final Boolean isUsingLC) {
-        this.isUsingLC = isUsingLC;
-    }
-
-    /**
-     * @return the isUsingDEF
-     */
-    public Boolean getIsUsingDEF() {
-        return isUsingDEF;
-    }
-
-    /**
-     * @param isUsingDEF the isUsingDEF to set
-     */
-    public void setIsUsingDEF(final Boolean isUsingDEF) {
-        this.isUsingDEF = isUsingDEF;
-    }
-
-    /**
-     * @return the isUsingPreselect
-     */
-    public Boolean getIsUsingPreselect() {
-        return isUsingPreselect;
-    }
-
-    /**
-     * @param isUsingPreselect the isUsingPreselect to set
-     */
-    public void setIsUsingPreselect(final Boolean isUsingPreselect) {
-        this.isUsingPreselect = isUsingPreselect;
     }
 
     /**

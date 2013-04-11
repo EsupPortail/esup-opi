@@ -30,16 +30,15 @@
         </tx:attributes>
     </tx:advice>
     
-	<bean
-		id="domainService"
-		class="org.esupportail.opi.domain.DomainServiceImpl"
-		>
-		<property name="daoService" ref="daoService" />
-		<property name="urlGenerator" ref="${urlGeneration.bean}" />
-		<property name="ldapUserService" ref="ldapUserService" /> 
-		<property name="ldapAttributes" ref="ldapAttributes" />
-		<property name="codStudentRegex" value="${init.codStudent.regex}"/>
-		<property name="codStudentPattern" value="${init.codStudent.pattern}"/>
+    <bean id="domainService"
+          class="org.esupportail.opi.domain.DomainServiceImpl">
+        <property name="daoService" ref="daoService" />
+        <property name="individuDaoSrv" ref="individuDaoService" />
+        <property name="urlGenerator" ref="${urlGeneration.bean}" />
+        <property name="ldapUserService" ref="ldapUserService" />
+        <property name="ldapAttributes" ref="ldapAttributes" />
+        <property name="codStudentRegex" value="${init.codStudent.regex}"/>
+        <property name="codStudentPattern" value="${init.codStudent.pattern}"/>
 	</bean>
 
 	<bean

@@ -2,10 +2,10 @@ package org.esupportail.opi.web.beans.pojo;
 
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
+import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import javax.annotation.Nullable;
+import java.util.*;
 
 /**
  * @author tducreux
@@ -31,9 +31,9 @@ public class IndRechPojo {
 	private String prenomRecherche;
 
 	/**
-	 * etape for the student search.
+	 * Decision types for the student search.
 	 */
-	private TypeDecision typeDecRecherchee;
+	private List<TypeDecision> typesDec = new ArrayList<TypeDecision>();
 
 	/**
 	 * etape for the student search.
@@ -59,7 +59,22 @@ public class IndRechPojo {
 	 * La date de creation des voeux recherchee.
 	 */
 	private Date dateCreationVoeuRecherchee;
-	
+
+    /**
+     * Filtre-t-on les individus sans voeux ?
+     */
+    private Boolean useVoeuFilter = true;
+
+    /**
+     * Filtre-t-on les individus selon un {@link TypeTraitement}
+     */
+    private Boolean useTypeTrtFilter = false;
+
+    /**
+     * Filtre-t-on selon les commissions du gestionnaire courant ?
+     */
+    private Boolean useGestCommsFilter = false;
+
 	/**
 	 * Exclude the wishes processed.
 	 */
@@ -188,18 +203,21 @@ public class IndRechPojo {
 		this.codeTrtCmiRecherchee = codeTrtCmiRecherchee;
 	}
 
-	/**
-	 * @return the typeDecRecherchee
-	 */
-	public TypeDecision getTypeDecRecherchee() {
-		return typeDecRecherchee;
+    public TypeDecision getTypeDec() {
+        return typesDec.isEmpty() ? null : typesDec.get(0);
+    }
+
+    public void setTypeDec(TypeDecision typeDec) {
+        if (typeDec != null)
+            typesDec = new ArrayList<TypeDecision>(Collections.singleton(typeDec));
+    }
+
+	public List<TypeDecision> getTypesDec() {
+		return typesDec;
 	}
 
-	/**
-	 * @param typeDecRecherchee the typeDecRecherchee to set
-	 */
-	public void setTypeDecRecherchee(final TypeDecision typeDecRecherchee) {
-		this.typeDecRecherchee = typeDecRecherchee;
+	public void setTypesDec(final List<TypeDecision> typesDec) {
+		this.typesDec = typesDec;
 	}
 
 	/**
@@ -244,8 +262,31 @@ public class IndRechPojo {
 		this.dateCreationVoeuRecherchee = dateCreationVoeuRecherchee;
 	}
 
+    public Boolean isUseVoeuFilter() {
+        return useVoeuFilter;
+    }
 
-	/**
+    public void setUseVoeuFilter(Boolean useVoeuFilter) {
+        this.useVoeuFilter = useVoeuFilter;
+    }
+
+    public Boolean isUseTypeTrtFilter() {
+        return useTypeTrtFilter;
+    }
+
+    public void setUseTypeTrtFilter(Boolean useTypeTrtFilter) {
+        this.useTypeTrtFilter = useTypeTrtFilter;
+    }
+
+    public Boolean isUseGestCommsFilter() {
+        return useGestCommsFilter;
+    }
+
+    public void setUseGestCommsFilter(Boolean useGestCommsFilter) {
+        this.useGestCommsFilter = useGestCommsFilter;
+    }
+
+    /**
 	 * @return the excludeWishProcessed
 	 */
 	public Boolean getExcludeWishProcessed() {

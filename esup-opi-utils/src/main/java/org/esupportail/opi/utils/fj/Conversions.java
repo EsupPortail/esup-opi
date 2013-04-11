@@ -26,6 +26,12 @@ import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Cles2AnnuFormDTO;
 import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Domaine2AnnuFormDTO;
 
 public class Conversions {
+
+    public static final F<String, Boolean> parseBoolean = new F<String, Boolean>() {
+        public Boolean f(String s) {
+            return Boolean.parseBoolean(s);
+        }
+    };
 	
 	/**
 	 * A {@link F}unction that converts a {@link Ren1GrpTypDipCorresp} to a
@@ -105,7 +111,7 @@ public class Conversions {
 			};
 	/**
 	 * A {@link F}unction that converts a {@link Ren1Domaine2AnnuFormDTO} to a
-	 * map of {@link Domaine2AnnuForm} with its {@link Cle}
+	 * map of {@link Domaine2AnnuForm} with its {@link Cles2AnnuForm}
 	 */
 	public static final F<Ren1Domaine2AnnuFormDTO,
             Map<Domaine2AnnuForm,List<Cles2AnnuForm>>> toMapDomaine2AnnuForm =

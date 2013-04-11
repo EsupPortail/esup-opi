@@ -179,10 +179,7 @@ public class ParameterServiceImpl implements ParameterService {
 	// Profile
 	// ////////////////////////////////////////////////////////////
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#addProfile(
-	 * org.esupportail.opi.domain.beans.parameters.accessRight.Profile)
-	 */
+    @Override
 	public void addProfile(final Profile profile) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addProfile( " + profile + " )");
@@ -191,10 +188,7 @@ public class ParameterServiceImpl implements ParameterService {
 
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#updateProfile(
-	 * org.esupportail.opi.domain.beans.parameters.accessRight.Profile)
-	 */
+    @Override
 	public void updateProfile(final Profile profile) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateProfile( " + profile + " )");
@@ -203,9 +197,7 @@ public class ParameterServiceImpl implements ParameterService {
 
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#getProfile(java.lang.Integer, java.lang.String)
-	 */
+    @Override
 	public Profile getProfile(final Integer id, final String code) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getProfile( " + id + ", " + code + " )");
@@ -214,9 +206,7 @@ public class ParameterServiceImpl implements ParameterService {
 
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#getProfiles(java.lang.Boolean)
-	 */
+    @Override
 	public Set<BeanProfile> getProfiles(final Boolean temEnSve) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getProfiles( " + temEnSve + " )");
@@ -231,10 +221,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return beanP;
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#deleteProfile(
-	 * org.esupportail.opi.domain.beans.parameters.accessRight.Profile)
-	 */
+    @Override
 	public void deleteProfile(final Profile profile) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteProfile( " + profile + " )");
@@ -243,10 +230,7 @@ public class ParameterServiceImpl implements ParameterService {
 
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#profileCodeIsUnique(
-	 * org.esupportail.opi.domain.beans.parameters.accessRight.Profile)
-	 */
+    @Override
 	public Boolean profileCodeIsUnique(final Profile profile) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering profileCodeIsUnique( " + profile + " )");
@@ -264,10 +248,7 @@ public class ParameterServiceImpl implements ParameterService {
 	// Traitement
 	// ////////////////////////////////////////////////////////////
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#addTraitement(
-	 * org.esupportail.opi.domain.beans.parameters.accessRight.Traitement)
-	 */
+    @Override
 	public void addTraitement(final Traitement traitement) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addTraitement( " + traitement + " )");
@@ -275,10 +256,7 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.addTraitement(traitement);
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#deleteTraitement(
-	 * org.esupportail.opi.domain.beans.parameters.accessRight.Traitement)
-	 */
+    @Override
 	public void deleteTraitement(final Traitement traitement) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteTraitement( " + traitement + " )");
@@ -286,9 +264,7 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.deleteTraitement(traitement);
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#getTraitement(java.lang.Integer)
-	 */
+    @Override
 	public Traitement getTraitement(final Integer id) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getTraitement( " + id + " )");
@@ -296,9 +272,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return daoService.getTraitement(id);
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#getDomain(java.lang.Integer)
-	 */
+    @Override
 	public Domain getDomain(final Integer id) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getDomain( " + id + " )");
@@ -306,10 +280,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return daoService.getDomain(id);
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#getFonctions(java.lang.Boolean,
-	 *      java.lang.Boolean)
-	 */
+    @Override
 	public Set<Fonction> getFonctions(final Boolean temEnSve, final Boolean initAccess) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getFonction( " + temEnSve + ", " + initAccess
@@ -320,12 +291,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return fct;
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#getTraitements(
-	 * 		org.esupportail.opi.domain.beans.parameters.accessRight.Profile,
-	 *      java.lang.String,
-	 *      org.esupportail.opi.domain.beans.parameters.accessRight.Domain)
-	 */
+    @Override
 	public Set<Traitement> getTraitements(final Profile p, final String typeTraitement,
 			final Domain domain) {
 		if (log.isDebugEnabled()) {
@@ -336,10 +302,7 @@ public class ParameterServiceImpl implements ParameterService {
 				typeTraitement, domain));
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#getDomains(java.lang.Boolean,
-	 *      java.lang.Boolean)
-	 */
+    @Override
 	public Set<Domain> getDomains(final Boolean temEnSve, final Boolean initAccess) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getDomain( " + temEnSve + ", " + initAccess
@@ -358,10 +321,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return l;
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#updateTraitement(
-	 * org.esupportail.opi.domain.beans.parameters.accessRight.Traitement)
-	 */
+    @Override
 	public void updateTraitement(final Traitement traitement) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateFonction( " + traitement + " )");
@@ -369,10 +329,7 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.updateTraitement(traitement);
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#traitementCodeIsUnique(
-	 * org.esupportail.opi.domain.beans.parameters.accessRight.Traitement)
-	 */
+    @Override
 	public Boolean traitementCodeIsUnique(final Traitement traitement) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering traitementCodeIsUnique( " + traitement + " )");
@@ -395,11 +352,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return true;
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#functionRangIsUnique(
-	 * org.esupportail.opi.domain.beans.parameters.accessRight.Fonction,
-	 *      java.lang.Integer)
-	 */
+    @Override
 	public Boolean functionRangIsUnique(final Fonction function, final Integer idDomain) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering functionRangIsUnique( " + idDomain + " , "
@@ -415,10 +368,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return true;
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#domainRangIsUnique(
-	 * org.esupportail.opi.domain.beans.parameters.accessRight.Domain)
-	 */
+    @Override
 	public Boolean domainRangIsUnique(final Domain domain) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering domainRangIsUnique( " + domain + " )");
@@ -435,10 +385,7 @@ public class ParameterServiceImpl implements ParameterService {
 	// AccessRight
 	// ////////////////////////////////////////////////////////////
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#addAccessRight(
-	 * org.esupportail.opi.domain.beans.parameters.accessRight.AccessRight)
-	 */
+    @Override
 	public void addAccessRight(final AccessRight accessRight) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addAccessRight( " + accessRight + " )");
@@ -446,10 +393,7 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.addAccessRight(accessRight);
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#updateAccessRight(
-	 * org.esupportail.opi.domain.beans.parameters.accessRight.AccessRight)
-	 */
+    @Override
 	public void updateAccessRight(final AccessRight accessRight) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateAccessRight( " + accessRight + " )");
@@ -461,10 +405,7 @@ public class ParameterServiceImpl implements ParameterService {
 	// Profile
 	// ////////////////////////////////////////////////////////////
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#addNomenclature(
-	 * org.esupportail.opi.domain.beans.parameters.Nomenclature)
-	 */
+    @Override
 	public void addNomenclature(final Nomenclature nomenclature) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addNomenclature( " + nomenclature + " )");
@@ -472,10 +413,7 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.addNomenclature(nomenclature);
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#deleteNomenclature(
-	 * org.esupportail.opi.domain.beans.parameters.Nomenclature)
-	 */
+    @Override
 	public void deleteNomenclature(final Nomenclature nomenclature) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteNomenclature( " + nomenclature + " )");
@@ -484,10 +422,6 @@ public class ParameterServiceImpl implements ParameterService {
 	}
 
 	
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#canDeleteNomclature(
-	 * org.esupportail.opi.domain.beans.parameters.Nomenclature)
-	 */
 	@Override
 	public boolean canDeleteNomclature(final Nomenclature nom) {
 		if (log.isDebugEnabled()) {
@@ -502,9 +436,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return true;
 	}
 	
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#getNomenclature(java.lang.Integer)
-	 */
+    @Override
 	public Nomenclature getNomenclature(final Integer id) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getNomenclature( " + id + " )");
@@ -512,11 +444,8 @@ public class ParameterServiceImpl implements ParameterService {
 		return daoService.getNomenclature(id);
 	}
 
-
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#getPJs(java.lang.Boolean)
-	 */
-	public 	Set<PieceJustificative> getPJs(final Boolean temEnSve) { 
+    @Override
+	public 	Set<PieceJustificative> getPJs(final Boolean temEnSve) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getPJs( " + temEnSve + " )");
 		}
@@ -531,10 +460,7 @@ public class ParameterServiceImpl implements ParameterService {
 	}
 
 
-
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#getPiecesJ(Set, Integer)
-	 */
+    @Override
 	public List<PieceJustificative> getPiecesJ(final Set<VersionEtpOpi> vet, final String codeRI) {
 		List<PieceJustificative> pj = new ArrayList<PieceJustificative>();
 		Set<PieceJustificative> pjInUse = getPJs(true); 
@@ -558,16 +484,13 @@ public class ParameterServiceImpl implements ParameterService {
 		return pj;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.esupportail.opi.domain.ParameterService#getPiecesJ(org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi, java.lang.Integer)
-	 */
 	@Override
 	public List<PieceJustificative> getPiecesJ(VersionEtpOpi vetOpi, final String codeRI) {
 		List<PieceJustificative> pj = new ArrayList<PieceJustificative>();
 		Set<PieceJustificative> pjInUse = getPJs(true); 
 		for (PieceJustificative p : pjInUse) {
 			// on garde les piÃÂ¨ces du rÃÂ©gime
-			if (codeRI == null || codeRI.equals(p.getCodeRI())) {
+			if (codeRI == null || codeRI.equals(String.valueOf(p.getCodeRI()))) {
 				if (p.getIsForAllVet()) {
 					pj.add(p);
 				} else {
@@ -585,9 +508,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return pj;
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#getMotivationsAvis(java.lang.Boolean)
-	 */
+    @Override
 	public Set<MotivationAvis> getMotivationsAvis(final Boolean temEnSve) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getMotivationAvis( " + temEnSve + " )");
@@ -602,10 +523,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return t;
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#getCampagnes(
-	 * java.lang.Boolean, java.lang.Integer)
-	 */
+    @Override
 	public Set<Campagne> getCampagnes(final Boolean temEnSve, final String codeRI) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getCampagnes( " + temEnSve + " )");
@@ -623,10 +541,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return c;
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#
-	 * getCampagneEnServ(int)
-	 */
+    @Override
 	public Campagne getCampagneEnServ(final int codeRI) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getCampagneEnServ( " + codeRI + " )");
@@ -650,10 +565,7 @@ public class ParameterServiceImpl implements ParameterService {
 	}
 	
 	
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#
-	 * isCampagnesFIAndFCEnServ()
-	 */
+    @Override
 	public Boolean isCampagnesFIAndFCEnServ() {
 		if (log.isDebugEnabled()) {
 			log.debug("entering isCampagnesFIAndFCEnServ()");
@@ -677,9 +589,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return isOK;
 	}
 	
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#getCampagnesAnu(java.lang.String)
-	 */
+    @Override
 	public Set<Campagne> getCampagnesAnu(final String codAnu) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getCampagnesAnu( " + codAnu + " )");
@@ -697,9 +607,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return c;
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#getTypeDecisions(java.lang.Boolean)
-	 */
+    @Override
 	public Set<TypeDecision> getTypeDecisions(final Boolean temEnSve) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getTypeDecisions( " + temEnSve + " )");
@@ -714,10 +622,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return t;
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#updateNomenclature(
-	 * org.esupportail.opi.domain.beans.parameters.Nomenclature)
-	 */
+    @Override
 	public void updateNomenclature(final Nomenclature nomenclature) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateNomenclature( " + nomenclature + " )");
@@ -725,10 +630,7 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.updateNomenclature(nomenclature);
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#nomenclatureCodeIsUnique(
-	 * org.esupportail.opi.domain.beans.parameters.Nomenclature)
-	 */
+    @Override
 	public Boolean nomenclatureCodeIsUnique(final Nomenclature nomenclature) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering nomenclatureCodeIsUnique( " + nomenclature
@@ -767,10 +669,7 @@ public class ParameterServiceImpl implements ParameterService {
 	// Commission
 	// ////////////////////////////////////////////////////////////
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#addCommission(
-	 * org.esupportail.opi.domain.beans.references.commission.Commission)
-	 */
+    @Override
 	public void addCommission(final Commission commission) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addCommission( " + commission + " )");
@@ -795,10 +694,7 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.addCommission(commission);
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#deleteCommission(
-	 * org.esupportail.opi.domain.beans.references.commission.Commission)
-	 */
+    @Override
 	public void deleteCommission(final Commission commission) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteCommission( " + commission + " )");
@@ -822,9 +718,7 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.deleteCommission(c);
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#getCommission(java.lang.Integer, java.lang.String)
-	 */
+    @Override
 	public Commission getCommission(final Integer id, final String code) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getCommission( " + id + ", " + code + " )");
@@ -832,9 +726,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return daoService.getCommission(id, code);
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#getCommissions(java.lang.Boolean)
-	 */
+    @Override
 	public Set<Commission> getCommissions(final Boolean temEnSve) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getCommissions( " + temEnSve + " )");
@@ -843,10 +735,7 @@ public class ParameterServiceImpl implements ParameterService {
 	}
 
 	
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#updateCommission(
-	 * org.esupportail.opi.domain.beans.references.commission.Commission)
-	 */
+    @Override
 	public void updateCommission(final Commission commission) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateCommission( " + commission + " )");
@@ -855,10 +744,7 @@ public class ParameterServiceImpl implements ParameterService {
 	}
 
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#commissionCodeIsUnique(
-	 * org.esupportail.opi.domain.beans.references.commission.Commission)
-	 */
+    @Override
 	//TODO : get rid of this !
 	public Boolean commissionCodeIsUnique(final Commission commission) {
 		if (log.isDebugEnabled()) {
@@ -879,11 +765,7 @@ public class ParameterServiceImpl implements ParameterService {
 	// ContactCommission
 	//////////////////////////////////////////////////////////////
 
-	
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#addContactCommission(
-	 * org.esupportail.opi.domain.beans.references.commission.ContactCommission)
-	 */
+    @Override
 	public void addContactCommission(final ContactCommission contactCommission) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addContactCommission( " + contactCommission + " )");
@@ -892,11 +774,7 @@ public class ParameterServiceImpl implements ParameterService {
 	
 	}
 	
-
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#updateContactCommission(
-	 * org.esupportail.opi.domain.beans.references.commission.ContactCommission)
-	 */
+    @Override
 	public void updateContactCommission(final ContactCommission contactCommission) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateContactCommission( " + contactCommission + " )");
@@ -907,10 +785,8 @@ public class ParameterServiceImpl implements ParameterService {
 	// ////////////////////////////////////////////////////////////
 	// Member
 	// ////////////////////////////////////////////////////////////
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#addMember(
-	 * org.esupportail.opi.domain.beans.references.commission.Member)
-	 */
+
+    @Override
 	public void addMember(final Member member) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addMember( " + member + " )");
@@ -918,10 +794,7 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.addMember(member);
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#updateMember(
-	 * org.esupportail.opi.domain.beans.references.commission.Member)
-	 */
+    @Override
 	public void updateMember(final Member member) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateMember( " + member + " )");
@@ -929,9 +802,7 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.updateMember(member);
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#deleteMember(java.util.List)
-	 */
+    @Override
 	public void deleteMember(final List<Member> member) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteMember( " + member + " )");
@@ -947,10 +818,7 @@ public class ParameterServiceImpl implements ParameterService {
 	// TraitementCmi
 	// ////////////////////////////////////////////////////////////
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#addTraitementCmi(
-	 * org.esupportail.opi.domain.beans.references.commission.TraitementCmi)
-	 */
+    @Override
 	public void addTraitementCmi(final TraitementCmi traitementCmi) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addTraitementCmi( " + traitementCmi + " )");
@@ -959,11 +827,7 @@ public class ParameterServiceImpl implements ParameterService {
 		
 	}
 
-
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#updateTraitementCmi(
-	 * org.esupportail.opi.domain.beans.references.commission.TraitementCmi)
-	 */
+    @Override
 	public void updateTraitementCmi(final TraitementCmi traitementCmi) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateTraitementCmi( " + traitementCmi + " )");
@@ -971,9 +835,7 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.updateTraitementCmi(traitementCmi);
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#deleteTraitementCmi(java.util.List)
-	 */
+    @Override
 	public void deleteTraitementCmi(final List<TraitementCmi> traitementCmi) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteTraitementCmi( " + traitementCmi + " )");
@@ -983,11 +845,7 @@ public class ParameterServiceImpl implements ParameterService {
 		}
 	}
 
-	
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#
-	 * getTraitementCmi(org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi, java.lang.Boolean)
-	 */
+    @Override
 	public TraitementCmi getTraitementCmi(
 			final VersionEtpOpi versionEtpOpi,
 			final Boolean initSelection) {
@@ -997,9 +855,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return daoService.getTraitementCmi(versionEtpOpi, null, initSelection);
 	}
 	
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#getTraitementCmi(java.lang.Integer)
-	 */
+    @Override
 	public TraitementCmi getTraitementCmi(final Integer id) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getTraitementCmi( " + id + " )");
@@ -1007,10 +863,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return daoService.getTraitementCmi(id);
 	}
 	
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#isConnectCmi(
-	 * org.esupportail.opi.domain.beans.references.commission.TraitementCmi)
-	 */
+    @Override
 	public Boolean isConnectCmi(final TraitementCmi t) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering isConnectCmi( " + t + " )");
@@ -1027,10 +880,7 @@ public class ParameterServiceImpl implements ParameterService {
 	// Calendar
 	// ////////////////////////////////////////////////////////////
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#addCalendar(
-	 * org.esupportail.opi.domain.beans.references.calendar.Calendar)
-	 */
+    @Override
 	public void addCalendar(final Calendar calendar) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addCalendar( " + calendar + " )");
@@ -1038,10 +888,7 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.addCalendar(calendar);
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#updateCalendar(
-	 * org.esupportail.opi.domain.beans.references.calendar.Calendar)
-	 */
+    @Override
 	public void updateCalendar(final Calendar calendar) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateCalendar( " + calendar + " )");
@@ -1049,10 +896,7 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.updateCalendar(calendar);
 	}
 
-
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#getCalendars(java.lang.Boolean, java.lang.String)
-	 */
+    @Override
 	public List<Calendar> getCalendars(final Boolean temEnSve, final String typeCal) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getCalendars( " + temEnSve + ", " + typeCal + " )");
@@ -1061,10 +905,7 @@ public class ParameterServiceImpl implements ParameterService {
 	}
 
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#calendarCodeIsUnique(
-	 * org.esupportail.opi.domain.beans.references.calendar.Calendar)
-	 */
+    @Override
 	public Boolean calendarCodeIsUnique(final Calendar calendar) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering calendarCodeIsUnique( " + calendar
@@ -1091,10 +932,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return true;
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#deleteCalendar(
-	 * org.esupportail.opi.domain.beans.references.calendar.Calendar)
-	 */
+    @Override
 	public void deleteCalendar(final Calendar calendar) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteCalendar( " + calendar + " )");
@@ -1114,33 +952,15 @@ public class ParameterServiceImpl implements ParameterService {
 	}
 	
 	
-	/***
-	 * @see org.esupportail.opi.domain.ParameterService#getCalendars(
-	 * org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi)
-	 */
 	@Override
 	public Set<CalendarIns> getCalendars(final VersionEtpOpi versionEtpOpi) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getCalendars( " + versionEtpOpi + " )");
 		}
-		Set<Commission> cmiList = getCommissions(true);
-		Set<CalendarIns> cIns = new HashSet<CalendarIns>();
-		for (Commission cmi : cmiList) {
-			for (TraitementCmi trt : cmi.getTraitementCmi()) {
-				if (trt.getVersionEtpOpi().equals(versionEtpOpi)) {
-					cIns.addAll(getCalendarIns(cmi));
-					break;
-				}
-			}
-		}
-		
-		return cIns;
+        return daoService.getCalendars(versionEtpOpi);
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#getCalendarIns(
-	 * org.esupportail.opi.domain.beans.references.commission.Commission)
-	 */
+    @Override
 	public List<CalendarIns> getCalendarIns(final Commission commission) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getCalendarIns( " + commission + " )");
@@ -1148,16 +968,10 @@ public class ParameterServiceImpl implements ParameterService {
 		return daoService.getCalendarIns(commission);
 	}
 
-
-	
 	// ////////////////////////////////////////////////////////////
 	// FormulaireCmi
 	// ////////////////////////////////////////////////////////////
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#addFormulaireCmi(
-	 * org.esupportail.opi.domain.beans.references.commission.FormulaireCmi)
-	 */
 	@Override
 	public void addFormulaireCmi(final FormulaireCmi form) {
 		if (log.isDebugEnabled()) {
@@ -1166,10 +980,6 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.addFormulaire(form);
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#deleteFormulaireCmi(
-	 * org.esupportail.opi.domain.beans.references.commission.FormulaireCmi)
-	 */
 	@Override
 	public void deleteFormulaireCmi(final FormulaireCmi form) {
 		if (log.isDebugEnabled()) {
@@ -1178,9 +988,6 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.deleteFormulaire(form);
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#getFormulairesCmi(Set, Integer)
-	 */
 	@Override
 	public Map<VersionEtpOpi, FormulaireCmi> getFormulairesCmi(
 			final Set<TraitementCmi> traitements, final Integer codeRI) {
@@ -1205,10 +1012,6 @@ public class ParameterServiceImpl implements ParameterService {
 		return map;
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#addIndFormulaire(
-	 * org.esupportail.opi.domain.beans.user.candidature.IndFormulaire)
-	 */
 	@Override
 	public void addIndFormulaire(final IndFormulaire formNorme) {
 		if (log.isDebugEnabled()) {
@@ -1217,10 +1020,6 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.addIndFormulaire(formNorme);
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#deleteIndFormulaire(IndFormulaire,
-	 *      String, RegimeInscription)
-	 */
 	@Override
 	public void deleteIndFormulaire(final IndFormulaire form, final String numDoss, 
 			final String sLabelRI) {
@@ -1245,10 +1044,6 @@ public class ParameterServiceImpl implements ParameterService {
 
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#getIndFormulaires(
-	 * org.esupportail.opi.domain.beans.user.Individu)
-	 */
 	@Override
 	public Map<VersionEtpOpi, IndFormulaire> getIndFormulaires(
 			final Individu indSelected) {
@@ -1274,19 +1069,11 @@ public class ParameterServiceImpl implements ParameterService {
 		return daoService.isExitFormulaireInd(indSelected, vet);
 	}
 	
-	/**
-	 * @param vet
-	 * @param ri
-	 * @return boolean
-	 */
+    @Override
 	public boolean isExitFormulaireEtp(final VersionEtpOpi vet, final String codeRI) {
 		return daoService.isExitFormulaireEtp(vet, codeRI);
 	}
 	
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#isAllFormulairesCreated(Individu,
-	 *      RegimeInscription)
-	 */
 	@Override
 	public boolean isAllFormulairesCreated(final Individu indSelected,
 	    final String codeRI) {
@@ -1310,10 +1097,6 @@ public class ParameterServiceImpl implements ParameterService {
 		return nbFormsToCreate.equals(nbFormsCreated);
 	}
 	
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#isAllFormulairesCreatedByTraitementsCmi(Individu,
-	 *      RegimeInscription, Set)
-	 */
 	@Override
 	public boolean isAllFormulairesCreatedByTraitementsCmi(
 			final Individu indSelected, final Integer codeRI,
@@ -1335,11 +1118,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return allFormsCreated;
 	}
 	
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#getIndFormulaires(
-	 * org.esupportail.opi.domain.beans.parameters.Campagne)
-	 */
-	
+	@Override
 	public Map<String, List<String>> getAllFormNamesMap(final Campagne camp,
 	    final String sLabelRI) {
 		if (log.isDebugEnabled()) {
@@ -1347,7 +1126,7 @@ public class ParameterServiceImpl implements ParameterService {
 		}
 		Map<String, List<String>> mapFormName = new HashMap<String, List<String>>();
 		for (IndFormulaire form : daoService.getIndFormulaires(camp)) {
-			// PrÃÂÃÂ©paration de l'entrÃÂÃÂ©e dans la map
+			// Préparation de l'entrée dans la map
 			String numDoss = form.getIndividu().getNumDossierOpi();
 			String formName = form.getVersionEtpOpi().getCodEtp() + "-" 
 				+ form.getVersionEtpOpi().getCodVrsVet() + "-" + sLabelRI;
@@ -1359,11 +1138,7 @@ public class ParameterServiceImpl implements ParameterService {
 		return mapFormName;
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#purgeIndFormulaireCamp(
-	 * org.esupportail.opi.domain.beans.parameters.Campagne)
-	 */
-	
+	@Override
 	public void purgeIndFormulaireCamp(final Campagne camp) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering purgeIndFormulaireCamp( " + camp + " )");
@@ -1372,17 +1147,11 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.purgeIndFormulaireCamp(camp);
 	}
 
-
 	// ////////////////////////////////////////////////////////////
 	// ReunionCmi
 	// ////////////////////////////////////////////////////////////
 
-
-
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#addReunionCmi(
-	 * org.esupportail.opi.domain.beans.references.calendar.ReunionCmi)
-	 */
+    @Override
 	public void addReunionCmi(final ReunionCmi reunionCmi) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering addReunionCmi( " + reunionCmi + " )");
@@ -1390,10 +1159,7 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.addReunionCmi(reunionCmi);
 	}
 
-
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#deleteReunionCmi(java.util.List)
-	 */
+    @Override
 	public void deleteReunionCmi(final List<ReunionCmi> reunionCmi) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteReunionCmi( " + reunionCmi + " )");
@@ -1403,11 +1169,7 @@ public class ParameterServiceImpl implements ParameterService {
 		}
 	}
 
-
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#updateReunionCmi(
-	 * org.esupportail.opi.domain.beans.references.calendar.ReunionCmi)
-	 */
+    @Override
 	public void updateReunionCmi(final ReunionCmi reunionCmi) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering updateReunionCmi( " + reunionCmi + " )");
@@ -1415,14 +1177,10 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.updateReunionCmi(reunionCmi);
 	}
 
-
 	//////////////////////////////////////////////////////////////
 	// PieceJustiVet
 	//////////////////////////////////////////////////////////////
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#deletePieceJustiVet(
-	 * org.esupportail.opi.domain.beans.parameters.PieceJustiVet)
-	 */
+
 	@Override
 	public void deletePieceJustiVet(final PieceJustiVet pieceJustiVet) {
 		daoService.deletePieceJustiVet(pieceJustiVet);
@@ -1437,22 +1195,12 @@ public class ParameterServiceImpl implements ParameterService {
 	// ////////////////////////////////////////////////////////////
 	// NombreVoeuCge
 	// ////////////////////////////////////////////////////////////
-	
-	
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#getAllNombreDeVoeuByCge()
-	 */
+
+    @Override
 	public List<NombreVoeuCge> getAllNombreDeVoeuByCge() {
 		return daoService.getAllNombreDeVoeuByCge();
 	}
 
-	
-	
-
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#addNombreVoeuCge(
-	 * org.esupportail.opi.domain.beans.references.NombreVoeuCge)
-	 */
 	@Override
 	public void addNombreVoeuCge(final NombreVoeuCge nombreVoeuCge) {
 		if (log.isDebugEnabled()) {
@@ -1461,11 +1209,6 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.addNombreVoeuCge(nombreVoeuCge);
 	}
 
-
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#deleteNombreVoeuCge(
-	 * org.esupportail.opi.domain.beans.references.NombreVoeuCge)
-	 */
 	@Override
 	public void deleteNombreVoeuCge(final NombreVoeuCge nombreVoeuCge) {
 		if (log.isDebugEnabled()) {
@@ -1474,11 +1217,6 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.deleteNombreVoeuCge(nombreVoeuCge);
 	}
 
-	
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#updateNombreVoeuCge(
-	 * org.esupportail.opi.domain.beans.references.NombreVoeuCge)
-	 */
 	@Override
 	public void updateNombreVoeuCge(final NombreVoeuCge nombreVoeuCge) {
 		if (log.isDebugEnabled()) {
@@ -1490,11 +1228,7 @@ public class ParameterServiceImpl implements ParameterService {
 	//////////////////////////////////////////////////////////////
 	// MailContent
 	//////////////////////////////////////////////////////////////
-	
-	
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#getMailContent(java.lang.String)
-	 */
+
 	@Override
 	public MailContent getMailContent(final String code) {
 		if (log.isDebugEnabled()) {
@@ -1503,11 +1237,6 @@ public class ParameterServiceImpl implements ParameterService {
 		return daoService.getMailContent(code);
 	}
 	
-	
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#addMailContent(
-	 * org.esupportail.opi.domain.beans.mails.MailContent)
-	 */
 	@Override
 	public void addMailContent(final MailContent mailContent) {
 		if (log.isDebugEnabled()) {
@@ -1517,9 +1246,6 @@ public class ParameterServiceImpl implements ParameterService {
 		
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#getMailContents()
-	 */
 	@Override
 	public List<MailContent> getMailContents() {
 		if (log.isDebugEnabled()) {
@@ -1528,10 +1254,6 @@ public class ParameterServiceImpl implements ParameterService {
 		return daoService.getMailContents();
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#updateMailContent(
-	 * org.esupportail.opi.domain.beans.mails.MailContent)
-	 */
 	@Override
 	public void updateMailContent(final MailContent mailContent) {
 		if (log.isDebugEnabled()) {
@@ -1545,18 +1267,11 @@ public class ParameterServiceImpl implements ParameterService {
 	// CalendarRDV
 	//////////////////////////////////////////////////////////////
 	
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#getCalendarRdv()
-	 */
+    @Override
 	public List<CalendarRDV> getCalendarRdv() {
 		return daoService.getCalendarRdv();
 	}
 	
-	
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#updateCalendarRdv(
-	 * org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV)
-	 */
 	@Override
 	public void updateCalendarRdv(final CalendarRDV cal) {
 		if (log.isDebugEnabled()) {
@@ -1565,11 +1280,7 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.updateCalendarRdv(cal);
 	}
 	
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#deleteCalendarRdv(
-	 * org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV)
-	 */
-	@Override
+    @Override
 	public void deleteCalendarRdv(final CalendarRDV cal) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering deleteCalendarRdv( " + cal + " )");
@@ -1577,10 +1288,6 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.deleteCalendarRdv(cal);
 	}
 	
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#addCalendarRdv(
-	 * org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV)
-	 */
 	@Override
 	public void addCalendarRdv(final CalendarRDV cal) {
 		if (log.isDebugEnabled()) {
@@ -1589,30 +1296,20 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.addCalendarRdv(cal);
 	}
 	
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#
-	 * getListEtudiantsParCalendarRdvParPeriode(int, int, java.util.Date, java.util.Date)
-	 */
+    @Override
 	public int getListEtudiantsParCalendarRdvParPeriode(
 			final int idCalendarRdv, final int month, final Date dateDebut, final Date dateFin) {
 		return daoService.getListEtudiantsParCalendarRdvParPeriode(idCalendarRdv, month, dateDebut, dateFin);
 	}
 	
-	/** 
-	 * 
-	 * @see org.esupportail.opi.domain.ParameterService#getListEtudiantsParCalendarRdvParPeriode
-	 * (int, java.util.Date, java.util.Date, java.util.Date)
-	 */
+    @Override
 	public int getListEtudiantsParCalendarRdvParPeriode(
 			final int idCalendarRdv, final Date dateDuJour, final Date dateDebut, final Date dateFin) {
 		return daoService.getListEtudiantsParCalendarRdvParPeriode(
 				idCalendarRdv, dateDuJour, dateDebut, dateFin);
 	}
 	
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#
-	 * getListEtudiantsParCalendarRdvParDemiJournee(int, int, java.util.Date, java.util.Date, java.util.Date)
-	 */
+    @Override
 	public int getListEtudiantsParCalendarRdvParDemiJournee(
 		final int idCalendarRdv, final int month, final Date date, final Date dateDebut, final Date dateFin) {
 		return daoService.getListEtudiantsParCalendarRdvParDemiJournee(
@@ -1623,168 +1320,95 @@ public class ParameterServiceImpl implements ParameterService {
 	// misc
 	//////////////////////////////////////////////////////////////
 
-	/**
-	 * @param daoService
-	 *            the daoService to set
-	 */
 	public void setDaoService(final ParameterDaoService daoService) {
 		this.daoService = daoService;
 	}
 	
-	
-	/**
-	 * @param domainService the domainService to set
-	 */
 	public void setDomainService(final DomainService domainService) {
 		this.domainService = domainService;
 	}
 	
-	/**
-	 * @param orbeonService the orbeonService to set
-	 */
 	public void setOrbeonService(final OrbeonService orbeonService) {
 		this.orbeonService = orbeonService;
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#getTypeTraitements()
-	 */
 	public List<TypeTraitement> getTypeTraitements() {
 		return typeTraitements;
 	}
 	
-	/**
-	 * @param typeTraitements the typeTraitements to set
-	 */
 	public void setTypeTraitements(final List<TypeTraitement> typeTraitements) {
 		this.typeTraitements = typeTraitements;
 	}
 
-	
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#getTypeConvocations()
-	 */
 	public List<TypeConvocation> getTypeConvocations() {
 		return typeConvocations;
 	}
 
-	/**
-	 * @param typeConvocations the typeConvocations to set
-	 */
 	public void setTypeConvocations(final List<TypeConvocation> typeConvocations) {
 		this.typeConvocations = typeConvocations;
 	}
 
-	/**
-	 * @return the typeContrats
-	 */
 	public List<TypeContrat> getTypeContrats() {
 		return typeContrats;
 	}
 
-	/**
-	 * @param typeContrats the typeContrats to set
-	 */
 	public void setTypeContrats(final List<TypeContrat> typeContrats) {
 		this.typeContrats = typeContrats;
 	}
 
-	/**
-	 * @return the typeStatuts
-	 */
 	public List<TypeStatut> getTypeStatuts() {
 		return typeStatuts;
 	}
 
-	/**
-	 * @param typeStatuts the typeStatuts to set
-	 */
 	public void setTypeStatuts(final List<TypeStatut> typeStatuts) {
 		this.typeStatuts = typeStatuts;
 	}
 
-	/**
-	 * @return the typeOrganismes
-	 */
 	public List<TypeOrganisme> getTypeOrganismes() {
 		return typeOrganismes;
 	}
 
-	/**
-	 * @param typeOrganismes the typeOrganismes to set
-	 */
 	public void setTypeOrganismes(final List<TypeOrganisme> typeOrganismes) {
 		this.typeOrganismes = typeOrganismes;
 	}
 
-	/**
-	 * @return the typeSituations
-	 */
 	public List<TypeSituation> getTypeSituations() {
 		return typeSituations;
 	}
 
-	/**
-	 * @param typeSituations the typeSituations to set
-	 */
 	public void setTypeSituations(final List<TypeSituation> typeSituations) {
 		this.typeSituations = typeSituations;
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#getDateBackDefault()
-	 */
 	@Override
 	public String getDateBackDefault() {
 		return dateBackDefault;
 	}
 	
-	/**
-	 * @param dateBackDefault the dateBackDefault to set
-	 */
 	public void setDateBackDefault(final String dateBackDefault) {
 		this.dateBackDefault = dateBackDefault;
 	}
 
-	/**
-	 * @return the prefixCodCalCmi
-	 */
 	public String getPrefixCodCalCmi() {
 		return prefixCodCalCmi;
 	}
 
-	/**
-	 * @param prefixCodCalCmi the prefixCodCalCmi to set
-	 */
 	public void setPrefixCodCalCmi(final String prefixCodCalCmi) {
 		this.prefixCodCalCmi = prefixCodCalCmi;
 	}
 
-	/**
-	 * @return the prefixLibCalCmi
-	 */
 	public String getPrefixLibCalCmi() {
 		return prefixLibCalCmi;
 	}
 
-	/**
-	 * @param prefixLibCalCmi the prefixLibCalCmi to set
-	 */
 	public void setPrefixLibCalCmi(final String prefixLibCalCmi) {
 		this.prefixLibCalCmi = prefixLibCalCmi;
 	}
 
-
-	
-	
 	//////////////////////////////////////////////////////////////
 	// LinkTrtCmiCamp
 	//////////////////////////////////////////////////////////////
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#
-	 * addLinkTrtCmiCamp(org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp)
-	 */
 	@Override
 	public void addLinkTrtCmiCamp(final LinkTrtCmiCamp linkTrtCmiCamp) {
 		if (log.isDebugEnabled()) {
@@ -1793,10 +1417,6 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.addLinkTrtCmiCamp(linkTrtCmiCamp);
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#
-	 * deleteLinkTrtCmiCamp(org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp)
-	 */
 	@Override
 	public void deleteLinkTrtCmiCamp(final LinkTrtCmiCamp linkTrtCmiCamp) {
 		if (log.isDebugEnabled()) {
@@ -1805,11 +1425,6 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.deleteLinkTrtCmiCamp(linkTrtCmiCamp);
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#
-	 * getLinkTrtCmiCamp(org.esupportail.opi.domain.beans.references.commission.TraitementCmi, 
-	 * org.esupportail.opi.domain.beans.parameters.Campagne)
-	 */
 	@Override
 	public LinkTrtCmiCamp getLinkTrtCmiCamp(final TraitementCmi traitementCmi,
 			final Campagne campagne) {
@@ -1820,10 +1435,6 @@ public class ParameterServiceImpl implements ParameterService {
 		return daoService.getLinkTrtCmiCamp(traitementCmi, campagne);
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.ParameterService#
-	 * updateLinkTrtCmiCamp(org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp)
-	 */
 	@Override
 	public void updateLinkTrtCmiCamp(final LinkTrtCmiCamp linkTrtCmiCamp) {
 		if (log.isDebugEnabled()) {
@@ -1831,11 +1442,6 @@ public class ParameterServiceImpl implements ParameterService {
 		}
 		daoService.updateLinkTrtCmiCamp(linkTrtCmiCamp);
 	}
-	
-	/**
-	 * @see org.esupportail.opi.domain.ParameterService#updateLinkTrtCmiCampTemEnServ(
-	 * org.esupportail.opi.domain.beans.parameters.Campagne, boolean)
-	 */
 	
 	@Override
 	public void updateLinkTrtCmiCampTemEnServ(final Campagne camp, final boolean temEnServ) {
@@ -1845,26 +1451,19 @@ public class ParameterServiceImpl implements ParameterService {
 		daoService.updateLinkTrtCmiCampTemEnServ(camp, temEnServ);
 	}
 
-	
 	//////////////////////////////////////////////////////////////
 	// AutoListPrincipale
 	//////////////////////////////////////////////////////////////
-	
-	/**
-	 * @return The list of AutoListPrincipale
-	 */
+
+    @Override
 	public List<AutoListPrincipale> getAutoListPrincipale() {
 		if (log.isDebugEnabled()) {
 			log.debug("");
 		}
 		return daoService.getAutoListPrincipale();
 	}
-	
-	/**
-	 * 
-	 * @see org.esupportail.opi.domain.ParameterService#
-	 * getAutoListPrincipale(org.esupportail.opi.domain.beans.user.candidature.IndVoeu)
-	 */
+
+    @Override
 	public AutoListPrincipale getAutoListPrincipale(final IndVoeu indVoeu) {
 		if (log.isDebugEnabled()) {
 			log.debug("");

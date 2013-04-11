@@ -199,7 +199,7 @@ public class CommissionController
 	private boolean managerUsed;
 
 	/**
-	 * Used to know if the list cmi has to be sorted by right
+	 * Used to know if the list cmi has to be filtered by right
 	 */
 	private boolean listCmiByRight;
 
@@ -1239,7 +1239,7 @@ public class CommissionController
 	 ******************* ACCESSORS ******************** */
 
 	/**
-	 * @return true si l'on veut que la liste des commissions soit trié par droits
+	 * @return true si l'on veut que la liste des commissions soit filtrée par droits
 	 */
 	public boolean isListCmiByRight() {
 		return listCmiByRight;
@@ -1284,9 +1284,9 @@ public class CommissionController
 	 * else return all the commissions
 	 * @return List<Commission>
 	 */
-	public List<Commission> getCommissionsItemsByRightParametrable() {
+	public List<Commission> getCommissionsItemsByRightParametrable(boolean doFilter) {
 		return new ArrayList<Commission>(
-				(isListCmiByRight()) ? comsInUseByRight : comsInUse);
+				(isListCmiByRight() || doFilter) ? comsInUseByRight : comsInUse);
 	}
 
 	/**

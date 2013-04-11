@@ -21,9 +21,6 @@ import org.hibernate.dialect.Oracle10gDialect;
  */
 public class CustomOracle10gDialect extends Oracle10gDialect {
 
-	/**
-	 * 
-	 */
 	public CustomOracle10gDialect() {
 		super();
 		registerColumnType(Types.LONGVARCHAR, "clob");
