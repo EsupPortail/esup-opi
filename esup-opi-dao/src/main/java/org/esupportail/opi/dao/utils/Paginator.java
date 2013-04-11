@@ -275,25 +275,10 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
 	 */
 	public final P2<Long, java.util.List<T>> sliceOf(Long offset, Long limit, String sortField,
 	    SortOrder sortOrder, Map<String,String> filters, Option<F<Q, Q>> optCustomfilter) {
-
 	    final F<Q, Q> customFilter = optCustomfilter.orSome(Function.<Q>identity());
-
-        long beforeCount = System.currentTimeMillis();
-
-        long count = unOrderedQuery(full.constant(), filters, customFilter).f(unit()).count();
-
-        long afterCount = System.currentTimeMillis();
-
-        long beforeQuery = System.currentTimeMillis();
-
-        java.util.List<T> list =
+        final long count = unOrderedQuery(full.constant(), filters, customFilter).f(unit()).count();
+        final java.util.List<T> list =
                 query(tuple(slice), filters, customFilter).f(p(offset, limit)).f(sortField).f(sortOrder).list(ent);
-
-        long afterQuery = System.currentTimeMillis();
-
-        System.out.println("Count : " + (afterCount - beforeCount));
-        System.out.println("Query : " + (afterQuery - beforeQuery));
-
         return p(count, list);
 	}
 
