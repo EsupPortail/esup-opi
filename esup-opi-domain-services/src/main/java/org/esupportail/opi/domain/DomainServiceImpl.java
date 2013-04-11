@@ -337,7 +337,7 @@ public class DomainServiceImpl implements DomainService {
 	
 	@Override
 	public P2<Long, Stream<Individu>> sliceOfInd(PFFilters pfFilters,
-                                                 Option<TypeDecision> typesDec,
+                                                 List<TypeDecision> typesDec,
                                                  Option<Boolean> validWish,
                                                  Option<Boolean> treatedWish,
                                                  Option<Date> wishCreation,

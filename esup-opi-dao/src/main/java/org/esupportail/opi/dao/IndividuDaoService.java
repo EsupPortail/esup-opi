@@ -9,6 +9,7 @@ import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.utils.primefaces.PFFilters;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 public interface IndividuDaoService {
@@ -22,7 +23,7 @@ public interface IndividuDaoService {
      * @return
      */
     P2<Long, Stream<Individu>> sliceOfInd(PFFilters pfFilters,
-                                          Option<TypeDecision> typesDec,
+                                          List<TypeDecision> typesDec,
                                           Option<Boolean> validWish,
                                           Option<Boolean> treatedWish,
                                           Option<Date> wishCreation,

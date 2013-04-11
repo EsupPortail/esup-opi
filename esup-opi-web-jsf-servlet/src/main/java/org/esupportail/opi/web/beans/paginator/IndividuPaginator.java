@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * TODO : get rid of that class
+ *
  * @author tducreux
  */
 public class IndividuPaginator extends AbstractHibernateQueryPaginator<Individu> {

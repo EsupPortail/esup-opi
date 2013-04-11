@@ -243,15 +243,17 @@ public class IndividuController extends AbstractAccessController {
                     iif(indRechPojo.isUseVoeuFilter(), "true")
                             .map(applyPut("useVoeuFilter", filters));
 
-                    // 2. le type de décision
-                    Option<TypeDecision> typesDec = fromNull(indRechPojo.getTypeDecRecherchee());
+                    // 2. le ou les types de décision
+                    List<TypeDecision> typesDec = indRechPojo.getTypesDec();
 
                     // 3. les étapes (TraitementCmi) de la commission
-                    Option<Stream<Commission>> cmis = fromNull(indRechPojo.getIdCmi()).map(new F<Integer, Stream<Commission>>() {
-                        public Stream<Commission> f(Integer idCmi) {
-                            return single(getParameterService().getCommission(idCmi, null));
-                        }
-                    });
+                    Option<Stream<Commission>> cmis = fromNull(indRechPojo.getIdCmi())
+                            .map(new F<Integer, Stream<Commission>>() {
+                                public Stream<Commission> f(Integer idCmi) {
+                                    return single(getParameterService().getCommission(idCmi, null));
+                                }})
+                            .orElse(iif(indRechPojo.isUseGestCommsFilter(), // (Hack : isUseGestCommsFilter est positionné par f:event)
+                                    iterableStream(getDomainApoService().getListCommissionsByRight(gest, true))));
 
                     Option<Set<TraitementCmi>> trtCmis =
                             cmis.map(new F<Stream<Commission>, Stream<TraitementCmi>>() {
@@ -265,11 +267,10 @@ public class IndividuController extends AbstractAccessController {
                                 }
                             }.andThen(Conversions.<TraitementCmi>streamToSet_()));
 
-
                     // 4. les régimes d'inscription
-                    Set<Integer> listCodesRI = new HashSet<Integer>(
-                            iterableStream(fromNull(indRechPojo.getListeRI()).orSome(
-                                    new HashSet<RegimeInscription>())).map(new F<RegimeInscription, Integer>() {
+                    Set<Integer> listCodesRI = new HashSet<Integer>(iterableStream(
+                            fromNull(indRechPojo.getListeRI()).orSome(new HashSet<RegimeInscription>()))
+                            .map(new F<RegimeInscription, Integer>() {
                                 public Integer f(RegimeInscription ri) {
                                     return ri.getCode();
                                 }
@@ -282,13 +283,13 @@ public class IndividuController extends AbstractAccessController {
                     // 6. caratère 'validé' ou non du voeu
                     Option<Boolean> validWish = fromNull(indRechPojo.getSelectValid());
 
-                    // 7. le type de traitement
-                    Option<String> codeTypeTrtmt =
-                            fromNull(transfert).map(new F<Transfert, String>() {
-                        public String f(Transfert t) {
-                            return t.getCode();
-                        }
-                    });
+                    // 7. le type de traitement (Hack : indRechPojo.useTypeTrtFilter est positionné
+                    // dans les vues par f:event)
+                    Option<String> codeTypeTrtmt = iif(indRechPojo.isUseTypeTrtFilter(), transfert)
+                            .map(new F<Transfert, String>() {
+                                public String f(Transfert t) {
+                                    return t.getCode();
+                                }});
 
                     // 8. Date de création des voeux
                     Option<Date> dateCrea = fromNull(indRechPojo.getDateCreationVoeuRecherchee());
@@ -887,14 +888,20 @@ public class IndividuController extends AbstractAccessController {
         individuPaginator.getIndRechPojo().setUseVoeuFilter(bool);
     }
 
+    public void useTypeTrtFilter(Boolean bool) {
+        individuPaginator.getIndRechPojo().setUseTypeTrtFilter(bool);
+    }
+
+    public void useGestCommsFilter(Boolean bool) {
+        individuPaginator.getIndRechPojo().setUseGestCommsFilter(bool);
+    }
+
     /**
      * Charge les attributes des individus Pojo.
      */
     public void initIndividuPojo() {
-//		pojoIndividu.setDepartement(
-//				getBusinessCacheService().getDepartement(
-//						pojoIndividu.getIndividu().getCodDepPaysNaissance()));
-        pojoIndividu.setDepartement(getDomainApoService().getDepartement(pojoIndividu.getIndividu().getCodDepPaysNaissance()));
+        pojoIndividu.setDepartement(getDomainApoService().getDepartement(
+                pojoIndividu.getIndividu().getCodDepPaysNaissance()));
         pojoIndividu.setPays(getDomainApoService().getPays(
                 pojoIndividu.getIndividu().getCodPayNaissance()));
         pojoIndividu.setNationalite(getDomainApoService().getPays(

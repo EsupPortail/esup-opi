@@ -1,6 +1,5 @@
 package org.esupportail.opi.dao;
 
-import com.mysema.query.jpa.JPQLSubQuery;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 import com.mysema.query.types.EntityPath;
 import com.mysema.query.types.expr.BooleanExpression;
@@ -24,6 +23,7 @@ import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.utils.primefaces.PFFilters;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import static org.esupportail.opi.utils.fj.Conversions.parseBoolean;
@@ -31,11 +31,6 @@ import static fj.P.p;
 import static fj.data.List.list;
 import static fj.data.Option.*;
 
-/**
- * TODO : Les filtres peuvent être optimisés (perfs) en évitant de recourir
- * TODO : aux sous-requêtes (JPQLSubQuery et any()).
- * TODO : Cf. {@link HibernateParamDaoServiceImpl#getCalendars(org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi)}
- */
 public class IndividuDaoServiceImpl implements IndividuDaoService {
 
     final PaginatorFactory pf;
@@ -79,7 +74,7 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
         }
     };
 
-    final F<Set<Integer>, F<BooleanExpression, BooleanExpression>> temoinAndRiFilter =
+    final F<Set<Integer>, F<BooleanExpression, BooleanExpression>> campTemoinAndRIFilter =
             new F<Set<Integer>, F<BooleanExpression, BooleanExpression>>() {
                 public F<BooleanExpression, BooleanExpression> f(final Set<Integer> listCodesRI) {
                     return new F<BooleanExpression, BooleanExpression>() {
@@ -123,25 +118,25 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                 }
             };
 
-    final F<TypeDecision, F<BooleanExpression, BooleanExpression>> typeDecFilter =
-            new F<TypeDecision, F<BooleanExpression, BooleanExpression>>() {
-                public F<BooleanExpression, BooleanExpression> f(final TypeDecision typeDecision) {
+    final F<List<TypeDecision>, F<BooleanExpression, BooleanExpression>> typeDecFilter =
+            new F<List<TypeDecision>, F<BooleanExpression, BooleanExpression>>() {
+                public F<BooleanExpression, BooleanExpression> f(final List<TypeDecision> typesDecision) {
                     return new F<BooleanExpression, BooleanExpression>() {
                         public BooleanExpression f(BooleanExpression subExpr) {
-                            PathBuilder<TypeDecision> typeDec = avis.get("result", TypeDecision.class);
                             BooleanExpression avisEnServ = avis.get("temoinEnService").eq(true);
-                            return subExpr.and(avisEnServ.and(typeDec.eq(typeDecision)));
+                            PathBuilder<TypeDecision> typeDec = avis.get("result", TypeDecision.class);
+                            return subExpr.and(avisEnServ).and(typeDec.in(typesDecision));
                         }
                     };
                 }
             };
 
-    final F<Boolean, F<BooleanExpression, BooleanExpression>> notTreatedWishFilter =
+    final F<Boolean, F<BooleanExpression, BooleanExpression>> unTreatedWishFilter =
             new F<Boolean, F<BooleanExpression, BooleanExpression>>() {
                 public F<BooleanExpression, BooleanExpression> f(final Boolean excludeTreated) {
                     return new F<BooleanExpression, BooleanExpression>() {
                         public BooleanExpression f(BooleanExpression expr) {
-                            return expr.and(indVoeu.get("haveBeTraited").ne(excludeTreated));
+                            return expr.and(indVoeu.get("haveBeTraited").eq(excludeTreated));
                         }
                     };
                 }
@@ -186,7 +181,7 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
     @SuppressWarnings("unchecked")
     @Override
     public P2<Long, Stream<Individu>> sliceOfInd(final PFFilters pfFilters,
-                                                 final Option<TypeDecision> typesDec,
+                                                 final List<TypeDecision> typesDec,
                                                  final Option<Boolean> treatedWish,
                                                  final Option<Boolean> validWish,
                                                  final Option<Date> wishCreation,
@@ -197,16 +192,16 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
         final BooleanExpression andExpr = BooleanTemplate.create("1 = 1");
 
         final F<BooleanExpression, BooleanExpression> customCampFilter =
-                p(indEnService).<BooleanExpression>constant().andThen(temoinAndRiFilter.f(listCodesRI));
+                p(indEnService).<BooleanExpression>constant().andThen(campTemoinAndRIFilter.f(listCodesRI));
 
         final F<BooleanExpression, BooleanExpression> customVoeuFilter =
                 somes(list(
                         fromNull(pfFilters.filters.remove("useVoeuFilter"))
                                 .map(parseBoolean.andThen(baseVoeuFilter)),
                         trtCmis.map(trtCmiFilter),
-                        typesDec.map(typeDecFilter),
+                        iif(!typesDec.isEmpty(), typeDecFilter.f(typesDec)),
                         validWish.map(validWishFilter),
-                        treatedWish.map(notTreatedWishFilter),
+                        treatedWish.map(unTreatedWishFilter),
                         codeTypeTrtmt.map(notCodeTypeTrtmtFilter),
                         wishCreation.map(wishCreationFilter)
                 )).foldLeft(Function.<BooleanExpression, BooleanExpression, BooleanExpression>andThen(),

@@ -41,18 +41,18 @@
                                          value="#{msgs[_.BUTTON.CHANGE]}"
                                          action="#{opinionController.selectTypeDecisionOpinion}" ajax="false"/>
                     </h:panelGroup>
-                    <h:panelGroup rendered="#{paginatorIndividuPojo.isUsingLC}">
+                    <h:panelGroup rendered="#{opinionController.isUsingLC}">
                         <h:outputLabel value="#{msgs['AVIS.RANG']}"/>
                     </h:panelGroup>
-                    <h:panelGroup rendered="#{paginatorIndividuPojo.isUsingLC}">
+                    <h:panelGroup rendered="#{opinionController.isUsingLC}">
                         <h:inputText id="rang"
                                      value="#{opinionController.avis.rang}" size="5"
                                      maxlength="5"/>
                     </h:panelGroup>
-                    <h:panelGroup rendered="#{paginatorIndividuPojo.isUsingDEF}">
+                    <h:panelGroup rendered="#{opinionController.isUsingDEF}">
                         <h:outputLabel value="#{msgs['AVIS.MOTIVATION']}"/>
                     </h:panelGroup>
-                    <h:panelGroup rendered="#{paginatorIndividuPojo.isUsingDEF}">
+                    <h:panelGroup rendered="#{opinionController.isUsingDEF}">
                         <p:selectOneMenu id="choiceMotivAvis" converter="javax.faces.Integer"
                                          onchange="javascript:{simulateLinkClick('formEnterOpinion:submitChangeMotiv');}"
                                          value="#{opinionController.idSelectedMotiv}">

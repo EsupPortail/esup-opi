@@ -67,7 +67,7 @@ public class TypeDecisionConverter implements Converter, InitializingBean {
             return null;
         } catch (NumberFormatException e) {
             throw new UnsupportedOperationException(
-                    "could not convert String [" + value + "] to a Structure.", e);
+                    "could not convert String " + value + " to a Structure.", e);
         }
     }
 

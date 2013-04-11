@@ -439,7 +439,6 @@
         <property name="refused" ref="refused"/>
         <property name="preSelection" ref="preselection"/>
         <property name="listeComplementaire" ref="listeComplementaire"/>
-        <property name="transfert" ref="transfert"/>
         <property name="inscriptionAdm" ref="inscriptionAdm"/>
     </bean>
 
