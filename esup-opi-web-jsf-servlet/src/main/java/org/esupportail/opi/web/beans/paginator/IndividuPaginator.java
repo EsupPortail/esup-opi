@@ -4,27 +4,18 @@
  */
 package org.esupportail.opi.web.beans.paginator;
 
-import com.ibm.icu.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.esupportail.commons.dao.AbstractHibernateQueryPaginator;
 import org.esupportail.commons.dao.HqlQueryPojo;
-import org.esupportail.commons.dao.HqlUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.opi.domain.beans.references.commission.Commission;
-import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.domain.beans.user.Individu;
-import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 import org.esupportail.opi.web.beans.pojo.IndRechPojo;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.controllers.SessionController;
-import org.springframework.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * TODO : get rid of that class

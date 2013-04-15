@@ -485,7 +485,7 @@ autres : préconiser déclinaison à partir de la couleur secondaire.
 .esup-opiR1 .paginatorData table[role="grid"] {
 	width: 100%;
 	border: none;
-	padding: 0px 0px 2px 0px;
+	padding: 0;
 	text-align: center;
 	border-spacing: 2px;
     border-collapse: separate;
@@ -498,7 +498,6 @@ autres : préconiser déclinaison à partir de la couleur secondaire.
 	font-weight: normal;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 12px;
-	padding-bottom: 3px;
 }
 
 .esup-opiR1 table th.thWrap {
@@ -885,7 +884,7 @@ table.displayAddRdv tr td.right {
 
 .dataPanel {
    border: none;
-   height: 1000px;
+/*    height: 1000px; */
    width:101.5%;
    margin-left: -1%;
 }
@@ -1061,7 +1060,6 @@ a.ui-button:hover {
 	background: transparent;
 }
 
-/** TEST **/
 .form-section {
     background-color: rgba(234,234,234,0.1);
     background-color: #f9f9f9;
@@ -1132,4 +1130,3 @@ a.ui-button:hover {
     text-align: center;
     vertical-align: middle;
 }
-/** FIN TEST **/

@@ -234,7 +234,7 @@ public class PJController extends AbstractContextAwareController {
      * Display in the paginator.
      */
     public void changeStateAll() {
-        List<MissingPiecePojo> allPojo = this.paginatorPM.getMissingPiecePojos();
+        List<MissingPiecePojo> allPojo = missingPiecePojoLDM.getData();
         for (MissingPiecePojo m : allPojo) {
             this.mpPojoSelected = m;
             if (m.getCommissions() != null) {
