@@ -149,14 +149,11 @@
                                 <ui:repeat var="commissionPojo" value="#{missingPiecePojos.cmiKeySet}">
                                     <p:selectOneRadio value="#{commissionPojo.stateCurrent}">
                                         <f:selectItem itemValue="STATE.NON_ARRIVE" 
-                                        			  itemLabel="#{msgs['STATE.NON_ARRIVE']}"
-                                        			  itemDisabled="true"/>
+                                        			  itemLabel="#{msgs['STATE.NON_ARRIVE']}"/>
                                         <f:selectItem itemValue="STATE.ARRIVE_COMPLET"
-                                                      itemLabel="#{msgs['STATE.ARRIVE_COMPLET']}"
-                                                      itemDisabled="true"/>
+                                                      itemLabel="#{msgs['STATE.ARRIVE_COMPLET']}"/>
                                         <f:selectItem itemValue="STATE.ARRIVE_INCOMPLET"
-                                                      itemLabel="#{msgs['STATE.ARRIVE_INCOMPLET']}"
-                                                      itemDisabled="true"/>
+                                                      itemLabel="#{msgs['STATE.ARRIVE_INCOMPLET']}"/>
                                     </p:selectOneRadio>
                                 </ui:repeat>
 
