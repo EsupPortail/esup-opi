@@ -257,13 +257,15 @@ public class IndividuController extends AbstractAccessController {
                     List<TypeDecision> typesDec = indRechPojo.getTypesDec();
 
                     // 3. les étapes (TraitementCmi) de la commission
-                    Option<Stream<Commission>> cmis = fromNull(indRechPojo.getIdCmi())
+                    Integer idCom = indRechPojo.getIdCmi();
+                    Option<Stream<Commission>> cmis = iif(idCom != null && idCom > 0, idCom)
                             .map(new F<Integer, Stream<Commission>>() {
                                 public Stream<Commission> f(Integer idCmi) {
                                     return single(getParameterService().getCommission(idCmi, null));
                                 }})
                             .orElse(iif(indRechPojo.isUseGestCommsFilter(), // (Hack : isUseGestCommsFilter est positionné par f:event)
-                                    iterableStream(getDomainApoService().getListCommissionsByRight(gest, true))));
+                                    iterableStream(fromNull(getDomainApoService().getListCommissionsByRight(gest, true))
+                                            .orSome(new HashSet<Commission>()))));
 
                     Option<Set<TraitementCmi>> trtCmis =
                             cmis.map(new F<Stream<Commission>, Stream<TraitementCmi>>() {
