@@ -22,11 +22,7 @@
                                          immediate="true" process="@this"
                                          action="#{monitorCandidaturesController.exportList}"/>
                         <p:commandButton id="button-choicecolumns" value="#{msgs['_.BUTTON.CHOICE_COL']}"
-                                         onclick="choiceColumnExport.show();" type="button"/>
-                        <!--     					<p:commandButton id="button-choicecolumns" value="#{msgs['_.BUTTON.CHOICE_COL']}" immediate="true" update="@all"> -->
-                        <!--     						<f:setPropertyActionListener value="#{printOpinionController.actionEnum.choiceColExport}" -->
-                        <!--     							 target="#{printOpinionController.actionEnum.whatAction}" /> -->
-                        <!--     					</p:commandButton> -->
+                                         onclick="ccExp.show();" type="button"/>
                     </div>
 
                     <div id="blockselectCmi" class="blockForm">
@@ -43,7 +39,7 @@
                                                itemLabel="#{ri.shortLabel}" itemValue="#{ri}"
                                                value="#{nomenclatureController.allRegimeInscription}"/>
                                 <p:ajax listener="#{monitorCandidaturesController.makeListStudent}"
-                                        update="individuData"/>
+                                        update="blockIndividuData"/>
                             </p:selectManyCheckbox>
                             <h:panelGroup>
                                 <h:outputLabel value="#{msgs['FIELD_LABEL.STATE']}" for="state"/>
@@ -52,8 +48,8 @@
                                 <p:selectOneRadio id="etats" value="#{monitorCandidaturesController.stateSelected}">
                                     <f:selectItem itemLabel="#{msgs['STATE.DESIST']}" itemValue="STATE.DESIST"/>
                                     <f:selectItem itemLabel="#{msgs['STATE.CONFIRM']}" itemValue="STATE.CONFIRM"/>
-                                    <p:ajax event="change" listener="#{monitorCandidaturesController.changeCommission}"
-                                            update="individuData"/>
+                                    <p:ajax event="change" listener="#{monitorCandidaturesController.changeCommissionAndMakeListStudent}"
+                                            update="@form,blockIndividuData"/>
                                 </p:selectOneRadio>
                             </h:panelGroup>
                             <h:panelGroup/>
@@ -68,12 +64,9 @@
                                     <f:selectItems var="commission"
                                                    value="#{commissionController.commissionsItemsByRight}"
                                                    itemLabel="#{commission.libelle}" itemValue="#{commission}"/>
-                                    <p:ajax listener="#{monitorCandidaturesController.changeCommission}"
-                                            update="etapes,individuData"/>
+                                    <p:ajax listener="#{monitorCandidaturesController.changeCommissionAndMakeListStudent}"
+                                            update="etapes,blockIndividuData"/>
                                 </p:selectOneMenu>
-                                <!--     							<p:commandButton id="lookForCmi" -->
-                                <!--     								value="#{msgs['_.BUTTON.SEARCH']}" immediate="true" -->
-                                <!--     								action="#{monitorCandidaturesController.changeCommission}" /> -->
                             </h:panelGroup>
                         </h:panelGrid>
                     </div>
@@ -96,30 +89,15 @@
                                                    value="#{trtCmiController.allTraitementCmi}"
                                                    itemLabel="#{beanTrtCmi.etape.libWebVet}"
                                                    itemValue="#{beanTrtCmi.traitementCmi.id}"/>
-                                    <p:ajax listener="#{monitorCandidaturesController.makeListStudent}" update="@form"/>
+                                    <p:ajax listener="#{monitorCandidaturesController.makeListStudent}" update="@form,blockIndividuData"/>
                                 </p:selectOneMenu>
-                                <!--     							<p:commandButton id="lookForIndividuComm" ajax="false" -->
-                                <!--     								value="#{msgs['_.BUTTON.SEARCH']}" -->
-                                <!--     								action="#{monitorCandidaturesController.makeListStudent}" /> -->
                             </h:panelGroup>
                         </h:panelGrid>
                     </div>
                 </div>
                 <br/>
                 <br/>
-                <h:panelGroup style="width:100%;"
-                              rendered="#{not empty monitorCandidaturesController.individus}">
-                    <!--     				<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi" -->
-                    <!--     					styleClass="tableJustWidthMax"> -->
-                    <!--     					<h:panelGroup> -->
-                    <!--     						<h:outputText value="#{msgs['INDIVIDU.FOUND.NB']}" -->
-                    <!--     							styleClass="section-smallTitle" style="margin-right:4px;"  -->
-                    <!--     							escape="false"> -->
-                    <!--     							<f:param value="#{monitorCandidaturesController.sizeIndividus}"/> -->
-                    <!--     						</h:outputText> -->
-                    <!--     					</h:panelGroup> -->
-                    <!--     				</h:panelGrid> -->
-
+                <p:outputPanel id="blockIndividuData" layout="block">
                     <p:dataTable var="individuPojo" id="individuData"
                                  value="#{monitorCandidaturesController.individus}"
                                  paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40"
@@ -127,7 +105,8 @@
                                  currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
                                  emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}"
                                  styleClass="paginatorData"
-                                 rowIndexVar="variable">
+                                 rowIndexVar="variable"
+                                 rendered="#{not empty monitorCandidaturesController.individus}">
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}"/>
@@ -157,15 +136,15 @@
                         </p:column>
 
                         <p:column>
-                            <p:dataTable var="indVoeuxPojo" id="indVoeux"
-                                         value="#{individuPojo.indVoeuxPojo}">
-                                <p:column>
-                                    <h:outputText value="#{indVoeuxPojo.vrsEtape.libWebVet}"/>
-                                </p:column>
-                            </p:dataTable>
+                            <ui:repeat var="indVoeuxPojo" id="indVoeux"
+                                         value="#{individuPojo.indVoeuxPojoAsList}">
+                                <div>
+                                    <h:outputText value="#{indVoeuxPojo.vrsEtape.libWebVet}" style="white-space:normal;"/>
+                                </div>
+                            </ui:repeat>
                         </p:column>
                     </p:dataTable>
-                </h:panelGroup>
+                </p:outputPanel>
                 <p:blockUI block="monitorApplicationsForm"
                            trigger="regime,etats,cmi,etapes,button-choicecolumns,button-export">
                     <p:graphicImage value="/media/images/ajax-loader.gif"/>

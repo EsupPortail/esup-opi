@@ -323,21 +323,22 @@ public class TrtCmiController extends AbstractAccessController {
         currentRegime = getRegimeIns().get(codeRI);
         // Avoid a hibernate LazyInitException
         Commission com = getParameterService().getCommission(c.getId(), c.getCode());
-
-        for (TraitementCmi t : com.getTraitementCmi()) {
-            //init proxy hib
-            // passage du link en lazy false
-            //getDomainService().initOneProxyHib(t, t.getLinkTrtCmiCamp(), Set.class);
-            if ((inUse == null || !inUse) && Utilitaires.isTraitementCmiOff(t, codeRI)) {
-                BeanTrtCmi b = new BeanTrtCmi(t,
-                        getParameterService().getTypeTraitements());
-                treatmentsCmiOff.add(prepareTrtCmi(b));
-            }
-            if ((inUse == null || inUse) && !Utilitaires.isTraitementCmiOff(t, codeRI)) {
-                BeanTrtCmi b = new BeanTrtCmi(t,
-                        getParameterService().getTypeTraitements());
-                allTraitementCmi.add(prepareTrtCmi(b));
-            }
+        if (com != null) {
+	        for (TraitementCmi t : com.getTraitementCmi()) {
+	            //init proxy hib
+	            // passage du link en lazy false
+	            //getDomainService().initOneProxyHib(t, t.getLinkTrtCmiCamp(), Set.class);
+	            if ((inUse == null || !inUse) && Utilitaires.isTraitementCmiOff(t, codeRI)) {
+	                BeanTrtCmi b = new BeanTrtCmi(t,
+	                        getParameterService().getTypeTraitements());
+	                treatmentsCmiOff.add(prepareTrtCmi(b));
+	            }
+	            if ((inUse == null || inUse) && !Utilitaires.isTraitementCmiOff(t, codeRI)) {
+	                BeanTrtCmi b = new BeanTrtCmi(t,
+	                        getParameterService().getTypeTraitements());
+	                allTraitementCmi.add(prepareTrtCmi(b));
+	            }
+	        }
         }
     }
 

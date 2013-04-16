@@ -5,6 +5,7 @@ package org.esupportail.opi.web.controllers.candidatures;
 
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
+import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.utils.StringUtils;
@@ -143,8 +144,16 @@ public class MonitorCandidaturesController extends AbstractAccessController {
             //charge la liste des etapes
             commissionController.initAllTraitementCmi(
                     commissionController.getCommission());
+        } else {
+        	idTrtCmi = 0;
+        	commissionController.initAllTraitementCmi(new Commission());
         }
 
+    }
+    
+    public void changeCommissionAndMakeListStudent() {
+    	changeCommission();
+    	makeListStudent();
     }
 
 
@@ -160,6 +169,7 @@ public class MonitorCandidaturesController extends AbstractAccessController {
      * Make the list student for the idTrtCmi selected.
      */
     public void makeListStudent() {
+    	individus = new ArrayList<IndividuPojo>();
         if (idTrtCmi != 0) {
             TraitementCmi t = getParameterService().getTraitementCmi(idTrtCmi);
             //listes des individus avec un etat confirme ou desiste donc forcement valide
@@ -173,8 +183,6 @@ public class MonitorCandidaturesController extends AbstractAccessController {
                     filteredListeInd.add(ind);
                 }
             }
-
-            individus.clear();
             Set<Campagne> camps = new HashSet<Campagne>();
             for (RegimeInscription reg : commissionController.getListeRI()) {
                 camps.addAll(getParameterService().getCampagnes(true,

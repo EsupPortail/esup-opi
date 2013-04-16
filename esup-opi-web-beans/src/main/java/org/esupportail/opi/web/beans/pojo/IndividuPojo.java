@@ -388,7 +388,13 @@ public class IndividuPojo {
                             trtCmi.getVersionEtpOpi().getCodVrsVet());
                     // must be filtered by versionEtp
                     if (versionsEtp != null)
-                        addVoeuVet = versionsEtp.contains(vet);
+                    	addVoeuVet = iterableStream(versionsEtp).exists(new F<VersionEtapeDTO, Boolean>() {
+							@Override
+							public Boolean f(final VersionEtapeDTO v) {
+								return v.getCodEtp().equalsIgnoreCase(vet.getCodEtp()) 
+										&& v.getCodVrsVet().equals(vet.getCodVrsVet());
+							}
+						});
 
 					if (addVoeuType && addVoeuVet) {
 						CalendarRDV cal = Utilitaires.getRecupCalendarRdv(i, listCalendrierParam);
