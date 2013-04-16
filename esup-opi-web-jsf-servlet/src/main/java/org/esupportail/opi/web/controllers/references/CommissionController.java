@@ -678,7 +678,7 @@ public class CommissionController
 	 *  The selected commission for the print of the lists prepa.
 	 */
 	public void selectCommissionForLists() {
-		if (commission.getId() != null) {
+		if (commission != null && commission.getId() != null) {
 			commission = getParameterService().getCommission(commission.getId(), null);
 		} else {
 			commission = new Commission();

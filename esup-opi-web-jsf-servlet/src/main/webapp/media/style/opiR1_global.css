@@ -700,8 +700,12 @@ table.displayAddRdv tr td.right {
 }
 
 .esup-opiR1 .col2UnDemi {
-	width: 50%;
-	text-align: right;
+    width: 50%;
+    text-align: right;
+}
+
+.esup-opiR1 .col2UnDemi label {
+    text-align: left;
 }
 
 .esup-opiR1 .welcomeGotoFirstConnexion {

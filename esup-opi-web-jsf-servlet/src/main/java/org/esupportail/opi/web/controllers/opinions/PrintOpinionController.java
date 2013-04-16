@@ -538,9 +538,10 @@ public class PrintOpinionController extends AbstractContextAwareController {
 		List<LigneListePrepaPojo> listePrepaPojo = new ArrayList<LigneListePrepaPojo>(); 
 		Collections.sort(individus, new ComparatorString(IndividuPojo.class));
 		for (IndividuPojo ind : individus) {
+			Individu i = getDomainService().getIndividu(ind.getIndividu().getNumDossierOpi(), ind.getIndividu().getDateNaissance());
 			Pays p = null;
 			CommuneDTO c = null;
-			Adresse adresse =  ind.getIndividu().getAdresses().get(Constantes.ADR_FIX);
+			Adresse adresse =  i.getAdresses().get(Constantes.ADR_FIX);
 			if (adresse != null) {
 				if (c == null || !c.getCodeCommune().equals(adresse.getCodCommune())) {
 					c = getDomainApoService().getCommune(
@@ -554,13 +555,13 @@ public class PrintOpinionController extends AbstractContextAwareController {
 			for (IndVoeuPojo v : ind.getIndVoeuxPojo()) {
 				LigneListePrepaPojo ligne = new LigneListePrepaPojo();
 				ligne.setCommission(this.commissionController.getCommission().getLibelle());
-				ligne.setNum_Dos_OPI(ind.getIndividu().getNumDossierOpi());
-				ligne.setNom_Patrony(ind.getIndividu().getNomPatronymique());
-				ligne.setPrenom(ind.getIndividu().getPrenom());
-				ligne.setDate_Naiss(ind.getIndividu().getDateNaissance());
+				ligne.setNum_Dos_OPI(i.getNumDossierOpi());
+				ligne.setNom_Patrony(i.getNomPatronymique());
+				ligne.setPrenom(i.getPrenom());
+				ligne.setDate_Naiss(i.getDateNaissance());
 				
-				String ine = ExportUtils.isNotNull(ind.getIndividu().getCodeNNE()) 
-				+ ExportUtils.isNotNull(ind.getIndividu().getCodeClefNNE());
+				String ine = ExportUtils.isNotNull(i.getCodeNNE()) 
+				+ ExportUtils.isNotNull(i.getCodeClefNNE());
 				ligne.setCode_clef_INE(ExportUtils.isNotNull(ine));
 				
 				// adresse
@@ -595,10 +596,10 @@ public class PrintOpinionController extends AbstractContextAwareController {
 					ligne.setTelephone_fixe("");
 				}
 				
-				ligne.setMail(ind.getIndividu().getAdressMail());
+				ligne.setMail(i.getAdressMail());
 				// bac
 				boolean hasCodeBac = false;
-				for (IndBac iB : ind.getIndividu().getIndBac()) {
+				for (IndBac iB : i.getIndBac()) {
 					BacOuxEqu b = getDomainApoService().getBacOuxEqu(
 							iB.getDateObtention(),
 							ExportUtils.isNotNull(iB.getCodBac()));
@@ -642,7 +643,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
 					
 					String comm = null;
 					if (v.getAvisEnService().getMotivationAvis() != null) {
-						comm = v.getAvisEnService().getMotivationAvis().getLibelle();
+						comm = ExportUtils.isNotNull(v.getAvisEnService().getMotivationAvis().getLibelle());
 					}
 					if (comm != null && StringUtils.hasText(v.getAvisEnService().
 							getCommentaire())) {
