@@ -205,6 +205,8 @@ public class GestionnaireController extends AbstractAccessController {
 			reset();
 			commissionController.reset();
 			addInfoMessage(null, "INFO.ENTER.SUCCESS");
+			//Résolution bug 104: Mise à jour tout de suite après a
+			listeGestionnaires = getDomainService().getManagers();
 			result = NavigationRulesConst.MANAGED_MANAGER;
 		}
 		if (log.isDebugEnabled()) {
