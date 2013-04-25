@@ -378,6 +378,12 @@ public interface DomainApoService extends Serializable {
 	//////////////////////////////////////////////////////////////
 	
 	/**
+	 * Finds a {@link SignataireDTO} object according to its code.
+	 * @return
+	 */
+	SignataireDTO getSignataire(final String codSig);
+	
+	/**
 	 * list In Use.
 	 * @return List< SignataireDTO>
 	 */

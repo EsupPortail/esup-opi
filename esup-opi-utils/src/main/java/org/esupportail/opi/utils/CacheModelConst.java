@@ -76,6 +76,11 @@ public class CacheModelConst {
 	 */
 	public static final String RENDEZ_VOUS = "rendezvous";
 	
+	/**
+	 * The name of model to managed the calendar of signatories.
+	 */
+	public static final String SIGNATAIRES = "signataires";
+	
 	
 	/*
 	 ******************* INIT ******************* */

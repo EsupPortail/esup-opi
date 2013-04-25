@@ -58,7 +58,7 @@ public class TypeDecisionConverter implements Converter, InitializingBean {
         }
         try {
             int intValue = Integer.valueOf(value);
-            for (TypeDecision t : parameterService.getTypeDecisions(true)) {
+            for (TypeDecision t : parameterService.getTypeDecisions(null)) {
                 if (t.getId().equals(intValue)) {
                     return t;
                 }
@@ -67,7 +67,7 @@ public class TypeDecisionConverter implements Converter, InitializingBean {
             return null;
         } catch (NumberFormatException e) {
             throw new UnsupportedOperationException(
-                    "could not convert String " + value + " to a Structure.", e);
+                    "could not convert String " + value + " to a TypeDecision.", e);
         }
     }
 
@@ -88,7 +88,7 @@ public class TypeDecisionConverter implements Converter, InitializingBean {
         }
         if (!(value instanceof TypeDecision)) {
             throw new UnsupportedOperationException(
-                    "object " + value + " is not a Structure.");
+                    "object " + value + " is not a TypeDecision.");
         }
         TypeDecision type = (TypeDecision) value;
         return Integer.toString(type.getId());

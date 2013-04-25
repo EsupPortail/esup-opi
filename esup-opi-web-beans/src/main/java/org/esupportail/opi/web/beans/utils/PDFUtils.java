@@ -135,6 +135,7 @@ public final class PDFUtils {
 			Long id = DownloadUtils.setDownload(data, fileName, contentType);
 			String url = getDownloadUrl(id);
 			ExternalContext externalContext = facesContext.getExternalContext();
+			externalContext.addResponseHeader("Content-Disposition", "attachment;filename=" + fileName);
 			externalContext.redirect(url);
 			facesContext.responseComplete();
 		} catch (IOException e) {

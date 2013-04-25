@@ -15,7 +15,7 @@
             <p:messages id="messages" showDetail="true" autoUpdate="true"/>
         </div>
         <h1>
-            <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
+            <h:outputText value="#{managedAccess.currentTraitement.libelle}" styleClass="section-header" />
         </h1>
         <ui:fragment
                 rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.confirmAction}">
@@ -29,14 +29,16 @@
             </div>
         </ui:fragment>
         <h:form id="lookForOpinionForm" styleClass="opiR1_form">
+
+            <f:event type="preRenderView" listener="#{printOpinionController.doInitSelectValid}" />
+            
             <div id="blockFormSearch" class="blockForm">
                 <div style="text-align:right;">
-                    <p:commandButton value="#{msgs['_.BUTTON.DISPLAY']}" id="requestIndsData"
+                    <p:commandButton value="#{msgs['_.BUTTON.DISPLAY']}" id="requestIndsData" ajax="false"
                                      rendered="#{printOpinionController.actionEnum.whatAction
                                                    != printOpinionController.actionEnum.confirmAction}"
                                      update="individuData"/>
-                    <!-- action="#{printOpinionController.seeCandidats}" -->
-                    <p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="ccExp.show()" type="button"/>
+                    <p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="ccExp.show()" type="button" />
                     <p:commandButton value="#{msgs['_.BUTTON.EXPORT']}"
                                      action="#{printOpinionController.makeCsvValidation}"
                                      rendered="#{printOpinionController.actionEnum.whatAction
@@ -102,10 +104,10 @@
                              update="dataPanel"
                              actionListener="#{printOpinionController.doRenderTable}"/>
             <p:panel id="dataPanel" layout="block"
-                     style="border: none; height: 1000px; width:101.5%; margin-left: -1%;">
+                     style="border: none; height: auto; min-height: 70px; width:101.5%; margin-left: -1%;">
                 <h:panelGrid columns="1" columnClasses="col1UnDemi,col2UnDemi"
                              styleClass="tableJustWidthMax">
-                    <h:panelGroup>
+                    <h:panelGroup rendered="#{printOpinionController.renderTable}">
                         <h:outputText value="#{msgs['INDIVIDU.FOUND']}"
                                       styleClass="section-smallTitle" style="margin-right:4px;"/>
                     </h:panelGroup>
@@ -159,7 +161,7 @@
                                     <h:outputText value="#{ivp.shortLibVet}"
                                                   style="cursor:pointer;" id="shortLibVet"/>
                                     <p:overlayPanel for="shortLibVet"
-                                                    showEffect="fade" hideEffect="fade" appendToBody="true"
+                                                    showEffect="fade" hideEffect="fade"
                                                     showEvent="mouseover"
                                                     hideEvent="mouseout"
                                                     styleClass="containerPopup">

@@ -57,9 +57,13 @@
 		maxElementsInMemory="10" eternal="false" timeToIdleSeconds="172800"
 		timeToLiveSeconds="172800" overflowToDisk="false" />
 
-	<cache name="rendezvous"
-		maxElementsInMemory="500" eternal="false" timeToIdleSeconds="86400"
-		timeToLiveSeconds="86400" overflowToDisk="false" />
+    <cache name="rendezvous"
+        maxElementsInMemory="500" eternal="false" timeToIdleSeconds="86400"
+        timeToLiveSeconds="86400" overflowToDisk="false" />
+
+    <cache name="signataires"
+        maxElementsInMemory="500" eternal="false" timeToIdleSeconds="86400"
+        timeToLiveSeconds="86400" overflowToDisk="false" />
 
 	<!-- *****  GEOGRAPHIE APOGEE (2 jours dans le cache) ***** -->
 	<cache name="geographieApogee"
