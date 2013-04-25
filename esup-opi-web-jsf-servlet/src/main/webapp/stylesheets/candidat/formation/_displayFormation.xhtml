@@ -6,11 +6,10 @@
         <h:outputText value="#{msgs['FORMATION.LIST_DIPLOMES']}" styleClass="section-smallTitle"/>
     </div>
     <div id="blockFormVdi" class="blockForm">
-        <ui:repeat var="versionDiplome" value="#{formationController.searchFormationPojo.versionDiplomes}"
-                   layout="unorderedList">
+        <ui:repeat var="versionDiplome" value="#{formationController.searchFormationPojo.versionDiplomes}">
             <div>
                 <p:commandLink value="#{versionDiplome.libWebVdi}" styleClass="form-button-link"
-                               actionListener="#{formationController.selectEtape}" partialSubmit="true"
+                               action="#{formationController.selectEtape}" partialSubmit="true"
                                update="@form,:div_sectionSelectEtape,:div_sectionEtpEmpty">
                     <f:setPropertyActionListener value="#{versionDiplome}"
                                                  target="#{formationController.searchFormationPojo.vrsDipSelected}"/>

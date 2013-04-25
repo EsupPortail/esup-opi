@@ -2,7 +2,7 @@
              xmlns:ui="http://java.sun.com/jsf/facelets"
              xmlns:h="http://java.sun.com/jsf/html"
              xmlns:p="http://primefaces.org/ui">
-    <p:outputPanel id="div_sectionSelectEtape" layout="block"
+    <p:outputPanel id="div_sectionSelectEtape" layout="block" styleClass="div_subSection"
                    rendered="#{not empty formationController.searchFormationPojo.versionEtapes}">
         <h:form id="selectEtapeForm" styleClass="opiR1_form">
             <div id="blockFormEtape" class="blockForm">
@@ -22,7 +22,8 @@
                              selection="#{formationController.searchFormationPojo.objectToAdd}"
                              rowKey="#{versionEtapePojo.versionEtape}"
                              styleClass="paginatorData">
-                    <p:column rendered="#{versionEtapePojo.isAlReadyChoice}">
+                    <p:column style="width:18px!important">
+                        <ui:fragment rendered="#{versionEtapePojo.isAlReadyChoice}">
                         <p:graphicImage url="/media/images/flag_red.png"
                                         style="cursor:pointer;" id="alreadyInscription"/>
                         <p:overlayPanel for="alreadyInscription"
@@ -40,6 +41,7 @@
                                 </h:panelGrid>
                             </h:panelGroup>
                         </p:overlayPanel>
+                        </ui:fragment>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
@@ -76,7 +78,7 @@
                         <h:outputText value="#{msgs['FIELD_LABEL.CAL_INDISPO']}"
                                       rendered="#{versionEtapePojo.calPeriod == null}"/>
                     </p:column>
-                    <p:column selectionMode="multiple" disabledSelection="#{!versionEtapePojo.canChoiceVet}"/>
+                    <p:column selectionMode="multiple" disabledSelection="#{!versionEtapePojo.canChoiceVet}" style="width:18px!important"/>
                 </p:dataTable>
             </div>
         </h:form>

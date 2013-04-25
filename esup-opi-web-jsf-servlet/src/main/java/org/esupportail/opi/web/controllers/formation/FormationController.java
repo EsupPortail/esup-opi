@@ -295,7 +295,7 @@ public class FormationController extends AbstractAccessController {    /*
     /**
      * Recupere les versions etapes en fonction de la version Diplome selectionnee.
      */
-    public void selectEtape() {
+    public String selectEtape() {
         Campagne camp = getParameterService()
                 .getCampagneEnServ(getCodeRI());
         List<VersionEtapeDTO> list = getDomainApoService().getVersionEtapes(
@@ -314,6 +314,7 @@ public class FormationController extends AbstractAccessController {    /*
         searchFormationPojo.setVersionEtapes(
                 getManagedCalendar().getVrsEtpPojo(mapCmi,
                         getCurrentInd()));
+        return null;
     }
 
     /**
@@ -390,6 +391,7 @@ public class FormationController extends AbstractAccessController {    /*
     public void selectKeyWord() {
         Campagne camp = getParameterService()
                 .getCampagneEnServ(getCodeRI());
+        getSearchFormationPojo().setVersionEtapes(null);
         if (StringUtils.hasText(getSearchFormationPojo().getCodKeyWordSelected())) {
             getSearchFormationPojo().setVersionDiplomes(getDomainApoService()
                     .getVersionDiplomes(getSearchFormationPojo().getCodKeyWordSelected(),
