@@ -161,26 +161,32 @@
             <h:panelGrid columns="3" id="typeDecLcPosition" styleClass="displayInfo"
                          rendered="#{autoLpController.actionListLc.whatAction == autoLpController.actionEnum.emptyAction}">
                 <h:panelGrid columns="1">
-                    <p:commandButton image="/media/images/en_haut.gif" styleClass="icone"
-                                     action="#{autoLpController.enHaut}"/>
-                    <p:commandButton image="/media/images/monter.gif" styleClass="icone"
-                                     action="#{autoLpController.monter}"/>
-                    <p:commandButton image="/media/images/descendre.gif" styleClass="icone"
-                                     action="#{autoLpController.descendre}"/>
-                    <p:commandButton image="/media/images/en_bas.gif" styleClass="icone"
-                                     action="#{autoLpController.enBas}"/>
+                    <p:commandButton icon="ui-icon-arrowthickstop-1-n"
+                                     action="#{autoLpController.enHaut}"
+                                     ajax="false"/>
+                    <p:commandButton icon="ui-icon-arrowthick-1-n"
+                                     action="#{autoLpController.monter}"
+                                     ajax="false"/>
+                    <p:commandButton icon="ui-icon-arrowthick-1-s"
+                                     action="#{autoLpController.descendre}"
+                                     ajax="false"/>
+                    <p:commandButton icon="ui-icon-arrowthickstop-1-s"
+                                     action="#{autoLpController.enBas}"
+                                     ajax="false"/>
                 </h:panelGrid>
                 <p:selectOneListbox styleClass="manyMenu"
                                     value="#{autoLpController.selectTypeDecPosition}">
                     <f:selectItems value="#{autoLpController.typeDecItems}"/>
                 </p:selectOneListbox>
                 <h:panelGroup>
-                    <p:commandButton image="/media/images/add.png" styleClass="icone"
+                    <p:commandButton icon="ui-icon-plusthick"
                                      rendered="#{empty autoLpController.typeDecItems}"
-                                     action="#{autoLpController.goAddListLc}"/>
-                    <p:commandButton image="/media/images/update.png" styleClass="icone"
+                                     action="#{autoLpController.goAddListLc}"
+                                     ajax="false"/>
+                    <p:commandButton icon="ui-icon-pencil"
                                      rendered="#{not empty autoLpController.typeDecItems}"
-                                     action="#{autoLpController.goAddListLc}"/>
+                                     action="#{autoLpController.goAddListLc}"
+                                     ajax="false"/>
                 </h:panelGroup>
             </h:panelGrid>
 
@@ -191,12 +197,12 @@
                     <f:selectItems value="#{autoLpController.allTypeDecLcItems}"/>
                 </p:selectManyMenu>
                 <h:panelGrid columns="1">
-                    <p:commandButton image="/media/images/fleche_gauche.gif"
-                                     styleClass="icone"
-                                     action="#{autoLpController.suppTypeDecItems}"/>
-                    <p:commandButton image="/media/images/fleche_droite.gif"
-                                     styleClass="icone"
-                                     action="#{autoLpController.ajouTypeDecItems}"/>
+                    <p:commandButton icon="ui-icon-arrowthick-1-w"
+                                     action="#{autoLpController.suppTypeDecItems}"
+                                     ajax="false"/>
+                    <p:commandButton icon="ui-icon-arrowthick-1-e"
+                                     action="#{autoLpController.ajouTypeDecItems}"
+                                     ajax="false"/>
                 </h:panelGrid>
                 <p:selectManyMenu styleClass="manyMenu"
                                   value="#{autoLpController.selectTypeDecDI}">
@@ -204,7 +210,8 @@
                 </p:selectManyMenu>
                 <h:panelGroup>
                     <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-                                     action="#{autoLpController.goSeeListLc}"/>
+                                     action="#{autoLpController.goSeeListLc}"
+                                     ajax="false"/>
                 </h:panelGroup>
             </h:panelGrid>
         </h:panelGroup>
