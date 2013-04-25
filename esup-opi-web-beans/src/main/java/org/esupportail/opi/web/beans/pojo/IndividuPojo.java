@@ -372,7 +372,7 @@ public class IndividuPojo {
 								i.getCodTypeTrait());
 
 					Boolean addVoeuType = false;
-					if (typeDecisions != null) {
+					if (typeDecisions != null && !typeDecisions.isEmpty()) {
 						// must be filtered by typeDecision
 						for (Avis a : i.getAvis())
 							if (a.getTemoinEnService())

@@ -25,11 +25,6 @@ public class IndVoeu extends NormeSI {
 
 	/*
 	 ******************* PROPERTIES ******************* */
-
-//	/**
-//	 * Version Etape. 
-//	 */
-//	private VersionEtpOpi versionEtpOpi;
 	
 	/**
 	 * The Individu.
@@ -82,21 +77,6 @@ public class IndVoeu extends NormeSI {
 		isProp = false;
 	}
 
-	
-	
-	
-	/**
-	 * Constructors.
-	 * @param vetDTO
-	 * @param individu
-	 */
-//	public IndVoeu(final VersionEtapeDTO vetDTO, final Individu individu) {
-//		super();
-//		versionEtpOpi = new VersionEtpOpi(vetDTO);
-//		this.individu = individu;
-//		haveBeTraited = false;
-//		isProp = false;
-//	}
 
 	/**
 	 * Constructors.
@@ -120,7 +100,6 @@ public class IndVoeu extends NormeSI {
 	@Override
 	public String toString() {
 		return "Voeu#" + hashCode() 
-//			+ "[versionEtpOpi=[" + versionEtpOpi  
 			+ "],[state=[" + state 
 			+ "],[codTypeTrait=[" + codTypeTrait 
 			+ "],  [" + super.toString() + "]]";
@@ -136,7 +115,6 @@ public class IndVoeu extends NormeSI {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-//		result = prime * result + ((versionEtpOpi == null) ? 0 : versionEtpOpi.hashCode());
 		result = prime * result + ((codTypeTrait == null) ? 0 : codTypeTrait.hashCode());
 		return result;
 	}
@@ -151,9 +129,6 @@ public class IndVoeu extends NormeSI {
 		if (!super.equals(obj)) { return false; }
 		if (!(obj instanceof IndVoeu)) { return false; }
 		IndVoeu other = (IndVoeu) obj;
-//		if (versionEtpOpi == null) {
-//			if (other.versionEtpOpi != null) {	return false; }
-//		} else if (!versionEtpOpi.equals(other.versionEtpOpi)) { return false; }
 		if (codTypeTrait == null) {
 			if (other.getCodTypeTrait() != null) { return false; }
 		} else if (!codTypeTrait.equals(other.getCodTypeTrait())) { return false; }
@@ -166,20 +141,6 @@ public class IndVoeu extends NormeSI {
 
 	/*
 	 ******************* ACCESSORS ******************** */
-
-//	/**
-//	 * @return the versionEtpOpi
-//	 */
-//	public VersionEtpOpi getVersionEtpOpi() {
-//		return versionEtpOpi;
-//	}
-//
-//	/**
-//	 * @param versionEtpOpi the versionEtpOpi to set
-//	 */
-//	public void setVersionEtpOpi(final VersionEtpOpi versionEtpOpi) {
-//		this.versionEtpOpi = versionEtpOpi;
-//	}
 
 
 	/**

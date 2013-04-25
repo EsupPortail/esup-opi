@@ -1318,8 +1318,8 @@ public class DomainApoServiceImpl implements DomainApoService {
 	//////////////////////////////////////////////////////////////
 
 
-//	@Override
-	// TODO : À supprimer 18/01/2012
+	@Override
+	@Cacheable(cacheName = CacheModelConst.SIGNATAIRES)
 	public SignataireDTO getSignataire(final String codSig) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getSignataire with " + codSig);
@@ -1336,6 +1336,7 @@ public class DomainApoServiceImpl implements DomainApoService {
 	 * @see org.esupportail.opi.domain.DomainApoService#getSignataires()
 	 */
 	@Override
+	@Cacheable(cacheName = CacheModelConst.SIGNATAIRES)
 	public List<SignataireDTO> getSignataires() {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getSignataires");

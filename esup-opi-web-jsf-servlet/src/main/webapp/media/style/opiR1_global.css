@@ -210,6 +210,17 @@ autres : préconiser déclinaison à partir de la couleur secondaire.
 	width: 500px;
 	z-index: 9000;
 }
+.esup-opiR1 td .containerPopup table {
+	width: auto;
+}
+
+.esup-opiR1 td .containerPopup th,
+.esup-opiR1 td .containerPopup td {
+    border: none;
+    text-align: left;
+    white-space: normal;
+    
+}
 
 .esup-opiR1 .titrePopupAide {
 	TEXT-ALIGN: left;

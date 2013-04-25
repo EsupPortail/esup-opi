@@ -211,7 +211,10 @@ public class IndVoeuPojo implements Serializable {
 		} else if (!indVoeu.equals(other.indVoeu)) { return false; }
 		if (vrsEtape == null) {
 			if (other.vrsEtape != null) { return false; }
-		} else if (!vrsEtape.equals(other.vrsEtape)) { return false; }
+		} else if (!vrsEtape.getCodEtp().equals(other.vrsEtape.getCodEtp()) 
+				&& !vrsEtape.getCodVrsVet().equals(other.vrsEtape.getCodVrsVet())) { 
+			return false; 
+		}
 		return true;
 	}
 

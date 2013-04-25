@@ -4,8 +4,15 @@
  */
 package org.esupportail.opi.web.beans.utils.comparator;
 
+import static fj.data.Option.*;
+
+import fj.F;
 import fr.univ.rennes1.cri.apogee.domain.dto.Ren1Cles2AnnuFormDTO;
 import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
+
+import java.io.Serializable;
+import java.util.Comparator;
+
 import org.esupportail.apogee.domain.dto.enseignement.VersionEtapeDTO;
 import org.esupportail.opi.domain.beans.NormeSI;
 import org.esupportail.opi.domain.beans.formation.GrpTypDip;
@@ -17,18 +24,29 @@ import org.esupportail.opi.domain.beans.references.calendar.Calendar;
 import org.esupportail.opi.domain.beans.references.calendar.ReunionCmi;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.Member;
+import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.indcursus.CursusExt;
 import org.esupportail.opi.domain.beans.user.indcursus.CursusR1;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.web.beans.BeanAccess;
 import org.esupportail.opi.web.beans.BeanTrtCmi;
-import org.esupportail.opi.web.beans.pojo.*;
-import org.esupportail.wssi.services.remote.*;
+import org.esupportail.opi.web.beans.pojo.CommissionPojo;
+import org.esupportail.opi.web.beans.pojo.IndCursusScolPojo;
+import org.esupportail.opi.web.beans.pojo.IndListePrepaPojo;
+import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
+import org.esupportail.opi.web.beans.pojo.IndividuPojo;
+import org.esupportail.opi.web.beans.pojo.NomenclaturePojo;
+import org.esupportail.wssi.services.remote.BacOuxEqu;
+import org.esupportail.wssi.services.remote.CentreGestion;
+import org.esupportail.wssi.services.remote.Departement;
+import org.esupportail.wssi.services.remote.DipAutCur;
+import org.esupportail.wssi.services.remote.Diplome;
+import org.esupportail.wssi.services.remote.Etablissement;
+import org.esupportail.wssi.services.remote.Etape;
+import org.esupportail.wssi.services.remote.SecDisSis;
+import org.esupportail.wssi.services.remote.SignataireDTO;
 import org.springframework.util.StringUtils;
-
-import java.io.Serializable;
-import java.util.Comparator;
 
 
 
@@ -133,16 +151,7 @@ public class ComparatorString implements Comparator<Object>, Serializable {
 			return sortStr(((Ren1Cles2AnnuFormDTO) o1).getLibCles(), 
 					((Ren1Cles2AnnuFormDTO) o2).getLibCles());
 		} else if (className.equals(IndVoeuPojo.class)) {
-			if (((IndVoeuPojo) o1).getVrsEtape() == null
-					|| ((IndVoeuPojo) o1).getVrsEtape().getLibWebVet() == null) {
-				System.out.println("ERROR BY NULL ON INDVOEU " + ((IndVoeuPojo) o1).getVrsEtape().toString());
-			}
-			if (((IndVoeuPojo) o2).getVrsEtape() == null
-					|| ((IndVoeuPojo) o2).getVrsEtape().getLibWebVet() == null) {
-				System.out.println("ERROR BY NULL ON INDVOEU" + ((IndVoeuPojo) o2).getVrsEtape().toString());
-			}
-			return sortStr(((IndVoeuPojo) o1).getVrsEtape().getLibWebVet(), 
-					((IndVoeuPojo) o2).getVrsEtape().getLibWebVet());
+			return sortIndVoeuPojo((IndVoeuPojo) o1, (IndVoeuPojo) o2);
 		} else if (className.equals(BacOuxEqu.class)) {
 			return sortStr(((BacOuxEqu) o1).getLibBac(), 
 					((BacOuxEqu) o2).getLibBac());
@@ -204,6 +213,44 @@ public class ComparatorString implements Comparator<Object>, Serializable {
 					.concat(((ReunionCmi) o2).getHeure().toString()));
 		} 
 		return 0;
+	}
+
+	private int sortIndVoeuPojo(IndVoeuPojo p1, IndVoeuPojo p2) {
+		final F<IndVoeuPojo, String> toStr = new F<IndVoeuPojo, String>() {
+			@Override
+			public String f(final IndVoeuPojo ip) {
+				final String libWebVet = fromNull(ip.getVrsEtape())
+						.map(new F<org.esupportail.wssi.services.remote.VersionEtapeDTO, String>() {
+							@Override
+							public String f(final 
+									org.esupportail.wssi.services.remote.VersionEtapeDTO v) {
+								return fromString(v.getLibWebVet()).map(new F<String, String>() {
+									@Override
+									public String f(final String l) {
+										return l.trim();
+									}
+									
+								}).orSome("");
+							}
+						}).orSome("");
+				final String libAvis = fromNull(ip.getAvisEnService()).map(new F<Avis, String>() {
+					@Override
+					public String f(final Avis a) {
+						return fromNull(a.getResult()).map(new F<TypeDecision, String>() {
+							@Override
+							public String f(final TypeDecision td) {
+								return td.getLibelle();
+							}
+						}).orSome("");
+					}
+				}).orSome("");
+				return libWebVet + libAvis;
+			}
+		};
+
+		String str1 = fromNull(p1).map(toStr).some();
+		String str2 = fromNull(p2).map(toStr).some();
+		return sortStr(str1, str2);
 	}
 
 	/**
