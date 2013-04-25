@@ -14,6 +14,7 @@ import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
 import org.esupportail.opi.domain.beans.formation.GrpTypDip;
 import org.esupportail.opi.domain.beans.parameters.*;
 import org.esupportail.opi.domain.beans.references.NombreVoeuCge;
+import org.esupportail.opi.domain.beans.references.calendar.CalendarCmi;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.ContactCommission;
 import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
@@ -443,6 +444,9 @@ public class FormationController extends AbstractAccessController {    /*
             SummaryWishesPojo s = new SummaryWishesPojo();
             CommissionPojo cmiPojo = new CommissionPojo(
                     c, new AdressePojo(contact.getAdresse(), getDomainApoService()), contact);
+            CalendarCmi calCmi = cmiPojo.getCommission().getCalendarCmi();
+            //initialize the proxy hibernate
+    		getDomainService().initOneProxyHib(calCmi, calCmi.getDatEndBackDossier(), Calendar.class);
             s.setCommission(cmiPojo);
             List<PieceJustificative> listPJ = getParameterService().getPiecesJ(
                     Conversions.convertVetInVetOpi(cEntry.getValue()),

@@ -4,12 +4,14 @@
 package org.esupportail.opi.domain.beans.references.commission;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import org.esupportail.opi.domain.beans.NormeSI;
 import org.esupportail.opi.domain.beans.references.calendar.CalendarCmi;
+import org.esupportail.opi.domain.beans.references.calendar.ReunionCmi;
 import org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV;
 
 /**
