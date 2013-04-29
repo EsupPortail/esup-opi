@@ -33,7 +33,7 @@
   <many-to-one
    class="org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV"
    column="id_rdv_calendar" name="calendrierRdv"/>
-  <map cascade="delete,delete-orphan" inverse="true" lazy="true"
+  <map cascade="delete,delete-orphan" inverse="true" lazy="false"
    name="contactsCommission" sort="unsorted" table="contactComm">
    <key column="id_cmi"/>
    <map-key column="cod_ri_coord" type="integer"/>
