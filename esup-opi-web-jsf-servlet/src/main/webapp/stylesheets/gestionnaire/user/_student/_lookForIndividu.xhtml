@@ -10,9 +10,7 @@
                               styleClass="section-smallTitle"/>
                 <h:panelGroup>
                     <p:commandButton id="search-button" value="#{msgs['_.BUTTON.SEARCH']}"
-                                     actionListener="#{individuController.doRenderTable}"
-                                     update="#{toUpdate}">
-                    </p:commandButton>
+                                     actionListener="#{individuController.doRenderTable}" update="#{toUpdate}" />
                 </h:panelGroup>
             </h:panelGrid>
             <h:panelGrid styleClass="tableWidthMax" columns="4" id="formGrid"

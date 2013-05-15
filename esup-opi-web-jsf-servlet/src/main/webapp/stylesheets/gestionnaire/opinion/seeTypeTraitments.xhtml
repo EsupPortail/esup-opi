@@ -46,10 +46,6 @@
                 </div>
                 <p:panel id="dataPanel" layout="block" styleClass="dataPanel">
                     <p:panel styleClass="dataSubPanel">
-                        <p:effect type="puff" event="load">
-                            <f:param name="mode" value="'show'"/>
-                            <f:param name="percent" value="100"/>
-                        </p:effect>
                         <p:remoteCommand id="resetAllCodeTypeTrt" name="resetAllCodeTypeTrt"
                                          async="true"
                                          update="individuData:selectAllCodeTypeTrt">
@@ -96,7 +92,7 @@
                                     value="#{individuPojo.individu.nomPatronymique}
                                            #{individuPojo.individu.prenom}"/>
                             </p:column>
-                            <p:column>
+                            <p:column style="white-space: normal;">
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['INDIVIDU.CURSUS.DERNIER']}"/>
                                 </f:facet>
@@ -104,7 +100,7 @@
                                     value="#{individuPojo.derniereAnneeEtudeCursus.cursus.annee}
                                            #{individuPojo.derniereAnneeEtudeCursus.libCur}
                                            (#{individuPojo.derniereAnneeEtudeCursus.libEtb})"
-                                    rendered="#{individuPojo.derniereAnneeEtudeCursus != null}"/>
+                                    rendered="#{individuPojo.derniereAnneeEtudeCursus != null}" />
                             </p:column>
                             <p:column>
                                 <h:panelGroup

@@ -7,9 +7,6 @@
     <p:blockUI block="maPage" trigger=":lookForOpinionForm:individuData :lookForOpinionForm:requestIndsData">
         <p:graphicImage value="/media/images/ajax-loader.gif"/>
     </p:blockUI>
-    <p:blockUI block=":lookForOpinionForm:dataPanel" trigger=":lookForOpinionForm:renderTable">
-        <p:graphicImage value="/media/images/ajax-loader.gif"/>
-    </p:blockUI>
     <p:panel id="maPage" styleClass="div_body">
         <div class="messageForUser">
             <p:messages id="messages" showDetail="true" autoUpdate="true"/>
@@ -34,10 +31,11 @@
             
             <div id="blockFormSearch" class="blockForm">
                 <div style="text-align:right;">
-                    <p:commandButton value="#{msgs['_.BUTTON.DISPLAY']}" id="requestIndsData" ajax="false"
+                    <p:commandButton value="#{msgs['_.BUTTON.DISPLAY']}" id="requestIndsData"
                                      rendered="#{printOpinionController.actionEnum.whatAction
                                                    != printOpinionController.actionEnum.confirmAction}"
-                                     update="individuData"/>
+                                     actionListener="#{printOpinionController.doRenderTable}"
+                                     update="@form" />
                     <p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="ccExp.show()" type="button" />
                     <p:commandButton value="#{msgs['_.BUTTON.EXPORT']}"
                                      action="#{printOpinionController.makeCsvValidation}"
@@ -77,7 +75,7 @@
                     <fieldset
                             style="border-style: dotted; border-color: #A8A8A8; border-width: 0.1em; margin-bottom: 8px;">
                         <legend>#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}</legend>
-                        <p:selectManyCheckbox value="#{commissionController.listeRI}" id="choixRI"
+                        <p:selectManyCheckbox value="#{paginatorIndividu.indRechPojo.listeRI}" id="choixRI"
                                               converter="#{regimeInscriptionConverter}"
                                               disabled="#{!paginatorIndividu.indRechPojo.canModifyRISearch}"
                                               layout="lineDirection" style="margin-left: 6%;">
@@ -100,9 +98,6 @@
                     </fieldset>
                 </p:fieldset>
             </div>
-            <p:remoteCommand id="renderTable" name="renderTable" autoRun="true" async="true"
-                             update="dataPanel"
-                             actionListener="#{printOpinionController.doRenderTable}"/>
             <p:panel id="dataPanel" layout="block"
                      style="border: none; height: auto; min-height: 70px; width:101.5%; margin-left: -1%;">
                 <h:panelGrid columns="1" columnClasses="col1UnDemi,col2UnDemi"
@@ -113,10 +108,6 @@
                     </h:panelGroup>
                 </h:panelGrid>
                 <p:panel style="clear: both; border: none; margin: -0.5em -1em;">
-                    <p:effect type="puff" event="load">
-                        <f:param name="mode" value="'show'"/>
-                        <f:param name="percent" value="100"/>
-                    </p:effect>
                     <p:dataTable var="individuPojo" id="individuData"
                                  value="#{printOpinionController.indPojoLDM}"
                                  styleClass="paginatorData"

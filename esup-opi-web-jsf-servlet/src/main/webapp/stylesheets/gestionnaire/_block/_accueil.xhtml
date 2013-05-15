@@ -3,8 +3,8 @@
              xmlns:f="http://java.sun.com/jsf/core"
              xmlns:p="http://primefaces.org/ui">
     <p:panel id="maPageGest" styleClass="div_body">
-        <f:event type="postAddToView" listener="#{individuController.initIndRechPojo}" /> <!-- Ceci car le listener dans templateGestionnaire.xhtml n'est pas activé lorsqu'accueil est appelé par la redirection CAS -->
-        <f:event type="preValidate" listener="#{individuController.useVoeuFilter(false)}" />
+        <!-- <f:event type="postAddToView" listener="#{individuController.initIndRechPojo}" /> --> <!-- Ceci car le listener dans templateGestionnaire.xhtml n'est pas activé lorsqu'accueil est appelé par la redirection CAS -->
+        <f:event type="postValidate" listener="#{individuController.useVoeuFilter(false)}" />
         <p:blockUI block="maPageGest"
                    trigger="accueilGestionnaireForm:search-button
                             accueilGestionnaireForm:lesCommissions
@@ -25,10 +25,6 @@
                 </ui:include>
                 <p:panel id="dataPanel" layout="block" styleClass="dataPanel">
                     <p:panel styleClass="dataSubPanel">
-                        <p:effect type="puff" event="load">
-                            <f:param name="mode" value="'show'"/>
-                            <f:param name="percent" value="100"/>
-                        </p:effect>
                         <p:dataTable var="individu" id="individuTable"
                                      value="#{individuController.indLDM}"
                                      paginator="true" lazy="true" sortBy="#{nomPatronymique}"

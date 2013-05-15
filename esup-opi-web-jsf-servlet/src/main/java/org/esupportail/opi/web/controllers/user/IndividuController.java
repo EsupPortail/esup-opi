@@ -4,6 +4,7 @@
 package org.esupportail.opi.web.controllers.user;
 
 
+import static fj.Effect.f;
 import static fj.data.Option.fromNull;
 import static fj.data.Option.fromString;
 import static fj.data.Option.iif;
@@ -23,8 +24,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import fj.*;
 import org.apache.commons.lang.StringUtils;
 import org.esupportail.commons.services.ldap.LdapUser;
 import org.esupportail.commons.services.ldap.LdapUserService;
@@ -68,11 +71,6 @@ import org.esupportail.opi.web.utils.fj.Functions;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
-import fj.F;
-import fj.F2;
-import fj.F5;
-import fj.P2;
-import fj.Unit;
 import fj.data.Option;
 import fj.data.Stream;
 
@@ -224,14 +222,15 @@ public class IndividuController extends AbstractAccessController {
 
     private boolean renderTable = false;
 
-    private F<String, Unit> applyPut(String key, Map<String, String> map) {
-        return Functions.<String, Map<String, String>, Unit>apply2(key, map).o(Functions.<String, String>put_());
+    private Effect<String> applyPut(String key, Map<String, String> map) {
+        return f(Functions.<String, Map<String, String>, Unit>apply2(key, map).o(Functions.<String, String>put_()));
     }
 
     private final LazyDataModel<Individu> indLDM = lazyModel(
             new F5<Integer, Integer, String, SortOrder, Map<String, String>, P2<Long, Stream<Individu>>>() {
-                public P2<Long, Stream<Individu>> f(
-                        Integer first, Integer pageSize, String sortField, SortOrder sortOrder, Map<String, String> filters) {
+                public P2<Long, Stream<Individu>> f(final Integer first, final Integer pageSize,
+                                                    final String sortField, final SortOrder sortOrder,
+                                                    final Map<String, String> filters) {
                     // le gestionnaire courant
                     SessionController sessionCont = getSessionController();
                     User user = sessionCont.getCurrentUser();
@@ -242,19 +241,19 @@ public class IndividuController extends AbstractAccessController {
                     IndRechPojo indRechPojo = individuPaginator.getIndRechPojo();
                     // 1. les numdossier, nom, prenom
                     fromString(indRechPojo.getNumDossierOpiRecherche())
-                            .map(applyPut("numDossierOpi", filters));
+                            .map(applyPut("numDossierOpi", filters).e());
                     fromString(indRechPojo.getNomRecherche())
-                            .map(applyPut("nomPatronymique", filters));
+                            .map(applyPut("nomPatronymique", filters).e());
                     fromString(indRechPojo.getPrenomRecherche())
-                            .map(applyPut("prenom", filters));
+                            .map(applyPut("prenom", filters).e());
 
                     // Hack pour filtrer ou non les individus sans voeux :
                     // indRechPojo.useVoeuFilter est positionné dans les vues par f:event
                     iif(indRechPojo.isUseVoeuFilter(), "true")
-                            .map(applyPut("useVoeuFilter", filters));
+                            .map(applyPut("useVoeuFilter", filters).e());
 
                     // 2. le ou les types de décision
-                    List<TypeDecision> typesDec = indRechPojo.getTypesDec();
+                    final List<TypeDecision> typesDec = indRechPojo.getTypesDec();
 
                     // 3. les étapes (TraitementCmi) de la commission
                     Integer idCom = indRechPojo.getIdCmi();
@@ -267,7 +266,7 @@ public class IndividuController extends AbstractAccessController {
                                     iterableStream(fromNull(getDomainApoService().getListCommissionsByRight(gest, true))
                                             .orSome(new HashSet<Commission>()))));
 
-                    Option<Set<TraitementCmi>> trtCmis =
+                    final Option<Set<TraitementCmi>> trtCmis =
                             cmis.map(new F<Stream<Commission>, Stream<TraitementCmi>>() {
                                 public Stream<TraitementCmi> f(Stream<Commission> commissions) {
                                     return commissions.bind(new F<Commission, Stream<TraitementCmi>>() {
@@ -280,7 +279,7 @@ public class IndividuController extends AbstractAccessController {
                             }.andThen(Conversions.<TraitementCmi>streamToSet_()));
 
                     // 4. les régimes d'inscription
-                    Set<Integer> listCodesRI = new HashSet<Integer>(iterableStream(
+                    final Set<Integer> listCodesRI = new HashSet<Integer>(iterableStream(
                             fromNull(indRechPojo.getListeRI()).orSome(new HashSet<RegimeInscription>()))
                             .map(new F<RegimeInscription, Integer>() {
                                 public Integer f(RegimeInscription ri) {
@@ -290,21 +289,20 @@ public class IndividuController extends AbstractAccessController {
 
                     // 5. caractère 'traité' ou non du voeu
                     Boolean excludeTreated = indRechPojo.getExcludeWishProcessed();
-                    Option<Boolean> wishTreated = iif(excludeTreated != null && excludeTreated, false);
+                    final Option<Boolean> wishTreated = iif(excludeTreated != null && excludeTreated, false);
 
                     // 6. caratère 'validé' ou non du voeu
-                    Option<Boolean> validWish = fromNull(indRechPojo.getSelectValid());
+                    final Option<Boolean> validWish = fromNull(indRechPojo.getSelectValid());
 
                     // 7. le type de traitement (Hack : indRechPojo.useTypeTrtFilter est positionné
                     // dans les vues par f:event)
-                    Option<String> codeTypeTrtmt = iif(indRechPojo.isUseTypeTrtFilter(), transfert)
-                            .map(new F<Transfert, String>() {
-                                public String f(Transfert t) {
-                                    return t.getCode();
-                                }});
+                    final Option<String> codeTypeTrtmt =
+                            iif(indRechPojo.isUseTypeTrtFilter(), transfert).map(new F<Transfert, String>() {
+                                public String f(Transfert t) { return t.getCode(); }
+                            });
 
                     // 8. Date de création des voeux
-                    Option<Date> dateCrea = fromNull(indRechPojo.getDateCreationVoeuRecherchee());
+                    final Option<Date> dateCrea = fromNull(indRechPojo.getDateCreationVoeuRecherchee());
 
                     return getDomainService().sliceOfInd(
                             pfFilters((long) first, (long) pageSize, sortField, sortOrder, filters),
@@ -425,8 +423,8 @@ public class IndividuController extends AbstractAccessController {
         if (isCodEtu || (!pojoIndividu.getDoNotHaveCodeNne() && !pojoIndividu.getIsUsingSearch())) {
 
             Individu ind = pojoIndividu.getIndividu();
-            Individu individuOPI = null;
-            Individu individuApogee = null;
+            Individu individuOPI;
+            Individu individuApogee;
             if (!isCodEtu) {
                 // Check NNE fields
                 if (!StringUtils.isNotBlank(ind.getCodeNNE())
@@ -883,17 +881,19 @@ public class IndividuController extends AbstractAccessController {
     }
 
     public void initIndRechPojo() {
-        final IndRechPojo indRechPojo = new IndRechPojo();
-        final SessionController sessionController = getSessionController();
-        final User user = sessionController.getCurrentUser();
-        if (user != null && user instanceof Gestionnaire) {
-            Gestionnaire gest = (Gestionnaire) user;
-            int codeRI = gest.getProfile().getCodeRI();
-            RegimeInscription regimeIns = sessionController.getRegimeIns().get(codeRI);
-            indRechPojo.getListeRI().add(regimeIns);
-            indRechPojo.setCanModifyRISearch(regimeIns.canModifyRISearch());
+        if (!FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest()) {
+            final IndRechPojo indRechPojo = new IndRechPojo();
+            final SessionController sessionController = getSessionController();
+            final User user = sessionController.getCurrentUser();
+            if (user != null && user instanceof Gestionnaire) {
+                Gestionnaire gest = (Gestionnaire) user;
+                int codeRI = gest.getProfile().getCodeRI();
+                RegimeInscription regimeIns = sessionController.getRegimeIns().get(codeRI);
+                indRechPojo.getListeRI().add(regimeIns);
+                indRechPojo.setCanModifyRISearch(regimeIns.canModifyRISearch());
+            }
+            individuPaginator.setIndRechPojo(indRechPojo);
         }
-        individuPaginator.setIndRechPojo(indRechPojo);
     }
 
     public void useVoeuFilter(Boolean bool) {
@@ -949,7 +949,7 @@ public class IndividuController extends AbstractAccessController {
      * Méthode utilisée pour initialiser la liste des années de naissance.
      */
     private void initListeAnneeNaissance() {
-        Campagne campEnCours = null;
+        Campagne campEnCours;
         int anneeEnCours = DEFAULT_CURRENT_YEAR;
         if (pojoIndividu.getRegimeInscription() != null) {
             int codeRI = pojoIndividu.getRegimeInscription().getCode();
@@ -1030,9 +1030,7 @@ public class IndividuController extends AbstractAccessController {
             log.debug("entering add with individu = " + pojoIndividu.getIndividu());
         }
         pojoIndividu.setIndividu(
-                (Individu) getDomainService().add(
-                        pojoIndividu.getIndividu(),
-                        pojoIndividu.getIndividu().getNumDossierOpi()));
+                getDomainService().add(pojoIndividu.getIndividu(), pojoIndividu.getIndividu().getNumDossierOpi()));
         int codeRI = pojoIndividu.getRegimeInscription().getCode();
         if (!StringUtils.isNotBlank(pojoIndividu.getIndividu().getState())) {
             //slt si l'etat est vide
@@ -1265,7 +1263,7 @@ public class IndividuController extends AbstractAccessController {
     /**
      * Return the civility items.
      *
-     * @return List< SelectItem>
+     * @return List<SelectItem>
      */
     public List<SelectItem> getCiviliteItems() {
         List<SelectItem> s = new ArrayList<SelectItem>();
@@ -1279,8 +1277,6 @@ public class IndividuController extends AbstractAccessController {
 
     /**
      * The selected pays.
-     *
-     * @param event
      */
     public void selectPay() {
         String codePay = pojoIndividu.getIndividu().getCodPayNaissance();
@@ -1384,10 +1380,7 @@ public class IndividuController extends AbstractAccessController {
      * @return Boolean
      */
     private Boolean ctrlEnter() {
-        Boolean ctrlOk = true;
-
-        // check individu commun's fields
-        ctrlOk = ctrlEnterMinimum();
+        Boolean ctrlOk = ctrlEnterMinimum();
 
         // Check individu's other fields
         Individu ind = pojoIndividu.getIndividu();
@@ -1427,7 +1420,6 @@ public class IndividuController extends AbstractAccessController {
     /**
      * Control if the added user is unique.
      *
-     * @return
      */
     private Boolean ctrlUnicite() {
         Boolean ctrlOk = true;
@@ -1479,265 +1471,161 @@ public class IndividuController extends AbstractAccessController {
     /**
      * Upper any attributs in Individu.
      *
-     * @param i
      * @return Individu
      */
     private Individu toUpperCaseAnyAttributs(final Individu i) {
         //UPPER CASE any attributs
-        Individu in = i;
         if (StringUtils.isNotBlank(i.getNomPatronymique())) {
-            in.setNomPatronymique(i.getNomPatronymique().toUpperCase());
+            i.setNomPatronymique(i.getNomPatronymique().toUpperCase());
         }
         if (StringUtils.isNotBlank(i.getNomUsuel())) {
-            in.setNomUsuel(i.getNomUsuel().toUpperCase());
+            i.setNomUsuel(i.getNomUsuel().toUpperCase());
         }
-        in.setPrenom(i.getPrenom().toUpperCase());
+        i.setPrenom(i.getPrenom().toUpperCase());
         if (StringUtils.isNotBlank(i.getPrenom2())) {
-            in.setPrenom2(i.getPrenom2().toUpperCase());
+            i.setPrenom2(i.getPrenom2().toUpperCase());
         }
         if (StringUtils.isNotBlank(i.getVilleNaissance())) {
-            in.setVilleNaissance(
+            i.setVilleNaissance(
                     i.getVilleNaissance().toUpperCase());
         }
         if (StringUtils.isNotBlank(i.getCodeClefNNE())) {
-            in.setCodeClefNNE(
+            i.setCodeClefNNE(
                     i.getCodeClefNNE().toUpperCase());
         }
 
-        return in;
+        return i;
     }
 
-	/*
-	 ******************* ACCESSORS ******************** */
-
-    /**
-     * @return the pojoIndividu
-     */
     public IndividuPojo getPojoIndividu() {
         return pojoIndividu;
     }
 
-    /**
-     * @param pojoIndividu the pojoIndividu to set
-     */
     public void setPojoIndividu(final IndividuPojo pojoIndividu) {
         this.pojoIndividu = pojoIndividu;
     }
 
-    /**
-     * @param adressController the adressController to set
-     */
     public void setAdressController(final AdressController adressController) {
         this.adressController = adressController;
     }
 
-    /**
-     * @param cursusController the cursusController to set
-     */
     public void setCursusController(final CursusController cursusController) {
         this.cursusController = cursusController;
     }
 
-    /**
-     * @param indBacController the indBacController to set
-     */
     public void setIndBacController(final IndBacController indBacController) {
         this.indBacController = indBacController;
     }
 
-    /**
-     * @return the actionEnum
-     */
     public ActionEnum getActionEnum() {
         return actionEnum;
     }
 
-    /**
-     * @param actionEnum the actionEnum to set
-     */
     public void setActionEnum(final ActionEnum actionEnum) {
         this.actionEnum = actionEnum;
     }
 
-    /**
-     * @return the individuPaginator
-     */
     public IndividuPaginator getIndividuPaginator() {
         return individuPaginator;
     }
 
-    /**
-     * @param individuPaginator the individuPaginator to set
-     */
     public void setIndividuPaginator(final IndividuPaginator individuPaginator) {
         this.individuPaginator = individuPaginator;
     }
 
-    /**
-     * @return the adressController
-     */
     public AdressController getAdressController() {
         return adressController;
     }
 
-    /**
-     * @return the cursusController
-     */
     public CursusController getCursusController() {
         return cursusController;
     }
 
-    /**
-     * @return the indBacController
-     */
     public IndBacController getIndBacController() {
         return indBacController;
     }
 
 
-    /**
-     * @return the situationController
-     */
     public SituationController getSituationController() {
         return situationController;
     }
 
-    /**
-     * @param situationController the situationController to set
-     */
     public void setSituationController(final SituationController situationController) {
         this.situationController = situationController;
     }
 
-    /**
-     * @param formulairesController the formulairesController to set
-     */
     public void setFormulairesController(final FormulairesController formulairesController) {
         this.formulairesController = formulairesController;
     }
 
-    /**
-     * @return the etatDossier
-     */
     public String getEtatDossier() {
         return etatDossier;
     }
 
-    /**
-     * @param etatDossier the etatDossier to set
-     */
     public void setEtatDossier(final String etatDossier) {
         this.etatDossier = etatDossier;
     }
 
-    /**
-     * @return isRecupInfos
-     */
     public boolean getIsRecupInfos() {
         return isRecupInfos;
     }
 
-    /**
-     * @param isRecupInfos
-     */
     public void setIsRecupInfos(final boolean isRecupInfos) {
         this.isRecupInfos = isRecupInfos;
     }
 
-    /**
-     * @return isRecupCursus
-     */
     public boolean getIsRecupCursus() {
         return isRecupCursus;
     }
 
-    /**
-     * @param isRecupCursus
-     */
     public void setIsRecupCursus(final boolean isRecupCursus) {
         this.isRecupCursus = isRecupCursus;
     }
 
-    /**
-     * @return isRecupBac
-     */
     public boolean getIsRecupBac() {
         return isRecupBac;
     }
 
-    /**
-     * @param isRecupBac
-     */
     public void setIsRecupBac(final boolean isRecupBac) {
         this.isRecupBac = isRecupBac;
     }
 
-    /**
-     * @return the jourNaissance
-     */
     public String getJourNaissance() {
         return jourNaissance;
     }
 
-    /**
-     * @param jourNaissance the jourNaissance to set
-     */
     public void setJourNaissance(final String jourNaissance) {
         this.jourNaissance = jourNaissance;
     }
 
-    /**
-     * @return the moisNaissance
-     */
     public String getMoisNaissance() {
         return moisNaissance;
     }
 
-    /**
-     * @param moisNaissance the moisNaissance to set
-     */
     public void setMoisNaissance(final String moisNaissance) {
         this.moisNaissance = moisNaissance;
     }
 
-    /**
-     * @return the anneeNaissance
-     */
     public String getAnneeNaissance() {
         return anneeNaissance;
     }
 
-    /**
-     * @param anneeNaissance the anneeNaissance to set
-     */
     public void setAnneeNaissance(final String anneeNaissance) {
         this.anneeNaissance = anneeNaissance;
     }
 
-    /**
-     * @return the listeAnneeNaissance
-     */
     public List<SelectItem> getListeAnneeNaissance() {
         return listeAnneeNaissance;
     }
 
-    /**
-     * @return the checkEmail
-     */
     public String getCheckEmail() {
         return checkEmail;
     }
 
-    /**
-     * @param checkEmail the checkEmail to set
-     */
     public void setCheckEmail(final String checkEmail) {
         this.checkEmail = checkEmail;
     }
 
-    /**
-     * @return ldapUserService
-     */
     public LdapUserService getLdapUserService() {
         return ldapUserService;
     }
@@ -1750,9 +1638,6 @@ public class IndividuController extends AbstractAccessController {
         this.transfert = transfert;
     }
 
-    /**
-     * @param ldapUserService
-     */
     public void setLdapUserService(LdapUserService ldapUserService) {
         this.ldapUserService = ldapUserService;
     }
@@ -1772,4 +1657,5 @@ public class IndividuController extends AbstractAccessController {
     public void doRenderTable() {
         renderTable = true;
     }
+
 }

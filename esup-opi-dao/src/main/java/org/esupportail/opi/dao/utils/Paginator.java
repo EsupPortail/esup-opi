@@ -224,11 +224,6 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
 
     /**
      * La requête sans ordre : base + filtres + filtres supplémentaires
-     *
-     *
-     * @param base
-     * @param filters
-     * @param customFilter
      * @return Une fonction retournant la requête complète (sans clause d'ordre)
      */
     private <A> F<A, Q> unOrderedQuery(F<A, Q> base, Map<String, String> filters, F<Q, Q> customFilter) {
@@ -237,10 +232,6 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
 
     /**
      * La requête complète : base + filtres + filtres supplémentaires + ordre
-     * 
-     * @param base
-     * @param filters
-     * @param customFilter
      * @return Une fonction retournant la requête complète
      */
 	private <A> F<A, F<String, F<SortOrder, Q>>> query(F<A, Q> base, Map<String,String> filters, F<Q, Q> customFilter) {
@@ -264,21 +255,30 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
 	/**
 	 * Requête de pagination
 	 * 
-	 * @param offset Où commence-t-on ?
-	 * @param limit Combien d'éléments ?
-	 * @param sortField Sur quel champ trie-t-on ?
-	 * @param sortOrder Dans quel ordre ?
-	 * @param filters Sur quels champs filtrer ? Avec quelles valeurs ?
+	 * @param offset Index du premier élément à retourner
+	 * @param limit Nombre d'éléments à retourner
+	 * @param sortField Nom du  champ sur lequel trier les résultats
+	 * @param sortOrder Ordre du tri
+	 * @param filters Mapping nom de champ <-> valeur pour ce champ positionnant des filtres simples sur la requête
 	 * @param optCustomfilter Un ou des filtres supplémentaires optionnels
-	 * @return Un 2-tuple constitué du nombre d'éléments correspondant à la requête filtrée mais <b>non</b> paginée
-	 * et de la liste des éléments retournés par la requête complète (paginée, filtrée et ordonnée)
+	 * @return Un 2-tuple constitué : <ul>
+     *     <li>du nombre d'éléments correspondant à la requête filtrée mais <b>non</b> paginée</li>
+	 *     <li>et de la liste des éléments retournés par la requête complète (paginée, filtrée et ordonnée)</li>
+     *     </ul>
 	 */
 	public final P2<Long, java.util.List<T>> sliceOf(Long offset, Long limit, String sortField,
 	    SortOrder sortOrder, Map<String,String> filters, Option<F<Q, Q>> optCustomfilter) {
-	    final F<Q, Q> customFilter = optCustomfilter.orSome(Function.<Q>identity());
-        final long count = unOrderedQuery(full.constant(), filters, customFilter).f(unit()).count();
-        final java.util.List<T> list =
-                query(tuple(slice), filters, customFilter).f(p(offset, limit)).f(sortField).f(sortOrder).list(ent);
+	    F<Q, Q> customFilter = optCustomfilter.orSome(Function.<Q>identity());
+        long count = unOrderedQuery(full.constant(), filters, customFilter).f(unit()).count();
+
+        long pageSize = (limit > 0) ? limit : 1;
+        long pageCount = (count / pageSize) + ((count % pageSize == 0) ? 0 : 1);
+        long lastOffset = (pageCount > 1) ? (pageCount - 1) * pageSize : 0;
+        long realOffset = (offset > lastOffset) ? lastOffset : offset;
+
+        java.util.List<T> list =
+                query(tuple(slice), filters, customFilter).f(p(realOffset, pageSize)).f(sortField).f(sortOrder).list(ent);
+
         return p(count, list);
 	}
 
