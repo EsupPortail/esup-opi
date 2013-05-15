@@ -246,6 +246,8 @@ public class CursusController extends AbstractAccessController {
             if (actionEnum.getWhatAction().equals(ActionEnum.UPDATE_ACTION)) {
                 //ajout en base
                 addOneCursusScol(getCurrentInd().getIndividu(), pojoCursusScol.getCursus());
+                //Ajout dans l'individu courant
+                getCurrentInd().getIndividu().getCursusScol().add(pojoCursusScol.getCursus());
                 sendMailAddCursus();
             }
             initCursusScol();
@@ -365,6 +367,8 @@ public class CursusController extends AbstractAccessController {
             if (actionEnum.getWhatAction().equals(ActionEnum.UPDATE_ACTION)) {
                 //ajout en base
                 addOneCursus(getCurrentInd().getIndividu(), indCursusPojo.getCursus());
+                //Ajout dans l'individu courant
+                getCurrentInd().getIndividu().getCursus().add(indCursusPojo.getCursus());
             }
             indCursusPojo.addCursus();
             Collections.sort(indCursusPojo.getCursusList(), new ComparatorString(IndCursus.class));
@@ -412,6 +416,8 @@ public class CursusController extends AbstractAccessController {
             if (actionEnum.getWhatAction().equals(ActionEnum.UPDATE_ACTION)) {
                 //ajout en base
                 addOneCursus(getCurrentInd().getIndividu(), pojoQualif.getCursus());
+                //Ajout dans l'individu courant
+                getCurrentInd().getIndividu().getCursus().add(pojoQualif.getCursus());
             }
             pojoQualif.addCursus();
             Collections.sort(pojoQualif.getCursusList(), new ComparatorString(IndCursus.class));
