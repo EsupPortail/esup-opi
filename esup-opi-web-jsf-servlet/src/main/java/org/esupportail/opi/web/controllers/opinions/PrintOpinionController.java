@@ -535,7 +535,6 @@ public class PrintOpinionController extends AbstractContextAwareController {
 		/**
 		 * Generate a CSV of the list of student. 
 		 * @param individus 
-		 * @param fileName 
 		 * @return String superCsvGeneration
 		 */
 	public List<LigneListePrepaPojo> getLigneListPrepa(final List<IndividuPojo> individus) {
@@ -1380,7 +1379,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
     }
 
     public void doRenderTable() {
-        renderTable = individuController.getIndividuPaginator().getIndRechPojo().getIdCmi() != null;
+        renderTable = true;
     }
 }
 

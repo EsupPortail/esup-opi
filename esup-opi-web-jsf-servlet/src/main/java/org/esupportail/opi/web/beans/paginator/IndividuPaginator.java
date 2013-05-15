@@ -18,7 +18,7 @@ import org.esupportail.opi.web.beans.pojo.IndRechPojo;
 import org.esupportail.opi.web.controllers.SessionController;
 
 /**
- * TODO : get rid of that class
+ * TODO : get rid of that class as it is not used as a paginator anymore but as a mere data container
  *
  * @author tducreux
  */

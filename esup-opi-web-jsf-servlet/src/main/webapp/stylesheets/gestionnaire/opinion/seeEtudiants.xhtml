@@ -4,33 +4,30 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-        <p:blockUI block="maPage" trigger=":seeIndividusForm:changeStateAll
-                                           :seeIndividusForm:individuData
-                                           :lookForIndForm:lesCommissions
-                                           :lookForIndForm:lookForIndividu">
-            <p:graphicImage value="/media/images/ajax-loader.gif"/>
-        </p:blockUI>
-        <p:blockUI block=":seeIndividusForm:dataPanel" trigger=":seeIndividusForm:renderTable">
-            <p:graphicImage value="/media/images/ajax-loader.gif"/>
-        </p:blockUI>
-        <p:panel id="maPage" styleClass="div_body">
-            <h1>
-                <span class="section-header">
-                    <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
-                </span>
-            </h1>
-            <div class="messageForUser">
-                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
-            </div>
-            <ui:include src="_block/_sendMailStudent.xhtml"/>
-            <ui:include src="_block/_enterPM.xhtml"/>
-            <ui:fragment rendered="#{!(pjController.currentCmiPojo != null
-                                   and pjController.currentCmiPojo.state.displayPJ)}">
-                <ui:include src="/stylesheets/gestionnaire/opinion/_block/_lookForIndividuPM.xhtml">
-                    <ui:param name="toUpdate" value=":seeIndividusForm:individuData"/>
-                </ui:include>
-            </ui:fragment>
-            <h:form id="seeIndividusForm" rendered="#{!pjController.currentCmiPojo.state.displayPJ}">
+        <h:form id="seeIndividusForm" rendered="#{!pjController.currentCmiPojo.state.displayPJ}">
+            <p:blockUI block="maPage" trigger="changeStateAll individuData search-button">
+                <p:graphicImage value="/media/images/ajax-loader.gif"/>
+            </p:blockUI>
+            <p:blockUI block="dataPanel" trigger="renderTable">
+                <p:graphicImage value="/media/images/ajax-loader.gif"/>
+            </p:blockUI>
+            <p:panel id="maPage" styleClass="div_body">
+                <h1>
+                    <span class="section-header">
+                        <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
+                    </span>
+                </h1>
+                <div class="messageForUser">
+                    <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+                </div>
+                <ui:include src="_block/_sendMailStudent.xhtml"/>
+                <ui:include src="_block/_enterPM.xhtml"/>
+                <ui:fragment rendered="#{!(pjController.currentCmiPojo != null
+                                       and pjController.currentCmiPojo.state.displayPJ)}">
+                    <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml">
+                        <ui:param name="toUpdate" value="individuData"/>
+                    </ui:include>
+                </ui:fragment>
                 <p:remoteCommand id="renderTable" name="renderTable"
                                  autoRun="true" async="true"
                                  update="dataPanel"
@@ -55,10 +52,6 @@
                 </div>
                 <p:panel id="dataPanel" layout="block" styleClass="dataPanel">
                     <p:panel styleClass="dataSubPanel">
-                        <p:effect type="puff" event="load">
-                            <f:param name="mode" value="'show'"/>
-                            <f:param name="percent" value="100"/>
-                        </p:effect>
                         <p:remoteCommand id="resetAllState" name="resetAllState"
                                          async="true"
                                          update="individuData:selectAllState">
@@ -149,14 +142,13 @@
                                 <ui:repeat var="commissionPojo" value="#{missingPiecePojos.cmiKeySet}">
                                     <p:selectOneRadio value="#{commissionPojo.stateCurrent}">
                                         <f:selectItem itemValue="STATE.NON_ARRIVE" 
-                                        			  itemLabel="#{msgs['STATE.NON_ARRIVE']}"/>
+                                        	      itemLabel="#{msgs['STATE.NON_ARRIVE']}"/>
                                         <f:selectItem itemValue="STATE.ARRIVE_COMPLET"
                                                       itemLabel="#{msgs['STATE.ARRIVE_COMPLET']}"/>
                                         <f:selectItem itemValue="STATE.ARRIVE_INCOMPLET"
                                                       itemLabel="#{msgs['STATE.ARRIVE_INCOMPLET']}"/>
                                     </p:selectOneRadio>
                                 </ui:repeat>
-
                             </p:column>
                             <p:column>
                                 <p:commandButton icon="ui-icon-pencil"
@@ -172,7 +164,7 @@
                         </p:dataTable>
                     </p:panel>
                 </p:panel>
-            </h:form>
-        </p:panel>
+            </p:panel>
+        </h:form>
     </ui:define>
 </ui:composition>

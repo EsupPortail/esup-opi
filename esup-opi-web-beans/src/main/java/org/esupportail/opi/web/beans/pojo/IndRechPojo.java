@@ -97,8 +97,8 @@ public class IndRechPojo {
 	 * Constructor.
 	 */
 	public IndRechPojo() {
-		//this.excludeWishProcessed = true;
-		//this.listeRI = null;
+            //this.excludeWishProcessed = true;
+            //this.listeRI = null;
 	}
 
 	/*
@@ -204,10 +204,12 @@ public class IndRechPojo {
 	}
 
     public TypeDecision getTypeDec() {
+        // yeah, ugly, but jsf likes it
         return typesDec.isEmpty() ? null : typesDec.get(0);
     }
 
     public void setTypeDec(TypeDecision typeDec) {
+        // yeah, ugly, but jsf likes it
         if (typeDec != null)
             typesDec = new ArrayList<TypeDecision>(Collections.singleton(typeDec));
     }
