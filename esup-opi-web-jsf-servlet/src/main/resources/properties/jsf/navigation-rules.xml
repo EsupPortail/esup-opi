@@ -1077,6 +1077,11 @@
             <to-view-id>/stylesheets/gestionnaire/opinion/enterStudentsOpinions.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>go_see_opinion</from-outcome>
+            <to-view-id>/stylesheets/gestionnaire/opinion/seeOpinions.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
     </navigation-rule>
 
     <!--## Print opinion ##-->

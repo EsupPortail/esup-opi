@@ -61,8 +61,7 @@
                     <p:selectOneMenu id="lesTypesDecision" converter="#{typeDecisionConverter}"
                                      value="#{paginatorIndividu.indRechPojo.typeDec}">
                         <f:selectItems value="#{nomenclatureController.typeDecisionItems}"/>
-                        <p:ajax update="formGrid" partialSubmit="true"
-                                listener="#{opinionController.searchStudentsByTypeDec}"/>
+                        <p:ajax update="formGrid" listener="#{opinionController.searchStudentsByTypeDec}"/>
                     </p:selectOneMenu>
                 </h:panelGroup>
                 <h:panelGroup rendered="#{opinionController.isFilterLCAndCommissionOK}">

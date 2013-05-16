@@ -1,9 +1,6 @@
 package org.esupportail.opi.web.controllers.opinions;
 
-import fj.F;
-import fj.F2;
-import fj.F5;
-import fj.P2;
+import fj.*;
 import fj.data.Option;
 import fj.data.Stream;
 import org.esupportail.commons.exceptions.ConfigException;
@@ -398,9 +395,11 @@ public class OpinionController
      * Save pour tous les individus coches le type de decision selectionne.
      */
     public void saveAll() {
-        //Stockage des indVoeuPojo en erreur pour les reediter dans le formulaire
-        Set<IndVoeuPojo> voeuxInError = new HashSet<IndVoeuPojo>();
-        if (selectedTypeDec != null) {
+        if (selectedTypeDec == null)
+            addInfoMessage(null, "AVIS.INFO.TYP_DEC.NOT_SELECT");
+        else {
+            //Stockage des indVoeuPojo en erreur pour les reediter dans le formulaire
+            Set<IndVoeuPojo> voeuxInError = new HashSet<IndVoeuPojo>();
             mapTestRang.clear();
             Boolean isRefused = selectedTypeDec.getIsFinal()
                     && selectedTypeDec.getCodeTypeConvocation().equals(refused.getCode());
@@ -462,14 +461,12 @@ public class OpinionController
 
             // apres le reset, on recupere selectedTypeDec
             selectedTypeDec = saveTypeDec;
-            selectTypeDecisionOpinion(null, true);
+            selectTypeDecision();
             if (log.isDebugEnabled()) {
                 log.debug("leaving saveAll");
             }
             //7468 Pbs saisie résultat résultat défavorable (oubli de la motivation)
             wishSelected = new HashMap<Individu, List<IndVoeuPojo>>();
-        } else {
-            addInfoMessage(null, "AVIS.INFO.TYP_DEC.NOT_SELECT");
         }
     }
 
@@ -483,9 +480,6 @@ public class OpinionController
         }
     }
 
-    /**
-     * @param voeuxInError
-     */
     private void setVoeuxInErrorInPaginator(final Set<IndVoeuPojo> voeuxInError) {
         for (IndividuPojo ind : indPojoLDM.getData())
             for (IndVoeuPojo iPojo : ind.getIndVoeuxPojo())
@@ -515,9 +509,6 @@ public class OpinionController
 
     /**
      * Update one wish : add an opinion.
-     *
-     * @param indVoeu
-     * @param a
      */
     private Boolean add(final IndVoeu indVoeu, final Avis a,
                         final Map<Integer, IndVoeuPojo> mapIndVoeuPojoNewAvis) {
@@ -531,7 +522,7 @@ public class OpinionController
             Set<Avis> listAvis = indVoeu.getAvis();
             for (Avis av : listAvis) {
                 av.setTemoinEnService(false);
-                Avis avi = (Avis) getDomainService().update(
+                Avis avi = getDomainService().update(
                         av, getCurrentGest().getLogin());
                 getDomainService().updateAvis(avi);
             }
@@ -541,7 +532,7 @@ public class OpinionController
 
             // mise en service de l'avis
             a.setTemoinEnService(true);
-            Avis av = (Avis) getDomainService().add(
+            Avis av = getDomainService().add(
                     a, getCurrentGest().getLogin());
 
             getDomainService().addAvis(av);
@@ -572,7 +563,7 @@ public class OpinionController
             }
             // devalidation automatique de l'avis
             avis.setValidation(false);
-            Avis a = (Avis) getDomainService().update(
+            Avis a = getDomainService().update(
                     avis, getCurrentGest().getLogin());
             getDomainService().updateAvis(a);
             addInfoMessage(null, "INFO.ENTER.SUCCESS");
@@ -635,7 +626,7 @@ public class OpinionController
             indV.setHaveBeTraited(true);
             indV.setIsProp(true);
 
-            IndVoeu i = (IndVoeu) getDomainService().add(indV, getCurrentGest().getLogin());
+            IndVoeu i = getDomainService().add(indV, getCurrentGest().getLogin());
             getDomainService().addIndVoeu(i);
 
             Avis a = new Avis();
@@ -643,7 +634,7 @@ public class OpinionController
             a.setIndVoeu(indV);
             a.setResult(fav);
 
-            Avis av = (Avis) getDomainService().add(a, getCurrentGest().getLogin());
+            Avis av = getDomainService().add(a, getCurrentGest().getLogin());
             getDomainService().addAvis(av);
 
             indVoeuxPojo.setIndVoeu(indV);
@@ -672,18 +663,9 @@ public class OpinionController
      * @param event
      */
     public void selectTypeDecision(final ValueChangeEvent event) {
-
         selectedTypeDec = (TypeDecision) event.getNewValue();
         selectTypeDecision();
         FacesContext.getCurrentInstance().renderResponse();
-    }
-
-
-    /**
-     * Methode appelee lors de la selection d'un type de decision.
-     */
-    public void selectTypeDecision() {
-        selectTypeDecisionOpinion(null, true);
     }
 
     /**
@@ -700,10 +682,9 @@ public class OpinionController
                     //charge le commentaire
                     TraitementCmi t = ivPojo.getIndVoeu()
                             .getLinkTrtCmiCamp().getTraitementCmi();
-                    if (t.getSelection() != null) {
+                    if (t.getSelection() != null)
                         ivPojo.getNewAvis()
                                 .setCommentaire(t.getSelection().getComment());
-                    }
                     isUsingPreselect = true;
                 } else if (newDec != null
                         && newDec.getCodeTypeConvocation()
@@ -726,39 +707,22 @@ public class OpinionController
      * Methode appelee lors de la selection d'un type de decision.
      * pour un avis
      */
-    public void selectTypeDecisionOpinion() {
-        indVoeuxPojo = selectTypeDecisionOpinion(indVoeuxPojo, true);
-    }
-
-
-    /**
-     * Methode appelee lors de la selection d'un type de decision.
-     * pour un avis
-     */
-    private IndVoeuPojo selectTypeDecisionOpinion(final IndVoeuPojo ivPojo, final Boolean doNewList) {
-        if (selectedTypeDec != null
-                && selectedTypeDec.getCodeTypeConvocation()
-                .equals(preSelection.getCode())) {
-            if (ivPojo != null) {
-                //charge le commentaire
-                TraitementCmi t = ivPojo.getIndVoeu().getLinkTrtCmiCamp().getTraitementCmi();
-                if (t.getSelection() != null) {
-                    avis.setCommentaire(t.getSelection().getComment());
-                }
-                return ivPojo;
-            }
-            isUsingPreselect = true;
+    public void selectTypeDecision() {
+        isUsingPreselect = selectedTypeDec != null &&
+                selectedTypeDec.getCodeTypeConvocation().equals(preSelection.getCode());
+        if (isUsingPreselect && indVoeuxPojo != null) {
+            //charge le commentaire
+            TraitementCmi t = indVoeuxPojo.getIndVoeu().getLinkTrtCmiCamp().getTraitementCmi();
+            if (t.getSelection() != null)
+                avis.setCommentaire(t.getSelection().getComment());
         }
-        if (selectedTypeDec != null &&
-                selectedTypeDec.getCodeTypeConvocation().equals(listeComplementaire.getCode()))
-            isUsingLC = true;
 
-        if (selectedTypeDec != null &&
+        isUsingLC = selectedTypeDec != null &&
+                selectedTypeDec.getCodeTypeConvocation().equals(listeComplementaire.getCode());
+
+        isUsingDEF = selectedTypeDec != null &&
                 selectedTypeDec.getCodeTypeConvocation().equals(refused.getCode()) &&
-                selectedTypeDec.getIsFinal())
-            isUsingDEF = true;
-
-        return ivPojo;
+                selectedTypeDec.getIsFinal();
     }
 
 
@@ -958,11 +922,9 @@ public class OpinionController
         final IndividuPaginator individuPaginator = individuController.getIndividuPaginator();
         final List<TypeDecision> types = individuPaginator.getIndRechPojo().getTypesDec();
         final Integer codeCommRech = individuPaginator.getIndRechPojo().getIdCmi();
-        if (!types.isEmpty() && types.get(0).getCode().equals(listeComplementaire.getCode())
-                && codeCommRech != null) {
-            return true;
-        }
-        return false;
+        return !types.isEmpty() &&
+                types.get(0).getCode().equals(listeComplementaire.getCode()) &&
+                codeCommRech != null;
     }
 
     /**
