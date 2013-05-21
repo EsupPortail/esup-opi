@@ -15,7 +15,7 @@
             </p:blockUI>
             <p:panel id="maPage" styleClass="div_body">
                 <h1>
-                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" />
+                    <h:outputText value="#{managedAccess.currentTraitement.libelle}" styleClass="section-header" />
                 </h1>
                 <ui:fragment rendered="#{opinionController.actionEnum.whatAction != opinionController.actionEnum.propositionAction}">
                     <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml">
@@ -39,7 +39,7 @@
                     <p:selectOneMenu id="choiceTypeDecision"
                                      converter="#{typeDecisionConverter}"
                                      value="#{opinionController.selectedTypeDec}" style="width: 10%;">
-                        <f:selectItems value="#{nomenclatureController.typeDecisionItems}" />
+                        <f:selectItems value="#{nomenclatureController.typeDecisionInUseItems}" />
                         <p:ajax listener="#{opinionController.selectTypeDecisionOpinion}"
                                 update="individuData" />
                     </p:selectOneMenu>
@@ -133,7 +133,7 @@
                                     </div>
                                 </ui:repeat>
                             </p:column>
-                            <p:column>
+                            <p:column style="max-width:18px!important;">
                                 <f:facet name="header">
                                     <p:selectBooleanCheckbox id="checkAll" value="#{opinionController.allChecked}">
                                         <p:ajax listener="#{opinionController.checkAll}" update="individuData" />
