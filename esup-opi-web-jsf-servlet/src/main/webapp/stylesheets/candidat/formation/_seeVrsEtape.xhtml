@@ -2,9 +2,9 @@
              xmlns:ui="http://java.sun.com/jsf/facelets"
              xmlns:h="http://java.sun.com/jsf/html"
              xmlns:p="http://primefaces.org/ui">
-    <p:outputPanel id="div_sectionSelectEtape" layout="block"
+    <p:outputPanel id="div_sectionSelectEtape" layout="block" autoUpdate="true">
+        <h:form id="selectEtapeForm" styleClass="opiR1_form"
                    rendered="#{not empty formationController.searchFormationPojo.versionEtapes}">
-        <h:form id="selectEtapeForm" styleClass="opiR1_form">
             <div id="blockFormEtape" class="blockForm">
                 <div style="width:100%;" class="tableJustWidthMax">
                     <h:outputText value="#{msgs['FORMATION.TITLE.LIST']}"
