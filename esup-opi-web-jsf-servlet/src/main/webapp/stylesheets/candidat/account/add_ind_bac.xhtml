@@ -11,7 +11,7 @@
                     <h:outputText value="#{msgs['WELCOME.CREATE']}" styleClass="section-header"/>
                 </h1>
                 <div class="messageForUser">
-                    <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+                    <p:messages id="messages" showDetail="true" autoUpdate="true" />
                 </div>
                 <div class="maxDivTextRight">
                     <h:panelGroup>
@@ -40,19 +40,8 @@
                         <ui:include src="_block/_blockBacObtenu.xhtml"/>
                     </ui:fragment>
 
-                    <br/>
-                    <br/>
-
                 </div>
             </h:form>
         </div>
-
-        <script type="text/javascript">
-            hideElement('addCursusForm:submitSelectCommune');
-            hideElement('addCursusForm:submitSelectDep');
-            hideElement('addCursusForm:submitSelectPay');
-            hideElement('addCursusForm:submitDaaObt');
-            onblurInput('addCursusForm:daaObt', 'addCursusForm:submitDaaObt');
-        </script>
     </ui:define>
 </ui:composition>

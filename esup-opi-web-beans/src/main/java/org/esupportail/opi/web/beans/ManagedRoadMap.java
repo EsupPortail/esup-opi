@@ -4,18 +4,19 @@
  */
 package org.esupportail.opi.web.beans;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.web.controllers.Resettable;
 import org.esupportail.opi.web.beans.pojo.RoadMap;
 import org.springframework.beans.factory.InitializingBean;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 
 
 
@@ -76,7 +77,7 @@ public class ManagedRoadMap implements Resettable, InitializingBean, Serializabl
 	 */
 	@Override
 	public void reset() {
-		roads = new TreeMap<Integer, RoadMap>();
+		roads = new ConcurrentHashMap<Integer, RoadMap>();
 		roadSelected = new RoadMap();
 	}
 	
@@ -91,13 +92,13 @@ public class ManagedRoadMap implements Resettable, InitializingBean, Serializabl
 		if (log.isDebugEnabled()) {
 			log.debug("entering goToRoadSelect with roadSelected = " + roadSelected);
 		}
-		Map<Integer, RoadMap> roadsTmp = new TreeMap<Integer, RoadMap>();
+		Map<Integer, RoadMap> roadsTmp = new ConcurrentHashMap<Integer, RoadMap>();
 		//remove roadSelected and all roads has rang > it roadSelected
-		for (Integer rang : roads.keySet()) {
+		for (Entry<Integer, RoadMap> e : roads.entrySet()) {
+			Integer rang = e.getKey();
 			if (rang < roadSelected.getRang()) {
-				roadsTmp.put(rang, roads.get(rang));
+				roadsTmp.put(rang, e.getValue());
 			} else if (rang.equals(roadSelected.getRang())) {
-				//devient le chemin courant
 				roadSelected.setIsCurrentPage(true);
 				roadsTmp.put(rang, roadSelected);
 			}
@@ -116,8 +117,8 @@ public class ManagedRoadMap implements Resettable, InitializingBean, Serializabl
 	 * @param roadMap
 	 */
 	public void addRoad(final RoadMap roadMap) {
-		for (Integer rang : roads.keySet()) {
-			roads.get(rang).setIsCurrentPage(false);
+		for (Entry<Integer, RoadMap> e : roads.entrySet()) {
+			e.getValue().setIsCurrentPage(false);
 		}
 		roads.put(roadMap.getRang(), roadMap);
 	}
@@ -134,17 +135,15 @@ public class ManagedRoadMap implements Resettable, InitializingBean, Serializabl
 	 ******************* METHODS ********************** */
 	
 	/**
-	 * @return Set< Integer>
+	 * @return List<Integer>
 	 */
 	public List<Integer> getRoadsKey() {
-		return new ArrayList<Integer>(roads.keySet());
+		return new ArrayList<Integer>(getRoads().keySet());
 	}
 	
 	
 	/*
 	 ******************* ACCESSORS ******************** */
-	
-	
 
 	/**
 	 * @return the roadSelected
@@ -166,7 +165,8 @@ public class ManagedRoadMap implements Resettable, InitializingBean, Serializabl
 	 * @return the roads
 	 */
 	public Map<Integer, RoadMap> getRoads() {
-		return roads;
+		// To sort the roads by their rank
+		return new TreeMap<Integer, RoadMap>(roads);
 	}
 
 
@@ -174,9 +174,7 @@ public class ManagedRoadMap implements Resettable, InitializingBean, Serializabl
 	 * @param roads the roads to set
 	 */
 	public void setRoads(final Map<Integer, RoadMap> roads) {
-		this.roads = roads;
+		this.roads = new ConcurrentHashMap<Integer, RoadMap>(roads);
 	}
-
-	
 
 }

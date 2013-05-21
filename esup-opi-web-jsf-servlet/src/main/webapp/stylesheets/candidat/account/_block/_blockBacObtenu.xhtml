@@ -139,11 +139,11 @@
                 </p:overlayPanel>
             </h:panelGroup>
             <h:panelGroup>
-                <p:inputText id="daaObt" size="6" maxlength="4"
-                             value="#{indBacController.indBac.dateObtention}"
-                             immediate="true">
+                <p:inputMask id="daaObt" mask="9999" size="6" 
+                             value="#{indBacController.indBac.dateObtention}">
                     <p:ajax event="keyup" update="serieBac" />
-                </p:inputText>
+                    <p:ajax event="blur" update="serieBac" />
+                </p:inputMask>
             </h:panelGroup>
 
             <h:panelGroup>
@@ -185,8 +185,6 @@
                                value="#{indBacController.mentionNivBacs}"
                                itemLabel="#{mention.libMnb}" itemValue="#{mention.codMnb}"/>
             </p:selectOneMenu>
-            <h:panelGroup/>
-            <h:panelGroup/>
         </h:panelGrid>
     </div>
 </ui:fragment>
