@@ -27,21 +27,21 @@
                                     <p:commandLink update="@form"
                                                    rendered="#{formationController.licence != null}"
                                                    immediate="true" partialSubmit="true">
-                                        <p:graphicImage value="/media/images/LMD-Licence.png"/>
+                                        <p:graphicImage value="/resources/images/LMD-Licence.png"/>
                                         <f:setPropertyActionListener value="#{formationController.licence}"
                                                                      target="#{formationController.searchFormationPojo.groupTypSelected}"/>
                                     </p:commandLink>
                                     <p:commandLink update="@form"
                                                    rendered="#{formationController.master != null}"
                                                    immediate="true" partialSubmit="true">
-                                        <p:graphicImage value="/media/images/LMD-Master.png"/>
+                                        <p:graphicImage value="/resources/images/LMD-Master.png"/>
                                         <f:setPropertyActionListener value="#{formationController.master}"
                                                                      target="#{formationController.searchFormationPojo.groupTypSelected}"/>
                                     </p:commandLink>
                                     <p:commandLink update="@form"
                                                    rendered="#{formationController.doctorat != null}"
                                                    immediate="true" partialSubmit="true">
-                                        <p:graphicImage value="/media/images/LMD-Doctorat.png"/>
+                                        <p:graphicImage value="/resources/images/LMD-Doctorat.png"/>
                                         <f:setPropertyActionListener value="#{formationController.doctorat}"
                                                                      target="#{formationController.searchFormationPojo.groupTypSelected}"/>
                                     </p:commandLink>

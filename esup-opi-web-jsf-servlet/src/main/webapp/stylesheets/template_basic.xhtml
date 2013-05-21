@@ -16,14 +16,16 @@
                 <h:outputText value="#{applicationService.name}"/>
             </title>
         </f:facet>
-        <link rel="stylesheet" type="text/css" href="/media/style/opiR1_global.css"/>
-        <link rel="stylesheet" type="text/css" href="/media/style/commons.css"/>
-        <link rel="stylesheet" type="text/css" href="/media/style/portlet.css"/>
-        <script type="text/javascript" src="/media/js/primefaces-locales.js"></script>
-        <script type="text/javascript" src="/media/js/functions.js"></script>
-        <script type="text/javascript" src="/media/js/opiR1_global.js"></script>
-        <script type="text/javascript" src="/media/js/formValidator.js"></script>
-        <script type="text/javascript" src="/media/js/JSPopup.js"></script>
+        <h:outputStylesheet library="style" name="opiR1_global.css" />
+        <h:outputStylesheet library="style" name="opiR1_header.css" />
+        <h:outputStylesheet library="style" name="opiR1_navigation.css" />
+        <h:outputStylesheet library="style" name="commons.css" />
+        <h:outputStylesheet library="style" name="portlet.css" />
+        <h:outputScript library="js" name="primefaces-locales.js" />
+        <h:outputScript library="js" name="functions.js" />
+        <h:outputScript library="js" name="opiR1_global.js" />
+        <h:outputScript library="js" name="formValidator.js" />
+        <h:outputScript library="js" name="JSPopup.js" />
     </h:head>
     <h:body styleClass="portlet-section-body esup-opiR1">
         <ui:insert name="header"/>

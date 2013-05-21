@@ -30,7 +30,7 @@
             </f:facet>
             <h:outputText value="#{nomenclaturePojo.shortLabel}"/>
             <h:panelGroup rendered="#{nomenclaturePojo.isShortLabel}">
-                <p:graphicImage url="/media/images/informationSmall.png"
+                <p:graphicImage url="/resources/images/informationSmall.png"
                                 id="infoLibelle" style="cursor:pointer;"/>
                 <p:overlayPanel for="infoLibelle" appendToBody="true"
                                 showEffect="mouseover" hideEffect="mouseout"
@@ -54,17 +54,17 @@
             <f:facet name="header">
                 <h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}"/>
             </f:facet>
-            <p:graphicImage url="/media/images/check2.gif"
+            <p:graphicImage url="/resources/images/check2.gif"
                             rendered="#{nomenclaturePojo.nomenclature.temoinEnService
 				and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
 					|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
-            <p:graphicImage url="/media/images/check0.gif"
+            <p:graphicImage url="/resources/images/check0.gif"
                             rendered="#{!nomenclaturePojo.nomenclature.temoinEnService
 				and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
 					|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
         </p:column>
         <p:column styleClass="buttonTD" style="text-align: right;">
-            <p:commandButton image="/media/images/cancel.png"
+            <p:commandButton image="/resources/images/cancel.png"
                              styleClass="form-button-image" immediate="true"
                              title="#{msgs['_.BUTTON.DELETE']}"
                              action="#{nomenclatureController.removeTrtPJ}">

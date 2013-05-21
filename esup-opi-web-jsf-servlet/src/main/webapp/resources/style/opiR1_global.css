@@ -15,9 +15,6 @@ autres : préconiser déclinaison à partir de la couleur secondaire.
 
 
 --------------------------------------------------------------*/
-@import url("opiR1_header.css");
-
-@import url("opiR1_navigation.css");
 
 .esup-opiR1 .link {
 	cursor: pointer;
@@ -161,7 +158,7 @@ autres : préconiser déclinaison à partir de la couleur secondaire.
 }
 
 .esup-opiR1 div.welcomeBackSalamander {
-	background-image: url("/media/images/back_salamandre.png");
+	background-image: url("#{request.contextPath}/resources/images/back_salamandre.png");
 	background-position: center;
 	background-repeat: no-repeat;
 	width: auto;
@@ -295,7 +292,7 @@ autres : préconiser déclinaison à partir de la couleur secondaire.
 	font-weight: bold;
 	font-style: none;
 	padding-left: 15px;
-	background-image: url("/media/images/bullet_red.png");
+	background-image: url("#{request.contextPath}/resources/images/bullet_red.png");
 	background-repeat: no-repeat;
 	background-position: left;
 }

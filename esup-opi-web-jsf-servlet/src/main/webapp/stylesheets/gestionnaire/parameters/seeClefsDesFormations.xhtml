@@ -53,11 +53,11 @@
     						and clesSelect.clesAnnuForm.codCles == paramClefFormationController.cles.clesAnnuForm.codCles}">
         <f:selectItems value="#{paramClefFormationController.temEnSveItems}"/>
     </p:selectOneMenu>
-    <p:graphicImage url="/media/images/check2.gif"
+    <p:graphicImage url="/resources/images/check2.gif"
                     rendered="#{clesSelect.clesAnnuForm.temSveCles == 'O'
     					and (paramClefFormationController.actionEnum.whatAction != paramClefFormationController.actionEnum.updateAction
     						|| clesSelect.clesAnnuForm.codCles != paramClefFormationController.cles.clesAnnuForm.codCles)}"/>
-    <p:graphicImage url="/media/images/check0.gif"
+    <p:graphicImage url="/resources/images/check0.gif"
                     rendered="#{clesSelect.clesAnnuForm.temSveCles == 'N'
     					and (paramClefFormationController.actionEnum.whatAction != paramClefFormationController.actionEnum.updateAction
     						|| clesSelect.clesAnnuForm.codCles != paramClefFormationController.cles.clesAnnuForm.codCles)}"/>

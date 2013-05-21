@@ -24,7 +24,7 @@
             <p:panel  id="dataPanel" layout="block">
                 <p:blockUI block="dataPanel"
                            trigger="search-button">
-                    <p:graphicImage value="/media/images/ajax-loader.gif"/>
+                    <p:graphicImage value="/resources/images/ajax-loader.gif"/>
                 </p:blockUI>
                 <p:panel styleClass="dataSubPanel">
                     <p:effect type="puff" event="load">
@@ -54,7 +54,7 @@
                             <p:commandButton id="addEtudiant" styleClass="save"
                                              action="#{consultRdvController.ajouter}"
                                              rendered="#{consultRdvController.calendarRdv.dateParCandidat[individuPojo.individu] == null}"
-                                             image="/media/images/add.gif" alt="#{msgs['_.BUTTON.ADD']}">
+                                             image="/resources/images/add.gif" alt="#{msgs['_.BUTTON.ADD']}">
                                 <f:setPropertyActionListener value="#{individuPojo.individu}"
                                                              target="#{consultRdvController.candidat}"/>
                             </p:commandButton>
@@ -71,7 +71,7 @@
                         <p:column headerText="#{msgs['CALENDAR_RDV.MOVE_ENTRY']}" style="text-align: center;">
                             <p:commandButton action="#{consultRdvController.moveEntry}"
                                              rendered="#{consultRdvController.calendarRdv.dateParCandidat[individuPojo.individu] != null}"
-                                             image="/media/images/move.gif" alt="#{msgs['CALENDAR_RDV.MOVE_ENTRY']}">
+                                             image="/resources/images/move.gif" alt="#{msgs['CALENDAR_RDV.MOVE_ENTRY']}">
                                 <f:setPropertyActionListener value="#{individuPojo.individu}"
                                                              target="#{consultRdvController.candidat}"/>
                             </p:commandButton>
@@ -145,7 +145,7 @@
                          columnClasses="colRDVLeft,colRDVCenter,colRDVRight">
                 <p:commandLink id="clmoisprec" immediate="true" ajax="false"
                                actionListener="#{consultRdvController.before}">
-                    <p:graphicImage border="0" value="/media/images/backward.png"
+                    <p:graphicImage border="0" value="/resources/images/backward.png"
                                     alt="#{msgs['CALENDAR_RDV.BUTTON.PREC_MONTH']}"/>
                 </p:commandLink>
                 <h:panelGroup style="text-align:center; width:850px;">
@@ -176,7 +176,7 @@
                 </h:panelGroup>
                 <p:commandLink id="clmoissuiv" immediate="true" ajax="false"
                                actionListener="#{consultRdvController.next}">
-                    <p:graphicImage border="0" value="/media/images/forward.png"
+                    <p:graphicImage border="0" value="/resources/images/forward.png"
                                     alt="#{msgs['CALENDAR_RDV.BUTTON.NEXT_MONTH']}"/>
                 </p:commandLink>
             </h:panelGrid>

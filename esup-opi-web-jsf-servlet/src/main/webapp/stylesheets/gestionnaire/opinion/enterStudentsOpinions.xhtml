@@ -10,10 +10,10 @@
             <f:event type="postValidate" listener="#{individuController.useTypeTrtFilter(true)}" />
             <f:event type="postValidate" listener="#{individuController.useGestCommsFilter(true)}" />
             <p:blockUI block="maPage" trigger="individuData search-button">
-                <p:graphicImage value="/media/images/ajax-loader.gif"/>
+                <p:graphicImage value="/resources/images/ajax-loader.gif"/>
             </p:blockUI>
             <p:blockUI block="dataPanel" trigger="renderTable">
-                <p:graphicImage value="/media/images/ajax-loader.gif"/>
+                <p:graphicImage value="/resources/images/ajax-loader.gif"/>
             </p:blockUI>
             <p:panel id="maPage" styleClass="div_body">
                 <h1>
@@ -95,7 +95,7 @@
                                 <ui:repeat var="indVoeuxPojo" id="indVoeux3"
                                            value="#{individuPojo.voeuxSortedByLic}">
                                     <div>
-                                        <p:graphicImage url="/media/images/informationSmall.png"
+                                        <p:graphicImage url="/resources/images/informationSmall.png"
                                                         style="cursor:pointer;" id="avisEnService"/>
                                         <p:overlayPanel for="avisEnService"
                                                         showEffect="fade" hideEffect="fade" appendToBody="true"
