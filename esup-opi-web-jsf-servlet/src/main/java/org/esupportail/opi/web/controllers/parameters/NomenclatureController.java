@@ -189,11 +189,24 @@ public class NomenclatureController extends AbstractContextAwareController {
 	private List<TypeDecision> sortedTypesDec;
 	private List<TypeDecision> typesDecInUse;
 	private List<SelectItem> typesDecItems;
+	private List<SelectItem> typesDecInUseItems;
 	
 	/**
 	 * default value : false.
 	 */
 	private Boolean isFinal = false;
+
+	private static final F<Collection<TypeDecision>, Collection<SelectItem>> typeDec2SelectItems = 
+			new F<Collection<TypeDecision>, Collection<SelectItem>>() {
+		public Collection<SelectItem> f(Collection<TypeDecision> c) {
+			return iterableStream(c).map(new F<TypeDecision, SelectItem>() {
+				public SelectItem f(final TypeDecision t) {
+					return new SelectItem(t, t.getCode() + "-"
+							+ t.getShortLabel());
+				}
+			}).cons(new SelectItem(new TypeDecision(), "")).toCollection();
+		}
+	};
 	
 	/*
 	 ******************* INIT ************************* */
@@ -211,12 +224,8 @@ public class NomenclatureController extends AbstractContextAwareController {
 				new ComparatorString(TypeDecision.class));
 		typesDecInUse = new ArrayList<TypeDecision>(
 				getParameterService().getTypeDecisions(true));
-		typesDecItems = new ArrayList<SelectItem>(
-				iterableStream(typesDec).map(new F<TypeDecision, SelectItem>() {
-					public SelectItem f(TypeDecision t) {
-						return new SelectItem(t, t.getCode() + "-" + t.getShortLabel());
-					}
-				}).cons(new SelectItem(new TypeDecision(), "")).toCollection());
+		typesDecItems = new ArrayList<SelectItem>(typeDec2SelectItems.f(typesDec));
+		typesDecInUseItems = new ArrayList<SelectItem>(typeDec2SelectItems.f(typesDecInUse));
 	}
 	
 	/** 
@@ -561,7 +570,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 				piece.setVersionEtapes(listP);
 				// it's not necessary here to use deleteEtapes (cause this is a add)
 			}
-			nomenclature = (Nomenclature) getDomainService().add(nomenclature, getCurrentGest().getLogin());
+			nomenclature = getDomainService().add(nomenclature, getCurrentGest().getLogin());
 			getParameterService().addNomenclature(nomenclature);
 			reset();
 		}
@@ -601,7 +610,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 				PieceJustificative piece = (PieceJustificative) nomenclature;
 				piece.setVersionEtapes(listP);
 			}
-			nomenclature = (Nomenclature) getDomainService().update(
+			nomenclature = getDomainService().update(
 					nomenclature, getCurrentGest().getLogin());
 			getParameterService().updateNomenclature(nomenclature);
 			// delete the etapes deleted by the user
@@ -1045,6 +1054,14 @@ public class NomenclatureController extends AbstractContextAwareController {
 	}
 	
 	/**
+	 * List of specific type for decision type.
+	 * @return List of SelectItem
+	 */
+	public List<SelectItem> getTypeDecisionInUseItems() {
+		return typesDecInUseItems;
+	}
+	
+	/**
 	 * List of specific type for regimeInscriptions type.
 	 * @return List of SelectItem
 	 */
@@ -1235,41 +1252,42 @@ public class NomenclatureController extends AbstractContextAwareController {
 	 * @return pieces justificative d'une vet sous forme de NomenclaturePojo
 	 */
 	
-	public Set<NomenclaturePojo> getPiecesJToNomenclaturePojo(){
-	Set<NomenclaturePojo> nom = new TreeSet<NomenclaturePojo>(new ComparatorString(NomenclaturePojo.class));
-	
-	List<PieceJustificative> pjs = getParameterService().getPiecesJ(new VersionEtpOpi(vetDTO), null);
-	List<PieceJustificative> pjsTemp = new ArrayList<PieceJustificative>();
-	pjsTemp.addAll(pjs);
-	
-	Iterator<PieceJustificative> it1 = pjsTemp.iterator();
-	
-	while(it1.hasNext()){
-		PieceJustificative pj = it1.next();
-		
-		Iterator<NomenclaturePojo> it2 = deletePJs.iterator();
-		
-		while(it2.hasNext()){
-			NomenclaturePojo np = it2.next();
-			String codeTemp = np.getNomenclature().getCode();
-			if(codeTemp.equalsIgnoreCase(pj.getCode())){
-				pjs.remove(pj);
+	public Set<NomenclaturePojo> getPiecesJToNomenclaturePojo() {
+		Set<NomenclaturePojo> nom = new TreeSet<NomenclaturePojo>(
+				new ComparatorString(NomenclaturePojo.class));
+
+		List<PieceJustificative> pjs = getParameterService().getPiecesJ(
+				new VersionEtpOpi(vetDTO), null);
+		List<PieceJustificative> pjsTemp = new ArrayList<PieceJustificative>();
+		pjsTemp.addAll(pjs);
+
+		Iterator<PieceJustificative> it1 = pjsTemp.iterator();
+
+		while (it1.hasNext()) {
+			PieceJustificative pj = it1.next();
+
+			Iterator<NomenclaturePojo> it2 = deletePJs.iterator();
+
+			while (it2.hasNext()) {
+				NomenclaturePojo np = it2.next();
+				String codeTemp = np.getNomenclature().getCode();
+				if (codeTemp.equalsIgnoreCase(pj.getCode())) {
+					pjs.remove(pj);
+				}
 			}
 		}
-	}
-	
-	for (PieceJustificative m :pjs) {
-		NomenclaturePojo np = new NomenclaturePojo(m, getRegimeIns().get(m.getCodeRI()));
-		
-		if (!isInSet(np,allPJs))
-			nom.add(np);
-	}
-	
-	
-	allPJs.addAll(nom);
-	
-	
-	return allPJs;
+
+		for (PieceJustificative m : pjs) {
+			NomenclaturePojo np = new NomenclaturePojo(m, getRegimeIns().get(
+					m.getCodeRI()));
+
+			if (!isInSet(np, allPJs))
+				nom.add(np);
+		}
+
+		allPJs.addAll(nom);
+
+		return allPJs;
 	}
 	
 	/**
@@ -1444,7 +1462,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 				iterableStream(sortedTypesDec).filter(
 						new F<TypeDecision, Boolean>() {
 							public Boolean f(TypeDecision t) {
-								return isFinal == t.getIsFinal();
+								return getIsFinal() == t.getIsFinal();
 							}
 						}).toCollection());
 	}
