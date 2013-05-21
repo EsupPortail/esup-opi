@@ -6,10 +6,10 @@
     <ui:define name="content">
         <h:form id="seeIndividusForm" rendered="#{!pjController.currentCmiPojo.state.displayPJ}">
             <p:blockUI block="maPage" trigger="changeStateAll individuData search-button">
-                <p:graphicImage value="/media/images/ajax-loader.gif"/>
+                <p:graphicImage value="/resources/images/ajax-loader.gif"/>
             </p:blockUI>
             <p:blockUI block="dataPanel" trigger="renderTable">
-                <p:graphicImage value="/media/images/ajax-loader.gif"/>
+                <p:graphicImage value="/resources/images/ajax-loader.gif"/>
             </p:blockUI>
             <p:panel id="maPage" styleClass="div_body">
                 <h1>

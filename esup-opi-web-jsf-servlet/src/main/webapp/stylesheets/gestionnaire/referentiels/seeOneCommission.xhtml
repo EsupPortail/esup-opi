@@ -85,9 +85,9 @@
         <h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}"
                        for="temoinEnService"/>
         <h:panelGroup>
-            <p:graphicImage url="/media/images/check2.gif"
+            <p:graphicImage url="/resources/images/check2.gif"
                             rendered="#{commissionController.commission.temoinEnService}"/>
-            <p:graphicImage url="/media/images/check0.gif"
+            <p:graphicImage url="/resources/images/check0.gif"
                             rendered="#{!commissionController.commission.temoinEnService}"/>
         </h:panelGroup>
         <h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
@@ -224,7 +224,7 @@
         </p:column>
         <p:column selectionMode="multiple">
             <f:facet name="header">
-                <p:graphicImage url="/media/images/email.png"
+                <p:graphicImage url="/resources/images/email.png"
                                 style="cursor:pointer;" id="icon-select-members"/>
                 <p:overlayPanel
                         for="icon-select-members" appendToBody="true"

@@ -52,22 +52,22 @@
                                 <p:column headerText="#{msgs['FIELD_LABEL.IN_USE']}" />
                                 <p:column>
                                     <f:facet name="header">
-                                        <p:graphicImage url="/media/images/informationSmall.png" style="cursor:pointer;" id="infoAnneeUni" />
+                                        <p:graphicImage url="/resources/images/informationSmall.png" style="cursor:pointer;" id="infoAnneeUni" />
                                         <p:overlayPanel appendToBody="true" for="infoAnneeUni" hideEvent="mouseout" showEvent="mouseover" styleClass="containerPopup">
                                             <h:panelGrid columns="1">
                                                 <h:outputText
                                                     styleClass="titrePopupAide"
                                                     value="#{msgs['COMMISSIONS']}" />
                                                 <h:panelGroup>
-                                                    <p:graphicImage url="/media/images/flag_green.png" />
+                                                    <p:graphicImage url="/resources/images/flag_green.png" />
                                                     <h:outputText styleClass="libellesAide" value="#{msgs['COMMISSION.INFO.ALL_ACTIVE_ETP']}" />
                                                 </h:panelGroup>
                                                 <h:panelGroup>
-                                                    <p:graphicImage url="/media/images/flag_orange.png" />
+                                                    <p:graphicImage url="/resources/images/flag_orange.png" />
                                                     <h:outputText styleClass="libellesAide" value="#{msgs['COMMISSION.INFO.SOME_INACTIVE_ETP']}" />
                                                 </h:panelGroup>
                                                 <h:panelGroup>
-                                                    <p:graphicImage url="/media/images/flag_red.png" />
+                                                    <p:graphicImage url="/resources/images/flag_red.png" />
                                                     <h:outputText styleClass="libellesAide" value="#{msgs['COMMISSION.INFO.NO_ACTIVE_ETP']}" />
                                                 </h:panelGroup>
                                             </h:panelGrid>
@@ -87,26 +87,26 @@
                         </p:column>
                         <p:column>
                             <p:graphicImage
-                                url="/media/images/check2.gif"
+                                url="/resources/images/check2.gif"
                                 rendered="#{commissionPojo.commission.temoinEnService}" />
                             <p:graphicImage
-                                url="/media/images/check0.gif"
+                                url="/resources/images/check0.gif"
                                 rendered="#{!commissionPojo.commission.temoinEnService}" />
                         </p:column>
                         <p:column>
                             <h:panelGroup>
                                 <p:graphicImage
-                                    url="/media/images/flag_green.png"
+                                    url="/resources/images/flag_green.png"
                                     rendered="#{!commissionPojo.flagWithoutTrtActive and !commissionPojo.flagWithSomeTrtInactive}"
                                     style="cursor:pointer;"
                                     id="allActiveEtp" />
                                 <p:graphicImage
-                                    url="/media/images/flag_orange.png"
+                                    url="/resources/images/flag_orange.png"
                                     rendered="#{commissionPojo.flagWithSomeTrtInactive}"
                                     style="cursor:pointer;"
                                     id="someInactiveEtp" />
                                 <p:graphicImage
-                                    url="/media/images/flag_red.png"
+                                    url="/resources/images/flag_red.png"
                                     rendered="#{commissionPojo.flagWithoutTrtActive}"
                                     style="cursor:pointer;"
                                     id="noActiveEtp" />
@@ -194,9 +194,9 @@
         			    <h:outputText value="#{commission.libelle}" />
         			</p:column>
         			<p:column>
-        			    <p:graphicImage url="/media/images/check2.gif"
+        			    <p:graphicImage url="/resources/images/check2.gif"
         					    rendered="#{commission.temoinEnService}" />
-        			    <p:graphicImage url="/media/images/check0.gif"
+        			    <p:graphicImage url="/resources/images/check0.gif"
         					    rendered="#{!commission.temoinEnService}" />
         			</p:column>
         			<p:column styleClass="buttonTD" style="width:18px;">

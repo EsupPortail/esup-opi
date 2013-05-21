@@ -118,7 +118,7 @@
                          columnClasses="colUnQuart,colTroisQuart">
                 <h:panelGroup>
                     <h:outputLabel value="#{msgs['SITUATION.HANDI.LABEL']}"/>
-                    <p:graphicImage url="/media/images/informationSmall.png"
+                    <p:graphicImage url="/resources/images/informationSmall.png"
                                     style="cursor:pointer;" id="helpSituHandi"/>
                     <p:overlayPanel for="helpSituHandi"
                                     showEvent="mouseover"
@@ -133,11 +133,11 @@
                     </p:overlayPanel>
                 </h:panelGroup>
                 <h:panelGroup>
-                    <p:graphicImage url="/media/images/check2.gif"
+                    <p:graphicImage url="/resources/images/check2.gif"
                                     rendered="#{situationController.indSituation.handicapTravail and
         							situationController.actionEnum.whatAction 
         								== situationController.actionEnum.readAction}"/>
-                    <p:graphicImage url="/media/images/check0.gif"
+                    <p:graphicImage url="/resources/images/check0.gif"
                                     rendered="#{!situationController.indSituation.handicapTravail and
         							situationController.actionEnum.whatAction 
         								== situationController.actionEnum.readAction}"/>
@@ -150,11 +150,11 @@
                 </h:panelGroup>
                 <h:panelGroup/>
                 <h:panelGroup>
-                    <p:graphicImage url="/media/images/check2.gif"
+                    <p:graphicImage url="/resources/images/check2.gif"
                                     rendered="#{situationController.indSituation.handicapAdulte and
         							situationController.actionEnum.whatAction 
         								== situationController.actionEnum.readAction}"/>
-                    <p:graphicImage url="/media/images/check0.gif"
+                    <p:graphicImage url="/resources/images/check0.gif"
                                     rendered="#{!situationController.indSituation.handicapAdulte and
         							situationController.actionEnum.whatAction 
         								== situationController.actionEnum.readAction}"/>

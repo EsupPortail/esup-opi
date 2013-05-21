@@ -68,7 +68,7 @@
                               	<p:tooltip for="info" hideEffect="fade" style="width:50%;" styleClass="containerPopup"> 
                               				<h:outputText value="#{nomenclaturePojo.nomenclature.libelle}"/>      
                               	</p:tooltip>
-                              	<p:graphicImage id="info" url="/media/images/informationSmall.png" style="cursor:pointer;"/>
+                              	<p:graphicImage id="info" url="/resources/images/informationSmall.png" style="cursor:pointer;"/>
                               </h:panelGroup>
       
                   
@@ -80,11 +80,11 @@
                                 <p:selectBooleanCheckbox value="#{nomenclatureController.nomenclature.isForAllVet}"
                                                          rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction
     									and nomenclaturePojo.nomenclature == nomenclatureController.nomenclature}"/>
-                                <p:graphicImage url="/media/images/check2.gif"
+                                <p:graphicImage url="/resources/images/check2.gif"
                                                 rendered="#{nomenclaturePojo.nomenclature.isForAllVet
     								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
-                                <p:graphicImage url="/media/images/check0.gif"
+                                <p:graphicImage url="/resources/images/check0.gif"
                                                 rendered="#{!nomenclaturePojo.nomenclature.isForAllVet
     								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
@@ -97,11 +97,11 @@
                                 <p:selectBooleanCheckbox value="#{nomenclatureController.nomenclature.temoinEnService}"
                                                          rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction
     									and nomenclaturePojo.nomenclature == nomenclatureController.nomenclature}"/>
-                                <p:graphicImage url="/media/images/check2.gif"
+                                <p:graphicImage url="/resources/images/check2.gif"
                                                 rendered="#{nomenclaturePojo.nomenclature.temoinEnService
     								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
-                                <p:graphicImage url="/media/images/check0.gif"
+                                <p:graphicImage url="/resources/images/check0.gif"
                                                 rendered="#{!nomenclaturePojo.nomenclature.temoinEnService
     								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>

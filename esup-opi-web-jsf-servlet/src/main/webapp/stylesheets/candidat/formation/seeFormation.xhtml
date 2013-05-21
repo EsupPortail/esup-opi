@@ -59,7 +59,7 @@
                                                    update="@form,:div_sectionSelectEtape,:div_sectionEtpEmpty"
                                                    rendered="#{formationController.licence != null}"
                                                    immediate="true">
-                                        <p:graphicImage value="/media/images/LMD-Licence.png"/>
+                                        <p:graphicImage value="/resources/images/LMD-Licence.png"/>
                                         <f:setPropertyActionListener value="#{formationController.licence}"
                                                                      target="#{formationController.searchFormationPojo.groupTypSelected}"/>
                                     </p:commandLink>
@@ -67,7 +67,7 @@
                                                    update="@form,:div_sectionSelectEtape,:div_sectionEtpEmpty"
                                                    rendered="#{formationController.master != null}"
                                                    immediate="true">
-                                        <p:graphicImage value="/media/images/LMD-Master.png"/>
+                                        <p:graphicImage value="/resources/images/LMD-Master.png"/>
                                         <f:setPropertyActionListener value="#{formationController.master}"
                                                                      target="#{formationController.searchFormationPojo.groupTypSelected}"/>
                                     </p:commandLink>
@@ -75,7 +75,7 @@
                                                    update="@form,:div_sectionSelectEtape,:div_sectionEtpEmpty"
                                                    rendered="#{formationController.doctorat != null}"
                                                    immediate="true">
-                                        <p:graphicImage value="/media/images/LMD-Doctorat.png"/>
+                                        <p:graphicImage value="/resources/images/LMD-Doctorat.png"/>
                                         <f:setPropertyActionListener value="#{formationController.doctorat}"
                                                                      target="#{formationController.searchFormationPojo.groupTypSelected}"/>
                                     </p:commandLink>
@@ -169,7 +169,7 @@
 
         <p:blockUI block="maPage"
                    trigger="searchFormationForm,searchFormationForm:masterBtnLink,searchFormationForm:motClef,searchFormationForm:blockFormVdi,:div_sectionSelectEtape">
-            <p:graphicImage value="/media/images/ajax-loader.gif"/>
+            <p:graphicImage value="/resources/images/ajax-loader.gif"/>
         </p:blockUI>
     </ui:define>
 </ui:composition>

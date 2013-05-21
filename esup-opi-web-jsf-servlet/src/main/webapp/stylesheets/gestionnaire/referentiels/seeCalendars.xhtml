@@ -66,9 +66,9 @@
                                 <h:outputText value="#{calendar.libelle}"/>
                             </p:column>
                             <p:column>
-                                <p:graphicImage url="/media/images/check2.gif"
+                                <p:graphicImage url="/resources/images/check2.gif"
                                                 rendered="#{calendar.temoinEnService}"/>
-                                <p:graphicImage url="/media/images/check0.gif"
+                                <p:graphicImage url="/resources/images/check0.gif"
                                                 rendered="#{!calendar.temoinEnService}"/>
                             </p:column>
                             <p:column styleClass="buttonTD" style="width:18px;"
@@ -111,7 +111,7 @@
                             </p:column>
                         </p:dataTable>
                         <p:blockUI block="seeCalendrierForm" trigger="calendarsData">
-                            <p:graphicImage value="/media/images/ajax-loader.gif"/>
+                            <p:graphicImage value="/resources/images/ajax-loader.gif"/>
                         </p:blockUI>
                     </div>
                 </h:form>

@@ -1,6 +1,6 @@
 .esup-opiR1 div.header {
 	position: relative;
-	background-image: url("/media/images/header/background_body.jpg");
+	background-image: url("#{request.contextPath}/resources/images/header/background_body.jpg");
 	background-repeat: repeat;
 	padding-left: 3px;
 	width: auto;
@@ -13,12 +13,12 @@
 	top: 23px;
 	background-repeat: no-repeat;
 	height: 56px;
-	background-image: url("/media/images/header/logo-header.png");
+	background-image: url("#{request.contextPath}/resources/images/header/logo-header.png");
 }
 
 .esup-opiR1 div.header div.header_suite {
 	position: relative;
-	background-image: url("/media/images/header/background_logo.jpg");
+	background-image: url("#{request.contextPath}/resources/images/header/background_logo.jpg");
 	background-position: right;
 	background-repeat: no-repeat;
 	left: 15%;

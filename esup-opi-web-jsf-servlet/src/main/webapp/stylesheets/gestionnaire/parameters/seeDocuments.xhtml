@@ -54,13 +54,13 @@
                             <f:facet name="header">
                                 <h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}"/>
                             </f:facet>
-                            <p:graphicImage url="/media/images/check2.gif"
+                            <p:graphicImage url="/resources/images/check2.gif"
                                             rendered="#{typeConvocation.temoinEnService}"/>
-                            <p:graphicImage url="/media/images/check0.gif"
+                            <p:graphicImage url="/resources/images/check0.gif"
                                             rendered="#{!typeConvocation.temoinEnService}"/>
                         </p:column>
                         <p:column styleClass="buttonTD">
-                            <p:commandButton image="/media/images/magnifier.png"
+                            <p:commandButton image="/resources/images/magnifier.png"
                                              styleClass="form-button-image" immediate="true"
                                              action="#{commissionController.goSeeOneCmi}"
                                              title="#{msgs['_.BUTTON.DISPLAY']}">
@@ -71,7 +71,7 @@
                             </p:commandButton>
                         </p:column>
                         <p:column styleClass="buttonTD">
-                            <p:commandButton image="/media/images/update.png"
+                            <p:commandButton image="/resources/images/update.png"
                                              immediate="true"
                                              styleClass="form-button-image" title="#{msgs['BUTTON.UPDATE']}"
                                              rendered="#{managedAccess.updateAuthorized}">
@@ -82,7 +82,7 @@
                             </p:commandButton>
                         </p:column>
                         <p:column styleClass="buttonTD">
-                            <p:commandButton image="/media/images/cancel.png"
+                            <p:commandButton image="/resources/images/cancel.png"
                                              styleClass="form-button-image"
                                              immediate="true"
                                              title="#{msgs['_.BUTTON.DELETE']}"
