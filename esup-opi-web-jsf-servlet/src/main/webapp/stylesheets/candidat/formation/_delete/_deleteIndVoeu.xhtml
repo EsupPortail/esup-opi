@@ -4,18 +4,21 @@
              xmlns:p="http://primefaces.org/ui">
     <h:form id="formDeleteVoeu">
         <div style="width:100%;">
-            <h:outputText value="#{msgs['FORMATION.CONFIRM.DELETE']}" escape="false">
+            <h:outputFormat value="#{msgs['FORMATION.CONFIRM.DELETE']}" escape="false">
                 <f:param value="#{formationController.indVoeuPojo.vrsEtape.libWebVet}"/>
-            </h:outputText>
+            </h:outputFormat>
             <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
                          styleClass="tableJustWidthMax">
                 <h:outputText value="#{msgs['FIELD_LABEL.CONFIRM']}"/>
                 <h:panelGroup>
                     <p:commandButton value="#{msgs['_.BUTTON.YES']}"
-                                     action="#{formationController.delete}"/>
+                                     action="#{formationController.delete}"
+                                     ajax="false"
+                                     update=":seeVoeuxForm"/>
                     <p:commandButton value="#{msgs['_.BUTTON.NO']}"
                                      action="#{formationController.reset}"
-                                     immediate="true"/>
+                                     immediate="true"
+                                     ajax="false"/>
                 </h:panelGroup>
             </h:panelGrid>
         </div>
