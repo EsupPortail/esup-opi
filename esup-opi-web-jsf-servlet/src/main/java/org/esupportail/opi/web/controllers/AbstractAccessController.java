@@ -3,11 +3,17 @@
  */
 package org.esupportail.opi.web.controllers;
 
+import static fj.data.List.iterableList;
+
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.web.beans.ManagedAccess;
 import org.esupportail.opi.web.beans.ManagedCalendar;
 import org.esupportail.opi.web.beans.ManagedRoadMap;
 import org.esupportail.opi.web.beans.pojo.RoadMap;
+
+import fj.F;
+import fj.data.List;
+import fj.data.Option;
 
 
 /**
@@ -82,8 +88,16 @@ public abstract class AbstractAccessController extends AbstractContextAwareContr
      * @param title
      */
     public void addTheCurrentRoad(final String action, final String label, final String title) {
-        Integer rang = managedRoadMap.getRoads().size() + 1;
-        managedRoadMap.addRoad(new RoadMap(action, true, label, rang, title));
+    	final List<RoadMap> roads = iterableList(managedRoadMap.getRoads().values());
+    	Option<RoadMap> found = roads.find(new F<RoadMap, Boolean>() {
+			public Boolean f(final RoadMap r) {
+				return r.getLabel().equals(label);
+			}
+		});
+    	if (found.isNone()) {
+	    	Integer rang = roads.length() + 1;
+	        managedRoadMap.addRoad(new RoadMap(action, true, label, rang, title));
+    	}
     }
 
     /**

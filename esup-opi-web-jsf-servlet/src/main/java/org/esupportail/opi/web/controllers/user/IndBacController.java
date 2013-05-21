@@ -293,8 +293,7 @@ public class IndBacController extends AbstractAccessController {
                 IndividuPojo i = new IndividuPojo();
                 i.setIndividu(indBacPojo.getIndBac().getIndividu());
 
-                getDomainService().addIndBac(
-                        (IndBac) getDomainService().add(
+                getDomainService().addIndBac(getDomainService().add(
                                 indBacPojo.getIndBac(),
                                 Utilitaires.codUserThatIsAction(
                                         getCurrentGest(), i)));
@@ -318,10 +317,10 @@ public class IndBacController extends AbstractAccessController {
      * @return String
      */
     public String update() {
-        indBac = (IndBac) getDomainService().update(
-                indBac,
-                Utilitaires.codUserThatIsAction(
-                        getCurrentGest(), getCurrentInd()));
+		indBac = getDomainService().update(
+				indBac,
+				Utilitaires.codUserThatIsAction(getCurrentGest(),
+						getCurrentInd()));
         Etablissement e = getDomainApoService().getEtablissement(indBac.getCodEtb());
         if (e != null) {
             indBac.setCodTpe(e.getCodTpe());
@@ -381,20 +380,17 @@ public class IndBacController extends AbstractAccessController {
      */
     public List<BacOuxEqu> getBacs() {
         List<BacOuxEqu> c = new ArrayList<BacOuxEqu>();
-        if (Utilitaires.isFormatDateValid(
-                indBac.getDateObtention(), Constantes.YEAR_FORMAT)) {
+        final String daaObt = indBac.getDateObtention();
+        if(StringUtils.hasText(daaObt)) {
             try {
                 SimpleDateFormat s = new SimpleDateFormat(Constantes.YEAR_FORMAT);
-                s.parse(indBac.getDateObtention());
-                c.addAll(getDomainApoService().getBacOuxEqus(indBac.getDateObtention()));
+                s.parse(daaObt);
+                c.addAll(getDomainApoService().getBacOuxEqus(daaObt));
             } catch (ParseException e) {
                 addErrorMessage(null, "ERROR.FIELD.INVALID.DAT", getString("INDIVIDU.BAC.DAA_OBT"));
             }
-
-        } else {
-            addErrorMessage(null, "ERROR.FIELD.INVALID.DAT", getString("INDIVIDU.BAC.DAA_OBT"));
+	        Collections.sort(c, new ComparatorString(BacOuxEqu.class));
         }
-        Collections.sort(c, new ComparatorString(BacOuxEqu.class));
         return c;
     }
 
