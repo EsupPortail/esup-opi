@@ -347,7 +347,7 @@ public class IndVoeuPojo implements Serializable {
 	 * @return the avis
 	 */
 	public List<Avis> getAvisAsList() {
-		if (!this.indVoeu.getAvis().isEmpty()) {
+		if (this.indVoeu.getAvis() != null && !this.indVoeu.getAvis().isEmpty()) {
 			this.avisAsList = new ArrayList<Avis>(indVoeu.getAvis());
 		}
 		return avisAsList;
