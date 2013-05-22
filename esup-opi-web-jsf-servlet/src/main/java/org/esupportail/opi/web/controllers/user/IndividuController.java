@@ -271,8 +271,9 @@ public class IndividuController extends AbstractAccessController {
                                 public Stream<TraitementCmi> f(Stream<Commission> commissions) {
                                     return commissions.bind(new F<Commission, Stream<TraitementCmi>>() {
                                         public Stream<TraitementCmi> f(Commission com) {
-                                            return join(fromNull(com.getTraitementCmi()).toStream().map(
-                                                    Conversions.<TraitementCmi>setToStream_()));
+                                            return join(fromNull(com.getTraitementCmi())
+                                                    .toStream()
+                                                    .map(Conversions.<TraitementCmi>setToStream_()));
                                         }
                                     });
                                 }

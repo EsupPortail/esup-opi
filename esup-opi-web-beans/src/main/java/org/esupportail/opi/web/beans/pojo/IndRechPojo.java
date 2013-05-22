@@ -210,8 +210,9 @@ public class IndRechPojo {
 
     public void setTypeDec(TypeDecision typeDec) {
         // yeah, ugly, but jsf likes it
-        if (typeDec != null)
-            typesDec = new ArrayList<TypeDecision>(Collections.singleton(typeDec));
+        typesDec =  (typeDec != null) ?
+                new ArrayList<TypeDecision>(Collections.singleton(typeDec)) :
+                new ArrayList<TypeDecision>();
     }
 
 	public List<TypeDecision> getTypesDec() {

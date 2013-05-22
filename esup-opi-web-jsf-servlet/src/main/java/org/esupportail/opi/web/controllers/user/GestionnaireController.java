@@ -9,11 +9,16 @@ import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.beans.parameters.accessRight.Profile;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
+import org.esupportail.opi.domain.beans.user.User;
+import org.esupportail.opi.services.authentification.Authenticator;
+import org.esupportail.opi.services.authentification.AuthenticatorImpl;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.beanEnum.WayfEnum;
+import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.controllers.AbstractAccessController;
+import org.esupportail.opi.web.controllers.SessionController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
 import org.esupportail.wssi.services.remote.CentreGestion;
 import org.springframework.util.StringUtils;
@@ -89,8 +94,6 @@ public class GestionnaireController extends AbstractAccessController {
         super.reset();
         manager = new Gestionnaire();
         actionEnum = new ActionEnum();
-
-
     }
 
     /**
@@ -222,44 +225,39 @@ public class GestionnaireController extends AbstractAccessController {
 	 * @return String 
 	 */
 	public String update() {
-		if (log.isDebugEnabled()) {
+		if (log.isDebugEnabled())
 			log.debug("entering update with Gestionnaire = " + manager);
-		}
+
 		//TODO add currentUser
 		if (ctrlEnter(manager)) {
-			if (!StringUtils.hasText(manager.getCodeCge())) {
+			if (!StringUtils.hasText(manager.getCodeCge()))
 				manager.setCodeCge(null);
-			}
-			
+
 			//s'il n''est pas rattache e une centre de gestion, il a des droits sur des commissions
-			if (manager.getCodeCge() == null) {
+			if (manager.getCodeCge() == null)
 				manager.setRightOnCmi(new HashSet<Commission>(
 						commissionController.getSelectedCommissions()));
-			} else {
-				manager.setRightOnCmi(null);
-			}
-			
-			manager = (Gestionnaire) getDomainService().update(manager, getCurrentGest().getLogin());
-			if (!manager.getProfile().getId().equals(getIdProfilSelected())) {
+			else manager.setRightOnCmi(null);
+
+			manager = getDomainService().update(manager, getCurrentGest().getLogin());
+
+			if (!manager.getProfile().getId().equals(getIdProfilSelected()))
 				manager.setProfile(
 						getParameterService().getProfile(getIdProfilSelected(), null));
-			}
-			
+
 			manager = toUpperCase(manager);
-			
 			getDomainService().updateUser(manager);
-			
-			reset();
-			commissionController.reset();
+
+                        reset();
 			addInfoMessage(null, "INFO.ENTER.SUCCESS");
+
 			return goSeeAllManagers();
 		}
 		
-		if (log.isDebugEnabled()) {
+		if (log.isDebugEnabled())
 			log.debug("leaving update");
-		}
+
 		return null;
-		
 	}
 	
 	

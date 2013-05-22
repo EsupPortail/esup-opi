@@ -90,7 +90,7 @@ public class Gestionnaire extends User {
 
 
 
-	/** 
+	/**
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -102,11 +102,11 @@ public class Gestionnaire extends User {
 		if (login == null) {
 			if (other.getLogin() != null) { return false; }
 		} else if (!login.equals(other.getLogin())) { return false; }
-			
+
 		return true;
 	}
-	
-	
+
+
 	/**
 	 * @see java.lang.Object#toString()
 	 */

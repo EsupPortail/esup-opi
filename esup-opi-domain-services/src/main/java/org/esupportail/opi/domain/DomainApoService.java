@@ -92,14 +92,16 @@ public interface DomainApoService extends Serializable {
 	
 	    /**
     	 * List of the commisions managed by the gestionnaire.
-    	 * @param gest 
-    	 * @param domainApoService 
-    	 * @param parameterService 
     	 * @return Set<Commission>
     	 */
 	Set<Commission> getListCommissionsByRight(final Gestionnaire gest, final Boolean temEnSve);
 
-	
+    /**
+     * Updated list of the commisions managed by the gestionnaire.
+     * @return Set<Commission>
+     */
+    void emptyCommissionCache(final Gestionnaire gest, final Boolean temEnSve);
+
 	//////////////////////////////////////////////////////////////
 	// GeographieApogee
 	//////////////////////////////////////////////////////////////

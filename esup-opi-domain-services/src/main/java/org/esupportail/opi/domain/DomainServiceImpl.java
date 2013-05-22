@@ -856,10 +856,10 @@ public class DomainServiceImpl implements DomainService {
 	 */
 	@Override
 	public <T extends NormeSI> T update(final T norme, final String codeCurrentUser) {
-		if (log.isDebugEnabled()) {
+		if (log.isDebugEnabled())
 			log.debug("entering update with norme = " + norme
 					+ "and codCurrentUSer  = " + codeCurrentUser);
-		}
+
 		T newNorme = norme;
 		newNorme.setCodUserToUpdate(codeCurrentUser);
 		newNorme.setDateModifEnr(new Date());

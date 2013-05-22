@@ -7,10 +7,11 @@
         <h:form id="seeOpinionsForm">
             <f:event type="postValidate" listener="#{individuController.useTypeTrtFilter(true)}" />
             <f:event type="postValidate" listener="#{individuController.useGestCommsFilter(true)}" />
-            <p:blockUI block="maPage" trigger="choiceTypeDecision saveAll individuData individuData:checkAll search-button">
+            <p:blockUI block="maPage" trigger="choiceTypeDecision individuData individuData:checkAll search-button"
+                       widgetVar="pageBlocker">
                 <p:graphicImage value="/resources/images/ajax-loader.gif" />
             </p:blockUI>
-            <p:blockUI block=":seeOpinionsForm:dataPanel" trigger=":seeOpinionsForm:renderTable">
+            <p:blockUI block="dataPanel" trigger="renderTable" widgetVar="panelBlocker">
                 <p:graphicImage value="/resources/images/ajax-loader.gif" />
             </p:blockUI>
             <p:panel id="maPage" styleClass="div_body">
@@ -29,7 +30,7 @@
                 </ui:fragment>
                 <p:remoteCommand id="renderTable" name="renderTable"
                                  autoRun="true" async="true"
-                                 update="dataPanel"
+                                 update="dataPanel" oncomplete="pageBlocker.hide();"
                                  actionListener="#{opinionController.doRenderTable}" />
                 <div class="messageForUser">
                     <p:messages id="messages" showDetail="true" autoUpdate="true" />
@@ -40,22 +41,22 @@
                                      converter="#{typeDecisionConverter}"
                                      value="#{opinionController.selectedTypeDec}" style="width: 10%;">
                         <f:selectItems value="#{nomenclatureController.typeDecisionInUseItems}" />
-                        <p:ajax listener="#{opinionController.selectTypeDecisionOpinion}"
-                                update="individuData" />
+                        <p:ajax listener="#{opinionController.selectTypeDecision}" update="individuData" />
                     </p:selectOneMenu>
                 </div>
                 <p:panel id="dataPanel" layout="block" styleClass="dataPanel">
                     <div class="dataPanelButtons">
                         <p:commandButton id="saveAll" value="#{msgs['_.BUTTON.SAVE']}"
-                                         action="#{opinionController.saveAll}"
-                                         update=":seeOpinionsForm:individuData"
+                                         actionListener="#{opinionController.saveAll}"
+                                         onclick="pageBlocker.show()"
+                                         oncomplete="renderTable()"
                                          rendered="#{opinionController.renderTable}" />
                     </div>
                     <p:panel styleClass="dataSubPanel">
                         <p:dataTable var="individuPojo" id="individuData"
                                      value="#{opinionController.indPojoLDM}" styleClass="paginatorData"
                                      paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40"
-                                     rowKey="#{individuPojo.individu}"
+                                     rowKey="#{individuPojo.individu}" sortBy="#{nomPatronymique}"
                                      paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}" lazy="true"
                                      currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
                                      emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}" rendered="#{opinionController.renderTable}">
@@ -113,10 +114,9 @@
                                         <h:panelGroup rendered="#{indVoeuxPojo.avisEnService.result.code != null}">
                                             <p:graphicImage url="/resources/images/informationSmall.png"
                                                             style="cursor:pointer;" id="avisEnService" />
-                                            <p:overlayPanel showEffect="fade" hideEffect="fade" appendToBody="true"
-                                                            for="avisEnService"
-                                                            showEvent="mouseover"
-                                                            hideEvent="mouseout"
+                                            <p:overlayPanel showEffect="fade" hideEffect="fade"
+                                                            showEvent="mouseover" hideEvent="mouseout"
+                                                            appendToBody="true" for="avisEnService"
                                                             styleClass="containerPopup">
                                                 <h:panelGroup>
                                                     <h:panelGrid columns="1">

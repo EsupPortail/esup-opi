@@ -9,6 +9,10 @@
                                            :seeManagersForm:lesCommissions">
             <p:graphicImage value="/resources/images/ajax-loader.gif"/>
         </p:blockUI>
+        <p:blockUI block=":seeManagersForm:dataPanel" trigger=":seeManagersForm:renderTable"
+                   widgetVar="panelBlocker">
+            <p:graphicImage value="/media/images/ajax-loader.gif" />
+        </p:blockUI>
         <p:panel id="maPage" styleClass="div_body">
         <f:event type="preRenderView" listener="#{individuController.useVoeuFilter(true)}" />
             <h1>
@@ -29,6 +33,10 @@
                 <div class="messageForUser">
                     <p:messages id="messages" showDetail="true" autoUpdate="true"/>
                 </div>
+                <p:remoteCommand id="renderTable" name="renderTable"
+                                 autoRun="true" async="true"
+                                 update="dataPanel"
+                                 actionListener="#{individuController.doRenderTable}" />
                 <p:panel id="dataPanel" layout="block" styleClass="dataPanel">
                     <div class="dataPanelButtons">
                         <h:panelGroup>
@@ -45,7 +53,7 @@
                                      paginatorTemplate="#{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
                                      currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
                                      emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}"
-                                     sortBy="#{nomPatronymique}" lazy="true">
+                                     sortBy="#{nomPatronymique}" lazy="true" rendered="#{individuController.renderTable}">
                             <p:columnGroup type="header">
                                 <p:row>
                                     <p:column headerText="#{msgs['INDIVIDU.NUM_DOSSIER']}"/>

@@ -14,7 +14,6 @@ import fj.data.List;
 import fj.data.Option;
 import fj.data.Stream;
 import org.hibernate.Session;
-import org.hibernate.stat.Statistics;
 import org.primefaces.model.SortOrder;
 
 import javax.persistence.EntityManager;
@@ -68,9 +67,8 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
     
     private final PathBuilder<T> tPath;
 
-    private Paginator() {
-        throw new Error("Unauthorized");
-    }
+    @SuppressWarnings("UnusedDeclaration")
+    private Paginator() { throw error("Unauthorized"); }
 	    
     /**
      * @param mgr un 1-tuple contenant l' {@link EntityManager} JPA si utilisation conjointe à JPA (donc pour {@link Q} = {@link JPAQuery})
@@ -79,7 +77,7 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
     public Paginator(P1<?> mgr) {
         Type genParam = getTType(mgr.getClass().getGenericSuperclass(), 0);
         dataProvider = (Either<P1<EntityManager>, P1<Session>>)
-                ((genParam.equals(Session.class)) ? right(mgr) : left(mgr));
+                (genParam.equals(Session.class) ? right(mgr) : left(mgr));
         ttype = (Class<T>) getTType(Paginator.this.getClass().getGenericSuperclass(), 1);
         ent = new EntityPathBase<T>(ttype, "ent");
         tPath = new PathBuilder<T>(ttype, ent.getMetadata());        
@@ -113,10 +111,8 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
      */
 	private final F<String, Class> getType = new F<String, Class>() {
 	    public Class f(String fieldName) {
-	        return fromNull(ReflectionUtils.getFieldOrNull(
-	                ttype, fieldName)).option(
-                    Object.class,
-                    new F<Field, Class>() {
+	        return fromNull(ReflectionUtils.getFieldOrNull(ttype, fieldName))
+                    .option(Object.class, new F<Field, Class>() {
 	                            public Class f(Field field) {
 	                                return field.getType();
 	                            }});
@@ -168,8 +164,10 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
                                 new PredicateOperation(
                                 Ops.STARTS_WITH,
                                 tPath.get(fvt._1(), fvt._3()),
-                                Expressions.template(String.class, "str({0})",
-                                    Expressions.constant(fvt._2()))));
+                                Expressions.template(
+                                        String.class,
+                                        "str({0})",
+                                        Expressions.constant(fvt._2()))));
                             }}, q);
             }};
     
@@ -188,8 +186,8 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
      */
     private final F<SortOrder, Order> sorder2Order = new F<SortOrder, Order>() {
         public Order f(SortOrder so) {
-            return (so.equals(SortOrder.DESCENDING)) ?
-            Order.DESC: Order.ASC; }
+            return (so.equals(SortOrder.DESCENDING)) ? Order.DESC: Order.ASC;
+        }
 	};
 	
 	/**
@@ -203,7 +201,10 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
                 return (!sortField.isEmpty()) ?
                         (Q) q.orderBy(new OrderSpecifier(
                                 sorder2Order.f(sortOrder),
-                                tPath.get(sortField, getType.f(sortField)))) :
+                                Expressions.template(
+                                        getType.f(sortField),
+                                        "trim({0})",
+                                        tPath.get(sortField, getType.f(sortField))))) :
                         q;
             }};
 	
@@ -269,6 +270,7 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
 	public final P2<Long, java.util.List<T>> sliceOf(Long offset, Long limit, String sortField,
 	    SortOrder sortOrder, Map<String,String> filters, Option<F<Q, Q>> optCustomfilter) {
 	    F<Q, Q> customFilter = optCustomfilter.orSome(Function.<Q>identity());
+
         long count = unOrderedQuery(full.constant(), filters, customFilter).f(unit()).count();
 
         long pageSize = (limit > 0) ? limit : 1;

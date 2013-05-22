@@ -39,7 +39,7 @@
                         <h:outputText value="#{opinionController.avis.result.libelle}"/>
                         <p:commandButton id="submitChangeTypeDecision"
                                          value="#{msgs[_.BUTTON.CHANGE]}"
-                                         action="#{opinionController.selectTypeDecisionOpinion}" ajax="false"/>
+                                         action="#{opinionController.selectTypeDecision}" ajax="false"/>
                     </h:panelGroup>
                     <h:panelGroup rendered="#{opinionController.isUsingLC}">
                         <h:outputLabel value="#{msgs['AVIS.RANG']}"/>
