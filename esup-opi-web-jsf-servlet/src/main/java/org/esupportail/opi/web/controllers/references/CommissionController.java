@@ -241,9 +241,9 @@ public class CommissionController
 
 		comsInUse = new TreeSet<Commission>(comparatorCmi);
 		comsInUse.addAll(getParameterService().getCommissions(true));
+        getDomainApoService().emptyCommissionCache(getCurrentGest(), true);
         Set<Commission> cmi =
-                getDomainApoService().getListCommissionsByRight(
-                        getCurrentGest(), true);
+                getDomainApoService().getListCommissionsByRight(getCurrentGest(), true);
 		comsInUseByRight = new ArrayList<Commission>();
         if (cmi != null) {
             comsInUseByRight.addAll(cmi);
@@ -363,16 +363,16 @@ public class CommissionController
 			}
 		}
 		Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
-		int codeRI = gest.getProfile().getCodeRI();
+		Integer codeRI = gest.getProfile().getCodeRI();
 
 		AdresseCommission adresseComm = new AdresseCommission();
-		ContactCommission contactRI = commission.getContactsCommission().get(codeRI);
+		ContactCommission contactRI = commission.getContactsCommission().get(codeRI.toString());
 		if (contactRI != null) {
 			// peut être null si autre régime d'inscription
 			adresseComm = contactRI.getAdresse();
 		}
 		adressController.init(adresseComm, true);
-		contactCommission = commission.getContactsCommission().get(codeRI);
+		contactCommission = commission.getContactsCommission().get(codeRI.toString());
 		if (contactCommission == null) {
 			contactCommission = new ContactCommission(codeRI);
 		}
@@ -399,10 +399,10 @@ public class CommissionController
 		initAllTraitementCmi(commission);
 
 		Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
-		int codeRI = gest.getProfile().getCodeRI();
+		Integer codeRI = gest.getProfile().getCodeRI();
 
 		AdresseCommission adresseComm = new AdresseCommission();
-		ContactCommission contactRI = commission.getContactsCommission().get(codeRI);
+		ContactCommission contactRI = commission.getContactsCommission().get(codeRI.toString());
 		if (contactRI != null) {
 			adresseComm = contactRI.getAdresse();
 		} else {
@@ -410,7 +410,7 @@ public class CommissionController
 		}
 		adressController.init(adresseComm, false);
 
-		contactCommission = commission.getContactsCommission().get(codeRI);
+		contactCommission = commission.getContactsCommission().get(codeRI.toString());
 		if (contactCommission == null) {
 			contactCommission = new ContactCommission(codeRI);
 		}
@@ -430,7 +430,6 @@ public class CommissionController
 
 	/**
 	 * Callback to print the listes prepa.
-	 * @return
 	 */
 	public String goPrintListsPrepa() {
 		reset();
@@ -529,7 +528,7 @@ public class CommissionController
 				adressController.update(adressController.getFixAdrPojo());
 			}
             commission.setTraitementCmi(new HashSet<TraitementCmi>());
-			commission = (Commission) getDomainService().add(commission, getCurrentGest().getLogin());
+			commission = getDomainService().add(commission, getCurrentGest().getLogin());
 			getParameterService().addCommission(commission);
 
 			addOrUpdateMember();
@@ -579,7 +578,7 @@ public class CommissionController
             }
 
 			//update cmi
-			commission = (Commission) getDomainService().update(commission, getCurrentGest().getLogin());
+			commission = getDomainService().update(commission, getCurrentGest().getLogin());
 			getParameterService().updateCommission(commission);
 
 			//update Member
@@ -626,7 +625,6 @@ public class CommissionController
 
 	/**
 	 * The selected commission.
-	 * @param event
 	 */
 	public void selectCommission(final ValueChangeEvent event) {
 		Integer idCmi = (Integer) event.getNewValue();
@@ -656,16 +654,15 @@ public class CommissionController
 	public void selectCommAdress() {
 		Commission commSelected = getParameterService().getCommission(idCmiForAdress, null);
 		Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
+        Integer codeRI = gest.getProfile().getCodeRI();
 		AdresseCommission adrRI =
-                commSelected.getContactsCommission().get(
-                        gest.getProfile().getCodeRI()).getAdresse();
+                commSelected.getContactsCommission().get(codeRI.toString()).getAdresse();
 		adressController.init(adrRI, true);
 		addInfoMessage(null, "COMMISSION.WARN_CHANGE_ADRESS");
 	}
 
 	/**
 	 * The selected commission.
-	 * @param event
 	 */
 	public void selectCommissionForLists(final ValueChangeEvent event) {
 		Integer idCmi = (Integer) event.getNewValue();
@@ -743,10 +740,8 @@ public class CommissionController
 						//add to gestionnaire
 						m.getGestionnaire().setProfile(mbr);
 						m.getGestionnaire().setDateDbtValidite(new Date());
-						m.setGestionnaire(
-								(Gestionnaire) getDomainService()
-										.add(m.getGestionnaire(),
-											getCurrentGest().getLogin()));
+						m.setGestionnaire(getDomainService().add(
+                                m.getGestionnaire(), getCurrentGest().getLogin()));
 						getDomainService().addUser(m.getGestionnaire());
 					}
 					getParameterService().addMember(m);
@@ -785,7 +780,6 @@ public class CommissionController
 
 	/**
 	 * Initialize the allTraitmentCmi(the treatment of commission) attribute.
-	 * @param c
 	 */
 	public void initAllTraitementCmi(final Commission c) {
 		trtCmiController.initAllTraitementCmi(c, null);
@@ -1058,8 +1052,6 @@ public class CommissionController
 
 	/**
 	 * Generate the PDF e partir de la liste preparatoire precedemment generee.
-	 * @param fileNameXsl
-	 * @param listeIndPrepa
 	 */
 	@SuppressWarnings("unchecked")
 	public void generatePDFListePreparatoire(
@@ -1076,7 +1068,7 @@ public class CommissionController
 		Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
 		int codeRI = gest.getProfile().getCodeRI();
 		//Bug 7710: récupération dynamique de la date de début dépôt des dossiers
-		list.setDebut(dateFormat.format(getParameterService().getCampagneEnServ(codeRI).getDateDebCamp()).toString());
+		list.setDebut(dateFormat.format(getParameterService().getCampagneEnServ(codeRI).getDateDebCamp()));
 		// ajout de la commission pour afficher le libelle
 		list.setCommission(getParameterService().getCommission(
 				commission.getId(), commission.getCode()));
@@ -1109,9 +1101,6 @@ public class CommissionController
 
 	/**
 	 * Control Commission attributes for the adding and updating.
-	 * @param c
-	 * @param displayMessage
-	 * @return
 	 */
 	private Boolean ctrlEnter(final Commission c, final Adresse a,
 			final Boolean displayMessage) {
@@ -1151,8 +1140,6 @@ public class CommissionController
 
 	/**
 	 * Control de saisie d'un membre.
-	 * @param r
-	 * @return Boolean
 	 */
 	private Boolean ctrlMember(final Member r) {
 		Boolean ctrlOk = true;
@@ -1193,10 +1180,6 @@ public class CommissionController
 		return addOk;
 	}
 
-	/**
-	 *
-	 * @return
-	 */
 	protected List<CommissionPojo> getData() {
 		List<CommissionPojo> result = new ArrayList<CommissionPojo>();
 		Gestionnaire currentGest = getCurrentGest();
@@ -1245,15 +1228,12 @@ public class CommissionController
 		return listCmiByRight;
 	}
 
-	/**
-	 * @param listCmiByRight
-	 */
 	public void setListCmiByRight(boolean listCmiByRight) {
 		this.listCmiByRight = listCmiByRight;
 	}
 
 	/**
-	 * @return List< Commission> All commission in dataBase.
+	 * @return List<Commission> All commission in dataBase.
 	 */
 	public Set<Commission> getCommissions() {
 		return commissions;
@@ -1263,7 +1243,7 @@ public class CommissionController
 	 * Commissions items for the select menu.
 	 * This list contains all cmi in use or all cmi in use wihtout cmi with calendar.
 	 * Depends to wayfEnum.
-	 * @return List< Commission>
+	 * @return List<Commission>
 	 */
 	public Set<Commission> getCommissionsItems() {
 		return comsInUse;
@@ -1285,8 +1265,9 @@ public class CommissionController
 	 * @return List<Commission>
 	 */
 	public List<Commission> getCommissionsItemsByRightParametrable(boolean doFilter) {
-		return new ArrayList<Commission>(
-				(isListCmiByRight() || doFilter) ? comsInUseByRight : comsInUse);
+		return (listCmiByRight || doFilter) ?
+                comsInUseByRight :
+                new ArrayList<Commission>(comsInUse);
 	}
 
 	/**
@@ -1319,7 +1300,7 @@ public class CommissionController
 	/**
 	 * Commissions items for managedTrtCmi list.
 	 * the list is function the commissions managed by the gestionnaire
-	 * @return Set< Commission>
+	 * @return Set<Commission>
 	 */
 	@SuppressWarnings("synthetic-access")
 	public Set<Commission> getAllCommissionsItemsByRight() {
@@ -1332,23 +1313,23 @@ public class CommissionController
 	/**
 	 * Commissions items for the creation of an adress.
 	 * the list is function the commissions managed by the gestionnaire
-	 * @return Set< Commission>
+	 * @return Set<Commission>
 	 */
 	public List<Commission> getCommissionsForAdresses() {
 		Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
-		final int codeRI = gest.getProfile().getCodeRI();
+		final Integer codeRI = gest.getProfile().getCodeRI();
 
 		return new ArrayList<Commission>(iterableStream(comsInUseByRight).filter(
 				new F<Commission, Boolean>() {
 					public Boolean f(Commission c) {
 						final Commission cmi = getParameterService().getCommission(c.getId(), null);
-						return cmi.getContactsCommission().get(codeRI) != null;
+						return cmi.getContactsCommission().get(codeRI.toString()) != null;
 					}}).toCollection());
 	}
 
 	/**
 	 * Type members items for the select menu.
-	 * @return List< SelectItem>
+	 * @return List<SelectItem>
 	 */
 	public List<SelectItem> getTypMbrItems() {
 		List<SelectItem> list = new ArrayList<SelectItem>();
@@ -1360,7 +1341,7 @@ public class CommissionController
 
 	/**
 	 * All commission in use in dataBase are been managed by Manager.
-	 * @return Set< Commission>
+	 * @return Set<Commission>
 	 */
 	// TODO : à supprimer, méthode identique getCommissionsItemsByRight()
 	public List<Commission> getCommissionsByRight() {
@@ -1368,7 +1349,7 @@ public class CommissionController
 	}
 
 	/**
-	 * @return Set< Commission> commissions in use.
+	 * @return Set<Commission> commissions in use.
 	 */
 	// TODO : à supprimer, méthode identique getCommissionsItems()
 	public Set<Commission> getCommissionsInUse() {
@@ -1420,7 +1401,7 @@ public class CommissionController
 
 	/**
 	 * return membersToDisplay.keySet.
-	 * @return Set< Member>
+	 * @return Set<Member>
 	 */
 	public List<Member> getKeySetMbrToDisplay() {
 		List<Member> members = new ArrayList<Member>();
@@ -1430,7 +1411,7 @@ public class CommissionController
 	}
 
 	/**
-	 * @return List< SignataireDTO>
+	 * @return List<SignataireDTO>
 	 */
 	public List<SignataireDTO> getSignataireInUse() {
 		List<SignataireDTO> l = getDomainApoService().getSignataires();

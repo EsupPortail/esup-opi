@@ -9,7 +9,7 @@
         <h:form id="seeOpinionsForm">
             <f:event type="postValidate" listener="#{individuController.useTypeTrtFilter(true)}" />
             <f:event type="postValidate" listener="#{individuController.useGestCommsFilter(true)}" />
-            <p:blockUI block="maPage" trigger="individuData search-button">
+            <p:blockUI block="maPage" trigger="individuData individuData:indVoeux4:choiceTypeDecision search-button">
                 <p:graphicImage value="/media/images/ajax-loader.gif"/>
             </p:blockUI>
             <p:blockUI block="dataPanel" trigger="renderTable">
@@ -40,9 +40,9 @@
                     <p:panel style="clear: both; border: none; margin: -0.5em -1em;">
                         <p:dataTable var="individuPojo" id="individuData"
                                      value="#{opinionController.indPojoLDM}" styleClass="paginatorData"
-                                     paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40" rowKey="#{individuPojo.individu}"
+                                     paginator="true" lazy="true"
+                                     rows="10" rowsPerPageTemplate="10,20,30,40" rowKey="#{individuPojo.individu}"
                                      paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}" sortBy="#{nomPatronymique}"
-                                     lazy="true"
                                      currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
                                      emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}" rendered="#{opinionController.renderTable}">
                             <p:column>
@@ -125,7 +125,7 @@
                                            value="#{individuPojo.voeuxSortedByLic}">
                                     <div>
                                         <h:panelGroup>
-                                            <p:selectOneMenu id="choiceTypDecision"
+                                            <p:selectOneMenu id="choiceTypeDecision"
                                                              converter="#{typeDecisionConverter}"
                                                              value="#{indVoeuxPojo.newAvis.result}"
                                                              disabled="#{indVoeuxPojo.avisEnService.result.isFinal
@@ -138,7 +138,7 @@
                                     </div>
                                 </ui:repeat>
                             </p:column>
-                            <p:column rendered="#{opinionController.isUsingDEF}">
+                            <p:column rendered="#{opinionController.isUsingDEF}" id="defcol">
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['AVIS.PROPOSITION.SMALL_TITLE']}"/>
                                 </f:facet>
@@ -158,11 +158,12 @@
                                     </div>
                                 </ui:repeat>
                             </p:column>
-                            <p:column rendered="#{opinionController.isUsingLC}">
+                            <p:column rendered="#{opinionController.isUsingLC}" id="idcol">
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['AVIS.RANG']}"/>
                                 </f:facet>
                                 <ui:repeat var="indVoeuxPojo" id="indVoeux6"
+                                           rendered="#{managedAccess.updateAuthorized and indVoeuxPojo.isUsingLC}"
                                            value="#{individuPojo.voeuxSortedByLic}">
                                     <div>
                                         <h:panelGroup>

@@ -46,16 +46,16 @@
     								rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.updateAction}" />
     							<h:panelGroup>
     								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    									action="#{gestionnaireController.add}" ajax="false"
-    									rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.addAction
-    											and managedAccess.addAuthorized}" />
+    									         action="#{gestionnaireController.add}" ajax="false"
+    									         rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.addAction
+    										           and managedAccess.addAuthorized}" />
     								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    									action="#{gestionnaireController.update}" ajax="false"
-    									rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.updateAction
-    											and managedAccess.updateAuthorized}" />
+    									         action="#{gestionnaireController.update}" ajax="false"
+    									         rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.updateAction
+    											   and managedAccess.updateAuthorized}" />
     								<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    									onclick="javascript:{clickAnnuler = true;}" ajax="false" immediate="true"
-    									action="#{gestionnaireController.goSeeAllManagers}" />
+    									         onclick="javascript:{clickAnnuler = true;}" ajax="false" immediate="true"
+    									         action="#{gestionnaireController.goSeeAllManagers}" />
     							</h:panelGroup>
     						</h:panelGrid>
     					</div>

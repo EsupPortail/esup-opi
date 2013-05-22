@@ -4,6 +4,7 @@
  */
 package org.esupportail.opi.domain;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,6 +20,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import com.googlecode.ehcache.annotations.TriggersRemove;
 import fj.Equal;
 import fj.F;
 import fj.F2;
@@ -1746,19 +1748,14 @@ public class DomainApoServiceImpl implements DomainApoService {
 	}
 
     /**
-     * TODO : Méthode TRÈS lente (nombreux appels hibernate)
-     * TODO : À optimiser
-     * TODO : Éviter d'y avoir recours
-     *
      * List of the commisions managed by the gestionnaire.
      * @param gest
      * @param temEnSve
      * @return Set<Commission>
      */
+    @Override
     @Cacheable(cacheName = CacheModelConst.RENNES1_APOGEE_MODEL)
-    public Set<Commission> getListCommissionsByRight(
-            final Gestionnaire gest,
-            final Boolean temEnSve) {
+    public Set<Commission> getListCommissionsByRight(final Gestionnaire gest, final Boolean temEnSve) {
         Set<Commission> lesCommissions = new HashSet<Commission>();
         if(gest != null){
             if (StringUtils.hasText(gest.getCodeCge())) {
@@ -1787,5 +1784,13 @@ public class DomainApoServiceImpl implements DomainApoService {
             lesCommissions = parameterService.getCommissions(null);
         }
         return lesCommissions;
+    }
+
+    @Override
+    @TriggersRemove(cacheName = CacheModelConst.RENNES1_APOGEE_MODEL, removeAll = true)
+    public void emptyCommissionCache(final Gestionnaire gest, final Boolean temEnSve) {
+        log.info(MessageFormat.format("Emptying {0} cache...", CacheModelConst.RENNES1_APOGEE_MODEL));
+        // nothing else to do since the effect (empty the cache) is done
+        // by the code behind TriggersRemove
     }
 }

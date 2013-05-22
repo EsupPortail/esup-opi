@@ -284,7 +284,6 @@ public class SessionController extends AbstractDomainAwareBean {
         getCurrentInd();
     }
 
-
     /**
      * True is in servlet mode.
      *
@@ -431,9 +430,7 @@ public class SessionController extends AbstractDomainAwareBean {
 
 
     /**
-     * Return the diplayName of current user.
-     *
-     * @return String
+     * @return the diplayName of current user
      */
     public String getCurrentDisplayName() {
         return fromNull(getCurrentUser()).bind(new F<User, Option<String>>() {
@@ -452,120 +449,75 @@ public class SessionController extends AbstractDomainAwareBean {
     }
 
 
-    /**
-     * @see org.esupportail.commons.beans.AbstractI18nAwareBean#getTimezone()
-     */
     @Override
     public String getTimezone() {
         return super.getTimezone();
     }
 
-    /**
-     * @param exceptionController the exceptionController to set
-     */
     public void setExceptionController(final ExceptionController exceptionController) {
         this.exceptionController = exceptionController;
     }
 
 
-    /**
-     * @return the authenticator
-     */
     public Authenticator getAuthenticator() {
         return authenticator;
     }
 
-    /**
-     * @param authenticator the authenticator to set
-     */
     public void setAuthenticator(final Authenticator authenticator) {
         this.authenticator = authenticator;
     }
 
-    /**
-     * @return the codEtu
-     */
     public String getCodEtu() {
         return codEtu;
     }
 
-    /**
-     * @param codEtu the codEtu to set
-     */
     public void setCodEtu(final String codEtu) {
         this.codEtu = codEtu;
     }
 
-    /**
-     * @return the isInEnt
-     */
     public Boolean getIsInEnt() {
         return isInEnt;
     }
 
-    /**
-     * @param isInEnt the isInEnt to set
-     */
     public void setIsInEnt(final Boolean isInEnt) {
         this.isInEnt = isInEnt;
     }
 
-    /**
-     * @param casLogoutUrl the casLogoutUrl to set
-     */
     public void setCasLogoutUrl(final String casLogoutUrl) {
         this.casLogoutUrl = casLogoutUrl;
     }
 
-    /**
-     * @param serverNameUrl the serverNameUrl to set
-     */
     public void setServerNameUrl(String serverNameUrl) {
         this.serverNameUrl = serverNameUrl;
     }
 
-    /**
-     * @return the regimeInsUser
-     */
     public RegimeInscription getRegimeInsUser() {
         return regimeInsUser;
     }
 
-    /**
-     * @param regimeInsUser the regimeInsUser to set
-     */
     public void setRegimeInsUser(final RegimeInscription regimeInsUser) {
         this.regimeInsUser = regimeInsUser;
     }
 
-    /**
-     * @return allViewPJ
-     */
     public boolean isAllViewPJ() {
         return allViewPJ;
     }
 
-    /**
-     * @param allViewPJ
-     */
     public void setAllViewPJ(final boolean allViewPJ) {
         this.allViewPJ = allViewPJ;
     }
 
-    /**
-     * @return
-     */
     public Boolean getCanUpdateRI() {
         return canUpdateRI;
     }
 
-    /**
-     * @param canUpdateRI
-     */
     public void setCanUpdateRI(Boolean canUpdateRI) {
         this.canUpdateRI = canUpdateRI;
     }
 
+    public boolean isManager() { return isManager; }
+
+    public boolean canUpdateStudent() { return canUpdateStudent; }
 
 }
 

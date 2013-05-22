@@ -33,7 +33,9 @@
                                    || opinionController.actionEnum.whatAction == opinionController.actionEnum.updateAction}">
                 <ui:include src="_block/_enterOpinion.xhtml"/>
             </ui:fragment>
-            <ui:include src="_block/_proposition.xhtml"/>
+            <ui:fragment rendered="#{opinionController.actionEnum.whatAction == opinionController.actionEnum.propositionAction}">
+                <ui:include src="_block/_proposition.xhtml"/>
+            </ui:fragment>
             <div id="div_subSection" class="div_subSection">
                 <h:form id="seeAvisForm">
                     <div id="blockFormAdresse" class="blockForm">

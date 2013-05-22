@@ -56,7 +56,7 @@
                         <p:dataTable var="individuPojo" id="individuData"
                                      value="#{opinionController.indPojoLDM}" styleClass="paginatorData"
                                      paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40"
-                                     rowKey="#{individuPojo.individu}"
+                                     rowKey="#{individuPojo.individu}" sortBy="#{nomPatronymique}"
                                      paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}" lazy="true"
                                      currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
                                      emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}" rendered="#{opinionController.renderTable}">
