@@ -33,9 +33,7 @@
                                    || opinionController.actionEnum.whatAction == opinionController.actionEnum.updateAction}">
                 <ui:include src="_block/_enterOpinion.xhtml"/>
             </ui:fragment>
-            <ui:fragment rendered="#{opinionController.actionEnum.whatAction == opinionController.actionEnum.propositionAction}">
-                <ui:include src="_block/_proposition.xhtml"/>
-            </ui:fragment>
+           
             <div id="div_subSection" class="div_subSection">
                 <h:form id="seeAvisForm">
                     <div id="blockFormAdresse" class="blockForm">
@@ -76,7 +74,7 @@
                                 </f:facet>
                                 <h:outputText value="#{avisPojo.shortCommentaireMotiv}"/>
                                 <h:panelGroup rendered="#{avisPojo.isShortCommentaireMotiv}">
-                                    <p:graphicImage url="/resources/images/informationSmall.png"
+                                    <p:graphicImage url="/media/images/informationSmall.png"
                                                     style="cursor:pointer;"
                                                     id="avisComm"/>
                                     <p:overlayPanel showEffect="fade" hideEffect="fade" appendToBody="true"
@@ -117,27 +115,27 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['AVIS.APPEL']}"/>
                                 </f:facet>
-                                <p:graphicImage url="/resources/images/check2.gif"
+                                <p:graphicImage url="/media/images/check2.gif"
                                                 rendered="#{avisPojo.avis.appel}"/>
-                                <p:graphicImage url="/resources/images/check0.gif"
+                                <p:graphicImage url="/media/images/check0.gif"
                                                 rendered="#{!avisPojo.avis.appel}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['AVIS.VALIDATE']}"/>
                                 </f:facet>
-                                <p:graphicImage url="/resources/images/check2.gif"
+                                <p:graphicImage url="/media/images/check2.gif"
                                                 rendered="#{avisPojo.avis.validation}"/>
-                                <p:graphicImage url="/resources/images/check0.gif"
+                                <p:graphicImage url="/media/images/check0.gif"
                                                 rendered="#{!avisPojo.avis.validation}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}"/>
                                 </f:facet>
-                                <p:graphicImage url="/resources/images/check2.gif"
+                                <p:graphicImage url="/media/images/check2.gif"
                                                 rendered="#{avisPojo.avis.temoinEnService}"/>
-                                <p:graphicImage url="/resources/images/check0.gif"
+                                <p:graphicImage url="/media/images/check0.gif"
                                                 rendered="#{!avisPojo.avis.temoinEnService}"/>
                             </p:column>
                             <p:column styleClass="buttonTD">
