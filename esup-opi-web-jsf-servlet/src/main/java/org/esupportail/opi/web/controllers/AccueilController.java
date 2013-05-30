@@ -175,6 +175,28 @@ public class AccueilController extends AbstractAccessController {
      * @return String
      */
     public String goWelcomeCandidat() {
+        IndividuPojo individu = getCurrentInd();
+        individu.setIndividu(getDomainService().getIndividu(
+        		individu.getIndividu().getNumDossierOpi(),
+        		individu.getIndividu().getDateNaissance()));
+
+        getSessionController().initCurrentInd(
+        		individu.getIndividu().getNumDossierOpi(),
+        		individu.getIndividu().getDateNaissance(),
+                false,
+                false);
+
+        if (getCurrentInd().getEtat() instanceof EtatInComplet) {
+            //on informe l'individu qu'il doit completer sur dossier avant de deposer de voeux
+            if (!getSessionController()
+                    .getCurrentInd()
+                    .getRegimeInscription()
+                    .getDisplayInfoFC())
+                addInfoMessage(null, "INFO.CANDIDAT.ETAT_INCOMPLET.1");
+            else
+                addInfoMessage(null, "INFO.CANDIDAT.ETAT_INCOMPLET.1.FC");
+            addInfoMessage(null, "INFO.CANDIDAT.ETAT_INCOMPLET.2");
+        }
         return NavigationRulesConst.ACCUEIL_CANDIDAT;
     }
 
