@@ -214,6 +214,7 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 			criteria.setFetchMode("cursus", FetchMode.JOIN);
 			criteria.setFetchMode("cursusScol", FetchMode.JOIN);
 			criteria.setFetchMode("adresses", FetchMode.JOIN);
+			criteria.setFetchMode("indBac", FetchMode.JOIN);
 			List<Individu> individus = getHibernateTemplate().findByCriteria(criteria);
 			if (!individus.isEmpty()) {
 				u = individus.get(0);
@@ -248,13 +249,16 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 			
 			criteria.add(Restrictions.eq(IN_USE_ATTRIBUTE, true));
 			
-			criteria.setResultTransformer(
-					CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 			// ajout des fetchMode
 			criteria.setFetchMode("campagnes", FetchMode.JOIN);
 			criteria.setFetchMode("cursus", FetchMode.JOIN);
 			criteria.setFetchMode("cursusScol", FetchMode.JOIN);
 			criteria.setFetchMode("adresses", FetchMode.JOIN);
+			criteria.setFetchMode("indBac", FetchMode.JOIN);
+			
+			criteria.setResultTransformer(
+					CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+			
 			List<Individu> individus = getHibernateTemplate().findByCriteria(criteria);
 			if (!individus.isEmpty()) {
 				return individus.get(0);

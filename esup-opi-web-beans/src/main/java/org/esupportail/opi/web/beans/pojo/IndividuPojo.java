@@ -429,7 +429,12 @@ public class IndividuPojo {
 	 * @return String
 	 */ 
 	public String getEtatIndBac() {
-        return etatIndBac;
+		if (individu.getIndBac() != null 
+				&& !individu.getIndBac().isEmpty()) {
+			return new EtatComplet(i18nService).getLabel();
+		}
+		return new EtatNonRenseigne(i18nService).getLabel();
+//        return etatIndBac;
 	}
 	
 	/**
