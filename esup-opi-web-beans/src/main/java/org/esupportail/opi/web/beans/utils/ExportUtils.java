@@ -62,11 +62,12 @@ public class ExportUtils {
 	
 	/**
 	 * Generate a csv format send by http.
-	 * @param map key the key column name and value is the list value.
-	 * @param fileName 
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public static void superCsvGenerate(List<LigneListePrepaPojo> ligneList, String[] champsChoisis, final String fileName) throws IOException {
+	public static void superCsvGenerate(
+            List<LigneListePrepaPojo> ligneList,
+            String[] champsChoisis,
+            final String fileName) throws IOException {
 		ICsvBeanWriter beanWriter = null;
 		StringWriter sw = new StringWriter();
         try {       		

@@ -521,7 +521,8 @@ public class DomainApoServiceImpl implements DomainApoService {
 			return c;
 		} catch (WebBaseException e) {
 			//technical.data.nullretrieve.commune
-			throw new ObjectNotFoundException("Ce code postal ( " + codBdi + " ) n'existe pas dans la base de donnÃÂ©es APOGEE");
+			throw new ObjectNotFoundException("Ce code postal ( " + codBdi + " ) n'existe pas dans" +
+                    "la base de données APOGEE");
 		} catch (NullPointerException e) {
 			throw new CommunicationApogeeException(e);
 		}

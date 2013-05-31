@@ -1,5 +1,6 @@
 package org.esupportail.opi.dao;
 
+import com.mysema.query.jpa.JPQLQuery;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 import com.mysema.query.types.EntityPath;
 import com.mysema.query.types.expr.BooleanExpression;
@@ -9,59 +10,82 @@ import com.mysema.query.types.path.SetPath;
 import com.mysema.query.types.template.BooleanTemplate;
 import fj.F;
 import fj.Function;
+import fj.P1;
 import fj.P2;
 import fj.data.Option;
 import fj.data.Stream;
+import org.esupportail.opi.dao.utils.Paginator;
 import org.esupportail.opi.dao.utils.PaginatorFactory;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
+import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.utils.primefaces.PFFilters;
+import org.springframework.orm.hibernate3.HibernateTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import static org.esupportail.opi.utils.fj.Conversions.parseBoolean;
 import static fj.P.p;
 import static fj.data.List.list;
 import static fj.data.Option.*;
+import static fj.data.Stream.iterableStream;
+import static fj.data.Stream.iterateWhile;
+import static org.esupportail.opi.utils.fj.Conversions.parseBoolean;
 
+@SuppressWarnings("unchecked")
 public class IndividuDaoServiceImpl implements IndividuDaoService {
 
+    final HibernateTransactionManager txm;
+
+    final TransactionTemplate txTemplate;
+
     final PaginatorFactory pf;
+    final Paginator<HibernateQuery, Individu> pagInd;
 
-    final PathBuilder<Individu> ind;
-
+    final EntityPathBase<Individu> indEnt = new EntityPathBase<>(Individu.class, "ent");
+    final PathBuilder<Individu> ind = new PathBuilder<>(Individu.class, indEnt.getMetadata());
     final BooleanExpression indEnService;
 
-    final EntityPath<Campagne> campBase = new EntityPathBase<Campagne>(Campagne.class, "campagne");
-    final PathBuilder<Campagne> camp = new PathBuilder<Campagne>(Campagne.class, campBase.getMetadata());
+    final EntityPath<Campagne> campBase = new EntityPathBase<>(Campagne.class, "campagne");
+    final PathBuilder<Campagne> camp = new PathBuilder<>(Campagne.class, campBase.getMetadata());
     final SetPath<Campagne, PathBuilder<Campagne>> indCamps;
 
-    final EntityPath<IndVoeu> indVoeuBase = new EntityPathBase<IndVoeu>(IndVoeu.class, "voeu");
-    final PathBuilder<IndVoeu> indVoeu = new PathBuilder<IndVoeu>(IndVoeu.class, indVoeuBase.getMetadata());
+    final EntityPath<IndVoeu> indVoeuBase = new EntityPathBase<>(IndVoeu.class, "voeu");
+    final PathBuilder<IndVoeu> indVoeu = new PathBuilder<>(IndVoeu.class, indVoeuBase.getMetadata());
     final SetPath<IndVoeu, PathBuilder<IndVoeu>> indVoeux;
 
-    final EntityPath<Avis> avisBase = new EntityPathBase<Avis>(Avis.class, "avis");
-    final PathBuilder<Avis> avis = new PathBuilder<Avis>(Avis.class, avisBase.getMetadata());
+    final EntityPath<Avis> avisBase = new EntityPathBase<>(Avis.class, "avis");
+    final PathBuilder<Avis> avis = new PathBuilder<>(Avis.class, avisBase.getMetadata());
     final SetPath<Avis, PathBuilder<Avis>> indVoeuAvis;
+    final BooleanExpression avisEnServ;
 
-    private IndividuDaoServiceImpl(PaginatorFactory pf) {
+
+    private IndividuDaoServiceImpl(PaginatorFactory pf, HibernateTransactionManager txm) {
+        this.txm = txm;
+        txTemplate = new TransactionTemplate(txm);
         this.pf = pf;
-        ind = pf.indPaginator().getTPathBuilder();
+        pagInd = pf.indPaginator().withEntity(indEnt, ind);
         indCamps = ind.getSet("campagnes", Campagne.class);
         indVoeux = ind.getSet("voeux", IndVoeu.class);
         indVoeuAvis = indVoeu.getSet("avis", Avis.class);
         indEnService = ind.get("temoinEnService").eq(true);
+        avisEnServ = avis.get("temoinEnService").eq(true);
     }
 
-    public static IndividuDaoService individuDaoSrv(PaginatorFactory pf) {
-        return new IndividuDaoServiceImpl(pf);
+    public static IndividuDaoService individuDaoSrv(PaginatorFactory pf, HibernateTransactionManager txm) {
+        return new IndividuDaoServiceImpl(pf, txm);
+    }
+
+    @SafeVarargs
+    private final JPQLQuery from(EntityPath<Individu>... ind) {
+        return new HibernateQuery(txm.getSessionFactory().getCurrentSession()).from(ind);
     }
 
     // ######## Filtres sur les campagnes de l'individu
@@ -123,7 +147,6 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                 public F<BooleanExpression, BooleanExpression> f(final List<TypeDecision> typesDecision) {
                     return new F<BooleanExpression, BooleanExpression>() {
                         public BooleanExpression f(BooleanExpression subExpr) {
-                            BooleanExpression avisEnServ = avis.get("temoinEnService").eq(true);
                             PathBuilder<TypeDecision> typeDec = avis.get("result", TypeDecision.class);
                             return subExpr.and(avisEnServ).and(typeDec.in(typesDecision));
                         }
@@ -178,7 +201,6 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
 
 
 
-    @SuppressWarnings("unchecked")
     @Override
     public P2<Long, Stream<Individu>> sliceOfInd(final PFFilters pfFilters,
                                                  final List<TypeDecision> typesDec,
@@ -217,13 +239,46 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
             }
         };
 
-        return pf.indPaginator().lazySliceOf(
+        return pagInd.lazySliceOf(
                 pfFilters.first,
                 pfFilters.pageSize,
                 pfFilters.sortField,
                 pfFilters.sortOrder,
                 pfFilters.filters,
                 some(customFilterQuery));
+    }
+
+    @Override
+    public Stream<Individu> getIndividus(final Commission commission,
+                                         final Boolean validate,
+                                         final Set<Integer> listeRICodes) {
+        final F<BooleanExpression, F<BooleanExpression, BooleanExpression>> constant = Function.constant();
+
+        final F<BooleanExpression, BooleanExpression> filter =
+                somes(list(
+                        some(constant.f(indEnService)),
+                        some(commission.getTraitementCmi()).map(trtCmiFilter),
+                        fromNull(listeRICodes).map(campRiFilter.andThen(constant)),
+                        fromNull(validate).map(validWishFilter),
+                        iif(validate != null, constant.f(avisEnServ))
+                )).foldLeft(Function.<BooleanExpression, BooleanExpression, BooleanExpression>andThen(),
+                        Function.<BooleanExpression>identity());
+
+        final List<String> numsDossierOpi =
+                from(indEnt).distinct()
+                        .leftJoin(indVoeux, indVoeu)
+                        .innerJoin(indCamps, camp)
+                        .leftJoin(indVoeuAvis, avis)
+                        .where(filter.f(BooleanTemplate.TRUE))
+                        .list(ind.getString("numDossierOpi"));
+
+        final F<String, Individu> getInd = new F<String, Individu>() {
+            public Individu f(String num) {
+                return from(indEnt).where(ind.getString("numDossierOpi").eq(num)).uniqueResult(indEnt);
+            }
+        };
+
+        return iterableStream(numsDossierOpi).map(getInd);
     }
 
 }

@@ -241,16 +241,16 @@ public class IndividuController extends AbstractAccessController {
                     IndRechPojo indRechPojo = individuPaginator.getIndRechPojo();
                     // 1. les numdossier, nom, prenom
                     fromString(indRechPojo.getNumDossierOpiRecherche())
-                            .map(applyPut("numDossierOpi", filters).e());
+                            .foreach(applyPut("numDossierOpi", filters));
                     fromString(indRechPojo.getNomRecherche())
-                            .map(applyPut("nomPatronymique", filters).e());
+                            .foreach(applyPut("nomPatronymique", filters));
                     fromString(indRechPojo.getPrenomRecherche())
-                            .map(applyPut("prenom", filters).e());
+                            .foreach(applyPut("prenom", filters));
 
                     // Hack pour filtrer ou non les individus sans voeux :
                     // indRechPojo.useVoeuFilter est positionné dans les vues par f:event
                     iif(indRechPojo.isUseVoeuFilter(), "true")
-                            .map(applyPut("useVoeuFilter", filters).e());
+                            .foreach(applyPut("useVoeuFilter", filters));
 
                     // 2. le ou les types de décision
                     final List<TypeDecision> typesDec = indRechPojo.getTypesDec();

@@ -5,30 +5,19 @@
 package org.esupportail.opi.dao;
 
 import static com.mysema.query.types.ConstantImpl.create;
-import static fj.data.List.iterableList;
-import static fj.data.List.list;
-import static fj.data.Option.some;
 import static fj.data.Option.somes;
 
 import java.lang.Class;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import com.mysema.query.jpa.JPQLSubQuery;
-import com.mysema.query.jpa.hibernate.HibernateSubQuery;
-import com.mysema.query.types.Predicate;
-import com.mysema.query.types.path.EntityPathBase;
-import com.mysema.query.types.path.SetPath;
-import fj.*;
 import org.esupportail.commons.dao.AbstractJdbcJndiHibernateDaoService;
 import org.esupportail.commons.dao.HqlUtils;
 import org.esupportail.commons.services.application.UninitializedDatabaseException;
 import org.esupportail.commons.services.application.VersionningUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.opi.dao.utils.PaginatorFactory;
 import org.esupportail.opi.domain.beans.VersionManager;
 import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
@@ -58,7 +47,6 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
 import org.esupportail.opi.utils.Constantes;
-import org.esupportail.opi.utils.primefaces.PFFilters;
 import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.LockMode;
@@ -70,12 +58,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.orm.hibernate3.HibernateSystemException;
 import org.springframework.util.StringUtils;
-
-import com.mysema.query.jpa.hibernate.HibernateQuery;
-import com.mysema.query.types.path.PathBuilder;
-
-import fj.data.Option;
-import fj.data.Stream;
 
 /**
  * The Hibernate implementation of the DAO service.
@@ -340,10 +322,14 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 	}
 
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Individu> getIndividus(final Commission commission, final Boolean validate,
-	    final List<String> listeRICodes) {
+
+    /**
+     * @deprecated : use {@link IndividuDaoService#getIndividus(org.esupportail.opi.domain.beans.references.commission.Commission, Boolean, java.util.Set)}
+     */
+    @Deprecated
+    @SuppressWarnings("unchecked")
+    public List<Individu> getIndividus(final Commission commission, final Boolean validate,
+	    final Set<Integer> listeRICodes) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getIndividu( " + commission + ", " + validate + " )");
 		}
@@ -365,13 +351,13 @@ public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService
 		if (listeRICodes != null) {
 			hqlQuery += " AND (v.linkTrtCmiCamp.campagne.codeRI in (";
 			boolean firstRI = true;	
-			for (String rICode : listeRICodes) {
+			for (Integer rICode : listeRICodes) {
 				if (firstRI)	{
-					hqlQuery += rICode;
+					hqlQuery += rICode.toString();
 					firstRI = false;
 				} else {
 					hqlQuery += ",";
-					hqlQuery += rICode;
+					hqlQuery += rICode.toString();
 				}
 			}
 			hqlQuery += ")) ";

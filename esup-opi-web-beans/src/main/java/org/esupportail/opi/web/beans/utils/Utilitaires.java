@@ -1,6 +1,10 @@
 package org.esupportail.opi.web.beans.utils;
 
 
+import fj.Effect;
+import fj.F;
+import fj.P1;
+import fj.P5;
 import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.commons.services.logging.Logger;
@@ -34,6 +38,7 @@ import org.springframework.util.StringUtils;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import java.io.File;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -398,16 +403,20 @@ public class Utilitaires {
 		
 		return null;
 	}
-	
+
+    public static F<SmtpService, Effect<P5<InternetAddress, String, String, String, List<File>>>> sendEmail =
+            new F<SmtpService, Effect<P5<InternetAddress, String, String, String, List<File>>>>() {
+                public Effect<P5<InternetAddress, String, String, String, List<File>>> f(final SmtpService smtpService) {
+                    return new Effect<P5<InternetAddress, String, String, String, List<File>>>() {
+                        public void e(P5<InternetAddress, String, String, String, List<File>> p5) {
+                            smtpService.send(p5._1(), p5._2(), p5._3(), p5._4(), p5._5());
+                        }
+                    };
+                }
+            };
 
 	/**
 	 * send Email to the individual.
-	 * @param subject
-	 * @param htmlBody
-	 * @param endBody
-	 * @param ind
-	 * @param smtpService
-	 * @param iService
 	 */
 	public static void sendEmailIndividu(final String subject, 
 			final String htmlBody, 

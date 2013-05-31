@@ -13,6 +13,7 @@
         <description>
             This bean is the transaction manager.
         </description>
+        <property name="dataSource" ref="JDBCdatasource" />
         <property name="useJndi" value="${hibernate.useJndi}" />
         <property name="jdbcSessionFactoryBeanName" value="jdbcSessionFactory" />
         <property name="jndiSessionFactoryBeanName" value="jndiSessionFactory" />
@@ -199,8 +200,9 @@
 	</bean>
 
     <bean id="individuDaoService" class="org.esupportail.opi.dao.IndividuDaoServiceImpl"
-          factory-method="individuDaoSrv">
+          factory-method="individuDaoSrv" lazy-init="true">
         <constructor-arg ref="paginatorFactory" />
+        <constructor-arg ref="txManager" />
     </bean>
 	
     <bean id="paramDaoService" 

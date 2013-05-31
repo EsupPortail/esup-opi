@@ -5,11 +5,9 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean
-            id="smtpService"
-            class="org.esupportail.commons.services.smtp.AsynchronousSmtpServiceImpl"
-            lazy-init="true"
-            >
+    <bean id="smtpService"
+          class="org.esupportail.commons.services.smtp.AsynchronousSmtpServiceImpl"
+          lazy-init="true">
         <property name="servers">
             <list>
                 <ref bean="smtpServer"/>
@@ -23,38 +21,30 @@
         <property name="charset" value="${smtp.charset}"/>
     </bean>
 
-    <bean
-            id="smtpFromAddress"
-            class="javax.mail.internet.InternetAddress"
-            lazy-init="true"
-            >
+    <bean id="smtpFromAddress"
+          class="javax.mail.internet.InternetAddress"
+          lazy-init="true">
         <property name="address" value="${smtp.fromEmail}"/>
         <property name="personal" value="${smtp.fromName}"/>
     </bean>
 
-    <bean
-            id="smtpIntercept"
-            class="javax.mail.internet.InternetAddress"
-            lazy-init="true"
-            >
+    <bean id="smtpIntercept"
+          class="javax.mail.internet.InternetAddress"
+          lazy-init="true">
         <property name="address" value="${smtp.interceptEmail}"/>
         <property name="personal" value="${smtp.interceptName}"/>
     </bean>
 
-    <bean
-            id="smtpTestAddress"
-            class="javax.mail.internet.InternetAddress"
-            lazy-init="true"
-            >
+    <bean id="smtpTestAddress"
+          class="javax.mail.internet.InternetAddress"
+          lazy-init="true">
         <property name="address" value="${smtp.testEmail}"/>
         <property name="personal" value="${smtp.testName}"/>
     </bean>
 
-    <bean
-            id="smtpServer"
-            class="org.esupportail.commons.services.smtp.SmtpServer"
-            lazy-init="true"
-            >
+    <bean id="smtpServer"
+          class="org.esupportail.commons.services.smtp.SmtpServer"
+          lazy-init="true">
         <property name="host" value="${smtp.host}"/>
         <property name="port" value="${smtp.port}"/>
         <property name="user" value="${smtp.user}"/>

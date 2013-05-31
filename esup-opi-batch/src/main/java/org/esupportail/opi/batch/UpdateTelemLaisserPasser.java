@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import fj.data.Stream;
 import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.services.application.ApplicationService;
 import org.esupportail.commons.services.application.ApplicationUtils;
@@ -57,19 +58,20 @@ public class UpdateTelemLaisserPasser  {
 			DatabaseUtils.open();
 			DatabaseUtils.begin();
 			Set<Commission> commissions = parameterService.getCommissions(true);
-			List<Individu> iAlreadyAddInApo = new ArrayList<Individu>();
+			List<Individu> iAlreadyAddInApo = new ArrayList<>();
 			int nbIndApo = 0;
 			for (Commission cmi : commissions) {
-				List<Individu> individus = domainService.getIndividusCommission(cmi, true, null);
-				
-				List<VersionEtpOpi> vets = new ArrayList<VersionEtpOpi>();
+				Stream<Individu> individus = domainService.getIndividusCommission(cmi, true, null);
+
+                // TODO : n'a pas l'air de servir à grand chose...
+				List<VersionEtpOpi> vets = new ArrayList<>();
 				for (TraitementCmi trt : cmi.getTraitementCmi()) {
 					vets.add(trt.getVersionEtpOpi());
 				}
 
 				for (Individu i : individus) {
 					if (!iAlreadyAddInApo.contains(i)) {
-						List<IndVoeu> list = new ArrayList<IndVoeu>();
+						List<IndVoeu> list = new ArrayList<>();
 						for (IndVoeu indVoeu : i.getVoeux()) {
 							if (indVoeu.getState().equals(EtatConfirme.I18N_STATE)) {
 								list.add(indVoeu);

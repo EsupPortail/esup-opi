@@ -132,13 +132,10 @@ public interface DaoService extends Serializable {
 	List<Individu> getIndividus(TraitementCmi trt);
 	
 	/**
-	 * Return the individuals managed by commission.
-	 * @param commission 
-	 * @param validate
-	 * @param listeRICodes
-	 * @return List< Individu>
+	 * @deprecated : use {@link IndividuDaoService#getIndividus(org.esupportail.opi.domain.beans.references.commission.Commission, Boolean, java.util.Set)}
 	 */
-	List<Individu> getIndividus(Commission commission, Boolean validate, List<String> listeRICodes);
+    @Deprecated
+	List<Individu> getIndividus(Commission commission, Boolean validate, Set<Integer> listeRICodes);
 
 	/**
 	 * withWishes if null return allIndividus in use.

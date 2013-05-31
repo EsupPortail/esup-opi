@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import fj.data.Stream;
 import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.services.application.ApplicationService;
 import org.esupportail.commons.services.application.ApplicationUtils;
@@ -66,7 +67,7 @@ public class SendMailConfirm  {
 			Set<Commission> commissions = parameterService.getCommissions(true);
 			int nbMailsSend = 0;
 			for (Commission cmi : commissions) {
-				List<Individu> individus = domainService.getIndividusCommission(cmi, true, null);
+				Stream<Individu> individus = domainService.getIndividusCommission(cmi, true, null);
 				
 				List<VersionEtpOpi> vets = new ArrayList<VersionEtpOpi>();
 				for (TraitementCmi trt : cmi.getTraitementCmi()) {
@@ -92,15 +93,15 @@ public class SendMailConfirm  {
 						
 						// récupération de la commission
 						CommissionPojo currentCmiPojo = new CommissionPojo(cmi, 
-								new AdressePojo(cmi.getContactsCommission().get(codeRi).getAdresse()),
-								cmi.getContactsCommission().get(codeRi));
+								new AdressePojo(cmi.getContactsCommission().get(codeRi.toString()).getAdresse()),
+								cmi.getContactsCommission().get(codeRi.toString()));
 						
 						htmlSubject = i18Service.getString("MAIL.CANDIDAT_AVIS.CONF.SUBJECT");
 						htmlDebut += i18Service.getString("MAIL.CANDIDAT_AVIS.CONF.HTMLTEXT_DEBUT", 
 								Utilitaires.getCivilite(i18Service,
 										i.getSexe()));
 						// list of libelle voeux
-						StringBuffer htmlList = new StringBuffer();
+						StringBuilder htmlList = new StringBuilder();
 						for (IndVoeu voeu : voeuxSendMail) {
 							TraitementCmi trtCmi = voeu.getLinkTrtCmiCamp().getTraitementCmi();
 							VersionEtapeDTO vet = domainApoService.getVersionEtape(
