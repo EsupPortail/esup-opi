@@ -185,6 +185,7 @@ public class AccueilController extends AbstractAccessController {
         		individu.getIndividu().getDateNaissance(),
                 false,
                 false);
+        getCurrentInd();
 
         if (getCurrentInd().getEtat() instanceof EtatInComplet) {
             //on informe l'individu qu'il doit completer sur dossier avant de deposer de voeux

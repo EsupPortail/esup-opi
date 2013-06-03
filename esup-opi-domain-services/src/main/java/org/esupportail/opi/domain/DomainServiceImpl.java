@@ -397,18 +397,16 @@ public class DomainServiceImpl implements DomainService {
 	 * org.esupportail.opi.domain.beans.user.Individu)
 	 */
 	public Boolean canInsertIndividu(final Individu individu) {
+		final String newNomPatronymique = individu.getNomPatronymique().toUpperCase();
+		final String newPrenom = individu.getPrenom().toUpperCase();
 		List<Individu> indInBase = getIndividuSearch(
-				individu.getNomPatronymique(), individu.getPrenom(), 
+				newNomPatronymique, newPrenom, 
 				individu.getDateNaissance(), individu.getCodPayNaissance(),
 				individu.getCodDepPaysNaissance());
 		if (!indInBase.isEmpty()) {
 			for (Individu ind : indInBase) {
-				if (ind.getVilleNaissance().equals(individu.getVilleNaissance())){
-					if((ind.getPrenom2() == null && individu.getPrenom2() == null)
-							|| (ind.getPrenom2() != null && individu.getPrenom2() != null
-							&& ind.getPrenom2().equals(individu.getPrenom2()))) {
-						return false;
-					}
+				if (ind.getVilleNaissance().equalsIgnoreCase(individu.getVilleNaissance())) {
+					return false;
 				}
 			}
 		}

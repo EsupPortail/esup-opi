@@ -606,6 +606,7 @@ public class IndividuController extends AbstractAccessController {
                 getDomainService().hasGestionnaireRightsOnStudent(
                         pojoIndividu.getIndividu().getVoeux(),
                         rightOnCmi));
+        getCurrentInd();
 
         if (getCurrentInd().getEtat() instanceof EtatInComplet) {
             //on informe l'individu qu'il doit completer sur dossier avant de deposer de voeux

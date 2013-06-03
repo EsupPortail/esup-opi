@@ -281,7 +281,6 @@ public class SessionController extends AbstractDomainAwareBean {
         }
         this.isManager = isManager;
         this.canUpdateStudent = canUpdateStudent;
-        getCurrentInd();
     }
 
     /**
