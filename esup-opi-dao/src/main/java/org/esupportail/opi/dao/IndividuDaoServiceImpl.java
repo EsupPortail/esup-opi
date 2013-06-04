@@ -10,7 +10,6 @@ import com.mysema.query.types.path.SetPath;
 import com.mysema.query.types.template.BooleanTemplate;
 import fj.F;
 import fj.Function;
-import fj.P1;
 import fj.P2;
 import fj.data.Option;
 import fj.data.Stream;
@@ -36,7 +35,6 @@ import static fj.P.p;
 import static fj.data.List.list;
 import static fj.data.Option.*;
 import static fj.data.Stream.iterableStream;
-import static fj.data.Stream.iterateWhile;
 import static org.esupportail.opi.utils.fj.Conversions.parseBoolean;
 
 @SuppressWarnings("unchecked")
@@ -264,17 +262,18 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                 )).foldLeft(Function.<BooleanExpression, BooleanExpression, BooleanExpression>andThen(),
                         Function.<BooleanExpression>identity());
 
-        final List<String> numsDossierOpi =
+        final List<Object[]> numsDossierOpi =
                 from(indEnt).distinct()
                         .leftJoin(indVoeux, indVoeu)
                         .innerJoin(indCamps, camp)
                         .leftJoin(indVoeuAvis, avis)
                         .where(filter.f(BooleanTemplate.TRUE))
-                        .list(ind.getString("numDossierOpi"));
+                        .orderBy(ind.getString("nomPatronymique").asc())
+                        .list(ind.getString("nomPatronymique"), ind.getString("numDossierOpi"));
 
-        final F<String, Individu> getInd = new F<String, Individu>() {
-            public Individu f(String num) {
-                return from(indEnt).where(ind.getString("numDossierOpi").eq(num)).uniqueResult(indEnt);
+        final F<Object[], Individu> getInd = new F<Object[], Individu>() {
+            public Individu f(Object[] p2) {
+                return from(indEnt).where(ind.getString("numDossierOpi").eq((String) p2[1])).uniqueResult(indEnt);
             }
         };
 

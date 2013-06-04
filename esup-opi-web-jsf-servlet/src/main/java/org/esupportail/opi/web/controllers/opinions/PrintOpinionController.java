@@ -1,7 +1,6 @@
 package org.esupportail.opi.web.controllers.opinions;
 
 import fj.F;
-import fj.Unit;
 import fj.data.Option;
 import fj.data.Stream;
 import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
@@ -31,10 +30,10 @@ import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.PDFUtils;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
-import org.esupportail.opi.web.utils.io.SuperCSV;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
 import org.esupportail.opi.web.controllers.user.IndividuController;
+import org.esupportail.opi.web.utils.io.SuperCSV;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.esupportail.wssi.services.remote.BacOuxEqu;
 import org.esupportail.wssi.services.remote.Pays;
@@ -58,12 +57,12 @@ import java.util.*;
 import java.util.zip.ZipOutputStream;
 
 import static fj.P.p;
+import static fj.data.Array.array;
 import static fj.data.IterableW.wrap;
 import static fj.data.Option.fromNull;
 import static fj.data.Stream.iterableStream;
-import static org.esupportail.opi.web.utils.io.SuperCSV.IOUnit.ioUnit;
-import static org.esupportail.opi.web.utils.io.SuperCSV.*;
 import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
+import static org.esupportail.opi.web.utils.io.SuperCSV.*;
 
 
 public class PrintOpinionController extends AbstractContextAwareController {
@@ -172,20 +171,11 @@ public class PrintOpinionController extends AbstractContextAwareController {
 
     private boolean renderTable;
 
-    /*
-          ******************* INIT ************************* */
-
-    /**
-     * Constructors.
-     */
     public PrintOpinionController() {
         super();
 
     }
 
-    /**
-     * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
-     */
     @Override
     public void reset() {
         commissionController.reset();
@@ -425,7 +415,6 @@ public class PrintOpinionController extends AbstractContextAwareController {
 
 
     public void generateCSVListesTransfert() {
-
         final F<IndividuPojo, IndividuPojo> removeVoeuTransfert = new F<IndividuPojo, IndividuPojo>() {
             public IndividuPojo f(IndividuPojo ip) {
                 ip.setIndVoeuxPojo(new HashSet<>(iterableStream(ip.getIndVoeuxPojo()).filter(new F<IndVoeuPojo, Boolean>() {
@@ -437,9 +426,13 @@ public class PrintOpinionController extends AbstractContextAwareController {
             }
         };
 
-        champsChoisis =
-                (champsChoisis == null) ? HEADER_CVS.toArray(new String[HEADER_CVS.size()]) : champsChoisis;
-        final String prefix = "listePrepa_" + commissionController.getCommission().getCode() + "_";
+        final String[] champs = array((champsChoisis == null) ?
+                HEADER_CVS.toArray(new String[HEADER_CVS.size()]) :
+                champsChoisis).array(String[].class);
+
+        final Commission commission = commissionController.getCommission().clone();
+
+        final String prefix = "listePrepa_" + commission.getCode() + "_";
         final String suffix = ".csv";
         final I18nService i18n = getI18nService();
 
@@ -453,11 +446,11 @@ public class PrintOpinionController extends AbstractContextAwareController {
             }
         }
 
-        try (FileHolder holder = new FileHolder();
-             SuperCSV<ICsvBeanWriter> csv = superCSV(holder.getFile(), champsChoisis)) {
+        try (final FileHolder holder = new FileHolder();
+             final SuperCSV<ICsvBeanWriter> csv = superCSV(holder.getFile(), champs)) {
             forEach(
                     getDomainService()
-                            .getIndividusCommission(commissionController.getCommission(), null, null)
+                            .getIndividusCommission(commission, null, null)
                             .map(removeVoeuTransfert.o(
                                     individuToPojo(getDomainApoService(), getParameterService(), getI18nService())))
                             .filter(new F<IndividuPojo, Boolean>() {
@@ -467,17 +460,16 @@ public class PrintOpinionController extends AbstractContextAwareController {
                             }),
                     new IOF<IndividuPojo, IOUnit>() {
                         public IOUnit fio(IndividuPojo ip) throws IOException {
-                            forEach(indPojoToLignes(ip), new IOF<LigneListePrepaPojo, IOUnit>() {
+                            return forEach(indPojoToLignes(ip, commission), new IOF<LigneListePrepaPojo, IOUnit>() {
                                 public IOUnit fio(LigneListePrepaPojo ligne) throws IOException {
-                                    return csv.map(SuperCSV.<LigneListePrepaPojo>write_().fio(p(ligne, champsChoisis)))
+                                    return csv.map(SuperCSV.<LigneListePrepaPojo>write_().fio(p(ligne, champs)))
                                             .run();
                                 }
                             });
-                            return ioUnit();
                         }
                     });
 
-            Utilitaires.sendEmail.f(smtpService).e(p(
+            Utilitaires.sendEmail.f(smtpService, false).e(p(
                     new InternetAddress(getSessionController().getCurrentUser().getAdressMail()),
                     i18n.getString("EXPORT.CSV.MAIL.SUBJECT"),
                     "",
@@ -485,13 +477,10 @@ public class PrintOpinionController extends AbstractContextAwareController {
                     Arrays.<File>asList(holder.getFile().toFile())
             ));
 
-            // TODO : pas possible ici !!
-            Files.delete(holder.getFile());
-
         } catch (Exception e) {
             log.error(e);
             try {
-                Utilitaires.sendEmail.f(smtpService).e(p(
+                Utilitaires.sendEmail.f(smtpService, false).e(p(
                         new InternetAddress(getSessionController().getCurrentUser().getAdressMail()),
                         i18n.getString("EXPORT.CSV.ERROR.MAIL.SUBJECT"),
                         "",
@@ -530,26 +519,19 @@ public class PrintOpinionController extends AbstractContextAwareController {
 		 * Generate a CSV of the list of student. 
 		 * @return String superCsvGeneration
 		 */
-	public Stream<LigneListePrepaPojo> indPojoToLignes(final IndividuPojo ind) {
-        Individu i = getDomainService().getIndividu(
-                ind.getIndividu().getNumDossierOpi(), ind.getIndividu().getDateNaissance());
-        Pays p = null;
-        CommuneDTO c = null;
+	public Stream<LigneListePrepaPojo> indPojoToLignes(IndividuPojo ind, Commission commission) {
+        Individu i = ind.getIndividu();
+        Pays pays = null;
+        CommuneDTO commune = null;
         Adresse adresse =  i.getAdresses().get(Constantes.ADR_FIX);
         if (adresse != null) {
-            if (c == null || !c.getCodeCommune().equals(adresse.getCodCommune())) {
-                c = getDomainApoService().getCommune(
-                        adresse.getCodCommune(), adresse.getCodBdi());
-            }
-            if (p == null || !p.getCodPay().equals(adresse.getCodPays())) {
-                p = getDomainApoService().getPays(
-                        adresse.getCodPays());
-            }
+            commune = getDomainApoService().getCommune(adresse.getCodCommune(), adresse.getCodBdi());
+            pays = getDomainApoService().getPays(adresse.getCodPays());
         }
         List<LigneListePrepaPojo> lignes = new ArrayList<>();
         for (IndVoeuPojo v : ind.getIndVoeuxPojo()) {
             LigneListePrepaPojo ligne = new LigneListePrepaPojo();
-            ligne.setCommission(this.commissionController.getCommission().getLibelle());
+            ligne.setCommission(commission.getLibelle());
             ligne.setNum_Dos_OPI(i.getNumDossierOpi());
             ligne.setNom_Patrony(i.getNomPatronymique());
             ligne.setPrenom(i.getPrenom());
@@ -567,15 +549,15 @@ public class PrintOpinionController extends AbstractContextAwareController {
                 ligne.setCedex(ExportUtils.isNotNull(adresse.getCedex()));
                 ligne.setCode_Postal(ExportUtils.isNotNull(adresse.getCodBdi()));
 					
-                if (c != null) {
-                    ligne.setLib_Commune(c.getLibCommune());
+                if (commune != null) {
+                    ligne.setLib_Commune(commune.getLibCommune());
                 } else {
                     ligne.setLib_Commune(ExportUtils.isNotNull(
                             adresse.getLibComEtr()));
                 }
 					
-                if (p != null) {
-                    ligne.setLib_Pays(p.getLibPay());
+                if (pays != null) {
+                    ligne.setLib_Pays(pays.getLibPay());
                 } else {
                     ligne.setLib_Pays("");
                 }
@@ -1373,5 +1355,6 @@ public class PrintOpinionController extends AbstractContextAwareController {
     public void doRenderTable() {
         renderTable = true;
     }
+
 }
 

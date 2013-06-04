@@ -25,6 +25,8 @@ import fj.Equal;
 import fj.F;
 import fj.F2;
 import fj.data.Stream;
+import gouv.education.apogee.commun.transverse.exception.Fault;
+import org.esupportail.commons.exceptions.EsupException;
 import org.esupportail.commons.exceptions.ObjectNotFoundException;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
@@ -311,25 +313,6 @@ public class DomainApoServiceImpl implements DomainApoService {
 		}
 	}
 
-	/** 
-	 * @see org.esupportail.opi.domain.DomainApoService#getEtape(java.lang.String)
-	 */
-	/**
-	 * TODO : ÃÂ  supprimer (11/01/2012)
-	 */
-//	public Etape getEtape(final String codeEtp) {
-//		if (log.isDebugEnabled()) {
-//			log.debug("entering getEtape( " + codeEtp + " )");
-//		}
-//		try {
-//			return remoteCriApogeeEns.getEtape(codeEtp);
-//		} catch (Exception e) {
-//			throw new CommunicationApogeeException(e);
-//		}
-//	}
-
-
-
 	//////////////////////////////////////////////////////////////
 	// Version Etape
 	//////////////////////////////////////////////////////////////
@@ -397,7 +380,6 @@ public class DomainApoServiceImpl implements DomainApoService {
 		        .withLibCmtVet("DOES NOT EXIST")
 		        .withLibWebVet("DOES NOT EXIST")
 		        .withLicEtp("DOES NOT EXIST");
-			//throw new CommunicationApogeeException(e);
 		}
 	}
 
@@ -504,28 +486,28 @@ public class DomainApoServiceImpl implements DomainApoService {
 	public List<CommuneDTO> getCommunesDTO(final String codBdi) {
 		log.info("entering getCommunes( " + codBdi + " ) request to webservices AMUE");
 		try {
-			List<CommuneDTO> c = new ArrayList<CommuneDTO>();
-
-			String temoinEnService = TRUE;
-			List<CommuneDTO> commune = remoteApoRenGeoMetier.recupererCommune(
-					codBdi, temoinEnService, temoinEnService);
-			for (CommuneDTO communeDTO : commune) {
-				c.add(communeDTO);
-			}
-			Collections.sort(c, new Comparator<CommuneDTO>() {
+			List<CommuneDTO> commune =
+                    remoteApoRenGeoMetier.recupererCommune(codBdi, TRUE, TRUE);
+			Collections.sort(commune, new Comparator<CommuneDTO>() {
 				@Override
 				public int compare(final CommuneDTO c1, final CommuneDTO c2) {
 					return c1.getLibCommune().compareToIgnoreCase(c2.getLibCommune());
 				}
 			});
-			return c;
+			return commune;
 		} catch (WebBaseException e) {
-			//technical.data.nullretrieve.commune
-			throw new ObjectNotFoundException("Ce code postal ( " + codBdi + " ) n'existe pas dans" +
-                    "la base de données APOGEE");
-		} catch (NullPointerException e) {
-			throw new CommunicationApogeeException(e);
-		}
+            Fault f = e.getFaultInfo();
+            if (f.getType().equals("technical") &&
+                    f.getDomaine().equals("data") &&
+                    f.getNature().equals("nullretrieve") &&
+                    f.getElement().equals("commune"))
+                log.warn("Ce code postal ( " + codBdi + " ) n'existe pas dans" +
+                        "la base de données APOGEE");
+            return new ArrayList<>();
+		} catch (Throwable t) {
+            log.error(t);
+            return new ArrayList<>();
+        }
 	}
 
 	/** 
@@ -535,11 +517,9 @@ public class DomainApoServiceImpl implements DomainApoService {
 	@Override
 	@Cacheable(cacheName = CacheModelConst.GEO_APOGEE_MODEL)
 	public List<org.esupportail.wssi.services.remote.CommuneDTO> 
-	getCommunes(final String codDep, 
-			final Boolean onlyLycee, final Boolean withEtab) {
+	getCommunes(final String codDep,final Boolean onlyLycee, final Boolean withEtab) {
 		try {
-			List<org.esupportail.wssi.services.remote.CommuneDTO> c = 
-				new ArrayList<org.esupportail.wssi.services.remote.CommuneDTO>();
+			List<org.esupportail.wssi.services.remote.CommuneDTO> c;
 			if (onlyLycee != null && onlyLycee) {
 				c = remoteCriApogeeRef.getCommunes(TRUE, codDep, "LY", null);
 			} else if (withEtab != null && withEtab) {
