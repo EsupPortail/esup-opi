@@ -17,6 +17,7 @@ import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV;
 import org.esupportail.opi.domain.beans.user.Adresse;
 import org.esupportail.opi.domain.beans.user.Individu;
+import org.esupportail.opi.domain.beans.user.User;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
 import org.esupportail.opi.services.export.CastorService;
@@ -426,11 +427,13 @@ public class PrintOpinionController extends AbstractContextAwareController {
             }
         };
 
+        // seems dumb but we prefer to access a copy of the session variable in case of concurrent accesses
         final String[] champs = array((champsChoisis == null) ?
                 HEADER_CVS.toArray(new String[HEADER_CVS.size()]) :
                 champsChoisis).array(String[].class);
 
         final Commission commission = commissionController.getCommission().clone();
+        final User currentUser = getSessionController().getCurrentUser();
 
         final String prefix = "listePrepa_" + commission.getCode() + "_";
         final String suffix = ".csv";
@@ -470,7 +473,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
                     });
 
             Utilitaires.sendEmail.f(smtpService, false).e(p(
-                    new InternetAddress(getSessionController().getCurrentUser().getAdressMail()),
+                    new InternetAddress(currentUser.getAdressMail()),
                     i18n.getString("EXPORT.CSV.MAIL.SUBJECT"),
                     "",
                     i18n.getString("EXPORT.CSV.MAIL.BODY"),
@@ -481,7 +484,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
             log.error(e);
             try {
                 Utilitaires.sendEmail.f(smtpService, false).e(p(
-                        new InternetAddress(getSessionController().getCurrentUser().getAdressMail()),
+                        new InternetAddress(currentUser.getAdressMail()),
                         i18n.getString("EXPORT.CSV.ERROR.MAIL.SUBJECT"),
                         "",
                         i18n.getString("EXPORT.CSV.ERROR.MAIL.BODY"),
