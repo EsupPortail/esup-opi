@@ -259,6 +259,44 @@ public class SessionController extends AbstractDomainAwareBean {
         }
         return (IndividuPojo) ContextUtils.getSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE);
     }
+    
+    /**
+     * @return the current {@link IndividuPojo}
+     */
+    @Override
+    public IndividuPojo getCurrentIndInit() {
+       
+            Individu individu = null;
+            User u = getCurrentUser();
+            if (u != null && u instanceof Individu) {
+                individu = (Individu) u;
+                individu = getDomainService().getIndividu(
+                        individu.getNumDossierOpi(), individu.getDateNaissance());
+            }
+            if (individu != null) {
+//                int codeRI = Utilitaires.getCodeRIIndividu(individu,
+//                        getDomainService());
+                //RegimeInscription regime = getRegimeIns().get(codeRI);
+                //Test l etat de l'individu
+//                individu = getDomainService().updateStateIndividu(
+//                        individu, authenticator.getManager());
+                //regime.getControlField());
+
+                IndividuPojo indPojo = new IndividuPojo(
+                        individu, getDomainApoService(),
+                        getI18nService(), getParameterService(),
+                        getRegimeIns().get(Utilitaires.getCodeRIIndividu(individu,
+                                getDomainService())), getParameterService().getTypeTraitements(),
+                        getParameterService().getCalendarRdv(), null);
+                // put boolean for the management and rights of update
+                indPojo.setIsManager(isManager);
+                indPojo.setIsUpdaterOfThisStudent(canUpdateStudent);
+                resetSessionLocale();
+                ContextUtils.setSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE, indPojo);
+            }
+        
+        return (IndividuPojo) ContextUtils.getSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE);
+    }
 
 
     /**
@@ -281,6 +319,7 @@ public class SessionController extends AbstractDomainAwareBean {
         }
         this.isManager = isManager;
         this.canUpdateStudent = canUpdateStudent;
+        getCurrentInd();
     }
 
     /**
@@ -519,4 +558,3 @@ public class SessionController extends AbstractDomainAwareBean {
     public boolean canUpdateStudent() { return canUpdateStudent; }
 
 }
-

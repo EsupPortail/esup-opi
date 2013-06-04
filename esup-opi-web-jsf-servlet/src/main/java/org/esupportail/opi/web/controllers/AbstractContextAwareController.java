@@ -86,6 +86,16 @@ public abstract class AbstractContextAwareController extends AbstractDomainAware
     public IndividuPojo getCurrentInd() {
         return sessionController.getCurrentInd();
     }
+    
+    /**
+     * Return the current user if is a Individu.
+     *
+     * @return Individu
+     */
+    @Override
+    public IndividuPojo getCurrentIndInit() {
+        return sessionController.getCurrentIndInit();
+    }
 
 
 }

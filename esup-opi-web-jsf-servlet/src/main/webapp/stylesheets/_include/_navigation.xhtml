@@ -3,10 +3,10 @@
     <p:menuitem id="accueil" action="#{welcomeController.goWelcome}"
                 value="#{msgs['NAVIGATION.TEXT.WELCOME']} "/>
     <p:menuitem id="faq" value="#{msgs['NAVIGATION.TEXT.FAQ']}"
-                onclick="openPage('/stylesheets/help/faq.html#whatIne','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
+                onclick="openPage('#{accueilController.context}/stylesheets/help/faq.html#whatIne','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
     <p:menuitem id="help" value="#{msgs['NAVIGATION.TEXT.CONTACT']}"
                 rendered="#{sessionController.regimeInsUser == null || !sessionController.regimeInsUser.displayInfoFC}"
-                onclick="openPage('/stylesheets/help/contact.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
+                onclick="openPage('#{accueilController.context}/stylesheets/help/contact.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
     <p:menuitem id="helpFC" value="#{msgs['NAVIGATION.TEXT.CONTACT']}"
                 rendered="#{sessionController.regimeInsUser != null &amp;&amp; sessionController.regimeInsUser.displayInfoFC}"
                 onclick="openPage('/stylesheets/help/contactFC.html','#{msgs['APPLICATION.BIG_TITLE']}','')"/>
