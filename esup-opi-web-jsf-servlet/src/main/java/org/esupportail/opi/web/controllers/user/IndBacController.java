@@ -4,8 +4,18 @@
 package org.esupportail.opi.web.controllers.user;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
+
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.commons.utils.ContextUtils;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
 import org.esupportail.opi.utils.Constantes;
@@ -21,14 +31,6 @@ import org.esupportail.wssi.services.remote.CommuneDTO;
 import org.esupportail.wssi.services.remote.Etablissement;
 import org.esupportail.wssi.services.remote.MentionNivBac;
 import org.springframework.util.StringUtils;
-
-import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 
 /**
@@ -89,6 +91,7 @@ public class IndBacController extends AbstractAccessController {
         indBac = new IndBac();
         indBacPojos = new ArrayList<IndBacPojo>();
         indBac.setCodPay(Constantes.CODEFRANCE);
+        indBac.setDateObtention(null);
         actionEnum = new ActionEnum();
     }
 
@@ -126,12 +129,13 @@ public class IndBacController extends AbstractAccessController {
      */
     public String goSeeIndBac() {
         reset();
-        IndividuPojo i = getCurrentInd();
+        IndividuPojo i = getCurrentIndInit();
         if (i != null) {
             if (i.getIndividu().getIndBac() == null
                     || i.getIndividu().getIndBac().isEmpty()) {
                 actionEnum.setWhatAction(ActionEnum.ADD_ACTION);
             } else {
+            	removeIndBac();
                 initIndBac(
                         new ArrayList<IndBac>(
                                 i.getIndividu().getIndBac()), false);
@@ -211,6 +215,7 @@ public class IndBacController extends AbstractAccessController {
             if (initDossier) {
                 myIndBac.setTemoinFromApogee(true);
             }
+            
             IndBacPojo indBacPojo = new IndBacPojo(myIndBac);
             if (StringUtils.hasText(myIndBac.getCodEtb())) {
                 indBacPojo.setEtablissement(
@@ -237,6 +242,7 @@ public class IndBacController extends AbstractAccessController {
                         getDomainApoService().getBacOuxEqu(
                                 myIndBac.getDateObtention(), myIndBac.getCodBac()));
             }
+            
             indBacPojos.add(indBacPojo);
         }
     }
