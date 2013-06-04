@@ -261,7 +261,7 @@ public class SessionController extends AbstractDomainAwareBean {
     }
     
     /**
-     * @return the current {@link IndividuPojo}
+     * @return the current {@link IndividuPojo} without using the cache
      */
     @Override
     public IndividuPojo getCurrentIndInit() {

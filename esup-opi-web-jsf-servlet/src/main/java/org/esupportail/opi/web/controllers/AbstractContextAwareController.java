@@ -88,7 +88,7 @@ public abstract class AbstractContextAwareController extends AbstractDomainAware
     }
     
     /**
-     * Return the current user if is a Individu.
+     * Return the current user if is a Individu without using the cache
      *
      * @return Individu
      */
