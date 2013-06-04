@@ -167,6 +167,14 @@ public abstract class AbstractDomainAwareBean extends AbstractJsfMessagesAwareBe
         // this method should be overriden
         return null;
     }
+    
+    /**
+     * @return the current individu.
+     */
+    protected IndividuPojo getCurrentIndInit() {
+        // this method should be overriden
+        return null;
+    }
 
     /**
      * @return the current user's locale.
