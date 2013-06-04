@@ -470,6 +470,7 @@
         <property name="commissionController" ref="commissionController"/>
         <property name="exportFormOrbeonController" ref="exportFormOrbeonController"/>
         <property name="castorService" ref="castorService"/>
+        <property name="smtpService" ref="smtpService" />
         <property name="inscriptionAdm" ref="inscriptionAdm"/>
         <property name="refused" ref="refused"/>
         <property name="transfert" ref="transfert"/>

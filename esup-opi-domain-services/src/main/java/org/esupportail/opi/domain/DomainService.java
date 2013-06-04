@@ -126,13 +126,15 @@ public interface DomainService extends Serializable {
 	
 	/**
 	 * Return the individuals managed by commission.
-	 * @param commission 
-	 * @param validate 
-	 * @param listeRI
-	 * @return List< Individu>
+	 *
+     *
+     *
+     * @param commission
+     * @param validate
+     * @param listeRI
+     * @return List< Individu>
 	 */
-	List<Individu> getIndividusCommission(Commission commission, Boolean validate,
-	    List<String> listeRI);
+	Stream<Individu> getIndividusCommission(Commission commission, Boolean validate, Set<Integer> listeRI);
 	
 	/**
 	 * Return all individus with a codeEtu.

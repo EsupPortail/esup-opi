@@ -79,8 +79,23 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
         dataProvider = (Either<P1<EntityManager>, P1<Session>>)
                 (genParam.equals(Session.class) ? right(mgr) : left(mgr));
         ttype = (Class<T>) getTType(Paginator.this.getClass().getGenericSuperclass(), 1);
-        ent = new EntityPathBase<T>(ttype, "ent");
-        tPath = new PathBuilder<T>(ttype, ent.getMetadata());        
+        ent = new EntityPathBase<>(ttype, "ent");
+        tPath = new PathBuilder<>(ttype, ent.getMetadata());
+    }
+
+    private Paginator(
+            Either<P1<EntityManager>, P1<Session>> dataProvider,
+            Class<T> ttype,
+            EntityPathBase<T> ent,
+            PathBuilder<T> tPath) {
+        this.dataProvider = dataProvider;
+        this.ttype = ttype;
+        this.ent = ent;
+        this.tPath = tPath;
+    }
+
+    public final Paginator<Q, T> withEntity(EntityPathBase<T> newEnt, PathBuilder<T> newTPath) {
+        return new Paginator(dataProvider, ttype, newEnt, newTPath) {};
     }
 
     // ################ reflection utilities ##############

@@ -4,6 +4,7 @@ import fj.P2;
 import fj.data.Option;
 import fj.data.Stream;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
+import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.utils.primefaces.PFFilters;
@@ -31,5 +32,11 @@ public interface IndividuDaoService {
                                           Option<Set<TraitementCmi>> trtCmis,
                                           Set<Integer> listCodesRI);
 
-
+    /**
+     * Return the individuals managed by commission.
+     *
+     */
+    public Stream<Individu> getIndividus(final Commission commission,
+                                         final Boolean validate,
+                                         final Set<Integer> listeRICodes);
 }

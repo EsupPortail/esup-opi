@@ -1,6 +1,7 @@
 package org.esupportail.opi.web.beans.utils;
 
 
+import fj.*;
 import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.commons.services.logging.Logger;
@@ -34,6 +35,8 @@ import org.springframework.util.StringUtils;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import java.io.File;
+import java.lang.Class;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -398,16 +401,25 @@ public class Utilitaires {
 		
 		return null;
 	}
-	
+
+    public static F2<SmtpService, Boolean, Effect<P5<InternetAddress, String, String, String, List<File>>>> sendEmail =
+            new F2<SmtpService, Boolean, Effect<P5<InternetAddress, String, String, String, List<File>>>>() {
+                public Effect<P5<InternetAddress, String, String, String, List<File>>> f(
+                        final SmtpService smtpService,
+                        final Boolean intercept) {
+                    return new Effect<P5<InternetAddress, String, String, String, List<File>>>() {
+                        public void e(P5<InternetAddress, String, String, String, List<File>> p5) {
+                            if (intercept)
+                                smtpService.send(p5._1(), p5._2(), p5._3(), p5._4(), p5._5());
+                            else
+                                smtpService.sendDoNotIntercept(p5._1(), p5._2(), p5._3(), p5._4(), p5._5());
+                        }
+                    };
+                }
+            };
 
 	/**
 	 * send Email to the individual.
-	 * @param subject
-	 * @param htmlBody
-	 * @param endBody
-	 * @param ind
-	 * @param smtpService
-	 * @param iService
 	 */
 	public static void sendEmailIndividu(final String subject, 
 			final String htmlBody, 
@@ -562,10 +574,6 @@ public class Utilitaires {
 	
 	/**
 	 * List of the commisions managed by the gestionnaire.
-	 * @param gest 
-	 * @param domainApoService 
-	 * @param parameterService 
-	 * @return Set< Commission>
 	 */
 	public static Set<CentreGestion> getListCgeByRight(
 			final Gestionnaire gest,
@@ -601,12 +609,6 @@ public class Utilitaires {
 		return listEtpByRight;
 	}
 	
-	/**
-	 * @param codEtp
-	 * @param codeCge
-	 * @param domainApoService
-	 * @return boolean
-	 */
 	public static boolean isEtpInCge(final String codEtp, final String codCge,
 			final DomainApoService domainApoService) {
 		List<VersionEtapeDTO> listEtp = domainApoService.getVersionEtapes(codEtp, null, codCge, null);
@@ -614,11 +616,6 @@ public class Utilitaires {
 		return listEtp != null && !listEtp.isEmpty();
 	}
 	
-	/**
-	 * @param gest
-	 * @param domainApoService
-	 * @return Set< VersionEtapeDTO >
-	 */
 	public static Set<VersionEtapeDTO> getListEtpDtoByRight(final Gestionnaire gest,
 			final DomainApoService domainApoService) {
 		Set<VersionEtapeDTO> listEtpByRight = new HashSet<VersionEtapeDTO>();
@@ -637,13 +634,6 @@ public class Utilitaires {
 		return listEtpByRight;
 	}
 	
-	/**
-	 * @param listEtpByRight
-	 * @param vet
-	 * @param gest
-	 * @param domainApoService
-	 * @return boolean
-	 */
 	public static boolean isVetByRight(final Set<VersionEtpOpi> listEtpByRight, final VersionEtpOpi vet,
 			final Gestionnaire gest, final DomainApoService domainApoService) {
 		if (StringUtils.hasText(gest.getCodeCge())) {
@@ -655,10 +645,6 @@ public class Utilitaires {
 		return true;
 	}
 	
-	/**
-	 * @param cIns
-	 * @return Boolean true if cIns is open.
-	 */
 	public static Boolean calIsOpen(final CalendarIns cIns) {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("entering calIsOpen. cIns = " + cIns);
@@ -687,9 +673,6 @@ public class Utilitaires {
 
 	/**
 	 * The civility for the individu's sex.
-	 * @param iService
-	 * @param sexe
-	 * @return String
 	 */
 	public static String getCivilite(final I18nService iService, final String sexe) {
 		String civilite = "";
@@ -707,9 +690,6 @@ public class Utilitaires {
 
 	/**
 	 * convert the type date to string.
-	 * @param d
-	 * @param format
-	 * @return String
 	 */
 	public static String convertDateToString(final Date d, final String format) {
 		if (d != null) {
@@ -721,8 +701,6 @@ public class Utilitaires {
 
 	/**
 	 * Return address of cmi in format text html for send mail.
-	 * @param iService
-	 * @param cmiPojo
 	 * @param justMailAndTel if null all adr, true just mail and tel, false adr postale
 	 * @return String
 	 */
@@ -796,12 +774,6 @@ public class Utilitaires {
 	}
 	
 	
-	/**
-	 * @param codEtu
-	 * @param regex
-	 * @param pattern
-	 * @return String
-	 */
 	public static String getCheckCodEtu(final String codEtu, final String regex, final String pattern) {
 		if (regex != null && !regex.isEmpty() && pattern != null && !pattern.isEmpty()) {
 			if (isStringValid(codEtu, regex)) {
@@ -812,10 +784,6 @@ public class Utilitaires {
 		return codEtu;
 	}
 	
-	/**
-	 * @param Object
-	 * @return Class< ? >
-	 */
 	public static Class< ? > getClass(final Object o) {
 		if (o.getClass().getName().matches(".*(_\\$\\$_javassist_).*")) {
 			return o.getClass().getSuperclass();
@@ -824,10 +792,6 @@ public class Utilitaires {
 		return o.getClass();
 	}
 	
-	/**
-	 * @param voeuPojo 
-	 * @return CalendarRDV
-	 */
 	@RequestCache
 	public static CalendarRDV getRecupCalendarRdv(final IndVoeu voeu,
 			final List<CalendarRDV> listCalendrierParam) {
@@ -855,10 +819,7 @@ public class Utilitaires {
 		
 		return calendar;
 	}
-	/**
-	 * @param voeuPojo 
-	 * @return CalendarRDV
-	 */
+
 	@RequestCache
 	public static Set<CalendarRDV> getRecupCalDuVeou(final IndVoeu voeu,
 			final List<CalendarRDV> listCalendrierParam) {

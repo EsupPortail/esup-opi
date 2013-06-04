@@ -302,11 +302,11 @@ public class DomainServiceImpl implements DomainService {
 	 * (org.esupportail.opi.domain.beans.references.commission.Commission, java.lang.Boolean)
 	 */
 	@Override
-	public List<Individu> getIndividusCommission(final Commission commission, final Boolean validate, final List<String> listeCodesRI) {
-		if (log.isDebugEnabled()) {
+	public Stream<Individu> getIndividusCommission(final Commission commission, final Boolean validate, final Set<Integer> listeCodesRI) {
+		if (log.isDebugEnabled())
 			log.debug("entering getIndividus( " + commission + ", " + validate +  " )");
-		}
-		return this.daoService.getIndividus(commission, validate, listeCodesRI);
+
+		return individuDaoSrv.getIndividus(commission, validate, listeCodesRI);
 	}
 	
 	/** 

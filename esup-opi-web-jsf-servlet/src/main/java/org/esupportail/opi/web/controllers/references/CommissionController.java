@@ -976,12 +976,14 @@ public class CommissionController
 				commission.getId(), commission.getCode());
 
 		 // recuperation de la liste des individus ayant fait un voeu dans la commission
-		List<Individu> listeInd = getDomainService().getIndividusCommission(
-		    commission, null, wrap(listeRI).map(
-		        new F<RegimeInscription, String>() {
-                    public String f(RegimeInscription ri) {
-                        return String.valueOf(ri.getCode());
-                    }}).toStandardList());
+		List<Individu> listeInd = new ArrayList<>(
+                getDomainService().getIndividusCommission(
+                        commission, null, new HashSet<>(wrap(listeRI).map(
+                        new F<RegimeInscription, Integer>() {
+                            public Integer f(RegimeInscription ri) {
+                                return ri.getCode();
+                            }
+                        }).toStandardList())).toCollection());
 
 		Set<Commission> listComm = new HashSet<Commission>();
 		listComm.add(commission);

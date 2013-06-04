@@ -1,33 +1,15 @@
 package org.esupportail.opi.web.controllers.opinions;
 
-import static fj.data.IterableW.wrap;
-import static fj.data.Option.fromNull;
-import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.zip.ZipOutputStream;
-
-import javax.faces.context.FacesContext;
-
+import fj.F;
+import fj.data.Option;
+import fj.data.Stream;
+import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
+import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.opi.domain.beans.parameters.InscriptionAdm;
-import org.esupportail.opi.domain.beans.parameters.Refused;
-import org.esupportail.opi.domain.beans.parameters.Transfert;
-import org.esupportail.opi.domain.beans.parameters.TypeDecision;
-import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
+import org.esupportail.opi.domain.beans.parameters.*;
 import org.esupportail.opi.domain.beans.references.calendar.CalendarCmi;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.ContactCommission;
@@ -42,14 +24,7 @@ import org.esupportail.opi.services.export.ISerializationService;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
-import org.esupportail.opi.web.beans.pojo.AdressePojo;
-import org.esupportail.opi.web.beans.pojo.IndCursusScolPojo;
-import org.esupportail.opi.web.beans.pojo.IndListePrepaPojo;
-import org.esupportail.opi.web.beans.pojo.IndRechPojo;
-import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
-import org.esupportail.opi.web.beans.pojo.IndividuPojo;
-import org.esupportail.opi.web.beans.pojo.LigneListePrepaPojo;
-import org.esupportail.opi.web.beans.pojo.NotificationOpinion;
+import org.esupportail.opi.web.beans.pojo.*;
 import org.esupportail.opi.web.beans.utils.ExportUtils;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.PDFUtils;
@@ -58,40 +33,47 @@ import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
 import org.esupportail.opi.web.controllers.user.IndividuController;
+import org.esupportail.opi.web.utils.io.SuperCSV;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.esupportail.wssi.services.remote.BacOuxEqu;
 import org.esupportail.wssi.services.remote.Pays;
 import org.esupportail.wssi.services.remote.SignataireDTO;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
+import org.supercsv.io.ICsvBeanWriter;
 
-import fj.F;
-import fj.data.Option;
-import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
+import javax.faces.context.FacesContext;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.zip.ZipOutputStream;
+
+import static fj.P.p;
+import static fj.data.Array.array;
+import static fj.data.IterableW.wrap;
+import static fj.data.Option.fromNull;
+import static fj.data.Stream.iterableStream;
+import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
+import static org.esupportail.opi.web.utils.io.SuperCSV.*;
 
 
-/**
- * @author tducreux
- *         PrintOpinionController :
- */
 public class PrintOpinionController extends AbstractContextAwareController {
 
+    // ******************* PROPERTIES *******************
 
-    /*
-      ******************* PROPERTIES ******************* */
-    /**
-     * the serialization id.
-     */
     private static final long serialVersionUID = 7174653291470562703L;
 
-    /**
-     *
-     */
     private static final List<String> HEADER_CVS =
             new ArrayList<String>() {
-
                 private static final long serialVersionUID = 4451087010675988608L;
-
                 {
                     add("Commission");
                     add("Num_Dos_OPI");
@@ -126,10 +108,6 @@ public class PrintOpinionController extends AbstractContextAwareController {
                 }
             };
 
-
-    /**
-     * A logger.
-     */
     private final Logger log = new LoggerImpl(getClass());
 
     /**
@@ -169,69 +147,35 @@ public class PrintOpinionController extends AbstractContextAwareController {
 
     private IndividuController individuController;
 
-    /**
-     * see {@link CommissionController}.
-     */
     private CommissionController commissionController;
 		
-    /**
-     * see {@link ExportFormOrbeonController}.
-     */
     private ExportFormOrbeonController exportFormOrbeonController;
 
-    /**
-     * The actionEnum.
-     */
     private ActionEnum actionEnum;
 
-    /**
-     * see {@link InscriptionAdm}.
-     */
     private InscriptionAdm inscriptionAdm;
 
-    /**
-     * Print only notification fot Defavorable.
-     */
     private Boolean printOnlyDef;
 
-    /**
-     * see {@link Refused}.
-     */
     private Refused refused;
 
-    /**
-     * see {@link Transfert}.
-     */
     private Transfert transfert;
 
-    /**
-     * Service to generate Xml.
-     */
     private ISerializationService castorService;
 
-    /**
-     * individuPojoSelected.
-     */
+    private SmtpService smtpService;
+
     private IndividuPojo individuPojoSelected;
 
     private LazyDataModel<IndividuPojo> indPojoLDM;
 
     private boolean renderTable;
 
-    /*
-          ******************* INIT ************************* */
-
-    /**
-     * Constructors.
-     */
     public PrintOpinionController() {
         super();
 
     }
 
-    /**
-     * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
-     */
     @Override
     public void reset() {
         commissionController.reset();
@@ -301,7 +245,10 @@ public class PrintOpinionController extends AbstractContextAwareController {
      */
     public void seeCandidats() {
         makeAllIndividus(
-                individuController.getIndividuPaginator().getIndRechPojo().getSelectValid(), false, true);
+                individuController
+                        .getIndividuPaginator()
+                        .getIndRechPojo()
+                        .getSelectValid(), false, true);
     }
 
     /**
@@ -310,9 +257,12 @@ public class PrintOpinionController extends AbstractContextAwareController {
      */
     public void printPDFValidation() {
         makeAllIndividus(
-                individuController.getIndividuPaginator().getIndRechPojo().getSelectValid(), true, true);
+                individuController
+                        .getIndividuPaginator()
+                        .getIndRechPojo()
+                        .getSelectValid(), true, true);
         makePDFValidation();
-        this.lesIndividus = new ArrayList<IndividuPojo>();
+        this.lesIndividus = new ArrayList<>();
     }
 
     /**
@@ -321,10 +271,13 @@ public class PrintOpinionController extends AbstractContextAwareController {
      */
     public void makeCsvValidation() {
         makeAllIndividus(
-                individuController.getIndividuPaginator().getIndRechPojo().getSelectValid(), true, true);
+                individuController
+                        .getIndividuPaginator()
+                        .getIndRechPojo()
+                        .getSelectValid(), true, true);
         csvGeneration(lesIndividus,
                 "exportAvis_" + commissionController.getCommission().getCode() + ".csv");
-        this.lesIndividus = new ArrayList<IndividuPojo>();
+        this.lesIndividus = new ArrayList<>();
     }
 
     /**
@@ -335,7 +288,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
         IndRechPojo pojo = individuController.getIndividuPaginator().getIndRechPojo();
 
         Option<Integer> idComOpt = fromNull(pojo.getIdCmi());
-        List<RegimeInscription> listRI = new ArrayList<RegimeInscription>(pojo.getListeRI());
+        List<RegimeInscription> listRI = new ArrayList<>(pojo.getListeRI());
 
         for (Integer idCom : idComOpt)
             exportFormOrbeonController.makeCsvFormulaire(
@@ -416,17 +369,17 @@ public class PrintOpinionController extends AbstractContextAwareController {
         // hibernate session reattachment
         com = getParameterService().getCommission(com.getId(), com.getCode());
 
-        List<Individu> listeInd = getDomainService().getIndividusCommission(
-                com, null,
-                wrap(commissionController.getListeRI()).map(
-                        new F<RegimeInscription, String>() {
-                            public String f(RegimeInscription ri) {
-                                return String.valueOf(ri.getCode());
-                            }
-                        }).toStandardList());
-        log.debug("after list individus");
+        List<Individu> listeInd = new ArrayList<>(
+                getDomainService().getIndividusCommission(
+                        com, null,new HashSet<>(
+                        wrap(commissionController.getListeRI()).map(
+                                new F<RegimeInscription, Integer>() {
+                                    public Integer f(RegimeInscription ri) {
+                                        return ri.getCode();
+                                    }
+                                }).toStandardList())).toCollection());
 
-        Set<Commission> listComm = new HashSet<Commission>();
+        Set<Commission> listComm = new HashSet<>();
         listComm.add(com);
 
         List<IndividuPojo> listeIndPojo =
@@ -461,53 +414,83 @@ public class PrintOpinionController extends AbstractContextAwareController {
     }
 
 
-    /**
-     * Generate the CVS de la liste preparatoire de la commission.
-     * call in printListsPrepa.jsp
-     */
     public void generateCSVListesTransfert() {
-        /**
-         * recuperation de la liste des individus ayant fait un voeu dans la commission
-         */
-        //String includeTypeTrt = "'" + transfert.getCode() + "'";
-
-        List<Individu> listeInd = getDomainService().getIndividusCommission(
-                commissionController.getCommission(), null, null);
-        log.debug("after list individus");
-        Set<Commission> listComm = new HashSet<Commission>();
-        Commission c = getParameterService().getCommission(commissionController.getCommission().getId(), null);
-        listComm.add(c);
-
-        List<IndividuPojo> listeIndPojo =
-                Utilitaires.convertIndInIndPojo(listeInd,
-                        getParameterService(), getI18nService(),
-                        getDomainApoService(), listComm, null,
-                        getParameterService().getTypeTraitements(),
-                        getParameterService().getCalendarRdv(), null, false);
-
-        // on filtre les voeux
-
-        for (IndividuPojo iPojo : listeIndPojo) {
-            iPojo.initIndCursusScolPojo(getDomainApoService(), getI18nService());
-
-            // on enlève les voeux non en transfert
-            Set<IndVoeuPojo> voeuxToRemove = new HashSet<IndVoeuPojo>();
-            for (IndVoeuPojo iVoeuP : iPojo.getIndVoeuxPojo()) {
-                if (!iVoeuP.getTypeTraitement().equals(transfert)) {
-                    voeuxToRemove.add(iVoeuP);
-                }
+        final F<IndividuPojo, IndividuPojo> removeVoeuTransfert = new F<IndividuPojo, IndividuPojo>() {
+            public IndividuPojo f(IndividuPojo ip) {
+                ip.setIndVoeuxPojo(new HashSet<>(iterableStream(ip.getIndVoeuxPojo()).filter(new F<IndVoeuPojo, Boolean>() {
+                    public Boolean f(IndVoeuPojo indVoeuPojo) {
+                        return !indVoeuPojo.getTypeTraitement().equals(transfert);
+                    }
+                }).toCollection()));
+                return ip;
             }
-            iPojo.getIndVoeuxPojo().removeAll(voeuxToRemove);
+        };
 
-            // enleve les etudiants sans voeux restant
-            if (!iPojo.getIndVoeuxPojo().isEmpty()) {
-                this.lesIndividus.add(iPojo);
+        final String[] champs = array((champsChoisis == null) ?
+                HEADER_CVS.toArray(new String[HEADER_CVS.size()]) :
+                champsChoisis).array(String[].class);
+
+        final Commission commission = commissionController.getCommission().clone();
+
+        final String prefix = "listePrepa_" + commission.getCode() + "_";
+        final String suffix = ".csv";
+        final I18nService i18n = getI18nService();
+
+        // a helper class to get a handle on the temp Path within the try-with-resources block
+        class FileHolder implements Closeable {
+            private Path path;
+            public void close() throws IOException {}
+            public Path getFile() throws IOException {
+                if (path == null) path = Files.createTempFile(prefix, suffix);
+                return path;
             }
-
         }
-        csvGeneration(lesIndividus,
-                "listePrepa_" + commissionController.getCommission().getCode() + ".csv");
-        this.lesIndividus = new ArrayList<IndividuPojo>();
+
+        try (final FileHolder holder = new FileHolder();
+             final SuperCSV<ICsvBeanWriter> csv = superCSV(holder.getFile(), champs)) {
+            forEach(
+                    getDomainService()
+                            .getIndividusCommission(commission, null, null)
+                            .map(removeVoeuTransfert.o(
+                                    individuToPojo(getDomainApoService(), getParameterService(), getI18nService())))
+                            .filter(new F<IndividuPojo, Boolean>() {
+                                public Boolean f(IndividuPojo ip) {
+                                    return !ip.getIndVoeuxPojo().isEmpty();
+                                }
+                            }),
+                    new IOF<IndividuPojo, IOUnit>() {
+                        public IOUnit fio(IndividuPojo ip) throws IOException {
+                            return forEach(indPojoToLignes(ip, commission), new IOF<LigneListePrepaPojo, IOUnit>() {
+                                public IOUnit fio(LigneListePrepaPojo ligne) throws IOException {
+                                    return csv.map(SuperCSV.<LigneListePrepaPojo>write_().fio(p(ligne, champs)))
+                                            .run();
+                                }
+                            });
+                        }
+                    });
+
+            Utilitaires.sendEmail.f(smtpService, false).e(p(
+                    new InternetAddress(getSessionController().getCurrentUser().getAdressMail()),
+                    i18n.getString("EXPORT.CSV.MAIL.SUBJECT"),
+                    "",
+                    i18n.getString("EXPORT.CSV.MAIL.BODY"),
+                    Arrays.<File>asList(holder.getFile().toFile())
+            ));
+
+        } catch (Exception e) {
+            log.error(e);
+            try {
+                Utilitaires.sendEmail.f(smtpService, false).e(p(
+                        new InternetAddress(getSessionController().getCurrentUser().getAdressMail()),
+                        i18n.getString("EXPORT.CSV.ERROR.MAIL.SUBJECT"),
+                        "",
+                        i18n.getString("EXPORT.CSV.ERROR.MAIL.BODY"),
+                        Collections.<File>emptyList()));
+
+            } catch (AddressException ae) {
+                log.error(ae);
+            }
+        }
     }
 
 
@@ -520,9 +503,9 @@ public class PrintOpinionController extends AbstractContextAwareController {
      */
     public String csvGeneration(final List<IndividuPojo> individus, final String fileName) {
         if (champsChoisis == null) {
-			champsChoisis = HEADER_CVS.toArray(new String[0]);
+			champsChoisis = HEADER_CVS.toArray(new String[HEADER_CVS.size()]);
 		}
-		List<LigneListePrepaPojo> listePrepa = getLigneListPrepa(individus);
+		List<LigneListePrepaPojo> listePrepa = new ArrayList<>(); //indPojoToLignes(individus);
 		try {
 			ExportUtils.superCsvGenerate(listePrepa, champsChoisis, fileName);
 		} catch (IOException e) {
@@ -534,168 +517,154 @@ public class PrintOpinionController extends AbstractContextAwareController {
 
 		/**
 		 * Generate a CSV of the list of student. 
-		 * @param individus 
 		 * @return String superCsvGeneration
 		 */
-	public List<LigneListePrepaPojo> getLigneListPrepa(final List<IndividuPojo> individus) {
-		//key ligne value value list
-		List<LigneListePrepaPojo> listePrepaPojo = new ArrayList<LigneListePrepaPojo>(); 
-		Collections.sort(individus, new ComparatorString(IndividuPojo.class));
-		for (IndividuPojo ind : individus) {
-			Individu i = getDomainService().getIndividu(ind.getIndividu().getNumDossierOpi(), ind.getIndividu().getDateNaissance());
-			Pays p = null;
-			CommuneDTO c = null;
-			Adresse adresse =  i.getAdresses().get(Constantes.ADR_FIX);
-			if (adresse != null) {
-				if (c == null || !c.getCodeCommune().equals(adresse.getCodCommune())) {
-					c = getDomainApoService().getCommune(
-							adresse.getCodCommune(), adresse.getCodBdi());
-				}
-				if (p == null || !p.getCodPay().equals(adresse.getCodPays())) {
-					p = getDomainApoService().getPays(
-							adresse.getCodPays());
-				}
-			}
-			for (IndVoeuPojo v : ind.getIndVoeuxPojo()) {
-				LigneListePrepaPojo ligne = new LigneListePrepaPojo();
-				ligne.setCommission(this.commissionController.getCommission().getLibelle());
-				ligne.setNum_Dos_OPI(i.getNumDossierOpi());
-				ligne.setNom_Patrony(i.getNomPatronymique());
-				ligne.setPrenom(i.getPrenom());
-				ligne.setDate_Naiss(i.getDateNaissance());
+	public Stream<LigneListePrepaPojo> indPojoToLignes(IndividuPojo ind, Commission commission) {
+        Individu i = ind.getIndividu();
+        Pays pays = null;
+        CommuneDTO commune = null;
+        Adresse adresse =  i.getAdresses().get(Constantes.ADR_FIX);
+        if (adresse != null) {
+            commune = getDomainApoService().getCommune(adresse.getCodCommune(), adresse.getCodBdi());
+            pays = getDomainApoService().getPays(adresse.getCodPays());
+        }
+        List<LigneListePrepaPojo> lignes = new ArrayList<>();
+        for (IndVoeuPojo v : ind.getIndVoeuxPojo()) {
+            LigneListePrepaPojo ligne = new LigneListePrepaPojo();
+            ligne.setCommission(commission.getLibelle());
+            ligne.setNum_Dos_OPI(i.getNumDossierOpi());
+            ligne.setNom_Patrony(i.getNomPatronymique());
+            ligne.setPrenom(i.getPrenom());
+            ligne.setDate_Naiss(i.getDateNaissance());
 				
-				String ine = ExportUtils.isNotNull(i.getCodeNNE()) 
-				+ ExportUtils.isNotNull(i.getCodeClefNNE());
-				ligne.setCode_clef_INE(ExportUtils.isNotNull(ine));
+            String ine = ExportUtils.isNotNull(i.getCodeNNE())
+                    + ExportUtils.isNotNull(i.getCodeClefNNE());
+            ligne.setCode_clef_INE(ExportUtils.isNotNull(ine));
 				
-				// adresse
-				if (adresse != null) {
-					ligne.setAdresse_1(ExportUtils.isNotNull(adresse.getAdr1()));
-					ligne.setAdresse_2(ExportUtils.isNotNull(adresse.getAdr2()));
-					ligne.setAdresse_3(ExportUtils.isNotNull(adresse.getAdr3()));
-					ligne.setCedex(ExportUtils.isNotNull(adresse.getCedex()));
-					ligne.setCode_Postal(ExportUtils.isNotNull(adresse.getCodBdi()));
+            // adresse
+            if (adresse != null) {
+                ligne.setAdresse_1(ExportUtils.isNotNull(adresse.getAdr1()));
+                ligne.setAdresse_2(ExportUtils.isNotNull(adresse.getAdr2()));
+                ligne.setAdresse_3(ExportUtils.isNotNull(adresse.getAdr3()));
+                ligne.setCedex(ExportUtils.isNotNull(adresse.getCedex()));
+                ligne.setCode_Postal(ExportUtils.isNotNull(adresse.getCodBdi()));
 					
-					if (c != null) {
-						ligne.setLib_Commune(c.getLibCommune());
-					} else { 
-						ligne.setLib_Commune(ExportUtils.isNotNull(
-							adresse.getLibComEtr())); 
-					}
+                if (commune != null) {
+                    ligne.setLib_Commune(commune.getLibCommune());
+                } else {
+                    ligne.setLib_Commune(ExportUtils.isNotNull(
+                            adresse.getLibComEtr()));
+                }
 					
-					if (p != null) {
-						ligne.setLib_Pays(p.getLibPay());
-					} else {
-						ligne.setLib_Pays("");
-					}
-					 ligne.setTelephone_fixe(ExportUtils.isNotNull(adresse.getPhoneNumber()));
-				} else {
-					ligne.setAdresse_1("");
-					ligne.setAdresse_2("");
-					ligne.setAdresse_3("");
-					ligne.setCedex("");
-					ligne.setCode_Postal("");
-					ligne.setLib_Commune("");
-					ligne.setLib_Pays("");
-					ligne.setTelephone_fixe("");
-				}
+                if (pays != null) {
+                    ligne.setLib_Pays(pays.getLibPay());
+                } else {
+                    ligne.setLib_Pays("");
+                }
+                ligne.setTelephone_fixe(ExportUtils.isNotNull(adresse.getPhoneNumber()));
+            } else {
+                ligne.setAdresse_1("");
+                ligne.setAdresse_2("");
+                ligne.setAdresse_3("");
+                ligne.setCedex("");
+                ligne.setCode_Postal("");
+                ligne.setLib_Commune("");
+                ligne.setLib_Pays("");
+                ligne.setTelephone_fixe("");
+            }
 				
-				ligne.setMail(i.getAdressMail());
-				// bac
-				boolean hasCodeBac = false;
-				for (IndBac iB : i.getIndBac()) {
-					BacOuxEqu b = getDomainApoService().getBacOuxEqu(
-							iB.getDateObtention(),
-							ExportUtils.isNotNull(iB.getCodBac()));
-					if (b != null) {
-						ligne.setBac(b.getLibBac());
-					} else {
-						ligne.setBac(iB.getCodBac());
-					}
-					hasCodeBac = true;
-					break;
-				}					
-				if (!hasCodeBac) { ligne.setBac(""); }
-				// dernier cursus
-				IndCursusScolPojo d = ind.getDerniereAnneeEtudeCursus();
-				if (d != null) {
-					ligne.setDernier_Etab_Cur(ExportUtils.isNotNull(d.getLibCur()));
-					ligne.setDernier_Etab_Etb(ExportUtils.isNotNull(d.getLibEtb()));
-					ligne.setDernier_Etab_Result_Ext(ExportUtils.isNotNull(d.getResultatExt()));
-				} else {
-					ligne.setDernier_Etab_Cur("");
-					ligne.setDernier_Etab_Etb("");
-					ligne.setDernier_Etab_Result_Ext("");
-				}
-				// Voeux
-				DateFormat sdf = new SimpleDateFormat(Constantes.DATE_HOUR_FORMAT);
-				ligne.setDate_depot_voeu(sdf.format(v.getIndVoeu().getDateCreaEnr()));
-				ligne.setType_Traitement(ExportUtils.isNotNull(v.getTypeTraitement().getCode()));
-				ligne.setVoeu_Lib_Vet(ExportUtils.isNotNull(v.getVrsEtape().getLibWebVet()));
-				ligne.setEtat_Voeu(ExportUtils.isNotNull(v.getEtat().getLabel()));
+            ligne.setMail(i.getAdressMail());
+            // bac
+            boolean hasCodeBac = false;
+            for (IndBac iB : i.getIndBac()) {
+                BacOuxEqu b = getDomainApoService().getBacOuxEqu(
+                        iB.getDateObtention(),
+                        ExportUtils.isNotNull(iB.getCodBac()));
+                if (b != null) {
+                    ligne.setBac(b.getLibBac());
+                } else {
+                    ligne.setBac(iB.getCodBac());
+                }
+                hasCodeBac = true;
+                break;
+            }
+            if (!hasCodeBac) { ligne.setBac(""); }
+            // dernier cursus
+            IndCursusScolPojo d = ind.getDerniereAnneeEtudeCursus();
+            if (d != null) {
+                ligne.setDernier_Etab_Cur(ExportUtils.isNotNull(d.getLibCur()));
+                ligne.setDernier_Etab_Etb(ExportUtils.isNotNull(d.getLibEtb()));
+                ligne.setDernier_Etab_Result_Ext(ExportUtils.isNotNull(d.getResultatExt()));
+            } else {
+                ligne.setDernier_Etab_Cur("");
+                ligne.setDernier_Etab_Etb("");
+                ligne.setDernier_Etab_Result_Ext("");
+            }
+            // Voeux
+            DateFormat sdf = new SimpleDateFormat(Constantes.DATE_HOUR_FORMAT);
+            ligne.setDate_depot_voeu(sdf.format(v.getIndVoeu().getDateCreaEnr()));
+            ligne.setType_Traitement(ExportUtils.isNotNull(v.getTypeTraitement().getCode()));
+            ligne.setVoeu_Lib_Vet(ExportUtils.isNotNull(v.getVrsEtape().getLibWebVet()));
+            ligne.setEtat_Voeu(ExportUtils.isNotNull(v.getEtat().getLabel()));
 				
-				if (v.getAvisEnService() != null) {
+            if (v.getAvisEnService() != null) {
 					
-					ligne.setAvis_Result_Lib(ExportUtils.isNotNull(v.getAvisEnService().
-							getResult().getLibelle()));
+                ligne.setAvis_Result_Lib(ExportUtils.isNotNull(v.getAvisEnService().
+                        getResult().getLibelle()));
 					
-					if (v.getAvisEnService().getRang() != null) {
-						ligne.setRang(v.getAvisEnService().getRang().toString());
-					} else {
-						ligne.setRang("");
-					}
+                if (v.getAvisEnService().getRang() != null) {
+                    ligne.setRang(v.getAvisEnService().getRang().toString());
+                } else {
+                    ligne.setRang("");
+                }
 					
-					String comm = null;
-					if (v.getAvisEnService().getMotivationAvis() != null) {
-						comm = ExportUtils.isNotNull(v.getAvisEnService().getMotivationAvis().getLibelle());
-					}
-					if (comm != null && StringUtils.hasText(v.getAvisEnService().
-							getCommentaire())) {
-						comm += "/" + v.getAvisEnService().getCommentaire();
-					} else { 
-						comm += ExportUtils.isNotNull(
-								v.getAvisEnService().getCommentaire()); 
-					}
-					ligne.setAvis_Motivation_Commentaire(ExportUtils.isNotNull(comm));
+                String comm = null;
+                if (v.getAvisEnService().getMotivationAvis() != null) {
+                    comm = ExportUtils.isNotNull(v.getAvisEnService().getMotivationAvis().getLibelle());
+                }
+                if (comm != null && StringUtils.hasText(v.getAvisEnService().
+                        getCommentaire())) {
+                    comm += "/" + v.getAvisEnService().getCommentaire();
+                } else {
+                    comm += ExportUtils.isNotNull(
+                            v.getAvisEnService().getCommentaire());
+                }
+                ligne.setAvis_Motivation_Commentaire(ExportUtils.isNotNull(comm));
 					
-					ligne.setAvis_Result_Code(ExportUtils.isNotNull(v.getAvisEnService().
-							getResult().getCode()));
-					ligne.setAvis_Result_Code_Apogee(ExportUtils.isNotNull(v.getAvisEnService().
-							getResult().getCodeApogee()));
-					ligne.setAvis_temoin_validation(ExportUtils.isNotNull("" + v.getAvisEnService().
-							getValidation()));
+                ligne.setAvis_Result_Code(ExportUtils.isNotNull(v.getAvisEnService().
+                        getResult().getCode()));
+                ligne.setAvis_Result_Code_Apogee(ExportUtils.isNotNull(v.getAvisEnService().
+                        getResult().getCodeApogee()));
+                ligne.setAvis_temoin_validation(ExportUtils.isNotNull("" + v.getAvisEnService().
+                        getValidation()));
 					
-					if (v.getAvisEnService().getValidation()) {
-						ligne.setAvis_date_validation(ExportUtils.isNotNull(
-									Utilitaires.convertDateToString(
-										v.getAvisEnService().
-										getDateModifEnr(), 
-										Constantes.DATE_FORMAT)));
-					} else {
-						ligne.setAvis_date_validation(""); 
-					}
-				} else {
-					ligne.setAvis_Result_Lib("");
-					ligne.setRang("");
-					ligne.setAvis_Motivation_Commentaire("");
-					ligne.setAvis_Result_Code("");
-					ligne.setAvis_Result_Code_Apogee("");
-					ligne.setAvis_temoin_validation("");
-					ligne.setAvis_date_validation("");
-				}
-				listePrepaPojo.add(ligne);
-			}
-		}
-		return listePrepaPojo;
-	}
+                if (v.getAvisEnService().getValidation()) {
+                    ligne.setAvis_date_validation(ExportUtils.isNotNull(
+                            Utilitaires.convertDateToString(
+                                    v.getAvisEnService().
+                                            getDateModifEnr(),
+                                    Constantes.DATE_FORMAT)));
+                } else {
+                    ligne.setAvis_date_validation("");
+                }
+            } else {
+                ligne.setAvis_Result_Lib("");
+                ligne.setRang("");
+                ligne.setAvis_Motivation_Commentaire("");
+                ligne.setAvis_Result_Code("");
+                ligne.setAvis_Result_Code_Apogee("");
+                ligne.setAvis_temoin_validation("");
+                ligne.setAvis_date_validation("");
+            }
+            lignes.add(ligne);
+        }
+        return iterableStream(lignes);
+    }
+
     /**
      * clear and found the list of IndividuPojo and IndVoeuPjo
      * filtred by commission and typeDecision selected by the gestionnaire.
      *
-     * @param laCommission
-     * @param onlyValidate
-     * @param initCursusPojo if true init cursus pojo
-     * @param excludeTR
      */
     public void lookForIndividusPojo(final Commission laCommission,
                                      final Boolean onlyValidate, final Boolean initCursusPojo, final Boolean excludeTR) {
@@ -710,19 +679,19 @@ public class PrintOpinionController extends AbstractContextAwareController {
         // on récupère la liste des individus de la commission en filtrant
         // - sur les avis validés ou non (onlyValidate)
         // - sur les voeux issus d'un transfert ou non (excludeTypeTrt)
-        List<Individu> l = getDomainService().getIndividusCommission(
+        Stream<Individu> l = getDomainService().getIndividusCommission(
                 laCommission, onlyValidate,
-                wrap(this.commissionController.getListeRI()).map(
-                        new F<RegimeInscription, String>() {
-                            public String f(RegimeInscription ri) {
-                                return String.valueOf(ri.getCode());
+                new HashSet<>(wrap(this.commissionController.getListeRI()).map(
+                        new F<RegimeInscription, Integer>() {
+                            public Integer f(RegimeInscription ri) {
+                                return ri.getCode();
                             }
-                        }).toStandardList());
+                        }).toStandardList()));
         // param Set <Commission>
-        Set<Commission> lesCommissions = new HashSet<Commission>();
+        Set<Commission> lesCommissions = new HashSet<>();
         lesCommissions.add(laCommission);
         // param Set <TypeDecisions>
-        Set<TypeDecision> lesTypeDecisions = new HashSet<TypeDecision>();
+        Set<TypeDecision> lesTypeDecisions = new HashSet<>();
         for (Object o : this.resultSelected) {
             lesTypeDecisions.add((TypeDecision) o);
         }
@@ -776,9 +745,6 @@ public class PrintOpinionController extends AbstractContextAwareController {
     /**
      * Int the commission and make the individuals list.
      *
-     * @param onlyValidate
-     * @param initCursusPojo if true init cursus pojo
-     * @param excludeTR      if true, exclude TR
      */
     private void makeAllIndividus(final Boolean onlyValidate,
                                   final Boolean initCursusPojo, final Boolean excludeTR) {
@@ -1142,8 +1108,12 @@ public class PrintOpinionController extends AbstractContextAwareController {
     }
 
 
-    /*
-          ******************* ACCESSORS ******************** */
+    public void generationWarning() {
+        addWarnMessage(null, "Votre document est en cours de génération. Il vous sera envoyé " +
+                "par mail à l'issu du processus.");
+    }
+
+    // ******************* ACCESSORS ********************
 
     public IndividuController getIndividuController() {
         return individuController;
@@ -1336,6 +1306,10 @@ public class PrintOpinionController extends AbstractContextAwareController {
         return castorService;
     }
 
+    public void setSmtpService(SmtpService smtpService) {
+        this.smtpService = smtpService;
+    }
+
     /**
      * @return the individuPojoSelected
      */
@@ -1381,5 +1355,6 @@ public class PrintOpinionController extends AbstractContextAwareController {
     public void doRenderTable() {
         renderTable = true;
     }
+
 }
 

@@ -12,7 +12,7 @@
                     <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
                 </span>
             </h1>
-
+            <p:messages autoUpdate="true" />
             <p:outputPanel id="div_subSectionPdf" styleClass="div_subSection"
                            rendered="#{printOpinionController.actionEnum.whatAction == printOpinionController.actionEnum.confirmAction}">
                 <ui:include src="_block/_confirmPdfNotification.xhtml"/>
@@ -23,9 +23,12 @@
             <h:form id="printListsForm" styleClass="opiR1_form">
                 <div id="blockFormSearch" class="blockForm">
                     <div style="text-align:right;">
+                        <p:remoteCommand name="genCVSListsTrans" async="true"
+                                         action="#{printOpinionController.generateCSVListesTransfert}" />
                         <p:commandButton value="#{msgs['_.BUTTON.EXPORT']}"
                                          rendered="#{commissionController.commission.code != null}"
-                                         action="#{printOpinionController.generateCSVListesTransfert}" ajax="false"/>
+                                         actionListener="#{printOpinionController.generationWarning}"
+                                         onclick="genCVSListsTrans()" />
                         <p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="ccExp.show()" type="button"/>
                     </div>
                     <h:panelGrid styleClass="tableWidthMax" columns="4"
