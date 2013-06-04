@@ -169,7 +169,7 @@ public abstract class AbstractDomainAwareBean extends AbstractJsfMessagesAwareBe
     }
     
     /**
-     * @return the current individu.
+     * @return the current individu without using the cache
      */
     protected IndividuPojo getCurrentIndInit() {
         // this method should be overriden

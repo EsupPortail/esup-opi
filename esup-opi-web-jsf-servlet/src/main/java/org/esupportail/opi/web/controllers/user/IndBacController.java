@@ -129,6 +129,7 @@ public class IndBacController extends AbstractAccessController {
      */
     public String goSeeIndBac() {
         reset();
+        //Correction bug 136 prendre individu sans utiliser celui en cache
         IndividuPojo i = getCurrentIndInit();
         if (i != null) {
             if (i.getIndividu().getIndBac() == null
