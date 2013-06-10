@@ -13,6 +13,12 @@
             <groupId>org.esupportail</groupId>
             <artifactId>esup-opi-domain-beans</artifactId>
             <version>2.0.0-beta4-pre39-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-simple</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.esupportail</groupId>
@@ -26,6 +32,10 @@
                 <exclusion>
                     <artifactId>hibernate-annotations</artifactId>
                     <groupId>org.hibernate</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>slf4j-simple</artifactId>
+                    <groupId>org.slf4j</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
