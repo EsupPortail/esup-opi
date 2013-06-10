@@ -14,4 +14,18 @@
             </New>
         </Arg>
     </New>
+    
+    <New id="tmjndi" class="org.eclipse.jetty.plus.jndi.Resource">
+        <Arg></Arg>
+        <Arg>java:/TransactionManager</Arg>
+        <Arg>
+            <New class="com.atomikos.icatch.jta.UserTransactionManager" />
+        </Arg>
+    </New>
+
+    <New id="tx" class="org.eclipse.jetty.plus.jndi.Transaction">
+        <Arg>
+            <New class="com.atomikos.icatch.jta.UserTransactionImp" />
+        </Arg>
+    </New>
 </Configure>

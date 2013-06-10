@@ -31,7 +31,8 @@
     </tx:advice>
     
     <bean id="domainService"
-          class="org.esupportail.opi.domain.DomainServiceImpl">
+        lazy-init="true"
+        class="org.esupportail.opi.domain.DomainServiceImpl">
         <property name="daoService" ref="daoService" />
         <property name="individuDaoSrv" ref="individuDaoService" />
         <property name="urlGenerator" ref="${urlGeneration.bean}" />
@@ -43,6 +44,7 @@
 
 	<bean
 		id="parameterService"
+        lazy-init="true"
 		class="org.esupportail.opi.domain.ParameterServiceImpl"
 		>
 		<property name="daoService" ref="paramDaoService" />
@@ -102,6 +104,7 @@
 	
 	<bean
 		id="domainApoService"
+        lazy-init="true"
 		class="org.esupportail.opi.domain.DomainApoServiceImpl"
 		>
 		<property name="remoteCriApogeeRef" ref="remoteCriApogeeRef" />
@@ -124,6 +127,7 @@
 	
 	<bean
 		id="businessCacheService"
+        lazy-init="true"
 		class="org.esupportail.opi.domain.BusinessCacheServiceImpl">
 		<property name="domainApoService" ref="domainApoService" />
 		<property name="cacheManager" ref="cacheManager" />
@@ -132,6 +136,7 @@
 	
 	<bean
 		id="orbeonService"
+        lazy-init="true"
 		class="org.esupportail.opi.domain.OrbeonServiceImpl"
 		>
 		<property name="xslXmlPath" value="${xsl_xml.path}" />
@@ -155,6 +160,7 @@
 	
 	<bean
 		id="pilotageService"
+        lazy-init="true"
 		class="org.esupportail.opi.domain.PilotageServiceImpl"
 		>
 		<property name="daoService" ref="pilotageDaoService" />

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.esupportail.commons.dao.AbstractJdbcJndiHibernateDaoService;
+import org.esupportail.commons.dao.AbstractSimpleHibernateDaoService;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.domain.beans.etat.EtatIndividu;
@@ -40,7 +40,7 @@ import org.springframework.dao.support.DataAccessUtils;
 /**
  * The Hibernate implementation of the pilotage DAO service.
  */
-public class HPilotageDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService implements PilotageDaoService {
+public class HPilotageDaoServiceImpl extends AbstractSimpleHibernateDaoService implements PilotageDaoService {
 	/**
 	 * The serialization id.
 	 */

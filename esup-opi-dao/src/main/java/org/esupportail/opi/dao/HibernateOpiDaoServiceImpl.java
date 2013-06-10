@@ -5,7 +5,7 @@ import static fj.data.Option.iif;
 import java.io.Serializable;
 import java.util.List;
 
-import org.esupportail.commons.dao.AbstractJdbcJndiHibernateDaoService;
+import org.esupportail.commons.dao.AbstractSimpleHibernateDaoService;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.domain.beans.formation.Cles2AnnuForm;
@@ -25,7 +25,7 @@ import fj.data.Option;
  * @author llevague
  *
  */
-public class HibernateOpiDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService implements OpiDaoService {
+public class HibernateOpiDaoServiceImpl extends AbstractSimpleHibernateDaoService implements OpiDaoService {
 
 	/**
 	 * The serialization id.
@@ -122,7 +122,6 @@ public class HibernateOpiDaoServiceImpl extends AbstractJdbcJndiHibernateDaoServ
      * @return liste de groupes diplomes
      */
     @Override
-    @SuppressWarnings("unchecked")
     public GrpTypDip getGrpTypDip(final String codTyp) {
         DetachedCriteria criteria = DetachedCriteria.forClass(GrpTypDip.class);
         criteria.add(Restrictions.eq("codGrpTpd", codTyp));

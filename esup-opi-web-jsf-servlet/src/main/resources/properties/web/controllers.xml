@@ -11,8 +11,9 @@
         /properties/applicationContext.xml.
     -->
     <bean id="sessionController"
-          class="org.esupportail.opi.web.controllers.SessionController"
-          parent="abstractDomainAwareBean" scope="session">
+        lazy-init="true"
+        class="org.esupportail.opi.web.controllers.SessionController"
+        parent="abstractDomainAwareBean" scope="session">
         <description>
             A bean to store the context of the application.
         </description>
@@ -30,7 +31,8 @@
     </bean>
 
     <bean id="abstractContextAwareController" abstract="true"
-          parent="abstractDomainAwareBean" scope="session">
+        lazy-init="true"
+        parent="abstractDomainAwareBean" scope="session">
         <description>
             An abstract bean to factorize the declaration of beans of
             which class inherits from AbstractContextAwareController.
@@ -41,7 +43,8 @@
     </bean>
 
     <bean id="abstractAccessController" abstract="true"
-          parent="abstractContextAwareController" scope="session">
+        lazy-init="true"
+        parent="abstractContextAwareController" scope="session">
         <property name="managedAccess" ref="managedAccess"/>
         <property name="managedRoadMap" ref="managedRoadMap"/>
         <property name="managedCalendar" ref="managedCalendar"/>
@@ -49,12 +52,14 @@
 
 
     <bean id="preferencesController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.PreferencesController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage user preferences.</description>
     </bean>
 
     <bean id="welcomeController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.WelcomeController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the welcome page.</description>
@@ -63,12 +68,14 @@
     </bean>
 
     <bean id="aboutController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.AboutController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the about page.</description>
     </bean>
 
     <bean id="exceptionController"
+        lazy-init="true"
           class="org.esupportail.commons.web.controllers.ExceptionController"
           scope="session">
         <description>A bean to manage exception reports.</description>
@@ -76,6 +83,7 @@
 
     <!-- ########  MANAGED USERS ######### -->
     <bean id="gestionnaireController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.user.GestionnaireController"
           parent="abstractAccessController" scope="session">
         <description>A bean to manage the user profil.</description>
@@ -83,6 +91,7 @@
     </bean>
 
     <bean id="ldapSearchController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.user.LdapSearchController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage LDAP searches.</description>
@@ -93,6 +102,7 @@
     </bean>
 
     <bean id="accueilController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.AccueilController"
           parent="abstractAccessController" scope="session">
         <description>A bean to manage the individu's home page.</description>
@@ -104,6 +114,7 @@
     </bean>
 
     <bean id="individuController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.user.IndividuController"
           parent="abstractAccessController" scope="session">
         <description>A bean to manage the individu.</description>
@@ -120,18 +131,21 @@
     </bean>
 
     <bean id="adressController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.user.AdressController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the individu's adresses.</description>
     </bean>
 
     <bean id="cursusController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.user.CursusController"
           parent="abstractAccessController" scope="session">
         <description>A bean to manage the individu's cursus.</description>
     </bean>
 
     <bean id="situationController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.user.SituationController"
           parent="abstractAccessController" scope="session">
         <description>A bean to manage the individu's situation.</description>
@@ -139,6 +153,7 @@
     </bean>
 
     <bean id="indBacController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.user.IndBacController"
           parent="abstractAccessController" scope="session">
         <description>A bean to manage the individu's bac.</description>
@@ -146,6 +161,7 @@
 
     <!-- ####  FORMULAIRE ##### -->
     <bean id="formulairesController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.formation.FormulairesController"
           parent="abstractAccessController" scope="session">
         <description>A bean to manage the individu's home page.</description>
@@ -156,6 +172,7 @@
 
     <!-- ####  FORMATION ##### -->
     <bean id="formationController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.formation.FormationController"
           parent="abstractAccessController" scope="session">
         <description>A bean to manage the formation presentation.
@@ -164,6 +181,7 @@
     </bean>
 
     <bean id="paramGrpTypDipController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.formation.ParamGrpTypDipController"
           parent="abstractAccessController"
           scope="session">
@@ -172,6 +190,7 @@
     </bean>
 
     <bean id="paramClefFormationController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.formation.ParamClefFormationController"
           parent="abstractAccessController"
           scope="session">
@@ -181,6 +200,7 @@
     </bean>
 
     <bean id="paramDomainFormationController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.formation.ParamDomainFormationController"
           parent="abstractAccessController"
           scope="session">
@@ -190,6 +210,7 @@
     </bean>
 
     <bean id="saisieRdvEtuController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.formation.SaisieRdvEtuController"
           parent="abstractAccessController"
           scope="session">
@@ -198,6 +219,7 @@
     </bean>
 
     <bean id="confirmationController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.formation.ConfirmationController"
           parent="abstractAccessController"
           scope="session">
@@ -214,6 +236,7 @@
     <!-- ########  PARAMETERS ######### -->
 
     <bean id="profilController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.parameters.ProfilController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the user profil.</description>
@@ -221,18 +244,21 @@
     </bean>
 
     <bean id="fonctionController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.parameters.FonctionController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the fonction.</description>
     </bean>
 
     <bean id="domainController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.parameters.DomainController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the domain.</description>
     </bean>
 
     <bean id="accessRController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.parameters.AccessRightController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the access right.</description>
@@ -267,6 +293,7 @@
     </bean>
 
     <bean id="nomenclatureController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.parameters.NomenclatureController"
           parent="abstractContextAwareController" scope="session"
           init-method="initTypesDec">
@@ -278,18 +305,21 @@
     </bean>
 
     <bean id="mailContentController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.parameters.MailContentController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the mail content.</description>
     </bean>
 
     <bean id="paramRdvController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.parameters.ParamRdvController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the paramRdv.</description>
     </bean>
 
     <bean id="paramRdvSupController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.parameters.ParamRdvSupController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the paramRdv.</description>
@@ -297,6 +327,7 @@
     </bean>
 
     <bean id="autoLpController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.parameters.AutoLpController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the paramRdv.</description>
@@ -306,6 +337,7 @@
 
     <!-- ########  REFERENCES ######### -->
     <bean id="commissionController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.references.CommissionController"
           parent="abstractContextAwareController" scope="session"
           init-method="initCommissions">
@@ -321,12 +353,14 @@
     </bean>
 
     <bean id="nbVoeuByCGEController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.references.NbVoeuByCGEController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the nbVoeuByCGE.</description>
     </bean>
 
     <bean id="consultRdvController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.references.ConsultRdvController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the consultRdv.</description>
@@ -335,6 +369,7 @@
     </bean>
 
     <bean id="etapeController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.references.EtapeController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the etape.</description>
@@ -342,6 +377,7 @@
     </bean>
 
     <bean id="selectionController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.references.SelectionController"
           parent="abstractAccessController" scope="session">
         <description>A bean to manage the selection test.</description>
@@ -349,6 +385,7 @@
     </bean>
 
     <bean id="trtCmiController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.references.TrtCmiController"
           parent="abstractAccessController" scope="session">
         <description>A bean to manage the selection test.</description>
@@ -357,6 +394,7 @@
 
 
     <bean id="calendarController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.references.CalendarController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the calendars.</description>
@@ -400,6 +438,7 @@
     <!-- ########  OPINION AND TRAITMENTS ######### -->
 
     <bean id="typeTraitController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.opinions.TypeTraitController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage opinions and traitments.</description>
@@ -419,6 +458,7 @@
     </bean>
 
     <bean id="pjController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.opinions.PJController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage pj missed.</description>
@@ -430,6 +470,7 @@
     </bean>
 
     <bean id="opinionController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.opinions.OpinionController"
           parent="abstractAccessController" scope="session">
         <description>A bean to manage opinions.</description>
@@ -443,6 +484,7 @@
     </bean>
 
     <bean id="validOpinionController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.opinions.ValidOpinionController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage validation of opinions.</description>
@@ -457,6 +499,7 @@
     </bean>
 
     <bean id="exportFormOrbeonController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.opinions.ExportFormOrbeonController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to export orbeon forms.</description>
@@ -464,6 +507,7 @@
     </bean>
 
     <bean id="printOpinionController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.opinions.PrintOpinionController"
           parent="abstractContextAwareController" scope="session">
         <property name="individuController" ref="individuController" />
@@ -481,6 +525,7 @@
     <!-- ########  CANDIDATURES ######### -->
 
     <bean id="monitorCandidaturesController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.candidatures.MonitorCandidaturesController"
           parent="abstractAccessController" scope="session">
         <description>A bean to monitor the all wishes.</description>
@@ -505,6 +550,7 @@
 
     <!-- ########  PILOTAGE ######### -->
     <bean id="parametreStatController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.pilotage.ParametreStatController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the statistical parameter.</description>
@@ -533,6 +579,7 @@
     </bean>
 
     <bean id="seeStatController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.pilotage.SeeStatController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the statistical parameter.</description>
@@ -544,6 +591,7 @@
     <!-- ########  ARCHIVAGE ######### -->
 
     <bean id="archiveTaskController"
+        lazy-init="true"
           class="org.esupportail.opi.web.controllers.pilotage.ArchiveTaskController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the archive tasks.</description>
@@ -552,6 +600,7 @@
     </bean>
 
     <bean id="ligneListePrepaPojo"
+        lazy-init="true"
         class="org.esupportail.opi.web.beans.pojo.LigneListePrepaPojo"
         scope="session">
     </bean>
