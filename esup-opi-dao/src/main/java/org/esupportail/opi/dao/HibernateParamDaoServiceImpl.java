@@ -10,12 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.mysema.query.jpa.hibernate.HibernateQuery;
-import com.mysema.query.types.EntityPath;
-import com.mysema.query.types.path.EntityPathBase;
-import com.mysema.query.types.path.PathBuilder;
-import com.mysema.query.types.path.SetPath;
-import org.esupportail.commons.dao.AbstractJdbcJndiHibernateDaoService;
+import org.esupportail.commons.dao.AbstractSimpleHibernateDaoService;
 import org.esupportail.commons.dao.HqlUtils;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.logging.Logger;
@@ -65,6 +60,11 @@ import org.hibernate.criterion.Subqueries;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.util.StringUtils;
 
+import com.mysema.query.jpa.hibernate.HibernateQuery;
+import com.mysema.query.types.EntityPath;
+import com.mysema.query.types.path.EntityPathBase;
+import com.mysema.query.types.path.PathBuilder;
+
 
 /**
  * The Hiberate implementation of the DAO service.
@@ -73,7 +73,7 @@ import org.springframework.util.StringUtils;
  * @author ylecuyer
  *
  */
-public class HibernateParamDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService implements ParameterDaoService {
+public class HibernateParamDaoServiceImpl extends AbstractSimpleHibernateDaoService implements ParameterDaoService {
 
 	/**
 	 * The serialization id.

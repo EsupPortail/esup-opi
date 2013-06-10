@@ -4,15 +4,11 @@
  */
 package org.esupportail.opi.dao;
 
-import static com.mysema.query.types.ConstantImpl.create;
-import static fj.data.Option.somes;
-
-import java.lang.Class;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.esupportail.commons.dao.AbstractJdbcJndiHibernateDaoService;
+import org.esupportail.commons.dao.AbstractSimpleHibernateDaoService;
 import org.esupportail.commons.dao.HqlUtils;
 import org.esupportail.commons.services.application.UninitializedDatabaseException;
 import org.esupportail.commons.services.application.VersionningUtils;
@@ -62,7 +58,7 @@ import org.springframework.util.StringUtils;
 /**
  * The Hibernate implementation of the DAO service.
  */
-public class HibernateDaoServiceImpl extends AbstractJdbcJndiHibernateDaoService implements DaoService {
+public class HibernateDaoServiceImpl extends AbstractSimpleHibernateDaoService implements DaoService {
 
 	/**
 	 * The serialization id.

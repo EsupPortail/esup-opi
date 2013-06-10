@@ -5,6 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="managedAccess" class="org.esupportail.opi.web.beans.ManagedAccess"
+        lazy-init="true"
           scope="session">
         <property name="parameterService" ref="parameterService"/>
         <property name="sessionController" ref="sessionController"/>

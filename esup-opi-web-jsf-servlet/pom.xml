@@ -21,20 +21,99 @@
            <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.0.0.M3</version>
+                <version>9.0.2.v20130417</version>
                 <configuration>
                     <configurationDiscovered>false</configurationDiscovered>
                     <webAppConfig>
-                        <jettyEnvXml>src/main/jetty/jetty-env.xml</jettyEnvXml>
+                        <jettyEnvXml>${jetty.envXml}</jettyEnvXml>
                         <overrideDescriptor>src/main/jetty/web-jetty.xml</overrideDescriptor>
                     </webAppConfig>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.atomikos</groupId>
+                        <artifactId>transactions</artifactId>
+                        <version>3.8.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.atomikos</groupId>
+                        <artifactId>transactions-hibernate3</artifactId>
+                        <version>3.8.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            
+            <!-- OPTIMIZE RESOURCES -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/generated-webapp/resources</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/src/main/webapp/resources</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>**/*.css</include>
+                                        <include>**/*.js</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.1</version>
+                <groupId>org.primefaces.extensions</groupId>
+                <artifactId>resources-optimizer-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>optimize</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>optimize</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
-                    <warName>${project.parent.artifactId}</warName>
+                    <resourcesSets>
+                        <resourcesSet>
+                            <inputDir>${project.build.directory}/generated-webapp</inputDir>
+                        </resourcesSet>
+                    </resourcesSets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <executions>
+                    <execution>
+                        <id>war</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>war</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <webappDirectory>${project.build.directory}/webapp</webappDirectory>
+                    <warSourceDirectory>${project.basedir}/src/main/webapp</warSourceDirectory>
+                    <warSourceExcludes>**/resources/**/*.css,**/resources/**/*.js</warSourceExcludes>
+                    <webResources>
+                        <resource>
+                            <directory>${project.build.directory}/generated-webapp</directory>
+                        </resource>
+                    </webResources>
                 </configuration>
             </plugin>
         </plugins>
@@ -91,6 +170,12 @@
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-simple</artifactId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>
+                        jsr168forwardport.org.springframework.web.portlet
+                    </artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -100,13 +185,4 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    <properties>
-        <cas.url>https://sso-cas.univ-rennes1.fr</cas.url>
-        <tomcat.host>localhost</tomcat.host>
-        <tomcat.port.string>:8080</tomcat.port.string>
-        <log.level>INFO</log.level>
-        <log.output>stdout</log.output>
-        <log.file>/tmp/esup-opi.log</log.file>
-        <cache.path>/tmp/esup-opi/cache</cache.path>
-    </properties>
 </project>

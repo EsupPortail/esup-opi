@@ -105,7 +105,7 @@
         </filter-class>
         <init-param>
             <param-name>sessionFactoryBeanName</param-name>
-            <param-value>jdbcSessionFactory</param-value>
+            <param-value>jndiSessionFactory</param-value>
         </init-param>
     </filter>
     <filter-mapping>

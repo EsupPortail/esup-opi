@@ -1,10 +1,12 @@
 package org.esupportail.opi.dao.utils;
 
-import com.mysema.query.jpa.hibernate.HibernateQuery;
-import fj.P1;
-import org.esupportail.commons.dao.HibernateTransactionManager;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.hibernate.Session;
+import org.springframework.orm.hibernate3.HibernateTransactionManager;
+
+import com.mysema.query.jpa.hibernate.HibernateQuery;
+
+import fj.P1;
 
 public class PaginatorFactory {
 

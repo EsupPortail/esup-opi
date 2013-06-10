@@ -4,20 +4,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-	
-
-	<!--<bean name="inscriptionOuverte" class="org.springframework.scheduling.quartz.JobDetailBean">
-		<property name="jobClass"
-			value="org.esupportail.opi.batch.InscriptionOuverte" />
-		<property name="jobDataAsMap">
-			<map>
-				<entry key="domainService" value-ref="domainServiceJob" />
-				<entry key="dateOuvertureReins" value="${dateOuverture.reins}" />
-				<entry key="dateOuverturePrimo" value="${dateOuverture.primo}" />
-			</map>
-		</property>
-	</bean>
-	-->
 	<bean name="archiveTaskBatch" class="org.springframework.scheduling.quartz.JobDetailBean">
 		<property name="jobClass" value="org.esupportail.opi.batch.ArchiveTaskBatch" />
 		<property name="jobDataAsMap">
@@ -31,12 +17,6 @@
 			</map>
 		</property>
 	</bean>
-
-	<!--<bean id="cronInscriptionOuverte" class="org.springframework.scheduling.quartz.CronTriggerBean">
-		<property name="jobDetail" ref="inscriptionOuverte" />
-		 Exécution toute les 3 secondes 
-		<property name="cronExpression" value="${cron.inscription}" />
-	</bean>-->
 
 	<bean id="cronArchiveTasks" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="archiveTaskBatch" />
@@ -52,58 +32,5 @@
 				<ref bean="cronArchiveTasks"/>
 			</list>
 		</property>
-<!--		<property name="schedulerContextAsMap">-->
-<!--			<map>-->
-<!--				<entry key="daoService">-->
-<!--					<ref bean="daoService" />-->
-<!--				</entry>-->
-<!--			</map>-->
-<!--		</property>-->
 	</bean>
-
-	<!--<bean id="transactionManager" parent="hibernateSessionFactoryContainer"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<description>
-			The transaction manager, in charge of committing/rolling
-			back transactions.
-		</description>
-	</bean>
-
-	<bean id="domainServiceJob"
-		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-		<description>
-			This bean is proxying the DAO service for the domain
-			service.
-		</description>
-		<property name="transactionManager" ref="transactionManager" />
-		<property name="target" ref="domainService" />
-		<property name="transactionAttributes">
-			<props>
-				<prop key="getVoeuxAcceptes">
-					PROPAGATION_REQUIRED,-OrderException
-				</prop>
-				<prop key="deleteIndividusSansVoeux">
-					PROPAGATION_REQUIRED,-OrderException
-				</prop>
-			</props>
-		</property>
-	</bean>
-
-	<bean id="parameterServiceJob"
-		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-		<description>
-			This bean is proxying the DAO service for the domain
-			service.
-		</description>
-		<property name="transactionManager" ref="transactionManager" />
-		<property name="target" ref="parameterService" />
-		<property name="transactionAttributes">
-			<props>
-				<prop key="getCalendars">
-					PROPAGATION_REQUIRED,-OrderException
-				</prop>
-			</props>
-		</property>
-	</bean>
-
---></beans>
+</beans>
