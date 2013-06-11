@@ -88,7 +88,7 @@
             </h:panelGroup>
             <h:panelGroup rendered="#{indBacController.indBac.codPay == adressController.codeFrance}">
                 <h:outputLabel value="#{msgs['ETABLISSEMENT']}" for="etabBac"/>
-                <p:graphicImage url="/resources/images/informationSmall.png"
+                <p:graphicImage library="images" name="informationSmall.png"
                                 style="cursor:pointer;" id="helpEtabBac"/>
                 <p:overlayPanel for="helpEtabBac"
                                 showEvent="mouseover"
@@ -120,7 +120,7 @@
                 <h:outputLabel value="#{msgs['INDIVIDU.BAC.DAA_OBT']}"
                                for="daaObt"/>
                 <h:outputText value="*" styleClass="etoileForChpObli"/>
-                <p:graphicImage url="/resources/images/informationSmall.png"
+                <p:graphicImage library="images" name="informationSmall.png"
                                 style="cursor:pointer;" id="helpDaaObt"/>
                 <p:overlayPanel for="helpDaaObt"
                                 showEvent="mouseover"
@@ -150,7 +150,7 @@
                 <h:outputLabel value="#{msgs['INDIVIDU.CURSUS.SERIE_BAC']}"
                                for="serieBac"/>
                 <h:outputText value="*" styleClass="etoileForChpObli"/>
-                <p:graphicImage url="/resources/images/informationSmall.png"
+                <p:graphicImage library="images" name="informationSmall.png"
                                 style="cursor:pointer;" id="helpSerieBac"/>
                 <p:overlayPanel for="helpSerieBac"
                                 showEvent="mouseover"

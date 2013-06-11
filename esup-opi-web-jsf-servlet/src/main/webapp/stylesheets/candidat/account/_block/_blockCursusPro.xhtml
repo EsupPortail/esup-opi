@@ -29,7 +29,7 @@
             <h:panelGroup>
                 <h:outputText value="#{msgs['INDIVIDU.CURSUS_EXT']}"
                               styleClass="section-smallTitle"/>
-                <p:graphicImage url="/resources/images/informationSmall.png"
+                <p:graphicImage library="images" name="informationSmall.png"
                                 style="cursor:pointer;" id="helpCursusExt"/>
                 <p:overlayPanel for="helpCursusExt"
                                 showEvent="mouseover"
@@ -110,7 +110,7 @@
 
             <h:panelGroup>
                 <h:outputLabel value="#{msgs['FIELD_LABEL.DESC_ACTV']}" for="commentCurPro"/>
-                <p:graphicImage url="/resources/images/informationSmall.png"
+                <p:graphicImage library="images" name="informationSmall.png"
                                 style="cursor:pointer;" id="helpDescActv"
                                 rendered="#{cursusPojo.isShortComment}"/>
                 <p:overlayPanel for="helpDescActv"
@@ -173,7 +173,7 @@
                 </f:facet>
                 <h:panelGroup>
                     <h:outputText value="#{cursusPojo.shortComment}"/>
-                    <p:graphicImage url="/resources/images/informationSmall.png"
+                    <p:graphicImage library="images" name="informationSmall.png"
                                     style="cursor:pointer;" id="infoAnneeUni"
                                     rendered="#{cursusPojo.isShortComment}"/>
                     <p:overlayPanel for="infoAnneeUni"

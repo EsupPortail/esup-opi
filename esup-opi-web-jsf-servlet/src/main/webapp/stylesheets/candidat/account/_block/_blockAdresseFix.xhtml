@@ -34,7 +34,7 @@
             <p:outputLabel value="#{msgs['FIELD_LABEL.MAIL_PERSO']}"
                            for="email"/>
             <h:outputText value="*" styleClass="etoileForChpObli"/>
-            <p:graphicImage url="/resources/images/informationSmall.png"
+            <p:graphicImage library="images" name="informationSmall.png"
                             style="cursor:pointer;" id="helpMailPerso"/>
             <p:overlayPanel for="helpMailPerso" showEvent="mouseover"
                             hideEvent="mouseout" styleClass="containerPopup">
@@ -80,7 +80,7 @@
         <h:panelGroup>
             <p:outputLabel value="#{msgs['ADRESS.TEL_FIX']}" for="telephone"/>
             <h:outputText value="*" styleClass="etoileForChpObli"/>
-            <p:graphicImage url="/resources/images/informationSmall.png"
+            <p:graphicImage library="images" name="informationSmall.png"
                             style="cursor:pointer;" id="helpTelFix"/>
             <p:overlayPanel for="helpTelFix" showEvent="mouseover"
                             hideEvent="mouseout" styleClass="containerPopup">
@@ -100,7 +100,7 @@
                      value="#{adressController.fixAdrPojo.adresse.phoneNumber}"/>
         <h:panelGroup>
             <p:outputLabel value="#{msgs['ADRESS.TEL_POR']}" for="portable"/>
-            <p:graphicImage url="/resources/images/informationSmall.png"
+            <p:graphicImage library="images" name="informationSmall.png"
                             style="cursor:pointer;" id="helpTelPor"/>
             <p:overlayPanel for="helpTelPor" showEvent="mouseover"
                             hideEvent="mouseout" styleClass="containerPopup">
@@ -137,7 +137,7 @@
         <h:panelGroup>
             <p:outputLabel value="#{msgs['ADRESS']}" for="adr1"/>
             <h:outputText value="*" styleClass="etoileForChpObli"/>
-            <p:graphicImage url="/resources/images/informationSmall.png"
+            <p:graphicImage library="images" name="informationSmall.png"
                             style="cursor:pointer;" id="helpAdress"/>
             <p:overlayPanel for="helpAdress" showEvent="mouseover"
                             hideEvent="mouseout" styleClass="containerPopup">
@@ -170,7 +170,7 @@
             <p:outputLabel value="#{msgs['ADRESS.COD_POST']}"
                            for="codePostalFix"/>
             <h:outputText value="*" styleClass="etoileForChpObli"/>
-            <p:graphicImage url="/resources/images/informationSmall.png"
+            <p:graphicImage library="images" name="informationSmall.png"
                             style="cursor:pointer;" id="helpCodPost"/>
             <p:overlayPanel for="helpCodPost" showEvent="mouseover"
                             hideEvent="mouseout" styleClass="containerPopup">

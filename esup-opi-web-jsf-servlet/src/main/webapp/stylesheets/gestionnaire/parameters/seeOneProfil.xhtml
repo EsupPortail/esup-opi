@@ -68,10 +68,10 @@
 							<f:facet name="header">
 								<h:outputText value="#{accessRController.accessTypes[codeAccess].libelle} " />
 							</f:facet>
-							<p:graphicImage url="/resources/images/check2.gif"
+							<p:graphicImage library="images" name="check2.gif"
 								rendered="#{beanAccess.theDroits[accessRController.accessTypes[codeAccess]] != null
 									and beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/>
-							<p:graphicImage url="/resources/images/check0.gif"
+							<p:graphicImage library="images" name="check0.gif"
 								rendered="#{beanAccess.theDroits[accessRController.accessTypes[codeAccess]] != null
 									and !beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/>
 						</p:columns>

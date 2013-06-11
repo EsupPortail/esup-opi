@@ -183,7 +183,7 @@
                             </ui:fragment>
                         </div>
                         <p:blockUI block="blockFormContact" trigger="selectAdress">
-                            <p:graphicImage value="/resources/images/ajax-loader.gif"/>
+                            <p:graphicImage library="images" name="ajax-loader.gif"/>
                         </p:blockUI>
                     </p:outputPanel>
                     <div id="blockFormMembre" class="blockForm">
@@ -193,7 +193,7 @@
                                 <h:panelGroup>
                                     <h:outputText value="#{msgs['MEMBERS']}"
                                                   styleClass="section-smallTitle"/>
-                                    <p:graphicImage url="/resources/images/informationSmall.png"
+                                    <p:graphicImage library="images" name="informationSmall.png"
                                                     style="cursor:pointer;" id="infoAnneeUni"/>
                                     <p:overlayPanel
                                         for="infoAnneeUni"
@@ -203,17 +203,17 @@
                                             <h:outputText styleClass="titrePopupAide"
                                                           value="#{msgs['MEMBERS']}"/>
                                             <h:panelGroup>
-                                                <p:graphicImage url="/resources/images/flag_green.png"/>
+                                                <p:graphicImage library="images" name="flag_green.png"/>
                                                 <h:outputText styleClass="libellesAide"
                                                               value="#{msgs['MEMBERS.INFO.ALLREADY_USER']}"/>
                                             </h:panelGroup>
                                             <h:panelGroup>
-                                                <p:graphicImage url="/resources/images/flag_orange.png"/>
+                                                <p:graphicImage library="images" name="flag_orange.png"/>
                                                 <h:outputText styleClass="libellesAide"
                                                               value="#{msgs['MEMBERS.INFO.NOT_USER']}"/>
                                             </h:panelGroup>
                                             <h:panelGroup>
-                                                <p:graphicImage url="/resources/images/flag_red.png"/>
+                                                <p:graphicImage library="images" name="flag_red.png"/>
                                                 <h:outputText styleClass="libellesAide"
                                                               value="#{msgs['MEMBERS.NEVER.USER']}"/>
                                             </h:panelGroup>
@@ -239,12 +239,12 @@
                                      value="#{commissionController.keySetMbrToDisplay}"
                                      styleClass="displayInfo">
                             <p:column styleClass="buttonTD" style="width:18px;">
-                                <p:graphicImage url="/resources/images/flag_green.png"
+                                <p:graphicImage library="images" name="flag_green.png"
                                                 rendered="#{commissionController.membersToDisplay[member] eq commissionController.isGestionnaire}"/>
-                                <p:graphicImage url="/resources/images/flag_orange.png"
+                                <p:graphicImage library="images" name="flag_orange.png"
                                                 rendered="#{commissionController.membersToDisplay[member] eq commissionController.mustBeGest}"/>
                                 <!-- /*TODO probleme d'affichage flag pour les membres sasie a voir*/ -->
-                                <p:graphicImage url="/resources/images/flag_red.png"
+                                <p:graphicImage library="images" name="flag_red.png"
                                                 rendered="#{commissionController.membersToDisplay[member] eq commissionController.enterMbr
     							  || (commissionController.membersToDisplay[member] != commissionController.mustBeGest
     							  and commissionController.membersToDisplay[member] != commissionController.isGestionnaire)}"/>

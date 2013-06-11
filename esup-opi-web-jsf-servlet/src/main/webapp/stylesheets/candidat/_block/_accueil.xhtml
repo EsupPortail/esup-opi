@@ -84,7 +84,7 @@
                     rendered="#{not empty formulairesController.indSelectedForms and not sessionController.currentInd.hideMessageInfoForm}">
                     <div class="blockImportant">
                         <h:panelGrid columns="2" columnClasses="image,text">
-                            <p:graphicImage url="/resources/images/important.png"/>
+                            <p:graphicImage library="images" name="important.png"/>
                             <h:outputText value="#{msgs['INFO.CANDIDAT.FULL_FORMS']}"
                                           escape="false" style="font-weight:bold;color:#a71817"
                                           />
@@ -95,7 +95,7 @@
                 <ui:fragment rendered="#{confirmationController.canConfirmVoeux}">
                     <div class="blockImportant">
                         <h:panelGrid columns="3" columnClasses="image,text">
-                            <p:graphicImage url="/resources/images/important.png"/>
+                            <p:graphicImage library="images" name="important.png"/>
                             <h:outputText value="#{msgs['CONFIRMATION.INFO_MESSAGE']}"
                                           rendered="#{!sessionController.currentInd.regimeInscription.displayInfoFC}"
                                           escape="false" style="font-weight:bold;color:#a71817"/>
@@ -222,7 +222,7 @@
                                              action="#{cursusController.goSeeCursusPro}"
                                              styleClass="form-button-link" immediate="true"
                                              rendered="#{sessionController.currentInd.canUpdateIndCursusPro}"/>
-                            <p:graphicImage url="/resources/images/informationSmall.png"
+                            <p:graphicImage library="images" name="informationSmall.png"
                                             style="cursor:pointer;" id="helpCursusExt"/>
                             <p:overlayPanel for="helpCursusExt"
                                             showEvent="mouseover"
@@ -256,7 +256,7 @@
                                              styleClass="form-button-link" immediate="true"
                                              action="#{cursusController.goSeeQualif}"
                                              rendered="#{sessionController.currentInd.canUpdateIndCursusPro}"/>
-                            <p:graphicImage url="/resources/images/informationSmall.png"
+                            <p:graphicImage library="images" name="informationSmall.png"
                                             style="cursor:pointer;" id="entatVoeux"/>
                             <p:overlayPanel for="entatVoeux"
                                             showEvent="mouseover"

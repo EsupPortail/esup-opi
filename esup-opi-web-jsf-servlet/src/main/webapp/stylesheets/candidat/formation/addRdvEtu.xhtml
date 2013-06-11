@@ -69,7 +69,7 @@
                                                  columnClasses="colRDVLeft,colRDVCenter,colRDVRight">
                                         <p:commandLink id="clmoisprec" immediate="true"
                                                        actionListener="#{saisieRdvEtuController.before}">
-                                            <p:graphicImage border="0" value="/resources/images/backward.png"
+                                            <p:graphicImage border="0" library="images" name="backward.png"
                                                             alt="#{msgs['CALENDAR_RDV.BUTTON.PREC_MONTH']}"/>
                                         </p:commandLink>
                                         <div style="text-align:center; width:850px;">
@@ -94,7 +94,7 @@
 
                                         <p:commandLink id="clmoissuiv" immediate="true"
                                                        actionListener="#{saisieRdvEtuController.next}">
-                                            <p:graphicImage border="0" value="/resources/images/forward.png"
+                                            <p:graphicImage border="0" library="images" name="forward.png"
                                                             alt="#{msgs['CALENDAR_RDV.BUTTON.NEXT_MONTH']}"/>
                                         </p:commandLink>
                                     </h:panelGrid>

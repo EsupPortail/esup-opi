@@ -24,7 +24,7 @@
             <p:panel  id="dataPanel" layout="block">
                 <p:blockUI block="dataPanel"
                            trigger="search-button">
-                    <p:graphicImage value="/resources/images/ajax-loader.gif"/>
+                    <p:graphicImage library="images" name="ajax-loader.gif"/>
                 </p:blockUI>
                 <p:panel styleClass="dataSubPanel">
                     <p:effect type="puff" event="load">
@@ -145,7 +145,7 @@
                          columnClasses="colRDVLeft,colRDVCenter,colRDVRight">
                 <p:commandLink id="clmoisprec" immediate="true" ajax="false"
                                actionListener="#{consultRdvController.before}">
-                    <p:graphicImage border="0" value="/resources/images/backward.png"
+                    <p:graphicImage border="0" library="images" name="backward.png"
                                     alt="#{msgs['CALENDAR_RDV.BUTTON.PREC_MONTH']}"/>
                 </p:commandLink>
                 <h:panelGroup style="text-align:center; width:850px;">
@@ -176,7 +176,7 @@
                 </h:panelGroup>
                 <p:commandLink id="clmoissuiv" immediate="true" ajax="false"
                                actionListener="#{consultRdvController.next}">
-                    <p:graphicImage border="0" value="/resources/images/forward.png"
+                    <p:graphicImage border="0" library="images" name="forward.png"
                                     alt="#{msgs['CALENDAR_RDV.BUTTON.NEXT_MONTH']}"/>
                 </p:commandLink>
             </h:panelGrid>

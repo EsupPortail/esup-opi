@@ -88,9 +88,9 @@
                                 </f:facet>
                                 <p:selectBooleanCheckbox value="#{typeDecision.isFinal}"
                                                          rendered="#{typeDecision.id == 0}"/>
-                                <p:graphicImage url="/resources/images/check2.gif"
+                                <p:graphicImage library="images" name="check2.gif"
                                                 rendered="#{typeDecision.id != 0 and typeDecision.isFinal}"/>
-                                <p:graphicImage url="/resources/images/check0.gif"
+                                <p:graphicImage library="images" name="check0.gif"
                                                 rendered="#{typeDecision.id != 0 and !typeDecision.isFinal}"/>
                             </p:column>
                             <p:column>
@@ -99,9 +99,9 @@
                                 </f:facet>
                                 <p:selectBooleanCheckbox value="#{typeDecision.temoinEnService}"
                                                          rendered="#{typeDecision.id == 0}"/>
-                                <p:graphicImage url="/resources/images/check2.gif"
+                                <p:graphicImage library="images" name="check2.gif"
                                                 rendered="#{typeDecision.id != 0 and typeDecision.temoinEnService}"/>
-                                <p:graphicImage url="/resources/images/check0.gif"
+                                <p:graphicImage library="images" name="check0.gif"
                                                 rendered="#{typeDecision.id != 0 and !typeDecision.temoinEnService}"/>
                             </p:column>
                         </p:dataTable>
