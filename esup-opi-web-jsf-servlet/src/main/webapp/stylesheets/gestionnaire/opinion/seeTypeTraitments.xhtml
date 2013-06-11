@@ -8,10 +8,10 @@
             <f:event type="preRenderView" listener="#{typeTraitController.doNotRenderTable}" />
             <f:event type="postValidate" listener="#{individuController.useGestCommsFilter(true)}" />
             <p:blockUI block="maPage" trigger="individuData search-button">
-                <p:graphicImage value="/resources/images/ajax-loader.gif"/>
+                <p:graphicImage library="images" name="ajax-loader.gif"/>
             </p:blockUI>
             <p:blockUI block=":seeTypeTrtForm:dataPanel" trigger=":seeTypeTrtForm:renderTable">
-                <p:graphicImage value="/resources/images/ajax-loader.gif"/>
+                <p:graphicImage library="images" name="ajax-loader.gif"/>
             </p:blockUI>
             <p:panel id="maPage" styleClass="div_body">
                 <h1>
@@ -62,10 +62,10 @@
                                      rendered="#{typeTraitController.renderTable}">
                             <p:ajax event="page" partialSubmit="true" oncomplete="resetAllCodeTypeTrt()" />                            
                             <p:column>
-                                <p:graphicImage url="/resources/images/flag_green.png"
+                                <p:graphicImage library="images" name="flag_green.png"
                                                 title="#{msgs['VOEU.FLAG_TRAITE']}"
                                                 rendered="#{individuPojo.hasAllVoeuxTraited}"/>
-                                <p:graphicImage url="/resources/images/flag_red.png"
+                                <p:graphicImage library="images" name="flag_red.png"
                                                 title="#{msgs['VOEU.FLAG_NON_TRAITE']}"
                                                 rendered="#{!individuPojo.hasAllVoeuxTraited}"/>
                             </p:column>
@@ -105,7 +105,7 @@
                             <p:column>
                                 <h:panelGroup
                                     rendered="#{individuPojo.derniereAnneeEtudeCursus != null}">
-                                    <p:graphicImage url="/resources/images/informationSmall.png"
+                                    <p:graphicImage library="images" name="informationSmall.png"
                                                     style="cursor:pointer;" id="infoAnneeUni"/>
                                     <p:overlayPanel for="infoAnneeUni"
                                                     appendToBody="true"

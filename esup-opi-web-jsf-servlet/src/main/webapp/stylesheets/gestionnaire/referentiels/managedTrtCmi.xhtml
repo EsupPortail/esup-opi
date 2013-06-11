@@ -98,7 +98,7 @@
                                     <h:outputText value="#{beanTrtCmi.etape.libWebVet}"/>
                                 </p:column>
                                 <p:column headerText="#{msgs['FIELD_LABEL.CAMPAGNES']}">
-                                    <p:graphicImage url="/resources/images/informationSmall.png"
+                                    <p:graphicImage library="images" name="informationSmall.png"
                                                     style="cursor:pointer;" id="allcampagnes"/>
                                     <p:overlayPanel for="allcampagnes" appendToBody="true"
                                                     showEvent="mouseover" hideEvent="mouseout"
@@ -184,8 +184,7 @@
                                                                              target="#{formulairesController.traitementCmiSelected}"/>
                                             </p:commandLink>
                                             <h:outputLink target="_blank" styleClass="form-button"
-                                                          value="#{formulairesController.orbeonBuilderUrl}#{beanTrtCmi.traitementCmi.versionEtpOpi.codEtp}-#{beanTrtCmi.traitementCmi.versionEtpOpi.codVrsVet}
-        							 -#{trtCmiController.currentRegime.shortLabel}"
+                                                          value="#{formulairesController.orbeonBuilderUrl}#{beanTrtCmi.traitementCmi.versionEtpOpi.codEtp}-#{beanTrtCmi.traitementCmi.versionEtpOpi.codVrsVet}-#{trtCmiController.currentRegime.shortLabel}"
                                                           rendered="#{formulairesController.formulairesCmi[beanTrtCmi.traitementCmi.versionEtpOpi] != null}">
                                                 <h:outputText value="#{msgs['FORMULAIRE.EDIT']}"/>
                                             </h:outputLink>

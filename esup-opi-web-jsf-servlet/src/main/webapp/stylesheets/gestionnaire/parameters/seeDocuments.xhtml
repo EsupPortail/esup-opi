@@ -54,9 +54,9 @@
                             <f:facet name="header">
                                 <h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}"/>
                             </f:facet>
-                            <p:graphicImage url="/resources/images/check2.gif"
+                            <p:graphicImage library="images" name="check2.gif"
                                             rendered="#{typeConvocation.temoinEnService}"/>
-                            <p:graphicImage url="/resources/images/check0.gif"
+                            <p:graphicImage library="images" name="check0.gif"
                                             rendered="#{!typeConvocation.temoinEnService}"/>
                         </p:column>
                         <p:column styleClass="buttonTD">

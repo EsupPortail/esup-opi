@@ -24,7 +24,7 @@
                              styleClass="paginatorData">
                     <p:column style="width:18px!important">
                         <ui:fragment rendered="#{versionEtapePojo.isAlReadyChoice}">
-                        <p:graphicImage url="/resources/images/flag_red.png"
+                        <p:graphicImage library="images" name="flag_red.png"
                                         style="cursor:pointer;" id="alreadyInscription"/>
                         <p:overlayPanel for="alreadyInscription"
                                         showEvent="mouseover"
@@ -57,7 +57,7 @@
                         <h:panelGroup
                                 rendered="#{versionEtapePojo.calPeriod != null}">
                             <h:outputText value="#{versionEtapePojo.shortCalPeriod}"/>
-                            <p:graphicImage url="/resources/images/informationSmall.png"
+                            <p:graphicImage library="images" name="informationSmall.png"
                                             style="cursor:pointer;" id="infoAnneeUni"
                                             rendered="#{versionEtapePojo.isShortCalPeriod}"/>
                             <p:overlayPanel for="infoAnneeUni"

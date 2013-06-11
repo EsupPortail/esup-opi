@@ -9,10 +9,10 @@
             <f:event type="postValidate" listener="#{individuController.useGestCommsFilter(true)}" />
             <p:blockUI block="maPage" trigger="choiceTypeDecision individuData individuData:checkAll search-button"
                        widgetVar="pageBlocker">
-                <p:graphicImage value="/resources/images/ajax-loader.gif" />
+                <p:graphicImage library="images" name="ajax-loader.gif" />
             </p:blockUI>
             <p:blockUI block="dataPanel" trigger="renderTable" widgetVar="panelBlocker">
-                <p:graphicImage value="/resources/images/ajax-loader.gif" />
+                <p:graphicImage library="images" name="ajax-loader.gif" />
             </p:blockUI>
             <p:panel id="maPage" styleClass="div_body">
                 <h1>
@@ -112,7 +112,7 @@
                                            value="#{individuPojo.voeuxSortedByLic}">
                                     <div>
                                         <h:panelGroup rendered="#{indVoeuxPojo.avisEnService.result.code != null}">
-                                            <p:graphicImage url="/resources/images/informationSmall.png"
+                                            <p:graphicImage library="images" name="informationSmall.png"
                                                             style="cursor:pointer;" id="avisEnService" />
                                             <p:overlayPanel showEffect="fade" hideEffect="fade"
                                                             showEvent="mouseover" hideEvent="mouseout"

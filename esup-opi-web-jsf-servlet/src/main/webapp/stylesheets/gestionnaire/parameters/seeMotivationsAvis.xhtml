@@ -65,7 +65,7 @@
                                          closePopupOnExitingPopup="true" displayAtDistanceX="-50"
                                          displayAtDistanceY="0"
                                          rendered="#{nomenclaturePojo.isShortLabel}">
-                                    <p:graphicImage url="/resources/images/informationSmall.png"
+                                    <p:graphicImage library="images" name="informationSmall.png"
                                                     style="cursor:pointer;"/>
                                     <f:facet name="popup">
                                         <h:panelGroup>
@@ -89,9 +89,9 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}"/>
                                 </f:facet>
-                                <p:graphicImage url="/resources/images/check2.gif"
+                                <p:graphicImage library="images" name="check2.gif"
                                                 rendered="#{nomenclaturePojo.nomenclature.temoinEnService}"/>
-                                <p:graphicImage url="/resources/images/check0.gif"
+                                <p:graphicImage library="images" name="check0.gif"
                                                 rendered="#{!nomenclaturePojo.nomenclature.temoinEnService}"/>
                             </p:column>
                             <p:column styleClass="buttonTD">

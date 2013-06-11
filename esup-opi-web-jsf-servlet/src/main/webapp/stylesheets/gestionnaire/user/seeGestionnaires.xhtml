@@ -76,9 +76,9 @@
     						<h:outputText value="#{manager.adressMail}" />
     					</p:column>
     					<p:column>
-    						<p:graphicImage url="/resources/images/check2.gif"
+    						<p:graphicImage library="images" name="check2.gif"
     							rendered="#{manager.temoinEnService}" />
-    						<p:graphicImage url="/resources/images/check0.gif"
+    						<p:graphicImage library="images" name="check0.gif"
     							rendered="#{!manager.temoinEnService}" />
     					</p:column>
     					<p:column>
@@ -116,7 +116,7 @@
     					</p:column>
     				</p:dataTable>
                     <p:blockUI block="seeManagersForm" trigger="managerData">
-                        <p:graphicImage value="/resources/images/ajax-loader.gif" />
+                        <p:graphicImage library="images" name="ajax-loader.gif" />
                     </p:blockUI>
                 </h:form>
     			</div>

@@ -30,9 +30,9 @@
                 <h:outputText value="*" styleClass="etoileForChpObli"/>
             </h:panelGroup>
             <h:panelGroup>
-                <p:graphicImage url="/resources/images/check2.gif"
+                <p:graphicImage library="images" name="check2.gif"
                                 rendered="#{situationController.indSituation.compensated}"/>
-                <p:graphicImage url="/resources/images/check0.gif"
+                <p:graphicImage library="images" name="check0.gif"
                                 rendered="#{!situationController.indSituation.compensated}"/>
             </h:panelGroup>
 

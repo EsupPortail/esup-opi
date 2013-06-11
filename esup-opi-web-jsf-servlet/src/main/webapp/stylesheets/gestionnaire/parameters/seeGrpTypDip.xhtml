@@ -65,11 +65,11 @@
     						and groupeSelect.codGrpTpd == paramGrpTypDipController.groupe.codGrpTpd}">
                         <f:selectItems value="#{paramGrpTypDipController.temEnSveItems}"/>
                     </p:selectOneMenu>
-                    <p:graphicImage url="/resources/images/check2.gif"
+                    <p:graphicImage library="images" name="check2.gif"
                                     rendered="#{groupeSelect.temEnSveGrpTpd == 'O'
     					and (paramGrpTypDipController.actionEnum.whatAction != paramGrpTypDipController.actionEnum.updateAction
     						|| groupeSelect.codGrpTpd != paramGrpTypDipController.groupe.codGrpTpd)}"/>
-                    <p:graphicImage url="/resources/images/check0.gif"
+                    <p:graphicImage library="images" name="check0.gif"
                                     rendered="#{groupeSelect.temEnSveGrpTpd == 'N'
     					and (paramGrpTypDipController.actionEnum.whatAction != paramGrpTypDipController.actionEnum.updateAction
     						|| groupeSelect.codGrpTpd != paramGrpTypDipController.groupe.codGrpTpd)}"/>

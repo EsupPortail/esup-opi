@@ -70,9 +70,9 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['FIELD_LABEL.ARCHIVE.EXECUTED']}"/>
                                 </f:facet>
-                                <p:graphicImage url="/resources/images/check2.gif"
+                                <p:graphicImage library="images" name="check2.gif"
                                                 rendered="#{archiveTask.isExecuted}"/>
-                                <p:graphicImage url="/resources/images/check0.gif"
+                                <p:graphicImage library="images" name="check0.gif"
                                                 rendered="#{!archiveTask.isExecuted}"/>
                             </p:column>
                             <p:column styleClass="buttonTD">
