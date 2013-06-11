@@ -18,14 +18,14 @@
                     <f:facet name="header">
                         <h:outputText value="#{msgs['INFO.SAISIE']}"/>
                     </f:facet>
-                    <p:commandButton styleClass="form-button-link" immediate="true"
+                    <h:commandButton styleClass="form-button-link" immediate="true"
                                      action="#{formationController.goSummaryWishes}"
                                      value="#{indVoeuPojo.vrsEtape.libWebVet}"
                                      rendered="#{formulairesController.formulairesCmi[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null
         							and indVoeuPojo.etat.displayForms}">
                         <f:setPropertyActionListener value="#{indVoeuPojo}"
                                                      target="#{formationController.indVoeuPojo}"/>
-                    </p:commandButton>
+                    </h:commandButton>
                 </p:column>
                 <p:column>
                     <f:facet name="header">
@@ -34,13 +34,13 @@
                     <h:panelGroup
                             rendered="#{formulairesController.formulairesCmi[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null
         							and indVoeuPojo.etat.displayForms}">
-                        <p:commandLink value="#{msgs['FORMULAIRE.ACCESS']}"
+                        <h:commandLink value="#{msgs['FORMULAIRE.ACCESS']}"
                                        style="font-size:14px;"
                                        action="#{formulairesController.createResponseInRunner}"
                                        rendered="#{formulairesController.indFormulaires[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] == null and formulairesController.indSelectedForms[indVoeuPojo.indVoeu.linkTrtCmiCamp.traitementCmi.versionEtpOpi] != null}">
                             <f:setPropertyActionListener value="#{indVoeuPojo.indVoeu}"
                                                          target="#{formulairesController.indVoeuSelected}"/>
-                        </p:commandLink>
+                        </h:commandLink>
                         <h:outputLink target="_blank"
                                       style="font-size:14px;"
                                       value="#{formulairesController.orbeonOpiUrl}#{indVoeuPojo.vrsEtape.codEtp}-#{indVoeuPojo.vrsEtape.codVrsVet}-#{sessionController.currentInd.regimeInscription.shortLabel}/edit/#{indVoeuPojo.indVoeu.individu.numDossierOpi}"

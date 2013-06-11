@@ -44,18 +44,13 @@
                     <h:outputText
                         value="#{msgs['FIELD_LABEL.FORMATION_ASK']}" />
                 </f:facet>
-                <p:commandLink styleClass="form-button-link"
+                <h:commandLink styleClass="form-button-link"
                     immediate="true"
                     action="#{formationController.goSummaryWishes}"
                     value="#{indVoeuPojo.vrsEtape.libWebVet}">
                     <f:setPropertyActionListener value="#{indVoeuPojo}"
                         target="#{formationController.indVoeuPojo}" />
-                </p:commandLink>
-<!--     			<p:commandButton icon="ui-icon-search" immediate="true" -->
-<!--     								action="#{formationController.goSummaryWishes}" -->
-<!--     							title="#{msgs['_.BUTTON.DISPLAY']}"> -->
-<!--     				<f:setPropertyActionListener value="#{indVoeuPojo}" target="#{formationController.indVoeuPojo}" /> -->
-<!--     			</p:commandButton> -->
+                </h:commandLink>
             </p:column>
             <p:column>
                 <f:facet name="header">
