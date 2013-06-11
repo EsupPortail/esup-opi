@@ -165,11 +165,10 @@
                         <h:outputText value="#{msgs['INDIVIDU.ETAT']}"/>
                         <h:outputText value="#{msgs['INDIVIDU.DISPLAY_UPDATE']}"/>
 
-                        <p:commandButton value="#{msgs['INDIVIDU.BAC']}"
+                        <h:commandButton value="#{msgs['INDIVIDU.BAC']}"
                                          styleClass="form-button-link" immediate="true"
                                          action="#{indBacController.goSeeIndBac}"
-                                         rendered="#{sessionController.currentInd.canUpdateBac}"
-                                         ajax="false"/>
+                                         rendered="#{sessionController.currentInd.canUpdateBac}" />
                         <h:outputText value="#{msgs['INDIVIDU.BAC']}"
                                       rendered="#{!sessionController.currentInd.canUpdateBac}"/>
                         <h:outputText value="#{sessionController.currentInd.etatIndBac}"/>
@@ -181,7 +180,7 @@
                                              ajax="false"/>
                         </h:panelGroup>
 
-                        <p:commandButton value="#{msgs['INDIVIDU.SITUATION']}"
+                        <h:commandButton value="#{msgs['INDIVIDU.SITUATION']}"
                                          styleClass="form-button-link" immediate="true"
                                          action="#{situationController.goSeeSituation}"
                                          rendered="#{sessionController.currentInd.canUpdateIndCursusPro
@@ -201,11 +200,10 @@
 
                         <h:outputText value="#{msgs['INDIVIDU.CURSUS_UNI']}"
                                       rendered="#{!sessionController.currentInd.canUpdateIndCursusScol}"/>
-                        <p:commandButton value="#{msgs['INDIVIDU.CURSUS_UNI']}"
+                        <h:commandButton value="#{msgs['INDIVIDU.CURSUS_UNI']}"
                                          styleClass="form-button-link" immediate="true"
                                          action="#{cursusController.goSeeCursusScol}"
-                                         rendered="#{sessionController.currentInd.canUpdateIndCursusScol}"
-                                         ajax="false"/>
+                                         rendered="#{sessionController.currentInd.canUpdateIndCursusScol}" />
                         <h:outputText value="#{sessionController.currentInd.etatIndCursusScol}"/>
                         <h:panelGroup>
                             <p:commandButton icon="ui-icon-plus" immediate="true"
@@ -218,7 +216,7 @@
                         <h:panelGroup>
                             <h:outputText value="#{msgs['INDIVIDU.CURSUS_EXT']}"
                                           rendered="#{!sessionController.currentInd.canUpdateIndCursusPro}"/>
-                            <p:commandButton value="#{msgs['INDIVIDU.CURSUS_EXT']}"
+                            <h:commandButton value="#{msgs['INDIVIDU.CURSUS_EXT']}"
                                              action="#{cursusController.goSeeCursusPro}"
                                              styleClass="form-button-link" immediate="true"
                                              rendered="#{sessionController.currentInd.canUpdateIndCursusPro}"/>
@@ -252,7 +250,7 @@
                         <h:panelGroup>
                             <h:outputText value="#{msgs['INDIVIDU.QUALIF.NO_DIP']}"
                                           rendered="#{!sessionController.currentInd.canUpdateIndCursusPro}"/>
-                            <p:commandButton value="#{msgs['INDIVIDU.QUALIF.NO_DIP']}"
+                            <h:commandButton value="#{msgs['INDIVIDU.QUALIF.NO_DIP']}"
                                              styleClass="form-button-link" immediate="true"
                                              action="#{cursusController.goSeeQualif}"
                                              rendered="#{sessionController.currentInd.canUpdateIndCursusPro}"/>
