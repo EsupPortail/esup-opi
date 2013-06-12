@@ -4,7 +4,6 @@ import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 /**
@@ -71,6 +70,10 @@ public class IndRechPojo {
     private Boolean useTypeTrtFilter = false;
 
     /**
+     * Filtre-t-on les individus selon un {@link TypeTraitement}
+     */
+    private Boolean useTypeTrtVetFilter = false;
+    /**
      * Filtre-t-on selon les commissions du gestionnaire courant ?
      */
     private Boolean useGestCommsFilter = false;
@@ -91,6 +94,12 @@ public class IndRechPojo {
 	 */
 	private Boolean canModifyRISearch;
 	
+	/**
+	 * Vet traitement type for student search. Contains "VA" and "TR"
+	 */
+	private List<String> typesTrtVet = new ArrayList<String>();
+
+
 	/*
 	 ******************* INIT ************************* */
 	/**
@@ -281,6 +290,14 @@ public class IndRechPojo {
         this.useTypeTrtFilter = useTypeTrtFilter;
     }
 
+    public Boolean isUseTypeTrtVetFilter() {
+        return useTypeTrtVetFilter;
+    }
+    
+    public void setUseTypeTrtVetFilter(Boolean useTypeTrtVetFilter) {
+        this.useTypeTrtVetFilter = useTypeTrtVetFilter;
+    }
+    
     public Boolean isUseGestCommsFilter() {
         return useGestCommsFilter;
     }
@@ -330,5 +347,15 @@ public class IndRechPojo {
     public void setSelectValid(final Boolean selectValid) {
         this.selectValid = selectValid;
     }
+    	
+	/**
+	 * @return the typesTrtVet
+	 */
+	public List<String> getTypesTrtVet() {
+		typesTrtVet.clear();
+		typesTrtVet.add("VA");
+		typesTrtVet.add("TR");
+		return typesTrtVet;
+	}
 
 }

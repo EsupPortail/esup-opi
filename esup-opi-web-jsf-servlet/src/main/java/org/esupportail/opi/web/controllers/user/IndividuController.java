@@ -305,9 +305,13 @@ public class IndividuController extends AbstractAccessController {
                     // 8. Date de création des voeux
                     final Option<Date> dateCrea = fromNull(indRechPojo.getDateCreationVoeuRecherchee());
 
+                    // 9. le ou les types de traitement des étapes
+                    Boolean useTypeTrtVetFilter = indRechPojo.isUseTypeTrtVetFilter();
+                    final Option<List<String>> typesTrtVet = iif(useTypeTrtVetFilter != null && useTypeTrtVetFilter, indRechPojo.getTypesTrtVet());
+                    
                     return getDomainService().sliceOfInd(
                             pfFilters((long) first, (long) pageSize, sortField, sortOrder, filters),
-                            typesDec, validWish, wishTreated, dateCrea, codeTypeTrtmt, trtCmis, listCodesRI);
+                            typesDec, validWish, wishTreated, dateCrea, codeTypeTrtmt, trtCmis, listCodesRI, typesTrtVet);
                 }
             },
             new F2<String, Individu, Boolean>() {
@@ -906,10 +910,18 @@ public class IndividuController extends AbstractAccessController {
         individuPaginator.getIndRechPojo().setUseTypeTrtFilter(bool);
     }
 
+    public void useTypeTrtVetFilter(Boolean bool) {
+        individuPaginator.getIndRechPojo().setUseTypeTrtVetFilter(bool);
+    }   
+    
     public void useGestCommsFilter(Boolean bool) {
         individuPaginator.getIndRechPojo().setUseGestCommsFilter(bool);
     }
 
+    public void excludeWishProcessed(Boolean bool) {
+        individuPaginator.getIndRechPojo().setExcludeWishProcessed(bool);
+    }
+    
     /**
      * Charge les attributes des individus Pojo.
      */

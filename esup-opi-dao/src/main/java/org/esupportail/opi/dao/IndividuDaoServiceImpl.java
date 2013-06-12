@@ -140,6 +140,20 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                 }
             };
 
+    final F<List<String>, F<BooleanExpression, BooleanExpression>> typesTrtVetFilter =
+            new F<List<String>, F<BooleanExpression, BooleanExpression>>() {
+                public F<BooleanExpression, BooleanExpression> f(final List<String> typeTrtCmis) {
+                    return new F<BooleanExpression, BooleanExpression>() {
+                        public BooleanExpression f(BooleanExpression subExpr) {
+                            final PathBuilder<TraitementCmi> typeTrtCmi = indVoeu
+                                            .get("linkTrtCmiCamp", LinkTrtCmiCamp.class)
+                                            .get("traitementCmi", TraitementCmi.class);
+                            return typeTrtCmis.size() > 0 ? subExpr.and(typeTrtCmi.get("codTypeTrait").in(typeTrtCmis)) : subExpr.and(typeTrtCmi.isNull());
+                        }
+                    };
+                }
+            };            
+            
     final F<List<TypeDecision>, F<BooleanExpression, BooleanExpression>> typeDecFilter =
             new F<List<TypeDecision>, F<BooleanExpression, BooleanExpression>>() {
                 public F<BooleanExpression, BooleanExpression> f(final List<TypeDecision> typesDecision) {
@@ -207,7 +221,8 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                                                  final Option<Date> wishCreation,
                                                  final Option<String> codeTypeTrtmt,
                                                  final Option<Set<TraitementCmi>> trtCmis,
-                                                 final Set<Integer> listCodesRI) {
+                                                 final Set<Integer> listCodesRI,
+                                                 final Option<List<String>> typesTrtVet) {
 
         final BooleanExpression andExpr = BooleanTemplate.create("1 = 1");
 
@@ -220,6 +235,7 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                                 .map(parseBoolean.andThen(baseVoeuFilter)),
                         trtCmis.map(trtCmiFilter),
                         iif(!typesDec.isEmpty(), typeDecFilter.f(typesDec)),
+                        typesTrtVet.map(typesTrtVetFilter),
                         validWish.map(validWishFilter),
                         treatedWish.map(unTreatedWishFilter),
                         codeTypeTrtmt.map(notCodeTypeTrtmtFilter),
@@ -229,7 +245,7 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
 
         final F<HibernateQuery, HibernateQuery> customFilterQuery = new F<HibernateQuery, HibernateQuery>() {
             public HibernateQuery f(HibernateQuery query) {
-                return query.distinct()
+            	return query.distinct()
                         .leftJoin(indVoeux, indVoeu)
                         .innerJoin(indCamps, camp)
                         .leftJoin(indVoeuAvis, avis)
