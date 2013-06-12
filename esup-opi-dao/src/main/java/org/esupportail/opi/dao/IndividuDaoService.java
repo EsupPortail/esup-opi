@@ -30,7 +30,8 @@ public interface IndividuDaoService {
                                           Option<Date> wishCreation,
                                           Option<String> codeTypeTrtmt,
                                           Option<Set<TraitementCmi>> trtCmis,
-                                          Set<Integer> listCodesRI);
+                                          Set<Integer> listCodesRI,
+                                          Option<List<String>> typesTrtVet);
 
     /**
      * Return the individuals managed by commission.

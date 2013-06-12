@@ -188,7 +188,8 @@ public interface DomainService extends Serializable {
                                           Option<Date> wishCreation,
                                           Option<String> codeTypeTrtmt,
                                           Option<Set<TraitementCmi>> trtCmis,
-                                          Set<Integer> listCodesRI);
+                                          Set<Integer> listCodesRI,
+                                          Option<List<String>> typesTrtVet);
 
 	/**
 	 * @param individu

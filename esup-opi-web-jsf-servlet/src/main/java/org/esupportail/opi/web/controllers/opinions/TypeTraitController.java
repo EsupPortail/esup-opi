@@ -8,7 +8,6 @@ import org.esupportail.opi.domain.beans.parameters.*;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.utils.Constantes;
-import org.esupportail.opi.web.beans.paginator.IndividuPojoPaginator;
 import org.esupportail.opi.web.beans.pojo.*;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
@@ -25,7 +24,6 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
-import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
 /**
  * @author tducreux
