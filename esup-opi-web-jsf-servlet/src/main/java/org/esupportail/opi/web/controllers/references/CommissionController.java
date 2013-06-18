@@ -366,13 +366,13 @@ public class CommissionController
 		Integer codeRI = gest.getProfile().getCodeRI();
 
 		AdresseCommission adresseComm = new AdresseCommission();
-		ContactCommission contactRI = commission.getContactsCommission().get(codeRI.toString());
+		ContactCommission contactRI = commission.getContactsCommission().get(codeRI);
 		if (contactRI != null) {
 			// peut être null si autre régime d'inscription
 			adresseComm = contactRI.getAdresse();
 		}
 		adressController.init(adresseComm, true);
-		contactCommission = commission.getContactsCommission().get(codeRI.toString());
+		contactCommission = commission.getContactsCommission().get(codeRI);
 		if (contactCommission == null) {
 			contactCommission = new ContactCommission(codeRI);
 		}
@@ -402,7 +402,7 @@ public class CommissionController
 		Integer codeRI = gest.getProfile().getCodeRI();
 
 		AdresseCommission adresseComm = new AdresseCommission();
-		ContactCommission contactRI = commission.getContactsCommission().get(codeRI.toString());
+		ContactCommission contactRI = commission.getContactsCommission().get(codeRI);
 		if (contactRI != null) {
 			adresseComm = contactRI.getAdresse();
 		} else {
@@ -410,7 +410,7 @@ public class CommissionController
 		}
 		adressController.init(adresseComm, false);
 
-		contactCommission = commission.getContactsCommission().get(codeRI.toString());
+		contactCommission = commission.getContactsCommission().get(codeRI);
 		if (contactCommission == null) {
 			contactCommission = new ContactCommission(codeRI);
 		}
