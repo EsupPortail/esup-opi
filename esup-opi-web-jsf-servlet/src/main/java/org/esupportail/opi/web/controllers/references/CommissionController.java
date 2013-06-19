@@ -560,7 +560,8 @@ public class CommissionController
 			log.debug("enterind update with Commission = " + commission);
 		}
 		Adresse adresse = adressController.getFixAdrPojo().getAdresse();
-		if (ctrlEnter(commission, adresse, true)
+        commission = getParameterService().getCommission(commission.getId(), null);
+        if (ctrlEnter(commission, adresse, true)
 				&& adressController.ctrlEnter(adresse, true)
 				&& ctrlAllMbrInMbrToDisplay()) {
 			List<Member> mToDelete = new ArrayList<Member>();
