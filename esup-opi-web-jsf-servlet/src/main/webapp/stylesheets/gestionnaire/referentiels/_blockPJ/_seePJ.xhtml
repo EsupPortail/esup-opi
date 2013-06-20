@@ -30,7 +30,7 @@
             </f:facet>
             <h:outputText value="#{nomenclaturePojo.shortLabel}"/>
             <h:panelGroup rendered="#{nomenclaturePojo.isShortLabel}">
-                <p:graphicImage library="images" name="informationSmall.png"
+                <p:graphicImage url="/resources/images/informationSmall.png"
                                 id="infoLibelle" style="cursor:pointer;"/>
                 <p:overlayPanel for="infoLibelle" appendToBody="true"
                                 showEffect="mouseover" hideEffect="mouseout"
@@ -54,22 +54,25 @@
             <f:facet name="header">
                 <h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}"/>
             </f:facet>
-            <p:graphicImage library="images" name="check2.gif"
+            <p:graphicImage url="/resources/images/check2.gif"
                             rendered="#{nomenclaturePojo.nomenclature.temoinEnService
 				and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
 					|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
-            <p:graphicImage library="images" name="check0.gif"
+            <p:graphicImage url="/resources/images/check0.gif"
                             rendered="#{!nomenclaturePojo.nomenclature.temoinEnService
 				and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
 					|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
         </p:column>
         <p:column styleClass="buttonTD" style="text-align: right;">
-            <p:commandButton image="/resources/images/cancel.png"
-                             styleClass="form-button-image" immediate="true"
+            <p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
+                             style="padding: .4em;" immediate="true"
                              title="#{msgs['_.BUTTON.DELETE']}"
-                             action="#{nomenclatureController.removeTrtPJ}">
+                             action="#{nomenclatureController.removeTrtPJ}"
+                             update="@form"
+                             onclick="window.scrollTo(0, 0);">
+                <div class="ui-button-icon-left ui-icon ui-icon-minus" />
                 <f:setPropertyActionListener value="#{nomenclaturePojo}" target="#{nomenclatureController.PJTraitee}"/>
-            </p:commandButton>
+            </p:commandLink>
         </p:column>
     </p:dataTable>
 </ui:fragment>		

@@ -73,7 +73,7 @@ public class VETPaginator extends ListPaginator<VersionEtapeDTO> {
     private ParameterService parameterService;
 
 
-    /**
+	/**
      * Constructors.
      */
     public VETPaginator() {
@@ -94,12 +94,13 @@ public class VETPaginator extends ListPaginator<VersionEtapeDTO> {
         forceReload();
         //Tests si assez de critères (une commission ou un centre de gestion)
         //et sinon si pas de vet trouvée
-        if (rvd.getCodCge().equalsIgnoreCase("") && rvd.getIdCmi() == null) {
+        if ((rvd.getCodCge()==null ||rvd.getCodCge().equalsIgnoreCase("")) && rvd.getIdCmi() == null) {
             addMissingCriteriaMessage();
         } else {
             if (getData().isEmpty())
                 addEmptyDataMessage();
         }
+        
     }
 
     /**
@@ -109,7 +110,7 @@ public class VETPaginator extends ListPaginator<VersionEtapeDTO> {
      *      gérée par le paginator
      */
     @Override
-    protected List<VersionEtapeDTO> getData() {
+    public List<VersionEtapeDTO> getData() {
         List<VersionEtapeDTO> etapes = new ArrayList<VersionEtapeDTO>();
         Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
         int codeRI = gest.getProfile().getCodeRI();
@@ -285,6 +286,6 @@ public class VETPaginator extends ListPaginator<VersionEtapeDTO> {
     public void setI18nService(I18nService i18nService) {
         this.i18nService = i18nService;
     }
-
+    
 
 }

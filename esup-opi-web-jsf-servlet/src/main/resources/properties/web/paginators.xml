@@ -7,7 +7,6 @@
     <!-- **** PAGINATOR **** -->
 
     <bean id="paginatorIndividu"
-        lazy-init="true"
           class="org.esupportail.opi.web.beans.paginator.IndividuPaginator"
           scope="session">
         <property name="sessionController" ref="sessionController"/>
@@ -27,7 +26,6 @@
 
 
     <bean id="paginatorIndividuPojo"
-        lazy-init="true"
           class="org.esupportail.opi.web.beans.paginator.IndividuPojoPaginator"
           scope="session">
         <property name="sessionController" ref="sessionController"/>
@@ -47,7 +45,6 @@
 
 
     <bean id="paginatorPM" class="org.esupportail.opi.web.beans.paginator.PMPaginator"
-        lazy-init="true"
           scope="session">
         <property name="sessionController" ref="sessionController"/>
         <property name="domainApoService" ref="domainApoService"/>
@@ -68,7 +65,6 @@
 
     <bean id="paginatorCommission"
           class="org.esupportail.opi.web.beans.paginator.CommissionPaginator"
-        lazy-init="true"
           scope="session">
         <property name="parameterService" ref="parameterService"/>
         <property name="domainApoService" ref="domainApoService"/>
@@ -87,11 +83,11 @@
 
 
     <bean id="paginatorVET" class="org.esupportail.opi.web.beans.paginator.VETPaginator"
-        lazy-init="true"
           scope="session">
         <property name="parameterService" ref="parameterService"/>
         <property name="domainApoService" ref="domainApoService"/>
         <property name="sessionController" ref="sessionController"/>
+        <property name="i18nService" ref="i18nService"/>
         <property name="maxNearPages" value="4"/>
         <property name="defaultPageSize" value="20"/>
         <property name="pageSize" value="20"/>
