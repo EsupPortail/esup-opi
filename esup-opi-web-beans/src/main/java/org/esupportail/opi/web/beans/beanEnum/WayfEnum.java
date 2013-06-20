@@ -40,16 +40,6 @@ public class WayfEnum {
 	public static final String CALENDAR_VALUE = "CALENDAR";
 	
 	/**
-	 * This means that one comes to opinions all students.
-	 */
-	public static final String OPINION_ALL_VALUE = "OPINION_ALL";
-	
-	/**
-	 * This means that one comes to opinions students.
-	 */
-	public static final String OPINION_VALUE = "OPINION";
-	
-	/**
 	 * Value to the empty value.
 	 */
 	public static final String EMPTY_VALUE = "EMPTY";
@@ -140,20 +130,5 @@ public class WayfEnum {
 	public String getAffectPJValue() {
 		return AFFECT_PJ_VALUE;
 	}
-	
-	/**
-	 * @return the OPINION_ALL_VALUE
-	 */
-	public String getOpinionAllValue() {
-		return OPINION_ALL_VALUE;
-	}
-	
-	/**
-	 * @return the OPINION_VALUE
-	 */
-	public String getOpinionValue() {
-		return OPINION_VALUE;
-	}
-	
 
 }

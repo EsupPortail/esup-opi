@@ -495,11 +495,6 @@
             <to-view-id>/stylesheets/gestionnaire/opinion/enterAllStudentsOpinions.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
-        <navigation-case>
-            <from-outcome>go_enter_students_opinions</from-outcome>
-            <to-view-id>/stylesheets/gestionnaire/opinion/enterStudentsOpinions.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
         <!--  valid opinions -->
         <navigation-case>
             <from-outcome>go_valid_opinions</from-outcome>
@@ -1070,11 +1065,6 @@
         <navigation-case>
             <from-outcome>go_enter_all_students_opinions</from-outcome>
             <to-view-id>/stylesheets/gestionnaire/opinion/enterAllStudentsOpinions.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>go_enter_students_opinions</from-outcome>
-            <to-view-id>/stylesheets/gestionnaire/opinion/enterStudentsOpinions.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         <navigation-case>

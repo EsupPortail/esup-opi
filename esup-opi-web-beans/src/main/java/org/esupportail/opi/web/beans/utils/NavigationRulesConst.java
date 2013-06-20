@@ -537,14 +537,10 @@ public class NavigationRulesConst {
 	 *############ AVIS ############# */
 	
 	/**
-	 * Go to /stylesheets/gestionnaire/opinion/seeAllStudentsOpinions.xhtml.
+	 * Go to /stylesheets/gestionnaire/opinion/enterAllStudentsOpinions.xhtml.
 	 */
 	public static final String ENTER_ALL_STUDENTS_OPINIONS = "go_enter_all_students_opinions";
 	
-	/**
-	 * Go to /stylesheets/gestionnaire/opinion/seeAllStudentsOpinions.xhtml.
-	 */
-	public static final String ENTER_STUDENTS_OPINIONS = "go_enter_students_opinions";
 	/**
 	 * Go to /stylesheets/gestionnaire/opinion/seeOpinions.xhtml.
 	 */

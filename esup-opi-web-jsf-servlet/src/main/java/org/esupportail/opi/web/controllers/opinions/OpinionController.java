@@ -253,16 +253,6 @@ public class OpinionController
     }
 
     /**
-     * Callback to list of student for the gestion of the opinions.
-     *
-     * @return String
-     */
-    public String goEnterStudentsOpinions() {
-        reset();
-        return NavigationRulesConst.ENTER_STUDENTS_OPINIONS;
-    }
-
-    /**
      * Callback to see l'avis d'un voeu.
      *
      * @return String
@@ -286,13 +276,7 @@ public class OpinionController
      * @return String
      */
     public String goBackOpinions() {
-        if (wayfEnum.getWhereAreYouFrom().equals(WayfEnum.OPINION_ALL_VALUE)) {
-            return goEnterAllStudentsOpinions();
-        } else if (wayfEnum.getWhereAreYouFrom().equals(WayfEnum.OPINION_VALUE)) {
-            return goEnterStudentsOpinions();
-        }
-
-        return null;
+	    return goEnterAllStudentsOpinions();
     }
 
     /**
@@ -352,42 +336,6 @@ public class OpinionController
                 selectedMotivation = nomP;
             }
         }
-    }
-
-    /**
-     * Save les avis des individus pour lesquels on a choisi un type de decision.
-     */
-    public void saveAllByIndividu() {
-        mapTestRang.clear();
-        // stockage des indVoeuPojo en erreur pour les reediter dans le formulaire
-        Set<IndVoeuPojo> voeuxInError = new HashSet<IndVoeuPojo>();
-        //R�cup�ration de tous les nouveaus avis
-        Map<Integer, IndVoeuPojo> mapIndVoeuPojoNewAvis = new HashMap<Integer, IndVoeuPojo>();
-        for (IndividuPojo ind : indPojoLDM.getData()) {
-            //parcours + recup newAvis
-            for (IndVoeuPojo indVoeuPojo : ind.getIndVoeuxPojo()) {
-                if (indVoeuPojo.getNewAvis().getResult() != null) {
-                    mapIndVoeuPojoNewAvis.put(indVoeuPojo.getIndVoeu().getId(), indVoeuPojo);
-                }
-            }
-        }
-        //Ajout des nouveaux avis
-//		for (Integer idIndVoeu : mapIndVoeuPojoNewAvis.keySet()) {
-        for (Map.Entry<Integer, IndVoeuPojo> idIndVoeu : mapIndVoeuPojoNewAvis.entrySet()) {
-            IndVoeuPojo iVoeuPojo = idIndVoeu.getValue();
-            Boolean isRefused = iVoeuPojo.getNewAvis().getResult().getIsFinal()
-                    && iVoeuPojo.getNewAvis().getResult().
-                    getCodeTypeConvocation().equals(refused.getCode());
-            Boolean goodAdd = add(iVoeuPojo.getIndVoeu(), iVoeuPojo.getNewAvis(), mapIndVoeuPojoNewAvis);
-            if (!goodAdd && isRefused) {
-                voeuxInError.add(iVoeuPojo);
-            }
-        }
-        reset();
-//		individuPaginator.setForceReload(false);
-//		individuPaginator.resetNotSuper(true);
-        // recharge des voeux en erreur pour nouvelle saisie
-        setVoeuxInErrorInPaginator(voeuxInError);
     }
 
 

@@ -409,21 +409,7 @@
 		<property name="domain" ref="domain_commission" />
 		<property name="action" value="#{new java.lang.String('#{opinionController.goEnterAllStudentsOpinions}')}" />
 	</bean>
-	
-	<bean 
-		id="function_gest_avis_students"
-		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
-		lazy-init="true"
-		>
-		<property name="code" value="OPIR1_05F04"/>
-		<property name="libelle" value="Gestion des avis par étudiant" />
-		<property name="rang" value="4" />
-		<property name="domain" ref="domain_commission" />
-		<property name="action" value="#{new java.lang.String('#{opinionController.goEnterStudentsOpinions}')}" />
-	</bean>
-	
-	
-	
+		
 	<bean 
 		id="function_print_avis_students"
 		class="org.esupportail.opi.domain.beans.parameters.accessRight.Fonction"
