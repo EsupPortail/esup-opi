@@ -2,10 +2,8 @@
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui"
-        template="/stylesheets/template.xhtml">
+        template="/stylesheets/templateMisc.xhtml">
     <ui:define name="content">
-        <ui:include src="../_include/_headerException.xhtml"/>
-
 
         <div id="maPage" class="div_body">
             <div class="messageForUser">
@@ -52,10 +50,5 @@
             <br/>
             <br/>
         </div>
-
-        <script type="text/javascript">
-            highlightChildrenLiTags('navigationHeader:navigation');
-            highlightChildrenLiTags('navigationFooter:navigation');
-        </script>
     </ui:define>
 </ui:composition>

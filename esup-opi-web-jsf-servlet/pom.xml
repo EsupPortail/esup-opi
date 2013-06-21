@@ -170,12 +170,6 @@
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-simple</artifactId>
                 </exclusion>
-                <exclusion>
-                    <artifactId>
-                        jsr168forwardport.org.springframework.web.portlet
-                    </artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
             </exclusions>
         </dependency>
         <dependency>

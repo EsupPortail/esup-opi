@@ -22,12 +22,6 @@
             <type>jar</type>
             <exclusions>
                 <exclusion>
-                    <artifactId>
-                        jsr168forwardport.org.springframework.web.portlet
-                    </artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
                     <artifactId>slf4j-simple</artifactId>
                     <groupId>org.slf4j</groupId>
                 </exclusion>
@@ -75,12 +69,6 @@
                 <exclusion>
                     <artifactId>ehcache</artifactId>
                     <groupId>net.sf.ehcache</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>
-                        jsr168forwardport.org.springframework.web.portlet
-                    </artifactId>
-                    <groupId>org.springframework</groupId>
                 </exclusion>
                 <exclusion>
                     <artifactId>slf4j-simple</artifactId>

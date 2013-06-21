@@ -704,9 +704,6 @@ public class CommissionController
 	}
 
 
-
-
-
 	/**
 	 * remove commission in selectedCommissions.
 	 */

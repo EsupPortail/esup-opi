@@ -1564,5 +1564,17 @@
             <redirect/>
         </navigation-case>
     </navigation-rule>
+    
+    	
+	<!-- **********************gestion des exceptions ******************** -->
+	
+	<navigation-rule>
+		<description>Gestion des exceptions</description>
+		<navigation-case>
+			<from-outcome>go_exception</from-outcome>
+			<to-view-id>/stylesheets/exception/exception_views.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
 
 </faces-config>

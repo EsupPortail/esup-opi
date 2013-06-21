@@ -7,7 +7,7 @@
     </context-param>
     <context-param>
         <param-name>org.apache.myfaces.ERROR_HANDLING</param-name>
-        <param-value>false</param-value>
+        <param-value>true</param-value>
     </context-param>
     <!-- for jetty 8 -->
     <listener>
