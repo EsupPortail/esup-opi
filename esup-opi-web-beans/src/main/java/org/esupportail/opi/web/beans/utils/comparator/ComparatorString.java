@@ -162,11 +162,11 @@ public class ComparatorString implements Comparator<Object>, Serializable {
 			return sortStr(((CommissionPojo) o1).getCommission().getCode(), 
 					((CommissionPojo) o2).getCommission().getCode());
 		} else if (className.equals(NomenclaturePojo.class)) {
-			return sortStr(((NomenclaturePojo) o1).getNomenclature().getLibelle(), 
-					((NomenclaturePojo) o2).getNomenclature().getLibelle());
+			return sortStr(((NomenclaturePojo) o1).getNomenclature().getCode(), 
+					((NomenclaturePojo) o2).getNomenclature().getCode());
 		} else if (className.equals(Nomenclature.class)) {
-			return sortStr(((Nomenclature) o1).getLibelle(), 
-					((Nomenclature) o2).getLibelle());
+			return sortStr(((Nomenclature) o1).getCode(), 
+					((Nomenclature) o2).getCode());
 		} else if (className.equals(Calendar.class)) {
 			return sortCalendar((Calendar) o1, (Calendar) o2);
 		} else if (className.equals(Fonction.class)) {

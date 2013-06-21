@@ -14,6 +14,7 @@ import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.web.beans.BeanTrtCmi;
 import org.esupportail.opi.web.beans.beanEnum.WayfEnum;
 import org.esupportail.opi.web.beans.paginator.VETPaginator;
+import org.esupportail.opi.web.beans.pojo.PieceJustiVetPojo;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
@@ -21,6 +22,7 @@ import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.opi.web.controllers.parameters.NomenclatureController;
 import org.esupportail.wssi.services.remote.CentreGestion;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+import org.primefaces.component.datatable.DataTable;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.jsf.FacesContextUtils;
@@ -103,9 +105,10 @@ public class EtapeController extends AbstractContextAwareController {
      * Paginator for the vets
      */
     private VETPaginator paginator;
+    
 
-
-    /**
+   
+	/**
      * Constructors.
      */
     public EtapeController() {
@@ -138,6 +141,10 @@ public class EtapeController extends AbstractContextAwareController {
         reset();
     }
 	
+    public void forcereload(){
+    	paginator.forceReload();
+    }
+    
 	/*
 	 ******************* CALLBACK ********************** */
 
@@ -323,6 +330,15 @@ public class EtapeController extends AbstractContextAwareController {
         return listTrt;
 
     }
+    
+
+    /**
+     * 
+     */
+    public void lookForVets() {
+    	paginator.lookForVets();
+        etapes = paginator.getData();
+    }
 
     /**
      * @return boolean
@@ -434,7 +450,7 @@ public class EtapeController extends AbstractContextAwareController {
      */
     public void setAllChecked(final Boolean allChecked) {
         this.allChecked = allChecked;
-    }
+    }	
 
     /**
      * @return the wayfEnum
@@ -521,5 +537,19 @@ public class EtapeController extends AbstractContextAwareController {
         this.paginator = paginator;
     }
 
-
+    /**
+	 * Return all PieceJustiVetPojo in use.
+	 * @return List< PieceJustiVetPojo>
+	 */
+	public List<VersionEtapeDTO> getAllEtapesItems() {
+		return etapes;
+	}
+	
+	/**
+	 * @param allEtapes the allEtapes to set
+	 */
+	public void setAllEtapes(final List<VersionEtapeDTO> etapes) {
+		this.etapes = etapes;
+	}
+	
 }
