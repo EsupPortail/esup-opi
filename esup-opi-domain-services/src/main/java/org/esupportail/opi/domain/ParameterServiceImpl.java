@@ -4,41 +4,14 @@
  */
 package org.esupportail.opi.domain;
 
-import java.io.IOException;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.dao.ParameterDaoService;
 import org.esupportail.opi.domain.beans.BeanProfile;
 import org.esupportail.opi.domain.beans.mails.MailContent;
-import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
-import org.esupportail.opi.domain.beans.parameters.Campagne;
-import org.esupportail.opi.domain.beans.parameters.MotivationAvis;
-import org.esupportail.opi.domain.beans.parameters.Nomenclature;
-import org.esupportail.opi.domain.beans.parameters.PieceJustiVet;
-import org.esupportail.opi.domain.beans.parameters.PieceJustificative;
-import org.esupportail.opi.domain.beans.parameters.TypeConvocation;
-import org.esupportail.opi.domain.beans.parameters.TypeDecision;
-import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
-import org.esupportail.opi.domain.beans.parameters.accessRight.AccessRight;
-import org.esupportail.opi.domain.beans.parameters.accessRight.Domain;
-import org.esupportail.opi.domain.beans.parameters.accessRight.Fonction;
-import org.esupportail.opi.domain.beans.parameters.accessRight.Profile;
-import org.esupportail.opi.domain.beans.parameters.accessRight.Traitement;
+import org.esupportail.opi.domain.beans.parameters.*;
+import org.esupportail.opi.domain.beans.parameters.accessRight.*;
 import org.esupportail.opi.domain.beans.parameters.situation.TypeContrat;
 import org.esupportail.opi.domain.beans.parameters.situation.TypeOrganisme;
 import org.esupportail.opi.domain.beans.parameters.situation.TypeSituation;
@@ -48,12 +21,7 @@ import org.esupportail.opi.domain.beans.references.calendar.Calendar;
 import org.esupportail.opi.domain.beans.references.calendar.CalendarCmi;
 import org.esupportail.opi.domain.beans.references.calendar.CalendarIns;
 import org.esupportail.opi.domain.beans.references.calendar.ReunionCmi;
-import org.esupportail.opi.domain.beans.references.commission.Commission;
-import org.esupportail.opi.domain.beans.references.commission.ContactCommission;
-import org.esupportail.opi.domain.beans.references.commission.FormulaireCmi;
-import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
-import org.esupportail.opi.domain.beans.references.commission.Member;
-import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
+import org.esupportail.opi.domain.beans.references.commission.*;
 import org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.domain.beans.user.Individu;
@@ -63,6 +31,12 @@ import org.esupportail.opi.domain.beans.user.candidature.MissingPiece;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
 import org.esupportail.opi.utils.Constantes;
 import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 
@@ -1043,6 +1017,11 @@ public class ParameterServiceImpl implements ParameterService {
 		}
 
 	}
+
+    @Override
+    public IndFormulaire findIndFormulaireById(Integer id){
+        return daoService.findIndFormulaireById(id);
+    }
 
 	@Override
 	public Map<VersionEtpOpi, IndFormulaire> getIndFormulaires(

@@ -5,39 +5,23 @@
 package org.esupportail.opi.dao;
 
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.mysema.query.jpa.hibernate.HibernateQuery;
+import com.mysema.query.types.EntityPath;
+import com.mysema.query.types.path.EntityPathBase;
+import com.mysema.query.types.path.PathBuilder;
 import org.esupportail.commons.dao.AbstractSimpleHibernateDaoService;
 import org.esupportail.commons.dao.HqlUtils;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.domain.beans.mails.MailContent;
-import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
-import org.esupportail.opi.domain.beans.parameters.Campagne;
-import org.esupportail.opi.domain.beans.parameters.MotivationAvis;
-import org.esupportail.opi.domain.beans.parameters.Nomenclature;
-import org.esupportail.opi.domain.beans.parameters.PieceJustiVet;
-import org.esupportail.opi.domain.beans.parameters.TypeDecision;
-import org.esupportail.opi.domain.beans.parameters.accessRight.AccessRight;
-import org.esupportail.opi.domain.beans.parameters.accessRight.AccessType;
-import org.esupportail.opi.domain.beans.parameters.accessRight.Domain;
-import org.esupportail.opi.domain.beans.parameters.accessRight.Fonction;
-import org.esupportail.opi.domain.beans.parameters.accessRight.Profile;
-import org.esupportail.opi.domain.beans.parameters.accessRight.Traitement;
+import org.esupportail.opi.domain.beans.parameters.*;
+import org.esupportail.opi.domain.beans.parameters.accessRight.*;
 import org.esupportail.opi.domain.beans.references.NombreVoeuCge;
 import org.esupportail.opi.domain.beans.references.calendar.Calendar;
 import org.esupportail.opi.domain.beans.references.calendar.CalendarIns;
 import org.esupportail.opi.domain.beans.references.calendar.ReunionCmi;
-import org.esupportail.opi.domain.beans.references.commission.Commission;
-import org.esupportail.opi.domain.beans.references.commission.ContactCommission;
-import org.esupportail.opi.domain.beans.references.commission.FormulaireCmi;
-import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
-import org.esupportail.opi.domain.beans.references.commission.Member;
-import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
+import org.esupportail.opi.domain.beans.references.commission.*;
 import org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV;
 import org.esupportail.opi.domain.beans.references.rendezvous.Horaire;
 import org.esupportail.opi.domain.beans.references.rendezvous.IndividuDate;
@@ -48,22 +32,14 @@ import org.esupportail.opi.domain.beans.user.candidature.IndFormulaire;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
 import org.hibernate.FetchMode;
-import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Disjunction;
-import org.hibernate.criterion.Junction;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Property;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.Subqueries;
+import org.hibernate.criterion.*;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.util.StringUtils;
 
-import com.mysema.query.jpa.hibernate.HibernateQuery;
-import com.mysema.query.types.EntityPath;
-import com.mysema.query.types.path.EntityPathBase;
-import com.mysema.query.types.path.PathBuilder;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -950,7 +926,15 @@ public class HibernateParamDaoServiceImpl extends AbstractSimpleHibernateDaoServ
 		deleteObject(formNorme);
 	}
 
-	/** 
+    /**
+     * @see org.esupportail.opi.dao.ParameterDaoService#findIndFormulaireById(java.lang.Integer)
+     */
+    @Override
+    public IndFormulaire findIndFormulaireById(Integer id){
+        return getHibernateTemplate().get(IndFormulaire.class, id);
+    }
+
+    /**
 	 * @see org.esupportail.opi.dao.ParameterDaoService#getIndFormulaires(
 	 * org.esupportail.opi.domain.beans.user.Individu)
 	 */
