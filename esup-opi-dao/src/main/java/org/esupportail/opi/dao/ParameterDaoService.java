@@ -4,38 +4,24 @@
  */
 package org.esupportail.opi.dao;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
 import org.esupportail.opi.domain.beans.mails.MailContent;
-import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
-import org.esupportail.opi.domain.beans.parameters.Campagne;
-import org.esupportail.opi.domain.beans.parameters.MotivationAvis;
-import org.esupportail.opi.domain.beans.parameters.Nomenclature;
-import org.esupportail.opi.domain.beans.parameters.PieceJustiVet;
-import org.esupportail.opi.domain.beans.parameters.TypeDecision;
-import org.esupportail.opi.domain.beans.parameters.accessRight.AccessRight;
-import org.esupportail.opi.domain.beans.parameters.accessRight.Domain;
-import org.esupportail.opi.domain.beans.parameters.accessRight.Fonction;
-import org.esupportail.opi.domain.beans.parameters.accessRight.Profile;
-import org.esupportail.opi.domain.beans.parameters.accessRight.Traitement;
+import org.esupportail.opi.domain.beans.parameters.*;
+import org.esupportail.opi.domain.beans.parameters.accessRight.*;
 import org.esupportail.opi.domain.beans.references.NombreVoeuCge;
 import org.esupportail.opi.domain.beans.references.calendar.Calendar;
 import org.esupportail.opi.domain.beans.references.calendar.CalendarIns;
 import org.esupportail.opi.domain.beans.references.calendar.ReunionCmi;
-import org.esupportail.opi.domain.beans.references.commission.Commission;
-import org.esupportail.opi.domain.beans.references.commission.ContactCommission;
-import org.esupportail.opi.domain.beans.references.commission.FormulaireCmi;
-import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
-import org.esupportail.opi.domain.beans.references.commission.Member;
-import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
+import org.esupportail.opi.domain.beans.references.commission.*;
 import org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.IndFormulaire;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -417,7 +403,14 @@ public interface ParameterDaoService extends Serializable {
 	 */
 	void deleteIndFormulaire(IndFormulaire formNorme);
 
-	/**
+    /**
+     *
+     * @param id
+     * @return ind form with id
+     */
+    IndFormulaire findIndFormulaireById(Integer id);
+
+    /**
 	 * @param indSelected
 	 * @return the list of ind forms
 	 */

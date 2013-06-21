@@ -4,28 +4,10 @@
  */
 package org.esupportail.opi.domain;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.esupportail.opi.domain.beans.BeanProfile;
 import org.esupportail.opi.domain.beans.mails.MailContent;
-import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
-import org.esupportail.opi.domain.beans.parameters.Campagne;
-import org.esupportail.opi.domain.beans.parameters.MotivationAvis;
-import org.esupportail.opi.domain.beans.parameters.Nomenclature;
-import org.esupportail.opi.domain.beans.parameters.PieceJustiVet;
-import org.esupportail.opi.domain.beans.parameters.PieceJustificative;
-import org.esupportail.opi.domain.beans.parameters.TypeConvocation;
-import org.esupportail.opi.domain.beans.parameters.TypeDecision;
-import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
-import org.esupportail.opi.domain.beans.parameters.accessRight.AccessRight;
-import org.esupportail.opi.domain.beans.parameters.accessRight.Domain;
-import org.esupportail.opi.domain.beans.parameters.accessRight.Fonction;
-import org.esupportail.opi.domain.beans.parameters.accessRight.Profile;
-import org.esupportail.opi.domain.beans.parameters.accessRight.Traitement;
+import org.esupportail.opi.domain.beans.parameters.*;
+import org.esupportail.opi.domain.beans.parameters.accessRight.*;
 import org.esupportail.opi.domain.beans.parameters.situation.TypeContrat;
 import org.esupportail.opi.domain.beans.parameters.situation.TypeOrganisme;
 import org.esupportail.opi.domain.beans.parameters.situation.TypeSituation;
@@ -34,17 +16,18 @@ import org.esupportail.opi.domain.beans.references.NombreVoeuCge;
 import org.esupportail.opi.domain.beans.references.calendar.Calendar;
 import org.esupportail.opi.domain.beans.references.calendar.CalendarIns;
 import org.esupportail.opi.domain.beans.references.calendar.ReunionCmi;
-import org.esupportail.opi.domain.beans.references.commission.Commission;
-import org.esupportail.opi.domain.beans.references.commission.ContactCommission;
-import org.esupportail.opi.domain.beans.references.commission.FormulaireCmi;
-import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
-import org.esupportail.opi.domain.beans.references.commission.Member;
-import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
+import org.esupportail.opi.domain.beans.references.commission.*;
 import org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.IndFormulaire;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 
@@ -526,8 +509,14 @@ public interface ParameterService extends Serializable {
 	 */
 	void deleteIndFormulaire(IndFormulaire form, String numDoss, String sLabelRI);
 
-	
-	/**
+    /**
+     *
+     * @param id
+     * @return ind form corresponding to id
+     */
+    IndFormulaire findIndFormulaireById(Integer id);
+
+    /**
 	 * @param indSelected
 	 * @return a corresponding map of ind forms.
 	 */
@@ -869,6 +858,5 @@ public interface ParameterService extends Serializable {
 	 * @return String
 	 */
 	String getPrefixLibCalCmi();
-	
 }
 
