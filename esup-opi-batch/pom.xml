@@ -4,24 +4,24 @@
 	<parent>
 		<artifactId>esup-opi</artifactId>
 		<groupId>org.esupportail</groupId>
-		<version> 8 hours ago 	</version>
+		<version>  8 hours ago 	 	</version>
 	</parent>
 	<artifactId>esup-opi-batch</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>org.esupportail</groupId>
 			<artifactId>esup-opi-dao</artifactId>
-			<version> 8 hours ago 	</version>
+			<version>  8 hours ago 	 	</version>
 		</dependency>
 		<dependency>
 			<groupId>org.esupportail</groupId>
 			<artifactId>esup-opi-domain-services</artifactId>
-			<version> 8 hours ago 	</version>
+			<version>  8 hours ago 	 	</version>
 		</dependency>
          	<dependency>
 	              <groupId>org.esupportail</groupId>
 		      <artifactId>esup-opi-web-beans</artifactId>
-		      <version> 8 hours ago 	</version>
+		      <version>  8 hours ago 	 	</version>
 		</dependency>
 		<dependency>
 			<groupId>org.unitils</groupId>

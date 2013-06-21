@@ -4,7 +4,7 @@
     <parent>
         <artifactId>esup-opi</artifactId>
         <groupId>org.esupportail</groupId>
-        <version> 8 hours ago 	</version>
+        <version>  8 hours ago 	 	</version>
     </parent>
     <artifactId>esup-opi-domain-beans</artifactId>
     <description>The business object</description>

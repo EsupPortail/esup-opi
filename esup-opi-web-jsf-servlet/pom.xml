@@ -4,7 +4,7 @@
     <parent>
         <artifactId>esup-opi</artifactId>
         <groupId>org.esupportail</groupId>
-        <version> 8 hours ago 	</version>
+        <version>  8 hours ago 	 	</version>
     </parent>
     <artifactId>esup-opi-web-jsf-servlet</artifactId>
     <packaging>war</packaging>
@@ -128,12 +128,12 @@
         <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-opi-web-beans</artifactId>
-            <version> 8 hours ago 	</version>
+            <version>  8 hours ago 	 	</version>
         </dependency>
         <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-opi-domain-services</artifactId>
-            <version> 8 hours ago 	</version>
+            <version>  8 hours ago 	 	</version>
             <exclusions>
                 <exclusion>
                     <artifactId>ehcache-spring-annotations</artifactId>
@@ -144,7 +144,7 @@
         <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-opi-utils</artifactId>
-            <version> 8 hours ago 	</version>
+            <version>  8 hours ago 	 	</version>
             <exclusions>
                 <exclusion>
                     <artifactId>ehcache-spring-annotations</artifactId>
