@@ -453,7 +453,7 @@ public class ConfirmationController extends AbstractAccessController {
                 // true si aucune vet n'a son IA Web ouverte
                 boolean noIAOpen = true;
                 // date d'ouverture la plus proche en cas d'IA fermé
-                Date dateOuverture = null;
+                Date dateOuverture;
                 // individu courant
                 Individu ind = getSessionController().getCurrentInd().getIndividu();
                 // true si individu primo entrant, false si réinscription
@@ -596,7 +596,7 @@ public class ConfirmationController extends AbstractAccessController {
                             htmlBlockIAWeb += getString("CONFIRMATION.IA_WEB.SOME_VET_NOT_OPEN");
                             StringBuffer html = new StringBuffer();
                             for (VersionEtapeDTO vetNotOpen : listVetIANotOpen) {
-                                Date date = null;
+                                Date date;
                                 if (indPrimo && vetNotOpen.getDatDebMinpVet() != null) {
                                     date =
                                             vetNotOpen.getDatDebMinpVet().toGregorianCalendar().getTime();
