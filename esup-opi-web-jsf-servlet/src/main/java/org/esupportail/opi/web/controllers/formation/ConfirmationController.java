@@ -100,7 +100,7 @@ public class ConfirmationController extends AbstractAccessController {
     private ValidOpinionController validOpinionController;
 
 	/*
-	 ******************* INIT ************************* */
+     ******************* INIT ************************* */
 
     /**
      * Constructors.
@@ -443,188 +443,241 @@ public class ConfirmationController extends AbstractAccessController {
     /**
      * @return le contenu html du bloc IA Web correctement formé
      */
-    public String getHtmlBlockIAWeb() {
+    public String getHtmlBlockIAWeb() throws ParseException {
         String htmlBlockIAWeb = "";
         Individu individu = getCurrentInd().getIndividu();
         Integer codeRI = Utilitaires.getCodeRIIndividu(individu,
                 getDomainService());
         if (codeRI.equals(FormationInitiale.CODE)) {
-            if (StringUtils.hasText(individu.getCodeNNE())) {
-                // true si aucune vet n'a son IA Web ouverte
-                boolean noIAOpen = true;
-                // date d'ouverture la plus proche en cas d'IA fermé
-                Date dateOuverture;
-                // individu courant
-                Individu ind = getSessionController().getCurrentInd().getIndividu();
-                // true si individu primo entrant, false si réinscription
-                boolean indPrimo = !StringUtils.hasLength(ind.getCodeEtu());
-                // liste des vet dont l'IA n'est pas ouverte
-                Set<VersionEtapeDTO> listVetIANotOpen = new TreeSet<VersionEtapeDTO>(
-                        new ComparatorString(VersionEtapeDTO.class));
-
-                SimpleDateFormat formatter = new SimpleDateFormat(Constantes.APOGEE_DATE_FORMAT);
-                Date today;
-                try {
-                    today = formatter.parse(Utilitaires.convertDateToString(
-                            new Date(), Constantes.APOGEE_DATE_FORMAT));
-
-                    String datNais = new SimpleDateFormat(
-                            Constantes.DATE_SHORT_FORMAT).format(ind.getDateNaissance());
-                    String adresseIA = "";
-                    if (StringUtils.hasText(ind.getCodeEtu())) {
-                        adresseIA =
-                                addressIAReins + "?etape=0&user="
-                                        + ind.getCodeEtu() + "&motDePasseS=" + datNais;
-
-                    } else {
-                        adresseIA =
-                                addressIAPrimo + "?codIndOpi="
-                                        + ind.getNumDossierOpi() + "&datNai=" + datNais;
-                    }
-                    if (getHasIAForVoeux()) {
-                        Date dateDebWebPrimoNb = formatter.parse(
-                                getDomainApoService().getDateDebWebPrimoNb());
-                        Date dateFinWebPrimoNb = formatter.parse(
-                                getDomainApoService().getVariableAppli("DAT_FIN_WB_PRIMO_NB"));
-                        Date dateDebWebPrimoNnb = formatter.parse(
-                                getDomainApoService().getDateDebWebPrimoNnb());
-                        Date dateFinWebPrimoNnb = formatter.parse(
-                                getDomainApoService().getVariableAppli("DAT_FIN_WB_PRIMO_NNB"));
-                        Date dateDebWeb = formatter.parse(getDomainApoService().getDateDebWeb());
-                        Date dateFinWeb = formatter.parse(getDomainApoService().getVariableAppli("DAT_FIN_WEB"));
-                        if (indPrimo) {
-                            if (dateDebWebPrimoNb != null) {
-                                dateOuverture = dateDebWebPrimoNb;
-                            } else {
-                                dateOuverture = dateDebWebPrimoNnb;
-                            }
-                        } else {
-                            dateOuverture = dateDebWeb;
-                        }
-                        // on boucle sur la liste des voeux favorables confirmés
-                        // pour déterminer l'IA Web est ouverte
-                        for (IndVoeuPojo indVoeuPojo : indVoeuxPojoFav) {
-                            if (indVoeuPojo.getIsEtatConfirme() && indVoeuPojo.getHasIAForVoeu()) {
-                                VersionEtapeDTO vet = indVoeuPojo.getVrsEtape();
-                                Date dateDeb;
-                                Date dateFin;
-                                if (indPrimo) {
-                                    //TODO better handle (once there is functional test) the date == null because it's already checked on next ifelse below
-                                    dateDeb = vet.getDatDebMinpVet() == null ? null : DateUtil.transformIntoDate(vet.getDatDebMinpVet());
-                                    dateFin =
-                                            vet.getDatFinMinpVet() == null ? null : DateUtil.transformIntoDate(vet.getDatFinMinpVet());
-                                } else {
-                                    dateDeb =
-                                            vet.getDatDebMinVet() == null ? null : DateUtil.transformIntoDate(vet.getDatDebMinVet());
-                                    dateFin =
-                                            vet.getDatFinMinVet() == null ? null : DateUtil.transformIntoDate(vet.getDatFinMinVet());
-                                }
-                                // on compare avec les dates saisies dans la vet
-                                if (dateDeb != null && dateFin != null) {
-                                    if ((today.after(dateDeb) || today.equals(dateDeb))
-                                            && (today.before(dateFin)
-                                            || today.equals(dateFin))) {
-                                        noIAOpen = false;
-                                    } else {
-                                        listVetIANotOpen.add(vet);
-                                    }
-                                } else {
-                                    // sinon, on compare avec la date d'ouverture présente
-                                    // dans le référentiel
-                                    if (indPrimo && (((today.after(dateDebWebPrimoNb)
-                                            || today.equals(dateDebWebPrimoNb))
-                                            && (today.before(dateFinWebPrimoNb)
-                                            || today.equals(dateFinWebPrimoNb)))
-                                            || ((today.after(dateDebWebPrimoNnb)
-                                            || today.equals(dateDebWebPrimoNnb))
-                                            && (today.before(dateFinWebPrimoNnb)
-                                            || today.equals(dateFinWebPrimoNnb))))) {
-                                        noIAOpen = false;
-                                    } else if (!indPrimo && ((today.after(dateDebWeb)
-                                            || today.equals(dateDebWeb))
-                                            && (today.before(dateFinWeb)
-                                            || today.equals(dateFinWeb)))) {
-                                        noIAOpen = false;
-                                    } else {
-                                        listVetIANotOpen.add(vet);
-                                    }
-
-                                }
-                            }
-                        }
-
-                        // Edition du contenu du bloc
-                        if (noIAOpen) {
-                            // Aucune IA Web n'est ouverte
-                            htmlBlockIAWeb += getString("CONFIRMATION.IA_WEB.NOT_OPEN",
-                                    Utilitaires.convertDateToString(
-                                            dateOuverture, Constantes.DATE_FORMAT));
-                        } else {
-                            if (indPrimo) {
-                                // cas d'un primo
-                                htmlBlockIAWeb += getString(
-                                        "CONFIRMATION.IA_WEB.OPEN_PRIMO", adresseIA);
-                            } else {
-                                Boolean isInterrupt = true;
-                                Campagne camp = Utilitaires.getCampagneEnServ(ind, getDomainService());
-                                int anuPrecInt = Integer.parseInt(camp.getCodAnu()) - 1;
-                                String[] anneesIA = getDomainApoService().getAnneesIa(ind);
-                                if (anneesIA != null) {
-                                    for (String anneeIa : anneesIA) {
-                                        if (anneeIa.equals(Integer.toString(anuPrecInt))) {
-                                            isInterrupt = false;
-                                            break;
-                                        }
-                                    }
-                                }
-                                if (!isInterrupt) {
-                                    // si l'étudiant est inscrit cet année,
-                                    // on le redirige vers son ENT
-                                    htmlBlockIAWeb += getString(
-                                            "CONFIRMATION.IA_WEB.OPEN_REINS");
-                                } else {
-                                    // sinon, on le redirige vers l'ia reins
-                                    htmlBlockIAWeb += getString(
-                                            "CONFIRMATION.IA_WEB.OPEN_PRIMO",
-                                            adresseIA);
-                                }
-
-                            }
-                        }
-                        // certaines des IA Web ne sont pas ouvertes
-                        if (!listVetIANotOpen.isEmpty()) {
-                            htmlBlockIAWeb += getString("CONFIRMATION.IA_WEB.SOME_VET_NOT_OPEN");
-                            StringBuffer html = new StringBuffer();
-                            for (VersionEtapeDTO vetNotOpen : listVetIANotOpen) {
-                                Date date;
-                                if (indPrimo && vetNotOpen.getDatDebMinpVet() != null) {
-                                    date =
-                                            vetNotOpen.getDatDebMinpVet() == null ? null : DateUtil.transformIntoDate(vetNotOpen.getDatDebMinpVet());
-                                } else if (vetNotOpen.getDatDebMinVet() != null) {
-                                    date =
-                                            vetNotOpen.getDatDebMinVet() == null ? null : DateUtil.transformIntoDate(vetNotOpen.getDatDebMinVet());
-                                } else {
-                                    date = dateOuverture;
-                                }
-                                html.append(getString("CONFIRMATION.IA_WEB.VET_NOT_OPEN",
-                                        vetNotOpen.getLibWebVet(),
-                                        Utilitaires.convertDateToString(
-                                                date, Constantes.DATE_FORMAT)));
-                            }
-                            htmlBlockIAWeb += html.toString();
-                        }
-                    }
-                } catch (ParseException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            } else {
-                htmlBlockIAWeb += getString("CONFIRMATION.INFO_MESSAGE.NO_NNE");
-            }
+            htmlBlockIAWeb += getFormationInitialOutput(individu);
         } else if (codeRI.equals(FormationContinue.CODE)) {
-            htmlBlockIAWeb += getString("CONFIRMATION.INFO_MESSAGE_FC.SAVE");
+            htmlBlockIAWeb += getFormationContinueOutput();
         }
         return htmlBlockIAWeb;
+    }
+
+    private String getFormationContinueOutput() {
+        return getString("CONFIRMATION.INFO_MESSAGE_FC.SAVE");
+    }
+
+    private String getFormationInitialOutput(Individu individu) throws ParseException {
+        String result = "";
+        if (StringUtils.hasText(individu.getCodeNNE())) {
+            result += getWithCodeNNEOutput();
+
+        } else {
+            result += getString("CONFIRMATION.INFO_MESSAGE.NO_NNE");
+        }
+        return result;
+    }
+
+    private String getWithCodeNNEOutput() throws ParseException {
+        String result = "";
+
+        if (getHasIAForVoeux()) {
+            result += getOutputforHasIAForVoeux();
+        }
+        return result;
+    }
+
+    private String getOutputforHasIAForVoeux() throws ParseException {
+        String result = "";
+        // true si aucune vet n'a son IA Web ouverte
+        boolean noIAOpen = true;
+
+        // individu courant
+        Individu ind = getSessionController().getCurrentInd().getIndividu();
+        // true si individu primo entrant, false si réinscription
+        boolean indPrimo = !StringUtils.hasLength(ind.getCodeEtu());
+
+        SimpleDateFormat formatter = new SimpleDateFormat(Constantes.APOGEE_DATE_FORMAT);
+        // date d'ouverture la plus proche en cas d'IA fermé
+        Date dateOuverture = determineDateOuverture(indPrimo, formatter);
+
+        // liste des vet dont l'IA n'est pas ouverte
+        Set<VersionEtapeDTO> listVetIANotOpen = new TreeSet<VersionEtapeDTO>(
+                new ComparatorString(VersionEtapeDTO.class));
+
+        String adresseIA = determineAdressIA(ind);
+
+        // on boucle sur la liste des voeux favorables confirmés
+        // pour déterminer l'IA Web est ouverte
+        for (IndVoeuPojo indVoeuPojo : indVoeuxPojoFav) {
+            //TODO check coherence as we already are in ConfirmationController.getHasIAForVoeux() == true  here
+            //ie:  indVoeuPojo.getIsEtatConfirme() && (indVoeuPojo.getHasIAForVoeu()||regimeIns.getDisplayInfoFC()) == true
+            if (indVoeuPojo.getIsEtatConfirme() && indVoeuPojo.getHasIAForVoeu()) {
+                // true si aucune vet n'a son IA Web ouverte
+                noIAOpen = determineNoIAOpen(indPrimo, formatter, listVetIANotOpen, indVoeuPojo);
+            }
+        }
+
+        // Edition du contenu du bloc
+        if (noIAOpen) {
+            // Aucune IA Web n'est ouverte
+            result += getString("CONFIRMATION.IA_WEB.NOT_OPEN",
+                    Utilitaires.convertDateToString(
+                            dateOuverture, Constantes.DATE_FORMAT));
+        } else {
+            if (indPrimo) {
+                // cas d'un primo
+                result += getString(
+                        "CONFIRMATION.IA_WEB.OPEN_PRIMO", adresseIA);
+            } else {
+                Boolean isInterrupt = true;
+                Campagne camp = Utilitaires.getCampagneEnServ(ind, getDomainService());
+                int anuPrecInt = Integer.parseInt(camp.getCodAnu()) - 1;
+                String[] anneesIA = getDomainApoService().getAnneesIa(ind);
+                if (anneesIA != null) {
+                    for (String anneeIa : anneesIA) {
+                        if (anneeIa.equals(Integer.toString(anuPrecInt))) {
+                            isInterrupt = false;
+                            break;
+                        }
+                    }
+                }
+                if (!isInterrupt) {
+                    // si l'étudiant est inscrit cet année,
+                    // on le redirige vers son ENT
+                    result += getString(
+                            "CONFIRMATION.IA_WEB.OPEN_REINS");
+                } else {
+                    // sinon, on le redirige vers l'ia reins
+                    result += getString(
+                            "CONFIRMATION.IA_WEB.OPEN_PRIMO",
+                            adresseIA);
+                }
+
+            }
+        }
+        // certaines des IA Web ne sont pas ouvertes
+        if (!listVetIANotOpen.isEmpty()) {
+            result += getString("CONFIRMATION.IA_WEB.SOME_VET_NOT_OPEN");
+            StringBuffer html = new StringBuffer();
+            for (VersionEtapeDTO vetNotOpen : listVetIANotOpen) {
+                Date date;
+                if (indPrimo && vetNotOpen.getDatDebMinpVet() != null) {
+                    date =
+                            vetNotOpen.getDatDebMinpVet() == null ? null : DateUtil.transformIntoDate(vetNotOpen.getDatDebMinpVet());
+                } else if (vetNotOpen.getDatDebMinVet() != null) {
+                    date =
+                            vetNotOpen.getDatDebMinVet() == null ? null : DateUtil.transformIntoDate(vetNotOpen.getDatDebMinVet());
+                } else {
+                    date = dateOuverture;
+                }
+                html.append(getString("CONFIRMATION.IA_WEB.VET_NOT_OPEN",
+                        vetNotOpen.getLibWebVet(),
+                        Utilitaires.convertDateToString(
+                                date, Constantes.DATE_FORMAT)));
+            }
+            result += html.toString();
+        }
+        return result;
+    }
+
+    /**
+     * Retourne true si aucune vet n'a son IA Web ouverte
+     *
+     * @param indPrimo
+     * @param formatter
+     * @param listVetIANotOpen
+     * @param indVoeuPojo
+     * @return
+     * @throws ParseException
+     */
+    private boolean determineNoIAOpen(boolean indPrimo, SimpleDateFormat formatter, Set<VersionEtapeDTO> listVetIANotOpen, IndVoeuPojo indVoeuPojo) throws ParseException {
+        boolean result = true;
+        VersionEtapeDTO vet = indVoeuPojo.getVrsEtape();
+        Date dateDeb;
+        Date dateFin;
+        if (indPrimo) {
+            //TODO better handle (once there is functional test) the date == null because it's already checked on next ifelse below
+            dateDeb = vet.getDatDebMinpVet() == null ? null : DateUtil.transformIntoDate(vet.getDatDebMinpVet());
+            dateFin =
+                    vet.getDatFinMinpVet() == null ? null : DateUtil.transformIntoDate(vet.getDatFinMinpVet());
+        } else {
+            dateDeb =
+                    vet.getDatDebMinVet() == null ? null : DateUtil.transformIntoDate(vet.getDatDebMinVet());
+            dateFin =
+                    vet.getDatFinMinVet() == null ? null : DateUtil.transformIntoDate(vet.getDatFinMinVet());
+        }
+
+        Date today;
+        today = formatter.parse(Utilitaires.convertDateToString(
+                new Date(), Constantes.APOGEE_DATE_FORMAT));
+        // on compare avec les dates saisies dans la vet
+        if (dateDeb != null && dateFin != null) {
+            if ((today.after(dateDeb) || today.equals(dateDeb))
+                    && (today.before(dateFin)
+                    || today.equals(dateFin))) {
+                result = false;
+            } else {
+                listVetIANotOpen.add(vet);
+            }
+        } else {
+            // sinon, on compare avec la date d'ouverture présente
+            // dans le référentiel
+            Date dateDebWebPrimoNb = formatter.parse(
+                    getDomainApoService().getDateDebWebPrimoNb());
+            Date dateDebWebPrimoNnb = formatter.parse(
+                    getDomainApoService().getDateDebWebPrimoNnb());
+            Date dateDebWeb = formatter.parse(getDomainApoService().getDateDebWeb());
+            Date dateFinWebPrimoNb = formatter.parse(
+                    getDomainApoService().getVariableAppli("DAT_FIN_WB_PRIMO_NB"));
+            Date dateFinWebPrimoNnb = formatter.parse(
+                    getDomainApoService().getVariableAppli("DAT_FIN_WB_PRIMO_NNB"));
+            Date dateFinWeb = formatter.parse(getDomainApoService().getVariableAppli("DAT_FIN_WEB"));
+            if (indPrimo && (((today.after(dateDebWebPrimoNb)
+                    || today.equals(dateDebWebPrimoNb))
+                    && (today.before(dateFinWebPrimoNb)
+                    || today.equals(dateFinWebPrimoNb)))
+                    || ((today.after(dateDebWebPrimoNnb)
+                    || today.equals(dateDebWebPrimoNnb))
+                    && (today.before(dateFinWebPrimoNnb)
+                    || today.equals(dateFinWebPrimoNnb))))) {
+                result = false;
+            } else if (!indPrimo && ((today.after(dateDebWeb)
+                    || today.equals(dateDebWeb))
+                    && (today.before(dateFinWeb)
+                    || today.equals(dateFinWeb)))) {
+                result = false;
+            } else {
+                listVetIANotOpen.add(vet);
+            }
+
+        }
+        return result;
+    }
+
+    private Date determineDateOuverture(boolean indPrimo, SimpleDateFormat formatter) throws ParseException {
+        Date dateOuverture;
+        Date dateDebWebPrimoNb = formatter.parse(
+                getDomainApoService().getDateDebWebPrimoNb());
+        Date dateDebWebPrimoNnb = formatter.parse(
+                getDomainApoService().getDateDebWebPrimoNnb());
+        Date dateDebWeb = formatter.parse(getDomainApoService().getDateDebWeb());
+        if (indPrimo) {
+            dateOuverture = dateDebWebPrimoNb == null ? dateDebWebPrimoNnb : dateDebWebPrimoNb;
+        } else {
+            dateOuverture = dateDebWeb;
+        }
+        return dateOuverture;
+    }
+
+    private String determineAdressIA(Individu ind) {
+        String datNais = new SimpleDateFormat(
+                Constantes.DATE_SHORT_FORMAT).format(ind.getDateNaissance());
+        String adresseIA = "";
+        if (StringUtils.hasText(ind.getCodeEtu())) {
+            adresseIA =
+                    addressIAReins + "?etape=0&user="
+                            + ind.getCodeEtu() + "&motDePasseS=" + datNais;
+
+        } else {
+            adresseIA =
+                    addressIAPrimo + "?codIndOpi="
+                            + ind.getNumDossierOpi() + "&datNai=" + datNais;
+        }
+        return adresseIA;
     }
 
     /**
