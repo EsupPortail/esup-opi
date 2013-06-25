@@ -19,6 +19,7 @@ import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.services.mails.MailContentService;
 import org.esupportail.opi.utils.Constantes;
+import org.esupportail.opi.utils.converters.xml.DateUtil;
 import org.esupportail.opi.web.beans.parameters.FormationContinue;
 import org.esupportail.opi.web.beans.parameters.FormationInitiale;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
@@ -508,15 +509,15 @@ public class ConfirmationController extends AbstractAccessController {
                                 Date dateDeb;
                                 Date dateFin;
                                 if (indPrimo) {
-                                    dateDeb =
-                                            vet.getDatDebMinpVet().toGregorianCalendar().getTime();
+                                    //TODO better handle (once there is functional test) the date == null because it's already checked on next ifelse below
+                                    dateDeb = vet.getDatDebMinpVet() == null ? null : DateUtil.transformIntoDate(vet.getDatDebMinpVet());
                                     dateFin =
-                                            vet.getDatFinMinpVet().toGregorianCalendar().getTime();
+                                            vet.getDatFinMinpVet() == null ? null : DateUtil.transformIntoDate(vet.getDatFinMinpVet());
                                 } else {
                                     dateDeb =
-                                            vet.getDatDebMinVet().toGregorianCalendar().getTime();
+                                            vet.getDatDebMinVet() == null ? null : DateUtil.transformIntoDate(vet.getDatDebMinVet());
                                     dateFin =
-                                            vet.getDatFinMinVet().toGregorianCalendar().getTime();
+                                            vet.getDatFinMinVet() == null ? null : DateUtil.transformIntoDate(vet.getDatFinMinVet());
                                 }
                                 // on compare avec les dates saisies dans la vet
                                 if (dateDeb != null && dateFin != null) {
