@@ -116,9 +116,9 @@
                                                             style="cursor:pointer;" id="avisEnService" />
                                             <p:overlayPanel showEffect="fade" hideEffect="fade"
                                                             showEvent="mouseover" hideEvent="mouseout"
-                                                            appendToBody="true" for="avisEnService"
-                                                            styleClass="containerPopup">
-                                                <h:panelGroup>
+                                                             for="avisEnService"
+                                                            styleClass="containerPopup"  >
+                                                
                                                     <h:panelGrid columns="1">
                                                         <h:outputText styleClass="titrePopupAide"
                                                                       value="#{msgs['AVIS.END']} : #{indVoeuxPojo.avisEnService.result.libelle}" />
@@ -127,7 +127,7 @@
                                                         <h:outputText styleClass="libellesAide"
                                                                       value="#{indVoeuxPojo.avisEnService.commentaire}" />
                                                     </h:panelGrid>
-                                                </h:panelGroup>
+                                                
                                             </p:overlayPanel>
                                         </h:panelGroup>
                                     </div>
@@ -232,7 +232,7 @@
                                 <ui:repeat var="indVoeuxPojo" id="indVoeux9" rendered="#{managedAccess.updateAuthorized}"
                                            value="#{individuPojo.voeuxSortedByLic}">
                                     <div>
-                                        <p:commandButton icon="ui-icon-pencil"
+                                        <p:commandButton icon="ui-button-icon-left ui-icon ui-icon-search"
                                                          immediate="true"
                                                          title="#{msgs['BUTTON.UPDATE']}"
                                                          action="#{opinionController.goSeeOpinionVoeu}" ajax="false">
