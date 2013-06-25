@@ -599,10 +599,10 @@ public class ConfirmationController extends AbstractAccessController {
                                 Date date;
                                 if (indPrimo && vetNotOpen.getDatDebMinpVet() != null) {
                                     date =
-                                            vetNotOpen.getDatDebMinpVet().toGregorianCalendar().getTime();
+                                            vetNotOpen.getDatDebMinpVet() == null ? null : DateUtil.transformIntoDate(vetNotOpen.getDatDebMinpVet());
                                 } else if (vetNotOpen.getDatDebMinVet() != null) {
                                     date =
-                                            vetNotOpen.getDatDebMinVet().toGregorianCalendar().getTime();
+                                            vetNotOpen.getDatDebMinVet() == null ? null : DateUtil.transformIntoDate(vetNotOpen.getDatDebMinVet());
                                 } else {
                                     date = dateOuverture;
                                 }
