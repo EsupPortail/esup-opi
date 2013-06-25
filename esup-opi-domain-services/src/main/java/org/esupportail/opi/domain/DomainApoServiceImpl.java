@@ -52,6 +52,7 @@ import org.esupportail.opi.services.remote.client.IApogee;
 import org.esupportail.opi.utils.CacheModelConst;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.utils.Conversions;
+import org.esupportail.opi.utils.converters.xml.DateUtil;
 import org.esupportail.opi.utils.exceptions.CommunicationApogeeException;
 import org.esupportail.wssi.services.remote.AnneeUniDTO;
 import org.esupportail.wssi.services.remote.BacOuxEqu;
@@ -920,8 +921,7 @@ public class DomainApoServiceImpl implements DomainApoService {
 			individu.setNomUsuel(infosAdmEtu.getNomUsuel());
 			individu.setPrenom(infosAdmEtu.getPrenom1());
 			individu.setPrenom2(infosAdmEtu.getPrenom2());
-			individu.setDateNaissance(
-			    infosAdmEtu.getDateNaissance().toGregorianCalendar().getTime());
+			individu.setDateNaissance(DateUtil.transformIntoDate(infosAdmEtu.getDateNaissance()));
 			individu.setVilleNaissance(infosAdmEtu.getLibVilleNaissance());
 			individu.setCodPayNaissance(infosAdmEtu.getPaysNaissance().getCodPay());
 			if (infosAdmEtu.getDepartementNaissance() != null) {
