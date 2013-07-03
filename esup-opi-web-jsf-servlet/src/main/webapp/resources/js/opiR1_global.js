@@ -74,6 +74,7 @@ function highlightInputAndSelect(formId) {
  * @param checked
  */
 function checkRows(dataTableId, indexRow, checked) {
+
 	var dataTable = document.getElementById(dataTableId); 
     if (dataTable == null) {
       if (debug) alert("table [" + dataTableId + "] not found");
@@ -96,14 +97,17 @@ function checkRows(dataTableId, indexRow, checked) {
     		if (checked) {
     			$(inputs[i]).parent("div").addClass('ui-state-active');
                 $(inputs[i]).addClass('ui-icon ui-icon-check');
+                $(inputs[i]).parent("div").parent("div").children("div").children("input").attr('checked', 'checked');
     		} else {
     			$(inputs[i]).parent("div").removeClass('ui-state-active');
                 $(inputs[i]).removeClass('ui-icon ui-icon-check');
+                $(inputs[i]).parent("div").parent("div").children("div").children("input").removeAttr('checked');;
     		}
     	}
     }
     
 }
+
 
 
 /**
