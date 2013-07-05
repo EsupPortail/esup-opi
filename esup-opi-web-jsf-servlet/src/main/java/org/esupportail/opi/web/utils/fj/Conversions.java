@@ -9,14 +9,17 @@ import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.beans.etat.Etat;
 import org.esupportail.opi.domain.beans.etat.EtatIndividu;
 import org.esupportail.opi.domain.beans.etat.EtatVoeu;
+import org.esupportail.opi.domain.beans.parameters.Transfert;
 import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
+import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,8 +27,14 @@ import java.util.Set;
 import static fj.data.Stream.iterableStream;
 import static org.esupportail.opi.domain.beans.etat.Etat.instanceState;
 import static org.esupportail.opi.web.beans.utils.Utilitaires.getRecupCalendarRdv;
+import static org.esupportail.opi.web.utils.fj.Predicates.keepOnlyAvisWithValidationEquals;
+import static org.esupportail.opi.web.utils.fj.Predicates.isTraitementNotEquals;
 
 public class Conversions {
+
+    private Conversions(){
+        super();
+    }
 
     public static <T> F<Set<T>, Stream<T>> setToStream_() {
         return new F<Set<T>, Stream<T>>() {
