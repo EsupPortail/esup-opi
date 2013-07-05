@@ -102,6 +102,11 @@
                 <artifactId>slf4j-log4j12</artifactId>
                 <version>1.7.5</version>
             </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${mockito.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -273,6 +278,8 @@
         <esupcommons.version>0.3.2</esupcommons.version>
         <spring.version>3.2.2.RELEASE</spring.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--Test propoerties-->
+        <mockito.version>1.9.5</mockito.version>
     </properties>
 </project>
 
