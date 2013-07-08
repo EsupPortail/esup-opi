@@ -62,7 +62,8 @@ import static fj.data.Array.array;
 import static fj.data.IterableW.wrap;
 import static fj.data.Option.fromNull;
 import static fj.data.Stream.iterableStream;
-import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
+import static org.esupportail.opi.web.utils.fj.Conversions.*;
+import static org.esupportail.opi.web.utils.fj.Predicates.isIndWithoutVoeux;
 import static org.esupportail.opi.web.utils.io.SuperCSV.*;
 
 
@@ -665,6 +666,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
     }
 
     /**
+     * @deprecated better use {@see lookForIndividusPojoNew()} instead
      * clear and found the list of IndividuPojo and IndVoeuPjo
      * filtred by commission and typeDecision selected by the gestionnaire.
      *
@@ -746,9 +748,82 @@ public class PrintOpinionController extends AbstractContextAwareController {
 
 
     /**
-     * Int the commission and make the individuals list.
-     *
+     * Temporarily set a new method returning a Stream of filtered IndividuPojo
+     * from the same input params as {@see PrintOpinionController.lookForIndividusPojo()}
+     * clear and found the list of IndividuPojo and IndVoeuPjo
+     * filtred by commission and typeDecision selected by the gestionnaire.
      */
+    public Stream<IndividuPojo> lookForIndividusPojoNew(final Commission laCommission,
+                                                        final Boolean onlyValidate,
+                                                        final Boolean initCursusPojo) {
+        configureProprietaryClassParam(laCommission);
+        return filterIndividuPojos(laCommission, onlyValidate, initCursusPojo);
+    }
+
+    /**
+     * @deprecated see todo below
+     * Applique la configuration de l'appli par effet de bord
+     * @param laCommission
+     */
+    //TODO refactorer configureProprietaryClassParam pour ne plus fonctionner par effet de bord
+    private void configureProprietaryClassParam(Commission laCommission) {
+        // param Set <Commission>
+        final Set<Commission> lesCommissions = new HashSet<>();
+        lesCommissions.add(laCommission);
+        // param Set <TypeDecisions>
+        final Set<TypeDecision> lesTypeDecisions = new HashSet<>();
+        for (Object o : this.resultSelected) {
+            lesTypeDecisions.add((TypeDecision) o);
+        }
+        final List<TypeTraitement> lesTypeTrait = getParameterService().getTypeTraitements();
+
+        final List<CalendarRDV> listCalendrierParam = getParameterService().getCalendarRdv();
+    }
+
+    /**
+     * on récupère la liste des individus de la commission
+     * convert to IndividuPojo and IndVoeuPojo
+     * converti en indPojo en filtrant sur la liste des type de décisions cochés
+     * en filtrant
+     * - sur les voeux issus d'un transfert ou non (excludeTypeTrt)
+     * - sur les avis validés ou non (onlyValidate)
+     * si onlyValidate = true, on enlève les voeux non validés
+     * et inversement
+     * et en enlevant les etudiants sans voeux restant
+     * @param laCommission
+     * @param onlyValidate
+     * @param shouldInitCursusPojo
+     * @return the stream of IndividuPojo filtered
+     */
+    private Stream<IndividuPojo> filterIndividuPojos(Commission laCommission, Boolean onlyValidate, Boolean shouldInitCursusPojo) {
+        return getIndividusFromBakend(laCommission, onlyValidate)
+                .map(individuToPojo(getDomainApoService(), getParameterService(), getI18nService()))
+                .map(initCursusScol(shouldInitCursusPojo,getDomainApoService(), getI18nService()))
+                .map(removeVoeuWithTreatmentEquals(transfert))
+                .map(keepOnlyVoeuWithValidatedAvisEquals(onlyValidate))
+                .filter(isIndWithoutVoeux());
+    }
+
+    /**
+     * Encapsulate how controller fetch the stream of Individus from the bakend
+     * @param laCommission
+     * @param onlyValidate
+     * @return the stream of IndividuPojo from bakend
+     */
+    private Stream<Individu> getIndividusFromBakend(Commission laCommission, Boolean onlyValidate) {
+        return getDomainService().getIndividusCommission(
+                laCommission, onlyValidate,
+                new HashSet<>(wrap(this.commissionController.getListeRI())
+                        .map(decodeRegimeInscription())
+                        .toStandardList()));
+    }
+
+
+    /**
+         * @deprecated use {@see makeAllIndividusNew()} instead
+         * Int the commission and make the individuals list.
+         *
+         */
     private void makeAllIndividus(final Boolean onlyValidate,
                                   final Boolean initCursusPojo, final Boolean excludeTR) {
         // list of indivius from the commission selected
