@@ -268,6 +268,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
     }
 
     /**
+     * @deprecated use {@see makeAllIndividusNew()} instead
      * Make pdf after set the list of students.
      * call in printOpinions.jsp
      */
@@ -280,6 +281,32 @@ public class PrintOpinionController extends AbstractContextAwareController {
         csvGeneration(lesIndividus,
                 "exportAvis_" + commissionController.getCommission().getCode() + ".csv");
         this.lesIndividus = new ArrayList<>();
+    }
+
+    /**
+     * Make pdf after set the list of students.
+     * call in printOpinions.jsp
+     */
+    public void makeCsvValidationNew() {
+        final String fileNamePrefix = "exportAvis";
+        final String fileNameSuffix = ".csv";
+        // list of indivius from the commission selected
+        // with an opinion not validate
+        Integer idCmi = individuController.getIndividuPaginator().getIndRechPojo().getIdCmi();
+        if (idCmi != null) {
+            this.commissionController.setCommission(getParameterService().
+                    getCommission(idCmi, null));
+            generateCSVListesTransfertNew(
+                    lookForIndividusPojoNew(
+                            this.commissionController.getCommission(),
+                            individuController
+                                    .getIndividuPaginator()
+                                    .getIndRechPojo()
+                                    .getSelectValid(),
+                            true),
+                    fileNamePrefix,
+                    fileNameSuffix);
+        }
     }
 
     /**
