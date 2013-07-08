@@ -20,19 +20,18 @@ import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
-
 import java.util.HashSet;
 import java.util.Set;
 
 import static fj.data.Stream.iterableStream;
 import static org.esupportail.opi.domain.beans.etat.Etat.instanceState;
 import static org.esupportail.opi.web.beans.utils.Utilitaires.getRecupCalendarRdv;
-import static org.esupportail.opi.web.utils.fj.Predicates.keepOnlyAvisWithValidationEquals;
 import static org.esupportail.opi.web.utils.fj.Predicates.isTraitementNotEquals;
+import static org.esupportail.opi.web.utils.fj.Predicates.keepOnlyAvisWithValidationEquals;
 
 public class Conversions {
 
-    private Conversions(){
+    private Conversions() {
         super();
     }
 
@@ -47,7 +46,7 @@ public class Conversions {
     public static <T> F<Stream<T>, Set<T>> streamToSet_() {
         return new F<Stream<T>, Set<T>>() {
             public Set<T> f(Stream<T> ts) {
-                return new HashSet<T>(ts.toCollection());
+                return new HashSet<>(ts.toCollection());
             }
         };
     }
@@ -80,13 +79,14 @@ public class Conversions {
                                                            final ParameterService paramServ,
                                                            final I18nService i18nServ) {
         return new F<Individu, IndividuPojo>() {
+            @Override
             public IndividuPojo f(final Individu individu) {
                 return new IndividuPojo() {{
                     setIndividu(individu);
                     setEtat((EtatIndividu) instanceState(individu.getState(), i18nServ));
                     setDateCreationDossier(individu.getDateCreaEnr());
                     initIndCursusScolPojo(apoServ, i18nServ);
-                    setIndVoeuxPojo(new HashSet<IndVoeuPojo>(
+                    setIndVoeuxPojo(new HashSet<>(
                             iterableStream(individu.getVoeux()).map(
                                     indVoeuToPojo(apoServ, paramServ, i18nServ)).toCollection()));
                 }};
@@ -94,4 +94,77 @@ public class Conversions {
         };
     }
 
+    /**
+     * si onlyValidate = true, on enlève les voeux non validés
+     * et inversement
+     * see {@see ConversionsTest.testRemoveNotValidatedVoeu()}
+     *
+     * @param onlyValidate param to decide
+     * @return {@link Stream} of {@link IndividuPojo} where all {@link IndVoeuPojo} avis validation matches onlyValidate param
+     */
+    public static F<IndividuPojo, IndividuPojo> keepOnlyVoeuWithValidatedAvisEquals(final boolean onlyValidate) {
+        return new F<IndividuPojo, IndividuPojo>() {
+            @Override
+            public IndividuPojo f(IndividuPojo ip) {
+                Set<IndVoeuPojo> indVoeuPojoSet = new HashSet<>(iterableStream(ip.getIndVoeuxPojo())
+                        .filter(keepOnlyAvisWithValidationEquals(onlyValidate))
+                        .toCollection());
+                ip.setIndVoeuxPojo(indVoeuPojoSet);
+                return ip;
+            }
+        };
+    }
+
+    /**
+     * Remove every {@link IndVoeuPojo} with {@link TypeTraitement} equals param from a {@link Stream} of {@link IndividuPojo}
+     *
+     * @param transfert the treatment to be removed from Voeu
+     * @return a stream of fltered IndividuPojo
+     */
+    public static F<IndividuPojo, IndividuPojo> removeVoeuWithTreatmentEquals(final Transfert transfert) {
+        return new F<IndividuPojo, IndividuPojo>() {
+            @Override
+            public IndividuPojo f(IndividuPojo ip) {
+                Set<IndVoeuPojo> indVoeuPojoSet = new HashSet<>(iterableStream(ip.getIndVoeuxPojo()).filter(isTraitementNotEquals(transfert)).toCollection());
+                ip.setIndVoeuxPojo(indVoeuPojoSet);
+                return ip;
+            }
+        };
+    }
+
+    /**
+     * Decode a {@link Stream} of{@link RegimeInscription}
+     *
+     * @return the resulting stream of Code
+     */
+    public static F<RegimeInscription, Integer> decodeRegimeInscription() {
+        return new F<RegimeInscription, Integer>() {
+            @Override
+            public Integer f(RegimeInscription ri) {
+                return ri.getCode();
+            }
+        };
+    }
+
+    /**
+     * Initialize the scolar cursus of a {@link Stream} of {@link IndividuPojo} according to param
+     *
+     * @param initCusrsusScol boolean param to decide if should initialize the whole stream or not
+     * @param apoServ         utility service
+     * @param i18nServ        utility service
+     * @return the resulting {@link Stream}
+     */
+    public static F<IndividuPojo, IndividuPojo> initCursusScol(final boolean initCusrsusScol,
+                                                               final DomainApoService apoServ,
+                                                               final I18nService i18nServ) {
+        return new F<IndividuPojo, IndividuPojo>() {
+            @Override
+            public IndividuPojo f(final IndividuPojo individuPojo) {
+                if (initCusrsusScol) {
+                    individuPojo.initIndCursusScolPojo(apoServ, i18nServ);
+                }
+                return individuPojo;
+            }
+        };
+    }
 }
