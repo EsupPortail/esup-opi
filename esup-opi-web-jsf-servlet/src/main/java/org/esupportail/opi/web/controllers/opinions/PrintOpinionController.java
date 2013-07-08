@@ -416,6 +416,9 @@ public class PrintOpinionController extends AbstractContextAwareController {
     }
 
 
+    /**
+     * @deprecated should use {@see generateCSVListesTransfertNew()} below instead
+     */
     public void generateCSVListesTransfert() {
         final F<IndividuPojo, IndividuPojo> removeVoeuTransfert = new F<IndividuPojo, IndividuPojo>() {
             public IndividuPojo f(IndividuPojo ip) {
@@ -497,8 +500,70 @@ public class PrintOpinionController extends AbstractContextAwareController {
         }
     }
 
+    public void generateCSVListesTransfertNew(Stream<IndividuPojo> streamToBePrinted, final String fileNamePrefix,  final String fileNameSuffix) {
+
+        // seems dumb but we prefer to access a copy of the session variable in case of concurrent accesses
+        final String[] champs = array((champsChoisis == null) ?
+                HEADER_CVS.toArray(new String[HEADER_CVS.size()]) :
+                champsChoisis).array(String[].class);
+
+        final Commission commission = commissionController.getCommission().clone();
+        final User currentUser = getSessionController().getCurrentUser();
+        final I18nService i18n = getI18nService();
+        final StringBuilder prefixBuilder = new StringBuilder()
+                .append(fileNamePrefix)
+                .append("_")
+                .append(commission.getCode())
+                .append("_");
+        // a helper class to get a handle on the temp Path within the try-with-resources block
+        class FileHolder implements Closeable {
+            private Path path;
+            public void close() throws IOException {}
+            public Path getFile() throws IOException {
+                if (path == null) path = Files.createTempFile(prefixBuilder.toString(), fileNameSuffix);
+                return path;
+            }
+        }
+
+        try (final FileHolder holder = new FileHolder();
+             final SuperCSV<ICsvBeanWriter> csv = superCSV(holder.getFile(), champs)) {
+            forEach(streamToBePrinted,
+                    new IOF<IndividuPojo, IOUnit>() {
+                        public IOUnit fio(IndividuPojo ip) throws IOException {
+                            return forEach(indPojoToLignes(ip, commission), new IOF<LigneListePrepaPojo, IOUnit>() {
+                                public IOUnit fio(LigneListePrepaPojo ligne) throws IOException {
+                                    return csv.map(SuperCSV.<LigneListePrepaPojo>write_().fio(p(ligne, champs)))
+                                            .run();
+                                }
+                            });
+                        }
+                    });
+            Utilitaires.sendEmail.f(smtpService, false).e(p(
+                    new InternetAddress(currentUser.getAdressMail()),
+                    i18n.getString("EXPORT.CSV.MAIL.SUBJECT"),
+                    "",
+                    i18n.getString("EXPORT.CSV.MAIL.BODY"),
+                    Arrays.<File>asList(holder.getFile().toFile())
+            ));
+
+        } catch (Exception e) {
+            log.error(e);
+            try {
+                Utilitaires.sendEmail.f(smtpService, false).e(p(
+                        new InternetAddress(currentUser.getAdressMail()),
+                        i18n.getString("EXPORT.CSV.ERROR.MAIL.SUBJECT"),
+                        "",
+                        i18n.getString("EXPORT.CSV.ERROR.MAIL.BODY"),
+                        Collections.<File>emptyList()));
+
+            } catch (AddressException ae) {
+                log.error(ae);
+            }
+        }
+    }
 
     /**
+     * @deprecated see {@see generateCSVListesTransfertNew()} for new implementation
      * Generate a CSV of the list of student.
      *
      * @param individus
