@@ -296,14 +296,9 @@ public class PrintOpinionController extends AbstractContextAwareController {
         if (idCmi != null) {
             Commission cmi = retrieveOSIVCommission(idCmi, null);
             this.commissionController.setCommission(cmi);
+            Boolean selectValid = individuController.getIndividuPaginator().getIndRechPojo().getSelectValid();
             generateCSVListesTransfertNew(
-                    lookForIndividusPojoNew(
-                            this.commissionController.getCommission(),
-                            individuController
-                                    .getIndividuPaginator()
-                                    .getIndRechPojo()
-                                    .getSelectValid(),
-                            true),
+                    filterIndividuPojos(cmi, selectValid, true),
                     fileNamePrefix,
                     fileNameSuffix);
         }
@@ -758,7 +753,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
     }
 
     /**
-     * @deprecated better use {@see lookForIndividusPojoNew()} instead
+     * @deprecated better use {@see filterIndividuPojos()} instead
      * clear and found the list of IndividuPojo and IndVoeuPjo
      * filtred by commission and typeDecision selected by the gestionnaire.
      *
@@ -840,39 +835,11 @@ public class PrintOpinionController extends AbstractContextAwareController {
 
 
     /**
-     * Temporarily set a new method returning a Stream of filtered IndividuPojo
-     * from the same input params as {@see PrintOpinionController.lookForIndividusPojo()}
-     * clear and found the list of IndividuPojo and IndVoeuPjo
+     * Clear and found the list of IndividuPojo and IndVoeuPjo
      * filtred by commission and typeDecision selected by the gestionnaire.
-     */
-    public Stream<IndividuPojo> lookForIndividusPojoNew(final Commission laCommission,
-                                                        final Boolean onlyValidate,
-                                                        final Boolean initCursusPojo) {
-        configureProprietaryClassParam(laCommission);
-        return filterIndividuPojos(laCommission, onlyValidate, initCursusPojo);
-    }
-
-    /**
-     * @deprecated see todo below
-     * Applique la configuration de l'appli par effet de bord
-     * @param laCommission
-     */
-    //TODO refactorer configureProprietaryClassParam pour ne plus fonctionner par effet de bord
-    private void configureProprietaryClassParam(Commission laCommission) {
-        // param Set <Commission>
-        final Set<Commission> lesCommissions = new HashSet<>();
-        lesCommissions.add(laCommission);
-        // param Set <TypeDecisions>
-        final Set<TypeDecision> lesTypeDecisions = new HashSet<>();
-        for (Object o : this.resultSelected) {
-            lesTypeDecisions.add((TypeDecision) o);
-        }
-        final List<TypeTraitement> lesTypeTrait = getParameterService().getTypeTraitements();
-
-        final List<CalendarRDV> listCalendrierParam = getParameterService().getCalendarRdv();
-    }
-
-    /**
+     *
+     * Replacement (and so the same input params) of {@see PrintOpinionController.lookForIndividusPojo()}
+     *
      * on récupère la liste des individus de la commission
      * convert to IndividuPojo and IndVoeuPojo
      * converti en indPojo en filtrant sur la liste des type de décisions cochés
@@ -885,7 +852,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
      * @param laCommission
      * @param onlyValidate
      * @param shouldInitCursusPojo
-     * @return the stream of IndividuPojo filtered
+     * @return the {@link Stream} of filtered {@link IndividuPojo}
      */
     private Stream<IndividuPojo> filterIndividuPojos(Commission laCommission, Boolean onlyValidate, Boolean shouldInitCursusPojo) {
         return getIndividusFromBakend(laCommission, onlyValidate)
