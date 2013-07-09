@@ -76,6 +76,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
     private static final List<String> HEADER_CVS =
             new ArrayList<String>() {
                 private static final long serialVersionUID = 4451087010675988608L;
+
                 {
                     add("Commission");
                     add("Num_Dos_OPI");
@@ -150,7 +151,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
     private IndividuController individuController;
 
     private CommissionController commissionController;
-		
+
     private ExportFormOrbeonController exportFormOrbeonController;
 
     private ActionEnum actionEnum;
@@ -269,8 +270,8 @@ public class PrintOpinionController extends AbstractContextAwareController {
 
     /**
      * @deprecated use {@see makeAllIndividusNew()} instead
-     * Make pdf after set the list of students.
-     * call in printOpinions.jsp
+     *             Make pdf after set the list of students.
+     *             call in printOpinions.jsp
      */
     public void makeCsvValidation() {
         makeAllIndividus(
@@ -346,10 +347,10 @@ public class PrintOpinionController extends AbstractContextAwareController {
         List<IndividuPojo> individus = new ArrayList<IndividuPojo>();
         individus.add(individuPojoSelected);
 
-		Commission com = retrieveOSIVCommission(
+        Commission com = retrieveOSIVCommission(
                 individuController.getIndividuPaginator().getIndRechPojo()
                         .getIdCmi(), null);
-        
+
         makePdfData(individus, com);
 
         if (!this.pdfData.isEmpty()) {
@@ -369,10 +370,10 @@ public class PrintOpinionController extends AbstractContextAwareController {
         makeAllIndividus(
                 individuController.getIndividuPaginator().getIndRechPojo().getSelectValid(), false, true);
 
-		Commission com = retrieveOSIVCommission(
+        Commission com = retrieveOSIVCommission(
                 individuController.getIndividuPaginator().getIndRechPojo()
                         .getIdCmi(), null);
-        
+
         makePdfData(lesIndividus, com);
 
         if (!this.pdfData.isEmpty()) {
@@ -430,7 +431,10 @@ public class PrintOpinionController extends AbstractContextAwareController {
         // a helper class to get a handle on the temp Path within the try-with-resources block
         class FileHolder implements Closeable {
             private Path path;
-            public void close() throws IOException {}
+
+            public void close() throws IOException {
+            }
+
             public Path getFile() throws IOException {
                 if (path == null) path = Files.createTempFile(prefix, suffix);
                 return path;
@@ -484,7 +488,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
         }
     }
 
-    public void generateCSVListesTransfertNew(Stream<IndividuPojo> streamToBePrinted, final String fileNamePrefix,  final String fileNameSuffix) {
+    public void generateCSVListesTransfertNew(Stream<IndividuPojo> streamToBePrinted, final String fileNamePrefix, final String fileNameSuffix) {
 
         // seems dumb but we prefer to access a copy of the session variable in case of concurrent accesses
         final String[] champs = array((champsChoisis == null) ?
@@ -502,7 +506,10 @@ public class PrintOpinionController extends AbstractContextAwareController {
         // a helper class to get a handle on the temp Path within the try-with-resources block
         class FileHolder implements Closeable {
             private Path path;
-            public void close() throws IOException {}
+
+            public void close() throws IOException {
+            }
+
             public Path getFile() throws IOException {
                 if (path == null) path = Files.createTempFile(prefixBuilder.toString(), fileNameSuffix);
                 return path;
@@ -547,36 +554,36 @@ public class PrintOpinionController extends AbstractContextAwareController {
     }
 
     /**
-     * @deprecated see {@see generateCSVListesTransfertNew()} for new implementation
-     * Generate a CSV of the list of student.
-     *
      * @param individus
      * @param fileName
      * @return String
+     * @deprecated see {@see generateCSVListesTransfertNew()} for new implementation
+     *             Generate a CSV of the list of student.
      */
     public String csvGeneration(final List<IndividuPojo> individus, final String fileName) {
         if (champsChoisis == null) {
-			champsChoisis = HEADER_CVS.toArray(new String[HEADER_CVS.size()]);
-		}
-		List<LigneListePrepaPojo> listePrepa = new ArrayList<>(); //indPojoToLignes(individus);
-		try {
-			ExportUtils.superCsvGenerate(listePrepa, champsChoisis, fileName);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+            champsChoisis = HEADER_CVS.toArray(new String[HEADER_CVS.size()]);
+        }
+        List<LigneListePrepaPojo> listePrepa = new ArrayList<>(); //indPojoToLignes(individus);
+        try {
+            ExportUtils.superCsvGenerate(listePrepa, champsChoisis, fileName);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
     }
 
-		/**
-		 * Generate a CSV of the list of student. 
-		 * @return String superCsvGeneration
-		 */
-	public Stream<LigneListePrepaPojo> indPojoToLignes(IndividuPojo ind, Commission commission) {
+    /**
+     * Generate a CSV of the list of student.
+     *
+     * @return String superCsvGeneration
+     */
+    public Stream<LigneListePrepaPojo> indPojoToLignes(IndividuPojo ind, Commission commission) {
         Individu i = ind.getIndividu();
         Pays pays = null;
         CommuneDTO commune = null;
-        Adresse adresse =  i.getAdresses().get(Constantes.ADR_FIX);
+        Adresse adresse = i.getAdresses().get(Constantes.ADR_FIX);
         if (adresse != null) {
             commune = getDomainApoService().getCommune(adresse.getCodCommune(), adresse.getCodBdi());
             pays = getDomainApoService().getPays(adresse.getCodPays());
@@ -589,11 +596,11 @@ public class PrintOpinionController extends AbstractContextAwareController {
             ligne.setNom_Patrony(i.getNomPatronymique());
             ligne.setPrenom(i.getPrenom());
             ligne.setDate_Naiss(i.getDateNaissance());
-				
+
             String ine = ExportUtils.isNotNull(i.getCodeNNE())
                     + ExportUtils.isNotNull(i.getCodeClefNNE());
             ligne.setCode_clef_INE(ExportUtils.isNotNull(ine));
-				
+
             // adresse
             if (adresse != null) {
                 ligne.setAdresse_1(ExportUtils.isNotNull(adresse.getAdr1()));
@@ -601,14 +608,14 @@ public class PrintOpinionController extends AbstractContextAwareController {
                 ligne.setAdresse_3(ExportUtils.isNotNull(adresse.getAdr3()));
                 ligne.setCedex(ExportUtils.isNotNull(adresse.getCedex()));
                 ligne.setCode_Postal(ExportUtils.isNotNull(adresse.getCodBdi()));
-					
+
                 if (commune != null) {
                     ligne.setLib_Commune(commune.getLibCommune());
                 } else {
                     ligne.setLib_Commune(ExportUtils.isNotNull(
                             adresse.getLibComEtr()));
                 }
-					
+
                 if (pays != null) {
                     ligne.setLib_Pays(pays.getLibPay());
                 } else {
@@ -625,7 +632,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
                 ligne.setLib_Pays("");
                 ligne.setTelephone_fixe("");
             }
-				
+
             ligne.setMail(i.getAdressMail());
             // bac
             boolean hasCodeBac = false;
@@ -641,7 +648,9 @@ public class PrintOpinionController extends AbstractContextAwareController {
                 hasCodeBac = true;
                 break;
             }
-            if (!hasCodeBac) { ligne.setBac(""); }
+            if (!hasCodeBac) {
+                ligne.setBac("");
+            }
             // dernier cursus
             IndCursusScolPojo d = ind.getDerniereAnneeEtudeCursus();
             if (d != null) {
@@ -659,18 +668,18 @@ public class PrintOpinionController extends AbstractContextAwareController {
             ligne.setType_Traitement(ExportUtils.isNotNull(v.getTypeTraitement().getCode()));
             ligne.setVoeu_Lib_Vet(ExportUtils.isNotNull(v.getVrsEtape().getLibWebVet()));
             ligne.setEtat_Voeu(ExportUtils.isNotNull(v.getEtat().getLabel()));
-				
+
             if (v.getAvisEnService() != null) {
-					
+
                 ligne.setAvis_Result_Lib(ExportUtils.isNotNull(v.getAvisEnService().
                         getResult().getLibelle()));
-					
+
                 if (v.getAvisEnService().getRang() != null) {
                     ligne.setRang(v.getAvisEnService().getRang().toString());
                 } else {
                     ligne.setRang("");
                 }
-					
+
                 String comm = null;
                 if (v.getAvisEnService().getMotivationAvis() != null) {
                     comm = ExportUtils.isNotNull(v.getAvisEnService().getMotivationAvis().getLibelle());
@@ -683,14 +692,14 @@ public class PrintOpinionController extends AbstractContextAwareController {
                             v.getAvisEnService().getCommentaire());
                 }
                 ligne.setAvis_Motivation_Commentaire(ExportUtils.isNotNull(comm));
-					
+
                 ligne.setAvis_Result_Code(ExportUtils.isNotNull(v.getAvisEnService().
                         getResult().getCode()));
                 ligne.setAvis_Result_Code_Apogee(ExportUtils.isNotNull(v.getAvisEnService().
                         getResult().getCodeApogee()));
                 ligne.setAvis_temoin_validation(ExportUtils.isNotNull("" + v.getAvisEnService().
                         getValidation()));
-					
+
                 if (v.getAvisEnService().getValidation()) {
                     ligne.setAvis_date_validation(ExportUtils.isNotNull(
                             Utilitaires.convertDateToString(
@@ -716,9 +725,8 @@ public class PrintOpinionController extends AbstractContextAwareController {
 
     /**
      * @deprecated better use {@see filterIndividuPojos()} instead
-     * clear and found the list of IndividuPojo and IndVoeuPjo
-     * filtred by commission and typeDecision selected by the gestionnaire.
-     *
+     *             clear and found the list of IndividuPojo and IndVoeuPjo
+     *             filtred by commission and typeDecision selected by the gestionnaire.
      */
     public void lookForIndividusPojo(final Commission laCommission,
                                      final Boolean onlyValidate, final Boolean initCursusPojo, final Boolean excludeTR) {
@@ -777,7 +785,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
                 voeuxToRemove.clear();
                 for (IndVoeuPojo iVoeuP : iPojo.getIndVoeuxPojo()) {
                     Avis avis = iVoeuP.getAvisEnService();
-                	if (avis != null && !avis.getValidation()
+                    if (avis != null && !avis.getValidation()
                             .equals(onlyValidate)) {
                         voeuxToRemove.add(iVoeuP);
                     }
@@ -799,9 +807,9 @@ public class PrintOpinionController extends AbstractContextAwareController {
     /**
      * Clear and found the list of IndividuPojo and IndVoeuPjo
      * filtred by commission and typeDecision selected by the gestionnaire.
-     *
+     * <p/>
      * Replacement (and so the same input params) of {@see PrintOpinionController.lookForIndividusPojo()}
-     *
+     * <p/>
      * on récupère la liste des individus de la commission
      * convert to IndividuPojo and IndVoeuPojo
      * converti en indPojo en filtrant sur la liste des type de décisions cochés
@@ -811,15 +819,16 @@ public class PrintOpinionController extends AbstractContextAwareController {
      * si onlyValidate = true, on enlève les voeux non validés
      * et inversement
      * et en enlevant les etudiants sans voeux restant
+     *
      * @param laCommission
      * @param onlyValidate
      * @param shouldInitCursusPojo
      * @return the {@link Stream} of filtered {@link IndividuPojo}
      */
-    private Stream<IndividuPojo> filterIndividuPojos(Commission laCommission, Boolean onlyValidate, Boolean shouldInitCursusPojo) {
+    public Stream<IndividuPojo> filterIndividuPojos(Commission laCommission, Boolean onlyValidate, Boolean shouldInitCursusPojo) {
         return getIndividusFromBakend(laCommission, onlyValidate)
                 .map(individuToPojo(getDomainApoService(), getParameterService(), getI18nService()))
-                .map(initCursusScol(shouldInitCursusPojo,getDomainApoService(), getI18nService()))
+                .map(initCursusScol(shouldInitCursusPojo, getDomainApoService(), getI18nService()))
                 .map(removeVoeuWithTreatmentEquals(transfert))
                 .map(keepOnlyVoeuWithValidatedAvisEquals(onlyValidate))
                 .filter(isIndWithoutVoeux());
@@ -833,6 +842,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
 
     /**
      * Encapsulate how controller fetch the stream of Individus from the bakend
+     *
      * @param laCommission
      * @param onlyValidate
      * @return the stream of IndividuPojo from bakend
@@ -847,15 +857,14 @@ public class PrintOpinionController extends AbstractContextAwareController {
 
 
     /**
-         * @deprecated use {@see makeAllIndividusNew()} instead
-         * Int the commission and make the individuals list.
-         *
-         */
+     * @deprecated use {@see makeAllIndividusNew()} instead
+     *             Int the commission and make the individuals list.
+     */
     private void makeAllIndividus(final Boolean onlyValidate,
                                   final Boolean initCursusPojo, final Boolean excludeTR) {
         // list of indivius from the commission selected
         // with an opinion not validate
-    	Integer idCmi = individuController.getIndividuPaginator().getIndRechPojo().getIdCmi();
+        Integer idCmi = individuController.getIndividuPaginator().getIndRechPojo().getIdCmi();
         if (idCmi != null) {
             this.commissionController.setCommission(getParameterService().
                     getCommission(idCmi, null));
@@ -922,71 +931,71 @@ public class PrintOpinionController extends AbstractContextAwareController {
             for (IndVoeuPojo indVoeuPojo : iP.getIndVoeuxPojo()) {
                 Avis unAvis = indVoeuPojo.getAvisEnService();
                 if (unAvis != null) {
-	                TraitementCmi trtCmi =
-	                        unAvis.getIndVoeu().getLinkTrtCmiCamp().getTraitementCmi();
-	                // on recupere l'etape de l'avis
-	                VersionEtapeDTO vDTO = getDomainApoService().getVersionEtape(
-	                        trtCmi.getVersionEtpOpi().getCodEtp(),
-	                        trtCmi.getVersionEtpOpi().getCodVrsVet());
-	                // on cree l'entree de l'etape si elle n'existe pas
-	                if (!mapIndListByEtapeAndAvis.containsKey(vDTO)) {
-	                    mapIndListByEtapeAndAvis.put(vDTO, new TreeMap<TypeDecision,
-	                            List<IndListePrepaPojo>>(new ComparatorString(
-	                            TypeDecision.class)));
-	                }
-	
-	                // on recupere le type de decision de l'avis
-	                TypeDecision typeDec = unAvis.getResult();
-	                // on cree l'entree du type de decision si elle n'existe pas
-	                if (!mapIndListByEtapeAndAvis.get(vDTO).containsKey(typeDec)) {
-	                    mapIndListByEtapeAndAvis.get(vDTO).put(typeDec,
-	                            new ArrayList<IndListePrepaPojo>());
-	                }
-	                // on cree l'IndListePrepaPojo correspondant pour l'ajouter dans la map
-	                IndListePrepaPojo unIndPrepa = new IndListePrepaPojo();
-	                // code de la commission from Commission.code
-	                unIndPrepa.setCodeCmi(commissionController.getCommission().getCode());
-	                // code du dossier de l'individu from IndividuPojo.individu.numDossierOpi
-	                unIndPrepa.setNumDossierOpi(iP.getIndividu().getNumDossierOpi());
-	                // nom de l'individu from IndividuPojo.individu.nomPatronymique
-	                unIndPrepa.setNom(iP.getIndividu().getNomPatronymique());
-	                // prenom de l'individu from IndividuPojo.individu.prenom
-	                unIndPrepa.setPrenom(iP.getIndividu().getPrenom());
-	                // codeEtu de l'individu from IndividuPojo.individu.codeEtu
-	                unIndPrepa.setCodeEtu(iP.getIndividu().getCodeEtu());
-	                // bac de l'individu from IndividuPojo.individu.indBac
-	                // (premier element de la liste)
-	                IndBac iB = iP.getIndividu().getIndBac().iterator().next();
-	                BacOuxEqu b = getDomainApoService().getBacOuxEqu(
-	                        iB.getDateObtention(),
-	                        ExportUtils.isNotNull(iB.getCodBac()));
-	                if (b != null) {
-	                    unIndPrepa.setBac(b.getLibBac());
-	                } else {
-	                    unIndPrepa.setBac(iB.getCodBac());
-	                }
-	                if (iP.getDerniereAnneeEtudeCursus() != null) {
-	                    // titre fondant la demande from
-	                    // IndividuPojo.derniereAnneeEtudeCursus.libCur
-	                    unIndPrepa.setTitreAccesDemande(
-	                            iP.getDerniereAnneeEtudeCursus().getLibCur());
-	                    // dernier cursus from  IndividuPojo.derniereAnneeEtudeCursus.cursus
-	                    unIndPrepa.setDernierIndCursusScol(iP.getDerniereAnneeEtudeCursus()
-	                            .getCursus());
-	                }
-	                // creation d'un indVoeuPojo
-	                IndVoeuPojo indPojo = new IndVoeuPojo();
-	                indPojo.setIndVoeu(unAvis.getIndVoeu());
-	                indPojo.setVrsEtape(vDTO);
-	
-	                indPojo.setAvisEnService(unAvis);
-	                // on ajoute indPojo
-	                unIndPrepa.setIndVoeuxPojo(new HashSet<IndVoeuPojo>());
-	                unIndPrepa.getIndVoeuxPojo().add(indPojo);
-	
-	                // on ajoute l'indPrepa dans la map
-	                mapIndListByEtapeAndAvis.get(vDTO).get(typeDec).add(unIndPrepa);
-	            }
+                    TraitementCmi trtCmi =
+                            unAvis.getIndVoeu().getLinkTrtCmiCamp().getTraitementCmi();
+                    // on recupere l'etape de l'avis
+                    VersionEtapeDTO vDTO = getDomainApoService().getVersionEtape(
+                            trtCmi.getVersionEtpOpi().getCodEtp(),
+                            trtCmi.getVersionEtpOpi().getCodVrsVet());
+                    // on cree l'entree de l'etape si elle n'existe pas
+                    if (!mapIndListByEtapeAndAvis.containsKey(vDTO)) {
+                        mapIndListByEtapeAndAvis.put(vDTO, new TreeMap<TypeDecision,
+                                List<IndListePrepaPojo>>(new ComparatorString(
+                                TypeDecision.class)));
+                    }
+
+                    // on recupere le type de decision de l'avis
+                    TypeDecision typeDec = unAvis.getResult();
+                    // on cree l'entree du type de decision si elle n'existe pas
+                    if (!mapIndListByEtapeAndAvis.get(vDTO).containsKey(typeDec)) {
+                        mapIndListByEtapeAndAvis.get(vDTO).put(typeDec,
+                                new ArrayList<IndListePrepaPojo>());
+                    }
+                    // on cree l'IndListePrepaPojo correspondant pour l'ajouter dans la map
+                    IndListePrepaPojo unIndPrepa = new IndListePrepaPojo();
+                    // code de la commission from Commission.code
+                    unIndPrepa.setCodeCmi(commissionController.getCommission().getCode());
+                    // code du dossier de l'individu from IndividuPojo.individu.numDossierOpi
+                    unIndPrepa.setNumDossierOpi(iP.getIndividu().getNumDossierOpi());
+                    // nom de l'individu from IndividuPojo.individu.nomPatronymique
+                    unIndPrepa.setNom(iP.getIndividu().getNomPatronymique());
+                    // prenom de l'individu from IndividuPojo.individu.prenom
+                    unIndPrepa.setPrenom(iP.getIndividu().getPrenom());
+                    // codeEtu de l'individu from IndividuPojo.individu.codeEtu
+                    unIndPrepa.setCodeEtu(iP.getIndividu().getCodeEtu());
+                    // bac de l'individu from IndividuPojo.individu.indBac
+                    // (premier element de la liste)
+                    IndBac iB = iP.getIndividu().getIndBac().iterator().next();
+                    BacOuxEqu b = getDomainApoService().getBacOuxEqu(
+                            iB.getDateObtention(),
+                            ExportUtils.isNotNull(iB.getCodBac()));
+                    if (b != null) {
+                        unIndPrepa.setBac(b.getLibBac());
+                    } else {
+                        unIndPrepa.setBac(iB.getCodBac());
+                    }
+                    if (iP.getDerniereAnneeEtudeCursus() != null) {
+                        // titre fondant la demande from
+                        // IndividuPojo.derniereAnneeEtudeCursus.libCur
+                        unIndPrepa.setTitreAccesDemande(
+                                iP.getDerniereAnneeEtudeCursus().getLibCur());
+                        // dernier cursus from  IndividuPojo.derniereAnneeEtudeCursus.cursus
+                        unIndPrepa.setDernierIndCursusScol(iP.getDerniereAnneeEtudeCursus()
+                                .getCursus());
+                    }
+                    // creation d'un indVoeuPojo
+                    IndVoeuPojo indPojo = new IndVoeuPojo();
+                    indPojo.setIndVoeu(unAvis.getIndVoeu());
+                    indPojo.setVrsEtape(vDTO);
+
+                    indPojo.setAvisEnService(unAvis);
+                    // on ajoute indPojo
+                    unIndPrepa.setIndVoeuxPojo(new HashSet<IndVoeuPojo>());
+                    unIndPrepa.getIndVoeuxPojo().add(indPojo);
+
+                    // on ajoute l'indPrepa dans la map
+                    mapIndListByEtapeAndAvis.get(vDTO).get(typeDec).add(unIndPrepa);
+                }
             }
         }
 
@@ -1090,25 +1099,25 @@ public class PrintOpinionController extends AbstractContextAwareController {
             for (IndVoeuPojo indVPojo : i.getIndVoeuxPojo()) {
                 Avis a = indVPojo.getAvisEnService();
                 if (a != null) {
-	                if (a.getResult().getIsFinal()
-	                        && a.getResult().getCodeTypeConvocation()
-	                        .equals(inscriptionAdm.getCode())) {
-	                    if (!a.getAppel()) {
-	                        indVoeuPojoFav.add(indVPojo);
-	                    } else {
-	                        indVoeuPojoFavAppel.add(indVPojo);
-	                    }
-	                } else {
-	                    if (a.getResult().getIsFinal()
-	                            && a.getResult().getCodeTypeConvocation()
-	                            .equals(refused.getCode())) {
-	                        if (!a.getAppel()) {
-	                            indVoeuPojoDef.add(indVPojo);
-	                        } else {
-	                            indVoeuPojoDefAppel.add(indVPojo);
-	                        }
-	                    }
-	                }
+                    if (a.getResult().getIsFinal()
+                            && a.getResult().getCodeTypeConvocation()
+                            .equals(inscriptionAdm.getCode())) {
+                        if (!a.getAppel()) {
+                            indVoeuPojoFav.add(indVPojo);
+                        } else {
+                            indVoeuPojoFavAppel.add(indVPojo);
+                        }
+                    } else {
+                        if (a.getResult().getIsFinal()
+                                && a.getResult().getCodeTypeConvocation()
+                                .equals(refused.getCode())) {
+                            if (!a.getAppel()) {
+                                indVoeuPojoDef.add(indVPojo);
+                            } else {
+                                indVoeuPojoDefAppel.add(indVPojo);
+                            }
+                        }
+                    }
                 }
             }
             // data for pdf if necessery
@@ -1165,14 +1174,14 @@ public class PrintOpinionController extends AbstractContextAwareController {
         notificationOpinion.setPrenom(i.getIndividu().getPrenom());
         notificationOpinion.setSexe(i.getIndividu().getSexe());
         notificationOpinion.setPeriodeScolaire(i.getCampagneEnServ(getDomainService()).getCode());
-        
+
         ContactCommission contactCommission = laCommission.getContactsCommission().get(
                 Utilitaires.getCodeRIIndividu(i.getIndividu(), getDomainService()));
         AdressePojo aPojo = null;
         if (contactCommission != null) {
-	        aPojo = new AdressePojo(contactCommission.getAdresse(),
-	                getDomainApoService());
-	        notificationOpinion.setCoordonneesContact(aPojo);
+            aPojo = new AdressePojo(contactCommission.getAdresse(),
+                    getDomainApoService());
+            notificationOpinion.setCoordonneesContact(aPojo);
         }
         aPojo = null;
         //init hib proxy adresse
@@ -1453,7 +1462,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
     public void doInitSelectValid() {
         IndRechPojo rp = individuController.getIndividuPaginator().getIndRechPojo();
         if (rp.getSelectValid() == null) {
-        	rp.setSelectValid(false);
+            rp.setSelectValid(false);
         }
     }
 
