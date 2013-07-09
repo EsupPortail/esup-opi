@@ -60,7 +60,7 @@
                 <h:panelGroup rendered="#{renderOpinionBlocks}">
                     <p:selectOneMenu id="lesTypesDecision" converter="#{typeDecisionConverter}"
                                      value="#{paginatorIndividu.indRechPojo.typeDec}">
-                        <f:selectItems value="#{nomenclatureController.typeDecisionItems}"/>
+                        <f:selectItems value="#{nomenclatureController.typeDecisionInUseItems}"/>
                         <p:ajax update="formGrid" listener="#{opinionController.searchStudentsByTypeDec}"/>
                     </p:selectOneMenu>
                 </h:panelGroup>
