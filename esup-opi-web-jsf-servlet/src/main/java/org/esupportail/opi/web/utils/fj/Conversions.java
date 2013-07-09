@@ -106,10 +106,12 @@ public class Conversions {
         return new F<IndividuPojo, IndividuPojo>() {
             @Override
             public IndividuPojo f(IndividuPojo ip) {
-                Set<IndVoeuPojo> indVoeuPojoSet = new HashSet<>(iterableStream(ip.getIndVoeuxPojo())
-                        .filter(keepOnlyAvisWithValidationEquals(onlyValidate))
-                        .toCollection());
-                ip.setIndVoeuxPojo(indVoeuPojoSet);
+                if (onlyValidate != null){
+                    Set<IndVoeuPojo> indVoeuPojoSet = new HashSet<>(iterableStream(ip.getIndVoeuxPojo())
+                            .filter(keepOnlyAvisWithValidationEquals(onlyValidate))
+                            .toCollection());
+                    ip.setIndVoeuxPojo(indVoeuPojoSet);
+                }
                 return ip;
             }
         };

@@ -105,6 +105,30 @@ public class ConversionsTest {
     }
 
     @Test
+    public void testkeepOnlyAvisWithValidationEqualsNull() throws Exception {
+        //Given
+        Set<IndVoeuPojo> setWithInvalidVoeu = buildSetWithInvalidVoeu();
+        assertEquals(2, setWithInvalidVoeu.size());
+        List<IndividuPojo> mockListIndi = new ArrayList<>();
+        IndividuPojo ipj1 = new IndividuPojo();
+        //that we should filter this one
+        ipj1.setIndVoeuxPojo(setWithInvalidVoeu);
+        mockListIndi.add(ipj1);
+        Stream<IndividuPojo> stream = iterableStream(mockListIndi);
+        assertEquals(1, stream.length());
+        assertEquals(2, stream.index(0).getIndVoeuxPojo().size());
+        assertTrue(retrieveVoeuInStreamWithValidatAvisEquals(stream, true));
+        assertTrue(retrieveVoeuInStreamWithValidatAvisEquals(stream, false));
+        //When
+        Stream<IndividuPojo> result = stream.map(keepOnlyVoeuWithValidatedAvisEquals(null));
+        //Then
+        assertEquals(stream.length(), result.length());
+        assertEquals(2, stream.index(0).getIndVoeuxPojo().size());
+        assertTrue(retrieveVoeuInStreamWithValidatAvisEquals(stream, true));
+        assertTrue(retrieveVoeuInStreamWithValidatAvisEquals(stream, false));
+    }
+
+    @Test
     public void testRemoveVoeuWithTreatmentEquals() throws Exception {
         //Given
         Stream<IndividuPojo> stream = buildIndPojoStreamWithElementToBeFiltered();
