@@ -294,8 +294,8 @@ public class PrintOpinionController extends AbstractContextAwareController {
         // with an opinion not validate
         Integer idCmi = individuController.getIndividuPaginator().getIndRechPojo().getIdCmi();
         if (idCmi != null) {
-            this.commissionController.setCommission(getParameterService().
-                    getCommission(idCmi, null));
+            Commission cmi = retrieveOSIVCommission(idCmi, null);
+            this.commissionController.setCommission(cmi);
             generateCSVListesTransfertNew(
                     lookForIndividusPojoNew(
                             this.commissionController.getCommission(),
@@ -321,7 +321,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
 
         for (Integer idCom : idComOpt)
             exportFormOrbeonController.makeCsvFormulaire(
-                    getParameterService().getCommission(idCom, null),
+                    retrieveOSIVCommission(idCom, null),
                     listRI);
 
         if (idComOpt.isNone())
@@ -351,9 +351,9 @@ public class PrintOpinionController extends AbstractContextAwareController {
         List<IndividuPojo> individus = new ArrayList<IndividuPojo>();
         individus.add(individuPojoSelected);
 
-		Commission com = getParameterService().getCommission(
-				individuController.getIndividuPaginator().getIndRechPojo()
-						.getIdCmi(), null);
+		Commission com = retrieveOSIVCommission(
+                individuController.getIndividuPaginator().getIndRechPojo()
+                        .getIdCmi(), null);
         
         makePdfData(individus, com);
 
@@ -374,9 +374,9 @@ public class PrintOpinionController extends AbstractContextAwareController {
         makeAllIndividus(
                 individuController.getIndividuPaginator().getIndRechPojo().getSelectValid(), false, true);
 
-		Commission com = getParameterService().getCommission(
-				individuController.getIndividuPaginator().getIndRechPojo()
-						.getIdCmi(), null);
+		Commission com = retrieveOSIVCommission(
+                individuController.getIndividuPaginator().getIndRechPojo()
+                        .getIdCmi(), null);
         
         makePdfData(lesIndividus, com);
 
@@ -435,7 +435,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
                 this.lesIndividus.add(iPojo);
             }
 
-        }
+        Commission commission = retrieveOSIVCommission(commissionController.getCommission().getId(), commissionController.getCommission().getCode());
 
         csvGeneration(lesIndividus,
                 "listePrepa_" + commissionController.getCommission().getCode() + ".csv");
@@ -896,6 +896,12 @@ public class PrintOpinionController extends AbstractContextAwareController {
                 .filter(isIndWithoutVoeux());
     }
 
+    private Commission retrieveOSIVCommission(Integer id, String code) {
+        // hibernate session reattachment
+        Commission result = getParameterService().getCommission(id, code);
+        return result;
+    }
+
     /**
      * Encapsulate how controller fetch the stream of Individus from the bakend
      * @param laCommission
@@ -1143,8 +1149,8 @@ public class PrintOpinionController extends AbstractContextAwareController {
      */
     public void makePdfData(final List<IndividuPojo> individus, final Commission laCommission) {
         // hibernate session reattachment
-        Commission com = getParameterService().getCommission(
-        		laCommission.getId(), laCommission.getCode());
+        Commission com = retrieveOSIVCommission(
+                laCommission.getId(), laCommission.getCode());
 
         List<NotificationOpinion> dataPDF = new ArrayList<NotificationOpinion>();
         for (IndividuPojo i : individus) {
