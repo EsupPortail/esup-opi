@@ -70,7 +70,7 @@
                             <p:commandButton value="#{msgs['_.BUTTON.EXPORT']}"
                                              rendered="#{commissionController.commission.code != null}"
                                              action="#{printOpinionController.generateCSVListesPreparatoire}"
-                                             ajax="false"/>
+                                             actionListener="#{printOpinionController.generationWarning}"
                         </h:panelGroup>
                     </h:panelGrid>
                 </div>
