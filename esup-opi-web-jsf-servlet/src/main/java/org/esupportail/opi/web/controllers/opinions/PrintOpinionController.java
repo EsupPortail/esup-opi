@@ -389,54 +389,16 @@ public class PrintOpinionController extends AbstractContextAwareController {
      * call in printListsPrepa.jsp
      */
     public void generateCSVListesPreparatoire() {
-        Commission com = commissionController.getCommission();
-        // hibernate session reattachment
-        com = getParameterService().getCommission(com.getId(), com.getCode());
-
-        List<Individu> listeInd = new ArrayList<>(
-                getDomainService().getIndividusCommission(
-                        com, null,new HashSet<>(
-                        wrap(commissionController.getListeRI()).map(
-                                new F<RegimeInscription, Integer>() {
-                                    public Integer f(RegimeInscription ri) {
-                                        return ri.getCode();
-                                    }
-                                }).toStandardList())).toCollection());
-
-        Set<Commission> listComm = new HashSet<>();
-        listComm.add(com);
-
-        List<IndividuPojo> listeIndPojo =
-                Utilitaires.convertIndInIndPojo(listeInd,
-                        getParameterService(), getI18nService(),
-                        getDomainApoService(), listComm, null,
-                        getParameterService().getTypeTraitements(),
-                        getParameterService().getCalendarRdv(), null, false);
-
-        for (IndividuPojo iPojo : listeIndPojo) {
-            iPojo.initIndCursusScolPojo(getDomainApoService(), getI18nService());
-
-            // on enlève les voeux en transfert
-            Set<IndVoeuPojo> voeuxToRemove = new HashSet<IndVoeuPojo>();
-            for (IndVoeuPojo iVoeuP : iPojo.getIndVoeuxPojo()) {
-                if (iVoeuP.getTypeTraitement().equals(transfert)) {
-                    voeuxToRemove.add(iVoeuP);
-                }
-            }
-            iPojo.getIndVoeuxPojo().removeAll(voeuxToRemove);
-
-            // enleve les etudiants sans voeux restant
-            if (!iPojo.getIndVoeuxPojo().isEmpty()) {
-                this.lesIndividus.add(iPojo);
-            }
+        final String fileNamePrefix = "listePrepa";
+        final String fileNameSuffix = ".csv";
 
         Commission commission = retrieveOSIVCommission(commissionController.getCommission().getId(), commissionController.getCommission().getCode());
 
-        csvGeneration(lesIndividus,
-                "listePrepa_" + commissionController.getCommission().getCode() + ".csv");
-        this.lesIndividus = new ArrayList<IndividuPojo>();
+        generateCSVListesTransfertNew(
+                filterIndividuPojos(commission, null, true),
+                fileNamePrefix,
+                fileNameSuffix);
     }
-
 
     /**
      * @deprecated should use {@see generateCSVListesTransfertNew()} below instead
