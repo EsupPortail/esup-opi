@@ -5,6 +5,9 @@
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
         <div id="maPage" class="div_body">
+            <div class="messageForUser">
+                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            </div>
             <h1>
                 <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
             </h1>
