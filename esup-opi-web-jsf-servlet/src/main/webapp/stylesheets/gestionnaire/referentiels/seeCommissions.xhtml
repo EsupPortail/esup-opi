@@ -94,13 +94,9 @@
                         <p:column>
                             <h:panelGroup>
                                 <p:graphicImage library="images" name="flag_green.png"
-                                    rendered="#{!commissionPojo.flagWithoutTrtActive and !commissionPojo.flagWithSomeTrtInactive}"
+                                    rendered="#{!commissionPojo.flagWithoutTrtActive}"
                                     style="cursor:pointer;"
-                                    id="allActiveEtp" />
-                                <p:graphicImage library="images" name="flag_orange.png"
-                                    rendered="#{commissionPojo.flagWithSomeTrtInactive}"
-                                    style="cursor:pointer;"
-                                    id="someInactiveEtp" />
+                                    id="allActiveEtp" /> 
                                 <p:graphicImage library="images" name="flag_red.png"
                                     rendered="#{commissionPojo.flagWithoutTrtActive}"
                                     style="cursor:pointer;"
