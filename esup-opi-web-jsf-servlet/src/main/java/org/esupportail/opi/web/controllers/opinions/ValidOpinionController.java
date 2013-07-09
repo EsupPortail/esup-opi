@@ -34,7 +34,7 @@ import java.util.Set;
  *         ValidOpinionController :
  */
 public class ValidOpinionController extends AbstractContextAwareController {    /*
-	 ******************* PROPERTIES ******************* */
+     ******************* PROPERTIES ******************* */
     /**
      * the serialization id.
      */
@@ -101,7 +101,7 @@ public class ValidOpinionController extends AbstractContextAwareController {    
      * {@link CommissionController}.
      */
     private CommissionController commissionController;
-	/*
+    /*
 	 ******************* INIT ************************* */
 
 
@@ -171,9 +171,9 @@ public class ValidOpinionController extends AbstractContextAwareController {    
     public String goSeeStudientForCommission() {
         // list of indivius from the commission selected
         // with an opinion not validate
-        this.printOpinionController.lookForIndividusPojo(
+        this.printOpinionController.filterIndividuPojos(
                 commissionController.getCommission(),
-                false, false, true);
+                false, false);
         return NavigationRulesConst.DISPLAY_NOT_VALIDATED_STUDENT;
     }
 
