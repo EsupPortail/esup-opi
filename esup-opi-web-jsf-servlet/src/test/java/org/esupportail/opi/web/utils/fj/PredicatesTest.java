@@ -91,6 +91,19 @@ public class PredicatesTest {
         assertEquals("Should be invalid avis left", false, result.index(0).getAvisEnService().getValidation());
     }
 
+    @Test(expected = UnsupportedOperationException.class)
+    public void testIsOnlyNotValidateFailNull() throws Exception {
+        //Given
+        Stream<IndVoeuPojo> stream = iterableStream(buildListIndVoeuPojoWithAvis());
+        assertEquals("Should've built items of 3", 3, stream.length());
+        assertEquals("First item is valid avis", true, stream.index(0).getAvisEnService().getValidation());
+        assertEquals("Second  item is invalid avis", false, stream.index(1).getAvisEnService().getValidation());
+        assertEquals("Third  item doesnt even have an avis", null, stream.index(2).getAvisEnService());
+        //When
+        stream.filter(keepOnlyAvisWithValidationEquals(null));
+        //Then throw exception
+    }
+
     @Test
     public void testIsIndWithoutVoeux() throws Exception {
         //Given
