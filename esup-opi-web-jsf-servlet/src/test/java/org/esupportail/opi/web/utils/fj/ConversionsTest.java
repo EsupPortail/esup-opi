@@ -43,6 +43,7 @@ public class ConversionsTest {
 
     private Transfert transfert;
     private Transfert nonTransfert;
+    private boolean tic = false;
 
 
     @Test
@@ -262,7 +263,8 @@ public class ConversionsTest {
     private IndVoeuPojo buildIndVoeu() {
         IndVoeuPojo result = new IndVoeuPojo();
         VersionEtapeDTO vedto = new VersionEtapeDTO();
-        Random r = new Random();
+        Random r = tic?  new Random(50) : new Random(10) ;
+        tic = !tic;
         vedto.setCodEtp(String.valueOf(r.nextInt(10)+r.nextInt(5)));
         vedto.setCodVrsVet(r.nextInt(25)+r.nextInt(4));
         result.setVrsEtape(vedto);
