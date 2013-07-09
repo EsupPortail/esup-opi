@@ -102,7 +102,7 @@ public class Conversions {
      * @param onlyValidate param to decide
      * @return {@link Stream} of {@link IndividuPojo} where all {@link IndVoeuPojo} avis validation matches onlyValidate param
      */
-    public static F<IndividuPojo, IndividuPojo> keepOnlyVoeuWithValidatedAvisEquals(final boolean onlyValidate) {
+    public static F<IndividuPojo, IndividuPojo> keepOnlyVoeuWithValidatedAvisEquals(final Boolean onlyValidate) {
         return new F<IndividuPojo, IndividuPojo>() {
             @Override
             public IndividuPojo f(IndividuPojo ip) {

@@ -40,12 +40,12 @@ public class Predicates {
      * @param onlyValidate
      * @return
      */
-    public static F<IndVoeuPojo, Boolean> keepOnlyAvisWithValidationEquals(final boolean onlyValidate) {
+    public static F<IndVoeuPojo, Boolean> keepOnlyAvisWithValidationEquals(final Boolean onlyValidate) {
         return new F<IndVoeuPojo, Boolean>() {
             public Boolean f(IndVoeuPojo indVoeuPojo) {
                 Avis avis = indVoeuPojo.getAvisEnService();
                 return avis != null
-                        && avis.getValidation().equals(Boolean.valueOf(onlyValidate));
+                        && avis.getValidation().equals(onlyValidate);
             }
         };
     }
