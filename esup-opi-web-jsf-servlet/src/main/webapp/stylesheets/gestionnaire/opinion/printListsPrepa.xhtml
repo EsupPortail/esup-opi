@@ -58,6 +58,8 @@
                                            rendered="#{commissionController.commission.code != null}"/>
                         </h:panelGroup>
                         <h:panelGroup>
+                            <p:remoteCommand name="generateCSVListesPreparatoire" async="true"
+                                             action="#{printOpinionController.generateCSVListesPreparatoire}" />
                             <p:commandButton value="#{msgs['COMMISSION.EDIT_LISTE_PREPA_ALPHA']}"
                                              rendered="#{commissionController.commission.code != null}"
                                              action="#{commissionController.makePDFListesPreparatoireAlpha}"
@@ -72,8 +74,8 @@
                                              ajax="false"/>
                             <p:commandButton value="#{msgs['_.BUTTON.EXPORT']}"
                                              rendered="#{commissionController.commission.code != null}"
-                                             action="#{printOpinionController.generateCSVListesPreparatoire}"
                                              actionListener="#{printOpinionController.generationWarning}"
+                                             onclick="generateCSVListesPreparatoire()" />
                         </h:panelGroup>
                     </h:panelGrid>
                 </div>
