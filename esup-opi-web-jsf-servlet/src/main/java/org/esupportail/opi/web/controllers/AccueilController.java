@@ -66,7 +66,7 @@ public class AccueilController extends AbstractAccessController {
 
 	
 	/*
-	 ******************* PROPERTIES ******************* */
+     ******************* PROPERTIES ******************* */
     /**
      * Service to generate Xml.
      */
@@ -101,7 +101,7 @@ public class AccueilController extends AbstractAccessController {
      * Le context de deploiement de l'application.
      */
     private String context;
-	
+
 	
 	/*
 	 ******************* INIT ************************* */
@@ -177,12 +177,12 @@ public class AccueilController extends AbstractAccessController {
     public String goWelcomeCandidat() {
         IndividuPojo individu = getCurrentInd();
         individu.setIndividu(getDomainService().getIndividu(
-        		individu.getIndividu().getNumDossierOpi(),
-        		individu.getIndividu().getDateNaissance()));
+                individu.getIndividu().getNumDossierOpi(),
+                individu.getIndividu().getDateNaissance()));
 
         getSessionController().initCurrentInd(
-        		individu.getIndividu().getNumDossierOpi(),
-        		individu.getIndividu().getDateNaissance(),
+                individu.getIndividu().getNumDossierOpi(),
+                individu.getIndividu().getDateNaissance(),
                 false,
                 false);
         getCurrentInd();
@@ -515,7 +515,7 @@ public class AccueilController extends AbstractAccessController {
         }
 
         for (Map.Entry<Commission, Set<VersionEtapeDTO>> commissionMap : mapCmi.entrySet()) {
-            Commission commission = commissionMap.getKey();
+            Commission commission = getParameterService().getCommission(commissionMap.getKey().getId(), commissionMap.getKey().getCode());
             String fileNameXml = String.valueOf(System.currentTimeMillis())
                     + "_" + commission.getCode() + ".xml";
             Map<CommissionPojo, Set<VersionEtapeDTO>> mapOneCmi =
