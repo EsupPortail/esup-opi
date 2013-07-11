@@ -13,7 +13,7 @@ import org.esupportail.opi.web.beans.pojo.IndividuPojo;
  * Time: 16:14
  * To change this template use File | Settings | File Templates.
  */
-public class Predicates {
+public final class Predicates {
 
     /**
      * Private constructor

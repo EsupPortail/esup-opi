@@ -17,7 +17,7 @@ import java.util.Date;
  * Stateless utility class to handle date manipulations.
  * @author hrambelo (p-opidev)
  */
-public class DateUtil {
+public final class DateUtil {
 
     //TODO decide if should merge DateHandler.java here as it is not a static class
     private DateUtil() {
