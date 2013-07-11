@@ -45,8 +45,8 @@ public class Predicates {
      */
     public static F<IndVoeuPojo, Boolean> keepOnlyAvisWithValidationEquals(final Boolean onlyValidate) {
         return new F<IndVoeuPojo, Boolean>() {
-            public Boolean f(IndVoeuPojo indVoeuPojo) {
-                if(onlyValidate == null){
+            public Boolean f(final IndVoeuPojo indVoeuPojo) {
+                if (onlyValidate == null) {
                     throw new UnsupportedOperationException("Filtrage de voeux valides ou non par le paramètre onlyValidate or ce dernier est null");
                 }
                 Avis avis = indVoeuPojo.getAvisEnService();

@@ -419,7 +419,8 @@ public class FormulairesController extends AbstractAccessController {
      * @throws IOException
      */
     public byte[] getPdf(final IndFormulaire indFormulaire, final RegimeInscription regime) throws IOException {
-        return orbeonService.getPdf(getParameterService().findIndFormulaireById(indFormulaire.getId()), regime.getShortLabel());
+        return orbeonService
+                .getPdf(getParameterService().findIndFormulaireById(indFormulaire.getId()), regime.getShortLabel());
     }
 
     /**

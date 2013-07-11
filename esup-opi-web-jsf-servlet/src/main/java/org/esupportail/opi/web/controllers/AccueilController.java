@@ -515,7 +515,8 @@ public class AccueilController extends AbstractAccessController {
         }
 
         for (Map.Entry<Commission, Set<VersionEtapeDTO>> commissionMap : mapCmi.entrySet()) {
-            Commission commission = getParameterService().getCommission(commissionMap.getKey().getId(), commissionMap.getKey().getCode());
+            Commission commission = getParameterService()
+                    .getCommission(commissionMap.getKey().getId(), commissionMap.getKey().getCode());
             String fileNameXml = String.valueOf(System.currentTimeMillis())
                     + "_" + commission.getCode() + ".xml";
             Map<CommissionPojo, Set<VersionEtapeDTO>> mapOneCmi =

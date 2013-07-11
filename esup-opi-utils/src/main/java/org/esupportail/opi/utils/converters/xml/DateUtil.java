@@ -20,7 +20,7 @@ import java.util.Date;
 public class DateUtil {
 
     //TODO decide if should merge DateHandler.java here as it is not a static class
-    private DateUtil(){
+    private DateUtil() {
         super();
     }
 
