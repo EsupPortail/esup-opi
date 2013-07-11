@@ -29,8 +29,8 @@ public final class DateUtil {
      * @param gregorianCalendar the date to be trasnformed
      * @return the date transformed
      */
-    public static Date transformIntoDate(XMLGregorianCalendar gregorianCalendar){
-        Assert.notNull(gregorianCalendar, "You should pass me some gregorianCalendar param to convert into java.util.Date");
+    public static Date transformIntoDate(final XMLGregorianCalendar gregorianCalendar){
+        Assert.notNull(gregorianCalendar, "Try to provide some gregorianCalendar param to convert into java.util.Date");
         return gregorianCalendar.toGregorianCalendar().getTime();
     }
 }

@@ -30,7 +30,7 @@ public final class Predicates {
      */
     public static F<IndVoeuPojo, Boolean> isTraitementNotEquals(final TypeTraitement typeTraitement) {
         return new F<IndVoeuPojo, Boolean>() {
-            public Boolean f(IndVoeuPojo indVoeuPojo) {
+            public Boolean f(final IndVoeuPojo indVoeuPojo) {
                 return !indVoeuPojo.getTypeTraitement().equals(typeTraitement);
             }
         };
@@ -57,13 +57,13 @@ public final class Predicates {
     }
 
     /**
-     * Remove items from  a {@link fj.data.Stream} of {@link IndividuPojo} where its {@link IndVoeuPojo} list is empty
+     * Remove items from  a {@link fj.data.Stream} of {@link IndividuPojo} where its {@link IndVoeuPojo} list is empty.
      *
      * @return the filtered {@link fj.data.Stream}
      */
     public static F<IndividuPojo, Boolean> isIndWithoutVoeux() {
         return new F<IndividuPojo, Boolean>() {
-            public Boolean f(IndividuPojo ip) {
+            public Boolean f(final IndividuPojo ip) {
                 return !ip.getIndVoeuxPojo().isEmpty();
             }
         };
