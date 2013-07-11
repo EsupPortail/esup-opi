@@ -15,12 +15,15 @@ import org.esupportail.opi.web.beans.pojo.IndividuPojo;
  */
 public class Predicates {
 
+    /**
+     * Private constructor
+     */
     private Predicates() {
         super();
     }
 
     /**
-     * Remove items from  a {@link fj.data.Stream} of {@link IndVoeuPojo} matching param
+     * Remove items from  a {@link fj.data.Stream} of {@link IndVoeuPojo} matching param.
      *
      * @param typeTraitement the given param
      * @return the filtered {@link fj.data.Stream}
@@ -34,11 +37,11 @@ public class Predicates {
     }
 
     /**
-     * si onlyValidate = true, on enlève les voeux non validés
+     * si onlyValidate = true, on enlève les voeux non validés.
      * et inversement
      *
-     * @param onlyValidate
-     * @return
+     * @param onlyValidate the given param
+     * @return the filtered {@link fj.data.Stream}
      */
     public static F<IndVoeuPojo, Boolean> keepOnlyAvisWithValidationEquals(final Boolean onlyValidate) {
         return new F<IndVoeuPojo, Boolean>() {

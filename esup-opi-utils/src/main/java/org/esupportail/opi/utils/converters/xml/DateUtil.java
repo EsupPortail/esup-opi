@@ -14,7 +14,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.Date;
 
 /**
- * Stateless utility class to handle date manipulations
+ * Stateless utility class to handle date manipulations.
  * @author hrambelo (p-opidev)
  */
 public class DateUtil {
@@ -25,7 +25,7 @@ public class DateUtil {
     }
 
     /**
-     * Transform a XmlGregorianCalendar date into a java.util.Date format
+     * Transform a XmlGregorianCalendar date into a java.util.Date format.
      * @param gregorianCalendar the date to be trasnformed
      * @return the date transformed
      */

@@ -511,7 +511,7 @@ public interface ParameterService extends Serializable {
 
     /**
      *
-     * @param id
+     * @param id the given id to be retrieved
      * @return ind form corresponding to id
      */
     IndFormulaire findIndFormulaireById(Integer id);
