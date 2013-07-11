@@ -49,7 +49,7 @@ public final class Predicates {
                 if (onlyValidate == null) {
                     throw new UnsupportedOperationException("Filtrage de voeux valides ou non par le paramètre onlyValidate or ce dernier est null");
                 }
-                Avis avis = indVoeuPojo.getAvisEnService();
+                final Avis avis = indVoeuPojo.getAvisEnService();
                 return avis != null
                         && avis.getValidation().equals(onlyValidate);
             }
