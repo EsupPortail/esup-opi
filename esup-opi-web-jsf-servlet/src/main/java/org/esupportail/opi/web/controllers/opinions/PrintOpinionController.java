@@ -836,8 +836,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
 
     private Commission retrieveOSIVCommission(Integer id, String code) {
         // hibernate session reattachment
-        Commission result = getParameterService().getCommission(id, code);
-        return result;
+        return getParameterService().getCommission(id, code);
     }
 
     /**
