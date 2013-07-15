@@ -106,7 +106,7 @@
                                 <ui:repeat
                                     var="commissionPojo"
                                     value="#{missingPiecePojos.cmiKeySet}">
-                                    <div>
+                                    <div class="oneLine">
                                         <h:outputText value="#{commissionPojo.commission.code}" id="codeCom"/>
                                         <p:overlayPanel for="codeCom"
                                                         appendToBody="true"
