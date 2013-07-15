@@ -77,7 +77,7 @@
                             <p:column>
                                 <ui:repeat var="indVoeuxPojo" id="indVoeux1"
                                            value="#{individuPojo.voeuxSortedByLic}">
-                                    <div>
+                                    <div class="oneLine">
                                         <h:outputText value="#{indVoeuxPojo.vrsEtape.licEtp}"
                                                       style="cursor:pointer;" id="licEtp" />
                                         <p:overlayPanel showEffect="fade" hideEffect="fade" appendToBody="true"
@@ -100,7 +100,7 @@
                             <p:column>
                                 <ui:repeat var="indVoeuxPojo" id="indVoeux2"
                                            value="#{individuPojo.voeuxSortedByLic}">
-                                    <div>
+                                    <div class="oneLine">
                                         <h:outputText value="#{indVoeuxPojo.avisEnService.result.code}" />
                                         <h:outputText value="(#{indVoeuxPojo.avisEnService.rang})"
                                                       rendered="#{indVoeuxPojo.avisEnService.rang != null}" />
@@ -110,7 +110,7 @@
                             <p:column>
                                 <ui:repeat var="indVoeuxPojo" id="indVoeux3"
                                            value="#{individuPojo.voeuxSortedByLic}">
-                                    <div>
+                                    <div class="oneLine">
                                         <h:panelGroup rendered="#{indVoeuxPojo.avisEnService.result.code != null}">
                                             <p:graphicImage library="images" name="informationSmall.png"
                                                             style="cursor:pointer;" id="avisEnService" />
@@ -156,7 +156,7 @@
                                 </f:facet>
                                 <ui:repeat var="indVoeuxPojo" id="indVoeux5" rendered="#{managedAccess.updateAuthorized}"
                                            value="#{individuPojo.voeuxSortedByLic}">
-                                    <div>
+                                    <div class="oneLine">
                                         <p:commandButton image="/resources/images/add.png"
                                                          immediate="true" styleClass="form-button-image"
                                                          title="#{msgs['FIELD_LABEL.PROPOSITION']}"
@@ -173,7 +173,7 @@
                                 </f:facet>
                                 <ui:repeat var="indVoeuxPojo" id="indVoeux6"
                                            value="#{individuPojo.voeuxSortedByLic}">
-                                    <div>
+                                    <div class="oneLine">
                                         <p:inputText id="rang" size="5"
                                                      value="#{indVoeuxPojo.newAvis.rang}" maxlength="5"
                                                      disabled="#{indVoeuxPojo.avisEnService.result.isFinal
@@ -220,7 +220,7 @@
                                 </f:facet>
                                 <ui:repeat var="indVoeuxPojo" id="indVoeux8"
                                            value="#{individuPojo.voeuxSortedByLic}">
-                                    <div>
+                                    <div class="oneLine">
                                         <p:inputText id="commentaire" size="30"
                                                      value="#{indVoeuxPojo.newAvis.commentaire}" maxlength="500"
                                                      disabled="#{indVoeuxPojo.avisEnService.result.isFinal
@@ -231,7 +231,7 @@
                             <p:column>
                                 <ui:repeat var="indVoeuxPojo" id="indVoeux9" rendered="#{managedAccess.updateAuthorized}"
                                            value="#{individuPojo.voeuxSortedByLic}">
-                                    <div>
+                                    <div class="oneLine">
                                         <p:commandButton icon="ui-button-icon-left ui-icon ui-icon-search"
                                                          immediate="true"
                                                          title="#{msgs['BUTTON.UPDATE']}"
