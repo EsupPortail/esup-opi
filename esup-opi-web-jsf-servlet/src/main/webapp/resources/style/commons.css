@@ -164,3 +164,9 @@ div.paginator li.currentpage input{
  	width:100%;
 	text-align: center;
 }
+
+.oneLine {
+    height: 30px !important;
+    vertical-align: middle !important;
+}
+
