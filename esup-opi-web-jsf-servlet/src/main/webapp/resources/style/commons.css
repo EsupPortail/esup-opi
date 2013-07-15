@@ -170,3 +170,7 @@ div.paginator li.currentpage input{
     vertical-align: middle !important;
 }
 
+.oneLineWrapper tr {
+    height: 30px !important;
+    vertical-align: middle !important;
+}
