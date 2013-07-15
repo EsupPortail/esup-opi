@@ -1033,34 +1033,36 @@ public class DomainApoServiceImpl implements DomainApoService {
 					CursusExternesEtTransfertsDTO curEtTrans = remoteApoRenAdminMetier
 					.recupererCursusExterne(individu.getCodeEtu());
 					if (curEtTrans != null) {
-						for (CursusExterneDTO curE : curEtTrans.getListeCursusExternes().getItems()) {
-							CursusExt curExt = new CursusExt(curE.getAnnee());
-							if (curE.getEtablissement() != null) {
-								curExt.setCodEtablissement(curE
-										.getEtablissement().getCodeEtb());
-							}
-							if (curE.getTypeEtb() != null) {
-								curExt.setCodTypeEtab(curE.getTypeEtb()
-										.getCodTypeEtb());
-							}
-							if (curE.getTypeAutreDiplome() != null) {
-								curExt.setCodDac(curE.getTypeAutreDiplome()
-										.getCodeTypeDiplome());
-								curExt.setLibDac(curE.getTypeAutreDiplome()
-										.getLibTypeDiplome());
-							}
-							if (obtentionDip
-									&& curE.getTemObtentionDip()
-											.equalsIgnoreCase("O")) {
-								curExt.setResultat(curE.getTemObtentionDip());
-							} else {
-								curExt.setResultat(curE.getTemObtentionNiveau());
-							}
-							curExt.setTemoinFromApogee(true);
-							// INIT ATTRIBUTS
-							cursusScol.add(curExt);
-						}
-					}
+                        if(curEtTrans.getListeCursusExternes() != null) {
+                            for (CursusExterneDTO curE : curEtTrans.getListeCursusExternes().getItems()) {
+                                CursusExt curExt = new CursusExt(curE.getAnnee());
+                                if (curE.getEtablissement() != null) {
+                                    curExt.setCodEtablissement(curE
+                                            .getEtablissement().getCodeEtb());
+                                }
+                                if (curE.getTypeEtb() != null) {
+                                    curExt.setCodTypeEtab(curE.getTypeEtb()
+                                            .getCodTypeEtb());
+                                }
+                                if (curE.getTypeAutreDiplome() != null) {
+                                    curExt.setCodDac(curE.getTypeAutreDiplome()
+                                            .getCodeTypeDiplome());
+                                    curExt.setLibDac(curE.getTypeAutreDiplome()
+                                            .getLibTypeDiplome());
+                                }
+                                if (obtentionDip
+                                        && curE.getTemObtentionDip()
+                                                .equalsIgnoreCase("O")) {
+                                    curExt.setResultat(curE.getTemObtentionDip());
+                                } else {
+                                    curExt.setResultat(curE.getTemObtentionNiveau());
+                                }
+                                curExt.setTemoinFromApogee(true);
+                                // INIT ATTRIBUTS
+                                cursusScol.add(curExt);
+                            }
+                        }
+                    }
 				}
 				//INITIALISATION DES CURSUS DANS RENNES1
 				List<CursusR1> cursusR1List = new ArrayList<CursusR1>();
