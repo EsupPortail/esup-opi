@@ -141,7 +141,7 @@
                                 </f:facet>
                                 <p:selectManyCheckbox value="#{opinionController.wishSelected}"
                                                       layout="pageDirection"
-                                                      styleClass="esup-opiR1-wishes esup-opiR1-pselectmany-noborder">
+                                                      styleClass="esup-opiR1-wishes esup-opiR1-pselectmany-noborder oneLineWrapper">
                                     <f:selectItems value="#{individuPojo.voeuxSortedByLic}"
                                                    var="indVoeuxPojo"
                                                    itemValue="#{indVoeuxPojo.indVoeu.id}"
@@ -185,8 +185,8 @@
                                 <f:facet name="header">
                                     <h:panelGroup>
                                         <h:outputText value="#{msgs['AVIS.MOTIVATION']}" />
-
                                         <p:selectOneMenu id="choiceAllMotivAvis"
+                                                         styleClass="oneLineWrapper"
                                                          converter="#{motivationAvisConverter}"
                                                          onchange="javascript:{changeAllMotivAvis('seeOpinionsForm:individuData','classChoiceMotivAvis',this);}">
                                             <f:selectItem itemLabel="" itemValue="" />
@@ -198,9 +198,8 @@
                                 </f:facet>
                                 <ui:repeat var="indVoeuxPojo" id="indVoeux7"
                                            value="#{individuPojo.voeuxSortedByLic}">
-                                    <div>
                                         <p:selectOneMenu id="choiceMotivAvis"
-                                                         styleClass="classChoiceMotivAvis"
+                                                         styleClass="classChoiceMotivAvis oneLineWrapper"
                                                          converter="#{motivationAvisConverter}"
                                                          value="#{indVoeuxPojo.newAvis.motivationAvis}"
                                                          disabled="#{indVoeuxPojo.avisEnService.result.isFinal
@@ -211,7 +210,6 @@
                                                            itemLabel="#{motivationAvis.nomenclature.code}-#{motivationAvis.nomenclature.shortLabel}"
                                                            itemValue="#{motivationAvis.nomenclature}" />
                                         </p:selectOneMenu>
-                                    </div>
                                 </ui:repeat>
                             </p:column>
                             <p:column>
