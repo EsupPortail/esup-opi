@@ -167,9 +167,7 @@ public class SelectionController extends AbstractAccessController {
                     addBe = true;
                 }
             }
-            //init proxy hib
-            getDomainService().initOneProxyHib(be.getTraitementCmi(),
-                    be.getTraitementCmi().getSelection(), Selection.class);
+            
             Selection s = be.getTraitementCmi().getSelection();
             if (s == null) {
                 s = new Selection();
