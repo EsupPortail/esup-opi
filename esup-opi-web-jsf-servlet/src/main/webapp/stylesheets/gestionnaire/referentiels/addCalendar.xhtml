@@ -25,7 +25,7 @@
                     <br/>
                     <br/>
 
-                    <div id="blockFormTypCal" class="blockForm">
+                    <!-- <div id="blockFormTypCal" class="blockForm">
                         <h:panelGrid styleClass="tableWidthMax" columns="2"
                                      columnClasses="col1UnDemi,col2UnDemi">
                             <h:panelGroup>
@@ -42,17 +42,16 @@
                                 </p:selectOneMenu>
                             </h:panelGroup>
                         </h:panelGrid>
-                    </div>
-                    <p:outputPanel id="calTypInscription"
-                                   rendered="#{calendarController.beanCalendar.typeSelected == calendarController.typCalInscription}">
+                    </div> -->
+                    <p:outputPanel id="calTypInscription"> <!-- rendered="#{calendarController.beanCalendar.typeSelected == calendarController.typCalInscription}" --> 
                         <ui:include src="_calendar/_enterCalInscription.xhtml"/>
                     </p:outputPanel>
-                    <p:outputPanel id="calTypCommission"
+                    <!-- <p:outputPanel id="calTypCommission"
                                    rendered="#{calendarController.beanCalendar.typeSelected == calendarController.typCalCommission}">
                         <h:outputText value="#{msgs['CALENDAR.CMI.INFO.EXIST']}">
                             <f:param value="#{calendarController.dateBackDefault}"/>
                         </h:outputText>
-                    </p:outputPanel>
+                    </p:outputPanel>  -->
                 </h:form>
             </div>
         </div>

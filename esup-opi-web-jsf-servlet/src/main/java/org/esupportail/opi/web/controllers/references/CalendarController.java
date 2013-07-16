@@ -164,6 +164,7 @@ public class CalendarController extends AbstractContextAwareController {
         reset();
         commissionController.reset();
         commissionController.getWayfEnum().setWhereAreYouFrom(WayfEnum.CALENDAR_VALUE);
+        commissionController.getActionEnum().setWhatAction(ActionEnum.SEE_SELECT_CMI);
         actionEnum.setWhatAction(ActionEnum.ADD_ACTION);
         return NavigationRulesConst.ADD_CAL;
     }
