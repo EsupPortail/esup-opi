@@ -22,20 +22,25 @@
             </p:outputPanel>
 
             <div id="div_subSection" class="div_subSection">
-                <h:form id="seeCalendrierForm">
-                    <div id="blockFormInfo" class="blockForm">
+                
+                   		<h:form>
                         <div style="width:100%;">
                             <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
                                          styleClass="tableJustWidthMax">
                                 <h:panelGroup/>
                                 <h:panelGroup
-                                        rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
-                                    <p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+                                        rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}" >
+                                   <p:commandButton   value="#{msgs['_.BUTTON.ADD']}"
                                                      immediate="true"
-                                                     action="#{calendarController.goAddCall}"/>
+                                                     action="#{calendarController.goAddCall}"
+                                                     ajax="false"/>
+                                    
                                 </h:panelGroup>
                             </h:panelGrid>
                         </div>
+                        </h:form>
+                        <h:form id="seeCalendrierForm">
+                        <div id="blockFormInfo" class="blockForm">
                         <p:dataTable id="calendarsData" var="calendar"
                                      value="#{calendarController.calendars}"
                                      paginator="true" paginatorAlwaysVisible="false"
@@ -73,19 +78,11 @@
                             </p:column>
                             <p:column styleClass="buttonTD" style="width:18px;"
                                       rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
-                                <p:commandButton icon="ui-icon-search"
-                                                 immediate="true" ajax="false"
-                                                 action="#{calendarController.goSeeOneCal}"
-                                                 title="#{msgs['_.BUTTON.DISPLAY']}">
-                                    <f:setPropertyActionListener value="#{calendar}"
-                                                                 target="#{calendarController.beanCalendar.calendar}"/>
-                                    <f:setPropertyActionListener value="#{calendar.type}"
-                                                                 target="#{calendarController.beanCalendar.typeSelected}"/>
-                                </p:commandButton>
+                                
                             </p:column>
                             <p:column styleClass="buttonTD" style="width:18px;"
                                       rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
-                                <p:commandButton icon="ui-icon-pencil"
+                                <p:commandLink icon="ui-icon-pencil"
                                                  immediate="true" ajax="false"
                                                  title="#{msgs['BUTTON.UPDATE']}"
                                                  action="#{calendarController.goUpdateCal}"
@@ -96,18 +93,18 @@
                                                                  target="#{calendarController.beanCalendar.typeSelected}"/>
                                     <f:setPropertyActionListener value="#{calendar}"
                                                                  target="#{calendarController.beanCalendar.calendar}"/>
-                                </p:commandButton>
+                                </p:commandLink>
                             </p:column>
                             <p:column styleClass="buttonTD" style="width:18px;"
                                       rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
-                                <p:commandButton icon="ui-icon-minus"
+                                <p:commandLink icon="ui-icon-minus"
                                                  immediate="true" ajax="false"
                                                  title="#{msgs['_.BUTTON.DELETE']}"
                                                  rendered="#{managedAccess.deleteAuthorized}"
                                                  action="#{calendarController.goDeleteCal}">
                                     <f:setPropertyActionListener value="#{calendar}"
                                                                  target="#{calendarController.beanCalendar.calendar}"/>
-                                </p:commandButton>
+                                </p:commandLink>
                             </p:column>
                         </p:dataTable>
                         <p:blockUI block="seeCalendrierForm" trigger="calendarsData">
