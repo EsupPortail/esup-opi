@@ -178,3 +178,7 @@ div.paginator li.currentpage input{
 .classChoiceMotivAvis {
     display: block !important;
 }
+
+.addButton {
+    background-image: url("/resources/images/add.png") !important;
+}
