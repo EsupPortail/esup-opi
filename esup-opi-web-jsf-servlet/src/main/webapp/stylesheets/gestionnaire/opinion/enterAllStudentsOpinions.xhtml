@@ -135,7 +135,7 @@
                             </p:column>
                             <p:column style="max-width:18px!important;">
                                 <f:facet name="header">
-                                    <p:selectBooleanCheckbox id="checkAll" value="#{opinionController.allChecked}">
+                                    <p:selectBooleanCheckbox id="checkAll" rendered="false" value="#{opinionController.allChecked}">
                                         <p:ajax listener="#{opinionController.checkAll}" update="individuData" />
                                     </p:selectBooleanCheckbox>
                                 </f:facet>
@@ -186,6 +186,7 @@
                                     <h:panelGroup>
                                         <h:outputText value="#{msgs['AVIS.MOTIVATION']}" />
                                         <p:selectOneMenu id="choiceAllMotivAvis"
+                                                         rendered="false"
                                                          styleClass="oneLineWrapper"
                                                          converter="#{motivationAvisConverter}"
                                                          onchange="javascript:{changeAllMotivAvis('seeOpinionsForm:individuData','classChoiceMotivAvis',this);}">
