@@ -186,9 +186,10 @@
                                     <h:panelGroup>
                                         <h:outputText value="#{msgs['AVIS.MOTIVATION']}" />
                                         <p:selectOneMenu id="choiceAllMotivAvis"
+                                                         update="individuData"
                                                          styleClass="oneLineWrapper"
                                                          converter="#{motivationAvisConverter}"
-                                                         onchange="javascript:{changeAllMotivAvis('seeOpinionsForm:individuData','classChoiceMotivAvis',this);}">
+                                                         onchange="javascript:{changeAllMotivAvis('seeOpinionsForm:individuData','choiceMotivAvis',this);}">
                                             <f:selectItem itemLabel="" itemValue="" />
                                             <f:selectItems var="motivationAllAvis" value="#{nomenclatureController.motivationsAvis}"
                                                            itemLabel="#{motivationAllAvis.nomenclature.code}-#{motivationAllAvis.nomenclature.shortLabel}"

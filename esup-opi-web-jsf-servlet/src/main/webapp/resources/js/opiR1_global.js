@@ -147,7 +147,8 @@ function checkAllInElement(elementId, checked) {
 
 
 function changeAllMotivAvis(elementId, nameClass, selectElement) {
-	var element = document.getElementById(elementId); 
+//	var element = document.getElementById(elementId);
+	var element = document.getElementById(elementId);
     if (element == null) {
       if (debug) alert("table [" + elementId + "] not found");
       return;
@@ -168,11 +169,15 @@ function changeAllMotivAvis(elementId, nameClass, selectElement) {
     var defaultMotivAvis = selectElement.options[indexSelected].text;
     
     for (i = 0; i < inputs.length; i++) {
-    	if (inputs[i].className == nameClass) {
-    		if (!inputs[i].disabled) {
-    			inputs[i].selectedIndex = indexSelected;
-    		}
-    	}
+        if (inputs[i].id.length > 0){
+            // workaround for className empty due to primefaces view build time vs render time
+            // check if id contains nameClass
+            if (inputs[i].id.toLowerCase().indexOf(nameClass.toLowerCase()) !== -1) {
+                if (!inputs[i].disabled) {
+                    inputs[i].selectedIndex = indexSelected;
+                }
+            }
+        }
     }
     
 }
