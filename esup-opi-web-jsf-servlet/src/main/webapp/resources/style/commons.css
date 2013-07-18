@@ -104,7 +104,7 @@ div.paginator div.navigation {
 	float:left;
 	text-align:center;
 	width:55%;
-	/*utilisé dans le cas où ce div serait vide : permet de conserver sa taille*/
+	/*utilisï¿½ dans le cas oï¿½ ce div serait vide : permet de conserver sa taille*/
 	border:1px solid transparent;
 }
 
@@ -173,4 +173,8 @@ div.paginator li.currentpage input{
 .oneLineWrapper tr {
     height: 30px !important;
     vertical-align: middle !important;
+}
+
+.classChoiceMotivAvis {
+    display: block !important;
 }
