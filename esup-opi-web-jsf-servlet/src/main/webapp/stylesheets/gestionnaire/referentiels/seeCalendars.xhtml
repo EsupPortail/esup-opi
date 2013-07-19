@@ -76,36 +76,48 @@
                                 <p:graphicImage library="images" name="check0.gif"
                                                 rendered="#{!calendar.temoinEnService}"/>
                             </p:column>
-                            <p:column styleClass="buttonTD" style="width:18px;"
-                                      rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
-                                
-                            </p:column>
-                            <p:column styleClass="buttonTD" style="width:18px;"
-                                      rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
-                                <p:commandLink icon="ui-icon-pencil"
-                                                 immediate="true" ajax="false"
-                                                 title="#{msgs['BUTTON.UPDATE']}"
-                                                 action="#{calendarController.goUpdateCal}"
-                                                 rendered="#{managedAccess.updateAuthorized}">
-                                    <f:setPropertyActionListener value="#{calendarController.actionEnum.updateAction}"
+                            <p:column styleClass="buttonTD" style="width:18px;" rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
+                                    <p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
+                                                   style="padding: .4em;"
+        					   action="#{calendarController.goSeeOneCal}"
+        					   title="#{msgs['_.BUTTON.DISPLAY']}">
+                                        <div class="ui-button-icon-left ui-icon ui-icon-search" />
+        						<f:setPropertyActionListener value="#{calendarController.actionEnum.updateAction}"
                                                                  target="#{calendarController.actionEnum.whatAction}"/>
                                     <f:setPropertyActionListener value="#{calendar.type}"
                                                                  target="#{calendarController.beanCalendar.typeSelected}"/>
                                     <f:setPropertyActionListener value="#{calendar}"
                                                                  target="#{calendarController.beanCalendar.calendar}"/>
-                                </p:commandLink>
-                            </p:column>
-                            <p:column styleClass="buttonTD" style="width:18px;"
-                                      rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
-                                <p:commandLink icon="ui-icon-minus"
-                                                 immediate="true" ajax="false"
-                                                 title="#{msgs['_.BUTTON.DELETE']}"
-                                                 rendered="#{managedAccess.deleteAuthorized}"
-                                                 action="#{calendarController.goDeleteCal}">
+        			    	</p:commandLink>
+        					</p:column>
+        					<p:column styleClass="buttonTD" style="width:18px;">
+        			   		 <p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
+                                                   style="padding: .4em;"
+        					   title="#{msgs['BUTTON.UPDATE']}"
+        					   action="#{calendarController.goUpdateCal}"
+        					   rendered="#{managedAccess.updateAuthorized}">
+                                        <div class="ui-button-icon-left ui-icon ui-icon-pencil" />
+        						<f:setPropertyActionListener value="#{calendarController.actionEnum.updateAction}"
+                                                                 target="#{calendarController.actionEnum.whatAction}"/>
+                                    <f:setPropertyActionListener value="#{calendar.type}"
+                                                                 target="#{calendarController.beanCalendar.typeSelected}"/>
                                     <f:setPropertyActionListener value="#{calendar}"
                                                                  target="#{calendarController.beanCalendar.calendar}"/>
-                                </p:commandLink>
-                            </p:column>
+        			    	</p:commandLink>
+        					</p:column>
+        					<p:column styleClass="buttonTD" style="width:18px;">
+        			    		<p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
+                                                   style="padding: .4em;"
+        					   					   title="#{msgs['_.BUTTON.DELETE']}"
+        					   					   rendered="#{managedAccess.deleteAuthorized}"
+                                                   onclick="window.scrollTo(0, 0);"
+                                                   action="#{calendarController.goDeleteCal}">
+                                        <div class="ui-button-icon-left ui-icon ui-icon-minus" />
+        						<f:setPropertyActionListener value="#{calendar}"
+                                                                 target="#{calendarController.beanCalendar.calendar}"/>
+        			    		</p:commandLink>
+        					</p:column>
+                           >
                         </p:dataTable>
                         <p:blockUI block="seeCalendrierForm" trigger="calendarsData">
                             <p:graphicImage library="images" name="ajax-loader.gif"/>
