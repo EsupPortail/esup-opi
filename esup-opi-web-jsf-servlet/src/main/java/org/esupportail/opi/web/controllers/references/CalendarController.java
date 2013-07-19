@@ -120,6 +120,7 @@ public class CalendarController extends AbstractContextAwareController {
         actionEnum = new ActionEnum();
         reunions = new ArrayList<ReunionCmi>();
         reunionToRemove = null;
+        filteredCalendars=null;
 
     }
 
@@ -179,7 +180,7 @@ public class CalendarController extends AbstractContextAwareController {
         if (beanCalendar.getCalendar() instanceof CalendarIns) {
             CalendarIns cal = (CalendarIns) beanCalendar.getCalendar();
             //initialize the proxy hibernate
-			getDomainService().initOneProxyHib(cal, cal.getCommissions(), Set.class);
+			//getDomainService().initOneProxyHib(cal, cal.getCommissions(), Set.class);
             commissionController.setSelectedCommissions(new ArrayList<Commission>(cal.getCommissions()));
         } else if (beanCalendar.getCalendar() instanceof CalendarCmi) {
             CalendarCmi cal = (CalendarCmi) beanCalendar.getCalendar();
@@ -187,7 +188,7 @@ public class CalendarController extends AbstractContextAwareController {
             setReunions(new ArrayList<ReunionCmi>(cal.getReunions()));
             if (cal.getCommission() != null) {
                 //initialize the proxy hibernate
-				getDomainService().initOneProxyHib(cal, cal.getCommission(), Set.class);
+				//getDomainService().initOneProxyHib(cal, cal.getCommission(), Set.class);
                 commissionController.getCommission().setId(cal.getCommission().getId());
             }
         }
@@ -223,13 +224,13 @@ public class CalendarController extends AbstractContextAwareController {
             CalendarIns cal = (CalendarIns) beanCalendar.getCalendar();
 
             //initialize the proxy hibernate
-			getDomainService().initOneProxyHib(cal, cal.getCommissions(), Set.class);
+			//getDomainService().initOneProxyHib(cal, cal.getCommissions(), Set.class);
             commissionController.setSelectedCommissions(new ArrayList<Commission>(cal.getCommissions()));
 
         } else if (beanCalendar.getCalendar() instanceof CalendarCmi) {
             CalendarCmi cal = (CalendarCmi) beanCalendar.getCalendar();
             //initialize the proxy hibernate
-			getDomainService().initOneProxyHib(cal, cal.getCommission(), Commission.class);
+			//getDomainService().initOneProxyHib(cal, cal.getCommission(), Commission.class);
             setReunions(new ArrayList<ReunionCmi>(cal.getReunions()));
         }
         return NavigationRulesConst.SEE_ONE_CAL;
@@ -242,12 +243,12 @@ public class CalendarController extends AbstractContextAwareController {
     public String goSeeCalCmi() {
         if (commissionController.getCommission().getCalendarCmi() != null) {
 
-			getDomainService().initOneProxyHib(
-					commissionController.getCommission(), 
-					commissionController.getCommission().getCalendarCmi(), CalendarCmi.class);
+//			getDomainService().initOneProxyHib(
+//					commissionController.getCommission(), 
+//					commissionController.getCommission().getCalendarCmi(), CalendarCmi.class);
             CalendarCmi cal = commissionController.getCommission().getCalendarCmi();
             //initialize the proxy hibernate
-            getDomainService().initOneProxyHib(cal, cal.getCommission(), Commission.class);
+//            getDomainService().initOneProxyHib(cal, cal.getCommission(), Commission.class);
             setReunions(new ArrayList<ReunionCmi>(cal.getReunions()));
 
             beanCalendar.setCalendar(cal);
@@ -363,6 +364,10 @@ public class CalendarController extends AbstractContextAwareController {
                         reuToDelete.add(r);
                     }
                 }
+                
+
+                c.getReunions().removeAll(reuToDelete);
+//                getParameterService().deleteReunionCmi(reuToDelete);
 
                 for (ReunionCmi r : reunions) {
                     if (ctrlReunionCmi(r)) {
@@ -380,8 +385,6 @@ public class CalendarController extends AbstractContextAwareController {
                     }
                 }
 
-                c.getReunions().removeAll(reuToDelete);
-                getParameterService().deleteReunionCmi(reuToDelete);
 
                 // mise à jour de la commission sélectionné
 //				commissionController.setCommission(
