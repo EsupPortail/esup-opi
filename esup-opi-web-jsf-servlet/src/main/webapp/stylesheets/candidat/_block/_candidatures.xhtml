@@ -37,7 +37,7 @@
             </h:panelGrid>
         </div>
         <p:dataTable var="indVoeuPojo"
-            value="#{sessionController.currentInd.indVoeuxPojoAsList}"
+            value="#{sessionController.currentIndInit.indVoeuxPojoAsList}"
             styleClass="displayInfo">
             <p:column>
                 <f:facet name="header">
@@ -135,7 +135,8 @@
             </p:column>
             <p:column>
                 <f:facet name="header">
-                    <h:outputText value="#{msgs['FIELD_LABEL.RESULT']}" />
+                    <h:outputText value="#{msgs['FIELD_LABEL.AVIS']}" />
+                    <h:outputText value=" - #{msgs['FIELD_LABEL.MOTIVATION']}" />
                 </f:facet>
                 <h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
                     rendered="#{empty indVoeuPojo.indVoeu.avis}" />
@@ -143,6 +144,8 @@
                     value="#{indVoeuPojo.indVoeu.avisAsList}">
                     <div>
                         <h:outputText value="#{avis.result.libelle}"
+                            rendered="#{avis.temoinEnService and avis.validation}" />
+                        <h:outputText value=" - #{avis.motivationAvis.libelle}"
                             rendered="#{avis.temoinEnService and avis.validation}" />
                     </div>
                 </ui:repeat>
