@@ -147,6 +147,8 @@
                             rendered="#{avis.temoinEnService and avis.validation}" />
                         <h:outputText value=" - #{avis.motivationAvis.libelle}"
                             rendered="#{avis.temoinEnService and avis.validation}" />
+                        <h:outputText value=" rang: #{avis.rang}"
+                            rendered="#{avis.temoinEnService and avis.validation and not empty avis.rang}" />
                     </div>
                 </ui:repeat>
             </p:column>
