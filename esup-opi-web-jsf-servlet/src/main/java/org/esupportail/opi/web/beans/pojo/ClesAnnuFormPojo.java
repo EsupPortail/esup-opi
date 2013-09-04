@@ -14,22 +14,22 @@ public class ClesAnnuFormPojo {    /*
     /**
      * ClesAnnuForm.
      */
-    private ClesAnnuForm ClesAnnuForm;
+    private ClesAnnuForm clesAnnuForm;
     /**
      * liste de libele en fonction de la langue.
      */
-    private List<Cles2AnnuForm> Cles2AnnuForm;
+    private List<Cles2AnnuForm> cles2AnnuForm;
 
     // TODO: fix the following !!
     /**
      * liste de diplomes.
      */
-    private List<ClesDiplomeAnnuForm> ClesDiplomeAnnuForm;
+    private List<ClesDiplomeAnnuForm> clesDiplomeAnnuForm;
 
     /**
      * lien vers le domaine.
      */
-    private DomaineAnnuFormPojo DomaineAnnuFormPojo;
+    private DomaineAnnuFormPojo domaineAnnuFormPojo;
     /**
      * codeLang.
      */
@@ -52,9 +52,9 @@ public class ClesAnnuFormPojo {    /*
      * @param ClesAnnuForm
      * @param codeLang
      */
-    public ClesAnnuFormPojo(final ClesAnnuForm ClesAnnuForm, final String codeLang) {
+    public ClesAnnuFormPojo(final ClesAnnuForm clesAnnuForm, final String codeLang) {
         super();
-        this.ClesAnnuForm = ClesAnnuForm;
+        this.clesAnnuForm = clesAnnuForm;
         this.codeLang = codeLang;
     }
 	
@@ -66,14 +66,14 @@ public class ClesAnnuFormPojo {    /*
      * @return String
      */
     public String getCodCles() {
-        return ClesAnnuForm.getCodCles();
+        return clesAnnuForm.getCodCles();
     }
 
     /**
      * @return String
      */
     public String getLibClesFr() {
-        for (Cles2AnnuForm cle : Cles2AnnuForm) {
+        for (Cles2AnnuForm cle : cles2AnnuForm) {
             if (cle.getId().getCodLang().equalsIgnoreCase(codeLang)) {
                 return cle.getLibCles();
             }
@@ -89,28 +89,28 @@ public class ClesAnnuFormPojo {    /*
      * @return ClesAnnuForm
      */
     public ClesAnnuForm getClesAnnuForm() {
-        return ClesAnnuForm;
+        return clesAnnuForm;
     }
 
     /**
      * @param ClesAnnuForm
      */
-    public void setClesAnnuForm(ClesAnnuForm ClesAnnuForm) {
-        this.ClesAnnuForm = ClesAnnuForm;
+    public void setClesAnnuForm(ClesAnnuForm clesAnnuForm) {
+        this.clesAnnuForm = clesAnnuForm;
     }
 
     /**
      * @return Cles2AnnuForm
      */
     public List<Cles2AnnuForm> getCles2AnnuForm() {
-        return Cles2AnnuForm;
+        return cles2AnnuForm;
     }
 
     /**
      * @param Cles2AnnuForm
      */
-    public void setCles2AnnuForm(List<Cles2AnnuForm> Cles2AnnuForm) {
-        this.Cles2AnnuForm = Cles2AnnuForm;
+    public void setCles2AnnuForm(List<Cles2AnnuForm> cles2AnnuForm) {
+        this.cles2AnnuForm = cles2AnnuForm;
     }
 
     // TODO: fix the following !!
@@ -119,7 +119,7 @@ public class ClesAnnuFormPojo {    /*
      * @return Set(ClesDiplomeAnnuForm)
      */
     public List<ClesDiplomeAnnuForm> getClesDiplomeAnnuForm() {
-        return ClesDiplomeAnnuForm;
+        return clesDiplomeAnnuForm;
     }
 
 //	TODO: fix the following !!	
@@ -128,22 +128,22 @@ public class ClesAnnuFormPojo {    /*
      * @param ClesDiplomeAnnuForm Set
      */
     public void setClesDiplomeAnnuForm(
-            List<ClesDiplomeAnnuForm> ClesDiplomeAnnuForm) {
-        this.ClesDiplomeAnnuForm = ClesDiplomeAnnuForm;
+            List<ClesDiplomeAnnuForm> clesDiplomeAnnuForm) {
+        this.clesDiplomeAnnuForm = clesDiplomeAnnuForm;
     }
 
     /**
      * @return DomaineAnnuForm
      */
     public DomaineAnnuFormPojo getDomaineAnnuFormPojo() {
-        return DomaineAnnuFormPojo;
+        return domaineAnnuFormPojo;
     }
 
     /**
      * @param DomaineAnnuFormPojo
      */
-    public void setDomaineAnnuFormPojo(DomaineAnnuFormPojo DomaineAnnuFormPojo) {
-        this.DomaineAnnuFormPojo = DomaineAnnuFormPojo;
+    public void setDomaineAnnuFormPojo(DomaineAnnuFormPojo domaineAnnuFormPojo) {
+        this.domaineAnnuFormPojo = domaineAnnuFormPojo;
     }
 
     /**

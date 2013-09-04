@@ -38,6 +38,7 @@ public class ParamClefFormationController extends AbstractAccessController {
      *
      */
     private static final String FORMULAIRE_CLEF = "formAddClef";
+    
 
 /*
  * ******************* PROPERTIES ******************* */
@@ -241,6 +242,10 @@ public class ParamClefFormationController extends AbstractAccessController {
         for (Cles2AnnuForm langLib : getCles().getCles2AnnuForm()) {
             langLib.getId().setCodCles(getCles().getClesAnnuForm().getCodCles());
             langLib.setClesAnnuForm(getCles().getClesAnnuForm());
+            if (langLib.getLibCles().length()>=50){
+            	addErrorMessage(FORMULAIRE_CLEF, "ERROR.FIELD.TOO_LONG","Libelle",50);
+            	return;
+            }
             //save or update Cles2AnnuForm
             iApogee.saveOrUpdate(langLib);
         }
@@ -669,7 +674,7 @@ public class ParamClefFormationController extends AbstractAccessController {
                 clePojo.setDomaineAnnuFormPojo(getDomaineAnnuFormPojo(cle.getCodDom()));
                 listCles.add(clePojo);
             }
-            Collections.sort(getListCles(), new BeanComparator("ClesAnnuForm",
+            Collections.sort(getListCles(), new BeanComparator("clesAnnuForm",
                     new BeanComparator("codCles", new NullComparator())));
         }
         return listCles;
