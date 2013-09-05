@@ -242,7 +242,7 @@ public class ParamClefFormationController extends AbstractAccessController {
         for (Cles2AnnuForm langLib : getCles().getCles2AnnuForm()) {
             langLib.getId().setCodCles(getCles().getClesAnnuForm().getCodCles());
             langLib.setClesAnnuForm(getCles().getClesAnnuForm());
-            if (langLib.getLibCles().length()>=50){
+            if (langLib.getLibCles().length()>50){
             	addErrorMessage(FORMULAIRE_CLEF, "ERROR.FIELD.TOO_LONG","Libelle",50);
             	return;
             }
