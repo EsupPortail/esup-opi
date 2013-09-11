@@ -4,8 +4,6 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-
-
         <div id="maPage" class="div_body">
             <h1>
                 <span class="section-header">
@@ -22,25 +20,21 @@
             </p:outputPanel>
 
             <div id="div_subSection" class="div_subSection">
-                
-                   		<h:form>
-                        <div style="width:100%;">
-                            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-                                         styleClass="tableJustWidthMax">
-                                <h:panelGroup/>
-                                <h:panelGroup
-                                        rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}" >
-                                   <p:commandButton   value="#{msgs['_.BUTTON.ADD']}"
-                                                     immediate="true"
-                                                     action="#{calendarController.goAddCall}"
-                                                     ajax="false"/>
-                                    
-                                </h:panelGroup>
-                            </h:panelGrid>
-                        </div>
-                        </h:form>
-                        <h:form id="seeCalendrierForm">
-                        <div id="blockFormInfo" class="blockForm">
+                <h:form id="seeCalendrierForm">
+                    <div style="width:100%;">
+                        <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+                                     styleClass="tableJustWidthMax">
+                            <h:panelGroup/>
+                            <h:panelGroup
+                                    rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}" >
+                               <p:commandButton value="#{msgs['_.BUTTON.ADD']}"
+                                                 immediate="true"
+                                                 action="#{calendarController.goAddCall}"
+                                                 ajax="false"/>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </div>
+                    <div id="blockFormInfo" class="blockForm">
                         <p:dataTable id="calendarsData" var="calendar"
                                      value="#{calendarController.calendars}"
                                      paginator="true" paginatorAlwaysVisible="false"
@@ -52,7 +46,7 @@
                                     <p:column headerText="Type" filterBy="#{calendar.type}"
                                               filterOptions="#{calendarController.calendarTypes}"
                                               filterMatchMode="contains"/>
-                                    <p:column headerText="#{msgs['FIELD_LABEL.CODE']}" filterBy="#{calendar.code}"
+                                    <p:column headerText="#{msgs['FIELD_LABEL.CODE']}" filterBy="#{calendar.code}" 
                                               filterMatchMode="contains"/>
                                     <p:column headerText="#{msgs['FIELD_LABEL.LIBELLE']}" filterBy="#{calendar.libelle}"
                                               filterMatchMode="contains"/>
@@ -77,12 +71,27 @@
                                                 rendered="#{!calendar.temoinEnService}"/>
                             </p:column>
                             <p:column styleClass="buttonTD" style="width:18px;" rendered="#{calendarController.actionEnum.whatAction != calendarController.actionEnum.deleteAction}">
-                                    <p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
-                                                   style="padding: .4em;"
-        					   action="#{calendarController.goSeeOneCal}"
-        					   title="#{msgs['_.BUTTON.DISPLAY']}">
-                                        <div class="ui-button-icon-left ui-icon ui-icon-search" />
-        						<f:setPropertyActionListener value="#{calendarController.actionEnum.updateAction}"
+                                <p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
+                                               style="padding: .4em;"
+                                               action="#{calendarController.goSeeOneCal}"
+                                               title="#{msgs['_.BUTTON.DISPLAY']}">
+                                    <div class="ui-button-icon-left ui-icon ui-icon-search" />
+                                    <f:setPropertyActionListener value="#{calendarController.actionEnum.updateAction}"
+                                                                 target="#{calendarController.actionEnum.whatAction}"/>
+                                    <f:setPropertyActionListener value="#{calendar.type}"
+                                                                 target="#{calendarController.beanCalendar.typeSelected}"/>
+                                    <f:setPropertyActionListener value="#{calendar}"
+                                                                 target="#{calendarController.beanCalendar.calendar}"/>
+        			    	    </p:commandLink>
+        					</p:column>
+        					<p:column styleClass="buttonTD" style="width:18px;">
+                                <p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
+                                                   style="padding: .4em;" 
+                                                   title="#{msgs['BUTTON.UPDATE']}" 
+                                                   action="#{calendarController.goUpdateCal}"
+                                                   rendered="#{managedAccess.updateAuthorized}">
+                                    <div class="ui-button-icon-left ui-icon ui-icon-pencil" />
+                                    <f:setPropertyActionListener value="#{calendarController.actionEnum.updateAction}"
                                                                  target="#{calendarController.actionEnum.whatAction}"/>
                                     <f:setPropertyActionListener value="#{calendar.type}"
                                                                  target="#{calendarController.beanCalendar.typeSelected}"/>
@@ -91,33 +100,17 @@
         			    	</p:commandLink>
         					</p:column>
         					<p:column styleClass="buttonTD" style="width:18px;">
-        			   		 <p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
-                                                   style="padding: .4em;"
-        					   title="#{msgs['BUTTON.UPDATE']}"
-        					   action="#{calendarController.goUpdateCal}"
-        					   rendered="#{managedAccess.updateAuthorized}">
-                                        <div class="ui-button-icon-left ui-icon ui-icon-pencil" />
-        						<f:setPropertyActionListener value="#{calendarController.actionEnum.updateAction}"
-                                                                 target="#{calendarController.actionEnum.whatAction}"/>
-                                    <f:setPropertyActionListener value="#{calendar.type}"
-                                                                 target="#{calendarController.beanCalendar.typeSelected}"/>
-                                    <f:setPropertyActionListener value="#{calendar}"
-                                                                 target="#{calendarController.beanCalendar.calendar}"/>
-        			    	</p:commandLink>
-        					</p:column>
-        					<p:column styleClass="buttonTD" style="width:18px;">
-        			    		<p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
-                                                   style="padding: .4em;"
-        					   					   title="#{msgs['_.BUTTON.DELETE']}"
-        					   					   rendered="#{managedAccess.deleteAuthorized}"
-                                                   onclick="window.scrollTo(0, 0);"
+                                <p:commandLink styleClass="ui-button ui-widget ui-state-default ui-corner-all"
+                                                   style="padding: .4em;" 
+                                                   title="#{msgs['_.BUTTON.DELETE']}" 
+                                                   rendered="#{managedAccess.deleteAuthorized}" 
+                                                   onclick="window.scrollTo(0, 0);" 
                                                    action="#{calendarController.goDeleteCal}">
-                                        <div class="ui-button-icon-left ui-icon ui-icon-minus" />
-        						<f:setPropertyActionListener value="#{calendar}"
-                                                                 target="#{calendarController.beanCalendar.calendar}"/>
+                                    <div class="ui-button-icon-left ui-icon ui-icon-minus" />
+                                    <f:setPropertyActionListener value="#{calendar}" 
+                                                                    target="#{calendarController.beanCalendar.calendar}"/>
         			    		</p:commandLink>
         					</p:column>
-                           >
                         </p:dataTable>
                         <p:blockUI block="seeCalendrierForm" trigger="calendarsData">
                             <p:graphicImage library="images" name="ajax-loader.gif"/>
