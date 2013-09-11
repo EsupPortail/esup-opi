@@ -27,6 +27,7 @@ import org.esupportail.opi.utils.primefaces.PFFilters;
 import org.springframework.orm.hibernate3.HibernateTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -205,7 +206,13 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                 public F<BooleanExpression, BooleanExpression> f(final Date date) {
                     return new F<BooleanExpression, BooleanExpression>() {
                         public BooleanExpression f(BooleanExpression expr) {
-                            return expr.and(indVoeu.getDate("dateCreaEnr", Date.class).eq(date));
+                        	Calendar cTo = Calendar.getInstance();
+                        	cTo.setTime(date);
+                        	cTo.set(Calendar.HOUR_OF_DAY, 23);
+                        	cTo.set(Calendar.MINUTE, 59);
+                        	cTo.set(Calendar.SECOND, 59);
+                        	cTo.set(Calendar.MILLISECOND, 999);
+                        	return expr.and(indVoeu.getDate("dateCreaEnr", Date.class).between(date, cTo.getTime()));
                         }
                     };
                 }
