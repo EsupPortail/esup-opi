@@ -32,6 +32,17 @@
         <ui:insert name="navigation"/>
         <ui:insert name="content"/>
         <ui:insert name="footer"/>
+        <script type="text/javascript">
+            $(".ui-column-filter").keypress(function(evt) {
+            	var e = (window.event) ? window.event : evt;
+            	var c = e.which, d = $.ui.keyCode;
+            	if(c === d.ENTER || c === d.NUMPAD_ENTER) {
+            		e.stopPropagation();
+            		e.preventDefault();
+                    e.returnValue=false;
+        		}
+            });
+        </script>
     </h:body>
 </f:view>
 </html>

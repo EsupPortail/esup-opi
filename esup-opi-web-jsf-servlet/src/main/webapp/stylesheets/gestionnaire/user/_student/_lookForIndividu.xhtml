@@ -90,9 +90,9 @@
                                    for="dateCreationVoeu"/>
                 </h:panelGroup>
                 <h:panelGroup rendered="#{renderTypeTrtBlocks}">
-                    <p:calendar id="dateCreationVoeu" size="10"
+                    <p:calendar id="dateCreationVoeu" size="10" navigator="true" readonlyInput="true" 
                                 value="#{paginatorIndividu.indRechPojo.dateCreationVoeuRecherchee}"
-                                pattern="yyyy-MM-dd" timeZone="#{sessionController.timezone}">
+                                pattern="dd/MM/yyyy" timeZone="#{sessionController.timezone}">
                         <f:validateLength minimum="8"/>
                     </p:calendar>
                 </h:panelGroup>
