@@ -6,7 +6,7 @@
     <ui:define name="content">
     
 
-	<div id="maPage" styleClass="div_body">
+	<div id="maPage" class="div_body">
 		<ui:fragment > 
     			<h1>
                 <span class="section-header">
@@ -14,25 +14,25 @@
                 </span>
          		</h1> 
          </ui:fragment>
-		<div styleClass="messageForUser">
+		<div class="messageForUser">
 			<p:messages id="messages" showDetail="true" autoUpdate="true" />
 		</div>
-		<div styleClass="maxDivTextRight">
+		<div class="maxDivTextRight">
 			<h:panelGroup>
 				<h:outputText value="#{msgs['INFO.CHAMP']}" styleClass="section-smallTitle" />
 				<h:outputText value="*" styleClass="etoileForChpObli" />
 			</h:panelGroup>
 		</div>
-		<div id="div_subSection" styleClass="div_subSection">
+		<div id="div_subSection" class="div_subSection">
 			<h:form id="searchVersEtpForm">
 				<br />
     			<br />
     			<br />
-				<div id="div_subSection" styleClass="div_subSection"
-					rendered="#{!etapeController.rightOneEtp || (etapeController.rightOneEtp and etapeController.rightOnCge)}">
-					<div id="blockFormInfo" styleClass="blockForm">
-						<div styleClass="blockButton">
-							<h:panelGroup>
+    			<ui:fragment rendered="#{!etapeController.rightOneEtp || (etapeController.rightOneEtp and etapeController.rightOnCge)}">
+				<div id="div_subSection" class="div_subSection">
+					<div id="blockFormInfo" class="blockForm">
+						<div class="blockButton">
+							<h:panelGroup >
 								<p:commandButton value="#{msgs['_.BUTTON.SEARCH']}"
 									action="#{etapeController.lookForVets}" update="@form"/>
 							</h:panelGroup>
@@ -102,6 +102,7 @@
 						
 					</div>
 				</div>
+				</ui:fragment>
 				<br />
     			<br />
     			<br />
@@ -110,7 +111,7 @@
 				<br />
     			<br />
     			<br />
-				<div id="div_subSectionList" styleClass="div_subSection">
+				<div id="div_subSectionList" class="div_subSection">
 					<!-- <div style="width:100%;">
 						<h:panelGrid columns="4" >
 							<h:outputText value="#{msgs['FIELD_LABEL.LIST_ETPS']}"

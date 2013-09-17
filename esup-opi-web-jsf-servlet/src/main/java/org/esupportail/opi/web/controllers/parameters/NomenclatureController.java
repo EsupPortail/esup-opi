@@ -214,6 +214,8 @@ public class NomenclatureController extends AbstractContextAwareController {
 	 * Constructors.
 	 */
 	public NomenclatureController() {
+		super();
+		reset();
 	}
 	
 	public void initTypesDec() {
@@ -713,7 +715,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 	public String addPJs() {
 		allPJs= new TreeSet<NomenclaturePojo>(new ComparatorString(NomenclaturePojo.class));
 //		Set<VersionEtpOpi> listEtpByRight = Utilitaires.getListEtpByRight(getCurrentGest());
-		if (objectToAdd.length > 0) {
+		if (getObjectToAdd().length > 0) {
 			for (Object o : objectToAdd) {
 				NomenclaturePojo v = (NomenclaturePojo) o;
 				

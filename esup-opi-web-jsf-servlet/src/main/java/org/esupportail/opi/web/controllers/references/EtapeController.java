@@ -174,6 +174,9 @@ public class EtapeController extends AbstractContextAwareController {
      */
     public String goSearchVetForGestPJ() {
         reset();
+        WebApplicationContext wac = FacesContextUtils.getWebApplicationContext(FacesContext.getCurrentInstance());
+        NomenclatureController nc = (NomenclatureController) wac.getBean("nomenclatureController");
+        nc.reset();
         codCge = getCurrentGest().getCodeCge();
         // on initialise la liste de campagne
         Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
