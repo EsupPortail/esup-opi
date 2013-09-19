@@ -8,9 +8,9 @@
         <Arg>
             <New class="org.apache.commons.dbcp.BasicDataSource">
                 <Set name="driverClassName">org.hsqldb.jdbcDriver</Set>
-                <Set name="url">jdbc:mysql://localhost/OPIV2</Set>
-                <Set name="username">opi</Set>
-                <Set name="password">opi</Set>
+                <Set name="url">jdbc:hsqldb:mem:opi</Set>
+                <Set name="username">sa</Set>
+                <Set name="password"></Set>
             </New>
         </Arg>
     </New>
