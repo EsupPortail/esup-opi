@@ -691,7 +691,9 @@ public class ConfirmationController extends AbstractAccessController {
         for (IndVoeuPojo indVoeuPojo : listIndVoeu) {
             Avis a = indVoeuPojo.getAvisEnService();
             // Sort the type of avis
-            if (a != null && a.getResult().getIsFinal()
+            if (a != null
+            		&& a.getValidation()
+            		&& a.getResult().getIsFinal()
                     && a.getResult().getCodeTypeConvocation()
                     .equals(inscriptionAdm.getCode())) {
                 if (indVoeuPojo.getIsEtatConfirme()) {
