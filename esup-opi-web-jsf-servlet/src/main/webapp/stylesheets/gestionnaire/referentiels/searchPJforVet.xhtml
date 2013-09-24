@@ -1,0 +1,127 @@
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:t="http://myfaces.apache.org/tomahawk"
+                template="/stylesheets/templateCandidat.xhtml">
+                
+<ui:define name="content">
+
+<div id="maPage" class="div_body">
+		<ui:fragment > 
+    			<h1>
+                <span class="section-header">
+                    <h:outputText value="#{msgs['PJ.IS_FOR_ONE_VET']}#{nomenclatureController.vetDTO.libWebVet}" />
+                </span>
+         		</h1> 
+         </ui:fragment>
+		<div class="messageForUser">
+			<p:messages id="messages" showDetail="true" autoUpdate="true" />
+		</div>
+		
+		<div id="div_subSection" class="div_subSection">
+			<h:form id="seePJForm">
+				<br />
+    			<br />
+    			<br />
+				<div id="blockFormButton" class="blockForm">
+					<div class="blockButton">
+						<h:panelGroup>
+							<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}" 
+									action="#{nomenclatureController.addPJs}"/>
+							<p:commandButton value="#{msgs['_.BUTTON.BACK']}"
+									immediate="true"
+									action="#{etapeController.goBackVET}"/>
+						</h:panelGroup>
+					<div>
+				 <ui:fragment>	
+				 <p:dataTable  id="pieceJustificativeData" var="nomenclaturePojo" value="#{nomenclatureController.pieceJustificatives}"
+						styleClass="paginatorData" alternateColors="false"
+						selection="#{nomenclatureController.objectToAdd}"
+						rowKey="#{nomenclaturePojo.nomenclature.code}" 
+						style="text-align: left;">
+						
+						<p:column width="10%" sortBy="#{nomenclaturePojo.nomenclature.code}">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['FIELD_LABEL.CODE']}" />
+							</f:facet>
+							<h:outputText value="#{nomenclaturePojo.nomenclature.code}" />
+						</p:column>
+						<p:column width="40%">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}" />
+							</f:facet>
+							<h:outputText value="#{nomenclaturePojo.shortLabel}" />
+							<t:popup styleClass="containerPopup" style="width:350px;"
+								closePopupOnExitingElement="true"
+								closePopupOnExitingPopup="true" displayAtDistanceX="-50"
+								displayAtDistanceY="0"
+								rendered="#{nomenclaturePojo.isShortLabel}">
+								<t:graphicImage url="/esup-opi/media/images/informationSmall.png"
+									style="cursor:pointer;" />
+								<f:facet name="popup">
+									<h:panelGroup>
+										<h:panelGrid columns="1">
+											<h:outputText styleClass="titrePopupAide"
+												value="#{msgs['FIELD_LABEL.LIBELLE']}" />
+											<h:outputText styleClass="libellesAide"
+												value="#{nomenclaturePojo.nomenclature.libelle}" />
+										</h:panelGrid>
+									</h:panelGroup>
+								</f:facet>
+							</t:popup>
+						</p:column>
+						<p:column width="18%">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['PJ.IS_FOR_ALL_VET']}" />
+							</f:facet>
+							<p:graphicImage url="/resources/images/check2.gif" 
+								rendered="#{nomenclaturePojo.nomenclature.isForAllVet
+								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
+									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
+							<p:graphicImage url="/resources/images/check0.gif" 
+								rendered="#{!nomenclaturePojo.nomenclature.isForAllVet
+								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
+									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
+						</p:column>
+						<p:column width="15%">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" />
+							</f:facet>
+							<h:outputText value="#{nomenclaturePojo.regimeInscription.label}"/>
+						</p:column>
+						<p:column width="15%">
+							<f:facet name="header">
+								<h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}" />
+							</f:facet>
+							<p:graphicImage url="/resources/images/check2.gif" 
+								rendered="#{nomenclaturePojo.nomenclature.temoinEnService
+								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
+									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
+							<p:graphicImage url="/resources/images/check0.gif" 
+								rendered="#{!nomenclaturePojo.nomenclature.temoinEnService
+								and (nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.updateAction
+									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
+						</p:column>
+						<p:column selectionMode="multiple" />
+						
+								
+						
+					</p:dataTable> 	
+					</ui:fragment>
+					
+				</div>
+				<br />
+    			<br />
+    			<br />
+    			</div>
+    			</div>
+    			
+			</h:form>
+		</div>
+		
+
+	</div>
+
+ </ui:define>
+</ui:composition>

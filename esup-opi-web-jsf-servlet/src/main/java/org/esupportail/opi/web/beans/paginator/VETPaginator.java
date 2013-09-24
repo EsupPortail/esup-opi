@@ -116,7 +116,11 @@ public class VETPaginator extends ListPaginator<VersionEtapeDTO> {
         int codeRI = gest.getProfile().getCodeRI();
 
         //Dans le cas d'une recherche par commission. recherche indépendate du code vet lib vet ou code Cge
-        if (rvd.getIdCmi() != null) {
+        //Attention au double test dû à une différence d'interprétation des commissions vide (voir searchVetGestPJ.xhtml <p:selectOneMenu id="cge") 
+        //entre jetty qui renvoie null et tomcat qui renvoie 0
+        //Sinon on entre dans la condition et on se retrouve avec nullPointerException sur commission.getTraitementCmi()
+        //voir bug 223
+        if (rvd.getIdCmi() != null && rvd.getIdCmi()!=0) {
             Commission commission = getParameterService().getCommission(rvd.getIdCmi(), null);
 
             for (TraitementCmi t : commission.getTraitementCmi()) {
