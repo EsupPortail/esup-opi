@@ -34,4 +34,5 @@
 		    <version>2.0.1</version>
 		</dependency> 
 	</dependencies>
+	<name>esup-opi-web-beans</name>
 </project>

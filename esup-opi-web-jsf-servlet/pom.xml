@@ -188,4 +188,5 @@
     <properties>
         <jetty.envXml>src/main/jetty/jetty-env.xml</jetty.envXml>
     </properties>
+    <name>esup-opi-web-jsf-servlet</name>
 </project>

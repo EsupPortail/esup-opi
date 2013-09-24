@@ -105,4 +105,5 @@
             <version>3.0.6.RELEASE</version>
         </dependency>
     </dependencies>
+    <name>esup-opi-domain-services</name>
 </project>
