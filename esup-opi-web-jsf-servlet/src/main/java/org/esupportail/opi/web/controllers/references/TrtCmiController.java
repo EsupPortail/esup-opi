@@ -535,11 +535,13 @@ public class TrtCmiController extends AbstractAccessController {
                 }
             }
             
-            //Bug 124
-            try{
+
+            try {
             //delete trtCmi
-            getParameterService().deleteTraitementCmi(trtcmiToDeleteFinal);
-            }catch(Exception e){
+            	commission.getTraitementCmi().removeAll(trtcmiToDeleteFinal);
+            	getParameterService().updateCommission(commission);
+            	getParameterService().deleteTraitementCmi(trtcmiToDeleteFinal);
+            } catch(Exception e) {
             	ExceptionUtils.catchException(e);
             }
 
