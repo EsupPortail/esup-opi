@@ -120,4 +120,5 @@
 			<version>1.8.3</version>
 		</dependency>        
     </dependencies>
+    <name>esup-opi-domain-beans</name>
 </project>

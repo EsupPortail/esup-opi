@@ -20,4 +20,5 @@
             <version>2.0.0-beta4-pre86-SNAPSHOT</version>
         </dependency>
     </dependencies>
+    <name>esup-opi-utils</name>
 </project>
