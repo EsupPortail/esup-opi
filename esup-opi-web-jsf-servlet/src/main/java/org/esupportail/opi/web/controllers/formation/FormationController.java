@@ -24,6 +24,7 @@ import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
+import org.esupportail.opi.domain.dto.CommissionDTO;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.utils.Conversions;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
@@ -36,6 +37,7 @@ import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorSelectItem;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractAccessController;
+import org.esupportail.opi.web.utils.DTOs;
 import org.esupportail.wssi.services.remote.VersionDiplomeDTO;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
@@ -44,6 +46,8 @@ import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 import java.util.*;
 import java.util.Map.Entry;
+
+import static org.esupportail.opi.web.utils.DTOs.buildCommissionDTO;
 
 
 /**
@@ -494,25 +498,19 @@ public class FormationController extends AbstractAccessController {    /*
      * @param indVoeuAdd
      */
     private void sendMailIfAddWishes(final Set<IndVoeuPojo> indVoeuAdd) {
-        Individu ind = getCurrentInd().getIndividu();
-        RegimeInscription regimeIns = getRegimeIns().get(Utilitaires.getCodeRIIndividu(ind,
-                getDomainService()));
-        Campagne camp = getParameterService()
-                .getCampagneEnServ(regimeIns.getCode());
+        final Individu ind = getCurrentInd().getIndividu();
+        final RegimeInscription regimeIns =
+                getRegimeIns().get(Utilitaires.getCodeRIIndividu(ind, getDomainService()));
+        final int codeRI = regimeIns.getCode();
+        final Campagne camp = getParameterService().getCampagneEnServ(codeRI);
         Boolean sendMail = false;
-        Map<Commission, Set<VersionEtapeDTO>> wishesByCmi = Utilitaires.getCmiForIndVoeux(
+        final Map<Commission, Set<VersionEtapeDTO>> wishesByCmi = Utilitaires.getCmiForIndVoeux(
                 getParameterService().getCommissions(true),
                 indVoeuAdd, camp);
 
-//		Map<Commission, Set<VersionEtapeDTO>> wishesVaOrTr = 
-//				new HashMap<Commission, Set<VersionEtapeDTO>>();
         for (Map.Entry<Commission, Set<VersionEtapeDTO>> cmiEntry : wishesByCmi.entrySet()) {
             Commission cmi = cmiEntry.getKey();
-            CommissionPojo cmiPojo = new CommissionPojo(
-                    cmi,
-                    new AdressePojo(cmi.getContactsCommission().get(regimeIns.getCode())
-                            .getAdresse(), getDomainApoService()),
-                    cmi.getContactsCommission().get(regimeIns.getCode()));
+            final CommissionDTO cmiDTO = buildCommissionDTO(getDomainApoService(), codeRI, cmi);
             TypeTraitement typTrt = null;
             Set<VersionEtapeDTO> vetDTO = cmiEntry.getValue();
             for (VersionEtapeDTO vDTO : vetDTO) {
@@ -532,10 +530,10 @@ public class FormationController extends AbstractAccessController {    /*
                     break;
                 }
             }
-            List<Object> list = new ArrayList<Object>();
+            List<Object> list = new ArrayList<>();
+            list.add(cmiDTO);
             list.add(vetDTO);
             list.add(ind);
-            list.add(cmiPojo);
             if (typTrt instanceof AccesSelectif) {
                 //on envoie un mail par commission
                 if (regimeIns.getMailAddWishesAS() != null) {
@@ -552,31 +550,9 @@ public class FormationController extends AbstractAccessController {    /*
                 }
             }
         }
-
-//		if (!wishesVaOrTr.isEmpty()) {
-//			//send on mail for type trt VA and TR
-//			Set<VersionEtapeDTO> vetMail = new HashSet<VersionEtapeDTO>();
-//			for (Commission cmi : wishesVaOrTr.keySet()) {
-//				Set<VersionEtapeDTO> vetDTO = wishesVaOrTr.get(cmi);
-//				for (VersionEtapeDTO vDTO : vetDTO) {
-//					vetMail.add(vDTO);
-//				}
-//			}
-//			// TODO ajouter les commissions pojo??? FC
-//			if (regimeIns.getMailAddWishesTRVA() !=  null) {
-//				List<Object> list = new ArrayList<Object>();
-//				list.add(ind);
-//				list.add(vetMail);
-//				regimeIns.getMailAddWishesTRVA().send(ind.getAdressMail(), 
-//						ind.getEmailAnnuaire(), list);
-//				sendMail = true;
-//			}
-//		}
-
         if (sendMail) {
             addInfoMessage(null, "INFO.CANDIDAT.SEND_MAIL.SUMMARY_WISHES");
         }
-
     }
 
 

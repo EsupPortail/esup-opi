@@ -214,9 +214,9 @@ public abstract class RegimeInscription  implements Serializable, InitializingBe
 	 * @param individu
 	 */
 	public void sendCreateDos(final Individu individu) {
-		List<String> addresses = new ArrayList<String>();
+		List<String> addresses = new ArrayList<>();
 		addresses.add(individu.getAdressMail());
-		List<Object> l = new ArrayList<Object>();
+		List<Object> l = new ArrayList<>();
 		l.add(individu);
 		createDossier.send(addresses, l);
 	}

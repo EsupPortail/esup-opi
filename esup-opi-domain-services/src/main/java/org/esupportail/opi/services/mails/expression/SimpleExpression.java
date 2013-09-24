@@ -131,19 +131,5 @@ public class SimpleExpression extends Expression {
 		}
 		return name;
 	}
-
-
-
-
-	/*
-	 *************************** ACCESSORS ********************************* */
-
-
-
-
-	
-
-
-
-
 }
+

@@ -177,11 +177,6 @@ public class HibernateParamDaoServiceImpl extends AbstractSimpleHibernateDaoServ
 			return getHibernateTemplate().get(Profile.class, id);
 		}
 		if (code != null) {
-//			Session s = getHibernateTemplate().getSessionFactory().getCurrentSession();
-//			return (Profile) s.createCriteria(Profile.class)
-//			.add(Restrictions.eq("code", code))
-//			.uniqueResult();
-			
 			DetachedCriteria criteria = DetachedCriteria.forClass(Profile.class);
 			criteria.add(Restrictions.eq("code", code));
 			
@@ -302,10 +297,8 @@ public class HibernateParamDaoServiceImpl extends AbstractSimpleHibernateDaoServ
 		if (temEnSve != null) {
 			criteria.add(Restrictions.eq(IN_USE_ATTRIBUTE, temEnSve));
 		}
-		criteria
-		.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-		List<Domain> l = getHibernateTemplate().findByCriteria(criteria);
-		return l;
+		criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+        return getHibernateTemplate().findByCriteria(criteria);
 	}
 
 	/**
@@ -438,11 +431,8 @@ public class HibernateParamDaoServiceImpl extends AbstractSimpleHibernateDaoServ
 		criteria.add(Restrictions.eq("result", typeD))
 				.setProjection(Projections.rowCount());
 		Long nb = (Long) getHibernateTemplate().findByCriteria(criteria).get(0);
-		if (nb == null || nb.intValue() == 0) {
-			return true;
-		}
-		return false;
-	}
+        return nb == null || nb.intValue() == 0;
+    }
 	
 	/**
 	 * @see org.esupportail.opi.dao.ParameterDaoService#canDeleteMotivation(
@@ -457,11 +447,8 @@ public class HibernateParamDaoServiceImpl extends AbstractSimpleHibernateDaoServ
 		criteria.add(Restrictions.eq("motivationAvis", motiv))
 				.setProjection(Projections.rowCount());
 		Long nb = (Long) getHibernateTemplate().findByCriteria(criteria).get(0);
-		if (nb == null || nb.intValue() == 0) {
-			return true;
-		}
-		return false;
-	}
+        return nb == null || nb.intValue() == 0;
+    }
 	
 
 	/**
@@ -551,9 +538,6 @@ public class HibernateParamDaoServiceImpl extends AbstractSimpleHibernateDaoServ
 		if (StringUtils.hasText(code)) {
 			criteria.add(Restrictions.eq("code", code));
 		}
-//		return (Commission) criteria.getExecutableCriteria(
-//				getHibernateTemplate().getSessionFactory().getCurrentSession()).uniqueResult();
-		
 		return (Commission) DataAccessUtils.uniqueResult(
 				getHibernateTemplate().findByCriteria(criteria));
 	}
@@ -830,16 +814,16 @@ public class HibernateParamDaoServiceImpl extends AbstractSimpleHibernateDaoServ
 
     @Override
     public Set<CalendarIns> getCalendars(VersionEtpOpi versionEtpOpi) {
-        EntityPathBase<Commission> comBase = new EntityPathBase<Commission>(Commission.class, "commission");
-        PathBuilder<Commission> com = new PathBuilder<Commission>(Commission.class, comBase.getMetadata());
+        EntityPathBase<Commission> comBase = new EntityPathBase<>(Commission.class, "commission");
+        PathBuilder<Commission> com = new PathBuilder<>(Commission.class, comBase.getMetadata());
 
-        EntityPath<CalendarIns> calBase = new EntityPathBase<CalendarIns>(CalendarIns.class, "calendar");
-        PathBuilder<CalendarIns> cal = new PathBuilder<CalendarIns>(CalendarIns.class, calBase.getMetadata());
+        EntityPath<CalendarIns> calBase = new EntityPathBase<>(CalendarIns.class, "calendar");
+        PathBuilder<CalendarIns> cal = new PathBuilder<>(CalendarIns.class, calBase.getMetadata());
 
-        EntityPath<TraitementCmi> trtCmiBase = new EntityPathBase<TraitementCmi>(TraitementCmi.class, "trtCmi");
-        PathBuilder<TraitementCmi> trtCmi = new PathBuilder<TraitementCmi>(TraitementCmi.class, trtCmiBase.getMetadata());
+        EntityPath<TraitementCmi> trtCmiBase = new EntityPathBase<>(TraitementCmi.class, "trtCmi");
+        PathBuilder<TraitementCmi> trtCmi = new PathBuilder<>(TraitementCmi.class, trtCmiBase.getMetadata());
 
-        return new HashSet<CalendarIns>(
+        return new HashSet<>(
                 from(comBase, calBase, trtCmiBase)
                         .where(com.get("id").eq(trtCmi.get("commission"))
                                 .and(trtCmi.get("versionEtpOpi").eq(versionEtpOpi))

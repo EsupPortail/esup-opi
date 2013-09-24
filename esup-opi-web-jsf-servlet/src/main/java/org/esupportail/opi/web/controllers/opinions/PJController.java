@@ -30,12 +30,14 @@ import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
 import org.esupportail.opi.web.controllers.user.IndividuController;
+import org.esupportail.opi.web.utils.DTOs;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import javax.faces.model.SelectItem;
 import java.util.*;
 
+import static org.esupportail.opi.web.utils.DTOs.commissionPojoToDTO;
 import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
 import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
@@ -415,11 +417,11 @@ public class PJController extends AbstractContextAwareController {
                         .get(regimeIns.getCode()).getAdresse(), getDomainApoService()));
                 currentCmiPojo.setContactCommission(currentCmiPojo.getCommission().
                         getContactsCommission().get(regimeIns.getCode()));
-                List<Object> list = new ArrayList<Object>();
+                List<Object> list = new ArrayList<>();
                 list.add(pojoIndividu.getIndividu());
                 list.add(this.mpPojoSelected.getCommissions().get(currentCmiPojo));
                 list.add(missPieceForInd);
-                list.add(currentCmiPojo);
+                list.add(commissionPojoToDTO(currentCmiPojo));
 
                 regimeIns.getDossArriveIncomplet().send(pojoIndividu.getIndividu().getAdressMail(),
                         pojoIndividu.getIndividu().getEmailAnnuaire(), list);
@@ -433,10 +435,10 @@ public class PJController extends AbstractContextAwareController {
                                 get(regimeIns.getCode()).getAdresse(), getDomainApoService()));
                 currentCmiPojo.setContactCommission(currentCmiPojo.getCommission().
                         getContactsCommission().get(regimeIns.getCode()));
-                List<Object> list = new ArrayList<Object>();
+                List<Object> list = new ArrayList<>();
                 list.add(pojoIndividu.getIndividu());
                 list.add(this.mpPojoSelected.getCommissions().get(currentCmiPojo));
-                list.add(currentCmiPojo);
+                list.add(commissionPojoToDTO(currentCmiPojo));
 
                 regimeIns.getDossArriveComplet().send(pojoIndividu.getIndividu().getAdressMail(),
                         pojoIndividu.getIndividu().getEmailAnnuaire(), list);

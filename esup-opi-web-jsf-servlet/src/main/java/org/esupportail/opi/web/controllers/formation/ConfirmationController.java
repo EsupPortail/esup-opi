@@ -14,9 +14,12 @@ import org.esupportail.opi.domain.beans.parameters.InscriptionAdm;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.domain.beans.references.calendar.CalendarCmi;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
+import org.esupportail.opi.domain.beans.references.commission.ContactCommission;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
+import org.esupportail.opi.domain.dto.AdresseDTO;
+import org.esupportail.opi.domain.dto.CommissionDTO;
 import org.esupportail.opi.services.mails.MailContentService;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.utils.converters.xml.DateUtil;
@@ -32,6 +35,7 @@ import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractAccessController;
 import org.esupportail.opi.web.controllers.opinions.ValidOpinionController;
+import org.esupportail.opi.web.utils.DTOs;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
 
@@ -39,6 +43,10 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static org.esupportail.opi.domain.dto.AdresseDTO.adrDTO;
+import static org.esupportail.opi.domain.dto.CommissionDTO.comDTO;
+import static org.esupportail.opi.web.utils.DTOs.buildCommissionDTO;
 
 /**
  * @author ylecuyer
@@ -370,57 +378,21 @@ public class ConfirmationController extends AbstractAccessController {
 
             if (getRegimeIns().get(codeRI).getConfirmInscription() != null) {
                 // list contenant la commission et les vet
-                List<Object> list = new ArrayList<Object>();
-                list.add(new CommissionPojo(entryCmi.getKey(),
-                        new AdressePojo(entryCmi.getKey().getContactsCommission()
-                                .get(codeRI).getAdresse(),
-                                getDomainApoService()),
-                        entryCmi.getKey().getContactsCommission()
-                                .get(codeRI)));
+                List<Object> list = new ArrayList<>();
+                final Commission commission = entryCmi.getKey();
+                list.add(buildCommissionDTO(getDomainApoService(), codeRI, commission));
+                // TODO : if the above works, remove the following commented lines
+//                list.add(new CommissionPojo(commission,
+//                        new AdressePojo(commission.getContactsCommission()
+//                                .get(codeRI).getAdresse(),
+//                                getDomainApoService()),
+//                        commission.getContactsCommission()
+//                                .get(codeRI)));
                 list.add(entryCmi.getValue());
                 list.add(individu);
                 getRegimeIns().get(codeRI).getConfirmInscription()
                         .send(individu.getAdressMail(), individu.getEmailAnnuaire(), list);
             }
-
-            //to delete if ok 23/11/2009
-//			String htmlDebut = "";
-//			String htmlBody = "";
-//			String htmlSubject = "";
-//			String endBody = "";
-//			
-//			// récupération de la commission
-//			Commission oneCmi = entryCmi.getKey();
-//			CommissionPojo currentCmiPojo = new CommissionPojo(oneCmi, 
-//					new AdressePojo(oneCmi.getAdress(), getBusinessCacheService()));
-//			// récupération de la liste des vets
-//			Set<VersionEtapeDTO> vets = entryCmi.getValue();
-//			
-//			htmlSubject = getString("MAIL.CANDIDAT_AVIS.CONF.SUBJECT");
-//			htmlDebut += getString("MAIL.CANDIDAT_AVIS.CONF.HTMLTEXT_DEBUT", 
-//					Utilitaires.getCivilite(getI18nService(),
-//							individu.getSexe()));
-//			// list of libelle voeux
-//			String htmlList = "";
-//			for (VersionEtapeDTO vet : vets) {
-//				htmlList +=  getString("MAIL.LIST_VET", vet.getLibWebVet());
-//			}
-//			htmlBody += htmlList;
-//			
-//			htmlBody += getString("MAIL.CANDIDAT_AVIS.CONF.HTMLTEXT_BODY1");
-//	
-//			// adresse CMI
-//			htmlBody += Utilitaires.getAdrCmiForSendMail(getI18nService(), currentCmiPojo, null);
-//			// formule politesse signature
-//			htmlBody += getString("MAIL.CANDIDAT_FORMULE_POLITESSE.HTMLTEXT");
-//	
-//			// send mail
-//			Utilitaires.sendEmailIndividu(
-//					htmlSubject,
-//					htmlDebut + htmlBody,
-//					endBody,
-//					individu,
-//					smtpService, getI18nService());
         }
     }
 

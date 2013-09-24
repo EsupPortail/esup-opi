@@ -28,6 +28,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.esupportail.opi.web.utils.DTOs.commissionPojoToDTO;
+
 
 /**
  * @author tducreux
@@ -213,10 +215,10 @@ public class ValidOpinionController extends AbstractContextAwareController {    
         ind = getDomainService().getIndividu(
                 ind.getNumDossierOpi(), ind.getDateNaissance());
 
-        List<Object> list = new ArrayList<Object>();
+        List<Object> list = new ArrayList<>();
         list.add(ind);
         list.add(a);
-        list.add(currentCmiPojo);
+        list.add(commissionPojoToDTO(currentCmiPojo));
         Campagne camp = null;
 
         for (Campagne c : ind.getCampagnes()) {
@@ -388,18 +390,18 @@ public class ValidOpinionController extends AbstractContextAwareController {    
 
         this.printOpinionController.lookForIndividusPojo(com, false, false, true);
         for (IndividuPojo i : this.printOpinionController.getLesIndividus()) {
-            Set<Avis> avisFavorable = new HashSet<Avis>();
-            Set<Avis> avisFavorableAppel = new HashSet<Avis>();
-            Set<Avis> avisDefavorable = new HashSet<Avis>();
-            Set<Avis> avisDefavorableAppel = new HashSet<Avis>();
-            Set<Avis> avisPreselection = new HashSet<Avis>();
-            Set<Avis> avisLC = new HashSet<Avis>();
-            Set<Avis> autresAvis = new HashSet<Avis>();
+            Set<Avis> avisFavorable = new HashSet<>();
+            Set<Avis> avisFavorableAppel = new HashSet<>();
+            Set<Avis> avisDefavorable = new HashSet<>();
+            Set<Avis> avisDefavorableAppel = new HashSet<>();
+            Set<Avis> avisPreselection = new HashSet<>();
+            Set<Avis> avisLC = new HashSet<>();
+            Set<Avis> autresAvis = new HashSet<>();
             for (IndVoeuPojo indVPojo : i.getIndVoeuxPojo()) {
                 Avis a = indVPojo.getAvisEnService();
                 // 1 - Update the database
                 a.setValidation(true);
-                a = (Avis) getDomainService().update(a, getCurrentGest().getLogin());
+                a = getDomainService().update(a, getCurrentGest().getLogin());
                 getDomainService().updateAvis(a);
                 // 2 - Sort the type of avis
                 if (a.getResult().getIsFinal()
@@ -513,7 +515,7 @@ public class ValidOpinionController extends AbstractContextAwareController {    
             ContactCommission contactCommission =
                     com.getContactsCommission().get(FormationContinue.CODE);
             if (contactCommission != null && contactCommission.getAdresse() != null) {
-                List<Object> list = new ArrayList<Object>();
+                List<Object> list = new ArrayList<>();
                 list.add(com);
                 infoValidWishesFC.send(contactCommission.getAdresse().getMail(), list);
             }

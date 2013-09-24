@@ -4,14 +4,12 @@
  */
 package org.esupportail.opi.domain;
 
-import java.io.IOException;
-import java.io.Serializable;
-
-import javax.xml.parsers.ParserConfigurationException;
-
+import org.esupportail.opi.domain.beans.user.candidature.IndFormulaire;
 import org.xml.sax.SAXException;
 
-import org.esupportail.opi.domain.beans.user.candidature.IndFormulaire;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * The domain service interface.
@@ -71,38 +69,11 @@ public interface OrbeonService extends Serializable {
 	 */
 	boolean deleteForm(final String code) throws IOException, ParserConfigurationException, SAXException;
 
-	/**
-	 * @param url
-	 * @return
-	 * @throws IOException
-	 * @throws ParserConfigurationException
-	 * @throws SAXException
-	 */
 	boolean deleteFolder(final String formName) throws IOException, ParserConfigurationException, SAXException;
 	
-	/**
-	 * @param formNameFrom
-	 * @param formNameTo
-	 * @param numDossier
-	 * @return
-	 * @throws IOException
-	 * @throws ParserConfigurationException
-	 * @throws SAXException
-	 */
-	boolean copyForm(final String formNameFrom, final String formNameTo)
-	throws IOException, ParserConfigurationException, SAXException;
+	boolean copyForm(final String formNameFrom, final String formNameTo) throws IOException, ParserConfigurationException, SAXException;
 	
-	/**
-	 * @param formNameFrom
-	 * @param formNameTo
-	 * @param numDossier
-	 * @return
-	 * @throws IOException
-	 * @throws ParserConfigurationException
-	 * @throws SAXException
-	 */
-	boolean copyTemplateForm(final String formNameFrom, final String formNameTo)
-	throws IOException, ParserConfigurationException, SAXException;
+	boolean copyTemplateForm(final String formNameFrom, final String formNameTo) throws IOException, ParserConfigurationException, SAXException;
 
 	/**
 	 * @param indFormulaire
@@ -122,9 +93,4 @@ public interface OrbeonService extends Serializable {
 	 */
 	String getOrbeonBuilderUrl();
 
-	@Deprecated
-	//don't use 28/10/2009
-	void getAuthOrbeon();
-
-	String getSessionId();
 }

@@ -28,6 +28,7 @@ import org.esupportail.opi.domain.beans.references.commission.Selection;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.MissingPiece;
+import org.esupportail.opi.domain.dto.AdresseDTO;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.wssi.services.remote.SignataireDTO;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
@@ -129,11 +130,11 @@ public class MailExceptionMethods implements Serializable, InitializingBean {
 	
 	/**
 	 * Return address of cmi in format text html for send mail.
-	 * @param adrPojo
-	 * @return String
 	 */
-	public String getFullAdrCmi(final Adresse adr, final CommuneDTO commune) {
-		String ville = "";
+	public String getFullAdrCmi(final AdresseDTO adresseDTO) {
+		final Adresse adr = adresseDTO.getAdresse();
+        final CommuneDTO commune = adresseDTO.getCommune();
+        String ville = "";
 		if (adr != null 
 				&& commune != null) {
 			ville = adr.getCodBdi() 
@@ -163,10 +164,7 @@ public class MailExceptionMethods implements Serializable, InitializingBean {
 				htmlBody2 += iService.getString("MAIL.ADR_CMI.ADR_POST", 
 						ville);
 			} 
-			
-			
 		}
-
 		if (adr != null) {
 			String mail = "";
 			String phone = "";
@@ -189,8 +187,6 @@ public class MailExceptionMethods implements Serializable, InitializingBean {
 	
 	/**
 	 * The list of reunion in calendarCmi.
-	 * @param sexe
-	 * @return String
 	 */
 	public String getReunions(final CalendarCmi calendar) {
 		StringBuffer htmlBody = new StringBuffer();

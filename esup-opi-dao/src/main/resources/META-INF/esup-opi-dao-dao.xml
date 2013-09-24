@@ -14,8 +14,6 @@
             This bean is the transaction manager.
         </description>
         <property name="sessionFactory" ref="#{'${dataSource.bean}' == 'JDBCdatasource' ? 'jdbcSessionFactory' : 'jndiSessionFactory'}" />
-<!--         <property name="dataSource" ref="JNDIdatasource" /> -->
-<!--         <property name="sessionFactory" ref="jndiSessionFactory" /> -->
     </bean>
 
     <bean id="JDBCdatasource" class="org.apache.commons.dbcp.BasicDataSource"
@@ -111,11 +109,6 @@
         <property name="dataSource" ref="JNDIdatasource" />
         <property name="configLocation"
             value="classpath:/META-INF/hibernate/hibernate-jndi.cfg.xml" />
-<!--         <property name="hibernateProperties"> -->
-<!--             <props> -->
-<!--                 <prop key="hibernate.dialect">#{'${hibernate.dialect}' != '' ? '${hibernate.dialect}' : 'org.hibernate.dialect.HSQLDialect'}</prop> -->
-<!--             </props> -->
-<!--         </property> -->
     </bean>
 
     <!-- end of the session factories -->
@@ -160,7 +153,6 @@
             org.esupportail.opi.dao.DaoService.
         </description>
         <property name="hibernateTemplate" ref="#{'${dataSource.bean}' == 'JDBCdatasource' ? 'jdbcHibernateTemplate' : 'jndiHibernateTemplate'}" />
-<!--         <property name="hibernateTemplate" ref="jndiHibernateTemplate" /> -->
     </bean>
 
     <bean id="individuDaoService" class="org.esupportail.opi.dao.IndividuDaoServiceImpl"
@@ -178,7 +170,6 @@
             org.esupportail.opi.dao.ParamaterDaoService.
         </description>
         <property name="hibernateTemplate" ref="#{'${dataSource.bean}' == 'JDBCdatasource' ? 'jdbcHibernateTemplate' : 'jndiHibernateTemplate'}" />
-<!--         <property name="hibernateTemplate" ref="jndiHibernateTemplate" /> -->
     </bean>
 
     <bean id="pilotageDaoService" class="org.esupportail.opi.dao.HPilotageDaoServiceImpl"
@@ -190,7 +181,6 @@
             org.esupportail.opi.dao.PilotageDaoService.
         </description>
         <property name="hibernateTemplate" ref="#{'${dataSource.bean}' == 'JDBCdatasource' ? 'jdbcHibernateTemplate' : 'jndiHibernateTemplate'}" />
-<!--         <property name="hibernateTemplate" ref="jndiHibernateTemplate" /> -->
     </bean>
 
     <bean id="paginatorFactory" class="org.esupportail.opi.dao.utils.PaginatorFactory"
@@ -208,7 +198,6 @@
             org.esupportail.opi.dao.DaoService.
         </description>
         <property name="hibernateTemplate" ref="#{'${dataSource.bean}' == 'JDBCdatasource' ? 'jdbcHibernateTemplate' : 'jndiHibernateTemplate'}" />
-<!--         <property name="hibernateTemplate" ref="jndiHibernateTemplate" /> -->
     </bean>
 </beans>
 

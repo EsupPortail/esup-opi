@@ -325,8 +325,8 @@
 	
 	<bean id="intermediaryFC" parent="abstractMailForInd"
 		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
-		<description>send to : Ã  la validation d'un type de convocation 
-		intÃ©rmÃ©diaire pour un candidat FC </description>
+		<description>send to : À la validation d'un type de convocation
+		intermédiaire pour un candidat FC </description>
 		<property name="code" value="INTERM_FC" />
 		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.INTERM_FC.DEFAULT_BODY" />
 		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.INTERM_FC.DEFAULT_SUBJECT" />
@@ -349,13 +349,13 @@
 				</entry>
 				<entry>
 					<key>
-						<value>cmiPojo.adressePojo</value>
+						<value>cmiDTO.adresseDTO</value>
 					</key>
 					<value>getFullAdrCmi</value>
 				</entry>
 				<entry>
 					<key>
-						<value>commissionPojo.adressePojo</value>
+						<value>commissionDTO.adresseDTO</value>
 					</key>
 					<value>getFullAdrCmi</value>
 				</entry>
@@ -385,7 +385,7 @@
 				</entry>
 				<entry>
 					<key>
-						<value>commissionPojo.commission</value>
+						<value>commissionDTO.commission</value>
 					</key>
 					<value>getMsgDateFin</value>
 				</entry>
@@ -397,7 +397,7 @@
 				</entry>
 				<entry>
 					<key>
-						<value>commissionPojo.contactCommission.codSig</value>
+						<value>commissionDTO.contactCommission.codSig</value>
 					</key>
 					<value>getSignataire</value>
 				</entry>
@@ -409,7 +409,7 @@
 				</entry>
 				<entry>
 					<key>
-						<value>commissionPojo.commission.calendarCmi.datEndBackDossier</value>
+						<value>commissionDTO.commission.calendarCmi.datEndBackDossier</value>
 					</key>
 					<value>getDatEndBackDossier</value>
 				</entry>

@@ -28,7 +28,9 @@ import org.esupportail.opi.web.controllers.AbstractAccessController;
 import org.esupportail.opi.web.controllers.references.TrtCmiController;
 import org.xml.sax.SAXException;
 
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -165,14 +167,10 @@ public class FormulairesController extends AbstractAccessController {
                     }
                 }
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Erreur ouverture fichier");
         }
-
-
     }
 
     /**
@@ -183,15 +181,18 @@ public class FormulairesController extends AbstractAccessController {
         super.reset();
         indSelected = null;
         cmiSelected = null;
-        mapFormulairesVet = new HashMap<VersionEtpOpi, FormulaireCmi>();
-        mapIndFormulaires = new HashMap<VersionEtpOpi, IndFormulaire>();
+        mapFormulairesVet = new HashMap<>();
+        mapIndFormulaires = new HashMap<>();
     }
 
     /**
      * @return the session id
      */
     public String getSessionId() {
-        return getOrbeonService().getSessionId();
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+        return request.getSession().getId();
     }
 
     /**

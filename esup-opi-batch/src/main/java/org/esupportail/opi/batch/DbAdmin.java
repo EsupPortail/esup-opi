@@ -43,15 +43,19 @@ public class DbAdmin {
 			syntax();
 			break;
 		case 1:
-			if ("init-db".equals(args[0])) {
-				LOG.info("Initialise DataBase...");
-				initDb();
-			} else if ("upgrade-db".equals(args[0])) {
-				LOG.info("Upgrade DataBase...");
-				upgradeDb();
-			} else {
-				syntax();
-			}
+            switch (args[0]) {
+                case "init-db":
+                    LOG.info("Initialise DataBase...");
+                    initDb();
+                    break;
+                case "upgrade-db":
+                    LOG.info("Upgrade DataBase...");
+                    upgradeDb();
+                    break;
+                default:
+                    syntax();
+                    break;
+            }
 			break;
 		default:
 			syntax();
@@ -67,8 +71,7 @@ public class DbAdmin {
 	private static VersionningService getVersionningService() {
 		ApplicationContext context =
 			    new ClassPathXmlApplicationContext("properties/applicationContext.xml");
-		VersionningService versionningService =  (VersionningService) context.getBean("versionningService");
-		return versionningService;
+        return (VersionningService) context.getBean("versionningService");
 	}
 
 	/**

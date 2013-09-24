@@ -144,19 +144,11 @@ public class WelcomeController extends AbstractContextAwareController {
             RegimeInscription regimeIns = getRegimeIns().get(Utilitaires.getCodeRIIndividu(ind,
                     getDomainService()));
             if (regimeIns.getRappelNumDoss() != null) {
-                List<Object> list = new ArrayList<Object>();
+                List<Object> list = new ArrayList<>();
                 list.add(ind);
-                regimeIns.getRappelNumDoss().send(ind.getAdressMail(),
-                        ind.getEmailAnnuaire(), list);
+                regimeIns.getRappelNumDoss().send(ind.getAdressMail(), ind.getEmailAnnuaire(), list);
             }
             addInfoMessage(null, "INFO.CANDIDAT.SEND_MAIL.NUM_DOS");
-//			comment added 30/11/09
-//			String htmlBody  = getString("MAIL.NOT_RESPONSE");
-//			htmlBody += Utilitaires.getCivilite(getI18nService(), ind.getSexe());
-//			htmlBody += getString("MAIL.FORGET_NUM_DOS.HTMLTEXT_BODY", ind.getNumDossierOpi());
-//			Utilitaires.sendEmailIndividu(
-//					getString("MAIL.FORGET_NUM_DOS.SUBJECT"),
-//					htmlBody, null, ind, smtpService, null);
         }
     }
 	

@@ -22,6 +22,8 @@ import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.springframework.util.StringUtils;
 
+import static java.lang.String.format;
+
 
 /**
  * @author cleprous
@@ -310,9 +312,6 @@ public class DynamicMailContentImpl extends SimpleMailContentImpl {
 
 	/**
 	 * Execute the expression and return the real value.
-	 * @param expression
-	 * @param o 
-	 * @return String
 	 */
 	protected Object resultExpression(final Expression expression) {
 		if (log.isDebugEnabled()) {
@@ -331,12 +330,6 @@ public class DynamicMailContentImpl extends SimpleMailContentImpl {
 
 	/**
 	 * Execute the expression and return the real value.
-	 * @param champs
-	 * @param nbField
-	 * @param properties
-	 * @param o
-	 * @param expression 
-	 * @return String
 	 */
 	private Object executeExpression(final String[] champs, 
 			final int nbField,
@@ -405,22 +398,14 @@ public class DynamicMailContentImpl extends SimpleMailContentImpl {
 			Method m = o.getClass().getMethod(methodName);
 			result = m.invoke(o);
 			
-		} catch (SecurityException e) {
+		} catch (SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 			log.error(e);
 		} catch (NoSuchMethodException e) {
 			log.error(e);
-			throw new ConfigException(
-					"this field " + field 
-					+ "is not present in class" + o.getClass());
-		} catch (IllegalArgumentException e) {
-			log.error(e);
-		} catch (IllegalAccessException e) {
-			log.error(e);
-		} catch (InvocationTargetException e) {
-			log.error(e);
+			throw new ConfigException(format("this field %s is not present in class%s", field, o.getClass()));
 		}
-		
-		int cpt = nbField + 1;
+
+        int cpt = nbField + 1;
 		
 		//TODO voir si result est null quoi faire
 //		String nameClass = expression.getNameClass(result);
@@ -499,11 +484,11 @@ public class DynamicMailContentImpl extends SimpleMailContentImpl {
 	 */
 	public Object getObject(final Object[] objects, final Expression expression) {
 		//first element is a object
-		String s = expression.getProperties()[0];
+		final String className = expression.getProperties()[0];
 		if (log.isDebugEnabled()) {
 			log.debug("entering makeObject");
 			log.debug("objects = " + objects);
-			log.debug("first string s = " + s);
+			log.debug("first string s = " + className);
 			log.debug("expression = " + expression);
 		}
 		if (objects == null || objects.length == 0) {
@@ -516,8 +501,8 @@ public class DynamicMailContentImpl extends SimpleMailContentImpl {
 				//on ne recuperer qu'un objet de la liste
 				Object o = expression.getParent().getObjet();
 				Collection<Object> c = MailContentUtils.useCollection(o, o.getClass());
-				//on prend par defaut le premiere element pour devrire l'expression.
-				//Il est mise ÃÂ  jour dans le managedCollection
+				//on prend par defaut le premiere element pour décrire l'expression.
+				//Il est mis à  jour dans le managedCollection
 				if (c != null) {
 					return c.iterator().next();
 				} 
@@ -535,23 +520,19 @@ public class DynamicMailContentImpl extends SimpleMailContentImpl {
 				return null;
 			}
 			if (expression instanceof BoucleExpression) {
-				//TODO a tester car logiquement ob devrait ÃÂªtre une collection
+				//TODO a tester car logiquement o devrait être une collection
 				//permet de selectionner le bonne objet en fonction de l'expression
-				if (nameClazz.equalsIgnoreCase(s)) {
+				if (nameClazz.equalsIgnoreCase(className)) {
 					return MailContentUtils.useCollection(o, o.getClass());
 				}
 			} else {
 				//permet de selectionner le bonne objet en fonction de l'expression
-				if (nameClazz.equalsIgnoreCase(s)) {
+				if (nameClazz.equalsIgnoreCase(className)) {
 					return o;
 				} 
 			}
-			
-
 		}
-		
-		throw new ConfigException("the class " + s + " do not present in the objects list.");
-		
+		throw new ConfigException("the class " + className + " is not present in the objects list.");
 	}
 	
 	

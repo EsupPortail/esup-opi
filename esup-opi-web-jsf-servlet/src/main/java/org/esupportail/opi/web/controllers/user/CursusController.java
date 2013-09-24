@@ -9,6 +9,7 @@ import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.indcursus.*;
+import org.esupportail.opi.domain.dto.CommissionDTO;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
@@ -17,6 +18,7 @@ import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractAccessController;
+import org.esupportail.opi.web.utils.DTOs;
 import org.esupportail.wssi.services.remote.CommuneDTO;
 import org.esupportail.wssi.services.remote.DipAutCur;
 import org.esupportail.wssi.services.remote.Etablissement;
@@ -532,21 +534,22 @@ public class CursusController extends AbstractAccessController {
                     Utilitaires.getCmiForIndVoeux(
                             getParameterService().getCommissions(true),
                             getCurrentInd().getIndVoeuxPojo(), camp);
-            List<CommissionPojo> listCmiPojo = new ArrayList<CommissionPojo>();
+            List<CommissionDTO> cmiDTOs = new ArrayList<>();
             for (Map.Entry<Commission, Set<VersionEtapeDTO>> cmiEntry : wishesByCmi.entrySet()) {
-                Commission cmi = cmiEntry.getKey();
-                CommissionPojo cmiPojo = new CommissionPojo(
-                        cmi,
-                        new AdressePojo(cmi.getContactsCommission().get(regimeIns.getCode())
-                                .getAdresse(), getDomainApoService()),
-                        cmi.getContactsCommission().get(regimeIns.getCode()));
-                cmiPojo.initTreatmentsPojo(cmiEntry.getValue());
-                listCmiPojo.add(cmiPojo);
+//                Commission cmi = cmiEntry.getKey();
+                // TODO : if this works, remove the commented lines
+                cmiDTOs.add(DTOs.buildCommissionDTO(getDomainApoService(), regimeIns.getCode(), cmiEntry.getKey()));
+//                CommissionPojo cmiPojo = new CommissionPojo(
+//                        cmi,
+//                        new AdressePojo(cmi.getContactsCommission().get(regimeIns.getCode())
+//                                .getAdresse(), getDomainApoService()),
+//                        cmi.getContactsCommission().get(regimeIns.getCode()));
+//                cmiPojo.initTreatmentsPojo(cmiEntry.getValue());
+//                cmiDTOs.add(cmiPojo);
             }
-
-            List<Object> list = new ArrayList<Object>();
+            List<Object> list = new ArrayList<>();
             list.add(i);
-            list.add(listCmiPojo);
+            list.add(cmiDTOs);
             regimeIns.getMailAddCursusScol().send(i.getAdressMail(), i.getEmailAnnuaire(), list);
         }
 

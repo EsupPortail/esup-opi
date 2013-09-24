@@ -59,7 +59,7 @@ public class Batch {
 		PortalUtils.createPortalService();
 		SmtpUtils.createSmtpService();
 		UrlGenerator u = UrlGenerationUtils.createUrlGenerator();
-		Map<String, String> m = new HashMap<String, String>();
+		Map<String, String> m = new HashMap<>();
 		m.put("portlet", "true");
 		System.out.println(u.guestUrl(m));
 		VersionningUtils.createVersionningService();

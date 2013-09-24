@@ -93,8 +93,8 @@ public class SendMailConfirm  {
 						
 						// récupération de la commission
 						CommissionPojo currentCmiPojo = new CommissionPojo(cmi, 
-								new AdressePojo(cmi.getContactsCommission().get(codeRi.toString()).getAdresse()),
-								cmi.getContactsCommission().get(codeRi.toString()));
+								new AdressePojo(cmi.getContactsCommission().get(codeRi).getAdresse()),
+								cmi.getContactsCommission().get(codeRi));
 						
 						htmlSubject = i18Service.getString("MAIL.CANDIDAT_AVIS.CONF.SUBJECT");
 						htmlDebut += i18Service.getString("MAIL.CANDIDAT_AVIS.CONF.HTMLTEXT_DEBUT", 

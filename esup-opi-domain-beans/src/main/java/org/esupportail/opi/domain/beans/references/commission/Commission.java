@@ -56,7 +56,7 @@ public class Commission extends NormeSI {
 	/**
 	 * Map of the contacts of the commission.
 	 */
-	private Map<String, ContactCommission> contactsCommission;
+	private Map<Integer, ContactCommission> contactsCommission;
 	
 	/*
 	 ******************* INIT ************************* */
@@ -66,7 +66,7 @@ public class Commission extends NormeSI {
 	 */
 	public Commission() {
 		super();
-		contactsCommission = new HashMap<String, ContactCommission>();
+		contactsCommission = new HashMap<>();
 	}
 
 	/**
@@ -202,7 +202,7 @@ public class Commission extends NormeSI {
 	/**
 	 * @return the contactsCommission
 	 */
-	public Map<String, ContactCommission> getContactsCommission() {
+	public Map<Integer, ContactCommission> getContactsCommission() {
 		return contactsCommission;
 	}
 
@@ -210,7 +210,7 @@ public class Commission extends NormeSI {
 	 * @param contactsCommission the contactsCommission to set
 	 */
 	public void setContactsCommission(
-			final Map<String, ContactCommission> contactsCommission) {
+			final Map<Integer, ContactCommission> contactsCommission) {
 		this.contactsCommission = contactsCommission;
 	}
 

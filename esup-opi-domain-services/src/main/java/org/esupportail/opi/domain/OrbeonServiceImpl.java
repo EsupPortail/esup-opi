@@ -4,37 +4,6 @@
  */
 package org.esupportail.opi.domain;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
@@ -47,14 +16,26 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.xmldb.api.DatabaseManager;
-import org.xmldb.api.base.Collection;
-import org.xmldb.api.base.Database;
-import org.xmldb.api.base.ResourceIterator;
-import org.xmldb.api.base.ResourceSet;
-import org.xmldb.api.base.XMLDBException;
+import org.xmldb.api.base.*;
 import org.xmldb.api.modules.XPathQueryService;
-
 import sun.misc.BASE64Encoder;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 
@@ -133,12 +114,12 @@ public class OrbeonServiceImpl implements OrbeonService {
 	private String xslXmlPath;
 	
 	/**
-	 * AccÃÂ¨s ÃÂ  la base XML.
+	 * Accès à  la base XML.
 	 */
 	private XPathQueryService xPathQueryService;
 	
 	/**
-	 * URI pour l'accÃÂ¨s ÃÂ  la base XML.
+	 * URI pour l'accès à la base Orbeon
 	 */
 	private String uri;
 	
@@ -163,46 +144,7 @@ public class OrbeonServiceImpl implements OrbeonService {
 				+ " can not be null");
 	}
 
-	// FIXME
 	/**
-	 * @return the session id
-	 */
-	@Override
-	public String getSessionId() {
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		ExternalContext externalContext = facesContext.getExternalContext();
-		HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
-		return request.getSession().getId();
-	}
-
-	/**
-	 *  the session id.
-	 */
-	@Override
-	@Deprecated 
-	//don't use 28/10/2009
-	public void getAuthOrbeon() {
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		ExternalContext externalContext = facesContext.getExternalContext();
-		HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
-		HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
-
-		String credentials = new BASE64Encoder().encode(
-				(getOrbeonUsername() + ":" + getOrbeonPassword()).getBytes());
-
-		request.setAttribute(AUTHORIZATION, BASIC + credentials); 
-		try {
-			request.getRequestDispatcher("/orbeon").forward(request, response);
-		} catch (ServletException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
-	}
-	
-	
-
-	/** 
 	 * @param formName 
 	 * @param numDossier 
 	 * @return true if the data has been created
@@ -335,7 +277,6 @@ public class OrbeonServiceImpl implements OrbeonService {
 	/**
 	 * @param formName
 	 * @param numDossier
-	 * @param data
 	 * @return true if the data has been removed
 	 * @throws IOException
 	 * @throws ParserConfigurationException
@@ -466,7 +407,7 @@ public class OrbeonServiceImpl implements OrbeonService {
 //			}
 		} else {
 			if (log.isDebugEnabled()) {
-				log.debug("ProblÃÂ¨me lors de la rÃÂ©cupÃÂ©ration de : " + urlFrom );
+				log.debug("Problème lors de la récupération de : " + urlFrom );
 				log.debug("HTTP connection response != HTTP_OK : " + responseCode);
 			}
 			return false;
@@ -500,8 +441,8 @@ public class OrbeonServiceImpl implements OrbeonService {
 			
 			if (connTo.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
 				if (log.isDebugEnabled()) {
-					log.debug("Code rÃÂ©ponse" + connTo.getResponseCode());
-					log.debug("ProblÃÂ¨me lors de la copie vers : " + urlTo );
+					log.debug("Code réponse" + connTo.getResponseCode());
+					log.debug("Problème lors de la copie vers : " + urlTo );
 				}
 				return false;
 			}
@@ -531,7 +472,7 @@ public class OrbeonServiceImpl implements OrbeonService {
 				return true;
 			}
 			if (log.isDebugEnabled()) {
-				log.debug("ProblÃÂ¨me de la suppression de " + urlDel );
+				log.debug("Problème de la suppression de " + urlDel );
 			}
 			return false;
 		}
@@ -617,7 +558,6 @@ public class OrbeonServiceImpl implements OrbeonService {
 	}
 
 	/**
-	 * @param code
 	 * @return if the deletion is effective
 	 * @throws IOException
 	 * @throws ParserConfigurationException
@@ -756,7 +696,7 @@ public class OrbeonServiceImpl implements OrbeonService {
 	}
 	
 	/**
-	 * Initialisation de la connexion avec la base de donnÃ¯Â¿Â½e OrbÃ¯Â¿Â½on.
+	 * Initialisation de la connexion avec la base de donnée eXist d'Orbeon
 	 */
 	public void initConnexionBase() {
 		try {
@@ -767,16 +707,10 @@ public class OrbeonServiceImpl implements OrbeonService {
 			Collection root = DatabaseManager.getCollection(uri + "/db", "admin", "");
 			xPathQueryService = (XPathQueryService) root.getService("XPathQueryService", "1.0");
 			xPathQueryService.setProperty("indent", "yes");
-		} catch (ClassNotFoundException e) {
-			log.error(e.getMessage());
-		} catch (InstantiationException e) {
-			log.error(e.getMessage());
-		} catch (IllegalAccessException e) {
-			log.error(e.getMessage());
-		} catch (XMLDBException e) {
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | XMLDBException e) {
 			log.error(e.getMessage());
 		}
-	}
+    }
 	
 	/**
 	 * Libelles de la base Orbeon.
@@ -848,12 +782,6 @@ public class OrbeonServiceImpl implements OrbeonService {
 		return mapLibelleXml;
 	}
 	
-	/**
-	 * @param codEtp
-	 * @param codVrsVet
-	 * @param regimeInscription
-	 * @return map
-	 */
 	public Map<String, List<String>> getLibelleSection(final VersionEtpOpi versionEtpOpi,
 			final String sLabelRI) {
 		
@@ -988,12 +916,6 @@ public class OrbeonServiceImpl implements OrbeonService {
 		return listInfosXml;
 	}
 	
-	/**
-	 * @param ind
-	 * @param versionEtpOpi
-	 * @param ri
-	 * @return
-	 */
 	public String getHeadRequete(final Individu ind, final VersionEtpOpi versionEtpOpi,
 			final String sLabelRI) {
 		return new StringBuffer().append("let $file_")
@@ -1005,12 +927,6 @@ public class OrbeonServiceImpl implements OrbeonService {
 				.toString();
 	}
 	
-	/**
-	 * @param ind
-	 * @param versionEtpOpi
-	 * @param ri
-	 * @return String
-	 */
 	public String getBodyRequete(final Individu ind,
 			final VersionEtpOpi versionEtpOpi, final String sLabelRI) {
 		StringBuffer sbRequestBody = new StringBuffer();
