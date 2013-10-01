@@ -107,8 +107,7 @@
     									|| nomenclaturePojo.nomenclature != nomenclatureController.nomenclature)}"/>
                             </p:column>
                             <p:column styleClass="buttonTD">
-                                <p:commandButton icon="ui-icon-search"
-                                                 styleClass="form-button-image" immediate="true"
+                                <p:commandButton icon="ui-icon-search" immediate="true"
                                                  action="#{nomenclatureController.goSeeOnePJ}"
                                                  title="#{msgs['_.BUTTON.DISPLAY']}"
                                                  rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.emptyAction}">
@@ -121,8 +120,7 @@
                             <p:column styleClass="buttonTD">
                                 <p:commandButton icon="ui-icon-pencil"
                                                  action="#{nomenclatureController.goUpdatePJ}"
-                                                 immediate="true"
-                                                 styleClass="form-button-image" title="#{msgs['BUTTON.UPDATE']}"
+                                                 immediate="true" title="#{msgs['BUTTON.UPDATE']}"
                                                  rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.emptyAction
     										and managedAccess.updateAuthorized}">
                                     <f:setPropertyActionListener
@@ -134,7 +132,6 @@
                             </p:column>
                             <p:column styleClass="buttonTD">
                                 <p:commandButton icon="ui-icon-minus"
-                                                 styleClass="form-button-image"
                                                  immediate="true"
                                                  title="#{msgs['_.BUTTON.DELETE']}"
                                                  rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.emptyAction
@@ -156,12 +153,5 @@
                 </div>
             </h:form>
         </div>
-        
-        <script type="text/javascript">
-            highlightChildrenLiTags('navigationHeader:navigation');
-            highlightChildrenLiTags('navigationFooter:navigation');
-        </script>  
-
-       
     </ui:define>
 </ui:composition>
