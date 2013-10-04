@@ -308,6 +308,18 @@ public class DomainServiceImpl implements DomainService {
 
 		return individuDaoSrv.getIndividus(commission, validate, listeCodesRI);
 	}
+
+	/** 
+	 * 
+	 * @see org.esupportail.opi.domain.DomainService#getIndividusCommission
+	 * (org.esupportail.opi.domain.beans.references.commission.Commission, java.lang.Boolean)
+	 */
+	@Override
+	public List<Individu> getIndividusByCommission(final Commission commission, final Boolean validate, final Set<Integer> listeCodesRI) {
+		if (log.isDebugEnabled())
+			log.debug("entering getIndividusByCommission( " + commission + ", " + validate +  " )");
+		return individuDaoSrv.getIndividusByCommission(commission, validate, listeCodesRI);
+	}
 	
 	/** 
 	 * @see org.esupportail.opi.domain.DomainService#getIndividusTrtCmiState(

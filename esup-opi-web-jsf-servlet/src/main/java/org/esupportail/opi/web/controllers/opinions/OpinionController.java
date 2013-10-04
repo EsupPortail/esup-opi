@@ -351,7 +351,7 @@ public class OpinionController
             mapTestRang.clear();
             Boolean isRefused = selectedTypeDec.getIsFinal()
                     && selectedTypeDec.getCodeTypeConvocation().equals(refused.getCode());
-//TODO: Boucle "if" est tout le temp � false.
+//TODO: Boucle "if" est tout le temp à false.
 //			if (allChecked && false) {
 //				for (IndividuPojo ind : individuPaginator.getIndPojosWithWishForOneCmi()) {
 //					for (IndVoeuPojo iPojo : ind.getIndVoeuxPojo()) {
@@ -364,7 +364,7 @@ public class OpinionController
 //				}
 //			} else {
             Map<Integer, IndVoeuPojo> mapIndVoeuPojoNewAvis = new HashMap<Integer, IndVoeuPojo>();
-            //R�cup�ration de tous les nouveaus avis
+            //Récupération de tous les nouveaus avis
             for (List<IndVoeuPojo> li : wishSelected.values()) {
                 for (IndVoeuPojo iPojo : li)
                     mapIndVoeuPojoNewAvis.put(iPojo.getIndVoeu().getId(), iPojo);

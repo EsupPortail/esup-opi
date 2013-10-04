@@ -34,10 +34,19 @@ public interface IndividuDaoService {
                                           Option<List<String>> typesTrtVet);
 
     /**
-     * Return the individuals managed by commission.
+	 * Return the individuals managed by commission 
+	 * for long-term treatment such as export csv.
      *
      */
     public Stream<Individu> getIndividus(final Commission commission,
                                          final Boolean validate,
                                          final Set<Integer> listeRICodes);
+
+    
+    /**
+     * Return the individuals managed by commission.
+     *
+     */
+    public List<Individu> getIndividusByCommission(Commission commission,
+			Boolean validate, Set<Integer> listeRICodes);
 }

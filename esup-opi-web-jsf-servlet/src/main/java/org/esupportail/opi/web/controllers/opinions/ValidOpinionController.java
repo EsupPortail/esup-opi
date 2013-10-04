@@ -173,7 +173,7 @@ public class ValidOpinionController extends AbstractContextAwareController {    
     public String goSeeStudientForCommission() {
         // list of indivius from the commission selected
         // with an opinion not validate
-        this.printOpinionController.filterIndividuPojos(
+        this.printOpinionController.retrieveIndividuPojosByCommission(
                 commissionController.getCommission(),
                 false, false);
         return NavigationRulesConst.DISPLAY_NOT_VALIDATED_STUDENT;
@@ -387,8 +387,7 @@ public class ValidOpinionController extends AbstractContextAwareController {    
         Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
         int codeRI = gest.getProfile().getCodeRI();
         RegimeInscription regimeIns = getSessionController().getRegimeIns().get(codeRI);
-
-        this.printOpinionController.lookForIndividusPojo(com, false, false, true);
+        this.printOpinionController.retrieveIndividuPojosByCommission(com, false, false);
         for (IndividuPojo i : this.printOpinionController.getLesIndividus()) {
             Set<Avis> avisFavorable = new HashSet<>();
             Set<Avis> avisFavorableAppel = new HashSet<>();
