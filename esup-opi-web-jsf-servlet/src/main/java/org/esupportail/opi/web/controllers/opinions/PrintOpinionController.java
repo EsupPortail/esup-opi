@@ -854,6 +854,38 @@ public class PrintOpinionController extends AbstractContextAwareController {
                         .toStandardList()));
     }
 
+    public List<IndividuPojo> retrieveIndividuPojosByCommission(Commission laCommission, Boolean onlyValidate, Boolean shouldInitCursusPojo) {
+    	List<Individu> inds = getIndividusByCommission(laCommission, onlyValidate);
+    	IndividuPojo indPj;
+    	this.lesIndividus.clear();
+    	for(Individu ind:inds) {
+    		indPj = individuToPojo(getDomainApoService(), getParameterService(), getI18nService()).f(ind);
+    		indPj  = initCursusScol(shouldInitCursusPojo, getDomainApoService(), getI18nService()).f(indPj);
+    		indPj = removeVoeuWithTreatmentEquals(transfert).f(indPj);
+    		indPj = keepOnlyVoeuWithValidatedAvisEquals(onlyValidate).f(indPj);
+    		if(isIndWithoutVoeux().f(indPj))
+    		{
+    			this.lesIndividus.add(indPj);
+    		}
+    	}
+    	return lesIndividus;
+    }
+    
+    /**
+     * Encapsulate how controller fetch the stream of Individus from the bakend
+     *
+     * @param laCommission
+     * @param onlyValidate
+     * @return the stream of IndividuPojo from bakend
+     */
+    private List<Individu> getIndividusByCommission(Commission laCommission, Boolean onlyValidate) {
+        return getDomainService().getIndividusByCommission(
+                laCommission, onlyValidate,
+                new HashSet<>(wrap(this.commissionController.getListeRI())
+                        .map(decodeRegimeInscription())
+                        .toStandardList()));
+    }
+    
 
     /**
      * @deprecated use {@see makeAllIndividusNew()} instead
