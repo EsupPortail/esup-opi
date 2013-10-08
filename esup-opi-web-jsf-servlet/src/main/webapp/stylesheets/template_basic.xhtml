@@ -6,44 +6,44 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html">
-<!-- 	<f:view locale="#{sessionController.currentUserLocale}"> -->
-<f:view locale="fr">
-    <h:head>
-        <f:facet name="first">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
-            <title>
-                <h:outputText value="#{applicationService.name}"/>
-            </title>
-        </f:facet>
-        <h:outputStylesheet library="style" name="opiR1_global.css" />
-        <h:outputStylesheet library="style" name="opiR1_header.css" />
-        <h:outputStylesheet library="style" name="opiR1_navigation.css" />
-        <h:outputStylesheet library="style" name="commons.css" />
-        <h:outputStylesheet library="style" name="portlet.css" />
-        <h:outputScript library="js" name="primefaces-locales.js" />
-        <h:outputScript library="js" name="functions.js" />
-        <h:outputScript library="js" name="opiR1_global.js" />
-        <h:outputScript library="js" name="formValidator.js" />
-        <h:outputScript library="js" name="JSPopup.js" />
-    </h:head>
-    <h:body styleClass="portlet-section-body esup-opiR1">
-        <ui:insert name="header"/>
-        <ui:insert name="navigation"/>
-        <ui:insert name="content"/>
-        <ui:insert name="footer"/>
-        <script type="text/javascript">
-            $(".ui-column-filter").keypress(function(evt) {
-            	var e = (window.event) ? window.event : evt;
-            	var c = e.which, d = $.ui.keyCode;
-            	if(c === d.ENTER || c === d.NUMPAD_ENTER) {
-            		e.stopPropagation();
-            		e.preventDefault();
-                    e.returnValue=false;
-        		}
-            });
-        </script>
-    </h:body>
-</f:view>
+	<f:view>
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>
+                    <h:outputText value="#{applicationService.name}"/>
+                </title>
+            </f:facet>
+            <h:outputStylesheet library="style" name="opiR1_global.css" />
+            <h:outputStylesheet library="style" name="opiR1_header.css" />
+            <h:outputStylesheet library="style" name="opiR1_navigation.css" />
+            <h:outputStylesheet library="style" name="commons.css" />
+            <h:outputStylesheet library="style" name="portlet.css" />
+            <h:outputScript library="js" name="primefaces-locales.js" />
+            <h:outputScript library="js" name="functions.js" />
+            <h:outputScript library="js" name="opiR1_global.js" />
+            <h:outputScript library="js" name="formValidator.js" />
+            <h:outputScript library="js" name="JSPopup.js" />
+        </h:head>
+        <h:body styleClass="portlet-section-body esup-opiR1">
+            <ui:insert name="metadata" />
+            <ui:insert name="header"/>
+            <ui:insert name="navigation"/>
+            <ui:insert name="content"/>
+            <ui:insert name="footer"/>
+            <script type="text/javascript">
+                $(".ui-column-filter").keypress(function(evt) {
+                	var e = (window.event) ? window.event : evt;
+                	var c = e.which, d = $.ui.keyCode;
+                	if(c === d.ENTER || c === d.NUMPAD_ENTER) {
+                		e.stopPropagation();
+                		e.preventDefault();
+                        e.returnValue=false;
+            		}
+                });
+            </script>
+        </h:body>
+    </f:view>
 </html>
 

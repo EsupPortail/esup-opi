@@ -121,12 +121,6 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>javax.el</groupId>
-            <artifactId>el-api</artifactId>
-            <version>1.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-opi-web-beans</artifactId>
             <version>2.0.0-beta4-pre91</version>
@@ -174,10 +168,31 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>2.2.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
+            <artifactId>javax.servlet-api</artifactId>
             <version>${javax.servlet.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.ocpsoft.rewrite</groupId>
+            <artifactId>rewrite-config-servlet</artifactId>
+            <version>${rewrite.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ocpsoft.rewrite</groupId>
+            <artifactId>rewrite-impl-servlet</artifactId>
+            <version>${rewrite.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ocpsoft.rewrite</groupId>
+            <artifactId>rewrite-integration-spring</artifactId>
+            <version>${rewrite.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -186,6 +201,7 @@
         </dependency>
     </dependencies>
     <properties>
+        <rewrite.version>2.0.8.Final</rewrite.version>
         <jetty.envXml>src/main/jetty/jetty-env.xml</jetty.envXml>
     </properties>
     <name>esup-opi-web-jsf-servlet</name>
