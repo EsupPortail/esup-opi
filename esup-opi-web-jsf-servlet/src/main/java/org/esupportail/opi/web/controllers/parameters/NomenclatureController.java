@@ -19,12 +19,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.myfaces.component.html.ext.HtmlInputText;
-import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
@@ -53,6 +54,8 @@ import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.opi.web.controllers.references.EtapeController;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import org.springframework.util.StringUtils;
 
 import fj.F;
@@ -1378,13 +1381,13 @@ public class NomenclatureController extends AbstractContextAwareController {
 	        
 	    try {
 	        	
-	       if (FilenameUtils.getExtension(uploadedFile.getName()).equalsIgnoreCase("txt") || FilenameUtils.getExtension(uploadedFile.getName()).equalsIgnoreCase("pdf")
-	        	|| FilenameUtils.getExtension(uploadedFile.getName()).equalsIgnoreCase("doc") || FilenameUtils.getExtension(uploadedFile.getName()).equalsIgnoreCase("odt")
-	        	|| FilenameUtils.getExtension(uploadedFile.getName()).equalsIgnoreCase("xls")){
+	       if (FilenameUtils.getExtension(uploadedFile.getFileName()).equalsIgnoreCase("txt") || FilenameUtils.getExtension(uploadedFile.getFileName()).equalsIgnoreCase("pdf")
+	        	|| FilenameUtils.getExtension(uploadedFile.getFileName()).equalsIgnoreCase("doc") || FilenameUtils.getExtension(uploadedFile.getFileName()).equalsIgnoreCase("odt")
+	        	|| FilenameUtils.getExtension(uploadedFile.getFileName()).equalsIgnoreCase("xls")){
 	    	   // Create file with unique name in upload folder and write to it.
-	    	   file = new File(uploadPath,uploadedFile.getName());
+	    	   file = new File(uploadPath,uploadedFile.getFileName());
 	    	   output = new FileOutputStream(file);
-	    	   IOUtils.copy(uploadedFile.getInputStream(), output);
+	    	   IOUtils.copy(uploadedFile.getInputstream(), output);
 	    	   fileName = file.getName();
 
 	    	   // Show succes message.
@@ -1409,6 +1412,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 	           IOUtils.closeQuietly(output);
 	        }
 	}
+	
 	
 	/**
 	 * Remove the file from the justification piece 
