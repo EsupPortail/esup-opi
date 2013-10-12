@@ -704,7 +704,7 @@ public class ParameterServiceImpl implements ParameterService {
         if (log.isDebugEnabled()) {
             log.debug("entering getCommissions( " + temEnSve + " )");
         }
-        return new HashSet<Commission>(daoService.getCommissions(temEnSve));
+        return new HashSet<>(daoService.getCommissions(temEnSve));
     }
 
 

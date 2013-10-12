@@ -1,20 +1,16 @@
 package org.esupportail.opi.web.controllers.opinions;
 
-import fj.*;
-import fj.data.Option;
-import fj.data.Stream;
+import fj.F;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.opi.domain.beans.etat.EtatArriveComplet;
 import org.esupportail.opi.domain.beans.parameters.*;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.domain.beans.user.Individu;
-import org.esupportail.opi.domain.beans.user.User;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
@@ -23,32 +19,27 @@ import org.esupportail.opi.web.beans.BeanTrtCmi;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.beanEnum.WayfEnum;
 import org.esupportail.opi.web.beans.paginator.IndividuPaginator;
-import org.esupportail.opi.web.beans.paginator.IndividuPojoPaginator;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
-import org.esupportail.opi.web.beans.pojo.*;
+import org.esupportail.opi.web.beans.pojo.AvisPojo;
+import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
+import org.esupportail.opi.web.beans.pojo.IndividuPojo;
+import org.esupportail.opi.web.beans.pojo.NomenclaturePojo;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorDate;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractAccessController;
-import org.esupportail.opi.web.controllers.SessionController;
 import org.esupportail.opi.web.controllers.parameters.NomenclatureController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
 import org.esupportail.opi.web.controllers.user.IndividuController;
-import org.esupportail.opi.web.utils.fj.Conversions;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
-import org.primefaces.model.SortOrder;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import java.util.*;
 
-import static fj.data.Option.*;
-import static fj.data.Option.fromString;
-import static fj.data.Stream.*;
-import static fj.data.Stream.join;
+import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatArriveComplet;
 import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
-import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
 
 /**
@@ -167,7 +158,7 @@ public class OpinionController
 
     private IndividuController individuController;
 
-    private Map<VersionEtpOpi, List<Integer>> mapTestRang = new HashMap<VersionEtpOpi, List<Integer>>();
+    private Map<VersionEtpOpi, List<Integer>> mapTestRang = new HashMap<>();
 
     private LazyDataModel<IndividuPojo> indPojoLDM;
 
@@ -181,10 +172,10 @@ public class OpinionController
     public void reset() {
         actionEnum = new ActionEnum();
         wayfEnum = new WayfEnum();
-        listAvisPojo = new ArrayList<AvisPojo>();
+        listAvisPojo = new ArrayList<>();
         avis = new Avis();
         allChecked = false;
-        wishSelected = new HashMap<Individu, List<IndVoeuPojo>>();
+        wishSelected = new HashMap<>();
         selectedTypeDec = null;
         idSelectedMotiv = null;
         selectedMotivation = null;
@@ -216,7 +207,7 @@ public class OpinionController
                         + canNotBeNull);
 
         indPojoLDM = individuController.getIndLDM().map(individuToPojo(
-                getDomainApoService(), getParameterService(), getI18nService()).andThen(setIndPojoAttrs));
+                getDomainApoService(), getParameterService()).andThen(setIndPojoAttrs));
 
         reset();
     }
@@ -351,18 +342,7 @@ public class OpinionController
             mapTestRang.clear();
             Boolean isRefused = selectedTypeDec.getIsFinal()
                     && selectedTypeDec.getCodeTypeConvocation().equals(refused.getCode());
-//TODO: Boucle "if" est tout le temp � false.
-//			if (allChecked && false) {
-//				for (IndividuPojo ind : individuPaginator.getIndPojosWithWishForOneCmi()) {
-//					for (IndVoeuPojo iPojo : ind.getIndVoeuxPojo()) {
-//						iPojo.getNewAvis().setResult(selectedTypeDec);
-//						Boolean goodAdd = add(iPojo.getIndVoeu(), iPojo.getNewAvis());
-//						if (!goodAdd && isRefused) {
-//							voeuxInError.add(iPojo);
-//						}
-//					}
-//				}
-//			} else {
+
             Map<Integer, IndVoeuPojo> mapIndVoeuPojoNewAvis = new HashMap<Integer, IndVoeuPojo>();
             //R�cup�ration de tous les nouveaus avis
             for (List<IndVoeuPojo> li : wishSelected.values()) {
@@ -380,15 +360,6 @@ public class OpinionController
                     voeuxInError.add(iVoeuPojo);
                 }
             }
-//				for (Object o : wishSelected) {
-//					IndVoeuPojo iPojo = (IndVoeuPojo) o;
-//					iPojo.getNewAvis().setResult(selectedTypeDec);
-//					Boolean goodAdd = add(iPojo.getIndVoeu(), iPojo.getNewAvis(), mapNewAvis);
-//					if (!goodAdd && isRefused) {
-//						voeuxInError.add(iPojo);
-//					}
-//				}
-//			}
 
             // on memorise selectedTypeDec
             TypeDecision saveTypeDec = selectedTypeDec;
@@ -421,7 +392,7 @@ public class OpinionController
     public void checkAll() {
         if (allChecked) {
             for (IndividuPojo ind : indPojoLDM.getData()) {
-                wishSelected.put(ind.getIndividu(), new ArrayList<IndVoeuPojo>(ind.getIndVoeuxPojo()));
+                wishSelected.put(ind.getIndividu(), new ArrayList<>(ind.getIndVoeuxPojo().toCollection()));
             }
         } else {
             wishSelected.clear();
@@ -485,9 +456,9 @@ public class OpinionController
 
             getDomainService().addAvis(av);
             //update state indVoeu
-            if (!indVoeu.getState().equals(EtatArriveComplet.I18N_STATE)) {
+            if (!indVoeu.getState().equals(EtatArriveComplet.getCodeLabel())) {
                 if (av.getResult().getCodeTypeConvocation().equals(inscriptionAdm.getCode())) {
-                    indVoeu.setState(EtatArriveComplet.I18N_STATE);
+                    indVoeu.setState(EtatArriveComplet.getCodeLabel());
                 }
                 indVoeu.getAvis().add(av);
                 getDomainService().updateIndVoeu(indVoeu);
@@ -570,7 +541,7 @@ public class OpinionController
 //			indV.setVersionEtpOpi(b.getTraitementCmi().getVersionEtpOpi());
             //TODO a faire avec le groupe
             indV.setCodTypeTrait(b.getTraitementCmi().getCodTypeTrait());
-            indV.setState(EtatArriveComplet.I18N_STATE);
+            indV.setState(EtatArriveComplet.getCodeLabel());
             indV.setHaveBeTraited(true);
             indV.setIsProp(true);
 

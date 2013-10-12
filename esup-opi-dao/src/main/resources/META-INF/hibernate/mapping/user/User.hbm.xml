@@ -54,7 +54,7 @@
 			<set name="cursus" 
 				cascade="delete,delete-orphan" inverse="true">
 				<key column="id_usr"/>
-				<one-to-many class="org.esupportail.opi.domain.beans.user.indcursus.IndCursus"/>
+				<one-to-many class="org.esupportail.opi.domain.beans.user.indcursus.IndCursus" />
 			</set>
 			
 			<set name="cursusScol" 
@@ -64,14 +64,14 @@
 			</set>
 						
 			<map name="adresses"  cascade="all-delete-orphan" 
-				inverse="true">
+				inverse="true" lazy="false">
 				<key column="id_usr"/>
 				<map-key type="string" column="type_adr" />
 				<one-to-many class="org.esupportail.opi.domain.beans.user.Adresse"/>
 			</map>
 				
 			<set name="indBac" inverse="true"
-					cascade="all-delete-orphan">
+					cascade="all-delete-orphan" lazy="false">
 				<key column="id_usr"/>
 				<one-to-many class="org.esupportail.opi.domain.beans.user.indcursus.IndBac"/>
 			</set>	

@@ -1,14 +1,6 @@
 package org.esupportail.opi.batch;
 
 
-
-import java.io.File;
-import java.io.RandomAccessFile;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-
 import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.services.application.ApplicationService;
 import org.esupportail.commons.services.application.ApplicationUtils;
@@ -16,21 +8,10 @@ import org.esupportail.commons.services.database.DatabaseUtils;
 import org.esupportail.commons.services.exceptionHandling.ExceptionUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
-import org.springframework.util.StringUtils;
-import org.xmldb.api.DatabaseManager;
-import org.xmldb.api.base.Collection;
-import org.xmldb.api.base.Database;
-import org.xmldb.api.base.ResourceIterator;
-import org.xmldb.api.base.ResourceSet;
-import org.xmldb.api.modules.XPathQueryService;
-
 import org.esupportail.opi.domain.BusinessCacheService;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
-import org.esupportail.opi.domain.beans.etat.EtatArriveComplet;
-import org.esupportail.opi.domain.beans.etat.EtatArriveIncomplet;
-import org.esupportail.opi.domain.beans.etat.EtatNonArrive;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Adresse;
 import org.esupportail.opi.domain.beans.user.Individu;
@@ -45,6 +26,22 @@ import org.esupportail.wssi.services.remote.BacOuxEqu;
 import org.esupportail.wssi.services.remote.CommuneDTO;
 import org.esupportail.wssi.services.remote.Departement;
 import org.esupportail.wssi.services.remote.Etablissement;
+import org.springframework.util.StringUtils;
+import org.xmldb.api.DatabaseManager;
+import org.xmldb.api.base.Collection;
+import org.xmldb.api.base.Database;
+import org.xmldb.api.base.ResourceIterator;
+import org.xmldb.api.base.ResourceSet;
+import org.xmldb.api.modules.XPathQueryService;
+
+import java.io.File;
+import java.io.RandomAccessFile;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import static org.esupportail.opi.domain.beans.etat.EtatVoeu.*;
 
 
 /**
@@ -200,10 +197,10 @@ public class UpdateCsvGlgcv3  {
 			versionEtpOpi.setCodEtp(COD_ETP);
 			versionEtpOpi.setCodVrsVet(COD_VRS_VET);
 			TraitementCmi trtCmi = parameterService.getTraitementCmi(versionEtpOpi, null);
-			List<Individu> individus = new ArrayList<Individu>();
-			individus.addAll(domainService.getIndividusTrtCmiState(trtCmi, EtatArriveComplet.I18N_STATE));
-			individus.addAll(domainService.getIndividusTrtCmiState(trtCmi, EtatArriveIncomplet.I18N_STATE));
-			individus.addAll(domainService.getIndividusTrtCmiState(trtCmi, EtatNonArrive.I18N_STATE));
+			List<Individu> individus = new ArrayList<>();
+			individus.addAll(domainService.getIndividusTrtCmiState(trtCmi, EtatArriveComplet.getCodeLabel()));
+			individus.addAll(domainService.getIndividusTrtCmiState(trtCmi, EtatArriveIncomplet.getCodeLabel()));
+			individus.addAll(domainService.getIndividusTrtCmiState(trtCmi, EtatNonArrive.getCodeLabel()));
 			
 			String driver = "org.exist.xmldb.DatabaseImpl";
 			Class< ? > cl = Class.forName(driver);
@@ -227,9 +224,9 @@ public class UpdateCsvGlgcv3  {
 							getCodEtp().equals(COD_ETP)
 							&& v.getLinkTrtCmiCamp().getTraitementCmi().getVersionEtpOpi().
 							getCodVrsVet() == COD_VRS_VET) {
-						if (v.getState().equals(EtatArriveComplet.I18N_STATE)) {
+						if (v.getState().equals(EtatArriveComplet.getCodeLabel())) {
 							etatDossier = "Arrivé";
-						} else if (v.getState().equals(EtatArriveIncomplet.I18N_STATE)) {
+						} else if (v.getState().equals(EtatArriveIncomplet.getCodeLabel())) {
 							etatDossier = "Arrivé mais incomplet";
 						}
 					}

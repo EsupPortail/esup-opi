@@ -18,6 +18,7 @@ import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.ContextUtils;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
+import org.esupportail.opi.services.i18n.I18NUtilsService;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.pojo.IndBacPojo;
@@ -48,12 +49,7 @@ public class IndBacController extends AbstractAccessController {
      */
     private final Logger log = new LoggerImpl(getClass());
 
-
-
-
-
-	/*
-     ******************* PROPERTIES ******************* */
+    private I18NUtilsService i18NUtils;
 
     /**
      * The IndBac.
@@ -69,10 +65,6 @@ public class IndBacController extends AbstractAccessController {
      * The actionEnum.
      */
     private ActionEnum actionEnum;
-	
-
-	/*
-	 ******************* INIT ************************* */
 
 
     /**
@@ -82,30 +74,20 @@ public class IndBacController extends AbstractAccessController {
         super();
     }
 
-    /**
-     * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
-     */
     @Override
     public void reset() {
         super.reset();
         indBac = new IndBac();
-        indBacPojos = new ArrayList<IndBacPojo>();
+        indBacPojos = new ArrayList<>();
         indBac.setCodPay(Constantes.CODEFRANCE);
         indBac.setDateObtention(null);
         actionEnum = new ActionEnum();
     }
 
-    /**
-     * @see org.esupportail.opi.web.controllers.AbstractContextAwareController#afterPropertiesSetInternal()
-     */
     @Override
     public void afterPropertiesSetInternal() {
         super.afterPropertiesSetInternal();
     }
-
-
-	/*
-	 ******************* CALLBACK ********************** */
 
     /**
      * Callback to add ind cursus scol.
@@ -123,6 +105,14 @@ public class IndBacController extends AbstractAccessController {
     }
 
     /**
+     * @return Boolean
+     */
+    public Boolean getCanUpdateBac() {
+        IndividuPojo ip = getSessionController().getCurrentInd();
+        return ip.getAsRightsToUpdate() || !ip.getEtatIndBac().equals(i18NUtils.labelEtatNonRenseigne());
+    }
+
+    /**
      * Callback to see cursus details for the current connected user.
      *
      * @return String
@@ -137,9 +127,7 @@ public class IndBacController extends AbstractAccessController {
                 actionEnum.setWhatAction(ActionEnum.ADD_ACTION);
             } else {
             	removeIndBac();
-                initIndBac(
-                        new ArrayList<IndBac>(
-                                i.getIndividu().getIndBac()), false);
+                initIndBac(new ArrayList<>(i.getIndividu().getIndBac()), false);
             }
         }
 
@@ -153,14 +141,8 @@ public class IndBacController extends AbstractAccessController {
         return NavigationRulesConst.UPDATE_IND_BAC;
     }
 
-
-	/*
-	 ******************* METHODS ********************** */
-
     /**
      * The selected departement.
-     *
-     * @param event
      */
     public void selectDep(final ValueChangeEvent event) {
         String codeDep = (String) event.getNewValue();
@@ -170,8 +152,6 @@ public class IndBacController extends AbstractAccessController {
 
     /**
      * The selected commune.
-     *
-     * @param event
      */
     public void selectCommune(final ValueChangeEvent event) {
         String codeCom = (String) event.getNewValue();
@@ -181,8 +161,6 @@ public class IndBacController extends AbstractAccessController {
 
     /**
      * The selected pays.
-     *
-     * @param event
      */
     public void selectPay(final ValueChangeEvent event) {
         String codePay = (String) event.getNewValue();
@@ -373,13 +351,6 @@ public class IndBacController extends AbstractAccessController {
         return ctrlOk;
     }
 
-
-
-
-	/*
-	 ******************* ACCESSORS ******************** */
-
-
     /**
      * Return the bac list by Date d'obtention.
      *
@@ -492,4 +463,11 @@ public class IndBacController extends AbstractAccessController {
     }
 
 
+    public I18NUtilsService getI18NUtils() {
+        return i18NUtils;
+    }
+
+    public void setI18NUtils(I18NUtilsService i18NUtils) {
+        this.i18NUtils = i18NUtils;
+    }
 }

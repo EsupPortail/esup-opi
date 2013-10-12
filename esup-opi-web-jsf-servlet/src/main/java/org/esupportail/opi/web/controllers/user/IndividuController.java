@@ -4,38 +4,16 @@
 package org.esupportail.opi.web.controllers.user;
 
 
-import static fj.Effect.f;
-import static fj.data.Option.fromNull;
-import static fj.data.Option.fromString;
-import static fj.data.Option.iif;
-import static fj.data.Stream.iterableStream;
-import static fj.data.Stream.join;
-import static fj.data.Stream.single;
-import static org.esupportail.opi.utils.primefaces.PFFilters.pfFilters;
-import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
-
 import fj.*;
+import fj.data.Option;
+import fj.data.Stream;
 import org.apache.commons.lang.StringUtils;
 import org.esupportail.commons.services.ldap.LdapUser;
 import org.esupportail.commons.services.ldap.LdapUserService;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.opi.domain.beans.etat.EtatComplet;
-import org.esupportail.opi.domain.beans.etat.EtatInComplet;
+import org.esupportail.opi.domain.beans.etat.EtatIndividu;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.Transfert;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
@@ -71,8 +49,21 @@ import org.esupportail.opi.web.utils.fj.Functions;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
-import fj.data.Option;
-import fj.data.Stream;
+import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import static fj.Effect.f;
+import static fj.data.Option.*;
+import static fj.data.Option.fromString;
+import static fj.data.Stream.*;
+import static fj.data.Stream.join;
+import static org.esupportail.opi.domain.beans.etat.EtatIndividu.EtatComplet;
+import static org.esupportail.opi.domain.beans.etat.EtatIndividu.EtatIncomplet;
+import static org.esupportail.opi.utils.primefaces.PFFilters.pfFilters;
+import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
 
 /**
@@ -280,8 +271,9 @@ public class IndividuController extends AbstractAccessController {
                             }.andThen(Conversions.<TraitementCmi>streamToSet_()));
 
                     // 4. les régimes d'inscription
-                    final Set<Integer> listCodesRI = new HashSet<Integer>(iterableStream(
-                            fromNull(indRechPojo.getListeRI()).orSome(new HashSet<RegimeInscription>()))
+                    final Set<Integer> listCodesRI = new HashSet<>(
+                            iterableStream(fromNull(indRechPojo.getListeRI())
+                                    .orSome(Collections.<RegimeInscription>emptySet()))
                             .map(new F<RegimeInscription, Integer>() {
                                 public Integer f(RegimeInscription ri) {
                                     return ri.getCode();
@@ -295,8 +287,7 @@ public class IndividuController extends AbstractAccessController {
                     // 6. caratère 'validé' ou non du voeu
                     final Option<Boolean> validWish = fromNull(indRechPojo.getSelectValid());
 
-                    // 7. le type de traitement (Hack : indRechPojo.useTypeTrtFilter est positionné
-                    // dans les vues par f:event)
+                    // 7. le type de traitement (Hack : indRechPojo.useTypeTrtFilter est positionné dans les vues par f:event)
                     final Option<String> codeTypeTrtmt =
                             iif(indRechPojo.isUseTypeTrtFilter(), transfert).map(new F<Transfert, String>() {
                                 public String f(Transfert t) { return t.getCode(); }
@@ -307,8 +298,9 @@ public class IndividuController extends AbstractAccessController {
 
                     // 9. le ou les types de traitement des étapes
                     Boolean useTypeTrtVetFilter = indRechPojo.isUseTypeTrtVetFilter();
-                    final Option<List<String>> typesTrtVet = iif(useTypeTrtVetFilter != null && useTypeTrtVetFilter, indRechPojo.getTypesTrtVet());
-                    
+                    final Option<List<String>> typesTrtVet =
+                            iif(useTypeTrtVetFilter != null && useTypeTrtVetFilter, indRechPojo.getTypesTrtVet());
+
                     return getDomainService().sliceOfInd(
                             pfFilters((long) first, (long) pageSize, sortField, sortOrder, filters),
                             typesDec, validWish, wishTreated, dateCrea, codeTypeTrtmt, trtCmis, listCodesRI, typesTrtVet);
@@ -330,7 +322,7 @@ public class IndividuController extends AbstractAccessController {
     public void reset() {
         actionEnum = new ActionEnum();
 
-        pojoIndividu = new IndividuPojo(getI18nService());
+        pojoIndividu = new IndividuPojo();
         pojoIndividu.getIndividu().setCodPayNaissance(Constantes.CODEFRANCE);
         pojoIndividu.getIndividu().setCodPayNationalite(Constantes.CODEFRANCE);
 
@@ -612,7 +604,7 @@ public class IndividuController extends AbstractAccessController {
                         rightOnCmi));
         getCurrentInd();
 
-        if (getCurrentInd().getEtat() instanceof EtatInComplet) {
+        if (getCurrentInd().getEtat() == EtatIncomplet) {
             //on informe l'individu qu'il doit completer sur dossier avant de deposer de voeux
             if (!getSessionController()
                     .getCurrentInd()
@@ -1050,9 +1042,9 @@ public class IndividuController extends AbstractAccessController {
             //slt si l'etat est vide
             if (pojoIndividu.getRegimeInscription()
                     .getControlField().control(pojoIndividu.getIndividu())) {
-                pojoIndividu.getIndividu().setState(EtatComplet.I18N_STATE_COMPLET);
+                pojoIndividu.getIndividu().setState(EtatComplet.getCodeLabel());
             } else {
-                pojoIndividu.getIndividu().setState(EtatInComplet.I18N_STATE_INCOMPLET);
+                pojoIndividu.getIndividu().setState(EtatIncomplet.getCodeLabel());
             }
         }
 
@@ -1096,7 +1088,7 @@ public class IndividuController extends AbstractAccessController {
             return NavigationRulesConst.GET_NUM_DOSSIER;
         }
 
-        pojoIndividu.getIndividu().setState(EtatComplet.I18N_STATE_COMPLET);
+        pojoIndividu.getIndividu().setState(EtatComplet.getCodeLabel());
 
         if (etatDossier != null && etatDossier.equals(DOSSIER_CREATE)) {
             add();

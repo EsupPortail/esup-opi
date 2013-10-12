@@ -1,25 +1,22 @@
 package org.esupportail.opi.web.controllers.formation;
 
+import fj.data.Stream;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.BusinessUtil;
 import org.esupportail.opi.domain.OpiWebService;
-import org.esupportail.opi.domain.beans.etat.EtatConfirme;
-import org.esupportail.opi.domain.beans.etat.EtatDesiste;
+import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.InscriptionAdm;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.domain.beans.references.calendar.CalendarCmi;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
-import org.esupportail.opi.domain.beans.references.commission.ContactCommission;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
-import org.esupportail.opi.domain.dto.AdresseDTO;
-import org.esupportail.opi.domain.dto.CommissionDTO;
 import org.esupportail.opi.services.mails.MailContentService;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.utils.converters.xml.DateUtil;
@@ -35,7 +32,6 @@ import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractAccessController;
 import org.esupportail.opi.web.controllers.opinions.ValidOpinionController;
-import org.esupportail.opi.web.utils.DTOs;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
 
@@ -44,8 +40,8 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static org.esupportail.opi.domain.dto.AdresseDTO.adrDTO;
-import static org.esupportail.opi.domain.dto.CommissionDTO.comDTO;
+import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatConfirme;
+import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatDesiste;
 import static org.esupportail.opi.web.utils.DTOs.buildCommissionDTO;
 
 /**
@@ -173,27 +169,27 @@ public class ConfirmationController extends AbstractAccessController {
             log.debug("entering finishCandidature");
         }
         //list de voeu confirme
-        List<IndVoeu> list = new ArrayList<IndVoeu>();
-        List<IndVoeu> listDesiste = new ArrayList<IndVoeu>();
-        Set<IndVoeuPojo> listVoeuxMail = new HashSet<IndVoeuPojo>();
+        List<IndVoeu> list = new ArrayList<>();
+        List<IndVoeu> listDesiste = new ArrayList<>();
+        Set<IndVoeuPojo> listVoeuxMail = new HashSet<>();
         for (IndVoeuPojo indVoeuPojo : indVoeuxPojoFav) {
             if (indVoeuPojo.getStateConf() != null) {
                 IndVoeu indVoeu = indVoeuPojo.getIndVoeu();
-                if (indVoeuPojo.getStateConf().equals(EtatConfirme.I18N_STATE)) {
+                if (indVoeuPojo.getStateConf().equals(EtatConfirme.getCodeLabel())) {
                     // cas d'une confirmation
-                    indVoeu.setState(EtatConfirme.I18N_STATE);
+                    indVoeu.setState(EtatConfirme.getCodeLabel());
                     getDomainService().updateIndVoeu(indVoeu);
                     list.add(indVoeu);
                     listVoeuxMail.add(indVoeuPojo);
                     addInfoMessage(null, "STATE.CONFIRM.VALID");
-                } else if (indVoeuPojo.getStateConf().equals(EtatDesiste.I18N_STATE)) {
+                } else if (indVoeuPojo.getStateConf().equals(EtatDesiste.getCodeLabel())) {
                     // cas d'un désistement
-                    indVoeu.setState(EtatDesiste.I18N_STATE);
+                    indVoeu.setState(EtatDesiste.getCodeLabel());
                     getDomainService().updateIndVoeu(indVoeu);
                     listDesiste.add(indVoeu);
                     //si c'est le candidat qui se désiste
                     gestionAutoLp(indVoeuPojo);
-                    if (!indVoeu.getState().equals(EtatDesiste.I18N_STATE)) {
+                    if (!indVoeu.getState().equals(EtatDesiste.getCodeLabel())) {
                         addErrorMessage(null, "STATE.DESIST.WARNING");
                     }
                 }
@@ -372,7 +368,8 @@ public class ConfirmationController extends AbstractAccessController {
         // list of commissions
         Set<Commission> cmi = getParameterService().getCommissions(true);
         // map des commissions sur lesquels le candidat a confirmé des voeux
-        Map<Commission, Set<VersionEtapeDTO>> mapCmi = Utilitaires.getCmiForIndVoeux(cmi, voeux, camp);
+        Map<Commission, Set<VersionEtapeDTO>> mapCmi =
+                Utilitaires.getCmiForIndVoeux(cmi, Stream.iterableStream(voeux), camp);
 
         for (Map.Entry<Commission, Set<VersionEtapeDTO>> entryCmi : mapCmi.entrySet()) {
 
@@ -659,7 +656,7 @@ public class ConfirmationController extends AbstractAccessController {
         // récupère la liste des commissions
         Set<Commission> listComm = getParameterService().getCommissions(true);
         // Initialise la liste des voeux favorables
-        Set<IndVoeuPojo> listIndVoeu = getCurrentInd().getIndVoeuxPojo();
+        Stream<IndVoeuPojo> listIndVoeu = getCurrentInd().getIndVoeuxPojo();
         for (IndVoeuPojo indVoeuPojo : listIndVoeu) {
             Avis a = indVoeuPojo.getAvisEnService();
             // Sort the type of avis
@@ -717,7 +714,7 @@ public class ConfirmationController extends AbstractAccessController {
     public Boolean getCanConfirmVoeux() {
         //can be null when it's the first connect for an individu (in ent)
         if (getCurrentInd() != null) {
-            Set<IndVoeuPojo> listIndVoeu = getCurrentInd().getIndVoeuxPojo();
+            Stream<IndVoeuPojo> listIndVoeu = getCurrentInd().getIndVoeuxPojo();
             for (IndVoeuPojo indVoeuPojo : listIndVoeu) {
                 Avis a = indVoeuPojo.getAvisEnService();
                 // Sort the type of avis

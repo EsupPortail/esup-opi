@@ -1,16 +1,6 @@
 package org.esupportail.opi.batch;
 
 
-
-import java.io.File;
-import java.io.RandomAccessFile;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Properties;
-
 import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.services.application.ApplicationService;
 import org.esupportail.commons.services.application.ApplicationUtils;
@@ -22,7 +12,7 @@ import org.esupportail.opi.domain.BusinessCacheService;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
-import org.esupportail.opi.domain.beans.etat.EtatArriveComplet;
+import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Adresse;
 import org.esupportail.opi.domain.beans.user.Individu;
@@ -46,6 +36,12 @@ import org.xmldb.api.base.ResourceIterator;
 import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.modules.XPathQueryService;
 
+import java.io.File;
+import java.io.RandomAccessFile;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatArriveComplet;
 
 
 /**
@@ -201,7 +197,7 @@ public class UpdateOrthoAccesScript  {
 			versionEtpOpi.setCodEtp(COD_ETP);
 			versionEtpOpi.setCodVrsVet(COD_VRS_VET);
 			TraitementCmi trtCmi = parameterService.getTraitementCmi(versionEtpOpi, null);
-			List<Individu> individus = domainService.getIndividusTrtCmiState(trtCmi, EtatArriveComplet.I18N_STATE);
+			List<Individu> individus = domainService.getIndividusTrtCmiState(trtCmi, EtatArriveComplet.getCodeLabel());
 			
 			String driver = "org.exist.xmldb.DatabaseImpl";
 			Class< ? > cl = Class.forName(driver);

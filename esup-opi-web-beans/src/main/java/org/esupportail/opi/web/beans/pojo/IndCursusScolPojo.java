@@ -8,6 +8,7 @@
  */
 package org.esupportail.opi.web.beans.pojo;
 
+import fj.P1;
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.beans.user.indcursus.CursusExt;
@@ -16,23 +17,11 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.wssi.services.remote.Etablissement;
 import org.springframework.util.StringUtils;
 
-
-
-
-
 /**
  * @author leproust cedric
  *
  */
-public class IndCursusScolPojo {
-
-	/**
-	 * A logger.
-	 */
-//	private final Logger log = new LoggerImpl(getClass());
-	
-	/*
-	 ******************* PROPERTIES ******************* */
+public final class IndCursusScolPojo {
 	/**
 	 * The Cursus.
 	 * Default value is Cursus externe
@@ -43,78 +32,42 @@ public class IndCursusScolPojo {
 	 * The Etablissement.
 	 */
 	private Etablissement etablissement;
-	
-	/**
-	 * I18n Service.
-	 */
-	private I18nService i18nService;
-	
+
 	/**
 	 * The code departement.
 	 * Default value : ""
 	 */
-	private String codDep;
+	private String codDep = "";
 	
 	/**
 	 * The code commune.
 	 * Default value : ""
 	 */
-	private String codCom;
+	private String codCom = "";
 	
 	/**
 	 * The code Pays.
 	 * Default value : ""
 	 */
-	private String codPay;
-	
-	/*
-	 ******************* INIT ************************* */
-	
-	/**
-	 * Constructor.
-	 */
-	public IndCursusScolPojo() {
-		super();
-		cursus = new CursusExt();
-		codPay = "";
-		codDep = "";
-		codCom = "";
-	}
-	
-	/**
-	 * Constructor.
-	 * @param cur 
-	 * @param i18nService 
-	 */
-	public IndCursusScolPojo(final IndCursusScol cur, final I18nService i18nService) {
-		super();
+	private String codPay = "";
+
+
+	public IndCursusScolPojo(final IndCursusScol cur) {
 		cursus = cur;
-		codPay = "";
-		codDep = "";
-		codCom = "";
-		this.i18nService = i18nService; 
-	}
+    }
 	
-	/**
-	 * Constructor.
-	 * Instance etablissement.
-	 * @param cur 
-	 * @param i18nService 
-	 * @param domainApoService
-	 */
-	public IndCursusScolPojo(final IndCursusScol cur, final I18nService i18nService, 
-			final DomainApoService domainApoService) {
-		super();
-		cursus = cur;
-		codPay = "";
-		codDep = "";
-		codCom = "";
-		this.i18nService = i18nService;
-		if (StringUtils.hasText(cur.getCodEtablissement())) {
-			etablissement = domainApoService.getEtablissement(cur.getCodEtablissement());
-			cursus.setCodTypeEtab(etablissement.getCodTpe());
-		}
-	}
+//	public void IndCursusScolPojo(final IndCursusScol cur) {
+//		super();
+//		cursus = cur;
+//		codPay = "";
+//		codDep = "";
+//		codCom = "";
+//		this.i18nService = i18nService;
+//		if (StringUtils.hasText(cur.getCodEtablissement())) {
+//			etablissement = domainApoService.getEtablissement(cur.getCodEtablissement());
+//			cursus.setCodTypeEtab(etablissement.getCodTpe());
+//		}
+//	}
 
 	/**
 	 * @see java.lang.Object#toString()
@@ -173,22 +126,6 @@ public class IndCursusScolPojo {
 	}
 	
 	/**
-	 * Return the result label according to the code.
-	 * @return String
-	 */
-	public String getResultatExt() {
-		if (i18nService != null) {
-			if ("N".equals(cursus.getResultat())) {
-				return i18nService.getString("_.BUTTON.NO");
-			}
-			if ("O".equals(cursus.getResultat())) {
-				return i18nService.getString("_.BUTTON.YES");
-			}
-		}
-		return cursus.getResultat();
-	}
-	
-	/**
 	 * Le libelle des cursus scolaire.
 	 * @return String
 	 */
@@ -215,30 +152,6 @@ public class IndCursusScolPojo {
 		//sinon etablissement etranger
 		return ((CursusExt) cursus).getLibEtbEtr();
 	}
-	
-	
-//	/**
-//	 * Add a new cursus to the list.
-//	 */
-//	public void addCursus() {
-//		if (log.isDebugEnabled()) {
-//			log.debug("entering addCursus with cursus = " + cursus);
-//		}		
-//		cursusList.add(cursus);
-//		initCursus();
-//	}
-//	
-//	/**
-//	 * Remove Cursus in cursusList.
-//	 */
-//	public void removeCursus() {
-//		if (log.isDebugEnabled()) {
-//			log.debug("entering removeCursus with cursus = " + cursus);
-//		}
-//		cursusList.remove(cursus);
-//		initCursus();
-//	}
-	
 	
 	/*
 	 ******************* ACCESSORS ******************** */

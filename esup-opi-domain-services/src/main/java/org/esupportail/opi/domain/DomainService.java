@@ -123,19 +123,26 @@ public interface DomainService extends Serializable {
 	 * @return Individu
 	 */
 	Individu getIndividuByMail(String mail);
-	
-	/**
-	 * Return the individuals managed by commission.
-	 *
+
+    /**
+     * Return the ids of the {@link Individu}s whom {@link IndVoeu}s are managed by {@code commission}
      *
-     *
-     * @param commission
-     * @param validate
-     * @param listeRI
-     * @return List< Individu>
-	 */
-	Stream<Individu> getIndividusCommission(Commission commission, Boolean validate, Set<Integer> listeRI);
-	
+     * @param commission The {@link Commission} managing the {@link IndVoeu}s
+     * @param validate Whether the {@link IndVoeu}s are valid and in service
+     * @param listeRI The registration schemes of the {@link Campagne} the {@link IndVoeu}s belong to
+     */
+    List<String> getIndsIds(Commission commission, Boolean validate, Set<Integer> listeRI);
+
+    /**
+     * <b>Eagerly</b> (in hibernate sense) fetch an {@link Individu} from the DB by its id
+     * @param id The id (i.e 'numDossierOpi') of the {@link Individu}
+     * @param onlyValidWishes wether the {@link IndVoeu}s of the {@link Individu} should be filtered
+     *                        with regard to the validity of their Avis(cf. {@link Avis#validation}).
+     *                        A {@link Option#none()} value means no filtering.
+     * @return The {@link Individu} of 'numDossierOpi' {@code id}
+     */
+    Individu fetchIndById(String id, Option<Boolean> onlyValidWishes);
+
 	/**
 	 * Return all individus with a codeEtu.
 	 * @return List< Individu>
@@ -178,7 +185,7 @@ public interface DomainService extends Serializable {
 			Date dateNaissance, String codPayNaissance, String codDepPaysNaissance);
 	
 	/**
-	 * Retrieves a slice of {@link Individu}
+	 * Retrieves a slice of {@link Individu} from the DB
 	 * 
 	 */
 	P2<Long, Stream<Individu>> sliceOfInd(PFFilters pfFilters,
@@ -270,17 +277,7 @@ public interface DomainService extends Serializable {
 	 * @return Boolean : true if login is unique
 	 */
 	Boolean gestionnaireLoginIsUnique(Gestionnaire gestionnaire);
-	
-	/**
-	 * update individu's state. 
-	 * @param individu
-	 * @param manager
-	 * @return Individu.
-	 */
-	//TODO: FIx this !!
-	//Individu updateStateIndividu(Individu individu, Gestionnaire manager, ControlField controlField);
-	Individu updateStateIndividu(Individu individu, Gestionnaire manager);
-	
+
 	/**
 	 * Find if the gestionnaire as rights on a sutdent.
 	 * @param lesVoeux : les voeux of the student

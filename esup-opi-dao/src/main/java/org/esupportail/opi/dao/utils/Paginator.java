@@ -12,7 +12,6 @@ import fj.*;
 import fj.data.Either;
 import fj.data.List;
 import fj.data.Option;
-import fj.data.Stream;
 import org.hibernate.Session;
 import org.primefaces.model.SortOrder;
 
@@ -32,7 +31,6 @@ import static fj.data.Either.left;
 import static fj.data.Either.right;
 import static fj.data.List.iterableList;
 import static fj.data.Option.fromNull;
-import static fj.data.Stream.iterableStream;
 
 /**
  * Une classe utilitaire pour effectuer des requêtes paginées sur une BDD.
@@ -176,7 +174,7 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
                     new F2<Q, P3<String, String, Class>, Q>() {
                         public Q f(Q cq, P3<String, String, Class> fvt) {
                             return (Q) cq.where(
-                                new PredicateOperation(
+                                PredicateOperation.create(
                                 Ops.STARTS_WITH,
                                 tPath.get(fvt._1(), fvt._3()),
                                 Expressions.template(
@@ -277,13 +275,15 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
 	 * @param sortOrder Ordre du tri
 	 * @param filters Mapping nom de champ <-> valeur pour ce champ positionnant des filtres simples sur la requête
 	 * @param optCustomfilter Un ou des filtres supplémentaires optionnels
+     * @param projection fonction de calcul de la projection (type de retour) de la requête
 	 * @return Un 2-tuple constitué : <ul>
      *     <li>du nombre d'éléments correspondant à la requête filtrée mais <b>non</b> paginée</li>
-	 *     <li>et de la liste des éléments retournés par la requête complète (paginée, filtrée et ordonnée)</li>
+	 *     <li>et des éléments retournés par la requête complète (paginée, filtrée et ordonnée)</li>
      *     </ul>
 	 */
-	public final P2<Long, java.util.List<T>> sliceOf(Long offset, Long limit, String sortField,
-	    SortOrder sortOrder, Map<String,String> filters, Option<F<Q, Q>> optCustomfilter) {
+	public final <P> P2<Long, P> sliceOf(Long offset, Long limit, String sortField,
+	    SortOrder sortOrder, Map<String,String> filters, Option<F<Q, Q>> optCustomfilter,
+        F2<EntityPathBase<T>, Q, P> projection) {
 	    F<Q, Q> customFilter = optCustomfilter.orSome(Function.<Q>identity());
 
         long count = unOrderedQuery(full.constant(), filters, customFilter).f(unit()).count();
@@ -293,23 +293,24 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
         long lastOffset = (pageCount > 1) ? (pageCount - 1) * pageSize : 0;
         long realOffset = (offset > lastOffset) ? lastOffset : offset;
 
-        java.util.List<T> list =
-                query(tuple(slice), filters, customFilter).f(p(realOffset, pageSize)).f(sortField).f(sortOrder).list(ent);
+        final P list = projection.f(
+                ent, query(tuple(slice), filters, customFilter).f(p(realOffset, pageSize)).f(sortField).f(sortOrder));
 
         return p(count, list);
 	}
 
 	/**
-	 * Comme {@link Paginator#sliceOf(Long, Long, String, SortOrder, Map, Option)} mais retourne
-	 * les éléments dans un {@link Stream} par commodité 
+	 * Comme {@link #sliceOf(Long, Long, String, SortOrder, Map, Option, F2)} avec une projection
+     * par défaut qui retourne les éléments dans une {@link java.util.List}
 	 */
-	public final P2<Long, Stream<T>> lazySliceOf(Long offset, Long limit,
-	    String sortField, SortOrder sortOrder, Map<String,String> filters,
-	    Option<F<Q, Q>> optCustomfilter) {
-	    P2<Long, java.util.List<T>> t = sliceOf(
-	        offset, limit, sortField, sortOrder, filters, optCustomfilter);
-	    return p(t._1(), iterableStream(t._2()));
-	}
+	public final P2<Long, java.util.List<T>> sliceOf(Long offset, Long limit, String sortField, SortOrder sortOrder,
+                                                     Map<String, String> filters, Option<F<Q, Q>> optCustomfilter) {
+	    return sliceOf(offset, limit, sortField, sortOrder, filters, optCustomfilter, new F2<EntityPathBase<T>, Q, java.util.List<T>>() {
+                    public java.util.List<T> f(EntityPathBase<T> ent, Q q) {
+                        return q.list(ent);
+                    }
+                });
+    }
 
 	/**
 	 * Utilité pour la construction de filtres supplémentaires à fournir à {@link Paginator#sliceOf(Long, Long, String, SortOrder, Map, Option)}

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<beans 
-	xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
-	>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<!-- 
 		/properties/i18n/i18n.xml
@@ -12,15 +10,18 @@
 		This file is referenced by /properties/applicationContext.xml.
 	-->
 
-	<bean 
-        id="i18nService"
-        class="org.esupportail.commons.services.i18n.ResourceBundleMessageSourceI18nServiceImpl">
+    <bean id="i18nUtilsService" class="org.esupportail.opi.services.i18n.I18NUtilsService"
+          factory-method="i18NUtilsService">
+        <constructor-arg ref="i18nService" />
+    </bean>
+
+	<bean id="i18nService"
+          class="org.esupportail.commons.services.i18n.ResourceBundleMessageSourceI18nServiceImpl">
         <property name="messageSource" ref="msgs" />
     </bean>
 
-    <bean
-        id="msgs"
-        class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    <bean id="msgs"
+          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basenames">
             <list>
                 <value>classpath:properties/i18n/bundles/Commons</value>
@@ -32,7 +33,7 @@
                 <value>classpath:META-INF/i18n/bundles/JsfMessages</value>
             </list>
         </property>
-        <property name="cacheSeconds" value="0" />
+        <!--<property name="cacheSeconds" value="0" />-->
         <property name="useCodeAsDefaultMessage" value="true" />
     </bean>
 

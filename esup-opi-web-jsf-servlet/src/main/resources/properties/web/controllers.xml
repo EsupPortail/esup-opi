@@ -28,6 +28,7 @@
         </property>
         <property name="serverNameUrl" value="${serverName}"/>
         <property name="allViewPJ" value="${init.allViewPJ}"/>
+        <property name="i18NUtils" ref="i18nUtilsService" />
     </bean>
 
     <bean id="abstractContextAwareController" abstract="true"
@@ -142,6 +143,7 @@
           class="org.esupportail.opi.web.controllers.user.CursusController"
           parent="abstractAccessController" scope="session">
         <description>A bean to manage the individu's cursus.</description>
+        <property name="i18NUtils" ref="i18nUtilsService" />
     </bean>
 
     <bean id="situationController"
@@ -157,6 +159,7 @@
           class="org.esupportail.opi.web.controllers.user.IndBacController"
           parent="abstractAccessController" scope="session">
         <description>A bean to manage the individu's bac.</description>
+        <property name="i18NUtils" ref="i18nUtilsService" />
     </bean>
 
     <!-- ####  FORMULAIRE ##### -->
@@ -601,7 +604,7 @@
 
     <bean id="ligneListePrepaPojo"
         lazy-init="true"
-        class="org.esupportail.opi.web.beans.pojo.LigneListePrepaPojo"
+        class="org.esupportail.opi.web.beans.pojo.LigneCSV"
         scope="session">
     </bean>
 </beans>

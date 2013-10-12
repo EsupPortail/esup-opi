@@ -48,7 +48,7 @@
                             <f:convertDateTime pattern="dd/MM/yyyy"
                                                timeZone="#{sessionController.timezone}"/>
                         </h:outputText>
-                        <h:outputText value="#{sessionController.currentInd.etat.label}"/>
+                        <h:outputText value="#{sessionController.currentInd.etat}"/>
                     </h:panelGrid>
                 </div>
                 <ui:fragment rendered="#{sessionController.currentInd.managerAsRightsToUpdate and sessionController.canUpdateRI}">
@@ -168,30 +168,30 @@
                         <h:commandButton value="#{msgs['INDIVIDU.BAC']}"
                                          styleClass="form-button-link" immediate="true"
                                          action="#{indBacController.goSeeIndBac}"
-                                         rendered="#{sessionController.currentInd.canUpdateBac}" />
+                                         rendered="#{indBacController.canUpdateBac}" />
                         <h:outputText value="#{msgs['INDIVIDU.BAC']}"
-                                      rendered="#{!sessionController.currentInd.canUpdateBac}"/>
+                                      rendered="#{!indBacController.canUpdateBac}"/>
                         <h:outputText value="#{sessionController.currentInd.etatIndBac}"/>
                         <h:panelGroup>
                             <p:commandButton icon="ui-icon-plus" immediate="true"
                                              action="#{indBacController.goSeeIndBac}"
                                              title="#{msgs['_.BUTTON.DISPLAY']}"
-                                             rendered="#{sessionController.currentInd.canUpdateBac}"
+                                             rendered="#{indBacController.canUpdateBac}"
                                              ajax="false"/>
                         </h:panelGroup>
 
                         <h:commandButton value="#{msgs['INDIVIDU.SITUATION']}"
                                          styleClass="form-button-link" immediate="true"
                                          action="#{situationController.goSeeSituation}"
-                                         rendered="#{sessionController.currentInd.canUpdateIndCursusPro
+                                         rendered="#{cursusController.canUpdateIndCursusPro
                                                    and sessionController.currentInd.regimeInscription.displayInfoSituation}"/>
                         <h:outputText value="#{msgs['INDIVIDU.SITUATION']}"
-                                      rendered="#{!sessionController.currentInd.canUpdateIndCursusPro
+                                      rendered="#{!cursusController.canUpdateIndCursusPro
                                                 and sessionController.currentInd.regimeInscription.displayInfoSituation}"/>
                         <h:outputText value="#{situationController.etatSituation}"
                                       rendered="#{sessionController.currentInd.regimeInscription.displayInfoSituation}"/>
                         <h:panelGroup
-                            rendered="#{sessionController.currentInd.canUpdateIndCursusPro
+                            rendered="#{cursusController.canUpdateIndCursusPro
                                       and sessionController.currentInd.regimeInscription.displayInfoSituation}">
                             <p:commandButton icon="ui-icon-plus" immediate="true"
                                              action="#{situationController.goSeeSituation}"
@@ -199,27 +199,27 @@
                         </h:panelGroup>
 
                         <h:outputText value="#{msgs['INDIVIDU.CURSUS_UNI']}"
-                                      rendered="#{!sessionController.currentInd.canUpdateIndCursusScol}"/>
+                                      rendered="#{!cursusController.canUpdateIndCursusScol}"/>
                         <h:commandButton value="#{msgs['INDIVIDU.CURSUS_UNI']}"
                                          styleClass="form-button-link" immediate="true"
                                          action="#{cursusController.goSeeCursusScol}"
-                                         rendered="#{sessionController.currentInd.canUpdateIndCursusScol}" />
-                        <h:outputText value="#{sessionController.currentInd.etatIndCursusScol}"/>
+                                         rendered="#{cursusController.canUpdateIndCursusScol}" />
+                        <h:outputText value="#{cursusController.etatIndCursusScol}"/>
                         <h:panelGroup>
                             <p:commandButton icon="ui-icon-plus" immediate="true"
                                              action="#{cursusController.goSeeCursusScol}"
                                              title="#{msgs['_.BUTTON.DISPLAY']}"
-                                             rendered="#{sessionController.currentInd.canUpdateIndCursusScol}"
+                                             rendered="#{cursusController.canUpdateIndCursusScol}"
                                              ajax="false"/>
                         </h:panelGroup>
 
                         <h:panelGroup>
                             <h:outputText value="#{msgs['INDIVIDU.CURSUS_EXT']}"
-                                          rendered="#{!sessionController.currentInd.canUpdateIndCursusPro}"/>
+                                          rendered="#{!cursusController.canUpdateIndCursusPro}"/>
                             <h:commandButton value="#{msgs['INDIVIDU.CURSUS_EXT']}"
                                              action="#{cursusController.goSeeCursusPro}"
                                              styleClass="form-button-link" immediate="true"
-                                             rendered="#{sessionController.currentInd.canUpdateIndCursusPro}"/>
+                                             rendered="#{cursusController.canUpdateIndCursusPro}"/>
                             <p:graphicImage library="images" name="informationSmall.png"
                                             style="cursor:pointer;" id="helpCursusExt"/>
                             <p:overlayPanel for="helpCursusExt"
@@ -238,22 +238,22 @@
                                 </h:panelGroup>
                             </p:overlayPanel>
                         </h:panelGroup>
-                        <h:outputText value="#{sessionController.currentInd.etatIndCursusPro}"/>
+                        <h:outputText value="#{cursusController.etatIndCursusPro}"/>
                         <h:panelGroup>
                             <p:commandButton icon="ui-icon-plus" immediate="true"
                                              action="#{cursusController.goSeeCursusPro}"
                                              title="#{msgs['_.BUTTON.DISPLAY']}"
-                                             rendered="#{sessionController.currentInd.canUpdateIndCursusPro}"/>
+                                             rendered="#{cursusController.canUpdateIndCursusPro}"/>
                         </h:panelGroup>
 
 
                         <h:panelGroup>
                             <h:outputText value="#{msgs['INDIVIDU.QUALIF.NO_DIP']}"
-                                          rendered="#{!sessionController.currentInd.canUpdateIndCursusPro}"/>
+                                          rendered="#{!cursusController.canUpdateIndCursusPro}"/>
                             <h:commandButton value="#{msgs['INDIVIDU.QUALIF.NO_DIP']}"
                                              styleClass="form-button-link" immediate="true"
                                              action="#{cursusController.goSeeQualif}"
-                                             rendered="#{sessionController.currentInd.canUpdateIndCursusPro}"/>
+                                             rendered="#{cursusController.canUpdateIndCursusPro}"/>
                             <p:graphicImage library="images" name="informationSmall.png"
                                             style="cursor:pointer;" id="entatVoeux"/>
                             <p:overlayPanel for="entatVoeux"
@@ -273,12 +273,12 @@
                             </p:overlayPanel>
                         </h:panelGroup>
                         <h:outputText
-                            value="#{sessionController.currentInd.etatQualifNonDiplomante}"/>
+                            value="#{cursusController.etatQualifNonDiplomante}"/>
                         <h:panelGroup>
                             <p:commandButton icon="ui-icon-plus" immediate="true"
                                              action="#{cursusController.goSeeQualif}"
                                              title="#{msgs['_.BUTTON.DISPLAY']}"
-                                             rendered="#{sessionController.currentInd.canUpdateQualifNonDiplomante}"/>
+                                             rendered="#{cursusController.canUpdateQualifNonDiplomante}"/>
                         </h:panelGroup>
                     </h:panelGrid>
                 </div>

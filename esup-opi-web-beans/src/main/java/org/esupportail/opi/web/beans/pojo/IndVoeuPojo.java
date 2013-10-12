@@ -24,6 +24,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatArriveComplet;
+import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatConfirme;
+import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatDesiste;
 
 
 /**
@@ -255,40 +258,32 @@ public class IndVoeuPojo implements Serializable {
 			}
 		}
 	}
-	
+
+    // TODO : refactor (get rid of i18Service param)
 	public void initEtat(final String state, final I18nService i18Service) {
-		etat = (EtatVoeu) Etat.instanceState(state, i18Service);
+		etat = EtatVoeu.fromString(state);
 	}
 	
 	/**
 	 * @return true si l'etat est arrive et complet
 	 */
 	public Boolean getIsEtatArriveComplet() {
-		if (etat.getClass().equals(EtatArriveComplet.class)) {
-			return true;
-		}
-		return false;
-	}
+        return etat == EtatArriveComplet;
+    }
 	
 	/**
 	 * @return true si l'etat est arrive et complet
 	 */
 	public Boolean getIsEtatConfirme() {
-		if (etat.getClass().equals(EtatConfirme.class)) {
-			return true;
-		}
-		return false;
-	}
+        return etat == EtatConfirme;
+    }
 	
 	/**
 	 * @return true si l'etat est arrive et complet
 	 */
 	public Boolean getIsEtatDesiste() {
-		if (etat.getClass().equals(EtatDesiste.class)) {
-			return true;
-		}
-		return false;
-	}
+        return etat == EtatDesiste;
+    }
 	
 	/**
 	 * @return true si : 
@@ -348,7 +343,7 @@ public class IndVoeuPojo implements Serializable {
 	 */
 	public List<Avis> getAvisAsList() {
 		if (this.indVoeu.getAvis() != null && !this.indVoeu.getAvis().isEmpty()) {
-			this.avisAsList = new ArrayList<Avis>(indVoeu.getAvis());
+			this.avisAsList = new ArrayList<>(indVoeu.getAvis());
 		}
 		return avisAsList;
 	}

@@ -1,6 +1,7 @@
 package org.esupportail.opi.web.utils.fj;
 
 import fj.F;
+import fj.Function;
 import fj.data.Stream;
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.opi.domain.DomainApoService;
@@ -21,19 +22,12 @@ import java.lang.reflect.Modifier;
 import java.util.*;
 
 import static fj.data.Stream.iterableStream;
-import static org.esupportail.opi.web.utils.fj.Conversions.*;
+import static fj.data.Stream.stream;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: p-opidev
- * Date: 03/07/13
- * Time: 18:27
- * To change this template use File | Settings | File Templates.
- */
 @RunWith(MockitoJUnitRunner.class)
-public class ConversionsTest {
+public class FunctionsTest {
 
     @Mock
     private DomainApoService mockApoServ;
@@ -59,8 +53,8 @@ public class ConversionsTest {
     @Test
     public void testkeepOnlyAvisWithValidationEqualsFalse() throws Exception {
         //Given
-        Set<IndVoeuPojo> setWithInvalidVoeu = buildSetWithInvalidVoeu();
-        assertEquals(2, setWithInvalidVoeu.size());
+        Stream<IndVoeuPojo> setWithInvalidVoeu = buildSetWithInvalidVoeu();
+        assertEquals(2, setWithInvalidVoeu.length());
         List<IndividuPojo> mockListIndi = new ArrayList<>();
         IndividuPojo ipj1 = new IndividuPojo();
         //that we should filter this one
@@ -68,14 +62,14 @@ public class ConversionsTest {
         mockListIndi.add(ipj1);
         Stream<IndividuPojo> stream = iterableStream(mockListIndi);
         assertEquals(1, stream.length());
-        assertEquals(2, stream.index(0).getIndVoeuxPojo().size());
+        assertEquals(2, stream.index(0).getIndVoeuxPojo().length());
         assertTrue(retrieveVoeuInStreamWithValidatAvisEquals(stream, true));
         assertTrue(retrieveVoeuInStreamWithValidatAvisEquals(stream, false));
         //When
-        Stream<IndividuPojo> result = stream.map(keepOnlyVoeuWithValidatedAvisEquals(false));
+        Stream<IndividuPojo> result = stream.map(Functions.filterVoeuxByAvisValidation(false));
         //Then
         assertEquals(stream.length(), result.length());
-        assertEquals(1, result.index(0).getIndVoeuxPojo().size());
+        assertEquals(1, result.index(0).getIndVoeuxPojo().length());
         assertFalse(retrieveVoeuInStreamWithValidatAvisEquals(stream, true));
         assertTrue(retrieveVoeuInStreamWithValidatAvisEquals(stream, false));
     }
@@ -83,8 +77,8 @@ public class ConversionsTest {
     @Test
     public void testkeepOnlyAvisWithValidationEqualsTrue() throws Exception {
         //Given
-        Set<IndVoeuPojo> setWithInvalidVoeu = buildSetWithInvalidVoeu();
-        assertEquals(2, setWithInvalidVoeu.size());
+        Stream<IndVoeuPojo> setWithInvalidVoeu = buildSetWithInvalidVoeu();
+        assertEquals(2, setWithInvalidVoeu.length());
         List<IndividuPojo> mockListIndi = new ArrayList<>();
         IndividuPojo ipj1 = new IndividuPojo();
         //that we should filter this one
@@ -92,14 +86,14 @@ public class ConversionsTest {
         mockListIndi.add(ipj1);
         Stream<IndividuPojo> stream = iterableStream(mockListIndi);
         assertEquals(1, stream.length());
-        assertEquals(2, stream.index(0).getIndVoeuxPojo().size());
+        assertEquals(2, stream.index(0).getIndVoeuxPojo().length());
         assertTrue(retrieveVoeuInStreamWithValidatAvisEquals(stream, true));
         assertTrue(retrieveVoeuInStreamWithValidatAvisEquals(stream, false));
         //When
-        Stream<IndividuPojo> result = stream.map(keepOnlyVoeuWithValidatedAvisEquals(true));
+        Stream<IndividuPojo> result = stream.map(Functions.filterVoeuxByAvisValidation(true));
         //Then
         assertEquals(stream.length(), result.length());
-        assertEquals(1, result.index(0).getIndVoeuxPojo().size());
+        assertEquals(1, result.index(0).getIndVoeuxPojo().length());
         assertTrue(retrieveVoeuInStreamWithValidatAvisEquals(stream, true));
         assertFalse(retrieveVoeuInStreamWithValidatAvisEquals(stream, false));
     }
@@ -107,8 +101,8 @@ public class ConversionsTest {
     @Test
     public void testkeepOnlyAvisWithValidationEqualsNull() throws Exception {
         //Given
-        Set<IndVoeuPojo> setWithInvalidVoeu = buildSetWithInvalidVoeu();
-        assertEquals(2, setWithInvalidVoeu.size());
+        Stream<IndVoeuPojo> setWithInvalidVoeu = buildSetWithInvalidVoeu();
+        assertEquals(2, setWithInvalidVoeu.length());
         List<IndividuPojo> mockListIndi = new ArrayList<>();
         IndividuPojo ipj1 = new IndividuPojo();
         //that we should filter this one
@@ -116,14 +110,14 @@ public class ConversionsTest {
         mockListIndi.add(ipj1);
         Stream<IndividuPojo> stream = iterableStream(mockListIndi);
         assertEquals(1, stream.length());
-        assertEquals(2, stream.index(0).getIndVoeuxPojo().size());
+        assertEquals(2, stream.head().getIndVoeuxPojo().length());
         assertTrue(retrieveVoeuInStreamWithValidatAvisEquals(stream, true));
         assertTrue(retrieveVoeuInStreamWithValidatAvisEquals(stream, false));
         //When
-        Stream<IndividuPojo> result = stream.map(keepOnlyVoeuWithValidatedAvisEquals(null));
+        Stream<IndividuPojo> result = stream.map(Functions.filterVoeuxByAvisValidation(null));
         //Then
         assertEquals(stream.length(), result.length());
-        assertEquals(2, stream.index(0).getIndVoeuxPojo().size());
+        assertEquals(2, stream.head().getIndVoeuxPojo().length());
         assertTrue(retrieveVoeuInStreamWithValidatAvisEquals(stream, true));
         assertTrue(retrieveVoeuInStreamWithValidatAvisEquals(stream, false));
     }
@@ -133,16 +127,15 @@ public class ConversionsTest {
         //Given
         Stream<IndividuPojo> stream = buildIndPojoStreamWithElementToBeFiltered();
         assertEquals(1, stream.length());
-        assertEquals(2, stream.index(0).getIndVoeuxPojo().size());
+        assertEquals(2, stream.head().getIndVoeuxPojo().length());
         assertTrue("Should find some transfert traitement", retrieveSomeTransfert(stream, transfert));
         assertTrue("Should find some nontransfert traitement", retrieveSomeTransfert(stream, nonTransfert));
         //When
-        Stream<IndividuPojo> result = stream.map(removeVoeuWithTreatmentEquals(transfert));
+        Stream<IndividuPojo> result = stream.map(Functions.discardVoeuxByTypeTrt(transfert));
         //Then
         assertEquals(stream.length(), result.length());
-        assertEquals(1, result.index(0).getIndVoeuxPojo().size());
-        assertTrue("Should nontransfert left in stream", new ArrayList<IndVoeuPojo>(result.index(0).getIndVoeuxPojo()).get(0)
-                .getTypeTraitement().equals(nonTransfert));
+        assertEquals(1, result.head().getIndVoeuxPojo().length());
+        assertTrue("Should nontransfert left in stream", result.head().getIndVoeuxPojo().head().getTypeTraitement().equals(nonTransfert));
     }
 
     @Test
@@ -153,12 +146,11 @@ public class ConversionsTest {
         assertTrue("Should find some transfert traitement", retrieveSomeTransfert(stream, transfert));
         assertTrue("Should find some nontransfert traitement", retrieveSomeTransfert(stream, nonTransfert));
         //When
-        Stream<IndividuPojo> result = stream.map(removeVoeuWithTreatmentEquals(nonTransfert));
+        Stream<IndividuPojo> result = stream.map(Functions.discardVoeuxByTypeTrt(nonTransfert));
         //Then
         assertEquals(stream.length(), result.length());
-        assertEquals(1, result.index(0).getIndVoeuxPojo().size());
-        assertTrue("Should transfert left in stream", new ArrayList<IndVoeuPojo>(result.index(0).getIndVoeuxPojo())
-                .get(0).getTypeTraitement().equals(transfert));
+        assertEquals(1, result.head().getIndVoeuxPojo().length());
+        assertTrue("Should transfert left in stream", result.head().getIndVoeuxPojo().head().getTypeTraitement().equals(transfert));
     }
 
     @Test
@@ -166,7 +158,7 @@ public class ConversionsTest {
         //Given
         Stream<RegimeInscription> stream = buildRegimeInscriptionStream();
         //When
-        Stream<Integer> result = stream.map(decodeRegimeInscription());
+        Stream<Integer> result = stream.map(Functions.getRICode());
         //Then
         assertEquals(new Integer(1), result.index(0));
         assertEquals(new Integer(2), result.index(1));
@@ -175,20 +167,16 @@ public class ConversionsTest {
     @Test
     public void testInitCursusScol() throws Exception {
         //Given
-        List<IndividuPojo> mockListIndi = new ArrayList<>();
         IndividuPojo ipj1 = mock(IndividuPojo.class);
         IndividuPojo ipj2 = mock(IndividuPojo.class);
         IndividuPojo ipj3 = mock(IndividuPojo.class);
-        mockListIndi.add(ipj1);
-        mockListIndi.add(ipj2);
-        mockListIndi.add(ipj3);
-        Stream<IndividuPojo> stream = iterableStream(mockListIndi);
+        Stream<IndividuPojo> stream = stream(ipj1, ipj2, ipj3);
         assertEquals("Built 3 items", 3, stream.length());
         verify(ipj1, never()).initIndCursusScolPojo(mockApoServ, mockI18n);
         verify(ipj2, never()).initIndCursusScolPojo(mockApoServ, mockI18n);
         verify(ipj3, never()).initIndCursusScolPojo(mockApoServ, mockI18n);
         //When
-        Stream<IndividuPojo> result = stream.map(initCursusScol(true, mockApoServ, mockI18n));
+        Stream<IndividuPojo> result = stream.map(Functions.initCursusScol(mockApoServ, mockI18n));
         //Then should init
         assertEquals("Should not add/remove item from list", stream.length(), result.length());
         verify(ipj1, times(1)).initIndCursusScolPojo(mockApoServ, mockI18n);
@@ -199,20 +187,16 @@ public class ConversionsTest {
     @Test
     public void testNoInitCursusScol() throws Exception {
         //Given
-        List<IndividuPojo> mockListIndi = new ArrayList<>();
         IndividuPojo ipj1 = mock(IndividuPojo.class);
         IndividuPojo ipj2 = mock(IndividuPojo.class);
         IndividuPojo ipj3 = mock(IndividuPojo.class);
-        mockListIndi.add(ipj1);
-        mockListIndi.add(ipj2);
-        mockListIndi.add(ipj3);
-        Stream<IndividuPojo> stream = iterableStream(mockListIndi);
+        Stream<IndividuPojo> stream = stream(ipj1, ipj2, ipj3);
         assertEquals("Built 3 items", 3, stream.length());
         verify(ipj1, never()).initIndCursusScolPojo(mockApoServ, mockI18n);
         verify(ipj2, never()).initIndCursusScolPojo(mockApoServ, mockI18n);
         verify(ipj3, never()).initIndCursusScolPojo(mockApoServ, mockI18n);
         //When
-        Stream<IndividuPojo> result = stream.map(initCursusScol(false, mockApoServ, mockI18n));
+        Stream<IndividuPojo> result = stream.map(Function.<IndividuPojo>identity());
         //Then should not init
         assertEquals("Should not add/remove item from list", stream.length(), result.length());
         verify(ipj1, never()).initIndCursusScolPojo(mockApoServ, mockI18n);
@@ -220,25 +204,21 @@ public class ConversionsTest {
         verify(ipj3, never()).initIndCursusScolPojo(mockApoServ, mockI18n);
     }
 
-    private Set<IndVoeuPojo> buildSetWithVoeuOnTransfert() {
+    private Stream<IndVoeuPojo> buildSetWithVoeuOnTransfert() {
         IndVoeuPojo onTransfertIndVoeu = buildIndVoeuWithTransfert(true);
         IndVoeuPojo notOnTransfertIndVoeu = buildIndVoeuWithTransfert(false);
         assertFalse(onTransfertIndVoeu.equals(notOnTransfertIndVoeu));
-        Set<IndVoeuPojo> result = new HashSet<>();
-        result.add(notOnTransfertIndVoeu);
-        result.add(onTransfertIndVoeu);
-        assertEquals(2, result.size());
+        Stream<IndVoeuPojo> result = stream(onTransfertIndVoeu, notOnTransfertIndVoeu);
+        assertEquals(2, result.length());
         return result;
     }
 
-    private Set<IndVoeuPojo> buildSetWithInvalidVoeu() {
+    private Stream<IndVoeuPojo> buildSetWithInvalidVoeu() {
         IndVoeuPojo dumbValidIndVoeu = buildValidVoeu(true);
         IndVoeuPojo dumbInvalidVoeu = buildValidVoeu(false);
         assertFalse(dumbInvalidVoeu.equals(dumbValidIndVoeu));
-        Set<IndVoeuPojo> result = new HashSet<>();
-        result.add(dumbValidIndVoeu);
-        result.add(dumbInvalidVoeu);
-        assertEquals(2, result.size());
+        Stream<IndVoeuPojo> result = stream(dumbValidIndVoeu, dumbInvalidVoeu);
+        assertEquals(2, result.length());
         return result;
     }
 
@@ -281,8 +261,6 @@ public class ConversionsTest {
 
     /**
      * Should redefine VersionEtape {@see IndVoeuPojo.equals()}
-     *
-     * @return
      */
     private IndVoeuPojo buildIndVoeu() {
         IndVoeuPojo result = new IndVoeuPojo();
@@ -307,7 +285,7 @@ public class ConversionsTest {
     private boolean retrieveSomeTransfert(final Stream<IndividuPojo> stream, final TypeTraitement transfert) {
         return stream.exists(new F<IndividuPojo, Boolean>() {
             public Boolean f(IndividuPojo individuPojo) {
-                return iterableStream(individuPojo.getIndVoeuxPojo()).exists(Predicates.isTraitementNotEquals(transfert));
+                return iterableStream(individuPojo.getIndVoeuxPojo()).exists(Predicates.traitementNotEquals(transfert));
             }
         });
     }
@@ -316,7 +294,7 @@ public class ConversionsTest {
         return stream.exists(new F<IndividuPojo, Boolean>() {
             @Override
             public Boolean f(IndividuPojo individuPojo) {
-                return iterableStream(individuPojo.getIndVoeuxPojo()).exists(Predicates.keepOnlyAvisWithValidationEquals(onlyValidate));
+                return iterableStream(individuPojo.getIndVoeuxPojo()).exists(Predicates.indAvisValidationIs(onlyValidate));
             }
         });
     }

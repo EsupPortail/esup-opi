@@ -10,7 +10,6 @@ import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.BeanUtils;
-import org.esupportail.opi.domain.beans.etat.EtatConfirme;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV;
@@ -39,6 +38,7 @@ import javax.mail.internet.InternetAddress;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatConfirme;
 import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
 
 
@@ -131,7 +131,7 @@ public class ConsultRdvController extends AbstractContextAwareController {
     @Override
     public void afterPropertiesSetInternal() {
         indPojoLDM = individuController.getIndLDM().map(
-                individuToPojo(getDomainApoService(), getParameterService(), getI18nService()));
+                individuToPojo(getDomainApoService(), getParameterService()));
     }
 
     public String goSeeAllConsultRdv() {
@@ -179,7 +179,7 @@ public class ConsultRdvController extends AbstractContextAwareController {
                     log.debug("VET listVet : " + vet);
                     if (vet.getCodEtp().equals(vetCandidat.getCodEtp())
                             && vet.getCodVrsVet().equals(vetCandidat.getCodVrsVet())
-                            && voeu.getState().equals(EtatConfirme.I18N_STATE)) {
+                            && voeu.getState().equals(EtatConfirme.getCodeLabel())) {
                         log.debug("ADD VET indVoeu");
                         listIndVoeu.add(voeu);
                         break;
@@ -191,7 +191,7 @@ public class ConsultRdvController extends AbstractContextAwareController {
             for (IndVoeu voeu : candidat.getVoeux()) {
                 String codCgeCandidat = voeu.getLinkTrtCmiCamp().getTraitementCmi().
                         getVersionEtpOpi().getCodCge();
-                if (cge.equals(codCgeCandidat) && voeu.getState().equals(EtatConfirme.I18N_STATE)) {
+                if (cge.equals(codCgeCandidat) && voeu.getState().equals(EtatConfirme.getCodeLabel())) {
                     listIndVoeu.add(voeu);
                 }
             }
@@ -718,7 +718,7 @@ public class ConsultRdvController extends AbstractContextAwareController {
                             voeu.getLinkTrtCmiCamp().getTraitementCmi(), TraitementCmi.class);
 
                     TraitementCmi trtCmi = voeu.getLinkTrtCmiCamp().getTraitementCmi();
-                    if (voeu.getState().equals(EtatConfirme.I18N_STATE)) {
+                    if (voeu.getState().equals(EtatConfirme.getCodeLabel())) {
                         vows += trtCmi.getVersionEtpOpi().getCodEtp() + "-"
                                 + trtCmi.getVersionEtpOpi().getCodVrsVet() + " ";
                     } else {

@@ -7,7 +7,7 @@ package org.esupportail.opi.web.controllers;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.opi.domain.beans.etat.EtatInComplet;
+import org.esupportail.opi.domain.beans.etat.EtatIndividu;
 import org.esupportail.opi.domain.beans.parameters.Nomenclature;
 import org.esupportail.opi.domain.beans.parameters.PieceJustificative;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
@@ -46,6 +46,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import static org.esupportail.opi.domain.beans.etat.EtatIndividu.EtatIncomplet;
 
 
 /**
@@ -149,7 +151,7 @@ public class AccueilController extends AbstractAccessController {
             addErrorMessage(null, "ERROR.ACTION.INDIVIDU_NOT_FOUND");
             return null;
         }
-        if (individu.getEtat() instanceof EtatInComplet) {
+        if (individu.getEtat() == EtatIncomplet) {
             //on informe l'individu qu'il doit completer sur dossier avant de deposer de voeux
             if (!getSessionController().getCurrentInd()
                     .getRegimeInscription().getDisplayInfoFC()) {
@@ -187,7 +189,7 @@ public class AccueilController extends AbstractAccessController {
                 false);
         getCurrentInd();
 
-        if (getCurrentInd().getEtat() instanceof EtatInComplet) {
+        if (getCurrentInd().getEtat() == EtatIncomplet) {
             //on informe l'individu qu'il doit completer sur dossier avant de deposer de voeux
             if (!getSessionController()
                     .getCurrentInd()

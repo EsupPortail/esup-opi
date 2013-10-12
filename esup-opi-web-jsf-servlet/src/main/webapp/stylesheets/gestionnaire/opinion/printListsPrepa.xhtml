@@ -42,7 +42,7 @@
                                 <f:selectItems var="commission"
                                                value="#{commissionController.commissionsItemsByRight}"
                                                itemLabel="#{commission.libelle}" itemValue="#{commission.id}"/>
-                                <p:ajax update="@form"/>
+                                <p:ajax listener="#{commissionController.selectCommissionForLists}" update="@form"/>
                             </p:selectOneMenu>
                             <p:selectManyCheckbox value="#{commissionController.listeRI}"
                                                   converter="#{regimeInscriptionConverter}"

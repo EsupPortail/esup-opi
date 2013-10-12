@@ -1016,11 +1016,6 @@ public class HibernateParamDaoServiceImpl extends AbstractSimpleHibernateDaoServ
 		
 	}
 	
-	/**
-	 * @param indSelected
-	 * @param voeu
-	 * @return boolean
-	 */
 	public boolean isExitFormulaireInd(final Individu indSelected, final VersionEtpOpi vet) {
 		if (log.isDebugEnabled()) {
 			log.debug("");

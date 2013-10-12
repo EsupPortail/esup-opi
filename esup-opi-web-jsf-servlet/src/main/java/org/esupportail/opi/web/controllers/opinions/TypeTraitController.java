@@ -1,14 +1,17 @@
 package org.esupportail.opi.web.controllers.opinions;
 
+import fj.data.Stream;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.opi.domain.beans.etat.EtatNull;
 import org.esupportail.opi.domain.beans.parameters.*;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.utils.Constantes;
-import org.esupportail.opi.web.beans.pojo.*;
+import org.esupportail.opi.web.beans.pojo.AdressePojo;
+import org.esupportail.opi.web.beans.pojo.CommissionPojo;
+import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
+import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
@@ -23,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatNull;
 import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
 
 /**
@@ -113,7 +117,7 @@ public class TypeTraitController extends AbstractContextAwareController {
                         + " can not be null");
 
         indPojoLDM = individuController.getIndLDM().map(
-                individuToPojo(getDomainApoService(), getParameterService(), getI18nService()));
+                individuToPojo(getDomainApoService(), getParameterService()));
 
         reset();
     }
@@ -157,7 +161,7 @@ public class TypeTraitController extends AbstractContextAwareController {
         htmlBody = "";
         Map<Commission, Set<VersionEtapeDTO>> mapCmi =
                 Utilitaires.getCmiForIndVoeux(getParameterService().getCommissions(true),
-                        indVoeuPojo, camp);
+                        Stream.iterableStream(indVoeuPojo), camp);
         Integer codeRI = camp.getCodeRI();
         for (Map.Entry<Commission, Set<VersionEtapeDTO>> cmiEntry : mapCmi.entrySet()) {
             Commission cmi = cmiEntry.getKey();
@@ -221,7 +225,7 @@ public class TypeTraitController extends AbstractContextAwareController {
         Set<IndVoeuPojo> lesTR = new HashSet<IndVoeuPojo>();
         List<IndividuPojo> lesIndividus = indPojoLDM.getData();
         for (IndividuPojo i : lesIndividus) {
-            Set<IndVoeuPojo> lesVoeux = i.getIndVoeuxPojo();
+            Stream<IndVoeuPojo> lesVoeux = i.getIndVoeuxPojo();
             lesVA.clear();
             lesTR.clear();
             Campagne camp = i.getCampagneEnServ(getDomainService());
@@ -256,7 +260,7 @@ public class TypeTraitController extends AbstractContextAwareController {
                                                 + " e l'inscription administrative --> avis Favorable");
                             }
                             //update state in stateNull
-                            v.getIndVoeu().setState(EtatNull.I18N_STATE);
+                            v.getIndVoeu().setState(EtatNull.getCodeLabel());
                             //----Lignes ajoutées suite problème Mysql ----------------------//
                             if (v.getIndVoeu().getAvis() == null) {
                                 v.getIndVoeu().setAvis(new HashSet<Avis>());
@@ -279,16 +283,6 @@ public class TypeTraitController extends AbstractContextAwareController {
                 sendMails(i, camp, lesTR, typeTraitementTR);
             }
         }
-// TODO : à virer
-//
-//        int p = this.individuPaginator.getCurrentPage();
-//        int s = this.individuPaginator.getPageSize();
-//        individuPaginator.resetNotSuper(true);
-//        filterPaginator();
-//        individuPaginator.setPageSize(s);
-//        individuPaginator.setCurrentPage(p);
-//        this.individuPaginator.forceReload();
-//
     }
 
 
@@ -310,7 +304,7 @@ public class TypeTraitController extends AbstractContextAwareController {
     public void selectAllTypeAction() {
         List<IndividuPojo> lesIndividus = indPojoLDM.getData();
         for (IndividuPojo i : lesIndividus) {
-            Set<IndVoeuPojo> lesVoeux = i.getIndVoeuxPojo();
+            Stream<IndVoeuPojo> lesVoeux = i.getIndVoeuxPojo();
             for (IndVoeuPojo v : lesVoeux) {
                 v.getIndVoeu().setCodTypeTrait(codeTypeTrtselected);
             }

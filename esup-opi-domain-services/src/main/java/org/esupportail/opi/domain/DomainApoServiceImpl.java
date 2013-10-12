@@ -502,8 +502,7 @@ public class DomainApoServiceImpl implements DomainApoService {
                     f.getDomaine().equals("data") &&
                     f.getNature().equals("nullretrieve") &&
                     f.getElement().equals("commune"))
-                log.warn("Ce code postal ( " + codBdi + " ) n'existe pas dans" +
-                        "la base de données APOGEE");
+                log.warn(String.format("Ce code postal : %s n'existe pas dans la base de données APOGEE", codBdi));
             return new ArrayList<>();
 		} catch (Throwable t) {
             log.error(t);
@@ -681,6 +680,7 @@ public class DomainApoServiceImpl implements DomainApoService {
 	/** 
 	 * @see org.esupportail.opi.domain.DomainApoService#getBacOuxEqu(java.lang.String, java.lang.String)
 	 */
+    @Cacheable(cacheName = CacheModelConst.GEO_APOGEE_MODEL)
 	public BacOuxEqu getBacOuxEqu(final String daaObt, final String codBac) {
 		if (log.isDebugEnabled()) {
 			log.debug("getBacOuxEqu( " + daaObt + ", " + codBac + " )");

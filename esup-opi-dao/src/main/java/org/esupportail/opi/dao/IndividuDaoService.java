@@ -3,10 +3,13 @@ package org.esupportail.opi.dao;
 import fj.P2;
 import fj.data.Option;
 import fj.data.Stream;
+import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Individu;
+import org.esupportail.opi.domain.beans.user.candidature.Avis;
+import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.utils.primefaces.PFFilters;
 
 import java.util.Date;
@@ -23,21 +26,32 @@ public interface IndividuDaoService {
      * @param wishCreation
      * @return
      */
-    P2<Long, Stream<Individu>> sliceOfInd(PFFilters pfFilters,
-                                          List<TypeDecision> typesDec,
-                                          Option<Boolean> validWish,
-                                          Option<Boolean> treatedWish,
-                                          Option<Date> wishCreation,
-                                          Option<String> codeTypeTrtmt,
-                                          Option<Set<TraitementCmi>> trtCmis,
-                                          Set<Integer> listCodesRI,
-                                          Option<List<String>> typesTrtVet);
+    P2<Long, Stream<Individu>> sliceOfInds(PFFilters pfFilters,
+                                           List<TypeDecision> typesDec,
+                                           Option<Boolean> validWish,
+                                           Option<Boolean> treatedWish,
+                                           Option<Date> wishCreation,
+                                           Option<String> codeTypeTrtmt,
+                                           Option<Set<TraitementCmi>> trtCmis,
+                                           Set<Integer> listCodesRI,
+                                           Option<List<String>> typesTrtVet);
 
     /**
-     * Return the individuals managed by commission.
+     * Return the ids of the {@link Individu}s whom {@link IndVoeu}s are managed by {@code commission}
      *
+     * @param commission The {@link Commission} managing the {@link IndVoeu}s
+     * @param validate Whether the {@link IndVoeu}s are valid and in service
+     * @param listeRICodes The registration schemes of the {@link Campagne} the {@link IndVoeu}s belong to
      */
-    public Stream<Individu> getIndividus(final Commission commission,
-                                         final Boolean validate,
-                                         final Set<Integer> listeRICodes);
+    List<String> getIndsIds(final Commission commission, final Boolean validate, final Set<Integer> listeRICodes);
+
+    /**
+     * <b>Eagerly</b> (in hibernate sense) fetch an {@link Individu} from the DB by its id
+     * @param id The id (i.e 'numDossierOpi') of the {@link Individu}
+     * @param onlyValidWishes wether the {@link IndVoeu}s of the {@link Individu} should be filtered
+     *                        with regard to the validity of their Avis(cf. {@link Avis#validation}).
+     *                        A {@link Option#none()} value means no filtering.
+     * @return The {@link Individu} of 'numDossierOpi' {@code id}
+     */
+    Individu fetchIndById(String id, Option<Boolean> onlyValidWishes);
 }

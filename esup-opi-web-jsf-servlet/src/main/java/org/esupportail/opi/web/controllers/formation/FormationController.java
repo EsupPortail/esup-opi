@@ -3,12 +3,13 @@
  */
 package org.esupportail.opi.web.controllers.formation;
 
+import fj.data.Stream;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.BusinessUtil;
-import org.esupportail.opi.domain.beans.etat.EtatNonArrive;
+import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.formation.Cles2AnnuForm;
 import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
 import org.esupportail.opi.domain.beans.formation.GrpTypDip;
@@ -37,7 +38,6 @@ import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorSelectItem;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractAccessController;
-import org.esupportail.opi.web.utils.DTOs;
 import org.esupportail.wssi.services.remote.VersionDiplomeDTO;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
@@ -47,6 +47,7 @@ import javax.faces.model.SelectItemGroup;
 import java.util.*;
 import java.util.Map.Entry;
 
+import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatNonArrive;
 import static org.esupportail.opi.web.utils.DTOs.buildCommissionDTO;
 
 
@@ -232,7 +233,7 @@ public class FormationController extends AbstractAccessController {    /*
                 vb = (IndVoeu) getDomainService().add(vb,
                         Utilitaires.codUserThatIsAction(getCurrentGest(), getCurrentInd()));
                 //All vows save init to state non arrive.
-                vb.setState(EtatNonArrive.I18N_STATE);
+                vb.setState(EtatNonArrive.getCodeLabel());
                 typTrt = BusinessUtil.getTypeTraitement(
                         getParameterService().getTypeTraitements(),
                         traitementCmi.getCodTypeTrait());
@@ -262,10 +263,9 @@ public class FormationController extends AbstractAccessController {    /*
                         typTrt, cal);
                 indVoeuAdd.add(indVoeuP);
                 getDomainService().addIndVoeu(vb);
-                getCurrentInd().getIndividu().getVoeux().add(vb);
-                getCurrentInd().getIndVoeuxPojo().add(indVoeuP);
-
-
+                IndividuPojo ind = getCurrentInd();
+                ind.getIndividu().getVoeux().add(vb);
+                ind.setIndVoeuxPojo(ind.getIndVoeuxPojo().append(Stream.stream(indVoeuP)));
             } else {
                 addErrorMessage(null, "ERROR.NB_WISH_MAX", vrsVet.getVersionEtape().getLibWebVet());
             }
@@ -438,7 +438,8 @@ public class FormationController extends AbstractAccessController {    /*
         Set<Commission> cmi = getParameterService().getCommissions(true);
 
         //map with the commission and its etapes sur lesquelles le candidat a deposer des voeux
-        Map<Commission, Set<VersionEtapeDTO>> mapCmi = Utilitaires.getCmiForIndVoeux(cmi, indVoeuPojos, camp);
+        Map<Commission, Set<VersionEtapeDTO>> mapCmi =
+                Utilitaires.getCmiForIndVoeux(cmi, Stream.iterableStream(indVoeuPojos), camp);
 
         summaryWishes = new ArrayList<SummaryWishesPojo>();
         for (Map.Entry<Commission, Set<VersionEtapeDTO>> cEntry : mapCmi.entrySet()) {
@@ -506,7 +507,7 @@ public class FormationController extends AbstractAccessController {    /*
         Boolean sendMail = false;
         final Map<Commission, Set<VersionEtapeDTO>> wishesByCmi = Utilitaires.getCmiForIndVoeux(
                 getParameterService().getCommissions(true),
-                indVoeuAdd, camp);
+                Stream.iterableStream(indVoeuAdd), camp);
 
         for (Map.Entry<Commission, Set<VersionEtapeDTO>> cmiEntry : wishesByCmi.entrySet()) {
             Commission cmi = cmiEntry.getKey();

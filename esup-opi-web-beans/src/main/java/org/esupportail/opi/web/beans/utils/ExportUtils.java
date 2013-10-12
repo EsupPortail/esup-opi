@@ -16,7 +16,7 @@ import javax.faces.context.FacesContext;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.utils.Constantes;
-import org.esupportail.opi.web.beans.pojo.LigneListePrepaPojo;
+import org.esupportail.opi.web.beans.pojo.LigneCSV;
 import org.springframework.util.StringUtils;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.io.CsvBeanWriter;
@@ -65,7 +65,7 @@ public class ExportUtils {
 	 * @throws IOException
 	 */
 	public static void superCsvGenerate(
-            List<LigneListePrepaPojo> ligneList,
+            List<LigneCSV> ligneList,
             String[] champsChoisis,
             final String fileName) throws IOException {
 		ICsvBeanWriter beanWriter = null;
@@ -77,7 +77,7 @@ public class ExportUtils {
             beanWriter.writeHeader(champsChoisis);
             
             // write the beans
-            for( final LigneListePrepaPojo ligneListePrepa : ligneList ) {
+            for( final LigneCSV ligneListePrepa : ligneList ) {
                     beanWriter.write(ligneListePrepa, champsChoisis);
             }
         }

@@ -3,7 +3,7 @@ package org.esupportail.opi.web.beans.pojo;
 import java.util.Date;
 
 
-public class LigneListePrepaPojo {
+public class LigneCSV {
 
 	private String commission;
 	
@@ -70,11 +70,11 @@ public class LigneListePrepaPojo {
 	/**
 	 * Constructors.
 	 */
-	public LigneListePrepaPojo() {
+	public LigneCSV() {
 		super();
 	}
 
-	public LigneListePrepaPojo(final String commission, final String num_Dos_OPI, final String nom_Patrony, final String prenom) {
+	public LigneCSV(final String commission, final String num_Dos_OPI, final String nom_Patrony, final String prenom) {
 			super();
 			this.commission = commission;
 			this.num_Dos_OPI = num_Dos_OPI;
@@ -510,7 +510,7 @@ public class LigneListePrepaPojo {
 	 */
 	@Override
 	public String toString() {
-		return "LigneListePrepaPojo#" + hashCode()
+		return "LigneCSV#" + hashCode()
 			+ "[commission =" + commission
 			+ "], [num_Dos_OPI =" + num_Dos_OPI
 			+ "], [nom_Patrony =" + nom_Patrony

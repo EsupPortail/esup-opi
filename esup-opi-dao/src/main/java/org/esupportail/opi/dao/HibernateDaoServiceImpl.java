@@ -324,7 +324,7 @@ public class HibernateDaoServiceImpl extends AbstractSimpleHibernateDaoService i
 
 
     /**
-     * @deprecated : use {@link IndividuDaoService#getIndividus(org.esupportail.opi.domain.beans.references.commission.Commission, Boolean, java.util.Set)}
+     * @deprecated : TODO : document replacement
      */
     @Deprecated
     @SuppressWarnings("unchecked")

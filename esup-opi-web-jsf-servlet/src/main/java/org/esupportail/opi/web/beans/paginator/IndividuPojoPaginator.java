@@ -13,13 +13,11 @@ import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.domain.beans.user.Individu;
-import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
-import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorIndLC;
-import org.esupportail.opi.web.controllers.opinions.OpinionController;
+import org.esupportail.opi.web.utils.MiscUtils;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
 import java.util.*;
@@ -120,8 +118,7 @@ public class IndividuPojoPaginator extends IndividuPaginator {
 	 ******************* METHODS ********************** */
 
     /**
-     * TODO : use {@link org.esupportail.opi.web.utils.fj.Conversions#individuToPojo(
-     * DomainApoService, org.esupportail.opi.domain.ParameterService, org.esupportail.commons.services.i18n.I18nService)}
+     * TODO : use {@link org.esupportail.opi.web.utils.fj.Conversions#individuToPojo(org.esupportail.opi.domain.DomainApoService, org.esupportail.opi.domain.ParameterService)}
      *
      */
     public final F<Stream<Individu>, Stream<IndividuPojo>> individusToPojosWithWishes() {
@@ -157,11 +154,7 @@ public class IndividuPojoPaginator extends IndividuPaginator {
                         getSessionController().getParameterService().getCalendarRdv(),
                         null, getIndRechPojo().getExcludeWishProcessed());
 
-        for (IndividuPojo iP : indPojo) {
-            iP.initIndCursusScolPojo(
-                    getSessionController().getDomainApoService(),
-                    getSessionController().getI18nService());
-        }
+        for (IndividuPojo iP : indPojo) MiscUtils.initIndCursusScolPojo(iP, getDomainApoService());
         individuPojos = indPojo;
         forceReload = false;
         return individuPojos;

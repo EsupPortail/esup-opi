@@ -519,23 +519,23 @@
 		scope="singleton">
 		<constructor-arg index="0">
 			<list>
-				<bean class="org.esupportail.opi.domain.beans.etat.EtatArrive">
-					<constructor-arg index="0" ref="i18nService"/>
+				<bean class="org.esupportail.opi.domain.beans.etat.EtatVoeu" factory-method="valueOf">
+					<constructor-arg value="EtatArrive"/>
 				</bean>
-				<bean class="org.esupportail.opi.domain.beans.etat.EtatArriveComplet">
-					<constructor-arg index="0" ref="i18nService"/>
+				<bean class="org.esupportail.opi.domain.beans.etat.EtatVoeu" factory-method="valueOf">
+					<constructor-arg value="EtatArriveComplet"/>
 				</bean>
-				<bean class="org.esupportail.opi.domain.beans.etat.EtatArriveIncomplet">
-					<constructor-arg index="0" ref="i18nService"/>
+				<bean class="org.esupportail.opi.domain.beans.etat.EtatVoeu" factory-method="valueOf">
+					<constructor-arg value="EtatArriveIncomplet"/>
 				</bean>
-				<bean class="org.esupportail.opi.domain.beans.etat.EtatConfirme">
-					<constructor-arg index="0" ref="i18nService"/>
+				<bean class="org.esupportail.opi.domain.beans.etat.EtatVoeu" factory-method="valueOf">
+					<constructor-arg value="EtatConfirme"/>
 				</bean>
-				<bean class="org.esupportail.opi.domain.beans.etat.EtatDesiste">
-					<constructor-arg index="0" ref="i18nService"/>
+				<bean class="org.esupportail.opi.domain.beans.etat.EtatVoeu" factory-method="valueOf">
+					<constructor-arg value="EtatDesiste"/>
 				</bean>
-				<bean class="org.esupportail.opi.domain.beans.etat.EtatNonArrive">
-					<constructor-arg index="0" ref="i18nService"/>
+				<bean class="org.esupportail.opi.domain.beans.etat.EtatVoeu" factory-method="valueOf">
+					<constructor-arg value="EtatNonArrive"/>
 				</bean>
 			</list>
 		</constructor-arg>
@@ -546,11 +546,11 @@
 		scope="singleton">
 		<constructor-arg index="0">
 			<list>
-				<bean class="org.esupportail.opi.domain.beans.etat.EtatComplet">
-					<constructor-arg index="0" ref="i18nService"/>
+				<bean class="org.esupportail.opi.domain.beans.etat.EtatIndividu" factory-method="valueOf">
+					<constructor-arg value="EtatComplet"/>
 				</bean>
-				<bean class="org.esupportail.opi.domain.beans.etat.EtatInComplet">
-					<constructor-arg index="0" ref="i18nService"/>
+				<bean class="org.esupportail.opi.domain.beans.etat.EtatIndividu" factory-method="valueOf">
+					<constructor-arg value="EtatIncomplet"/>
 				</bean>
 			</list>
 		</constructor-arg>

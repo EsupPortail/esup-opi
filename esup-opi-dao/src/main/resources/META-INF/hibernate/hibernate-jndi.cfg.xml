@@ -13,9 +13,9 @@
 	<session-factory>
 		<property name="hibernate.connection.autocommit">false</property>
 		<property name="hibernate.connection.charSet">UTF-8</property>
-		<property name="hibernate.show_sql">false</property>
-                <property name="format_sql">false</property>
-                <property name="use_sql_comments">false</property>
+        <property name="hibernate.show_sql">false</property>
+        <property name="format_sql">false</property>
+        <property name="use_sql_comments">false</property>
 		<property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
 		<property name="connection.autoReconnectForPools">true</property>
 		<property name="connection.is-connection-validation-required">true</property>

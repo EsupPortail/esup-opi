@@ -1,5 +1,7 @@
 package org.esupportail.opi.dao;
 
+
+import com.mysema.query.Tuple;
 import com.mysema.query.jpa.JPQLQuery;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 import com.mysema.query.types.EntityPath;
@@ -9,6 +11,7 @@ import com.mysema.query.types.path.PathBuilder;
 import com.mysema.query.types.path.SetPath;
 import com.mysema.query.types.template.BooleanTemplate;
 import fj.F;
+import fj.F2;
 import fj.Function;
 import fj.P2;
 import fj.data.Option;
@@ -23,16 +26,17 @@ import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
+import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
 import org.esupportail.opi.utils.primefaces.PFFilters;
 import org.springframework.orm.hibernate3.HibernateTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import static com.mysema.query.group.GroupBy.groupBy;
+import static com.mysema.query.group.GroupBy.set;
 import static fj.P.p;
+import static fj.data.IterableW.wrap;
 import static fj.data.List.list;
 import static fj.data.Option.*;
 import static fj.data.Stream.iterableStream;
@@ -56,8 +60,10 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
     final PathBuilder<Campagne> camp = new PathBuilder<>(Campagne.class, campBase.getMetadata());
     final SetPath<Campagne, PathBuilder<Campagne>> indCamps;
 
-    final EntityPath<IndVoeu> indVoeuBase = new EntityPathBase<>(IndVoeu.class, "voeu");
+    final EntityPath<IndVoeu> indVoeuBase = new EntityPathBase<>(IndVoeu.class, "voeux");
     final PathBuilder<IndVoeu> indVoeu = new PathBuilder<>(IndVoeu.class, indVoeuBase.getMetadata());
+    final PathBuilder<LinkTrtCmiCamp> linkTrtCmiCamp = indVoeu.get("linkTrtCmiCamp", LinkTrtCmiCamp.class);
+    final PathBuilder<TraitementCmi> trtCmi = linkTrtCmiCamp.get("traitementCmi", TraitementCmi.class);
     final SetPath<IndVoeu, PathBuilder<IndVoeu>> indVoeux;
 
     final EntityPath<Avis> avisBase = new EntityPathBase<>(Avis.class, "avis");
@@ -65,6 +71,7 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
     final SetPath<Avis, PathBuilder<Avis>> indVoeuAvis;
     final BooleanExpression avisEnServ;
 
+    final BooleanExpression oneIsOne = BooleanTemplate.create("1 = 1");
 
     private IndividuDaoServiceImpl(PaginatorFactory pf, HibernateTransactionManager txm) {
         this.txm = txm;
@@ -82,8 +89,7 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
         return new IndividuDaoServiceImpl(pf, txm);
     }
 
-    @SafeVarargs
-    private final JPQLQuery from(EntityPath<Individu>... ind) {
+    private JPQLQuery from(EntityPath<?>... ind) {
         return new HibernateQuery(txm.getSessionFactory().getCurrentSession()).from(ind);
     }
 
@@ -132,9 +138,6 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                 public F<BooleanExpression, BooleanExpression> f(final Set<TraitementCmi> trtCmis) {
                     return new F<BooleanExpression, BooleanExpression>() {
                         public BooleanExpression f(BooleanExpression subExpr) {
-                            final PathBuilder<TraitementCmi> trtCmi = indVoeu
-                                            .get("linkTrtCmiCamp", LinkTrtCmiCamp.class)
-                                            .get("traitementCmi", TraitementCmi.class);
                             return trtCmis.size() > 0 ? subExpr.and(trtCmi.in(trtCmis)) : subExpr.and(trtCmi.isNull());
                         }
                     };
@@ -146,10 +149,9 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                 public F<BooleanExpression, BooleanExpression> f(final List<String> typeTrtCmis) {
                     return new F<BooleanExpression, BooleanExpression>() {
                         public BooleanExpression f(BooleanExpression subExpr) {
-                            final PathBuilder<TraitementCmi> typeTrtCmi = indVoeu
-                                            .get("linkTrtCmiCamp", LinkTrtCmiCamp.class)
-                                            .get("traitementCmi", TraitementCmi.class);
-                            return typeTrtCmis.size() > 0 ? subExpr.and(typeTrtCmi.get("codTypeTrait").in(typeTrtCmis)) : subExpr.and(typeTrtCmi.isNull());
+                            return typeTrtCmis.size() > 0 ?
+                                    subExpr.and(trtCmi.get("codTypeTrait").in(typeTrtCmis)) :
+                                    subExpr.and(trtCmi.isNull());
                         }
                     };
                 }
@@ -219,19 +221,16 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
             };
 
 
-
     @Override
-    public P2<Long, Stream<Individu>> sliceOfInd(final PFFilters pfFilters,
-                                                 final List<TypeDecision> typesDec,
-                                                 final Option<Boolean> treatedWish,
-                                                 final Option<Boolean> validWish,
-                                                 final Option<Date> wishCreation,
-                                                 final Option<String> codeTypeTrtmt,
-                                                 final Option<Set<TraitementCmi>> trtCmis,
-                                                 final Set<Integer> listCodesRI,
-                                                 final Option<List<String>> typesTrtVet) {
-
-        final BooleanExpression andExpr = BooleanTemplate.create("1 = 1");
+    public P2<Long, Stream<Individu>> sliceOfInds(final PFFilters pfFilters,
+                                                  final List<TypeDecision> typesDec,
+                                                  final Option<Boolean> treatedWish,
+                                                  final Option<Boolean> validWish,
+                                                  final Option<Date> wishCreation,
+                                                  final Option<String> codeTypeTrtmt,
+                                                  final Option<Set<TraitementCmi>> trtCmis,
+                                                  final Set<Integer> listCodesRI,
+                                                  final Option<List<String>> typesTrtVet) {
 
         final F<BooleanExpression, BooleanExpression> customCampFilter =
                 p(indEnService).<BooleanExpression>constant().andThen(campTemoinAndRIFilter.f(listCodesRI));
@@ -256,36 +255,48 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                         .leftJoin(indVoeux, indVoeu)
                         .innerJoin(indCamps, camp)
                         .leftJoin(indVoeuAvis, avis)
-                        .where(customCampFilter.andThen(customVoeuFilter).f(andExpr));
+                        .where(customCampFilter.andThen(customVoeuFilter).f(oneIsOne));
             }
         };
 
-        return pagInd.lazySliceOf(
+        return pagInd.sliceOf(
                 pfFilters.first,
                 pfFilters.pageSize,
                 pfFilters.sortField,
                 pfFilters.sortOrder,
                 pfFilters.filters,
-                some(customFilterQuery));
+                some(customFilterQuery),
+                new F2<EntityPathBase<Individu>, HibernateQuery, Stream<Individu>>() {
+                    public Stream<Individu> f(EntityPathBase<Individu> ent, HibernateQuery query) {
+                        return iterableStream(query.list(ent));
+                    }
+                });
     }
 
-    @Override
-    public Stream<Individu> getIndividus(final Commission commission,
-                                         final Boolean validate,
-                                         final Set<Integer> listeRICodes) {
-        final F<BooleanExpression, F<BooleanExpression, BooleanExpression>> constant = Function.constant();
+    private static final F<BooleanExpression, F<BooleanExpression,BooleanExpression>> and =
+            new F<BooleanExpression, F<BooleanExpression, BooleanExpression>>() {
+                public F<BooleanExpression, BooleanExpression> f(final BooleanExpression b1) {
+                    return new F<BooleanExpression, BooleanExpression>() {
+                        public BooleanExpression f(BooleanExpression b2) {
+                            return b1.and(b2);
+                        }
+                    };
+                }
+            };
 
+    @Override
+    public List<String> getIndsIds(final Commission commission, final Boolean validate, final Set<Integer> listeRICodes) {
         final F<BooleanExpression, BooleanExpression> filter =
                 somes(list(
-                        some(constant.f(indEnService)),
+                        some(p(indEnService).<BooleanExpression>constant()),
                         some(commission.getTraitementCmi()).map(trtCmiFilter),
-                        fromNull(listeRICodes).map(campRiFilter.andThen(constant)),
+                        fromNull(listeRICodes).map(and.o(campRiFilter)),
                         fromNull(validate).map(validWishFilter),
-                        iif(validate != null, constant.f(avisEnServ))
+                        iif(validate != null, and.f(avisEnServ))
                 )).foldLeft(Function.<BooleanExpression, BooleanExpression, BooleanExpression>andThen(),
                         Function.<BooleanExpression>identity());
 
-        final List<Object[]> numsDossierOpi =
+        final List<Tuple> numsDossierOpi =
                 from(indEnt).distinct()
                         .leftJoin(indVoeux, indVoeu)
                         .innerJoin(indCamps, camp)
@@ -294,13 +305,43 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                         .orderBy(ind.getString("nomPatronymique").asc())
                         .list(ind.getString("nomPatronymique"), ind.getString("numDossierOpi"));
 
-        final F<Object[], Individu> getInd = new F<Object[], Individu>() {
-            public Individu f(Object[] p2) {
-                return from(indEnt).where(ind.getString("numDossierOpi").eq((String) p2[1])).uniqueResult(indEnt);
+        return wrap(numsDossierOpi).map(new F<Tuple, String>() {
+            public String f(Tuple tuple) {
+                return tuple.get(1, String.class);
             }
-        };
+        }).toStandardList();
+    }
 
-        return iterableStream(numsDossierOpi).map(getInd);
+    @Override
+    public Individu fetchIndById(String id, Option<Boolean> onlyValidWishes) {
+        final Map<Individu, Set<IndVoeu>> results =
+                from(indEnt)
+                        .leftJoin(indVoeux, indVoeu)
+                        .leftJoin(indVoeuAvis, avis)
+                        .where(ind.getString("numDossierOpi").eq(id)
+                                .and(onlyValidWishes.option(
+                                        p(oneIsOne).<BooleanExpression>constant(),
+                                        validWishFilter)
+                                        .f(oneIsOne)))
+                        .transform(groupBy(indEnt).as(set(indVoeu)));
+
+        final Individu individu = results.keySet().iterator().next();
+        final Set<IndVoeu> voeux = results.get(individu);
+
+        // Gros hack dégoûtant (mais efficace, en tout cas plus que du fetch/join)
+        // pour forcer le chargement des collections par hibernate
+        for (IndVoeu v : voeux) {
+            LinkTrtCmiCamp link = v.getLinkTrtCmiCamp();
+            TraitementCmi trt = link.getTraitementCmi();
+            VersionEtpOpi vet = trt.getVersionEtpOpi();
+            link.toString();
+            trt.toString();
+            vet.toString();
+        }
+
+        individu.setVoeux(voeux);
+        System.out.println(">Fetching an Individu from DB !");
+        return individu;
     }
 
 }

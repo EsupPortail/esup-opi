@@ -1,5 +1,6 @@
 package org.esupportail.opi.web.controllers.opinions;
 
+import fj.Function;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
@@ -28,7 +29,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.esupportail.opi.web.utils.DTOs.commissionPojoToDTO;
+import static fj.function.Booleans.not;
+import static org.esupportail.opi.web.utils.DTOs.commissionDTO;
+import static org.esupportail.opi.web.utils.fj.Predicates.typeTrtEquals;
 
 
 /**
@@ -173,9 +176,10 @@ public class ValidOpinionController extends AbstractContextAwareController {    
     public String goSeeStudientForCommission() {
         // list of indivius from the commission selected
         // with an opinion not validate
-        this.printOpinionController.filterIndividuPojos(
-                commissionController.getCommission(),
-                false, false);
+        printOpinionController.setLesIndividus(new ArrayList<>(
+                printOpinionController.filterIndividuPojos(
+                        commissionController.getCommission(), false, Function.<IndVoeuPojo, Boolean>constant(true))
+                        .toCollection()));
         return NavigationRulesConst.DISPLAY_NOT_VALIDATED_STUDENT;
     }
 
@@ -218,7 +222,7 @@ public class ValidOpinionController extends AbstractContextAwareController {    
         List<Object> list = new ArrayList<>();
         list.add(ind);
         list.add(a);
-        list.add(commissionPojoToDTO(currentCmiPojo));
+        list.add(commissionDTO(currentCmiPojo));
         Campagne camp = null;
 
         for (Campagne c : ind.getCampagnes()) {
@@ -388,7 +392,10 @@ public class ValidOpinionController extends AbstractContextAwareController {    
         int codeRI = gest.getProfile().getCodeRI();
         RegimeInscription regimeIns = getSessionController().getRegimeIns().get(codeRI);
 
-        this.printOpinionController.lookForIndividusPojo(com, false, false, true);
+        //this.printOpinionController.lookForIndividusPojo(com, false, false, true);
+        printOpinionController.setLesIndividus(new ArrayList<>(printOpinionController
+                        .filterIndividuPojos(com, false, not(typeTrtEquals(printOpinionController.getTransfert())))
+                        .toCollection()));
         for (IndividuPojo i : this.printOpinionController.getLesIndividus()) {
             Set<Avis> avisFavorable = new HashSet<>();
             Set<Avis> avisFavorableAppel = new HashSet<>();

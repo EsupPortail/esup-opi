@@ -5,13 +5,13 @@
 package org.esupportail.opi.domain;
 
 
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import fj.F;
+import fj.P2;
+import fj.Unit;
+import fj.control.parallel.ParModule;
+import fj.control.parallel.Strategy;
+import fj.data.Option;
+import fj.data.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.exceptions.UserNotFoundException;
@@ -21,29 +21,17 @@ import org.esupportail.commons.services.ldap.LdapUserService;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.services.urlGeneration.UrlGenerator;
-import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.dao.DaoService;
 import org.esupportail.opi.dao.IndividuDaoService;
 import org.esupportail.opi.domain.beans.NormeSI;
 import org.esupportail.opi.domain.beans.VersionManager;
-import org.esupportail.opi.domain.beans.etat.EtatComplet;
-import org.esupportail.opi.domain.beans.etat.EtatInComplet;
-import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
-import org.esupportail.opi.domain.beans.parameters.Campagne;
-import org.esupportail.opi.domain.beans.parameters.PieceJustificative;
-import org.esupportail.opi.domain.beans.parameters.TypeDecision;
-import org.esupportail.opi.domain.beans.parameters.VetAutoLp;
+import org.esupportail.opi.domain.beans.parameters.*;
 import org.esupportail.opi.domain.beans.parameters.accessRight.Profile;
 import org.esupportail.opi.domain.beans.pilotage.ArchiveTask;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
-import org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV;
-import org.esupportail.opi.domain.beans.references.rendezvous.Horaire;
-import org.esupportail.opi.domain.beans.references.rendezvous.IndividuDate;
-import org.esupportail.opi.domain.beans.references.rendezvous.JourHoraire;
-import org.esupportail.opi.domain.beans.references.rendezvous.TrancheFermee;
-import org.esupportail.opi.domain.beans.references.rendezvous.VetCalendar;
+import org.esupportail.opi.domain.beans.references.rendezvous.*;
 import org.esupportail.opi.domain.beans.user.Adresse;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.domain.beans.user.Individu;
@@ -58,10 +46,13 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
 import org.esupportail.opi.utils.ldap.LdapAttributes;
 import org.esupportail.opi.utils.primefaces.PFFilters;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 
-import fj.P2;
-import fj.data.Option;
-import fj.data.Stream;
+import java.util.*;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -69,56 +60,63 @@ import fj.data.Stream;
  * 
  * See /properties/domain/domain-example.xml
  */
-public class DomainServiceImpl implements DomainService {
+public final class DomainServiceImpl implements DomainService {
 
-	
-	/**
-	 * The serialization id.
-	 */
-	private static final long serialVersionUID = -8200845058340254019L;
+	private final PlatformTransactionManager txManager;
+
+    private final TransactionTemplate txTemplate;
 
 	/**
 	 * {@link DaoService}.
 	 */
-	private DaoService daoService;
+	private final DaoService daoService;
 
-    private IndividuDaoService individuDaoSrv;
+    private final IndividuDaoService individuDaoSrv;
 
 	/**
 	 * The URL generator.
 	 */
-	private UrlGenerator urlGenerator;
+	private final UrlGenerator urlGenerator;
 
 	/**
 	 * {@link LdapUserService}.
 	 */
-	private LdapUserService ldapUserService;
+	private final LdapUserService ldapUserService;
 
 	/**
 	 * This class contains all LDAP attributes used to OPI.
 	 */
-	private LdapAttributes ldapAttributes;
+	private final LdapAttributes ldapAttributes;
 	
-	private String codStudentRegex;
+	private final String codStudentRegex;
 	
-	private String codStudentPattern;
+	private final String codStudentPattern;
 	
 	private final Logger log = new LoggerImpl(getClass());
 
-	/**
-	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
-	 */
-	public void afterPropertiesSet() {
-		Assert.notNull(this.daoService, "property daoService of class "
-				+ this.getClass().getName() + " can not be null");
-		Assert.notNull(this.ldapUserService,
-				"property ldapUserService of class "
-						+ this.getClass().getName() + " can not be null");
-		Assert.notNull(this.ldapAttributes, "property ldapAttributes of class "
-				+ this.getClass().getName() + " can not be null");
-	}
+    private DomainServiceImpl(PlatformTransactionManager txManager, DaoService daoService, IndividuDaoService individuDaoSrv,
+                              UrlGenerator urlGenerator, LdapUserService ldapUserService, LdapAttributes ldapAttributes,
+                              String codStudentRegex, String codStudentPattern) {
+        this.txManager = txManager;
+        txTemplate = new TransactionTemplate(txManager);
+        this.daoService = daoService;
+        this.individuDaoSrv = individuDaoSrv;
+        this.urlGenerator = urlGenerator;
+        this.ldapUserService = ldapUserService;
+        this.ldapAttributes = ldapAttributes;
+        this.codStudentRegex = codStudentRegex;
+        this.codStudentPattern = codStudentPattern;
+    }
 
-	// ////////////////////////////////////////////////////////////
+    public static DomainServiceImpl domainServiceImpl(PlatformTransactionManager txManager, DaoService daoService,
+                                                      IndividuDaoService individuDaoSrv, UrlGenerator urlGenerator,
+                                                      LdapUserService ldapUserService, LdapAttributes ldapAttributes,
+                                                      String codStudentRegex, String codStudentPattern) {
+        return new DomainServiceImpl(txManager, daoService, individuDaoSrv, urlGenerator, ldapUserService,
+                ldapAttributes, codStudentRegex, codStudentPattern);
+    }
+
+    // ////////////////////////////////////////////////////////////
 	// OBJECT
 	// ////////////////////////////////////////////////////////////
 
@@ -294,22 +292,20 @@ public class DomainServiceImpl implements DomainService {
 
 		return daoService.getIndividus(withWishes, codeTypeTrt);
 	}
-	
-	
-	/** 
-	 * 
-	 * @see org.esupportail.opi.domain.DomainService#getIndividusCommission
-	 * (org.esupportail.opi.domain.beans.references.commission.Commission, java.lang.Boolean)
-	 */
+
 	@Override
-	public Stream<Individu> getIndividusCommission(final Commission commission, final Boolean validate, final Set<Integer> listeCodesRI) {
+	public List<String> getIndsIds(final Commission commission, final Boolean validate, final Set<Integer> listeCodesRI) {
 		if (log.isDebugEnabled())
 			log.debug("entering getIndividus( " + commission + ", " + validate +  " )");
+        return individuDaoSrv.getIndsIds(commission, validate, listeCodesRI);
+    }
 
-		return individuDaoSrv.getIndividus(commission, validate, listeCodesRI);
-	}
-	
-	/** 
+    @Override
+    public Individu fetchIndById(String id, Option<Boolean> onlyValidWishes) {
+        return individuDaoSrv.fetchIndById(id, onlyValidWishes);
+    }
+
+    /**
 	 * @see org.esupportail.opi.domain.DomainService#getIndividusTrtCmiState(
 	 * org.esupportail.opi.domain.beans.references.commission.TraitementCmi, java.lang.String)
 	 */
@@ -345,7 +341,7 @@ public class DomainServiceImpl implements DomainService {
                                                  Option<Set<TraitementCmi>> trtCmis,
                                                  Set<Integer> listCodesRI,
                                                  Option<List<String>> typesTrtVet) {
-	    return individuDaoSrv.sliceOfInd(
+	    return individuDaoSrv.sliceOfInds(
                 pfFilters, typesDec, treatedWish, validWish, wishCreation, codeTypeTrtmt, trtCmis, listCodesRI, typesTrtVet);
 	}
 	
@@ -389,7 +385,6 @@ public class DomainServiceImpl implements DomainService {
 		}
 		return this.daoService.getIndividuSearch(nomPatronymique, prenom,
 				dateNaissance, codPayNaissance, codDepPaysNaissance);
-		
 	}
 	
 
@@ -457,43 +452,6 @@ public class DomainServiceImpl implements DomainService {
 		this.daoService.deleteUserList(users);
 	}
 
-
-	/** 
-	 * @see org.esupportail.opi.domain.DomainService#updateStateIndividu(
-	 * org.esupportail.opi.domain.beans.user.Individu,
-	 *  org.esupportail.opi.domain.beans.user.Gestionnaire)
-	 */
-	public Individu updateStateIndividu(final Individu individu, final Gestionnaire manager) {
-		//nouvelle ajout on test l'etat
-		boolean doUpdate = false;
-//		Individu  indi = getIndividu(
-//				individu.getNumDossierOpi(), individu.getDateNaissance());
-		Individu  indi = individu;
-		// TODO : fix the following !!
-		if (false) {
-			if (!indi.getState().equals(EtatComplet.I18N_STATE_COMPLET)) {
-				doUpdate = true;
-				indi.setState(EtatComplet.I18N_STATE_COMPLET);
-			}
-		} else {
-			if (!indi.getState().equals(EtatInComplet.I18N_STATE_INCOMPLET)) {
-				doUpdate = true;
-				indi.setState(EtatInComplet.I18N_STATE_INCOMPLET);
-			}
-		}
-		//TODO: FIx this !!
-//		if (doUpdate) {
-//			IndividuPojo iPojo = new IndividuPojo();
-//			iPojo.setIndividu(indi);
-//			indi = (Individu) update(indi, 
-//					Utilitaires.codUserThatIsAction(
-//							manager, iPojo));
-//			updateUser(indi);
-//			
-//		}
-		return indi;
-	}
-	
 	/**
 	 * @see org.esupportail.opi.domain.DomainService#addUser(org.esupportail.opi.domain.beans.user.User)
 	 */
@@ -870,48 +828,6 @@ public class DomainServiceImpl implements DomainService {
 	// Misc
 	// ////////////////////////////////////////////////////////////
 
-	/**
-	 * @param daoService
-	 *            the daoService to set
-	 */
-	public void setDaoService(final DaoService daoService) {
-		this.daoService = daoService;
-	}
-
-    public void setIndividuDaoSrv(IndividuDaoService individuDaoSrv) {
-        this.individuDaoSrv = individuDaoSrv;
-    }
-
-    /**
-	 * @param ldapUserService
-	 *            the ldapUserService to set
-	 */
-	public void setLdapUserService(final LdapUserService ldapUserService) {
-		this.ldapUserService = ldapUserService;
-	}
-
-	/**
-	 * @param ldapAttributes
-	 *            the ldapAttributes to set
-	 */
-	public void setLdapAttributes(final LdapAttributes ldapAttributes) {
-		this.ldapAttributes = ldapAttributes;
-	}
-	
-	/**
-	 * @param urlGenerator the urlGenerator to set
-	 */
-	public void setUrlGenerator(final UrlGenerator urlGenerator) {
-		this.urlGenerator = urlGenerator;
-	}
-	
-	/**
-	 * @param codStudentRegex the codStudentRegex to set
-	 */
-	public void setCodStudentRegex(final String codStudentRegex) {
-		this.codStudentRegex = codStudentRegex;
-	}
-	
 	/** 
 	 * @see org.esupportail.opi.domain.DomainService#getCodStudentRegex()
 	 */
@@ -925,15 +841,7 @@ public class DomainServiceImpl implements DomainService {
 	public String getCodStudentPattern() {
 		return codStudentPattern;
 	}
-	
-	/**
-	 * @param codStudentPattern the codStudentPattern to set
-	 */
-	public void setCodStudentPattern(final String codStudentPattern) {
-		this.codStudentPattern = codStudentPattern;
-	}
-	
-	
+
 	//////////////////////////////////////////////////////////////
 	// Deep links
 	//////////////////////////////////////////////////////////////

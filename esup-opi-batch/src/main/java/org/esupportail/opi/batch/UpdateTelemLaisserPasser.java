@@ -1,9 +1,6 @@
 package org.esupportail.opi.batch;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
+import fj.data.Option;
 import fj.data.Stream;
 import org.esupportail.commons.context.ApplicationContextHolder;
 import org.esupportail.commons.services.application.ApplicationService;
@@ -16,13 +13,19 @@ import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.OpiWebService;
 import org.esupportail.opi.domain.ParameterService;
-import org.esupportail.opi.domain.beans.etat.EtatConfirme;
+import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
 import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatConfirme;
 
 
 /**
@@ -61,19 +64,18 @@ public class UpdateTelemLaisserPasser  {
 			List<Individu> iAlreadyAddInApo = new ArrayList<>();
 			int nbIndApo = 0;
 			for (Commission cmi : commissions) {
-				Stream<Individu> individus = domainService.getIndividusCommission(cmi, true, null);
-
                 // TODO : n'a pas l'air de servir à grand chose...
 				List<VersionEtpOpi> vets = new ArrayList<>();
 				for (TraitementCmi trt : cmi.getTraitementCmi()) {
 					vets.add(trt.getVersionEtpOpi());
 				}
 
-				for (Individu i : individus) {
-					if (!iAlreadyAddInApo.contains(i)) {
+                for (String id : domainService.getIndsIds(cmi, true, null))	{
+				    Individu i = domainService.fetchIndById(id, Option.<Boolean>none());
+						if (!iAlreadyAddInApo.contains(i)) {
 						List<IndVoeu> list = new ArrayList<>();
 						for (IndVoeu indVoeu : i.getVoeux()) {
-							if (indVoeu.getState().equals(EtatConfirme.I18N_STATE)) {
+							if (indVoeu.getState().equals(EtatConfirme.getCodeLabel())) {
 								list.add(indVoeu);
 							}
 						}

@@ -8,21 +8,15 @@
  */
 package org.esupportail.opi.web.beans.pojo;
 
-import fj.F;
-import fj.data.Option;
+import fj.*;
 import fj.data.Stream;
-import org.apache.commons.beanutils.BeanComparator;
-import org.apache.commons.collections.comparators.NullComparator;
 import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.opi.domain.BusinessUtil;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
-import org.esupportail.opi.domain.beans.etat.Etat;
-import org.esupportail.opi.domain.beans.etat.EtatComplet;
 import org.esupportail.opi.domain.beans.etat.EtatIndividu;
-import org.esupportail.opi.domain.beans.etat.EtatNonRenseigne;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
@@ -34,9 +28,9 @@ import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.indcursus.*;
+import org.esupportail.opi.services.i18n.I18NUtilsService;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
-import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.wssi.services.remote.Departement;
 import org.esupportail.wssi.services.remote.Pays;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
@@ -44,13 +38,10 @@ import org.springframework.util.StringUtils;
 
 import java.util.*;
 
+import static fj.Function.curry;
+import static fj.P.p;
 import static fj.data.Option.fromNull;
-import static fj.data.Stream.iterableStream;
-
-
-
-
-
+import static fj.data.Stream.*;
 
 
 /**
@@ -89,8 +80,8 @@ public class IndividuPojo {
 	/**
 	 * The vows of individu.
 	 */
-	private Set<IndVoeuPojo> indVoeuxPojo;
-	
+	private Stream<IndVoeuPojo> indVoeuxPojo = nil();
+
 	/**
 	 * a true si c'est un gestionnaire.
 	 * Default value false.
@@ -112,12 +103,7 @@ public class IndividuPojo {
 	 * see {@link RegimeInscription}.
 	 */
 	private RegimeInscription regimeInscription;
-	
-	/**
-	 * see {@link I18nService}.
-	 */
-	private I18nService i18nService;
-	
+
 	/**
 	 * List of cursus.
 	 */
@@ -145,52 +131,31 @@ public class IndividuPojo {
 	private Boolean isUsingSearch;
 
     private String etatIndBac;
-	
-	/*
-	 ******************* INIT ************************* */
-	
-	/**
-	 * Constructor.
-	 */
+    
+    private final Ord<IndVoeuPojo> indVoeuPojoOrd = Ord.ord(curry(new F2<IndVoeuPojo, IndVoeuPojo, Ordering>() {
+        public Ordering f(IndVoeuPojo ivp1, IndVoeuPojo ivp2) {
+            return Ord.stringOrd.compare(ivp1.getVrsEtape().getLicEtp(), ivp2.getVrsEtape().getLicEtp());
+        }
+    }));
+
 	public IndividuPojo() {
 		individu = new Individu();
 		doNotHaveCodeNne = false;
 		isManager = false;
-		i18nService = null;
-		etat = (EtatIndividu) Etat.instanceState(individu.getState(), null);
-		dateCreationDossier = null;
-		isUsingLC = false;
-		isUsingDEF = false;
-		isUsingSearch = false;
-	}
-	
-	/**
-	 * Constructor.
-	 * @param i18Service
-	 */
-	public IndividuPojo(final I18nService i18Service) {
-		individu = new Individu();
-		doNotHaveCodeNne = false;
-		isManager = false;
-		i18nService = i18Service;
-		etat = (EtatIndividu) Etat.instanceState(individu.getState(), i18Service);
-		dateCreationDossier = null;
-		isUsingLC = false;
-		isUsingDEF = false;
-		isUsingSearch = false;
-	}
-	
-	
-	/**
-	 * Constructor.
-	 * @param individu 
-	 * @param apoServ 
-	 * @param i18Service
-	 * @param parameterService
-	 * @param commissions 
-	 */
+		etat = fromNull(individu.getState())
+                .map(new F<String, EtatIndividu>() {
+                    public EtatIndividu f(String s) {
+                        return EtatIndividu.fromString(s);
+                    }
+                }).toNull();
+        dateCreationDossier = null;
+        isUsingLC = false;
+        isUsingDEF = false;
+        isUsingSearch = false;
+    }
+
 	public IndividuPojo(final Individu individu, final DomainApoService apoServ,
-			final I18nService i18Service, final ParameterService parameterService,
+			final I18NUtilsService i18nUtils, final ParameterService parameterService,
 			final RegimeInscription ri,
 			final List<TypeTraitement> typeTraitements,
 			final List<CalendarRDV> listCalendrierParam,
@@ -198,9 +163,14 @@ public class IndividuPojo {
 		this.individu = individu;
 		doNotHaveCodeNne = false;
 		regimeInscription = ri;
-		etat = (EtatIndividu) Etat.instanceState(individu.getState(), i18Service);
-		initIndVoeuPojo(apoServ, i18Service, parameterService, commissions, null, typeTraitements, listCalendrierParam, null);
-		i18nService = i18Service;
+        etat = fromNull(individu.getState())
+                .map(new F<String, EtatIndividu>() {
+                    public EtatIndividu f(String s) {
+                        return EtatIndividu.fromString(s);
+                    }
+                }).toNull();
+		initIndVoeuPojo(apoServ, i18nUtils.getI18nService(), parameterService, commissions, null,
+                typeTraitements, listCalendrierParam, null);
 		isManager = false;
 		dateCreationDossier = individu.getDateCreaEnr();
 		isUsingLC = false;
@@ -211,23 +181,13 @@ public class IndividuPojo {
                     public Boolean f(Set<IndBac> indBacs) {
                         return !indBacs.isEmpty();
                     }})
-                .option(new EtatNonRenseigne(i18nService).getLabel(),
+                .option(i18nUtils.labelEtatNonRenseigne(),
                         new F<Set<IndBac>, String>() {
                             public String f(Set<IndBac> indBacs) {
-                                return new EtatComplet(i18Service).getLabel();
+                                return i18nUtils.labelEtatComplet();
                             }});
     }
 	
-	/**
-	 * Constructor.
-	 * @param individu 
-	 * @param i18Service
-	 * @param apoServ 
-	 * @param parameterService
-	 * @param commissions 
-	 * @param typeDecisions 
-	 * @param versionsEtape 
-	 */
 	public IndividuPojo(final Individu individu, final DomainApoService apoServ,
 			final I18nService i18Service, final ParameterService parameterService,
 			final Set<Commission> commissions, final Set<TypeDecision> typeDecisions,
@@ -235,10 +195,14 @@ public class IndividuPojo {
 			final Set<VersionEtapeDTO> versionsEtape) {
 		this.individu = individu;
 		doNotHaveCodeNne = false;
-		etat = (EtatIndividu) Etat.instanceState(individu.getState(), i18Service);
+        etat = fromNull(individu.getState())
+                .map(new F<String, EtatIndividu>() {
+                    public EtatIndividu f(String s) {
+                        return EtatIndividu.fromString(s);
+                    }
+                }).toNull();
 		initIndVoeuPojo(apoServ, i18Service, parameterService,
 				commissions, typeDecisions, typeTraitements, listCalendrierParam, versionsEtape);
-		i18nService = i18Service;
 		isManager = false;
 		dateCreationDossier = individu.getDateCreaEnr();
 		isUsingLC = false;
@@ -321,13 +285,6 @@ public class IndividuPojo {
      * TODO : on utilise une liste de commissions uniquement pour inhiber ou non le remplissage du set de IndVoeuPojo.
      * TODO : Or le trairement nécessaire pour obtenir cette liste est TRÈS couteux.
      * TODO : Il faut chercher à ne plus avoir besoin de cette liste peut-être en construisant systématiquement le set de IndVoeuPojo.
-     *
-     * @param apoServ
-	 * @param i18Service 
-	 * @param parameterService 
-	 * @param commissions
-	 * @param typeDecisions 
-	 * @param versionsEtp 
 	 */
 	private void initIndVoeuPojo(final DomainApoService apoServ,
 					final I18nService i18Service,
@@ -337,7 +294,7 @@ public class IndividuPojo {
 					final List<TypeTraitement> typeTraitements,
 					final List<CalendarRDV> listCalendrierParam,
 					final Set<VersionEtapeDTO> versionsEtp) {
-		indVoeuxPojo = new TreeSet<IndVoeuPojo>(new ComparatorString(IndVoeuPojo.class));
+		//indVoeuxPojo = new TreeSet<>(new ComparatorString(IndVoeuPojo.class));
 		if (individu != null) {
 			Set<IndVoeu> indVoeu = individu.getVoeux();
 			for (IndVoeu i : indVoeu) {
@@ -398,11 +355,8 @@ public class IndividuPojo {
 
 					if (addVoeuType && addVoeuVet) {
 						CalendarRDV cal = Utilitaires.getRecupCalendarRdv(i, listCalendrierParam);
-						indVoeuxPojo.add(
-								new IndVoeuPojo(
-										i, vet, i18Service,
-										calIsOpen, t, cal));
-					} 
+                        indVoeuxPojo = cons(new IndVoeuPojo(i, vet, i18Service, calIsOpen, t, cal), p(indVoeuxPojo));
+					}
 				}
 			}
 		}
@@ -413,16 +367,16 @@ public class IndividuPojo {
 	 * @param domainApoService
 	 * @param i18Service 
 	 */
-	public void initIndCursusScolPojo(final DomainApoService domainApoService,
-					final I18nService i18Service) {
-		indCursusScolPojo = new ArrayList<IndCursusScolPojo>();
-		for (IndCursusScol iCur : individu.getCursusScol()) {
-			indCursusScolPojo.add(
-					new IndCursusScolPojo(iCur, i18Service, domainApoService));
-		}
-		Collections.sort(indCursusScolPojo, new ComparatorString(IndCursusScolPojo.class));
-	}
-	
+//	public void initIndCursusScolPojo(final DomainApoService domainApoService,
+//					final I18nService i18Service) {
+//		indCursusScolPojo = new ArrayList<>();
+//		for (IndCursusScol iCur : individu.getCursusScol()) {
+//			indCursusScolPojo.add(
+//					new IndCursusScolPojo(iCur, i18Service, domainApoService));
+//		}
+//		Collections.sort(indCursusScolPojo, new ComparatorString(IndCursusScolPojo.class));
+//	}
+//
 	
 	/**
 	 * State of IndBac.
@@ -431,64 +385,8 @@ public class IndividuPojo {
 	public String getEtatIndBac() {
         return etatIndBac;
 	}
-	
-	/**
-	 * State of IndCursusScol.
-	 * @return String
-	 */ 
-	public String getEtatIndCursusScol() {
-		if (individu.getCursusScol() != null 
-				&& !individu.getCursusScol().isEmpty()) {
-			return new EtatComplet(i18nService).getLabel();
-		}
-		return new EtatNonRenseigne(i18nService).getLabel();
-	}
-	
-	/**
-	 * State of CursusPro.
-	 * @return String
-	 */ 
-	public String getEtatIndCursusPro() {
-		if (individu.getCursus() == null 
-				|| individu.getCursus().isEmpty()) {
-			return new EtatNonRenseigne(i18nService).getLabel();
-		}
-		boolean isCursusProExist = false;
-		for (IndCursus c : individu.getCursus()) {
-			if (c instanceof CursusPro) {
-				isCursusProExist = true;
-				break;
-			}
-		}
-		if (isCursusProExist) {
-			return new EtatComplet(i18nService).getLabel();
-		}
-		return new EtatNonRenseigne(i18nService).getLabel();
-	}
-	
-	
-	/**
-	 * State of QualifNonDiplomante.
-	 * @return String
-	 */ 
-	public String getEtatQualifNonDiplomante() {
-		if (individu.getCursus() == null 
-				|| individu.getCursus().isEmpty()) {
-			return new EtatNonRenseigne(i18nService).getLabel();
-		}
-		boolean isQualifExist = false;
-		for (IndCursus c : individu.getCursus()) {
-			if (c instanceof QualifNonDiplomante) {
-				isQualifExist = true;
-				break;
-			}
-		}
-		if (isQualifExist) {
-			return new EtatComplet(i18nService).getLabel();
-		}
-		return new EtatNonRenseigne(i18nService).getLabel();
-	}
-	
+
+
 	
 	/**
 	 * return true if it is a manager or if the regime can add vows.
@@ -535,53 +433,6 @@ public class IndividuPojo {
 		}
 		return isRight;
 	}
-	
-	
-	/**
-	 * @return Boolean
-	 */
-	public Boolean getCanUpdateBac() {
-		if (!getAsRightsToUpdate()) {
-			if (getEtatIndBac().equals(new EtatNonRenseigne(i18nService).getLabel())) {
-				return false;
-			}
-		}
-		return true;
-	}
-	/**
-	 * @return Boolean
-	 */
-	public Boolean getCanUpdateIndCursusScol() {
-		if (!getAsRightsToUpdate()) {
-			if (getEtatIndCursusScol().equals(new EtatNonRenseigne(i18nService).getLabel())) {
-				return false;
-			}
-		}
-		return true;
-	}
-	/**
-	 * @return Boolean
-	 */
-	public Boolean getCanUpdateIndCursusPro() {
-		if (!getAsRightsToUpdate()) {
-			if (getEtatIndCursusPro().equals(new EtatNonRenseigne(i18nService).getLabel())) {
-				return false;
-			}
-		}
-		return true;
-	}
-	/**
-	 * @return Boolean
-	 */
-	public Boolean getCanUpdateQualifNonDiplomante() {
-		if (!getAsRightsToUpdate()) {
-			if (getEtatQualifNonDiplomante().equals(new EtatNonRenseigne(i18nService).getLabel())) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
 	
 	/**
 	 * Test the calendar of vow. if it's open return true.
@@ -638,9 +489,7 @@ public class IndividuPojo {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<IndVoeuPojo> getVoeuxSortedByLic() {
-		List<IndVoeuPojo> l = new ArrayList<IndVoeuPojo>(getIndVoeuxPojo());
-		Collections.sort(l, new BeanComparator("vrsEtape.licEtp", new NullComparator()));
-		return l;
+	    return new ArrayList<>(indVoeuxPojo.sort(indVoeuPojoOrd).toCollection());
 	}
 	
 	/*
@@ -707,19 +556,21 @@ public class IndividuPojo {
 	/**
 	 * @return the indVoeuxPojo
 	 */
-	public Set<IndVoeuPojo> getIndVoeuxPojo() {
+	public Stream<IndVoeuPojo> getIndVoeuxPojo() {
 		return indVoeuxPojo;
 	}
 
+    /**
+     * For JSF
+     */
 	public List<IndVoeuPojo> getIndVoeuxPojoAsList() {
-		return new ArrayList<IndVoeuPojo>(indVoeuxPojo);
+		return new ArrayList<>(indVoeuxPojo.toCollection());
 	}
-	
 
 	/**
 	 * @param indVoeuxPojo the indVoeuxPojo to set
 	 */
-	public void setIndVoeuxPojo(final Set<IndVoeuPojo> indVoeuxPojo) {
+	public void setIndVoeuxPojo(final Stream<IndVoeuPojo> indVoeuxPojo) {
 		this.indVoeuxPojo = indVoeuxPojo;
 	}
 

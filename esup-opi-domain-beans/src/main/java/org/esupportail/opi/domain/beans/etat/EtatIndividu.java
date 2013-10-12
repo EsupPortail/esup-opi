@@ -9,45 +9,28 @@ package org.esupportail.opi.domain.beans.etat;
  * @author cleprous
  *
  */
-public abstract class EtatIndividu extends Etat {
+public enum  EtatIndividu implements Etat {
+    EtatComplet(States.STATE_COMPLET),
+    EtatIncomplet(States.STATE_INCOMPLET);
 
+    private final String codeLabel;
+    private EtatIndividu(String codeLabel) { this.codeLabel = codeLabel; }
 
-	/**
-	 * the serialization id.
-	 */
-	private static final long serialVersionUID = 3974987677907095406L;
-
-
-
-	
-
-	/*
-	 ******************* PROPERTIES ******************* */
-
-	
-	/*
-	 ******************* INIT ************************* */
-
-	
-	/**
-	 * Constructors.
-	 */
-	public EtatIndividu() {
-		super();
-	}
-	
-	
-
-	/*
-	 ******************* METHODS ********************** */
-
-	/**
-	 * if incomplet can not make a vows.
+    /**
+	 * if incomplet can not make a wish.
 	 * @return Boolean true if this is EtatComplet
 	 */
-	public abstract Boolean getCanDoChoiceEtape(); 
-	
-	/*
-	 ******************* ACCESSORS ******************** */
-	
+	public Boolean getCanDoChoiceEtape() { return this == EtatComplet; }
+
+    @Override
+    public String getCodeLabel() { return codeLabel; }
+
+    public static EtatIndividu fromString(String str) {
+        switch (str) {
+            case States.STATE_COMPLET: return EtatComplet;
+            case States.STATE_INCOMPLET: return EtatIncomplet;
+            default: throw new IllegalArgumentException("No EtatIndividu enum constant for " + str);
+        }
+    }
+
 }

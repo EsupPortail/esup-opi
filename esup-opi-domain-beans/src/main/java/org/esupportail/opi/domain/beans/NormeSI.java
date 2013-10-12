@@ -94,9 +94,9 @@ public abstract class NormeSI implements Serializable {
 		//Proxy hib
 		if (!(obj instanceof NormeSI)) { return false; }
 		NormeSI other = (NormeSI) obj;
-		if (id.intValue() != other.getId().intValue()) { return false; }
+		if (!id.equals(other.id)) { return false; }
 		return true;
-	}	
+	}
 	
 	
 	
@@ -125,10 +125,10 @@ public abstract class NormeSI implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "NormeSI#" + hashCode() + "[id=[" + id + "], libelle=[" + libelle 
-		+ "], shortLabel=[" + shortLabel + "], temoinEnService=[" + temoinEnService 
+		return "NormeSI#" + hashCode() + "[id=[" + id + "], libelle=[" + libelle
+		+ "], shortLabel=[" + shortLabel + "], temoinEnService=[" + temoinEnService
 		+ "], dateCreaEnr=[" + dateCreaEnr + "]"
-		+ ", dateModifEnr=[" + dateModifEnr + "], codUserToCreate=[" + codUserToCreate 
+		+ ", dateModifEnr=[" + dateModifEnr + "], codUserToCreate=[" + codUserToCreate
 		+ "], codUserToUpdate=[" + codUserToUpdate + "]]";
 	}
 	

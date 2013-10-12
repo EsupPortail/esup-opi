@@ -1,13 +1,9 @@
 package org.esupportail.opi.utils;
 
-/**
- * Constant class.
- */
-public class Constantes {
-	/*
-	 ******************* PROPERTIES ******************* */
-	
-	// ------- Business code ------------------------ //
+public final class Constantes {
+    private Constantes() { throw new UnsupportedOperationException(); }
+
+    // ------- Business code ------------------------ //
 	/**Code for profile Member.*/
 	public static final String COD_PRO_MEMBER = "MEMBRE";
 	
@@ -129,19 +125,4 @@ public class Constantes {
 	public static final String TAB_STATISTIQUE = "tabStatistique.xsl";
 	/** */
 	public static final String NOTIFICATION_IND_XSL = "notificationIndividu.xsl";
-
-
-	
-	
-	/*
-	 ******************* INIT ******************* */
-	
-	
-	/**
-	 * Constructors.
-	 */
-	private Constantes() {
-		super();
-	}
-	
 }

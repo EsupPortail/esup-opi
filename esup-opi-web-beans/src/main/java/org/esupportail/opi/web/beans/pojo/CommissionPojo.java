@@ -4,7 +4,6 @@
 package org.esupportail.opi.web.beans.pojo;
 
 import org.esupportail.commons.services.i18n.I18nService;
-import org.esupportail.opi.domain.beans.etat.Etat;
 import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.ContactCommission;
@@ -133,7 +132,7 @@ public class CommissionPojo implements Serializable {
 		super();
 		this.commission = commission;
 		this.adressePojo = null;
-		this.state = (EtatVoeu) Etat.instanceState(stateLabel, i18nService);
+		this.state = EtatVoeu.fromString(stateLabel);
 		stateCurrent = stateLabel;
 		stateCurrentOld = stateLabel;
 	}

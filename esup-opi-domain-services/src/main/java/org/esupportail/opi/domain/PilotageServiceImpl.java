@@ -219,12 +219,7 @@ public class PilotageServiceImpl implements PilotageService {
 		return parameters.contains(o1.getClass()) 
 		|| parameters.contains(o1.getClass().getSuperclass());
 	}
-	/**
-	 * @param o1
-	 * @param o2
-	 * @param campagne
-	 * @return Integer
-	 */
+
 	private DetachedCriteria getCriteria(final Object o1, final Object a2, final Campagne campagne) {
 		Method[] methods = this.getClass().getMethods();
 		Method methodToExecute = null;
@@ -917,7 +912,6 @@ public class PilotageServiceImpl implements PilotageService {
 	
 	/* * ******************* VET ********************** * */
 	/**
-	 * @param codeRI
 	 * @param n2
 	 * @param c
 	 * @return DetachedCriteria
@@ -1120,19 +1114,7 @@ public class PilotageServiceImpl implements PilotageService {
 		
 		return listVet;
 	}
-	
-//	/**
-//	 * @param classRi
-//	 * @return List
-//	 */
-//	@SuppressWarnings("unchecked")
-//	public List getRiStat(final Class<RegimeInscription> classRi) {
-//		if (log.isDebugEnabled()) {
-//			log.debug("entering getRiStat classRi = " + classRi.getName());
-//		}
-//		return (List<RegimeInscription>) BeanUtils.getBean("listRi");
-//	}
-	
+
 	/**
 	 * @param classTypeConvocation
 	 * @return List
@@ -1189,23 +1171,9 @@ public class PilotageServiceImpl implements PilotageService {
 		return domainApoService.getDipAutCurs();
 	}
 
-//	/**
-//	 * @param classRen1ClesAnnuFormPojo
-//	 * @return List
-//	 */
-//	@SuppressWarnings("unchecked")
-//	public List getRen1ClesAnnuFormPojo(final Class<Ren1ClesAnnuFormPojo> classRen1ClesAnnuFormPojo) {
-//		if (log.isDebugEnabled()) {
-//			log.debug("entering getDipAutCursStat classDipAutCurs = "
-//					+ classRen1ClesAnnuFormPojo.getName());
-//		}
-//		return domainApoService.getRen1ClesAnnuForm();
-//	}
-	
 	////////////////////////////////////////////////////////////
 	// EXPORT LISTES COMPLEMENTAIRES
 	/////////////////////////////////////////////////////////////////
-	
 	
 	/**
 	 * 
@@ -1272,7 +1240,7 @@ public class PilotageServiceImpl implements PilotageService {
 				mapAllInfo.putAll(getResultInfosBase(ind, numDos, versionEtpOpi, champsChoisis));
 			} else {
 				mapAllInfo.putAll(getResultInfosBaseNull(numDos));
-				log.warn("l'individu numÃÂ©ro de dossier " + numDos + " est null");
+				log.warn("l'individu au numéro de dossier " + numDos + " est null");
 			}
 			mapAllInfo.putAll(mapInfoXml);
 			allInfos.add(mapAllInfo);

@@ -37,6 +37,7 @@ import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.User;
 import org.esupportail.opi.services.authentification.Authenticator;
 import org.esupportail.opi.services.authentification.AuthenticatorImpl;
+import org.esupportail.opi.services.i18n.I18NUtilsService;
 import org.esupportail.opi.web.beans.parameters.FormationInitiale;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
@@ -67,6 +68,8 @@ public class SessionController extends AbstractDomainAwareBean {
      * A logger.
      */
     private final Logger log = new LoggerImpl(getClass());
+
+    private I18NUtilsService i18NUtils;
 
     /**
      * The CAS logout URL.
@@ -123,22 +126,12 @@ public class SessionController extends AbstractDomainAwareBean {
      */
     private Authenticator authenticator;
 
-    /**
-     *
-     */
     private boolean allViewPJ;
 
-
-    /**
-     * Constructor.
-     */
     public SessionController() {
         super();
     }
 
-    /**
-     * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
-     */
     @Override
     public void reset() {
         canUpdateStudent = false;
@@ -149,10 +142,6 @@ public class SessionController extends AbstractDomainAwareBean {
         regimeInsUser = getRegimeIns().get(FormationInitiale.CODE);
     }
 
-
-    /**
-     * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#afterPropertiesSetInternal()
-     */
     @Override
     public void afterPropertiesSetInternal() {
         Assert.notNull(this.exceptionController, "property exceptionController of class "
@@ -187,32 +176,22 @@ public class SessionController extends AbstractDomainAwareBean {
      */
     @RequestCache
     public String getWhoIsConnectInPortlet() {
-
         User u = null;
         String whoIsConnect = null;
-//		String currentUserId = authenticationService.getCurrentUserId();
-//		if (currentUserId == null) {
-//			return null;
-//		}
-
         //en portlet le currentUser peut etre un individu.
         u = getCurrentUser();
         if (u != null) {
             if (u instanceof Gestionnaire) {
                 whoIsConnect = "manager";
             } else if (u instanceof Individu) {
-//				Individu i = (Individu) u;
-//				numDossier = i.getNumDossierOpi();
-//				dateNaissance = i.getDateNaissance();
                 whoIsConnect = "individu.exist";
             }
         } else {
-            if (authenticator.getAuthId() != null) {
+            if (authenticator.getAuthId() != null)
                 codEtu = Utilitaires.getCheckCodEtu(authenticator.getAuthId(),
                         getDomainService().getCodStudentRegex(),
                         getDomainService().getCodStudentPattern());
-            }
-            //c'est un nouveau etudiant donc redirection vers search etu et affichage du son code etu.
+            //c'est un nouvel étudiant donc redirection vers search etu et affichage de son code etu.
             whoIsConnect = "individu.not_exist";
         }
         if (log.isDebugEnabled()) {
@@ -236,17 +215,9 @@ public class SessionController extends AbstractDomainAwareBean {
                         individu.getNumDossierOpi(), individu.getDateNaissance());
             }
             if (individu != null) {
-//                int codeRI = Utilitaires.getCodeRIIndividu(individu,
-//                        getDomainService());
-                //RegimeInscription regime = getRegimeIns().get(codeRI);
-                //Test l etat de l'individu
-//                individu = getDomainService().updateStateIndividu(
-//                        individu, authenticator.getManager());
-                //regime.getControlField());
-
                 IndividuPojo indPojo = new IndividuPojo(
                         individu, getDomainApoService(),
-                        getI18nService(), getParameterService(),
+                        i18NUtils, getParameterService(),
                         getRegimeIns().get(Utilitaires.getCodeRIIndividu(individu,
                                 getDomainService())), getParameterService().getTypeTraitements(),
                         getParameterService().getCalendarRdv(), null);
@@ -265,7 +236,6 @@ public class SessionController extends AbstractDomainAwareBean {
      */
     @Override
     public IndividuPojo getCurrentIndInit() {
-       
             Individu individu = null;
             User u = getCurrentUser();
             if (u != null && u instanceof Individu) {
@@ -274,17 +244,9 @@ public class SessionController extends AbstractDomainAwareBean {
                         individu.getNumDossierOpi(), individu.getDateNaissance());
             }
             if (individu != null) {
-//                int codeRI = Utilitaires.getCodeRIIndividu(individu,
-//                        getDomainService());
-                //RegimeInscription regime = getRegimeIns().get(codeRI);
-                //Test l etat de l'individu
-//                individu = getDomainService().updateStateIndividu(
-//                        individu, authenticator.getManager());
-                //regime.getControlField());
-
                 IndividuPojo indPojo = new IndividuPojo(
                         individu, getDomainApoService(),
-                        getI18nService(), getParameterService(),
+                        i18NUtils, getParameterService(),
                         getRegimeIns().get(Utilitaires.getCodeRIIndividu(individu,
                                 getDomainService())), getParameterService().getTypeTraitements(),
                         getParameterService().getCalendarRdv(), null);
@@ -294,18 +256,12 @@ public class SessionController extends AbstractDomainAwareBean {
                 resetSessionLocale();
                 ContextUtils.setSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE, indPojo);
             }
-        
         return (IndividuPojo) ContextUtils.getSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE);
     }
 
 
     /**
      * Initialize the current {@link IndividuPojo}
-     *
-     * @param numeroDossier
-     * @param dateDeNaissance
-     * @param isManager
-     * @param canUpdateStudent
      */
     @SuppressWarnings("hiding") 
     public void initCurrentInd(final String numeroDossier, final Date dateDeNaissance,
@@ -328,10 +284,7 @@ public class SessionController extends AbstractDomainAwareBean {
      * @return boolean
      */
     public boolean getIsServlet() {
-        if (isInEnt) {
-            return false;
-        }
-        return ContextUtils.isServlet();
+        return !isInEnt && ContextUtils.isServlet();
     }
 
     /**
@@ -426,40 +379,29 @@ public class SessionController extends AbstractDomainAwareBean {
      */
     @SuppressWarnings("deprecation")
 	public String restart() {
-        Map<String, Resettable> resettables = BeanUtils.getBeansOfClass(Resettable.class);
-        Boolean isManagerConnect = true;
-        Boolean isEnt = isInEnt;
-        if (getCurrentUser() == null && getCurrentInd() != null) {
-            isManagerConnect = false;
-        }
+        final Map<String, Resettable> resettables = BeanUtils.getBeansOfClass(Resettable.class);
+        final Boolean isManagerConnect = !(getCurrentUser() == null && getCurrentInd() != null);
+
         for (Entry<String, Resettable> nameEntry : resettables.entrySet()) {
-            String name = nameEntry.getKey();
-            if (log.isDebugEnabled()) {
+            final String name = nameEntry.getKey();
+            if (log.isDebugEnabled())
                 log.debug("trying to reset bean [" + name + "]...");
-            }
-            Object bean = nameEntry.getValue();
-            if (bean == null) {
+            final Resettable bean = nameEntry.getValue();
+            if (bean == null)
                 throw new ConfigException("bean [" + name
                         + "] is null, "
                         + "application can not be restarted.");
-            }
-            if (!(bean instanceof Resettable)) {
-                throw new ConfigException("bean [" + name
-                        + "] does not implement Resettable, "
-                        + "application can not be restarted.");
-            }
-            ((Resettable) bean).reset();
-            if (log.isDebugEnabled()) {
+            bean.reset();
+            if (log.isDebugEnabled())
                 log.debug("bean [" + name + "] was reset.");
-            }
         }
+
         ExceptionUtils.unmarkExceptionCaught();
-        isInEnt = isEnt;
-        if (isInEnt && isManagerConnect) {
+
+        if (isInEnt && isManagerConnect)
             return NavigationRulesConst.WELCOME_MANAGER;
-        } else if (isInEnt && !isManagerConnect) {
+        if (isInEnt)
             return NavigationRulesConst.ACCUEIL_CANDIDAT;
-        }
         return "applicationRestarted";
     }
 
@@ -553,5 +495,15 @@ public class SessionController extends AbstractDomainAwareBean {
     public boolean isManager() { return isManager; }
 
     public boolean canUpdateStudent() { return canUpdateStudent; }
+
+    public I18NUtilsService getI18NUtils() {
+        return i18NUtils;
+    }
+
+    public void setI18NUtils(I18NUtilsService i18NUtils) {
+        this.i18NUtils = i18NUtils;
+    }
+
+
 
 }

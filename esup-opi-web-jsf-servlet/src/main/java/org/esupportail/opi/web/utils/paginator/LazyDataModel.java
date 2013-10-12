@@ -33,7 +33,7 @@ public final class LazyDataModel<T> extends org.primefaces.model.LazyDataModel<T
     public static <TT> LazyDataModel<TT> lazyModel(
             F5<Integer, Integer, String, SortOrder, Map<String, String>, P2<Long, Stream<TT>>> getData,
             F2<String, TT, Boolean> findByRowKey) {
-        return new LazyDataModel<TT>(getData, findByRowKey);
+        return new LazyDataModel<>(getData, findByRowKey);
     }
 
     @Override
@@ -55,11 +55,11 @@ public final class LazyDataModel<T> extends org.primefaces.model.LazyDataModel<T
         // on garde les résultats
         data = resTuple._2();
         // retour en collection jaja
-        return new ArrayList<T>(data.toCollection());
+        return new ArrayList<>(data.toCollection());
     }
 
     public List<T> getData() {
-        return new ArrayList<T>(data.toCollection());
+        return new ArrayList<>(data.toCollection());
     }
 
     public <U> LazyDataModel<U> map(final F<T, U> f) {

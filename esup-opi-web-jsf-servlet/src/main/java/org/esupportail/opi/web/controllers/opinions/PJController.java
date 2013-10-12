@@ -1,20 +1,10 @@
 package org.esupportail.opi.web.controllers.opinions;
 
-import fj.F;
-import fj.F2;
-import fj.F5;
-import fj.P2;
-import fj.data.Stream;
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.opi.domain.beans.NormeSI;
-import org.esupportail.opi.domain.beans.etat.Etat;
-import org.esupportail.opi.domain.beans.etat.EtatArriveComplet;
-import org.esupportail.opi.domain.beans.etat.EtatArriveIncomplet;
 import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.parameters.Transfert;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
-import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.MissingPiece;
 import org.esupportail.opi.utils.primefaces.MissingPieceDataModel;
@@ -26,20 +16,21 @@ import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 import org.esupportail.opi.web.beans.pojo.*;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
-import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
 import org.esupportail.opi.web.controllers.user.IndividuController;
-import org.esupportail.opi.web.utils.DTOs;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
-import org.primefaces.model.SortOrder;
 
 import javax.faces.model.SelectItem;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import static org.esupportail.opi.web.utils.DTOs.commissionPojoToDTO;
+import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatArriveComplet;
+import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatArriveIncomplet;
+import static org.esupportail.opi.web.utils.DTOs.commissionDTO;
 import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
-import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
 /**
  * @author tducreux
@@ -171,7 +162,7 @@ public class PJController extends AbstractContextAwareController {
 
         missingPiecePojoLDM =
                 individuController.getIndLDM().map(
-                        individuToPojo(getDomainApoService(), getParameterService(), getI18nService())
+                        individuToPojo(getDomainApoService(), getParameterService())
                                 .andThen(paginatorPM.indPojoToMPPojo()));
 
         reset();
@@ -268,18 +259,16 @@ public class PJController extends AbstractContextAwareController {
      */
     private void changeState(final Boolean trtUnit, final IndividuPojo pojoIndividu) {
         currentCmiPojo.setStateCurrentOld(currentCmiPojo.getStateCurrent());
-        currentCmiPojo.setState(
-                (EtatVoeu) Etat.instanceState(
-                        currentCmiPojo.getStateCurrent(), getI18nService()));
+        currentCmiPojo.setState(EtatVoeu.fromString(currentCmiPojo.getStateCurrent()));
 
         RegimeInscription regimeIns = getRegimeIns().get(
                 Utilitaires.getCodeRIIndividu(pojoIndividu.getIndividu(),
                         getDomainService()));
-        if (currentCmiPojo.getState() instanceof EtatArriveIncomplet
+        if (currentCmiPojo.getState() == EtatArriveIncomplet
                 && trtUnit) {
             // Arrive Incomplet
             seeMissingPiecePrincipal();
-        } else if (currentCmiPojo.getState() instanceof EtatArriveComplet) {
+        } else if (currentCmiPojo.getState() == EtatArriveComplet) {
             // Arrive Complet
             //delete all missing pieces
             Commission c = getParameterService()
@@ -310,7 +299,7 @@ public class PJController extends AbstractContextAwareController {
             getDomainService().updateIndVoeu(iV);
         }
         if (regimeIns instanceof FormationInitiale
-                && !(currentCmiPojo.getState() instanceof EtatArriveIncomplet)) {
+                && !(currentCmiPojo.getState() == EtatArriveIncomplet)) {
             reset();
         }
     }
@@ -320,8 +309,7 @@ public class PJController extends AbstractContextAwareController {
      */
     public void seeMissingPiecePrincipal() {
         IndividuPojo pojoIndividu = this.mpPojoSelected.getIndividuPojo();
-        if (currentCmiPojo.getState()
-                instanceof EtatArriveIncomplet) {
+        if (currentCmiPojo.getState() == EtatArriveIncomplet) {
             List<MissingPiece> missP =
                     getDomainService().getMissingPiece(
                             pojoIndividu.getIndividu(), currentCmiPojo.getCommission());
@@ -410,7 +398,7 @@ public class PJController extends AbstractContextAwareController {
         RegimeInscription regimeIns = getRegimeIns().get(
                 Utilitaires.getCodeRIIndividu(pojoIndividu.getIndividu(),
                         getDomainService()));
-        if (currentCmiPojo.getState() instanceof EtatArriveIncomplet) {
+        if (currentCmiPojo.getState() == EtatArriveIncomplet) {
             if (regimeIns.getDossArriveIncomplet() != null) {
                 currentCmiPojo.setAdressePojo(new AdressePojo(currentCmiPojo.getCommission()
                         .getContactsCommission()
@@ -421,14 +409,14 @@ public class PJController extends AbstractContextAwareController {
                 list.add(pojoIndividu.getIndividu());
                 list.add(this.mpPojoSelected.getCommissions().get(currentCmiPojo));
                 list.add(missPieceForInd);
-                list.add(commissionPojoToDTO(currentCmiPojo));
+                list.add(commissionDTO(currentCmiPojo));
 
                 regimeIns.getDossArriveIncomplet().send(pojoIndividu.getIndividu().getAdressMail(),
                         pojoIndividu.getIndividu().getEmailAnnuaire(), list);
             }
 
             addInfoMessage(null, "INFO.CANDIDAT.SEND_MAIL.MISSING_PIECE");
-        } else if (currentCmiPojo.getState() instanceof EtatArriveComplet) {
+        } else if (currentCmiPojo.getState() == EtatArriveComplet) {
             if (regimeIns.getDossArriveComplet() != null) {
                 currentCmiPojo.setAdressePojo(new AdressePojo(
                         currentCmiPojo.getCommission().getContactsCommission().
@@ -438,7 +426,7 @@ public class PJController extends AbstractContextAwareController {
                 List<Object> list = new ArrayList<>();
                 list.add(pojoIndividu.getIndividu());
                 list.add(this.mpPojoSelected.getCommissions().get(currentCmiPojo));
-                list.add(commissionPojoToDTO(currentCmiPojo));
+                list.add(commissionDTO(currentCmiPojo));
 
                 regimeIns.getDossArriveComplet().send(pojoIndividu.getIndividu().getAdressMail(),
                         pojoIndividu.getIndividu().getEmailAnnuaire(), list);

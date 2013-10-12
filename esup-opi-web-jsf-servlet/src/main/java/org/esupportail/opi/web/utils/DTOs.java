@@ -14,16 +14,19 @@ import org.esupportail.wssi.services.remote.Pays;
 import static org.esupportail.opi.domain.dto.AdresseDTO.adrDTO;
 import static org.esupportail.opi.domain.dto.CommissionDTO.comDTO;
 
-public class DTOs {
+/**
+ * Factory methods for DTOs
+ */
+public final class DTOs {
     private DTOs() { throw new UnsupportedOperationException(); }
 
-    public static CommissionDTO commissionPojoToDTO(CommissionPojo cmiPojo) {
+    public static CommissionDTO commissionDTO(CommissionPojo cmiPojo) {
         return comDTO(cmiPojo.getCommission(),
-                adressePojoToDTO(cmiPojo.getAdressePojo()),
+                adresseDTO(cmiPojo.getAdressePojo()),
                 cmiPojo.getContactCommission());
     }
 
-    public static AdresseDTO adressePojoToDTO(AdressePojo adressePojo) {
+    public static AdresseDTO adresseDTO(AdressePojo adressePojo) {
         final Adresse adresse = adressePojo.getAdresse();
         return adrDTO(adresse,
                 adressePojo.getPays(),

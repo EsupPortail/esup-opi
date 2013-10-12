@@ -203,7 +203,7 @@ public class Individu extends User {
 
 
 
-	/** 
+	/**
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -213,8 +213,8 @@ public class Individu extends User {
 		if (!(obj instanceof Individu)) { return false; }
 		Individu other = (Individu) obj;
 		if (numDossierOpi == null) {
-			if (other.getNumDossierOpi() != null) { return false; }
-		} else if (!numDossierOpi.equals(other.getNumDossierOpi())) { return false; }
+			if (other.numDossierOpi != null) { return false; }
+		} else if (!numDossierOpi.equals(other.numDossierOpi)) { return false; }
 		return true;
 	}
 	

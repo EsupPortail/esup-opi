@@ -3,6 +3,8 @@
  */
 package org.esupportail.opi.web.controllers.user;
 
+import fj.F;
+import fj.P1;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
@@ -10,6 +12,7 @@ import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.indcursus.*;
 import org.esupportail.opi.domain.dto.CommissionDTO;
+import org.esupportail.opi.services.i18n.I18NUtilsService;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
@@ -31,6 +34,9 @@ import javax.faces.model.SelectItem;
 import java.io.IOException;
 import java.util.*;
 
+import static fj.data.Array.iterableArray;
+import static java.lang.String.format;
+
 
 /**
  * @author cleprous
@@ -47,12 +53,7 @@ public class CursusController extends AbstractAccessController {
      */
     private final Logger log = new LoggerImpl(getClass());
 
-
-
-
-
-	/*
-     ******************* PROPERTIES ******************* */
+    private I18NUtilsService i18NUtils;
 
     /**
      * The pojoCursusScol.
@@ -89,52 +90,42 @@ public class CursusController extends AbstractAccessController {
      */
     private Boolean confirmeDelete;
 
+    private final P1<String> buttonNo = new P1<String>() {
+        public String _1() {
+            return getI18nService().getString("_.BUTTON.NO");
+        }
+    }.memo();
 
-	/*
-	 ******************* INIT ************************* */
+    private final P1<String> buttonYes = new P1<String>() {
+        public String _1() {
+            return getI18nService().getString("_.BUTTON.YES");
+        }
+    }.memo();
 
-
-    /**
-     * Constructors.
-     */
     public CursusController() {
         super();
         confirmeDelete = false;
     }
 
-    /**
-     * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
-     */
     @Override
     public void reset() {
         super.reset();
-        pojoCursusScol = new IndCursusScolPojo(new CursusExt(), getI18nService());
+        pojoCursusScol = new IndCursusScolPojo(new CursusExt());
         pojoCursusScol.setCodPay(Constantes.CODEFRANCE);
         indCursusPojo = new PojoIndCursus(new CursusPro());
         pojoQualif = new PojoIndCursus(new QualifNonDiplomante());
-        cursusList = new ArrayList<IndCursusScolPojo>();
+        cursusList = new ArrayList<>();
         actionEnum = new ActionEnum();
         confirmeDelete = false;
-
     }
 
-    /**
-     * @see org.esupportail.opi.web.controllers.AbstractContextAwareController#afterPropertiesSetInternal()
-     */
     @Override
     public void afterPropertiesSetInternal() {
         super.afterPropertiesSetInternal();
-        //	reset();
     }
-
-	/*
-	 ******************* CALLBACK ********************** */
-
 
     /**
      * Callback to see cursus details for the current connected user.
-     *
-     * @return String
      */
     public String goSeeCursusPro() {
         reset();
@@ -145,39 +136,28 @@ public class CursusController extends AbstractAccessController {
 
     /**
      * Callback to see cursus details for the current connected user.
-     *
-     * @return String
      */
     public String goSeeQualif() {
         reset();
-        initCursus(
-                getCurrentInd().getIndividu().getCursus());
+        initCursus(getCurrentInd().getIndividu().getCursus());
         return NavigationRulesConst.SEE_QUALIF;
     }
 
 
     /**
      * Callback to see cursus details for the current connected user.
-     *
-     * @return String
      */
     public String goSeeCursusScol() {
         reset();
         List<IndCursusScol> indCursScol = null;
-        indCursScol = new ArrayList<IndCursusScol>(
-                getCurrentInd().getIndividu().getCursusScol());
+        indCursScol = new ArrayList<>(getCurrentInd().getIndividu().getCursusScol());
         initCursusList(indCursScol);
         actionEnum.setWhatAction(ActionEnum.UPDATE_ACTION);
         return NavigationRulesConst.SEE_CURSUS_SCOL;
     }
 
-	/*
-	 ******************* METHODS ********************** */
-
     /**
      * The selected pays.
-     *
-     * @param event
      */
     public void selectPay(final ValueChangeEvent event) {
         String codePay = (String) event.getNewValue();
@@ -187,8 +167,6 @@ public class CursusController extends AbstractAccessController {
 
     /**
      * The selected departement.
-     *
-     * @param event
      */
     public void selectDep(final ValueChangeEvent event) {
         String codeDep = (String) event.getNewValue();
@@ -198,8 +176,6 @@ public class CursusController extends AbstractAccessController {
 
     /**
      * The selected commune.
-     *
-     * @param event
      */
     public void selectCommune(final ValueChangeEvent event) {
         String codeCom = (String) event.getNewValue();
@@ -210,29 +186,21 @@ public class CursusController extends AbstractAccessController {
 
     /**
      * Initialise la list de pojo des cursus scolaire (attributs cursusList).
-     *
-     * @param cursusScol
      */
     public void initCursusList(final List<IndCursusScol> cursusScol) {
-        cursusList = new ArrayList<IndCursusScolPojo>();
-        for (IndCursusScol indCursusScol : cursusScol) {
-            addCursus(indCursusScol);
-        }
+        cursusList = new ArrayList<>();
+        for (IndCursusScol indCursusScol : cursusScol) addCursus(indCursusScol);
     }
 
-    /**
-     * @param indCursusLst
-     */
     public void initCursus(final Set<IndCursus> indCursusLst) {
         indCursusPojo.setCursusList(new ArrayList<IndCursus>());
         pojoQualif.setCursusList(new ArrayList<IndCursus>());
-        for (IndCursus indCursus : indCursusLst) {
+        for (IndCursus indCursus : indCursusLst)
             if (indCursus instanceof CursusPro) {
                 indCursusPojo.getCursusList().add(indCursus);
             } else if (indCursus instanceof QualifNonDiplomante) {
                 pojoQualif.getCursusList().add(indCursus);
             }
-        }
         actionEnum.setWhatAction(ActionEnum.UPDATE_ACTION);
     }
 
@@ -262,71 +230,60 @@ public class CursusController extends AbstractAccessController {
      */
     public void updateCursusApogee() {
         //university student --> update cursus
-        List<IndCursusScol> indCursScol = new ArrayList<IndCursusScol>();
-        if (StringUtils.hasText(getCurrentInd().getIndividu().getCodeEtu())) {
-            indCursScol = getDomainApoService()
-                    .getIndCursusScolFromApogee(getCurrentInd().getIndividu());
-        }
+        List<IndCursusScol> indCursScol = new ArrayList<>();
+        if (StringUtils.hasText(getCurrentInd().getIndividu().getCodeEtu()))
+            indCursScol = getDomainApoService().getIndCursusScolFromApogee(getCurrentInd().getIndividu());
 
         Set<IndCursusScol> inCur =
-                new HashSet<IndCursusScol>(getCurrentInd().getIndividu().getCursusScol());
-        List<IndCursusScol> curExt = new ArrayList<IndCursusScol>();
-        for (IndCursusScol indCur : inCur) {
-            //delete all cursus in Apogee
+                new HashSet<>(getCurrentInd().getIndividu().getCursusScol());
+        List<IndCursusScol> curExt = new ArrayList<>();
+        //delete all cursus in Apogee
+        for (IndCursusScol indCur : inCur)
             if (indCur.getTemoinFromApogee()) {
                 getDomainService().deleteIndCursusScol(indCur);
             } else {
                 curExt.add(indCur);
             }
-        }
-        if (indCursScol != null) {
-            for (IndCursusScol indCur : indCursScol) {
+        if (indCursScol != null)
+            for (IndCursusScol indCur : indCursScol)
                 addOneCursusScol(getCurrentInd().getIndividu(), indCur);
-            }
-        }
         //reinit
         reset();
-        if (indCursScol != null) {
-            curExt.addAll(indCursScol);
-        }
+        if (indCursScol != null) curExt.addAll(indCursScol);
         initCursusList(curExt);
         actionEnum.setWhatAction(ActionEnum.UPDATE_ACTION);
-
     }
 
     /**
      * Prepare the cursus scol from apogee.
      * if temFromApogee = true in individu, prepare the list to delete
-     *
-     * @param individu
      */
     public void initCursusListFromApogee(final Individu individu) {
         //university student --> update cursus
-        List<IndCursusScol> indCursScolApo = new ArrayList<IndCursusScol>();
-        if (StringUtils.hasText(individu.getCodeEtu())) {
+        List<IndCursusScol> indCursScolApo = new ArrayList<>();
+        if (StringUtils.hasText(individu.getCodeEtu()))
             indCursScolApo = getDomainApoService().getIndCursusScolFromApogee(individu);
-        }
 
-        Set<IndCursusScol> indCursusScol =
-                new HashSet<IndCursusScol>(individu.getCursusScol());
-        List<IndCursusScol> cursusExt = new ArrayList<IndCursusScol>();
-        cursusListToDelete = new ArrayList<IndCursusScolPojo>();
-        for (IndCursusScol indCur : indCursusScol) {
-            //delete all cursus in Apogee
+        Set<IndCursusScol> indCursusScol = new HashSet<>(individu.getCursusScol());
+        List<IndCursusScol> cursusExt = new ArrayList<>();
+        cursusListToDelete = new ArrayList<>();
+        //delete all cursus in Apogee
+        for (IndCursusScol indCur : indCursusScol)
             if (indCur.getTemoinFromApogee()) {
-                cursusListToDelete.add(new IndCursusScolPojo(
-                        indCur, getI18nService(), getDomainApoService()));
-            } else {
+                final IndCursusScolPojo cursusScolPojo = new IndCursusScolPojo(indCur);
+                final Etablissement etablissement =
+                        getDomainApoService().getEtablissement(indCur.getCodEtablissement());
+                indCur.setCodTypeEtab(etablissement.getCodTpe());
+                cursusScolPojo.setEtablissement(etablissement);
+                cursusListToDelete.add(cursusScolPojo);
+            } else
                 cursusExt.add(indCur);
-            }
-        }
         //reinit
         reset();
         if (indCursScolApo != null) {
             cursusExt.addAll(indCursScolApo);
         }
         initCursusList(cursusExt);
-
     }
 
     /**
@@ -356,8 +313,6 @@ public class CursusController extends AbstractAccessController {
 
     /**
      * Add a CursusPro.
-     *
-     * @throws IOException
      */
     public void addCursusPro() throws IOException {
         if (isValidIndCursus(CursusPro.class, true)) {
@@ -405,8 +360,6 @@ public class CursusController extends AbstractAccessController {
 
     /**
      * Add a Qualification non diplemantes.
-     *
-     * @throws IOException
      */
     public void addQualifNoDip() throws IOException {
         if (isValidIndCursus(QualifNonDiplomante.class, true)) {
@@ -445,11 +398,9 @@ public class CursusController extends AbstractAccessController {
 
     /**
      * Return the result items.
-     *
-     * @return List< SelectItem>
      */
     public List<SelectItem> getResultItems() {
-        List<SelectItem> s = new ArrayList<SelectItem>();
+        List<SelectItem> s = new ArrayList<>();
         s.add(new SelectItem(Constantes.FLAG_YES, getString("_.BUTTON.YES")));
         s.add(new SelectItem(Constantes.FLAG_NO, getString("_.BUTTON.NO")));
         s.add(new SelectItem(getString("FIELD_LABEL.IN_PROGRESS"), getString("FIELD_LABEL.IN_PROGRESS")));
@@ -458,29 +409,20 @@ public class CursusController extends AbstractAccessController {
 
     /**
      * Save the cursus for this individu.
-     *
-     * @param individu
      */
     public void add(final Individu individu) {
         // Add all the CursusExt
-        for (IndCursus indCursus : indCursusPojo.getCursusList()) {
+        for (IndCursus indCursus : indCursusPojo.getCursusList())
             addOneCursus(individu, indCursus);
-        }
         // Add all the Qualif
-        for (IndCursus indCursus : pojoQualif.getCursusList()) {
+        for (IndCursus indCursus : pojoQualif.getCursusList())
             addOneCursus(individu, indCursus);
-        }
         // Add IndCursusScol
-        for (IndCursusScolPojo indCursusScolPojo : cursusList) {
+        for (IndCursusScolPojo indCursusScolPojo : cursusList)
             addOneCursusScol(individu, indCursusScolPojo.getCursus());
-        }
     }
 
 
-    /**
-     * @param currentInd
-     * @param indCursus
-     */
     private void addOneCursus(final Individu currentInd, final IndCursus indCursus) {
         if (log.isDebugEnabled()) {
             log.debug("entering addOneCursus with currentInd =  "
@@ -489,35 +431,22 @@ public class CursusController extends AbstractAccessController {
         indCursus.setIndividu(currentInd);
         IndividuPojo i = new IndividuPojo();
         i.setIndividu(currentInd);
-        getDomainService().addIndCursus(
-                (IndCursus) getDomainService().add(
-                        indCursus,
-                        Utilitaires.codUserThatIsAction(
-                                getCurrentGest(), i)));
+        getDomainService().addIndCursus(getDomainService().add(
+                indCursus,
+                Utilitaires.codUserThatIsAction(getCurrentGest(), i)));
     }
 
-    /**
-     * @param currentInd
-     * @param indCursusScol
-     */
     private void addOneCursusScol(final Individu currentInd, final IndCursusScol indCursusScol) {
-        if (log.isDebugEnabled()) {
-            log.debug("entering addOneCursusScol with currentInd =  "
-                    + currentInd + " and indCursusScol = " + indCursusScol);
-        }
+        if (log.isDebugEnabled())
+            log.debug(format("entering addOneCursusScol with currentInd =  %s and indCursusScol = %s", currentInd, indCursusScol));
         if (indCursusScol.getId() == 0) {
             indCursusScol.setIndividu(currentInd);
             IndividuPojo i = new IndividuPojo();
             i.setIndividu(currentInd);
             IndCursusScol indCur =
-                    (IndCursusScol) getDomainService().add(
-                            indCursusScol,
-                            Utilitaires.codUserThatIsAction(
-                                    getCurrentGest(), i));
+                    getDomainService().add(indCursusScol, Utilitaires.codUserThatIsAction(getCurrentGest(), i));
             getDomainService().addIndCursusScol(indCur);
         }
-
-
     }
 
     /**
@@ -552,84 +481,55 @@ public class CursusController extends AbstractAccessController {
             list.add(cmiDTOs);
             regimeIns.getMailAddCursusScol().send(i.getAdressMail(), i.getEmailAnnuaire(), list);
         }
-
-
     }
 
     /**
      * Add the IndCursusScol c in cursusList.
-     *
-     * @param c
-     * @return IndCursusScol
      */
     private IndCursusScol addCursus(final IndCursusScol c) {
-        IndCursusScolPojo indCursusScolPojo = new IndCursusScolPojo(
-                c, getI18nService(), getDomainApoService());
+        final Etablissement etablissement =
+                getDomainApoService().getEtablissement(c.getCodEtablissement());
+        final IndCursusScolPojo indCursusScolPojo = new IndCursusScolPojo(c);
+        c.setCodTypeEtab(etablissement.getCodTpe());
+        indCursusScolPojo.setEtablissement(etablissement);
         cursusList.add(indCursusScolPojo);
         Collections.sort(cursusList, new ComparatorString(IndCursusScolPojo.class));
         return indCursusScolPojo.getCursus();
-
     }
 
     /**
      * Create a new IndCursusScolPojo in order to prepare a CursusExt add in cursusList.
      */
     public void initCursusScol() {
-        pojoCursusScol = new IndCursusScolPojo(new CursusExt(), getI18nService());
+        pojoCursusScol = new IndCursusScolPojo(new CursusExt());
         pojoCursusScol.setCodPay(Constantes.CODEFRANCE);
         confirmeDelete = false;
     }
 
-	/* ### ALL CONTROL ####*/
-
     /**
      * Control the CursusScol attributes.
-     *
-     * @param message
-     * @return Boolean
      */
     public Boolean isValidCursusScol(final boolean message) {
         Boolean ctrlOk = true;
-        CursusExt c = (CursusExt) pojoCursusScol.getCursus();
-
+        final CursusExt c = (CursusExt) pojoCursusScol.getCursus();
         // Check CursusScol fields
         if (!StringUtils.hasText(c.getAnnee())) {
-            if (message) {
-                addErrorMessage(null, Constantes.I18N_EMPTY, getString("INDIVIDU.CURSUS.ANNEE_UNI"));
-            }
+            if (message) addErrorMessage(null, Constantes.I18N_EMPTY, getString("INDIVIDU.CURSUS.ANNEE_UNI"));
             ctrlOk = false;
-        } else if (!Utilitaires.isFormatDateValid(
-                c.getAnnee(), Constantes.YEAR_FORMAT)) {
-            if (message) {
-                addErrorMessage(null, "ERROR.FIELD.INVALID.DAT",
-                        getString("INDIVIDU.CURSUS.ANNEE_UNI"));
-            }
+        } else if (!Utilitaires.isFormatDateValid(c.getAnnee(), Constantes.YEAR_FORMAT)) {
+            if (message) addErrorMessage(null, "ERROR.FIELD.INVALID.DAT", getString("INDIVIDU.CURSUS.ANNEE_UNI"));
             ctrlOk = false;
         }
         if (!StringUtils.hasText(c.getCodDac())) {
-            if (message) {
-                addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.DIPLOME"));
-            }
+            if (message) addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.DIPLOME"));
             ctrlOk = false;
         }
-
-        //comment le 04/03/2009
-        //		if (pojoCursusScol.getCodPay().equals(Constantes.CODEFRANCE)
-        //				&& !StringUtils.hasText(c.getCodEtablissement())) {
-        //			addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.ETABLISSEMENT"));
-        //			ctrlOk = false;
-        //		} else
-        if (!pojoCursusScol.getCodPay().equals(Constantes.CODEFRANCE)
-                && !StringUtils.hasText(c.getLibEtbEtr())) {
-            if (message) {
-                addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.ETABLISSEMENT"));
-            }
+        if (!pojoCursusScol.getCodPay().equals(Constantes.CODEFRANCE) && !StringUtils.hasText(c.getLibEtbEtr())) {
+            if (message) addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.ETABLISSEMENT"));
             ctrlOk = false;
         }
         if (!StringUtils.hasText(c.getResultat())) {
-            if (message) {
-                addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.DIPLOME.OBT"));
-            }
+            if (message) addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.DIPLOME.OBT"));
             ctrlOk = false;
         }
         return ctrlOk;
@@ -638,74 +538,95 @@ public class CursusController extends AbstractAccessController {
 
     /**
      * Control the IndCursus attributes.
-     *
-     * @param typeCursus
-     * @param message
-     * @return Boolean
      */
     public Boolean isValidIndCursus(final Class<?> typeCursus, final boolean message) {
-        IndCursus c;
+        final IndCursus c =
+                typeCursus.equals(CursusPro.class) ? indCursusPojo.getCursus() : pojoQualif.getCursus();
         Boolean ctrlOk = true;
-        if (typeCursus.equals(CursusPro.class)) {
-            c = indCursusPojo.getCursus();
-        } else {
-            c = pojoQualif.getCursus();
-        }
-
         // Check CursusScol fields
         if (!StringUtils.hasText(c.getAnnee())) {
-            if (message) {
-                addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.YEAR"));
-            }
+            if (message) addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.YEAR"));
             ctrlOk = false;
         }
         if (!StringUtils.hasText(c.getDuree())) {
-            if (message) {
-                addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.PERIOD"));
-            }
+            if (message) addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.PERIOD"));
             ctrlOk = false;
         }
 
         if (!StringUtils.hasText(c.getOrganisme())) {
-            if (message) {
-                addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.ORGANIZATION"));
-            }
+            if (message) addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.ORGANIZATION"));
             ctrlOk = false;
         }
         if (StringUtils.hasText(c.getComment()) && c.getComment().length() > 2000) {
-            if (message) {
-                addErrorMessage(null,
-                        Constantes.I18N_EMPTY,
-                        getString("ERROR.FIELD.MAX_LENGTH.CARACTER"), 2000);
-            }
+            if (message) addErrorMessage(null, Constantes.I18N_EMPTY, getString("ERROR.FIELD.MAX_LENGTH.CARACTER"), 2000);
             ctrlOk = false;
         }
-        if (c instanceof QualifNonDiplomante) {
+        if (c instanceof QualifNonDiplomante)
             if (!StringUtils.hasText(c.getLibelle())) {
-                if (message) {
-                    addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.INTITULE"));
-                }
+                if (message) addErrorMessage(null, Constantes.I18N_EMPTY, getString("FIELD_LABEL.INTITULE"));
                 ctrlOk = false;
             }
-        }
-
         return ctrlOk;
     }
 
 
+    /**
+     * Return the result label according to the code.
+     */
+    public String getResultatExt(IndCursusScolPojo cursusScolPojo) {
+        final String result = cursusScolPojo.getCursus().getResultat();
+        return result.equals("N") ? buttonNo._1() : result.equals("O") ? buttonYes._1() : result;
+    }
 
-	/*
-	 ******************* ACCESSORS ******************** */
+    public Boolean getCanUpdateIndCursusScol() {
+        final IndividuPojo ip = getCurrentInd();
+        return ip.getAsRightsToUpdate() || !getEtatIndCursusScol().equals(i18NUtils.labelEtatNonRenseigne());
+    }
 
+    public Boolean getCanUpdateIndCursusPro() {
+        final IndividuPojo ip = getCurrentInd();
+        return ip.getAsRightsToUpdate() || !getEtatIndCursusPro().equals(i18NUtils.labelEtatNonRenseigne());
+    }
+
+    public Boolean getCanUpdateQualifNonDiplomante() {
+        final IndividuPojo ip = getCurrentInd();
+        return ip.getAsRightsToUpdate() || !getEtatQualifNonDiplomante().equals(i18NUtils.labelEtatNonRenseigne());
+    }
+
+    public String getEtatIndCursusScol() {
+        final Individu individu = getCurrentInd().getIndividu();
+        return ((individu.getCursusScol() != null)
+                && !individu.getCursusScol().isEmpty()) ?
+                i18NUtils.labelEtatComplet() :
+                i18NUtils.labelEtatNonRenseigne();
+    }
+
+    public String getEtatIndCursusPro() {
+        return getEtatCursus(CursusPro.class);
+    }
+
+    public String getEtatQualifNonDiplomante() {
+        return getEtatCursus(QualifNonDiplomante.class);
+    }
+
+    private String getEtatCursus(final Class<? extends IndCursus> clazz) {
+        final Individu individu = getCurrentInd().getIndividu();
+        if (individu.getCursus() == null || individu.getCursus().isEmpty())
+            return i18NUtils.labelEtatNonRenseigne();
+        final boolean cursusExists =
+                iterableArray(individu.getCursus()).exists(new F<IndCursus, Boolean>() {
+                    public Boolean f(IndCursus indCursus) {
+                        return clazz.isInstance(indCursus);
+                    }
+                });
+        return cursusExists ? i18NUtils.labelEtatComplet() : i18NUtils.labelEtatNonRenseigne();
+    }
 
     /**
      * Returns all DipAutCur.
-     *
-     * @return List< DipAutCur>
      */
     public List<DipAutCur> getDipAutCurs() {
-        List<DipAutCur> dipAutCur = new ArrayList<DipAutCur>();
-
+        List<DipAutCur> dipAutCur = new ArrayList<>();
         if (pojoCursusScol.getCodPay() != null
                 && pojoCursusScol.getCodPay().equals(Constantes.CODEFRANCE)) {
             List<DipAutCur> d = getDomainApoService().getDipAutCurs();
@@ -719,45 +640,30 @@ public class CursusController extends AbstractAccessController {
             DipAutCur d = getDomainApoService().getDipAutCur(getDomainApoService().getCodDacEtr());
             dipAutCur.add(d);
         }
-
         log.info("retour de getDipAutCurs " + dipAutCur);
         return dipAutCur;
     }
 
     /**
      * Returns all the Etablissements.
-     *
-     * @return List< Etablissement>
      */
     public List<Etablissement> getEtablissements() {
-        List<Etablissement> e = new ArrayList<Etablissement>();
-        if (pojoCursusScol.getCodPay() != null
-                && pojoCursusScol.getCodPay().equals(Constantes.CODEFRANCE)) {
-            if (StringUtils.hasText(pojoCursusScol.getCodCom())) {
-                e = getDomainApoService().getEtablissements(
-                        pojoCursusScol.getCodCom(), pojoCursusScol.getCodDep());
-            }
-        } else {
-            //the dep = etranger
-            //comment le 16/02/1984 maintenant pour les pays etranger l'etab est saisie
-            //e = getDomainApoService().getEtablissements(null, Constantes.COD_DEP_ETR);
-        }
-
+        List<Etablissement> e = new ArrayList<>();
+        if (pojoCursusScol.getCodPay() != null &&
+                pojoCursusScol.getCodPay().equals(Constantes.CODEFRANCE) &&
+                StringUtils.hasText(pojoCursusScol.getCodCom()))
+            e = getDomainApoService().getEtablissements(pojoCursusScol.getCodCom(), pojoCursusScol.getCodDep());
         return e;
     }
 
-
     /**
      * Returns list empty if codeDep == null else returns town in departement.
-     *
-     * @return Set< CommuneDTO>
      */
     public Set<CommuneDTO> getCommunes() {
-        List<CommuneDTO> c = new ArrayList<CommuneDTO>();
-        if (StringUtils.hasText(pojoCursusScol.getCodDep())) {
+        List<CommuneDTO> c = new ArrayList<>();
+        if (StringUtils.hasText(pojoCursusScol.getCodDep()))
             c = getDomainApoService().getCommunes(pojoCursusScol.getCodDep(), null, true);
-        }
-        Set<CommuneDTO> s = new TreeSet<CommuneDTO>(new ComparatorString(CommuneDTO.class));
+        Set<CommuneDTO> s = new TreeSet<>(new ComparatorString(CommuneDTO.class));
         s.addAll(c);
         return s;
     }
@@ -858,4 +764,11 @@ public class CursusController extends AbstractAccessController {
         this.confirmeDelete = true;
     }
 
+    public I18NUtilsService getI18NUtils() {
+        return i18NUtils;
+    }
+
+    public void setI18NUtils(I18NUtilsService i18NUtils) {
+        this.i18NUtils = i18NUtils;
+    }
 }

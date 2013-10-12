@@ -32,14 +32,15 @@
     
     <bean id="domainService"
         lazy-init="true"
-        class="org.esupportail.opi.domain.DomainServiceImpl">
-        <property name="daoService" ref="daoService" />
-        <property name="individuDaoSrv" ref="individuDaoService" />
-        <property name="urlGenerator" ref="${urlGeneration.bean}" />
-        <property name="ldapUserService" ref="ldapUserService" />
-        <property name="ldapAttributes" ref="ldapAttributes" />
-        <property name="codStudentRegex" value="${init.codStudent.regex}"/>
-        <property name="codStudentPattern" value="${init.codStudent.pattern}"/>
+        class="org.esupportail.opi.domain.DomainServiceImpl" factory-method="domainServiceImpl">
+        <constructor-arg ref="txManager" />
+        <constructor-arg ref="daoService" />
+        <constructor-arg ref="individuDaoService" />
+        <constructor-arg ref="${urlGeneration.bean}" />
+        <constructor-arg ref="ldapUserService" />
+        <constructor-arg ref="ldapAttributes" />
+        <constructor-arg name="codStudentRegex" value="${init.codStudent.regex}"/>
+        <constructor-arg name="codStudentPattern" value="${init.codStudent.pattern}"/>
 	</bean>
 
 	<bean

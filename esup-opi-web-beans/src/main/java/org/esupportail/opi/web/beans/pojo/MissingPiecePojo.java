@@ -11,7 +11,7 @@ package org.esupportail.opi.web.beans.pojo;
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
-import org.esupportail.opi.domain.beans.etat.EtatNull;
+import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.parameters.PieceJustificative;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.candidature.MissingPiece;
@@ -22,6 +22,8 @@ import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
 import java.util.*;
+
+import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatNull;
 
 /**
  * @author tducreux
@@ -128,7 +130,7 @@ public class MissingPiecePojo {
 			final Map<Commission, Set<VersionEtapeDTO>> mapCmi,
 			final Commission cmi) {
 		Set<VersionEtpOpi> vOpi = Conversions.convertVetInVetOpi(mapCmi.get(cmi));
-		List<IndVoeuPojo> iList = new ArrayList<IndVoeuPojo>();
+		List<IndVoeuPojo> iList = new ArrayList<>();
 		String codeTypeTrait = null;
 		for (VersionEtpOpi vet : vOpi) {
 			for (IndVoeuPojo i : this.individuPojo.getIndVoeuxPojo()) {
@@ -139,7 +141,7 @@ public class MissingPiecePojo {
 						codeTypeTrait = i.getEtat().getCodeLabel();
 					} else if (!codeTypeTrait.equals(i.getEtat().getCodeLabel())) {
 						//probleme on ne prend pas l etat vide
-						if (codeTypeTrait.equals(EtatNull.I18N_STATE)) {
+						if (codeTypeTrait.equals(EtatNull.getCodeLabel())) {
 							codeTypeTrait = i.getEtat().getCodeLabel();
 						}
 						
@@ -148,7 +150,7 @@ public class MissingPiecePojo {
 			}
 		}
 		//on ne prend pas le voeu de type TR
-		if (codeTypeTrait != null && !codeTypeTrait.equals(EtatNull.I18N_STATE)) {
+		if (codeTypeTrait != null && !codeTypeTrait.equals(EtatNull.getCodeLabel())) {
 			this.commissions.put(new CommissionPojo(cmi, 
 					iList.get(0).getEtat().getCodeLabel(),
 					i18nService), iList);

@@ -1,67 +1,61 @@
 package org.esupportail.opi.web.utils.fj;
 
+import fj.Equal;
 import fj.F;
+import fj.F2;
 import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 
-/**
- * Created with IntelliJ IDEA.
- * User: p-opidev
- * Date: 02/07/13
- * Time: 16:14
- * To change this template use File | Settings | File Templates.
- */
+import static fj.Equal.booleanEqual;
+import static fj.Equal.optionEqual;
+import static fj.Function.curry;
+import static fj.data.Option.fromNull;
+import static fj.data.Option.some;
+
 public final class Predicates {
 
-    /**
-     * Private constructor
-     */
-    private Predicates() {
-        super();
-    }
+    private Predicates() { throw new UnsupportedOperationException(); }
 
     /**
-     * Remove items from  a {@link fj.data.Stream} of {@link IndVoeuPojo} matching param.
+     * Tests an {@link IndVoeuPojo}'s {@link TypeTraitement} for non-equality
+     * against {@code typeTraitement}
      *
-     * @param typeTraitement the given param
-     * @return the filtered {@link fj.data.Stream}
+     * @return true if non-equality is verified, false otherwise
      */
-    public static F<IndVoeuPojo, Boolean> isTraitementNotEquals(final TypeTraitement typeTraitement) {
+    public static F<IndVoeuPojo, Boolean> typeTrtEquals(final TypeTraitement typeTraitement) {
         return new F<IndVoeuPojo, Boolean>() {
             public Boolean f(final IndVoeuPojo indVoeuPojo) {
-                return !indVoeuPojo.getTypeTraitement().equals(typeTraitement);
+                return indVoeuPojo.getTypeTraitement().equals(typeTraitement);
             }
         };
     }
 
     /**
-     * si onlyValidate = true, on enlève les voeux non validés.
-     * et inversement
+     * Tests an {@link IndVoeuPojo#avisEnService#validation} for equality against {@code onlyValidate}
      *
-     * @param onlyValidate the given param
-     * @return the filtered {@link fj.data.Stream}
+     * @return true if equality is verified, false otherwise
      */
-    public static F<IndVoeuPojo, Boolean> keepOnlyAvisWithValidationEquals(final Boolean onlyValidate) {
+    public static F<IndVoeuPojo, Boolean> indAvisValidationIs(final Boolean onlyValidate) {
         return new F<IndVoeuPojo, Boolean>() {
             public Boolean f(final IndVoeuPojo indVoeuPojo) {
-                if (onlyValidate == null) {
-                    throw new UnsupportedOperationException("Filtrage de voeux valides ou non par le paramètre onlyValidate or ce dernier est null");
-                }
-                final Avis avis = indVoeuPojo.getAvisEnService();
-                return avis != null
-                        && avis.getValidation().equals(onlyValidate);
+                return fromNull(onlyValidate)
+                        .apply(fromNull(indVoeuPojo.getAvisEnService())
+                                .map(curry(new F2<Avis, Boolean, Boolean>() {
+                                    public Boolean f(Avis avis, Boolean validate) {
+                                        return optionEqual(booleanEqual).eq(fromNull(avis.getValidation()), some(validate));
+                                    }
+                                })))
+                        .orSome(false);
             }
         };
     }
 
     /**
-     * Remove items from  a {@link fj.data.Stream} of {@link IndividuPojo} where its {@link IndVoeuPojo} list is empty.
-     *
-     * @return the filtered {@link fj.data.Stream}
+     * Tests wether an {@link IndividuPojo#indVoeuxPojo} is NOT empty
      */
-    public static F<IndividuPojo, Boolean> isIndWithoutVoeux() {
+    public static F<IndividuPojo, Boolean> indWithVoeux() {
         return new F<IndividuPojo, Boolean>() {
             public Boolean f(final IndividuPojo ip) {
                 return !ip.getIndVoeuxPojo().isEmpty();

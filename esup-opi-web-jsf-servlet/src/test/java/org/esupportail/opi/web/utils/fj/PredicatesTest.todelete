@@ -52,7 +52,7 @@ public class PredicatesTest {
         //and that this one should be filtered
         assertEquals("Second item is the culprit transfert treatment", transfert, stream.index(1).getTypeTraitement());
         //When
-        Stream<IndVoeuPojo> result = stream.filter(isTraitementNotEquals(transfert));
+        Stream<IndVoeuPojo> result = stream.filter(traitementNotEquals(transfert));
         //Then
         assertEquals("Should have filtered the second item", stream.length() - 1, result.length());
         assertEquals(nonTransfert, result.index(0).getTypeTraitement());
@@ -69,12 +69,15 @@ public class PredicatesTest {
         assertEquals("Second  item is invalid avis", false, stream.index(1).getAvisEnService().getValidation());
         assertEquals("Third  item doesnt even have an avis", null, stream.index(2).getAvisEnService());
         //When
-        Stream<IndVoeuPojo> result = stream.filter(keepOnlyAvisWithValidationEquals(true));
+        Stream<IndVoeuPojo> result = stream.filter(indAvisValidationIs(true));
         //Then
         assertEquals("Should've filtered the two invalid avis", stream.length() - 2, result.length());
         assertEquals("Should be valid avis left", true, result.index(0).getAvisEnService().getValidation());
     }
 
+    /**
+     * Doesn't pass anymore
+     */
     @Test
     public void testIsOnlyNotValidate() throws Exception {
         //Given
@@ -85,12 +88,15 @@ public class PredicatesTest {
         //and that this one should be filtered
         assertEquals("First item is valid avis", true, stream.index(0).getAvisEnService().getValidation());
         //When
-        Stream<IndVoeuPojo> result = stream.filter(keepOnlyAvisWithValidationEquals(false));
+        Stream<IndVoeuPojo> result = stream.filter(indAvisValidationIs(false));
         //Then
         assertEquals("Should've filtered the invalid avis and the null avis", stream.length() - 2, result.length());
         assertEquals("Should be invalid avis left", false, result.index(0).getAvisEnService().getValidation());
     }
 
+    /**
+     * Doesn't pass anymore
+     */
     @Test(expected = UnsupportedOperationException.class)
     public void testIsOnlyNotValidateFailNull() throws Exception {
         //Given
@@ -100,7 +106,7 @@ public class PredicatesTest {
         assertEquals("Second  item is invalid avis", false, stream.index(1).getAvisEnService().getValidation());
         assertEquals("Third  item doesnt even have an avis", null, stream.index(2).getAvisEnService());
         //When
-        stream.filter(keepOnlyAvisWithValidationEquals(null));
+        stream.filter(indAvisValidationIs(null));
         //Then throw exception
     }
 
@@ -109,12 +115,12 @@ public class PredicatesTest {
         //Given
         Stream<IndividuPojo> stream = iterableStream(buildListIndividuPojo());
         assertEquals("Should've built items of 3", 3, stream.length());
-        assertFalse("Second item should have non empty voeux", stream.index(1).getIndVoeuxPojo().isEmpty());
-        assertFalse("Third  item should have non empty voeux", stream.index(2).getIndVoeuxPojo().isEmpty());
+        assertFalse("Second item should have non empty voeux", stream.index(1).getIndVoeuxPojoAsList().isEmpty());
+        assertFalse("Third  item should have non empty voeux", stream.index(2).getIndVoeuxPojoAsList().isEmpty());
         //that this one should be filtered
-        assertTrue("First item has empty voeux", stream.index(0).getIndVoeuxPojo().isEmpty());
+        assertTrue("First item has empty voeux", stream.index(0).getIndVoeuxPojoAsList().isEmpty());
         //When
-        Stream<IndividuPojo> result = stream.filter(isIndWithoutVoeux());
+        Stream<IndividuPojo> result = stream.filter(indWithVoeux());
         //Then
         assertEquals("Should've removed the one with invalid voeux", stream.length() - 1, result.length());
         assertEquals("ipj2", result.index(0).getEtatIndBac());
@@ -126,17 +132,17 @@ public class PredicatesTest {
         IndividuPojo ipj1 = mock(IndividuPojo.class);
         IndividuPojo ipj2 = mock(IndividuPojo.class);
         IndividuPojo ipj3 = mock(IndividuPojo.class);
-        Set<IndVoeuPojo> list = new HashSet<>();
-        Set<IndVoeuPojo> nonEmpty = spy(list);
-        Set<IndVoeuPojo> empty = spy(list);
+        List<IndVoeuPojo> list = new ArrayList<>();
+        List<IndVoeuPojo> nonEmpty = spy(list);
+        List<IndVoeuPojo> empty = spy(list);
         when(empty.isEmpty()).thenReturn(true);
         when(nonEmpty.isEmpty()).thenReturn(false);
         when(ipj1.getEtatIndBac()).thenReturn("ipj1");
-        when(ipj1.getIndVoeuxPojo()).thenReturn(empty);
+        when(ipj1.getIndVoeuxPojoAsList()).thenReturn(empty);
         when(ipj2.getEtatIndBac()).thenReturn("ipj2");
-        when(ipj2.getIndVoeuxPojo()).thenReturn(nonEmpty);
+        when(ipj2.getIndVoeuxPojoAsList()).thenReturn(nonEmpty);
         when(ipj3.getEtatIndBac()).thenReturn("ipj3");
-        when(ipj3.getIndVoeuxPojo()).thenReturn(nonEmpty);
+        when(ipj3.getIndVoeuxPojoAsList()).thenReturn(nonEmpty);
         result.add(ipj1);
         result.add(ipj2);
         result.add(ipj3);

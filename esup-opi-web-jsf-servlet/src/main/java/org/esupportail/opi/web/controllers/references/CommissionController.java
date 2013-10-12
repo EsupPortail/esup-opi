@@ -7,6 +7,7 @@ import fj.F;
 import fj.F2;
 import fj.F3;
 import fj.Unit;
+import fj.data.Option;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.exceptions.UserNotFoundException;
 import org.esupportail.commons.services.logging.Logger;
@@ -41,6 +42,7 @@ import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.opi.web.controllers.user.AdressController;
+import org.esupportail.opi.web.utils.MiscUtils;
 import org.esupportail.wssi.services.remote.BacOuxEqu;
 import org.esupportail.wssi.services.remote.SignataireDTO;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
@@ -57,6 +59,7 @@ import static fj.Semigroup.stringSemigroup;
 import static fj.Unit.unit;
 import static fj.data.IterableW.wrap;
 import static fj.data.Option.fromNull;
+import static fj.data.Option.none;
 import static fj.data.Stream.iterableStream;
 import static fj.data.Validation.validation;
 
@@ -236,22 +239,22 @@ public class CommissionController
 	}
 
 	public void initCommissions() {
-		commissions = new TreeSet<Commission>(comparatorCmi);
+		commissions = new TreeSet<>(comparatorCmi);
 		commissions.addAll(getParameterService().getCommissions(null));
 
-		comsInUse = new TreeSet<Commission>(comparatorCmi);
+		comsInUse = new TreeSet<>(comparatorCmi);
 		comsInUse.addAll(getParameterService().getCommissions(true));
         getDomainApoService().emptyCommissionCache(getCurrentGest(), true);
-        Set<Commission> cmi =
+        Set<Commission> cmisByRight =
                 getDomainApoService().getListCommissionsByRight(getCurrentGest(), true);
-		comsInUseByRight = new ArrayList<Commission>();
-        if (cmi != null) {
-            comsInUseByRight.addAll(cmi);
+		comsInUseByRight = new ArrayList<>();
+        if (cmisByRight != null) {
+            comsInUseByRight.addAll(cmisByRight);
         }
         Collections.sort(comsInUseByRight, comparatorCmi);
 		comsWithForms = Utilitaires.getListCommissionExitForm(
 				comsInUseByRight, listeRI, getParameterService());
-		comsNoTrt = new TreeSet<Commission>(comparatorCmi);
+		comsNoTrt = new TreeSet<>(comparatorCmi);
 		comsNoTrt.addAll(Utilitaires.getListCommissionsWithoutTrt(getParameterService()));
 	}
 
@@ -970,20 +973,21 @@ public class CommissionController
 			log.debug("entering makePDFListesPreparatoire");
 		}
 		// hibernate session reattachment
-		commission = getParameterService().getCommission(
-				commission.getId(), commission.getCode());
+		commission = getParameterService().getCommission(commission.getId(), commission.getCode());
 
-		 // recuperation de la liste des individus ayant fait un voeu dans la commission
-		List<Individu> listeInd = new ArrayList<>(
-                getDomainService().getIndividusCommission(
-                        commission, null, new HashSet<>(wrap(listeRI).map(
-                        new F<RegimeInscription, Integer>() {
-                            public Integer f(RegimeInscription ri) {
-                                return ri.getCode();
-                            }
-                        }).toStandardList())).toCollection());
+        final HashSet<Integer> codesRI =
+                new HashSet<>(wrap(listeRI).map(new F<RegimeInscription, Integer>() {
+                    public Integer f(RegimeInscription ri) { return ri.getCode(); }
+                }).toStandardList());
 
-		Set<Commission> listComm = new HashSet<Commission>();
+        // recuperation de la liste des individus ayant fait un voeu dans la commission
+        List<String> ids = getDomainService().getIndsIds(commission, null, codesRI);
+        List<Individu> listeInd =
+                wrap(ids).map(new F<String, Individu>() {
+            public Individu f(String id) { return getDomainService().fetchIndById(id, Option.<Boolean>none()); }
+        }).toStandardList();
+
+		Set<Commission> listComm = new HashSet<>();
 		listComm.add(commission);
 
 		List<IndividuPojo> listeIndPojo =
@@ -993,12 +997,11 @@ public class CommissionController
 					getParameterService().getTypeTraitements(),
 					getParameterService().getCalendarRdv(), null, false);
 
-		for (IndividuPojo iP : listeIndPojo) {
-			iP.initIndCursusScolPojo(getDomainApoService(), getI18nService());
-		}
+		for (IndividuPojo iP : listeIndPojo)
+            MiscUtils.initIndCursusScolPojo(iP, getDomainApoService());
 
 		// boucle sur la liste des individu et creation de la liste de IndListePrepaPojo
-		List<IndListePrepaPojo> listeIndPrepa = new ArrayList<IndListePrepaPojo>();
+		List<IndListePrepaPojo> listeIndPrepa = new ArrayList<>();
 		for (IndividuPojo iP : listeIndPojo) {
 			// creation du nouveau IndListePrepaPojo
 			IndListePrepaPojo unIndPrepa = new IndListePrepaPojo();
@@ -1267,7 +1270,7 @@ public class CommissionController
 	public List<Commission> getCommissionsItemsByRightParametrable(boolean doFilter) {
 		return (listCmiByRight || doFilter) ?
                 comsInUseByRight :
-                new ArrayList<Commission>(comsInUse);
+                new ArrayList<>(comsInUse);
 	}
 
 	/**

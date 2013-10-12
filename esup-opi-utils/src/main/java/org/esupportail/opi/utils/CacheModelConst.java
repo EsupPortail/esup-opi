@@ -4,12 +4,8 @@ package org.esupportail.opi.utils;
  * Constant class.
  */
 public class CacheModelConst {
-	/*
-	 ******************* PROPERTIES ******************* */
-	
+    private CacheModelConst() { throw new UnsupportedOperationException(); }
 
-	
-	
 	/**
 	 * The name of model for the domain access right cache.
 	 * (Profile, Treatment,...)
@@ -80,17 +76,4 @@ public class CacheModelConst {
 	 * The name of model to managed the calendar of signatories.
 	 */
 	public static final String SIGNATAIRES = "signataires";
-	
-	
-	/*
-	 ******************* INIT ******************* */
-	
-	
-	/**
-	 * Constructors.
-	 */
-	private CacheModelConst() {
-		super();
-	}
-	
 }

@@ -3,8 +3,6 @@
  */
 package org.esupportail.opi.web.controllers.user;
 
-import org.esupportail.opi.domain.beans.etat.EtatComplet;
-import org.esupportail.opi.domain.beans.etat.EtatNonRenseigne;
 import org.esupportail.opi.domain.beans.parameters.situation.TypeContrat;
 import org.esupportail.opi.domain.beans.parameters.situation.TypeOrganisme;
 import org.esupportail.opi.domain.beans.parameters.situation.TypeSituation;
@@ -24,6 +22,9 @@ import org.springframework.util.StringUtils;
 import javax.faces.model.SelectItem;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.esupportail.opi.domain.beans.etat.EtatIndividu.EtatComplet;
+import static org.esupportail.opi.domain.beans.etat.EtatNonRenseigne.EtatNonRenseigne;
 
 
 /**
@@ -176,9 +177,9 @@ public class SituationController extends AbstractAccessController {
      */
     public String getEtatSituation() {
         if (indSituation != null) {
-            return new EtatComplet(getI18nService()).getLabel();
+            return getI18nService().getString(EtatComplet.getCodeLabel());
         }
-        return new EtatNonRenseigne(getI18nService()).getLabel();
+        return getI18nService().getString(EtatNonRenseigne.getCodeLabel());
     }
 
     /**

@@ -1,57 +1,19 @@
-/**
- * 
- */
 package org.esupportail.opi.domain.beans.etat;
 
-import org.esupportail.commons.services.i18n.I18nService;
+public enum  EtatNonRenseigne implements Etat {
+    EtatNonRenseigne(States.STATE_NON_RENSEIGNE);
 
+    private final String codeLabel;
+    private EtatNonRenseigne(String codeLabel) { this.codeLabel = codeLabel; }
 
-/**
- * @author cleprous
- *
- */
-public class EtatNonRenseigne extends Etat {
+    @Override
+	public String getCodeLabel() { return codeLabel; }
 
-	/**
-	 * The state label.
-	 */
-	public static final String I18N_STATE_NON_RENSEIGNE = "STATE.NON_RENSEIGNE";
-	
-	/**
-	 * The serialization id.
-	 */
-	private static final long serialVersionUID = -3474809761593264147L;
-	
-	
-	
-	
-	/*
-	 ******************* PROPERTIES ******************* */
-
-	/*
-	 ******************* INIT ************************* */
-
-	/**
-	 * Constructors.
-	 */
-	public EtatNonRenseigne(final I18nService i18Service) {
-		super();
-		setLabel(i18Service.getString(I18N_STATE_NON_RENSEIGNE));
-		
-	}
-	
-	
-	/*
-	 ******************* METHODS ********************** */
-	/**
-	 * @see org.esupportail.opi.domain.beans.etat.EtatVoeu#getCodeLabel()
-	 */
-	@Override
-	public String getCodeLabel() {
-		return EtatNonRenseigne.I18N_STATE_NON_RENSEIGNE;
-	}
-	
-	/*
-	 ******************* ACCESSORS ******************** */
+    public static EtatNonRenseigne fromString(String str) {
+        switch (str) {
+            case States.STATE_NON_RENSEIGNE : return EtatNonRenseigne;
+            default: throw new IllegalArgumentException("No EtatNonRenseigne enum constant for " + str);
+        }
+    }
 
 }
