@@ -1,12 +1,12 @@
 <ui:composition
         xmlns:ui="http://java.sun.com/jsf/facelets"
-        template="/stylesheets/template.xhtml">
+        template="/stylesheets/templateCandidat.xhtml">
     <ui:define name="content">
-        <div id="accueilCandidat" rendered="#{sessionController.whoIsConnectInPortlet == 'individu.exist'}">
+        <ui:fragment id="accueilCandidat" rendered="#{sessionController.whoIsConnectInPortlet == 'individu.exist'}">
             <ui:include src="../candidat/_block/_accueil.xhtml"/>
-        </div>
-        <div id="lookForEtu" rendered="#{sessionController.whoIsConnectInPortlet == 'individu.not_exist'}">
+        </ui:fragment>
+        <ui:fragment id="lookForEtu" rendered="#{sessionController.whoIsConnectInPortlet == 'individu.not_exist'}">
             <ui:include src="../candidat/_block/_lookforEtu.xhtml"/>
-        </div>
+        </ui:fragment>
     </ui:define>
 </ui:composition>

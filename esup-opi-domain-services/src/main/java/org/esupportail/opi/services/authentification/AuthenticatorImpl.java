@@ -4,6 +4,8 @@
 package org.esupportail.opi.services.authentification; 
 
 
+import static fj.data.Option.*;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -21,6 +23,8 @@ import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.domain.beans.user.User;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.StringUtils;
+
+import fj.data.Option;
 
 
 /**
@@ -121,12 +125,15 @@ public class AuthenticatorImpl implements Serializable, InitializingBean, Authen
 			return authClassic();
 		}
 		if (AuthUtils.CAS.equals(authInfo.getType())) {
+		    Option<String> codStdRegex = fromString(domainService.getCodStudentRegex());
+		    Option<String> codStdPattern = fromString(domainService.getCodStudentPattern());
 		    String authId = authInfo.getId();
-		    String codStdRegex = domainService.getCodStudentRegex();
-		    String codStdPattern = domainService.getCodStudentPattern();
-		    User user = domainService.getUser((authId.matches(codStdRegex)) ? 
-		            authId.replaceAll(codStdRegex, codStdPattern) : authId);
-		    storeToSession(authInfo, user);
+		    if (codStdPattern.isSome() && codStdRegex.isSome()) {
+		    	authId = (authId.matches(codStdRegex.some())) ? 
+		            authId.replaceAll(codStdRegex.some(), codStdPattern.some()) : authInfo.getId();
+		    }
+		    User user = domainService.getUser(authId);
+	    	storeToSession(authInfo, user);
 		    return user;
 		} 
 		return null;

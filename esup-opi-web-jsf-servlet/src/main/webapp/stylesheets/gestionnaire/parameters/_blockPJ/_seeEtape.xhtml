@@ -17,7 +17,8 @@
     </div>
     <p:dataTable id="trtpj" var="pieceJustiVetPojo"
                  value="#{nomenclatureController.allEtapesItems}"
-                 styleClass="paginatorData" alternateColors="true">
+                 styleClass="paginatorData"
+                 rendered="#{not empty nomenclatureController.allEtapesItems}">
         <p:column style="width:15%;">
             <f:facet name="header">
                 <h:outputText value="#{msgs['FIELD_LABEL.CODE']} #{msgs['FIELD_LABEL.VRS_VET']}"/>
@@ -37,8 +38,7 @@
             <h:outputText value="#{pieceJustiVetPojo.versionEtape.libWebVet}"/>
         </p:column>
         <p:column style="width:3%;">
-            <p:commandButton icon="ui-icon-minus"
-                             styleClass="form-button-image" immediate="true"
+            <p:commandButton icon="ui-icon-minus" immediate="true"
                              rendered="#{(nomenclatureController.actionEnum.whatAction != nomenclatureController.actionEnum.readAction
     				|| nomenclatureController.wayfEnum.whereAreYouFrom == nomenclatureController.wayfEnum.affectPJValue)
     				and pieceJustiVetPojo.allRight}"

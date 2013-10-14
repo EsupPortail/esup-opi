@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import fj.data.Seq;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.application.Version;
 import org.esupportail.commons.services.ldap.LdapUser;
@@ -46,7 +45,6 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.beans.user.situation.IndSituation;
 import org.esupportail.opi.utils.primefaces.PFFilters;
-import org.primefaces.model.SortOrder;
 
 import fj.P2;
 import fj.data.Option;
@@ -142,6 +140,19 @@ public interface DomainService extends Serializable {
      * @return The {@link Individu} of 'numDossierOpi' {@code id}
      */
     Individu fetchIndById(String id, Option<Boolean> onlyValidWishes);
+
+	/**
+	 * Return the individuals managed by commission.
+	 *
+     *
+     *
+     * @param commission
+     * @param validate
+     * @param listeRI
+     * @return List< Individu>
+	 */
+	List<Individu> getIndividusByCommission(Commission commission,
+			Boolean validate, Set<Integer> listeCodesRI);
 
 	/**
 	 * Return all individus with a codeEtu.
@@ -772,6 +783,6 @@ public interface DomainService extends Serializable {
 	 * Get the indSituation for the ind.
 	 * @param ind
 	 */
-	IndSituation getIndSituation(Individu ind);	
+	IndSituation getIndSituation(Individu ind);
 
 }

@@ -2,9 +2,7 @@
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui">
-    <h:form id="navHeaderSearchEtu" styleClass="opiR1_form">
-        <ui:include src="/stylesheets/candidat/_navigation/_navGlobal.xhtml"/>
-    </h:form>
+
     <div id="maPageSearchEtu" class="div_body">
         <div class="messageForUser">
             <p:messages id="messages" showDetail="true" autoUpdate="true"/>
@@ -75,16 +73,4 @@
             </h:form>
         </div>
     </div>
-    <div id="div_navFooterSearchEtu">
-        <h:form id="navFooterSearchEtu" styleClass="opiR1_form">
-            <ui:include src="/stylesheets/candidat/_navigation/_navGlobal.xhtml"/>
-        </h:form>
-    </div>
-    <script type="text/javascript">
-        highlightChildrenLiTags('navHeaderSearchEtu:navigationLogin');
-        highlightChildrenLiTags('navFooterSearchEtu:navigationLogin');
-        highlightInputAndSelect('searchEtuR1Form');
-        highlightInputAndSelect('navFooterSearchEtu');
-        highlightInputAndSelect('navHeaderSearchEtu');
-    </script>
 </ui:fragment>

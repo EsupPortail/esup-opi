@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.esupportail</groupId>
     <artifactId>esup-opi</artifactId>
-    <version>2.0.0-beta4-pre88-SNAPSHOT</version>
+    <version>2.0.0-beta4-pre94-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>An Blank Application to start your project</description>
 	<name>esup-opi</name>
@@ -296,7 +296,7 @@
         </plugins>
     </build>
     <properties>
-        <javax.servlet.version>2.5</javax.servlet.version>
+        <javax.servlet.version>3.0.1</javax.servlet.version>
         <esupcommons.version>0.3.2</esupcommons.version>
         <spring.version>3.2.2.RELEASE</spring.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

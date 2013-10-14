@@ -682,13 +682,42 @@ public class PrintOpinionController extends AbstractContextAwareController {
                 .claim();
     }
 
-    private Commission retrieveOSIVCommission(Integer id, String code) {
-        // hibernate session reattachment
-        return getParameterService().getCommission(id, code);
+    public List<IndividuPojo> retrieveIndividuPojosByCommission(Commission laCommission, Boolean onlyValidate, Boolean shouldInitCursusPojo) {
+    	List<Individu> inds = getIndividusByCommission(laCommission, onlyValidate);
+    	IndividuPojo indPj;
+    	this.lesIndividus.clear();
+    	for(Individu ind:inds) {
+    		indPj = individuToPojo(getDomainApoService(), getParameterService(), getI18nService()).f(ind);
+    		indPj  = initCursusScol(shouldInitCursusPojo, getDomainApoService(), getI18nService()).f(indPj);
+    		indPj = removeVoeuWithTreatmentEquals(transfert).f(indPj);
+    		indPj = keepOnlyVoeuWithValidatedAvisEquals(onlyValidate).f(indPj);
+    		if(isIndWithoutVoeux().f(indPj))
+    		{
+    			this.lesIndividus.add(indPj);
+    		}
+    	}
+    	return lesIndividus;
     }
 
     /**
-     * @deprecated
+     * Encapsulate how controller fetch the stream of Individus from the bakend
+     *
+     * @param laCommission
+     * @param onlyValidate
+     * @return the stream of IndividuPojo from bakend
+     */
+    private List<Individu> getIndividusByCommission(Commission laCommission, Boolean onlyValidate) {
+        return getDomainService().getIndividusByCommission(
+                laCommission, onlyValidate,
+                new HashSet<>(wrap(this.commissionController.getListeRI())
+                        .map(decodeRegimeInscription())
+                        .toStandardList()));
+    }
+    
+
+    /**
+     * @deprecated use {@see makeAllIndividusNew()} instead
+     *             Int the commission and make the individuals list.
      */
     private void makeAllIndividus(final Boolean onlyValidate,
                                   final Boolean initCursusPojo, final Boolean excludeTR) {

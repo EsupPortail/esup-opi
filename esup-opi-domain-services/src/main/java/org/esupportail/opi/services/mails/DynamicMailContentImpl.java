@@ -200,7 +200,6 @@ public class DynamicMailContentImpl extends SimpleMailContentImpl {
 			//doit executer le getter et recuperer le esultat du getter
 			expre.setObjet(getObject(getObjects(), expre));
 			expressions.add(expre);
-
 		}
 		return createExpressions(expressions, m.find(), m, body, beginContains, parent, cpt);
 
@@ -521,12 +520,12 @@ public class DynamicMailContentImpl extends SimpleMailContentImpl {
 			}
 			if (expression instanceof BoucleExpression) {
 				//TODO a tester car logiquement o devrait être une collection
-				//permet de selectionner le bonne objet en fonction de l'expression
+				//permet de selectionner le bon objet en fonction de l'expression
 				if (nameClazz.equalsIgnoreCase(className)) {
 					return MailContentUtils.useCollection(o, o.getClass());
 				}
 			} else {
-				//permet de selectionner le bonne objet en fonction de l'expression
+				//permet de selectionner le bon objet en fonction de l'expression
 				if (nameClazz.equalsIgnoreCase(className)) {
 					return o;
 				} 

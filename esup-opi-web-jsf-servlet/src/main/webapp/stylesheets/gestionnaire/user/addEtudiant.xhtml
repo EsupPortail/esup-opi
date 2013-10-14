@@ -10,7 +10,7 @@
                     <h:outputText value="#{msgs['INDIVIDU.TITLE.AJOUT']}"/>
                 </span>
             </h1>
-
+			<h:form id="seeManagersForm">
             <ui:fragment
                     rendered="#{individuController.actionEnum.whatAction == individuController.actionEnum.addAction}">
                 <div id="div_subSectionConfirmAdd" class="div_subSection">
@@ -30,7 +30,7 @@
                 </div>
             </ui:fragment>
 
-            <h:form id="seeManagersForm">
+            
                 <div class="messageForUser">
                     <p:messages id="messages" showDetail="true" autoUpdate="true"/>
                 </div>
@@ -42,7 +42,8 @@
                         <h:panelGroup>
                             <p:commandButton value="#{msgs['GESTIONNAIRE.GENERE.DOSSIER']}"
                                              action="#{individuController.addIndGestionnaire}"
-                                             rendered="#{individuController.actionEnum.whatAction == individuController.actionEnum.emptyAction}">
+                                             rendered="#{individuController.actionEnum.whatAction == individuController.actionEnum.emptyAction}"
+                                             update="@form">
                             </p:commandButton>
 
                         </h:panelGroup>

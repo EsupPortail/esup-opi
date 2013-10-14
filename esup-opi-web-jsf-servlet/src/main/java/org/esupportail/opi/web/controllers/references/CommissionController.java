@@ -563,7 +563,7 @@ public class CommissionController
 			log.debug("enterind update with Commission = " + commission);
 		}
 		Adresse adresse = adressController.getFixAdrPojo().getAdresse();
-        commission = getParameterService().getCommission(commission.getId(), null);
+        //commission = getParameterService().getCommission(commission.getId(), null);
         if (ctrlEnter(commission, adresse, true)
 				&& adressController.ctrlEnter(adresse, true)
 				&& ctrlAllMbrInMbrToDisplay()) {

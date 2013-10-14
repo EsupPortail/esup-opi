@@ -6,20 +6,18 @@
     <br/>
 
     <div style="text-align:right;">
-        <p:commandButton value="#{msgs['_.BUTTON.ADD']}" action="#{nomenclatureController.ajouterFichierPJ}"
-                         rendered="#{nomenclatureController.nomenclature.nomDocument==null}"/>
+        <p:commandButton value="#{msgs['_.BUTTON.ADD']}" ajax="false" actionListener="#{nomenclatureController.ajouterFichierPJ}"/>
     </div>
     <h:panelGrid styleClass="tableWidthMax" columnClasses="colUnCinquieme,colUnQuart,colUnQuart,colUnQuart" columns="4">
         <h:panelGroup style="text-align:left">
             <h:outputLabel value="#{msgs['PJ.ADDED_FILE']}" for="file"/>
         </h:panelGroup>
         <h:panelGroup>
-            <p:fileUpload id="file" mode="simple" value="#{nomenclatureController.uploadedFile}"
-                          rendered="#{nomenclatureController.nomenclature.nomDocument==null}"
-                          styleClass="form-inputFileUpload-field"/>
+            <p:fileUpload value="#{nomenclatureController.uploadedFile}" mode="simple" />
+           			 
             <h:commandLink value="#{nomenclatureController.nomenclature.nomDocument}"
                            rendered="#{nomenclatureController.nomenclature.nomDocument!=null}"
-                           action="#{formulairesController.download}">
+                           action="#{formulairesController.download}" >
                 <f:setPropertyActionListener value="#{nomenclatureController.nomenclature.nomDocument}"
                                              target="#{formulairesController.nomDocument}"/>
             </h:commandLink>
@@ -27,7 +25,7 @@
                              styleClass="form-button-image" immediate="true"
                              rendered="#{nomenclatureController.nomenclature.nomDocument!=null}"
                              action="#{nomenclatureController.removeFile}"
-                             title="#{msgs['_.BUTTON.DELETE']}">
+                             title="#{msgs['_.BUTTON.DELETE']}"  update="@form">
             </p:commandButton>
         </h:panelGroup>
 

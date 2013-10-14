@@ -344,7 +344,7 @@ public class OpinionController
                     && selectedTypeDec.getCodeTypeConvocation().equals(refused.getCode());
 
             Map<Integer, IndVoeuPojo> mapIndVoeuPojoNewAvis = new HashMap<Integer, IndVoeuPojo>();
-            //R�cup�ration de tous les nouveaus avis
+            //Récupération de tous les nouveaus avis
             for (List<IndVoeuPojo> li : wishSelected.values()) {
                 for (IndVoeuPojo iPojo : li)
                     mapIndVoeuPojoNewAvis.put(iPojo.getIndVoeu().getId(), iPojo);
