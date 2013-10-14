@@ -9,7 +9,10 @@ import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.opi.domain.beans.parameters.*;
+import org.esupportail.opi.domain.beans.parameters.InscriptionAdm;
+import org.esupportail.opi.domain.beans.parameters.Refused;
+import org.esupportail.opi.domain.beans.parameters.Transfert;
+import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.domain.beans.references.calendar.CalendarCmi;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.ContactCommission;
@@ -37,7 +40,10 @@ import org.esupportail.opi.web.controllers.user.IndividuController;
 import org.esupportail.opi.web.utils.MiscUtils;
 import org.esupportail.opi.web.utils.io.SuperCSV;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
-import org.esupportail.wssi.services.remote.*;
+import org.esupportail.wssi.services.remote.BacOuxEqu;
+import org.esupportail.wssi.services.remote.Pays;
+import org.esupportail.wssi.services.remote.SignataireDTO;
+import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
 import org.supercsv.io.ICsvBeanWriter;
 
@@ -56,14 +62,12 @@ import java.util.*;
 import java.util.zip.ZipOutputStream;
 
 import static fj.P.p;
-import static fj.data.Array.array;
 import static fj.data.IterableW.wrap;
 import static fj.data.Option.fromNull;
-import static fj.data.Option.iif;
 import static fj.data.Stream.iterableStream;
 import static fj.function.Booleans.not;
-import static org.esupportail.opi.web.utils.fj.Conversions.*;
-import static org.esupportail.opi.web.utils.fj.Functions.*;
+import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
+import static org.esupportail.opi.web.utils.fj.Functions.getRICode;
 import static org.esupportail.opi.web.utils.fj.Predicates.indWithVoeux;
 import static org.esupportail.opi.web.utils.fj.Predicates.typeTrtEquals;
 import static org.esupportail.opi.web.utils.fj.parallel.ParallelModule.parMod;
@@ -305,7 +309,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
             Boolean selectValid = individuController.getIndividuPaginator().getIndRechPojo().getSelectValid();
             generateCSVListes(
                     cmi,
-                    filterIndividuPojos(cmi, selectValid, not(typeTrtEquals(transfert))),
+                    getIndividus(cmi, selectValid, not(typeTrtEquals(transfert))),
                     fileNamePrefix,
                     fileNameSuffix);
         }
@@ -388,7 +392,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
         } else {
             addInfoMessage(null, "INFO.PRINT.NO_NOTIFICATION");
         }
-        this.lesIndividus = new ArrayList<IndividuPojo>();
+        this.lesIndividus = new ArrayList<>();
     }
 
     /**
@@ -401,7 +405,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
         final Commission commission = commissionController.getCommission();
         generateCSVListes(
                 commission,
-                filterIndividuPojos(
+                getIndividus(
                         retrieveOSIVCommission(commission.getId(), commission.getCode()),
                         true,
                         not(typeTrtEquals(transfert))),
@@ -415,7 +419,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
         final Commission commission = commissionController.getCommission();
         generateCSVListes(
                 commission,
-                filterIndividuPojos(
+                getIndividus(
                         retrieveOSIVCommission(commission.getId(), commission.getCode()),
                         true,
                         typeTrtEquals(transfert)),
@@ -429,8 +433,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
                                   final String fileNameSuffix) {
         // seems dumb but we prefer to access a copy of the session variable in case of concurrent accesses
         final String[] champs =
-                array((champsChoisis == null) ? HEADER_CVS.toArray(new String[HEADER_CVS.size()]) : champsChoisis)
-                        .array(String[].class);
+                (champsChoisis == null) ? HEADER_CVS.toArray(new String[HEADER_CVS.size()]) : champsChoisis;
 
         final User currentUser = getSessionController().getCurrentUser();
         final I18nService i18n = getI18nService();
@@ -438,9 +441,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
         // a helper class to get a handle on the temp Path within the try-with-resources block
         class FileHolder implements Closeable {
             private Path path;
-
             public void close() throws IOException {}
-
             public Path getFile() throws IOException {
                 if (path == null) path = Files.createTempFile(prefix, fileNameSuffix);
                 return path;
@@ -643,7 +644,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
     }
 
     /**
-     * @deprecated better use {@see filterIndividuPojos()} instead
+     * @deprecated better use {@see getIndividus()} instead
      *             clear and found the list of IndividuPojo and IndVoeuPjo
      *             filtred by commission and typeDecision selected by the gestionnaire.
      */
@@ -656,9 +657,9 @@ public class PrintOpinionController extends AbstractContextAwareController {
     /**
      * @return a {@link Stream} of filtered {@link IndividuPojo}s
      */
-    public Stream<IndividuPojo> filterIndividuPojos(Commission laCommission,
-                                                    final Boolean onlyValidate,
-                                                    final F<IndVoeuPojo, Boolean> voeuFilter) {
+    public Stream<IndividuPojo> getIndividus(Commission laCommission,
+                                             final Boolean onlyValidate,
+                                             final F<IndVoeuPojo, Boolean> voeuFilter) {
         final HashSet<Integer> listeRI =
                 new HashSet<>(wrap(commissionController.getListeRI()).map(getRICode()).toStandardList());
         final F<String, Individu> fetchInd = new F<String, Individu>() {
@@ -676,44 +677,17 @@ public class PrintOpinionController extends AbstractContextAwareController {
                 });
         final Stream<String> indsIds =
                 iterableStream(getDomainService().getIndsIds(laCommission, onlyValidate, listeRI));
-        return parMod.parMap(indsIds, fetchInd)
-                .bind(parMod.<Individu, IndividuPojo>parMapStream().f(buildPojos))
+        return parMod.parMap(indsIds, fetchInd.andThen(buildPojos))
                 .fmap(Stream.<IndividuPojo>filter().f(indWithVoeux()))
                 .claim();
     }
 
-    public List<IndividuPojo> retrieveIndividuPojosByCommission(Commission laCommission, Boolean onlyValidate, Boolean shouldInitCursusPojo) {
-    	List<Individu> inds = getIndividusByCommission(laCommission, onlyValidate);
-    	IndividuPojo indPj;
-    	this.lesIndividus.clear();
-    	for(Individu ind:inds) {
-    		indPj = individuToPojo(getDomainApoService(), getParameterService(), getI18nService()).f(ind);
-    		indPj  = initCursusScol(shouldInitCursusPojo, getDomainApoService(), getI18nService()).f(indPj);
-    		indPj = removeVoeuWithTreatmentEquals(transfert).f(indPj);
-    		indPj = keepOnlyVoeuWithValidatedAvisEquals(onlyValidate).f(indPj);
-    		if(isIndWithoutVoeux().f(indPj))
-    		{
-    			this.lesIndividus.add(indPj);
-    		}
-    	}
-    	return lesIndividus;
-    }
-
     /**
-     * Encapsulate how controller fetch the stream of Individus from the bakend
-     *
-     * @param laCommission
-     * @param onlyValidate
-     * @return the stream of IndividuPojo from bakend
+     * Reattachment to hibernate session
      */
-    private List<Individu> getIndividusByCommission(Commission laCommission, Boolean onlyValidate) {
-        return getDomainService().getIndividusByCommission(
-                laCommission, onlyValidate,
-                new HashSet<>(wrap(this.commissionController.getListeRI())
-                        .map(decodeRegimeInscription())
-                        .toStandardList()));
+    private Commission retrieveOSIVCommission(Integer id, String code) {
+        return getParameterService().getCommission(id, code);
     }
-    
 
     /**
      * @deprecated use {@see makeAllIndividusNew()} instead
@@ -727,7 +701,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
         if (idCmi != null) {
             this.commissionController.setCommission(getParameterService().
                     getCommission(idCmi, null));
-            lesIndividus = new ArrayList<>(filterIndividuPojos(
+            lesIndividus = new ArrayList<>(getIndividus(
                     commissionController.getCommission(), onlyValidate, not(typeTrtEquals(transfert))).toCollection());
 //            lookForIndividusPojo(
 //                    this.commissionController.getCommission(),

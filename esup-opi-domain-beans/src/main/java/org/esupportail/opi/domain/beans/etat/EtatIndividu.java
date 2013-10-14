@@ -3,12 +3,6 @@
  */
 package org.esupportail.opi.domain.beans.etat;
 
-
-
-/**
- * @author cleprous
- *
- */
 public enum  EtatIndividu implements Etat {
     EtatComplet(States.STATE_COMPLET),
     EtatIncomplet(States.STATE_INCOMPLET);

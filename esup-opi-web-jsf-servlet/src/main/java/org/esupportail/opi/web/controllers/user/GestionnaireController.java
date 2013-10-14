@@ -9,21 +9,15 @@ import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.beans.parameters.accessRight.Profile;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
-import org.esupportail.opi.domain.beans.user.User;
-import org.esupportail.opi.services.authentification.Authenticator;
-import org.esupportail.opi.services.authentification.AuthenticatorImpl;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.beanEnum.WayfEnum;
-import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.controllers.AbstractAccessController;
-import org.esupportail.opi.web.controllers.SessionController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
 import org.esupportail.wssi.services.remote.CentreGestion;
 import org.springframework.util.StringUtils;
 
-import javax.faces.event.ValueChangeEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -105,10 +99,7 @@ public class GestionnaireController extends AbstractAccessController {
         Assert.notNull(this.commissionController, "property commissionController of class "
                 + this.getClass().getName() + " can not be null");
     }
-	
-	/*
-	 ******************* CALLBACK ********************** */
-	
+
 	/**
 	 * Callback to Gestionnaires list.
 	 * @return String 
@@ -117,10 +108,7 @@ public class GestionnaireController extends AbstractAccessController {
 		listeGestionnaires =  getDomainService().getManagers();
 		return NavigationRulesConst.MANAGED_MANAGER;
 	}
-	
-	
-	
-	
+
 	/**
 	 * Callback to Gestionnaires add or update.
 	 * @return String 

@@ -142,19 +142,6 @@ public interface DomainService extends Serializable {
     Individu fetchIndById(String id, Option<Boolean> onlyValidWishes);
 
 	/**
-	 * Return the individuals managed by commission.
-	 *
-     *
-     *
-     * @param commission
-     * @param validate
-     * @param listeRI
-     * @return List< Individu>
-	 */
-	List<Individu> getIndividusByCommission(Commission commission,
-			Boolean validate, Set<Integer> listeCodesRI);
-
-	/**
 	 * Return all individus with a codeEtu.
 	 * @return List< Individu>
 	 */

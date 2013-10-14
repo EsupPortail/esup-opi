@@ -48,7 +48,7 @@
                             <f:convertDateTime pattern="dd/MM/yyyy"
                                                timeZone="#{sessionController.timezone}"/>
                         </h:outputText>
-                        <h:outputText value="#{sessionController.currentInd.etat}"/>
+                        <h:outputText value="#{etatController.showEtatCurrentInd()}"/>
                     </h:panelGrid>
                 </div>
                 <ui:fragment rendered="#{sessionController.currentInd.managerAsRightsToUpdate and sessionController.canUpdateRI}">

@@ -206,28 +206,8 @@ public class SessionController extends AbstractDomainAwareBean {
      */
     @Override
     public IndividuPojo getCurrentInd() {
-        if (ContextUtils.getSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE) == null) {
-            Individu individu = null;
-            User u = getCurrentUser();
-            if (u != null && u instanceof Individu) {
-                individu = (Individu) u;
-                individu = getDomainService().getIndividu(
-                        individu.getNumDossierOpi(), individu.getDateNaissance());
-            }
-            if (individu != null) {
-                IndividuPojo indPojo = new IndividuPojo(
-                        individu, getDomainApoService(),
-                        i18NUtils, getParameterService(),
-                        getRegimeIns().get(Utilitaires.getCodeRIIndividu(individu,
-                                getDomainService())), getParameterService().getTypeTraitements(),
-                        getParameterService().getCalendarRdv(), null);
-                // put boolean for the management and rights of update
-                indPojo.setIsManager(isManager);
-                indPojo.setIsUpdaterOfThisStudent(canUpdateStudent);
-                resetSessionLocale();
-                ContextUtils.setSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE, indPojo);
-            }
-        }
+        if (ContextUtils.getSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE) == null)
+            putCurrentIndInSession();
         return (IndividuPojo) ContextUtils.getSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE);
     }
     
@@ -236,27 +216,31 @@ public class SessionController extends AbstractDomainAwareBean {
      */
     @Override
     public IndividuPojo getCurrentIndInit() {
-            Individu individu = null;
-            User u = getCurrentUser();
-            if (u != null && u instanceof Individu) {
-                individu = (Individu) u;
-                individu = getDomainService().getIndividu(
-                        individu.getNumDossierOpi(), individu.getDateNaissance());
-            }
-            if (individu != null) {
-                IndividuPojo indPojo = new IndividuPojo(
-                        individu, getDomainApoService(),
-                        i18NUtils, getParameterService(),
-                        getRegimeIns().get(Utilitaires.getCodeRIIndividu(individu,
-                                getDomainService())), getParameterService().getTypeTraitements(),
-                        getParameterService().getCalendarRdv(), null);
-                // put boolean for the management and rights of update
-                indPojo.setIsManager(isManager);
-                indPojo.setIsUpdaterOfThisStudent(canUpdateStudent);
-                resetSessionLocale();
-                ContextUtils.setSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE, indPojo);
-            }
+        putCurrentIndInSession();
         return (IndividuPojo) ContextUtils.getSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE);
+    }
+
+    private void putCurrentIndInSession() {
+        Individu individu = null;
+        User u = getCurrentUser();
+        if (u != null && u instanceof Individu) {
+            individu = (Individu) u;
+            individu = getDomainService().getIndividu(
+                    individu.getNumDossierOpi(), individu.getDateNaissance());
+        }
+        if (individu != null) {
+            IndividuPojo indPojo = new IndividuPojo(
+                    individu, getDomainApoService(),
+                    i18NUtils, getParameterService(),
+                    getRegimeIns().get(Utilitaires.getCodeRIIndividu(individu,
+                            getDomainService())), getParameterService().getTypeTraitements(),
+                    getParameterService().getCalendarRdv(), null);
+            // put boolean for the management and rights of update
+            indPojo.setIsManager(isManager);
+            indPojo.setIsUpdaterOfThisStudent(canUpdateStudent);
+            resetSessionLocale();
+            ContextUtils.setSessionAttribute(CURRENT_INDPOJO_ATTRIBUTE, indPojo);
+        }
     }
 
 

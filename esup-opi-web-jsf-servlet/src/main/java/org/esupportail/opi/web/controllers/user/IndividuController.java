@@ -111,7 +111,7 @@ public class IndividuController extends AbstractAccessController {
     /**
      * Static list used to store the years which can be used for the birthdates.
      */
-    private static List<SelectItem> listeAnneeNaissance = new ArrayList<SelectItem>();
+    private static List<SelectItem> listeAnneeNaissance = new ArrayList<>();
 
 
     /**
@@ -535,7 +535,7 @@ public class IndividuController extends AbstractAccessController {
     public String goSeeCursus() {
         pojoIndividu = getCurrentInd();
         indBacController.initIndBac(
-                new ArrayList<IndBac>(
+                new ArrayList<>(
                         pojoIndividu.getIndividu().getIndBac()), false);
 
         return NavigationRulesConst.SEE_CURSUS;
@@ -688,23 +688,7 @@ public class IndividuController extends AbstractAccessController {
      * @return String
      */
     public String goSendMailStudent() {
-        //send the mail
-
-
         pojoIndividu.getRegimeInscription().sendCreateDos(pojoIndividu.getIndividu());
-        //COMMENT the 21/10/2009 to DELELTE
-        //		String civilite = Utilitaires.getCivilite(
-        //				getI18nService(), pojoIndividu.getIndividu().getSexe());
-        //		//Send email
-        //		String htmlBody = getString("MAIL.CREATE.DOS_IND.HTMLTEXT_BODY",
-        //				civilite,
-        //				pojoIndividu.getIndividu().getNumDossierOpi());
-        //		Utilitaires.sendEmailIndividu(
-        //				getString("MAIL.CREATE.DOS_IND.SUBJECT"),
-        //				htmlBody, null, pojoIndividu.getIndividu(),
-        //				smtpService, getI18nService());
-
-
         addInfoMessage(null, "INFO.CANDIDAT.MAIL_OK");
         return NavigationRulesConst.DISPLAY_STUDENT;
     }
@@ -1407,18 +1391,10 @@ public class IndividuController extends AbstractAccessController {
             addErrorMessage(null, Constantes.I18N_EMPTY, getString("INDIVIDU.NAT"));
             ctrlOk = false;
         }
-
-        // Check current adress fields
-        //not use at the moment (11/09/2008) cf ticket : 36313
-        //		if (!adressController.ctrlEnter(adressController.getCurrentAdrPojo().getAdresse())) {
-        //			ctrlOk = false;
-        //		}
         // Check fix adress fields
         if (!adressController.ctrlEnter(adressController.getFixAdrPojo().getAdresse(), true)) {
             ctrlOk = false;
         }
-
-
         return ctrlOk;
     }
 
@@ -1499,7 +1475,6 @@ public class IndividuController extends AbstractAccessController {
             i.setCodeClefNNE(
                     i.getCodeClefNNE().toUpperCase());
         }
-
         return i;
     }
 

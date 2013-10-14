@@ -154,6 +154,9 @@ public class IndividuPojo {
         isUsingSearch = false;
     }
 
+    /**
+     * @deprecated Should not be used anymore
+     */
 	public IndividuPojo(final Individu individu, final DomainApoService apoServ,
 			final I18NUtilsService i18nUtils, final ParameterService parameterService,
 			final RegimeInscription ri,
@@ -187,7 +190,10 @@ public class IndividuPojo {
                                 return i18nUtils.labelEtatComplet();
                             }});
     }
-	
+
+    /**
+     * @deprecated Should not be used anymore
+     */
 	public IndividuPojo(final Individu individu, final DomainApoService apoServ,
 			final I18nService i18Service, final ParameterService parameterService,
 			final Set<Commission> commissions, final Set<TypeDecision> typeDecisions,
@@ -361,23 +367,7 @@ public class IndividuPojo {
 			}
 		}
 	}
-	
-	/**
-	 * Initialize the list of the cursus for the student.
-	 * @param domainApoService
-	 * @param i18Service 
-	 */
-//	public void initIndCursusScolPojo(final DomainApoService domainApoService,
-//					final I18nService i18Service) {
-//		indCursusScolPojo = new ArrayList<>();
-//		for (IndCursusScol iCur : individu.getCursusScol()) {
-//			indCursusScolPojo.add(
-//					new IndCursusScolPojo(iCur, i18Service, domainApoService));
-//		}
-//		Collections.sort(indCursusScolPojo, new ComparatorString(IndCursusScolPojo.class));
-//	}
-//
-	
+
 	/**
 	 * State of IndBac.
 	 * @return String
@@ -386,8 +376,6 @@ public class IndividuPojo {
         return etatIndBac;
 	}
 
-
-	
 	/**
 	 * return true if it is a manager or if the regime can add vows.
 	 * @return boolean
@@ -436,8 +424,6 @@ public class IndividuPojo {
 	
 	/**
 	 * Test the calendar of vow. if it's open return true.
-	 * @param i
-	 * @param parameterService
 	 * @return Boolean
 	 */
 	private Boolean testIfCalIsOpen(
@@ -475,10 +461,6 @@ public class IndividuPojo {
 		return Utilitaires.getCampagneEnServ(individu);
 	}
 	
-	/**
-	 * @param domainService
-	 * @return the campagne en service.
-	 */
 	public Campagne getCampagneEnServ(final DomainService domainService) {
 		return Utilitaires.getCampagneEnServ(individu, domainService);
 	}
@@ -581,7 +563,6 @@ public class IndividuPojo {
 	public EtatIndividu getEtat() {
 		return etat;
 	}
-
 
 	/**
 	 * @param etat the etat to set

@@ -54,11 +54,4 @@ public interface IndividuDaoService {
      * @return The {@link Individu} of 'numDossierOpi' {@code id}
      */
     Individu fetchIndById(String id, Option<Boolean> onlyValidWishes);
-
-    /**
-     * Return the individuals managed by commission.
-     *
-     */
-    public List<Individu> getIndividusByCommission(Commission commission,
-			Boolean validate, Set<Integer> listeRICodes);
 }

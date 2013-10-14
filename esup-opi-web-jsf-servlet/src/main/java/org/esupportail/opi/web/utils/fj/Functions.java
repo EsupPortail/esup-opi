@@ -67,21 +67,4 @@ public class Functions {
             }
         };
     }
-
-    /**
-     * Initialize the scolar cursus of a {@link fj.data.Stream} of {@link org.esupportail.opi.web.beans.pojo.IndividuPojo} according to param
-     *
-     * @param apoServ         utility service
-     * @param i18nServ        utility service
-     * @return the resulting {@link fj.data.Stream}
-     */
-//    public static F<IndividuPojo, IndividuPojo> initCursusScol(final DomainApoService apoServ,
-//                                                               final I18nService i18nServ) {
-//        return new F<IndividuPojo, IndividuPojo>() {
-//            public IndividuPojo f(final IndividuPojo individuPojo) {
-//                individuPojo.initIndCursusScolPojo(apoServ, i18nServ);
-//                return individuPojo;
-//            }
-//        };
-//    }
 }

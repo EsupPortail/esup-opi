@@ -1,6 +1,6 @@
 package org.esupportail.opi.domain.beans.etat;
 
-class States {
+final class States {
     private States() { throw new UnsupportedOperationException(); }
 
     static final String STATE_COMPLET = "STATE.COMPLET";

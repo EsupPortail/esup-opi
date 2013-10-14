@@ -229,9 +229,6 @@ public class SituationController extends AbstractAccessController {
         }
     }
 
-    /**
-     * @param individu
-     */
     public void add(final Individu individu) {
         // si le candidat avait une situation, on la supprime
         if (indSituation != null) {

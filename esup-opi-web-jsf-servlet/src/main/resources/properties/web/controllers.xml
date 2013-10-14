@@ -2,7 +2,11 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!--
         /properties/web/controllers.xml This file declares the visual beans
@@ -29,6 +33,7 @@
         <property name="serverNameUrl" value="${serverName}"/>
         <property name="allViewPJ" value="${init.allViewPJ}"/>
         <property name="i18NUtils" ref="i18nUtilsService" />
+        <aop:scoped-proxy/>
     </bean>
 
     <bean id="abstractContextAwareController" abstract="true"
@@ -160,6 +165,12 @@
           parent="abstractAccessController" scope="session">
         <description>A bean to manage the individu's bac.</description>
         <property name="i18NUtils" ref="i18nUtilsService" />
+    </bean>
+
+    <bean id="etatController" class="org.esupportail.opi.web.controllers.user.EtatController"
+          factory-method="etatController">
+        <constructor-arg ref="sessionController" />
+        <constructor-arg ref="i18nUtilsService" />
     </bean>
 
     <!-- ####  FORMULAIRE ##### -->

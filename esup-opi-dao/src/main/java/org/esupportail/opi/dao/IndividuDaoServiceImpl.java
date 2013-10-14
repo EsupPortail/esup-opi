@@ -319,9 +319,8 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                         .leftJoin(indVoeux, indVoeu)
                         .leftJoin(indVoeuAvis, avis)
                         .where(ind.getString("numDossierOpi").eq(id)
-                                .and(onlyValidWishes.option(
-                                        p(oneIsOne).<BooleanExpression>constant(),
-                                        validWishFilter)
+                                .and(onlyValidWishes
+                                        .option(p(oneIsOne).<BooleanExpression>constant(), validWishFilter)
                                         .f(oneIsOne)))
                         .transform(groupBy(indEnt).as(set(indVoeu)));
 
@@ -333,59 +332,11 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
         for (IndVoeu v : voeux) {
             LinkTrtCmiCamp link = v.getLinkTrtCmiCamp();
             TraitementCmi trt = link.getTraitementCmi();
-            VersionEtpOpi vet = trt.getVersionEtpOpi();
             link.toString();
             trt.toString();
-            vet.toString();
         }
 
         individu.setVoeux(voeux);
-        System.out.println(">Fetching an Individu from DB !");
         return individu;
     }
-
-	@Override
-	public List<Individu> getIndividusByCommission(final Commission commission,
-	                                     final Boolean validate,
-	                                     final Set<Integer> listeRICodes) {
-		
-	    final F<BooleanExpression, BooleanExpression> filter = buildFilter(
-				commission, validate, listeRICodes); 
-	    
-	    final List<Individu> individus =
-	            from(indEnt).distinct()
-	                    .leftJoin(indVoeux, indVoeu)
-	                    .innerJoin(indCamps, camp)
-	                    .leftJoin(indVoeuAvis, avis)
-	                    .where(filter.f(BooleanTemplate.TRUE))
-	                    .list(ind);
-	    return individus;
-	}
-
-	private F<BooleanExpression, BooleanExpression> buildFilter(
-			final Commission commission, final Boolean validate,
-			final Set<Integer> listeRICodes) {
-		
-		final F<BooleanExpression, BooleanExpression> filter =
-                somes(list(
-                		some(p(indEnService).<BooleanExpression>constant()),
-                		some(commission.getTraitementCmi()).map(trtCmiFilter),
-                        fromNull(listeRICodes).map(and.o(campRiFilter)),
-                        fromNull(validate).map(validWishFilter),
-                        iif(validate != null, and.f(avisEnServ))
-                )).foldLeft(Function.<BooleanExpression, BooleanExpression, BooleanExpression>andThen(),
-                        Function.<BooleanExpression>identity());
-		return filter;
-	}
-	
-	private static final F<BooleanExpression, F<BooleanExpression,BooleanExpression>> and =
-            new F<BooleanExpression, F<BooleanExpression, BooleanExpression>>() {
-                public F<BooleanExpression, BooleanExpression> f(final BooleanExpression b1) {
-                    return new F<BooleanExpression, BooleanExpression>() {
-                        public BooleanExpression f(BooleanExpression b2) {
-                            return b1.and(b2);
-                        }
-                    };
-                }
-            }; 
 }

@@ -12,11 +12,9 @@
         This file is referenced by /properties/applicationContext.xml.
     -->
 
-    <bean
-            id="exceptionServiceFactory"
+    <bean id="exceptionServiceFactory"
             class="org.esupportail.commons.services.exceptionHandling.CachingEmailExceptionServiceFactoryImpl"
-            parent="abstractApplicationAwareBean"
-            >
+            parent="abstractApplicationAwareBean">
         <property name="authenticationService" ref="servletAuthenticationService"/>
         <property name="smtpService" ref="smtpService"/>
         <property name="recipientEmail" value="${exceptionHandling.email}"/>
