@@ -506,15 +506,11 @@ public class AccueilController extends AbstractAccessController {
 
         }
 
-        Boolean returnOnePdf = false;
+        //si les voeux du candidat ne sont que dans une commission on genere un pdf
+        final Boolean returnOnePdf = mapCmi.size() == 1 && mapIndFormulaires.isEmpty();
 
         ByteArrayOutputStream zipByteArray = new ByteArrayOutputStream();
         ZipOutputStream zipStream = new ZipOutputStream(zipByteArray);
-
-        //si les voeux du candidat ne sont que dans une commission on genere un pdf
-        if (mapCmi.size() == 1 && mapIndFormulaires.isEmpty()) {
-            returnOnePdf = true;
-        }
 
         for (Map.Entry<Commission, Set<VersionEtapeDTO>> commissionMap : mapCmi.entrySet()) {
             Commission commission = getParameterService()
@@ -532,13 +528,6 @@ public class AccueilController extends AbstractAccessController {
                     commission.getContactsCommission()
                             .get(Utilitaires.getCodeRIIndividu(i,
                                     getDomainService())));
-
-            //init selection in treatment cmi
-//			for (TraitementCmi t : cmiPojo.getCommission().getTraitementCmi()) {
-//				//init proxy hib
-//				TraitementCmi tr = getParameterService().getTraitementCmi(t.getVersionEtpOpi(), true);
-//				t.setSelection(tr.getSelection());
-//			}
 
             mapOneCmi.put(cmiPojo, commissionMap.getValue());
 

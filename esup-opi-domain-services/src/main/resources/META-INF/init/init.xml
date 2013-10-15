@@ -14,31 +14,31 @@
 
 	<import resource="initTraitement.xml" />
 
-	<bean 
-		id="versionningService"
-		class="org.esupportail.opi.services.application.VersionningServiceImpl" >
-		<property name="firstAdministratorId" value="${init.firstAdministratorId}" />
-		<property name="accessAdmin">
-			<list>
-				<ref bean="access_admin_param_read"/>
-				<ref bean="access_admin_profil_add"/>
-				<ref bean="access_admin_profil_read"/>
-				<ref bean="access_admin_profil_update"/>
-			</list>
-		</property>
-		<property name="profils">
-			<list>
-				<ref bean="profil_admin"/>
-				<ref bean="profil_membre"/>
-			</list>
-		</property>
-		<property name="admin" ref="profil_admin"/>
-		<property name="domainService" ref="domainService" />
-        <property name="parameterService" ref="parameterService" />		
-		<property name="applicationService" ref="applicationService" />
-	</bean>
+    <bean id="versionningService"
+          class="org.esupportail.opi.services.application.VersionningServiceImpl"
+          factory-method="versionningService">
+        <constructor-arg ref="domainService" />
+        <constructor-arg ref="parameterService" />
+        <constructor-arg ref="applicationService" />
+        <constructor-arg value="${init.firstAdministratorId}" />
+        <constructor-arg>
+            <list>
+                <ref bean="access_admin_param_read"/>
+                <ref bean="access_admin_profil_add"/>
+                <ref bean="access_admin_profil_read"/>
+                <ref bean="access_admin_profil_update"/>
+            </list>
+        </constructor-arg>
+        <constructor-arg>
+            <list>
+                <ref bean="profil_admin"/>
+                <ref bean="profil_membre"/>
+            </list>
+        </constructor-arg>
+        <constructor-arg ref="profil_admin"/>
+    </bean>
 	
-	<bean 
+    <bean
 		id="profil_admin"
 		class="org.esupportail.opi.domain.beans.parameters.accessRight.Profile"
 		lazy-init="true"

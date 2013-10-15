@@ -20,5 +20,3 @@ mvn release:perform -Darguments="-Dconfig.location=$configFile"
 ** Manipulation de la BD:
 java -Dconfig.location=$configFile -cp esup-opi-batch/target/esup-opi-batch-$version.jar org.esupportail.opi.batch.DbAdmin init-db
 java -Dconfig.location=$configFile -cp esup-opi-batch/target/esup-opi-batch-$version.jar org.esupportail.opi.batch.DbAdmin upgrade-db
-** Correction du contenu des mails :
-java -Dconfig.location=$configFile -cp esup-opi-batch/target/esup-opi-batch-$version.jar org.esupportail.opi.batch.PatchMailsContent

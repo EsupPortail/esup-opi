@@ -790,38 +790,24 @@ public final class DomainServiceImpl implements DomainService {
 	// NormeSI
 	// ////////////////////////////////////////////////////////////
 
-	/**
-	 * @see org.esupportail.opi.domain.DomainService#add(org.esupportail.opi.domain.beans.NormeSI,
-	 *      java.lang.String)
-	 */
 	@Override
 	public <T extends NormeSI> T add(final T norme, final String codeCurrentUser) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering add with norme = " + norme
-					+ "and codCurrentUSer  = " + codeCurrentUser);
-		}
-		T newNorme = norme;
-		newNorme.setCodUserToCreate(codeCurrentUser);
-		newNorme.setDateCreaEnr(new Date());
-
-		return newNorme;
+		if (log.isDebugEnabled())
+            log.debug("entering add with norme = " + norme
+                    + "and codCurrentUSer  = " + codeCurrentUser);
+        norme.setCodUserToCreate(codeCurrentUser);
+		norme.setDateCreaEnr(new Date());
+		return norme;
 	}
 
-	/**
-	 * @see org.esupportail.opi.domain.DomainService#update(org.esupportail.opi.domain.beans.NormeSI,
-	 *      java.lang.String)
-	 */
 	@Override
 	public <T extends NormeSI> T update(final T norme, final String codeCurrentUser) {
 		if (log.isDebugEnabled())
 			log.debug("entering update with norme = " + norme
 					+ "and codCurrentUSer  = " + codeCurrentUser);
-
-		T newNorme = norme;
-		newNorme.setCodUserToUpdate(codeCurrentUser);
-		newNorme.setDateModifEnr(new Date());
-
-		return newNorme;
+        norme.setCodUserToUpdate(codeCurrentUser);
+		norme.setDateModifEnr(new Date());
+		return norme;
 	}
 
 	// ////////////////////////////////////////////////////////////
