@@ -181,12 +181,12 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
             };
 
 
-    final F<String, F<BooleanExpression, BooleanExpression>> notCodeTypeTrtmtFilter =
+    final F<String, F<BooleanExpression, BooleanExpression>> isCodeTypeTrtmtFilter =
             new F<String, F<BooleanExpression, BooleanExpression>>() {
                 public F<BooleanExpression, BooleanExpression> f(final String code) {
                     return new F<BooleanExpression, BooleanExpression>() {
                         public BooleanExpression f(BooleanExpression expr) {
-                            return expr.and(indVoeu.get("codTypeTrait").ne(code));
+                            return expr.and(indVoeu.get("codTypeTrait").eq(code));
                         }
                     };
                 }
@@ -244,7 +244,7 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                         typesTrtVet.map(typesTrtVetFilter),
                         validWish.map(validWishFilter),
                         treatedWish.map(unTreatedWishFilter),
-                        codeTypeTrtmt.map(notCodeTypeTrtmtFilter),
+                        codeTypeTrtmt.map(isCodeTypeTrtmtFilter),
                         wishCreation.map(wishCreationFilter)
                 )).foldLeft(Function.<BooleanExpression, BooleanExpression, BooleanExpression>andThen(),
                         Function.<BooleanExpression>identity());
