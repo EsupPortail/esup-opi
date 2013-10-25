@@ -14,6 +14,7 @@ import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.beans.etat.EtatIndividu;
+import org.esupportail.opi.domain.beans.parameters.AccesSelectif;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.Transfert;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
@@ -209,7 +210,8 @@ public class IndividuController extends AbstractAccessController {
      */
     private String checkEmail;
 
-    private Transfert transfert;
+//    private Transfert transfert;
+    private AccesSelectif accesSelectif;
 
     private boolean renderTable = false;
 
@@ -289,8 +291,8 @@ public class IndividuController extends AbstractAccessController {
 
                     // 7. le type de traitement (Hack : indRechPojo.useTypeTrtFilter est positionné dans les vues par f:event)
                     final Option<String> codeTypeTrtmt =
-                            iif(indRechPojo.isUseTypeTrtFilter(), transfert).map(new F<Transfert, String>() {
-                                public String f(Transfert t) { return t.getCode(); }
+                            iif(indRechPojo.isUseTypeTrtFilter(), accesSelectif).map(new F<AccesSelectif, String>() {
+                                public String f(AccesSelectif t) { return t.getCode(); }
                             });
 
                     // 8. Date de création des voeux
@@ -1611,12 +1613,12 @@ public class IndividuController extends AbstractAccessController {
         return ldapUserService;
     }
 
-    public Transfert getTransfert() {
-        return transfert;
+    public AccesSelectif getAccesSelectif() {
+        return accesSelectif;
     }
 
-    public void setTransfert(Transfert transfert) {
-        this.transfert = transfert;
+    public void setAccesSelectif(AccesSelectif accesSelectif) {
+        this.accesSelectif = accesSelectif;
     }
 
     public void setLdapUserService(LdapUserService ldapUserService) {

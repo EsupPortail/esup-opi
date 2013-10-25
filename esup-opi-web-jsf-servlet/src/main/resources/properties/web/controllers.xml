@@ -133,7 +133,7 @@
         <property name="isRecupCursus" value="${init.recupCursus}"/>
         <property name="isRecupBac" value="${init.recupBac}"/>
         <property name="isRecupInfos" value="${init.recupInfos}"/>
-        <property name="transfert" ref="transfert"/>
+        <property name="accesSelectif" ref="accesSelectif"/>
     </bean>
 
     <bean id="adressController"
