@@ -268,8 +268,19 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                 some(customFilterQuery),
                 new F2<EntityPathBase<Individu>, HibernateQuery, Stream<Individu>>() {
                     public Stream<Individu> f(EntityPathBase<Individu> ent, HibernateQuery query) {
-                        return iterableStream(query.list(ent));
+                        final Map<Individu, Set<IndVoeu>> transform = query.transform(groupBy(ent).as(set(indVoeu)));
+                        return iterableStream(transform.keySet())
+                                .map(new F<Individu, Individu>() {
+                                    @Override
+                                    public Individu f(final Individu individu) {
+                                        Individu result = individu;
+                                        result.setVoeux(transform.get(individu));
+                                        return result;
+                                    }
+                                });
                     }
+
+
                 });
     }
 
