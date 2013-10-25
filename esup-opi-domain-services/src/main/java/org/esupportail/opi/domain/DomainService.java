@@ -191,7 +191,7 @@ public interface DomainService extends Serializable {
                                           Option<Boolean> validWish,
                                           Option<Boolean> treatedWish,
                                           Option<Date> wishCreation,
-                                          Option<String> codeTypeTrtmt,
+                                          Collection<TypeTraitement> typeTrtmts,
                                           Option<Set<TraitementCmi>> trtCmis,
                                           Set<Integer> listCodesRI,
                                           Option<List<String>> typesTrtVet);

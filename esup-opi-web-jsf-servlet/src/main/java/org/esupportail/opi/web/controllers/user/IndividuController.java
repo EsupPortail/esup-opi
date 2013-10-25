@@ -210,8 +210,7 @@ public class IndividuController extends AbstractAccessController {
      */
     private String checkEmail;
 
-//    private Transfert transfert;
-    private AccesSelectif accesSelectif;
+    private Collection<TypeTraitement> typeTraitements;
 
     private boolean renderTable = false;
 
@@ -290,10 +289,8 @@ public class IndividuController extends AbstractAccessController {
                     final Option<Boolean> validWish = fromNull(indRechPojo.getSelectValid());
 
                     // 7. le type de traitement (Hack : indRechPojo.useTypeTrtFilter est positionné dans les vues par f:event)
-                    final Option<String> codeTypeTrtmt =
-                            iif(indRechPojo.isUseTypeTrtFilter(), accesSelectif).map(new F<AccesSelectif, String>() {
-                                public String f(AccesSelectif t) { return t.getCode(); }
-                            });
+                    final Collection<TypeTraitement> typeTrtmts =
+                            indRechPojo.isUseTypeTrtFilter() ? typeTraitements : Collections.<TypeTraitement>emptyList();
 
                     // 8. Date de création des voeux
                     final Option<Date> dateCrea = fromNull(indRechPojo.getDateCreationVoeuRecherchee());
@@ -305,7 +302,7 @@ public class IndividuController extends AbstractAccessController {
 
                     return getDomainService().sliceOfInd(
                             pfFilters((long) first, (long) pageSize, sortField, sortOrder, filters),
-                            typesDec, validWish, wishTreated, dateCrea, codeTypeTrtmt, trtCmis, listCodesRI, typesTrtVet);
+                            typesDec, validWish, wishTreated, dateCrea, typeTrtmts, trtCmis, listCodesRI, typesTrtVet);
                 }
             },
             new F2<String, Individu, Boolean>() {
@@ -1613,12 +1610,12 @@ public class IndividuController extends AbstractAccessController {
         return ldapUserService;
     }
 
-    public AccesSelectif getAccesSelectif() {
-        return accesSelectif;
+    public Collection<TypeTraitement> getTypeTraitements() {
+        return typeTraitements;
     }
 
-    public void setAccesSelectif(AccesSelectif accesSelectif) {
-        this.accesSelectif = accesSelectif;
+    public void setTypeTraitements(Collection<TypeTraitement> typeTraitements) {
+        this.typeTraitements = typeTraitements;
     }
 
     public void setLdapUserService(LdapUserService ldapUserService) {

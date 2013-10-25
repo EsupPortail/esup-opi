@@ -5,6 +5,7 @@ import fj.data.Option;
 import fj.data.Stream;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
+import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Individu;
@@ -12,6 +13,7 @@ import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.utils.primefaces.PFFilters;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -22,8 +24,10 @@ public interface IndividuDaoService {
      * Retrieve a slice of {@link Individu}
      *
      *
+     *
      * @param pfFilters
      * @param wishCreation
+     * @param typeTrtmts
      * @return
      */
     P2<Long, Stream<Individu>> sliceOfInds(PFFilters pfFilters,
@@ -31,7 +35,7 @@ public interface IndividuDaoService {
                                            Option<Boolean> validWish,
                                            Option<Boolean> treatedWish,
                                            Option<Date> wishCreation,
-                                           Option<String> codeTypeTrtmt,
+                                           Collection<TypeTraitement> typeTrtmts,
                                            Option<Set<TraitementCmi>> trtCmis,
                                            Set<Integer> listCodesRI,
                                            Option<List<String>> typesTrtVet);

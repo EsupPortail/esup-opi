@@ -20,14 +20,15 @@ import org.esupportail.opi.dao.utils.Paginator;
 import org.esupportail.opi.dao.utils.PaginatorFactory;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
+import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
-import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
 import org.esupportail.opi.utils.primefaces.PFFilters;
+import org.omg.CosNaming.NamingContextPackage.AlreadyBoundHelper;
 import org.springframework.orm.hibernate3.HibernateTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -36,6 +37,7 @@ import java.util.*;
 import static com.mysema.query.group.GroupBy.groupBy;
 import static com.mysema.query.group.GroupBy.set;
 import static fj.P.p;
+import static fj.data.Array.iterableArray;
 import static fj.data.IterableW.wrap;
 import static fj.data.List.list;
 import static fj.data.Option.*;
@@ -181,12 +183,18 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
             };
 
 
-    final F<String, F<BooleanExpression, BooleanExpression>> isCodeTypeTrtmtFilter =
-            new F<String, F<BooleanExpression, BooleanExpression>>() {
-                public F<BooleanExpression, BooleanExpression> f(final String code) {
+    final F<Collection<TypeTraitement>, F<BooleanExpression, BooleanExpression>> isCodeTypeTrtmtFilter =
+            new F<Collection<TypeTraitement>, F<BooleanExpression, BooleanExpression>>() {
+                public F<BooleanExpression, BooleanExpression> f(final Collection<TypeTraitement> typeTraitements) {
                     return new F<BooleanExpression, BooleanExpression>() {
                         public BooleanExpression f(BooleanExpression expr) {
-                            return expr.and(indVoeu.get("codTypeTrait").eq(code));
+                            return expr.and(indVoeu.get("codTypeTrait").in(iterableArray(typeTraitements)
+                                    .map(new F<TypeTraitement, String>() {
+                                        public String f(TypeTraitement typeTraitement) {
+                                            return typeTraitement.getCode();
+                                        }
+                                    })
+                                    .toCollection()));
                         }
                     };
                 }
@@ -227,7 +235,7 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                                                   final Option<Boolean> treatedWish,
                                                   final Option<Boolean> validWish,
                                                   final Option<Date> wishCreation,
-                                                  final Option<String> codeTypeTrtmt,
+                                                  final Collection<TypeTraitement> typeTrtmts,
                                                   final Option<Set<TraitementCmi>> trtCmis,
                                                   final Set<Integer> listCodesRI,
                                                   final Option<List<String>> typesTrtVet) {
@@ -244,7 +252,7 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                         typesTrtVet.map(typesTrtVetFilter),
                         validWish.map(validWishFilter),
                         treatedWish.map(unTreatedWishFilter),
-                        codeTypeTrtmt.map(isCodeTypeTrtmtFilter),
+                        iif(!typeTrtmts.isEmpty(), isCodeTypeTrtmtFilter.f(typeTrtmts)),
                         wishCreation.map(wishCreationFilter)
                 )).foldLeft(Function.<BooleanExpression, BooleanExpression, BooleanExpression>andThen(),
                         Function.<BooleanExpression>identity());
