@@ -48,7 +48,7 @@
                         <p:columnGroup type="header">
                             <p:row>
                                 <p:column headerText="#{msgs['GESTIONNAIRE.LOGIN']}" sortBy="#{manager.login}"/>
-                                <p:column headerText="#{msgs['PROFIL']}" />
+                                <p:column headerText="#{msgs['PROFIL']}" sortBy="#{manager.profile.libelle}" />
                                 <p:column headerText="#{msgs['FIELD_LABEL.FIRST_NAME']}" sortBy="#{manager.prenom}"
                                     filterBy="#{manager.prenom}"
                                     filterMatchMode="contains" />
