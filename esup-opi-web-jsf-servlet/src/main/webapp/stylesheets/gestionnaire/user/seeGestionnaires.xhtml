@@ -47,7 +47,7 @@
                         filterDelay="1000" styleClass="paginatorData">
                         <p:columnGroup type="header">
                             <p:row>
-                                <p:column headerText="#{msgs['GESTIONNAIRE.LOGIN']}" />
+                                <p:column headerText="#{msgs['GESTIONNAIRE.LOGIN']}" sortBy="#{manager.login}"/>
                                 <p:column headerText="#{msgs['PROFIL']}" />
                                 <p:column headerText="#{msgs['FIELD_LABEL.FIRST_NAME']}"
                                     filterBy="#{manager.prenom}"
