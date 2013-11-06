@@ -1,6 +1,5 @@
 package org.esupportail.opi.web.controllers.opinions;
 
-import fj.data.Stream;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
@@ -150,11 +149,7 @@ public class ValidOpinionController extends AbstractContextAwareController {
     public String goSeeStudientForCommission() {
         // list of indivius from the commission selected
         // with an opinion not validate
-        final Stream<IndividuPojo> individus = printOpinionController.getIndividus(
-                commissionController.getCommission(),
-                false,
-                not(typeTrtEquals(printOpinionController.getTransfert())));
-        printOpinionController.setLesIndividus(new ArrayList<>(individus.toCollection()));
+        printOpinionController.initIndividus();
         return NavigationRulesConst.DISPLAY_NOT_VALIDATED_STUDENT;
     }
 

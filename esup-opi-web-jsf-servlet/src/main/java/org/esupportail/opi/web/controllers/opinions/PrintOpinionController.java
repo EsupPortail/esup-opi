@@ -1,6 +1,7 @@
 package org.esupportail.opi.web.controllers.opinions;
 
 import fj.F;
+import fj.data.Array;
 import fj.data.Option;
 import fj.data.Stream;
 import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
@@ -62,6 +63,7 @@ import java.util.*;
 import java.util.zip.ZipOutputStream;
 
 import static fj.P.p;
+import static fj.data.Array.iterableArray;
 import static fj.data.IterableW.wrap;
 import static fj.data.Option.fromNull;
 import static fj.data.Stream.iterableStream;
@@ -1063,6 +1065,55 @@ public class PrintOpinionController extends AbstractContextAwareController {
                 "par mail à l'issu du processus.");
     }
 
+    /**
+     * Filter individu by commision, validated avis, typeTraitement not equals transfert;
+     * foreach individu filter its voeux by avis enService and typeDecision selected.
+     * Better look to delegate to DAO layer directly as it's the same operation performed by
+     * {@link org.esupportail.opi.dao.IndividuDaoServiceImpl.typeDecFilter}
+     */
+    public void initIndividus() {
+        final List<TypeDecision> typeDecisions = buildSelectedTypeDecision();
+        setLesIndividus(new ArrayList<IndividuPojo>(
+                getIndividus(commissionController.getCommission(), false, not(typeTrtEquals(transfert)))
+                        .map(new F<IndividuPojo, IndividuPojo>() {
+                            @Override
+                            public IndividuPojo f(IndividuPojo individuPojo) {
+                                individuPojo.setIndVoeuxPojo(
+                                        individuPojo.getIndVoeuxPojo()
+                                                .filter(new F<IndVoeuPojo, Boolean>() {
+                                                    @Override
+                                                    public Boolean f(IndVoeuPojo indVoeuPojo) {
+                                                        return !iterableArray(indVoeuPojo.getIndVoeu().getAvis())
+                                                                .filter(new F<Avis, Boolean>() {
+                                                                    @Override
+                                                                    public Boolean f(Avis avis) {
+                                                                        return avis.getTemoinEnService() && typeDecisions.contains(avis.getResult());
+                                                                    }
+                                                                })
+                                                                .isEmpty();
+                                                    }
+                                                }));
+                                return individuPojo;
+                            }
+                        })
+                        .toCollection()));
+    }
+
+    /**
+     * Transform the {@link Object[]} into {@link List}
+     * Primefaces hold the datatable's selection into Object[] see this.resultSelected
+     * @return List of TypeDecision
+     */
+    private List<TypeDecision> buildSelectedTypeDecision() {
+        List<TypeDecision> result = new ArrayList<>();
+        for (Object o : this.resultSelected) {
+            if (o instanceof TypeDecision) {
+                TypeDecision t = (TypeDecision) o;
+                result.add(t);
+            }
+        }
+        return result;
+    }
     // ******************* ACCESSORS ********************
 
     public IndividuController getIndividuController() {
