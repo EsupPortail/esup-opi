@@ -281,9 +281,13 @@ public abstract class Paginator<Q extends JPQLQuery, T> {
 	 *     <li>et des éléments retournés par la requête complète (paginée, filtrée et ordonnée)</li>
      *     </ul>
 	 */
-	public final <P> P2<Long, P> sliceOf(Long offset, Long limit, String sortField,
-	    SortOrder sortOrder, Map<String,String> filters, Option<F<Q, Q>> optCustomfilter,
-        F2<EntityPathBase<T>, Q, P> projection) {
+	public final <P> P2<Long, P> sliceOf(Long offset,
+                                         Long limit,
+                                         String sortField,
+                                         SortOrder sortOrder,
+                                         Map<String,String> filters,
+                                         Option<F<Q, Q>> optCustomfilter,
+                                         F2<EntityPathBase<T>, Q, P> projection) {
 	    F<Q, Q> customFilter = optCustomfilter.orSome(Function.<Q>identity());
 
         long count = unOrderedQuery(full.constant(), filters, customFilter).f(unit()).count();
