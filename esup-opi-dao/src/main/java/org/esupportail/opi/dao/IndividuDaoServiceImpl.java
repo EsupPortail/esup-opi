@@ -2,7 +2,7 @@ package org.esupportail.opi.dao;
 
 
 import com.mysema.query.Tuple;
-import com.mysema.query.group.Group;
+import com.mysema.query.collections.CollQueryFactory;
 import com.mysema.query.jpa.JPQLQuery;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 import com.mysema.query.types.EntityPath;
@@ -35,6 +35,9 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.*;
 
+// needed for access of the Querydsl Collections API
+// needed, if you use the $-invocations
+import static com.mysema.query.alias.Alias.*;
 import static com.mysema.query.group.GroupBy.groupBy;
 import static com.mysema.query.group.GroupBy.set;
 import static fj.P.p;
@@ -276,20 +279,13 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                 pfFilters.filters,
                 some(customFilterQuery),
                 new F2<EntityPathBase<Individu>, HibernateQuery, Stream<Individu>>() {
+                    //TODO quick & dirty please make elegant sorry
                     public Stream<Individu> f(EntityPathBase<Individu> ent, HibernateQuery query) {
-                        final Map<String, Group> transform = query.transform(groupBy(ind.getString("numDossierOpi"))
-                                .as(ind, set(indVoeu)));
-                        return iterableStream(transform.keySet())
-                                .map(new F<String, Individu>() {
-                                    @Override
-                                    public Individu f(final String numDossierOpi) {
-                                        Group group = transform.get(numDossierOpi);
-                                        final Individu individu = group.getOne(ind);
-                                        final Set<IndVoeu> voeux = group.getSet(indVoeu);
-                                        individu.setVoeux(voeux);
-                                        return individu;
-                                    }
-                                });
+                        Individu individu = alias(Individu.class, "ent");
+                        IndVoeu c = alias(IndVoeu.class, "voeux");
+                        return iterableStream(CollQueryFactory.from($(individu), query.list(ent)).innerJoin(indVoeux, $(c))
+                                .where(customVoeuFilter.f(BooleanTemplate.create("1 == 1")))
+                                .list($(individu)));
                     }
 
 
