@@ -2,6 +2,7 @@ package org.esupportail.opi.dao;
 
 
 import com.mysema.query.Tuple;
+import com.mysema.query.group.Group;
 import com.mysema.query.jpa.JPQLQuery;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 import com.mysema.query.types.EntityPath;
@@ -276,13 +277,16 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                 some(customFilterQuery),
                 new F2<EntityPathBase<Individu>, HibernateQuery, Stream<Individu>>() {
                     public Stream<Individu> f(EntityPathBase<Individu> ent, HibernateQuery query) {
-                        final Map<IndVoeu, Individu> transform = query.transform(groupBy(indVoeu).as(ent));
+                        final Map<String, Group> transform = query.transform(groupBy(ind.getString("numDossierOpi"))
+                                .as(ind, set(indVoeu)));
                         return iterableStream(transform.keySet())
-                                .map(new F<IndVoeu, Individu>() {
+                                .map(new F<String, Individu>() {
                                     @Override
-                                    public Individu f(final IndVoeu indVoeu) {
-                                        Individu individu = transform.get(indVoeu);
-                                        individu.getVoeux().add(indVoeu);
+                                    public Individu f(final String numDossierOpi) {
+                                        Group group = transform.get(numDossierOpi);
+                                        final Individu individu = group.getOne(ind);
+                                        final Set<IndVoeu> voeux = group.getSet(indVoeu);
+                                        individu.setVoeux(voeux);
                                         return individu;
                                     }
                                 });
