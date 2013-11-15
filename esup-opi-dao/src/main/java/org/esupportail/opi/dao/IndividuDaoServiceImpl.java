@@ -277,19 +277,24 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                 some(customFilterQuery),
                 new F2<EntityPathBase<Individu>, HibernateQuery, Stream<Individu>>() {
                     public Stream<Individu> f(EntityPathBase<Individu> ent, HibernateQuery query) {
-                        final Map<String, Group> transform = query.transform(groupBy(ind.getString("numDossierOpi"))
-                                .as(ind, set(indVoeu)));
-                        return iterableStream(transform.keySet())
-                                .map(new F<String, Individu>() {
-                                    @Override
-                                    public Individu f(final String numDossierOpi) {
-                                        Group group = transform.get(numDossierOpi);
-                                        final Individu individu = group.getOne(ind);
-                                        final Set<IndVoeu> voeux = group.getSet(indVoeu);
-                                        individu.setVoeux(voeux);
-                                        return individu;
-                                    }
-                                });
+                        //TODO sorry a hack of https://groups.google.com/forum/#!topic/querydsl/O3xXFFqeYuw check to make it elegant,
+                        if (trtCmis.map(trtCmiFilter).isNone()){
+                            return iterableStream(query.list(ent));
+                        }else {
+                            final Map<String, Group> transform = query.transform(groupBy(ind.getString("numDossierOpi"))
+                                    .as(ind, set(indVoeu)));
+                            return iterableStream(transform.keySet())
+                                    .map(new F<String, Individu>() {
+                                        @Override
+                                        public Individu f(final String numDossierOpi) {
+                                            Group group = transform.get(numDossierOpi);
+                                            final Individu individu = group.getOne(ind);
+                                            final Set<IndVoeu> voeux = group.getSet(indVoeu);
+                                            individu.setVoeux(voeux);
+                                            return individu;
+                                        }
+                                    });
+                        }
                     }
 
 
