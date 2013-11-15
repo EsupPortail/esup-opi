@@ -281,20 +281,15 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                 new F2<EntityPathBase<Individu>, HibernateQuery, Stream<Individu>>() {
                     //TODO quick & dirty please make elegant sorry
                     public Stream<Individu> f(EntityPathBase<Individu> ent, HibernateQuery query) {
-                        return iterableStream(query.list(ent))
-                                .map(new F<Individu, Individu>() {
-                                    @Override
-                                    public Individu f(Individu individu) {
-                                        IndVoeu c = alias(IndVoeu.class, "voeux");
-                                        individu.setVoeux(new HashSet<IndVoeu>(CollQueryFactory.from(indVoeu, individu.getVoeux())
-                                                //should reaply customVoeuFilter
-                                                // however, to do so, should remove baseVoeuFilter from customVoeuFilter for row below to work
-                                                //.where(customVoeuFilter.f(BooleanTemplate.create("1 == 1")))
-                                                .where(BooleanTemplate.TRUE)
-                                                .list($(c))));
-                                        return individu;
-                                    }
-                                });
+                        Set<Individu> result = new HashSet<>();
+                        Map<IndVoeu, Individu> transform = query.transform(groupBy(indVoeu).as(ent));
+                        for (IndVoeu v : transform.keySet()) {
+                            Individu individu = transform.get(v);
+                            individu.getVoeux().clear();
+                            individu.getVoeux().add(v);
+                            result.add(individu);
+                        }
+                        return iterableStream(result);
                     }
 
 
