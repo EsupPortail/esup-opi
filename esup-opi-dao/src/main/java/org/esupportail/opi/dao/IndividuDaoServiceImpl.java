@@ -281,11 +281,20 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                 new F2<EntityPathBase<Individu>, HibernateQuery, Stream<Individu>>() {
                     //TODO quick & dirty please make elegant sorry
                     public Stream<Individu> f(EntityPathBase<Individu> ent, HibernateQuery query) {
-                        Individu individu = alias(Individu.class, "ent");
-                        IndVoeu c = alias(IndVoeu.class, "voeux");
-                        return iterableStream(CollQueryFactory.from($(individu), query.list(ent)).innerJoin(indVoeux, $(c))
-                                .where(customVoeuFilter.f(BooleanTemplate.create("1 == 1")))
-                                .list($(individu)));
+                        return iterableStream(query.list(ent))
+                                .map(new F<Individu, Individu>() {
+                                    @Override
+                                    public Individu f(Individu individu) {
+                                        IndVoeu c = alias(IndVoeu.class, "voeux");
+                                        individu.setVoeux(new HashSet<IndVoeu>(CollQueryFactory.from(indVoeu, individu.getVoeux())
+                                                //should reaply customVoeuFilter
+                                                // however, to do so, should remove baseVoeuFilter from customVoeuFilter for row below to work
+                                                //.where(customVoeuFilter.f(BooleanTemplate.create("1 == 1")))
+                                                .where(BooleanTemplate.TRUE)
+                                                .list($(c))));
+                                        return individu;
+                                    }
+                                });
                     }
 
 
