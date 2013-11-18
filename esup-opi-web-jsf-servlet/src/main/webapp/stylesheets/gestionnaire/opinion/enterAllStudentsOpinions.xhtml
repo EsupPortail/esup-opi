@@ -11,16 +11,16 @@
                        widgetVar="pageBlocker">
                 <p:graphicImage library="images" name="ajax-loader.gif" />
             </p:blockUI>
-            <p:blockUI block="dataPanel" trigger="renderTable" widgetVar="panelBlocker">
+            <!--<p:blockUI block="dataPanel" trigger="renderTable" widgetVar="panelBlocker">
                 <p:graphicImage library="images" name="ajax-loader.gif" />
-            </p:blockUI>
+            </p:blockUI>-->
             <p:panel id="maPage" styleClass="div_body">
                 <h1>
                     <h:outputText value="#{managedAccess.currentTraitement.libelle}" styleClass="section-header" />
                 </h1>
                 <ui:fragment rendered="#{opinionController.actionEnum.whatAction != opinionController.actionEnum.propositionAction}">
                     <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml">
-                        <ui:param name="toUpdate" value="individuData" />
+                        <ui:param name="toUpdate" value="seeOpinionsForm" />
                         <ui:param name="renderOpinionBlocks" value="true" />
                         <ui:param name="filterCommsByRight" value="true" />
                     </ui:include>
@@ -28,10 +28,10 @@
                 <ui:fragment rendered="#{opinionController.actionEnum.whatAction == opinionController.actionEnum.propositionAction}">
                     <ui:include src="/stylesheets/gestionnaire/opinion/_block/_proposition.xhtml" />
                 </ui:fragment>
-                <p:remoteCommand id="renderTable" name="renderTable"
+                <!--<p:remoteCommand id="renderTable" name="renderTable"
                                  autoRun="true" async="true"
                                  update="dataPanel" oncomplete="pageBlocker.hide();"
-                                 actionListener="#{opinionController.doRenderTable}" />
+                                 actionListener="#{opinionController.doRenderTable}" />-->
                 <div class="messageForUser">
                     <p:messages id="messages" showDetail="true" autoUpdate="true" />
                 </div>
@@ -59,7 +59,7 @@
                                      rowKey="#{individuPojo.individu}" sortBy="#{nomPatronymique}"
                                      paginatorTemplate=" #{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}" lazy="true"
                                      currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
-                                     emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}" rendered="#{opinionController.renderTable}">
+                                     emptyMessage="#{msgs['INDIVIDU.NOT.FOUND']}"> <!--rendered="#{opinionController.renderTable}">-->
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}" />
