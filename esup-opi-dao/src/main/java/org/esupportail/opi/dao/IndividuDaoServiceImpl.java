@@ -2,7 +2,6 @@ package org.esupportail.opi.dao;
 
 
 import com.mysema.query.Tuple;
-import com.mysema.query.collections.CollQueryFactory;
 import com.mysema.query.jpa.JPQLQuery;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 import com.mysema.query.types.EntityPath;
@@ -29,15 +28,11 @@ import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.utils.primefaces.PFFilters;
-import org.omg.CosNaming.NamingContextPackage.AlreadyBoundHelper;
 import org.springframework.orm.hibernate3.HibernateTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.*;
 
-// needed for access of the Querydsl Collections API
-// needed, if you use the $-invocations
-import static com.mysema.query.alias.Alias.*;
 import static com.mysema.query.group.GroupBy.groupBy;
 import static com.mysema.query.group.GroupBy.set;
 import static fj.P.p;
@@ -279,20 +274,32 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                 pfFilters.filters,
                 some(customFilterQuery),
                 new F2<EntityPathBase<Individu>, HibernateQuery, Stream<Individu>>() {
-                    //TODO quick & dirty please make elegant sorry
                     public Stream<Individu> f(EntityPathBase<Individu> ent, HibernateQuery query) {
-                        Set<Individu> result = new HashSet<>();
-                        Map<IndVoeu, Individu> transform = query.transform(groupBy(indVoeu).as(ent));
-                        for (IndVoeu v : transform.keySet()) {
-                            Individu individu = transform.get(v);
-                            individu.getVoeux().clear();
-                            individu.getVoeux().add(v);
-                            result.add(individu);
-                        }
-                        return iterableStream(result);
+                        //TODO sorry a hack of https://groups.google.com/forum/#!topic/querydsl/O3xXFFqeYuw we have to manually reattach voeu corresponding to commission to each ind
+                        return iterableStream(query.list(ent))
+                                .map(new F<Individu, Individu>() {
+                                    @Override
+                                    public Individu f(Individu individu) {
+                                        individu.setVoeux(new HashSet<IndVoeu>(
+                                                iterableArray(individu.getVoeux())
+                                                        .filter(new F<IndVoeu, Boolean>() {
+                                                            @Override
+                                                            public Boolean f(final IndVoeu indVoeu) {
+                                                                //trtCmis.isNone() is for accueil.xhtml i.e.: we do not filter in this case
+                                                                return trtCmis.isNone() || trtCmis.exists(new F<Set<TraitementCmi>, Boolean>() {
+                                                                    @Override
+                                                                    public Boolean f(Set<TraitementCmi> traitementCmis) {
+                                                                        return traitementCmis.contains(indVoeu.getLinkTrtCmiCamp().getTraitementCmi());
+                                                                    }
+                                                                });
+                                                            }
+                                                        })
+                                                        .toCollection()
+                                        ));
+                                        return individu;
+                                    }
+                                });
                     }
-
-
                 });
     }
 
