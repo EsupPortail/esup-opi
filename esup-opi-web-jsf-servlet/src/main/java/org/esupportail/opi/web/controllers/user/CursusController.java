@@ -573,11 +573,14 @@ public class CursusController extends AbstractAccessController {
     /**
      * Return the result label according to the code.
      */
-    public String getResultatExt(IndCursusScolPojo cursusScolPojo) {
-        final String result = cursusScolPojo.getCursus().getResultat();
-        return result.equals("N") ? buttonNo._1() : result.equals("O") ? buttonYes._1() : result;
+    public String getNResultatExt() {
+        return buttonNo._1();
     }
 
+    public String getYResultatExt() {
+        return buttonYes._1();
+    }
+    
     public Boolean getCanUpdateIndCursusScol() {
         final IndividuPojo ip = getCurrentInd();
         return ip.getAsRightsToUpdate() || !getEtatIndCursusScol().equals(i18NUtils.labelEtatNonRenseigne());

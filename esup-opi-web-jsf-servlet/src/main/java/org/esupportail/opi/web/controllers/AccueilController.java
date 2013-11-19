@@ -182,12 +182,14 @@ public class AccueilController extends AbstractAccessController {
                 individu.getIndividu().getNumDossierOpi(),
                 individu.getIndividu().getDateNaissance()));
 
-        getSessionController().initCurrentInd(
-                individu.getIndividu().getNumDossierOpi(),
-                individu.getIndividu().getDateNaissance(),
-                false,
-                false);
-        getCurrentInd();
+        if(!getSessionController().getCurrentInd().getIsManager()) {
+	        getSessionController().initCurrentInd(
+	                individu.getIndividu().getNumDossierOpi(),
+	                individu.getIndividu().getDateNaissance(),
+	                false,
+	                false);
+	        getCurrentInd();
+        }
 
         if (getCurrentInd().getEtat() == EtatIncomplet) {
             //on informe l'individu qu'il doit completer sur dossier avant de deposer de voeux

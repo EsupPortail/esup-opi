@@ -272,7 +272,13 @@
         <f:facet name="header">
             <h:outputText value="#{msgs['FIELD_LABEL.DIPLOME.OBT']}"/>
         </f:facet>
-        <h:outputText value="#{cursusController.resultatExt(cursusPojo)}"/>
+        <h:outputText value="#{cursusPojo.cursus.resultat}" 
+        	rendered="#{cursusPojo.cursus.resultat != 'O'
+    						and cursusPojo.cursus.resultat != 'N'}" />
+    	<h:outputText value="#{cursusController.NResultatExt}" 
+        	rendered="#{cursusPojo.cursus.resultat == 'N'}" />
+        <h:outputText value="#{cursusController.YResultatExt}" 
+        	rendered="#{cursusPojo.cursus.resultat == 'O'}" />
     </p:column>
     <p:column>
         <f:facet name="header">
