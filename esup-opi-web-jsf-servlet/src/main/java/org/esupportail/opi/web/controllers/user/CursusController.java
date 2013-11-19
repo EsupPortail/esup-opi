@@ -573,6 +573,14 @@ public class CursusController extends AbstractAccessController {
     /**
      * Return the result label according to the code.
      */
+    /**
+     * Return the result label according to the code.
+     */
+    public String getResultatExt(IndCursusScolPojo cursusScolPojo) {
+        final String result = cursusScolPojo.getCursus().getResultat();
+        return result.equals("N") ? buttonNo._1() : result.equals("O") ? buttonYes._1() : result;
+    }
+    
     public String getNResultatExt() {
         return buttonNo._1();
     }
