@@ -115,16 +115,23 @@
                                  currentPageReportTemplate="#{msgs['COMMISSION']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
                                  emptyMessage="#{msgs['COMMISSION.NOT.FOUND']}"
                                  styleClass="paginatorData" alternateColors="true">
+                        <p:columnGroup type="header">
+                            <p:row>
+                                <p:column headerText="#{msgs['FIELD_LABEL.CODE']}" sortBy="#{commission.code}"
+                                          filterBy="#{commission.code}"
+                                          filterMatchMode="contains"/>
+                                <p:column headerText="#{msgs['FIELD_LABEL.LIBELLE']}" sortBy="#{commission.libelle}"
+                                          filterBy="#{commission.libelle}"
+                                          filterMatchMode="contains"/>
+                                <p:column />
+                                <p:column selectionMode="multiple"/>
+                            </p:row>
+                        </p:columnGroup>
+
                         <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{msgs['FIELD_LABEL.CODE']}"/>
-                            </f:facet>
                             <h:outputText value="#{commission.code}"/>
                         </p:column>
                         <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
-                            </f:facet>
                             <h:outputText value="#{commission.libelle}"/>
                         </p:column>
                         <p:column>
