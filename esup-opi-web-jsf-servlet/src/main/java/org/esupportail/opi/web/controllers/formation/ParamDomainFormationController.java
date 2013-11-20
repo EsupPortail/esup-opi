@@ -263,11 +263,12 @@ public class ParamDomainFormationController extends AbstractAccessController {
      */
     public void validModLangLib() {
         if (libSaisi == null || libSaisi.equals("")) {
-            addErrorMessage(FORMULAIRE_DOMAIN, "ERROR.FIELD.EMPTY", "Libele");
+            addErrorMessage(FORMULAIRE_DOMAIN, "ERROR.FIELD.EMPTY", "Libelle");
             return;
         }
         recupLangLib().setLibDom(libSaisi);
         getActionLang().setWhatAction(ActionEnum.EMPTY_ACTION);
+        langueSelected = "";
         libSaisi = null;
     }
 
@@ -276,7 +277,7 @@ public class ParamDomainFormationController extends AbstractAccessController {
      */
     public void validAddLangLib() {
         if (libSaisi == null || libSaisi.equals("")) {
-            addErrorMessage(FORMULAIRE_DOMAIN, "ERROR.FIELD.EMPTY", "Libele");
+            addErrorMessage(FORMULAIRE_DOMAIN, "ERROR.FIELD.EMPTY", "Libelle");
             return;
         }
         Domaine2AnnuForm langLib = new Domaine2AnnuForm();
@@ -293,6 +294,7 @@ public class ParamDomainFormationController extends AbstractAccessController {
     public void annulLangLib() {
         getActionLang().setWhatAction(ActionEnum.EMPTY_ACTION);
         libSaisi = null;
+        langueSelected = "";
     }
 	
 	
@@ -387,7 +389,6 @@ public class ParamDomainFormationController extends AbstractAccessController {
                 allLangue.add(new SelectItem(langue));
             }
         }
-        Collections.sort(allLangue, new BeanComparator("value", new NullComparator()));
         return allLangue;
     }
 

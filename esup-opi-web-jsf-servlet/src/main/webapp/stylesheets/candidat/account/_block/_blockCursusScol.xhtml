@@ -61,7 +61,8 @@
                                  ajax="false"/>
                 <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
                                  action="#{cursusController.initCursusScol}"
-                                 rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}">
+                                 rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"
+                                 ajax="false">
                 </p:commandButton>
 
                 <p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"

@@ -49,10 +49,10 @@
                         <h:outputText value="#{msgs['FIELD_LABEL.IN_USE']}"/>
                     </f:facet>
                     <p:selectOneMenu value="#{paramDomainFormationController.domain.domaineAnnuForm.temSveDom}"
+                    				 styleClass ="form-field-min-select"
                                      rendered="#{paramDomainFormationController.actionEnum.whatAction == paramDomainFormationController.actionEnum.updateAction
     						and domainSelect.domaineAnnuForm.codDom == paramDomainFormationController.domain.domaineAnnuForm.codDom}">
                         <f:selectItems value="#{paramDomainFormationController.temEnSveItems}"/>
-                        maitre fion
                     </p:selectOneMenu>
                     <p:graphicImage library="images" name="check2.gif"
                                     rendered="#{domainSelect.domaineAnnuForm.temSveDom == 'O'
@@ -78,84 +78,82 @@
                     <h:panelGroup
                             rendered="#{paramDomainFormationController.actionEnum.whatAction == paramDomainFormationController.actionEnum.updateAction
     						and domainSelect.domaineAnnuForm.codDom == paramDomainFormationController.domain.domaineAnnuForm.codDom}">
-                        <h:panelGroup
+                        <h:panelGroup id="domainLib"
                                 rendered="#{paramDomainFormationController.actionLang.whatAction != paramDomainFormationController.actionLang.addAction}">
-                            <ui:repeat var="langueDomSelect"
-                                       value="#{paramDomainFormationController.domain.domaine2AnnuForm}">
-
-                                <p:panelGrid columns="3"
-                                             rendered="#{paramDomainFormationController.actionLang.whatAction == paramDomainFormationController.actionLang.emptyAction
-    											|| (paramDomainFormationController.actionLang.whatAction == paramDomainFormationController.actionLang.updateAction
-    											and paramDomainFormationController.langueSelected != langueDomSelect.codLang)}">
-                                    <p:commandButton icon="ui-icon-pencil" ajax="false"
-                                                     action="#{paramDomainFormationController.updateLangLib}">
-                                        <f:setPropertyActionListener value="#{langueDomSelect.codLang}"
-                                                                     target="#{paramDomainFormationController.langueSelected}"/>
-                                        <f:setPropertyActionListener value="#{langueDomSelect.libDom}"
-                                                                     target="#{paramDomainFormationController.libSaisi}"/>
-                                    </p:commandButton>
-                                    <p:commandButton icon="ui-icon-minus" ajax="false"
-                                                     action="#{paramDomainFormationController.suppLangLib}">
-                                        <f:setPropertyActionListener value="#{langueDomSelect.codLang}"
-                                                                     target="#{paramDomainFormationController.langueSelected}"/>
-                                    </p:commandButton>
-                                    <h:outputText styleClass="textLangLib"
-                                                  value="#{langueDomSelect.libDom} (#{langueDomSelect.codLang})"/>
-                                </p:panelGrid>
-
-                                <p:panelGrid columns="3"
-                                             rendered="#{paramDomainFormationController.actionLang.whatAction == paramDomainFormationController.actionLang.updateAction
-    											and paramDomainFormationController.langueSelected == langueDomSelect.codLang}">
-                                    <h:outputLabel value="#{msgs['FIELD_LABEL.LANGUE']}"
-                                                   styleClass="form-field-label-inHeader-validator" for="langue"/>
-                                    <h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
-                                                   styleClass="form-field-label-inHeader-validator" for="libele"/>
-                                    <h:outputLabel value=""
-                                                   styleClass="form-field-label-inHeader-validator" for="bouton"/>
-
-                                    <h:outputText styleClass="textLangLib" value="#{langueDomSelect.codLang}"/>
-                                    <p:inputText id="ModifLib" size="100"
-                                                 value="#{paramDomainFormationController.libSaisi}"/>
-                                    <div class="twoGroupsButton">
-                                        <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-                                                         ajax="false"
-                                                         action="#{paramDomainFormationController.validModLangLib}"/>
-                                        <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-                                                         ajax="false"
-                                                         action="#{paramDomainFormationController.annulLangLib}"/>
-                                    </div>
-                                </p:panelGrid>
-
-                            </ui:repeat>
-                            <p:commandButton icon="ui-icon-plus" ajax="false"
+							<p:dataTable var="langueDomSelect" value="#{paramDomainFormationController.domain.domaine2AnnuForm}"
+								styleClass="paginatorData" alternateColors="true"
+								rendered="#{paramDomainFormationController.actionLang.whatAction == paramDomainFormationController.actionLang.emptyAction 
+     											|| paramDomainFormationController.actionLang.whatAction == paramDomainFormationController.actionLang.updateAction}">
+								<p:column>
+	                                <f:facet name="header">
+	                                    <h:outputText value="#{msgs['FIELD_LABEL.LANGUE']}"/>
+	                                </f:facet>
+	                                <h:outputText value="#{langueDomSelect.codLang}"/>
+                            	</p:column>
+								<p:column>
+	                                <f:facet name="header">
+	                                    <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+	                                </f:facet>
+	                                <h:outputText styleClass="textLangLib" value="#{langueDomSelect.libDom}"
+	                                              rendered="#{paramDomainFormationController.langueSelected != langueDomSelect.codLang}"/>
+	                                <p:inputText id="ModifLib" value="#{paramDomainFormationController.libSaisi}"
+	                                			 rendered="#{paramDomainFormationController.langueSelected == langueDomSelect.codLang}"/>	                                
+                           		</p:column>
+                           		<p:column styleClass="buttonTD">
+                           			<f:facet name="header">
+                           				<p:commandButton value="#{msgs['_.BUTTON.ADD']}" ajax="false"
                                              rendered="#{not empty paramDomainFormationController.allLangue}"
                                              action="#{paramDomainFormationController.addLangLib}"/>
+                           			</f:facet>
+                           			<h:panelGroup rendered="#{paramDomainFormationController.langueSelected != langueDomSelect.codLang}">
+	                                    <p:commandButton icon="ui-icon-pencil" ajax="false"
+	                                                     action="#{paramDomainFormationController.updateLangLib}">
+	                                        <f:setPropertyActionListener value="#{langueDomSelect.codLang}"
+	                                                                     target="#{paramDomainFormationController.langueSelected}"/>
+	                                        <f:setPropertyActionListener value="#{langueDomSelect.libDom}"
+	                                                                     target="#{paramDomainFormationController.libSaisi}"/>
+	                                    </p:commandButton>
+	                                    <p:commandButton icon="ui-icon-minus" ajax="false"
+	                                                     action="#{paramDomainFormationController.suppLangLib}">
+	                                        <f:setPropertyActionListener value="#{langueDomSelect.codLang}"
+	                                                                     target="#{paramDomainFormationController.langueSelected}"/>
+	                                    </p:commandButton>
+	                            	</h:panelGroup>
+	                           		<h:panelGroup rendered="#{paramDomainFormationController.langueSelected == langueDomSelect.codLang}">
+                                        <p:commandButton icon="ui-icon-disk"
+                                                         ajax="false"
+                                                         action="#{paramDomainFormationController.validModLangLib}"
+                                                         update=":seeDomainsForm">
+	                                    </p:commandButton>
+                                        <p:commandButton icon="ui-icon-cancel"
+                                                         ajax="false"
+                                                         action="#{paramDomainFormationController.annulLangLib}"
+                                                         update=":seeDomainsForm"/>
+	                            	</h:panelGroup>
+                            	</p:column>
+							</p:dataTable>
                         </h:panelGroup>
                         <h:panelGroup
                                 rendered="#{paramDomainFormationController.actionLang.whatAction == paramDomainFormationController.actionLang.addAction}">
-                            <p:panelGrid columns="3">
-                                <h:outputLabel value="#{msgs['FIELD_LABEL.LANGUE']}"
-                                               styleClass="form-field-label-inHeader-validator" for="langue"/>
-                                <h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
-                                               styleClass="form-field-label-inHeader-validator" for="libele"/>
-                                <h:outputLabel value=""
-                                               styleClass="form-field-label-inHeader-validator" for="bouton"/>
-
-                                <p:selectOneMenu id="choixLang"
+                            <h:panelGrid columns="3" styleClass="tableJustWidthMax" rowClasses="colHeaderRow, ">
+	                                    <h:outputText value="#{msgs['FIELD_LABEL.LANGUE']}"/>
+	                                    <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+	                                    <h:outputText value=""/>
+									<p:selectOneMenu id="choixLang" styleClass="form-field-min-select"
                                                  value="#{paramDomainFormationController.langueSelected}">
-                                    <f:selectItems value="#{paramDomainFormationController.allLangue}"/>
-                                </p:selectOneMenu>
-                                <p:inputText id="choixlib" size="100"
+                                    	<f:selectItems value="#{paramDomainFormationController.allLangue}"/>
+                                	</p:selectOneMenu>
+									<p:inputText id="choixlib"
                                              value="#{paramDomainFormationController.libSaisi}"/>
-                                <div class="twoGroupsButton">
-                                    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+									<p:column styleClass="buttonTD">
+										<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
                                                      ajax="false"
                                                      action="#{paramDomainFormationController.validAddLangLib}"/>
-                                    <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+                                    	<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
                                                      ajax="false"
                                                      action="#{paramDomainFormationController.annulLangLib}"/>
-                                </div>
-                            </p:panelGrid>
+                                    </p:column>
+                            </h:panelGrid>
                         </h:panelGroup>
                     </h:panelGroup>
                 </p:column>
