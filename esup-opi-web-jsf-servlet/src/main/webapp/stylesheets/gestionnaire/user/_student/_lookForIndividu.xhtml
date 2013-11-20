@@ -3,6 +3,11 @@
              xmlns:h="http://java.sun.com/jsf/html"
              xmlns:p="http://primefaces.org/ui">
     <ui:fragment rendered="#{not empty managedAccess.menuModel.contents}">
+    <ui:fragment rendered="#{not managedAccess.shouldShowSearch()}">
+        <div>
+            <h:outputText value="#{msgs['LOOK_FOR.IND.NO_ACCESS']}" />
+        </div>
+    </ui:fragment>
         <div id="blockFormSearch" class="blockForm">
             <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
                          styleClass="tableJustWidthMax">
