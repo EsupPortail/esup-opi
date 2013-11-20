@@ -66,6 +66,14 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
     private MenuModel menuModel;
 
     /**
+     * private field with no direct mutator to drive additional menu visibility if current user is a gestionnaire.
+     * getter at {@link #shouldShowSearch()}
+     * indirect mutator at {@link #getMenuGestionnaire()}
+     * applied in view /stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml
+     */
+    private boolean showSearch = false;
+
+    /**
      * A logger.
      */
     private final Logger log = new LoggerImpl(getClass());
@@ -198,6 +206,7 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
         User u = sessionController.getCurrentUser();
         if (u != null) {
             if (u instanceof Gestionnaire) {
+                showSearch = true;
                 Gestionnaire g = (Gestionnaire) u;
                 Set<Traitement> domains =
                         new TreeSet<Traitement>(new ComparatorInteger(Traitement.class));
@@ -248,8 +257,15 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
         logout.setActionExpression(factory.createMethodExpression(fc.getELContext(), "#{sessionController.logoutGest}", String.class, new Class[]{}));
         logout.setAjax(false);
         menuModel.addMenuItem(logout);
-
         return menuModel;
+    }
+
+    /**
+     * Only show additional menu if user is Gestionnaire
+     * @return true if search menu should be shown false otherwise
+     */
+    public boolean shouldShowSearch() {
+        return showSearch;
     }
 
     public void setMenuGestionnaire(final MenuModel menuModel) {
