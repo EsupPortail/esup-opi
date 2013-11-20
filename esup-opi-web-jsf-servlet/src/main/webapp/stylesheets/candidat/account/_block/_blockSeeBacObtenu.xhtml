@@ -9,10 +9,9 @@
                 <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
                              styleClass="tableJustWidthMax">
                     <h:panelGroup>
-                        <h:outputText value="#{indBacPojo.indBac.dateObtention}"
-                                      styleClass="section-smallTitle"/>
+                        <h:outputText value=""/>
                     </h:panelGroup>
-                    <h:panelGroup>
+                    <h:panelGroup styleClass="blockButton">
                         <p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
                                          action="#{indBacController.goUpdateIndBac}"
                                          rendered="#{!indBacPojo.indBac.temoinFromApogee
