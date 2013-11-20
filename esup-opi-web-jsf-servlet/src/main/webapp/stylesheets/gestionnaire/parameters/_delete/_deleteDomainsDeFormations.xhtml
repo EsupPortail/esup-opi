@@ -11,7 +11,8 @@
                 </h:outputFormat>
                 <h:panelGroup>
                     <p:commandButton value="#{msgs['_.BUTTON.YES']}"
-                                     action="#{paramDomainFormationController.delete}"/>
+                                     action="#{paramDomainFormationController.delete}"
+                                     ajax="false"/>
                     <p:commandButton value="#{msgs['_.BUTTON.NO']}"
                                      ajax="false" immediate="true"
                                      action="#{paramDomainFormationController.reset}"/>

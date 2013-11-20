@@ -117,7 +117,8 @@
 
         <p:dataTable var="cursusPojo"
                      value="#{cursusController.pojoQualif.pojoCursusList}"
-                     styleClass="displayInfo" alternateColors="false" renderedIfEmpty="false">
+                     rendered="#{not empty cursusController.pojoQualif.pojoCursusList}"
+                     styleClass="displayInfo" alternateColors="false">
             <p:column>
                 <f:facet name="header">
                     <h:outputText value="#{msgs['FIELD_LABEL.YEAR']}"/>

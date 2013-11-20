@@ -389,6 +389,13 @@ autres : préconiser déclinaison à partir de la couleur secondaire.
 	font-weight: bold;
 }
 
+.esup-opiR1 .form-field-min-select {
+	text-align: left;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+}
+
 .esup-opiR1 .form-field-label-validator {
 	color: #666666;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -710,6 +717,21 @@ table.displayAddRdv tr td.right {
 .esup-opiR1 .col2UnDemi {
     width: 50%;
     text-align: right;
+}
+
+.esup-opiR1 .colHeaderRow {
+	background-color: #e6e6e6;
+	color: #a71817;
+	text-align: center;
+	font-weight: normal;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	padding-bottom: 3px;
+	white-space: wrap;
+}
+
+.esup-opiR1 .colMiddle {
+	vertical-align: middle;
 }
 
 .esup-opiR1 .col2UnDemi label {
