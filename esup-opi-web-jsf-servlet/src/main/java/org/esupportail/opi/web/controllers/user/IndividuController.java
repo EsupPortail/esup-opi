@@ -1426,11 +1426,11 @@ public class IndividuController extends AbstractAccessController {
         // Check individu's fields
         Individu ind = pojoIndividu.getIndividu();
 
-        if (!StringUtils.isNotBlank(ind.getNomPatronymique())) {
+        if (StringUtils.isBlank(ind.getNomPatronymique())) {
             addErrorMessage(null, Constantes.I18N_EMPTY, getString("INDIVIDU.NOM"));
             ctrlOk = false;
         }
-        if (!StringUtils.isNotBlank(ind.getPrenom())) {
+        if (StringUtils.isBlank(ind.getPrenom())) {
             addErrorMessage(null, Constantes.I18N_EMPTY, getString("INDIVIDU.PRENOM"));
             ctrlOk = false;
         }
@@ -1438,12 +1438,12 @@ public class IndividuController extends AbstractAccessController {
             addErrorMessage(null, Constantes.I18N_EMPTY, getString("INDIVIDU.DATE_NAI"));
             ctrlOk = false;
         }
-        if (!StringUtils.isNotBlank(ind.getCodPayNaissance())) {
+        if (StringUtils.isBlank(ind.getCodPayNaissance())) {
             addErrorMessage(null, Constantes.I18N_EMPTY, getString("INDIVIDU.PAY_NAI"));
             ctrlOk = false;
         }
         if (ind.getCodPayNaissance().equals(Constantes.CODEFRANCE)
-                && !StringUtils.isNotBlank(ind.getCodDepPaysNaissance())) {
+                && StringUtils.isBlank(ind.getCodDepPaysNaissance())) {
             addErrorMessage(null, Constantes.I18N_EMPTY, getString("INDIVIDU.DEP_NAI"));
             ctrlOk = false;
         }
