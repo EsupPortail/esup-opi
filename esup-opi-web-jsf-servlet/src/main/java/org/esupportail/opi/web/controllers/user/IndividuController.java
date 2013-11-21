@@ -1286,6 +1286,12 @@ public class IndividuController extends AbstractAccessController {
 
     /**
      * Control the pojoIndividu attributes.
+     * @deprecated for form validation should migrate to JSR-303 and JSF2.x mechanism
+     * cf:
+     * http://fr.slideshare.net/martyhall/jsf-2-tutorial-validating-user-input-form-field-validation
+     * http://www.javacodegeeks.com/2012/12/easier-multi-field-validation-with-jsf-2-0.html
+     * http://www.mkyong.com/jsf2/multi-components-validator-in-jsf-2-0/}
+     *
      *
      * @return Boolean
      */
@@ -1335,6 +1341,13 @@ public class IndividuController extends AbstractAccessController {
 
     /**
      * Control the pojoIndividu attributes.
+     * @deprecated for form validation should migrate to JSR-303 and JSF2.x mechanism
+     * cf:
+     * http://fr.slideshare.net/martyhall/jsf-2-tutorial-validating-user-input-form-field-validation
+     * http://www.javacodegeeks.com/2012/12/easier-multi-field-validation-with-jsf-2-0.html
+     * http://www.mkyong.com/jsf2/multi-components-validator-in-jsf-2-0/}
+     *
+     *
      *
      * @return Boolean
      */
@@ -1367,6 +1380,13 @@ public class IndividuController extends AbstractAccessController {
 
 
     /**
+     * @deprecated for form validation should migrate to JSR-303 and JSF2.x mechanism
+     * cf:
+     * http://fr.slideshare.net/martyhall/jsf-2-tutorial-validating-user-input-form-field-validation
+     * http://www.javacodegeeks.com/2012/12/easier-multi-field-validation-with-jsf-2-0.html
+     * http://www.mkyong.com/jsf2/multi-components-validator-in-jsf-2-0/}
+     *
+     *
      * @return Boolean
      */
     private Boolean ctrlEnter() {
@@ -1401,6 +1421,13 @@ public class IndividuController extends AbstractAccessController {
 
     /**
      * Control if the added user is unique.
+     * @deprecated for form validation should migrate to JSR-303 and JSF2.x mechanism
+     * cf:
+     * http://fr.slideshare.net/martyhall/jsf-2-tutorial-validating-user-input-form-field-validation
+     * http://www.javacodegeeks.com/2012/12/easier-multi-field-validation-with-jsf-2-0.html
+     * http://www.mkyong.com/jsf2/multi-components-validator-in-jsf-2-0/}
+     *
+     *
      *
      */
     private Boolean ctrlUnicite() {
@@ -1418,6 +1445,12 @@ public class IndividuController extends AbstractAccessController {
 
     /**
      * Control the pojoIndividu attributes.
+     * @deprecated for form validation should migrate to JSR-303 and JSF2.x mechanism
+     * cf:
+     * http://fr.slideshare.net/martyhall/jsf-2-tutorial-validating-user-input-form-field-validation
+     * http://www.javacodegeeks.com/2012/12/easier-multi-field-validation-with-jsf-2-0.html
+     * http://www.mkyong.com/jsf2/multi-components-validator-in-jsf-2-0/}
+     *
      *
      * @return Boolean
      */
