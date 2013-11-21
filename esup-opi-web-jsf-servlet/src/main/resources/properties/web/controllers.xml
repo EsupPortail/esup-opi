@@ -133,6 +133,7 @@
         <property name="isRecupCursus" value="${init.recupCursus}"/>
         <property name="isRecupBac" value="${init.recupBac}"/>
         <property name="isRecupInfos" value="${init.recupInfos}"/>
+        <property name="ldapUserService" ref="ldapUserService"/>
         <property name="typeTraitements">
             <list>
                 <ref bean="accesSelectif" />
