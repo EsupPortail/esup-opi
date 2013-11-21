@@ -1441,11 +1441,12 @@ public class IndividuController extends AbstractAccessController {
         if (StringUtils.isBlank(ind.getCodPayNaissance())) {
             addErrorMessage(null, Constantes.I18N_EMPTY, getString("INDIVIDU.PAY_NAI"));
             ctrlOk = false;
-        }
-        if (ind.getCodPayNaissance().equals(Constantes.CODEFRANCE)
+        }else {
+            if (ind.getCodPayNaissance().equals(Constantes.CODEFRANCE)
                 && StringUtils.isBlank(ind.getCodDepPaysNaissance())) {
             addErrorMessage(null, Constantes.I18N_EMPTY, getString("INDIVIDU.DEP_NAI"));
             ctrlOk = false;
+            }
         }
         return ctrlOk;
     }
