@@ -490,7 +490,8 @@ public class CursusController extends AbstractAccessController {
         final Etablissement etablissement =
                 getDomainApoService().getEtablissement(c.getCodEtablissement());
         final IndCursusScolPojo indCursusScolPojo = new IndCursusScolPojo(c);
-        c.setCodTypeEtab(etablissement.getCodTpe());
+        // Elvis here is just to avoid NPE, checks if it really is not a business pre-condition
+        c.setCodTypeEtab(etablissement == null ? "" : etablissement.getCodTpe());
         indCursusScolPojo.setEtablissement(etablissement);
         cursusList.add(indCursusScolPojo);
         Collections.sort(cursusList, new ComparatorString(IndCursusScolPojo.class));
