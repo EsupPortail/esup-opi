@@ -118,7 +118,7 @@
                 </span>
 
                 <span class="blockBlue" style="width:550px;">
-                    <h:form styleClass="opiR1_form" >
+                    <h:form styleClass="opiR1_form" id="opiR1_form">
                     <h:panelGrid columns="1">
                         <h:panelGrid id="staticContent" columns="2" columnClasses="col1UnDemiFormLabel,col1UnDemiFormInput">
                         <h:panelGroup>
@@ -173,7 +173,7 @@
                             <f:selectItem itemLabel="" itemValue=""/>
                             <f:selectItems var="pays" value="#{adressController.pays}"
                                            itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}"/>
-                            <p:ajax listener="#{individuController.selectPay}" update="@form"/>
+                            <p:ajax listener="#{individuController.selectPay}" update=":opiR1_form:dynamicContent"/>
                         </p:selectOneMenu>
 
                         <h:panelGroup id="codDepPaysNaissanceLabel"
