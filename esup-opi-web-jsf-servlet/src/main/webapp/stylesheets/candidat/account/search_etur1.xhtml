@@ -123,6 +123,7 @@
                         <h:panelGrid id="staticContent" columns="2" columnClasses="col1UnDemiFormLabel,col1UnDemiFormInput">
                         <h:panelGroup>
                             <h:outputLabel value="#{msgs['INDIVIDU.NOM']}" for="nom"/>
+                            <h:outputText value="*" styleClass="etoileForChpObli"/>
                             <p:graphicImage library="images" name="informationSmall.png"
                                             style="cursor:pointer;" id="helpNom"/>
                             <p:overlayPanel for="helpNom"
@@ -142,18 +143,27 @@
                             </p:overlayPanel>
                         </h:panelGroup>
                         <h:inputText id="nom" size="32" maxlength="30"
-                                     value="#{individuController.pojoIndividu.individu.nomPatronymique}"/>
+                                value="#{individuController.pojoIndividu.individu.nomPatronymique}"
+                                required="true"/>
+
+
                         <h:panelGroup>
                             <h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom"/>
+                            <h:outputText value="*" styleClass="etoileForChpObli"/>
                         </h:panelGroup>
                         <h:inputText id="prenom" size="22" maxlength="20"
-                                     value="#{individuController.pojoIndividu.individu.prenom}"/>
+                                     value="#{individuController.pojoIndividu.individu.prenom}"
+                                     required="true"/>
+
+
                         <h:panelGroup>
                             <h:outputLabel value="#{msgs['INDIVIDU.DATE_NAI']}"
                                            for="dateNaissance"/>
+                            <h:outputText value="*" styleClass="etoileForChpObli"/>
                         </h:panelGroup>
                         <h:inputText id="dateNaissance" size="10" maxlength="8"
-                                     value="#{individuController.pojoIndividu.individu.dateNaissance}">
+                                    value="#{individuController.pojoIndividu.individu.dateNaissance}"
+                                    required="true">
                             <f:convertDateTime pattern="ddMMyyyy"
                                                timeZone="#{sessionController.timezone}"/>
                             <f:validateLength minimum="8"/>
@@ -169,7 +179,7 @@
                         </h:panelGroup>
                         <p:selectOneMenu id="paysNaissance"
                                          value="#{individuController.pojoIndividu.individu.codPayNaissance}"
-                                         >
+                                         required="true">
                             <f:selectItem itemLabel="" itemValue=""/>
                             <f:selectItems var="pays" value="#{adressController.pays}"
                                            itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}"/>
@@ -179,12 +189,13 @@
                         <h:panelGroup id="codDepPaysNaissanceLabel"
                                       rendered="#{individuController.pojoIndividu.individu.codPayNaissance == adressController.codeFrance}">
                             <h:outputLabel value="#{msgs['INDIVIDU.DEP_NAI']}" for="depNaissance"/>
+                            <h:outputText value="*" styleClass="etoileForChpObli"/>
                         </h:panelGroup>
 
                         <p:selectOneMenu id="depNaissance"
                                          value="#{individuController.pojoIndividu.individu.codDepPaysNaissance}"
                                          rendered="#{individuController.pojoIndividu.individu.codPayNaissance == adressController.codeFrance}"
-                                         >
+                                         required="true">
                             <f:selectItem itemLabel="" itemValue=""/>
                             <f:selectItems var="dept" value="#{adressController.departements}"
                                            itemLabel="#{dept.libDep}" itemValue="#{dept.codDep}"/>
