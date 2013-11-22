@@ -180,7 +180,7 @@
                         <p:selectOneMenu id="paysNaissance"
                                          value="#{individuController.pojoIndividu.individu.codPayNaissance}"
                                          required="true">
-                            <f:selectItem itemLabel="" itemValue=""/>
+                            <f:selectItem itemLabel="#{msgs['INDIVIDU.PAYS_NAISS.PLACEHOLDER']}" itemValue=""/>
                             <f:selectItems var="pays" value="#{adressController.pays}"
                                            itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}"/>
                             <p:ajax listener="#{individuController.selectPay}" update=":opiR1_form:dynamicContent"/>
@@ -196,7 +196,7 @@
                                          value="#{individuController.pojoIndividu.individu.codDepPaysNaissance}"
                                          rendered="#{individuController.pojoIndividu.individu.codPayNaissance == adressController.codeFrance}"
                                          required="true">
-                            <f:selectItem itemLabel="" itemValue=""/>
+                            <f:selectItem itemLabel="#{msgs['INDIVIDU.DEP_PAYS_NAISS.PLACEHOLDER']}" itemValue=""/>
                             <f:selectItems var="dept" value="#{adressController.departements}"
                                            itemLabel="#{dept.libDep}" itemValue="#{dept.codDep}"/>
                         </p:selectOneMenu>
@@ -210,6 +210,9 @@
                         </p:commandButton>
                     </span>
                     </h:panelGrid>
+                        <p:watermark for="nom" value="#{msgs['INDIVIDU.NOM.PLACEHOLDER']}"/>
+                        <p:watermark for="prenom" value="#{msgs['INDIVIDU.PRENOM.PLACEHOLDER']}"/>
+                        <p:watermark for="dateNaissance" value="#{msgs['INDIVIDU.DTN.PLACEHOLDER']}"/>
                     </h:form>
                 </span>
             </li>
