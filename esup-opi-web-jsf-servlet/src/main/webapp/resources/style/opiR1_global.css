@@ -714,6 +714,16 @@ table.displayAddRdv tr td.right {
 	text-align: left;
 }
 
+.esup-opiR1 .col1UnDemiFormLabel {
+	width: 150px;
+	text-align: left;
+}
+
+.esup-opiR1 .col1UnDemiFormInput {
+	width: auto;
+	text-align: left;
+}
+
 .esup-opiR1 .col2UnDemi {
     width: 50%;
     text-align: right;
