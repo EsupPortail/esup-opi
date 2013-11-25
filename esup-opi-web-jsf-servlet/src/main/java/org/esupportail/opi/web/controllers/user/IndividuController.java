@@ -789,6 +789,10 @@ public class IndividuController extends AbstractAccessController {
                 adresseOPI.setCodBdi(adresseApo.getCodBdi());
             }
             pojoIndividu.setIndividu(individuOPI);
+            //TODO faire de mm si on n'est pas en maj de dossier ?
+            if (getSessionController().getCurrentInd() == null){
+                getSessionController().initCurrentInd(individuOPI.getNumDossierOpi(), individuApogee.getDateNaissance(), false, false);
+            }
         } else {
             addInfoMessage(null, "INFO.CANDIDAT.FIND.ETU_R1");
 
