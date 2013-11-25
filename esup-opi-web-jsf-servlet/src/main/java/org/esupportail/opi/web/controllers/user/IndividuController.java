@@ -790,6 +790,7 @@ public class IndividuController extends AbstractAccessController {
             }
             pojoIndividu.setIndividu(individuOPI);
             //TODO faire de mm si on n'est pas en maj de dossier ?
+            //Better use Option<IndividuPojo> here or even better a NullObject patten on IndividuPojo to avoid returning null all the time
             if (getSessionController().getCurrentInd() == null){
                 getSessionController().initCurrentInd(individuOPI.getNumDossierOpi(), individuApogee.getDateNaissance(), false, false);
             }
