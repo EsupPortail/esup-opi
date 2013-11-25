@@ -406,7 +406,7 @@ public class SessionController extends AbstractDomainAwareBean {
                             }
                         });
             }
-        }).orSome("Non connecté");
+        }).orSome(getString("WELCOME.NOT_CONNECTED"));
     }
 
 
