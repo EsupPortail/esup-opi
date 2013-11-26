@@ -19,7 +19,7 @@ public final class MiscUtils {
             final IndCursusScolPojo pojo = new IndCursusScolPojo(iCur);
             final Etablissement etablissement =
                     apoService.getEtablissement(iCur.getCodEtablissement());
-            iCur.setCodTypeEtab(etablissement.getCodTpe());
+            iCur.setCodTypeEtab(etablissement == null ? "" : etablissement.getCodTpe());
             pojo.setEtablissement(etablissement);
             cursusList.add(pojo);
         }
