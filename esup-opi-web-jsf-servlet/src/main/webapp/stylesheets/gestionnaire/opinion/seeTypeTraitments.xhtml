@@ -6,7 +6,6 @@
     <ui:define name="content">
         <h:form id="seeTypeTrtForm">
             <f:event type="preRenderView" listener="#{typeTraitController.doNotRenderTable}" />
-            <f:event type="preRenderView" listener="#{individuController.excludeWishProcessed(true)}" />           
             <f:event type="preRenderView" listener="#{individuController.useTypeTrtVetFilter(true)}" />
             <f:event type="postValidate" listener="#{individuController.useGestCommsFilter(true)}" />
             <p:blockUI block="maPage" trigger="individuData search-button">
