@@ -342,7 +342,7 @@ public final class DomainServiceImpl implements DomainService {
                                                  Set<Integer> listCodesRI,
                                                  Option<List<String>> typesTrtVet) {
 	    return individuDaoSrv.sliceOfInds(
-                pfFilters, typesDec, treatedWish, validWish, wishCreation, typeTrtmts, trtCmis, listCodesRI, typesTrtVet);
+                pfFilters, typesDec, validWish, treatedWish, wishCreation, typeTrtmts, trtCmis, listCodesRI, typesTrtVet);
 	}
 	
 	

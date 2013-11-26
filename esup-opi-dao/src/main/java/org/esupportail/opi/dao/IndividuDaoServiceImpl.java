@@ -233,8 +233,8 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
     @Override
     public P2<Long, Stream<Individu>> sliceOfInds(final PFFilters pfFilters,
                                                   final List<TypeDecision> typesDec,
-                                                  final Option<Boolean> treatedWish,
                                                   final Option<Boolean> validWish,
+                                                  final Option<Boolean> treatedWish,
                                                   final Option<Date> wishCreation,
                                                   final Collection<TypeTraitement> typeTrtmts,
                                                   final Option<Set<TraitementCmi>> trtCmis,
