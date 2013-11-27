@@ -52,7 +52,8 @@
                                  styleClass="tableJustWidthMax">
                         <h:panelGroup>
                             <p:commandButton value="#{msgs['_.BUTTON.EXPORT']}" immediate="true"
-                                             action="#{printOpinionController.makeCsvInSeeEtuVal}" ajax="false"/>
+                                             action="#{printOpinionController.makeCsvInSeeEtuVal}" ajax="false"
+                                             rendered="#{not empty printOpinionController.lesIndividus}"/>
                             <p:commandButton value="#{msgs['OPINION.EDIT.VALIDATION']}"
                                              rendered="#{managedAccess.updateAuthorized}" immediate="true"
                                              action="#{printOpinionController.makePDFValidation}" ajax="false"/>
