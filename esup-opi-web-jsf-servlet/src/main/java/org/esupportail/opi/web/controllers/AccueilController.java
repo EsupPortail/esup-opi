@@ -88,16 +88,11 @@ public class AccueilController extends AbstractAccessController {
     private FormationController formationController;
 
     /**
-     * Object contains the method to invoque.
-     */
-    private Object object;
-
-    /**
      * Le context de deploiement de l'application.
      */
     private String context;
 
-	
+
 	/*
 	 ******************* INIT ************************* */
 
@@ -598,20 +593,6 @@ public class AccueilController extends AbstractAccessController {
      */
     public void setFormationController(final FormationController formationController) {
         this.formationController = formationController;
-    }
-
-    /**
-     * @return the object
-     */
-    public Object getObject() {
-        return object;
-    }
-
-    /**
-     * @param object the object to set
-     */
-    public void setObject(final Object object) {
-        this.object = object;
     }
 
     /**
