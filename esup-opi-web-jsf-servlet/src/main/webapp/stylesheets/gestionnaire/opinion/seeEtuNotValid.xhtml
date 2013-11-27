@@ -55,7 +55,7 @@
                                              action="#{printOpinionController.makeCsvInSeeEtuVal}" ajax="false"
                                              rendered="#{not empty printOpinionController.lesIndividus}"/>
                             <p:commandButton value="#{msgs['OPINION.EDIT.VALIDATION']}"
-                                             rendered="#{managedAccess.updateAuthorized}" immediate="true"
+                                             rendered="#{managedAccess.updateAuthorized and not empty printOpinionController.lesIndividus}" immediate="true"
                                              action="#{printOpinionController.makePDFValidation}" ajax="false"/>
                             <p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
                                              action="go_valid_opinions" ajax="false"/>
