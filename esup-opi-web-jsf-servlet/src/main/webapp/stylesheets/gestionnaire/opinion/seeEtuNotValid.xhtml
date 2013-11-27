@@ -66,7 +66,7 @@
                     <p:dataTable var="individuPojo" id="individuData"
                                  value="#{printOpinionController.lesIndividus}"
                                  styleClass="paginatorData" alternateColors="true"
-                                 renderedIfEmpty="false" rowIndexVar="variable">
+                                 rendered="#{not empty printOpinionController.lesIndividus}" rowIndexVar="variable">
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}"/>
