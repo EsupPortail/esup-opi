@@ -216,8 +216,12 @@ public class AccueilController extends AbstractAccessController {
         return goWelcomeCandidat();
     }
 
+    public String verifyCursusScolAndSave() {
+        if (individuController.getCursusController().isValidCursusScol(false)) {
+            addInfoMessage(null, "INFO.CANDIDAT.OUBLIE.CURSUS_SCOL");
+            return null;
         }
-        return null;
+        return individuController.goSaveDossier();
     }
 
     /**

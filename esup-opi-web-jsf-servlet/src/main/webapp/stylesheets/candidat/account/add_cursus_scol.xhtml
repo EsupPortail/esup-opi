@@ -25,12 +25,7 @@
                         <div class="blockButton">
                             <h:panelGroup>
                                 <p:commandButton value="#{msgs['_.BUTTON.NEXT']} »"
-                                                 action="#{accueilController.verifyCursusScol}">
-                                    <f:setPropertyActionListener value="goSaveDossier"
-                                                                 target="#{accueilController.methodIfVerified}"/>
-                                    <f:setPropertyActionListener value="#{individuController}"
-                                                                 target="#{accueilController.object}"/>
-                                </p:commandButton>
+                                                 action="#{accueilController.verifyCursusScolAndSave}" />
                             </h:panelGroup>
                         </div>
                     </div>
