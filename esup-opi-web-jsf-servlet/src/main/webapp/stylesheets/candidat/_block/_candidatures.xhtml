@@ -169,7 +169,7 @@
         </p:dataTable>
     </p:outputPanel>
     <p:outputPanel id="blockCandidatureWithoutVoeu" layout="block"
-        rendered="#{empty sessionController.currentInd.indVoeuxPojo}">
+        rendered="#{sessionController.currentInd.indVoeuxPojo.isEmpty()}">
         <div style="width: 100%;">
             <h:panelGrid columns="2"
                 columnClasses="col1UnDemi,col2UnDemi"
