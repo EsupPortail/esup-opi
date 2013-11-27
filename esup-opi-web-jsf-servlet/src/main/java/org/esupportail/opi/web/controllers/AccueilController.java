@@ -88,11 +88,6 @@ public class AccueilController extends AbstractAccessController {
     private FormationController formationController;
 
     /**
-     *
-     */
-    private String methodIfVerified;
-
-    /**
      * Object contains the method to invoque.
      */
     private Object object;
@@ -604,13 +599,6 @@ public class AccueilController extends AbstractAccessController {
      */
     public void setFormationController(final FormationController formationController) {
         this.formationController = formationController;
-    }
-
-    /**
-     * @param methodIfVerified the methodIfVerified to set
-     */
-    public void setMethodIfVerified(final String methodIfVerified) {
-        this.methodIfVerified = methodIfVerified;
     }
 
     /**
