@@ -286,7 +286,7 @@ public class AccueilController extends AbstractAccessController {
      *
      * @throws IOException
      */
-    public void validatePrintOneDossier() throws IOException {
+    public void validatePrintOneDossier(CommissionPojo cmiPojo) {
 
         Set<TraitementCmi> traitementsCmi = new HashSet<TraitementCmi>();
 
@@ -303,7 +303,7 @@ public class AccueilController extends AbstractAccessController {
                 getSessionController().getCurrentInd()
                         .getRegimeInscription().getCode(),
                 traitementsCmi)) {
-            printOneDossier();
+            printOneDossier(cmiPojo);
         } else {
             addErrorMessage(null, "ERROR.ACTION.DOSSIER.ONE_DOWNLOAD");
             goOneDossierInvalide();
@@ -315,8 +315,7 @@ public class AccueilController extends AbstractAccessController {
      *
      * @throws IOException
      */
-    private void printOneDossier() throws IOException {
-        CommissionPojo cmiPojo = (CommissionPojo) object;
+    private void printOneDossier(CommissionPojo cmiPojo) {
         IndDocument indDocument = prepareIndDocument();
         makePDF(cmiPojo.getCommission(), indDocument);
     }
@@ -336,7 +335,7 @@ public class AccueilController extends AbstractAccessController {
      * @return IndDocument
      * @throws IOException
      */
-    private IndDocument prepareIndDocument() throws IOException {
+    private IndDocument prepareIndDocument() {
         individuController.setPojoIndividu(getCurrentInd());
         individuController.initAllPojo();
 

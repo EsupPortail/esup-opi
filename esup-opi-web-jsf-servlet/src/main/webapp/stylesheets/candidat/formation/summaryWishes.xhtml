@@ -68,11 +68,7 @@
                                         <p:commandButton
                                             value="#{msgs['_.BUTTON.DOWNLOAD.MY_DOSSIER']}"
                                             immediate="true"
-                                            action="#{accueilController.validatePrintOneDossier}">
-                                            <f:setPropertyActionListener
-                                                value="#{summaryWishes.commission}"
-                                                target="#{accueilController.object}" />
-                                        </p:commandButton>
+                                            action="#{accueilController.validatePrintOneDossier(summaryWishes.commission)}" />
                                     </h:form>
                                 </h:panelGrid>
 
