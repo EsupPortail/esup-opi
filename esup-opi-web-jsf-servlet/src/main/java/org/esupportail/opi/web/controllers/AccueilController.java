@@ -39,8 +39,6 @@ import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import javax.faces.context.FacesContext;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -243,21 +241,7 @@ public class AccueilController extends AbstractAccessController {
             addInfoMessage(null, "INFO.CANDIDAT.OUBLIE.QUALIF");
             return null;
         }
-        try {
-            Method methodToExecute = object.getClass().getMethod(methodIfVerified);
-            return (String) methodToExecute.invoke(object);
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return goWelcomeCandidat();
     }
 	
 	

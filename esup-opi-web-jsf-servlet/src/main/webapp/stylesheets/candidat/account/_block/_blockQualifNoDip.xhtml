@@ -56,9 +56,6 @@
                 <p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
                                  rendered="#{cursusController.actionEnum.whatAction == cursusController.actionEnum.updateAction}"
                                  action="#{accueilController.verifyQualif}">
-                    <f:setPropertyActionListener value="goWelcomeCandidat"
-                                                 target="#{accueilController.methodIfVerified}"/>
-                    <f:setPropertyActionListener value="#{accueilController}" target="#{accueilController.object}"/>
                 </p:commandButton>
 
             </h:panelGroup>
