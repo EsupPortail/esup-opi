@@ -62,18 +62,13 @@
                 <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
                                  action="#{cursusController.initCursusScol}"
                                  rendered="#{sessionController.currentInd == null || sessionController.currentInd.asRightsToUpdate}"
-                                 ajax="false">
-                </p:commandButton>
+                                 ajax="false" />
 
                 <p:commandButton value="#{msgs['_.BUTTON.BACK.WELCOME']}"
                                  rendered="#{cursusController.actionEnum.whatAction == cursusController.actionEnum.updateAction}"
                                  action="#{accueilController.verifyCursusScol}"
                                  ajax="false"
-                                 immediate="true">
-                    <f:setPropertyActionListener value="goWelcomeCandidat"
-                                                 target="#{accueilController.methodIfVerified}"/>
-                    <f:setPropertyActionListener value="#{accueilController}" target="#{accueilController.object}"/>
-                </p:commandButton>
+                                 immediate="true" />
             </h:panelGroup>
         </h:panelGrid>
     </div>
