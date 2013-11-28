@@ -694,8 +694,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
     }
 
     /**
-     * @deprecated use {@see makeAllIndividusNew()} instead
-     *             Int the commission and make the individuals list.
+     * Int the commission and make the individuals list.
      */
     private void makeAllIndividus(final Option<Boolean> onlyValidate) {
         // list of indivius from the commission selected
