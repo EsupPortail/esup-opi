@@ -313,7 +313,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
             Boolean selectValid = individuController.getIndividuPaginator().getIndRechPojo().getSelectValid();
             generateCSVListes(
                     cmi,
-                    getIndividus(cmi, selectValid, not(typeTrtEquals(transfert))),
+                    getIndividus(cmi, some(selectValid), not(typeTrtEquals(transfert))),
                     fileNamePrefix,
                     fileNameSuffix);
         }
@@ -411,7 +411,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
                 commission,
                 getIndividus(
                         retrieveOSIVCommission(commission.getId(), commission.getCode()),
-                        true,
+                        some(true),
                         not(typeTrtEquals(transfert))),
                 fileNamePrefix,
                 fileNameSuffix);
@@ -425,7 +425,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
                 commission,
                 getIndividus(
                         retrieveOSIVCommission(commission.getId(), commission.getCode()),
-                        true,
+                        some(true),
                         typeTrtEquals(transfert)),
                 prefix,
                 suffix);
@@ -662,13 +662,13 @@ public class PrintOpinionController extends AbstractContextAwareController {
      * @return a {@link Stream} of filtered {@link IndividuPojo}s
      */
     public Stream<IndividuPojo> getIndividus(Commission laCommission,
-                                             final Boolean onlyValidate,
+                                             final Option<Boolean> onlyValidate,
                                              final F<IndVoeuPojo, Boolean> voeuFilter) {
         final HashSet<Integer> listeRI =
                 new HashSet<>(wrap(commissionController.getListeRI()).map(getRICode()).toStandardList());
         final F<String, Individu> fetchInd = new F<String, Individu>() {
             public Individu f(String id) {
-                return getDomainService().fetchIndById(id, fromNull(onlyValidate));
+                return getDomainService().fetchIndById(id, onlyValidate);
             }
         };
         final F<Individu, IndividuPojo> buildPojos =
@@ -680,7 +680,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
                     }
                 });
         final Stream<String> indsIds =
-                iterableStream(getDomainService().getIndsIds(laCommission, some(onlyValidate), listeRI));
+                iterableStream(getDomainService().getIndsIds(laCommission, onlyValidate, listeRI));
         return parMod.parMap(indsIds, fetchInd.andThen(buildPojos))
                 .fmap(Stream.<IndividuPojo>filter().f(indWithVoeux()))
                 .claim();
@@ -706,7 +706,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
             this.commissionController.setCommission(getParameterService().
                     getCommission(idCmi, null));
             lesIndividus = new ArrayList<>(getIndividus(
-                    commissionController.getCommission(), onlyValidate, not(typeTrtEquals(transfert))).toCollection());
+                    commissionController.getCommission(), some(onlyValidate), not(typeTrtEquals(transfert))).toCollection());
 //            lookForIndividusPojo(
 //                    this.commissionController.getCommission(),
 //                    onlyValidate, initCursusPojo, excludeTR);
@@ -1075,7 +1075,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
     public void initIndividus() {
         final List<TypeDecision> typeDecisions = buildSelectedTypeDecision();
         setLesIndividus(new ArrayList<IndividuPojo>(
-                getIndividus(commissionController.getCommission(), false, not(typeTrtEquals(transfert)))
+                getIndividus(commissionController.getCommission(), some(false), not(typeTrtEquals(transfert)))
                         .map(new F<IndividuPojo, IndividuPojo>() {
                             @Override
                             public IndividuPojo f(IndividuPojo individuPojo) {
