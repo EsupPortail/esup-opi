@@ -260,11 +260,11 @@ public class PrintOpinionController extends AbstractContextAwareController {
      * call in printOpinions.jsp
      */
     public void seeCandidats() {
-        makeAllIndividus(
+        makeAllIndividus(some(
                 individuController
                         .getIndividuPaginator()
                         .getIndRechPojo()
-                        .getSelectValid(), false, true);
+                        .getSelectValid()));
     }
 
     /**
@@ -272,11 +272,11 @@ public class PrintOpinionController extends AbstractContextAwareController {
      * call in printOpinions.jsp
      */
     public void printPDFValidation() {
-        makeAllIndividus(
+        makeAllIndividus(some(
                 individuController
                         .getIndividuPaginator()
                         .getIndRechPojo()
-                        .getSelectValid(), true, true);
+                        .getSelectValid()));
         makePDFValidation();
         this.lesIndividus = new ArrayList<>();
     }
@@ -381,8 +381,8 @@ public class PrintOpinionController extends AbstractContextAwareController {
      */
     public void printPDFAllNotifications() {
         this.pdfData.clear();
-        makeAllIndividus(
-                individuController.getIndividuPaginator().getIndRechPojo().getSelectValid(), false, true);
+        makeAllIndividus(some(
+                individuController.getIndividuPaginator().getIndRechPojo().getSelectValid()));
 
         Commission com = retrieveOSIVCommission(
                 individuController.getIndividuPaginator().getIndRechPojo()
@@ -697,8 +697,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
      * @deprecated use {@see makeAllIndividusNew()} instead
      *             Int the commission and make the individuals list.
      */
-    private void makeAllIndividus(final Boolean onlyValidate,
-                                  final Boolean initCursusPojo, final Boolean excludeTR) {
+    private void makeAllIndividus(final Option<Boolean> onlyValidate) {
         // list of indivius from the commission selected
         // with an opinion not validate
         Integer idCmi = individuController.getIndividuPaginator().getIndRechPojo().getIdCmi();
@@ -706,7 +705,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
             this.commissionController.setCommission(getParameterService().
                     getCommission(idCmi, null));
             lesIndividus = new ArrayList<>(getIndividus(
-                    commissionController.getCommission(), some(onlyValidate), not(typeTrtEquals(transfert))).toCollection());
+                    commissionController.getCommission(), onlyValidate, not(typeTrtEquals(transfert))).toCollection());
 //            lookForIndividusPojo(
 //                    this.commissionController.getCommission(),
 //                    onlyValidate, initCursusPojo, excludeTR);
