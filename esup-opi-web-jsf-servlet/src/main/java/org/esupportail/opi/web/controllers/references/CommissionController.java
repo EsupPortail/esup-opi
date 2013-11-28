@@ -981,7 +981,7 @@ public class CommissionController
                 }).toStandardList());
 
         // recuperation de la liste des individus ayant fait un voeu dans la commission
-        List<String> ids = getDomainService().getIndsIds(commission, null, codesRI);
+        List<String> ids = getDomainService().getIndsIds(commission, Option.<Boolean>none(), codesRI);
         List<Individu> listeInd =
                 wrap(ids).map(new F<String, Individu>() {
             public Individu f(String id) { return getDomainService().fetchIndById(id, Option.<Boolean>none()); }

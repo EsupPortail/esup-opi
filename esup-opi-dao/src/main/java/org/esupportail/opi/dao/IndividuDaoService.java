@@ -47,7 +47,7 @@ public interface IndividuDaoService {
      * @param validate Whether the {@link IndVoeu}s are valid and in service
      * @param listeRICodes The registration schemes of the {@link Campagne} the {@link IndVoeu}s belong to
      */
-    List<String> getIndsIds(final Commission commission, final Boolean validate, final Set<Integer> listeRICodes);
+    List<String> getIndsIds(final Commission commission, final Option<Boolean> validate, final Set<Integer> listeRICodes);
 
     /**
      * <b>Eagerly</b> (in hibernate sense) fetch an {@link Individu} from the DB by its id

@@ -294,7 +294,7 @@ public final class DomainServiceImpl implements DomainService {
 	}
 
 	@Override
-	public List<String> getIndsIds(final Commission commission, final Boolean validate, final Set<Integer> listeCodesRI) {
+	public List<String> getIndsIds(final Commission commission, final Option<Boolean> validate, final Set<Integer> listeCodesRI) {
 		if (log.isDebugEnabled())
 			log.debug("entering getIndividus( " + commission + ", " + validate +  " )");
         return individuDaoSrv.getIndsIds(commission, validate, listeCodesRI);

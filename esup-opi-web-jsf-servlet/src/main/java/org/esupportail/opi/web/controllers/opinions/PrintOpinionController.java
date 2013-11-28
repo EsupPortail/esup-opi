@@ -66,6 +66,8 @@ import static fj.P.p;
 import static fj.data.Array.iterableArray;
 import static fj.data.IterableW.wrap;
 import static fj.data.Option.fromNull;
+import static fj.data.Option.none;
+import static fj.data.Option.some;
 import static fj.data.Stream.iterableStream;
 import static fj.function.Booleans.not;
 import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
@@ -678,7 +680,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
                     }
                 });
         final Stream<String> indsIds =
-                iterableStream(getDomainService().getIndsIds(laCommission, onlyValidate, listeRI));
+                iterableStream(getDomainService().getIndsIds(laCommission, some(onlyValidate), listeRI));
         return parMod.parMap(indsIds, fetchInd.andThen(buildPojos))
                 .fmap(Stream.<IndividuPojo>filter().f(indWithVoeux()))
                 .claim();

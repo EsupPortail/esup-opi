@@ -313,13 +313,13 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
             };
 
     @Override
-    public List<String> getIndsIds(final Commission commission, final Boolean validate, final Set<Integer> listeRICodes) {
+    public List<String> getIndsIds(final Commission commission, final Option<Boolean> validate, final Set<Integer> listeRICodes) {
         final F<BooleanExpression, BooleanExpression> filter =
                 somes(list(
                         some(p(indEnService).<BooleanExpression>constant()),
                         some(commission.getTraitementCmi()).map(trtCmiFilter),
                         fromNull(listeRICodes).map(and.o(campRiFilter)),
-                        fromNull(validate).map(validWishFilter),
+                        validate.map(validWishFilter),
                         iif(validate != null, and.f(avisEnServ))
                 )).foldLeft(Function.<BooleanExpression, BooleanExpression, BooleanExpression>andThen(),
                         Function.<BooleanExpression>identity());

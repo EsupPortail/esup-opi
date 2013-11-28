@@ -131,7 +131,7 @@ public interface DomainService extends Serializable {
      * @param validate Whether the {@link IndVoeu}s are valid and in service
      * @param listeRI The registration schemes of the {@link Campagne} the {@link IndVoeu}s belong to
      */
-    List<String> getIndsIds(Commission commission, Boolean validate, Set<Integer> listeRI);
+    List<String> getIndsIds(Commission commission, Option<Boolean> validate, Set<Integer> listeRI);
 
     /**
      * <b>Eagerly</b> (in hibernate sense) fetch an {@link Individu} from the DB by its id

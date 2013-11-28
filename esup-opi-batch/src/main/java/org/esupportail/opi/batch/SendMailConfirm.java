@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executors;
 
+import static fj.data.Option.some;
 import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatConfirme;
 
 
@@ -149,7 +150,7 @@ public class SendMailConfirm  {
                     }
                 };
 
-                parModule.parMap(domainService.getIndsIds(cmi, true, null), fetchInd).to(mailSender);
+                parModule.parMap(domainService.getIndsIds(cmi, some(true), null), fetchInd).to(mailSender);
 			}
 			DatabaseUtils.commit();
 		} catch (Exception e) {

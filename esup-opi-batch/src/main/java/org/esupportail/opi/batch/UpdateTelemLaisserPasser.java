@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static fj.data.Option.some;
 import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatConfirme;
 
 
@@ -70,7 +71,7 @@ public class UpdateTelemLaisserPasser  {
 					vets.add(trt.getVersionEtpOpi());
 				}
 
-                for (String id : domainService.getIndsIds(cmi, true, null))	{
+                for (String id : domainService.getIndsIds(cmi, some(true), null))	{
 				    Individu i = domainService.fetchIndById(id, Option.<Boolean>none());
 						if (!iAlreadyAddInApo.contains(i)) {
 						List<IndVoeu> list = new ArrayList<>();
