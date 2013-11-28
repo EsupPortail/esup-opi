@@ -282,22 +282,6 @@ public class PrintOpinionController extends AbstractContextAwareController {
     }
 
     /**
-     * @deprecated use {@see makeAllIndividusNew()} instead
-     *             Make pdf after set the list of students.
-     *             call in printOpinions.jsp
-     */
-    public void makeCsvValidation() {
-        makeAllIndividus(
-                individuController
-                        .getIndividuPaginator()
-                        .getIndRechPojo()
-                        .getSelectValid(), true, true);
-        csvGeneration(lesIndividus,
-                "exportAvis_" + commissionController.getCommission().getCode() + ".csv");
-        this.lesIndividus = new ArrayList<>();
-    }
-
-    /**
      * Make pdf after set the list of students.
      * call in printOpinions.jsp
      */
