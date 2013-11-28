@@ -362,20 +362,14 @@ public class Utilitaires {
 	public static Campagne getCampagneEnServ(final Individu individu, 
 			final DomainService domainService) {
 		List<Campagne> listCamp = new ArrayList<Campagne>();
-		
-		try {
-			listCamp.addAll(individu.getCampagnes());
-		} catch (LazyInitializationException lazy) {
-			domainService.initOneProxyHib(individu, individu.getCampagnes(), Campagne.class);
-			listCamp.addAll(individu.getCampagnes());
-		} finally {
-			for (Campagne camp : listCamp) {
-				if (camp.getTemoinEnService()) {
-					return camp;
-				}
-			}
-		}
-		
+		Individu nonLazyInd = domainService.getIndividu(individu.getNumDossierOpi(), individu.getDateNaissance());
+		listCamp.addAll(nonLazyInd.getCampagnes());
+        for (Campagne camp : listCamp) {
+            if (camp.getTemoinEnService()) {
+                return camp;
+            }
+        }
+        //TODO return a NullObject pattern to avoid NPE
 		return null;
 	}
 
