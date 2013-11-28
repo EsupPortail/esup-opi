@@ -47,12 +47,15 @@
                 <div class="messageForUser">
                     <p:messages id="messages" showDetail="false" autoUpdate="true"/>
                 </div>
+                <p:remoteCommand name="makeCsvInSeeEtuVal" async="true"
+                                 action="#{printOpinionController.makeCsvInSeeEtuVal}"/>
                 <div style="width:100%;">
                     <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
                                  styleClass="tableJustWidthMax">
                         <h:panelGroup>
                             <p:commandButton value="#{msgs['_.BUTTON.EXPORT']}" immediate="true"
-                                             action="#{printOpinionController.makeCsvInSeeEtuVal}" ajax="false"
+                                             actionListener="#{printOpinionController.generationMailAsyncWarning}"
+                                             onclick="makeCsvInSeeEtuVal()"
                                              rendered="#{not empty printOpinionController.lesIndividus}"/>
                             <p:commandButton value="#{msgs['OPINION.EDIT.VALIDATION']}"
                                              rendered="#{managedAccess.updateAuthorized and not empty printOpinionController.lesIndividus}" immediate="true"
