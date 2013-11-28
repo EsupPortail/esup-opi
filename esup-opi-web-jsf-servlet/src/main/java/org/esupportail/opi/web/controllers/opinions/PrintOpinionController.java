@@ -330,9 +330,18 @@ public class PrintOpinionController extends AbstractContextAwareController {
      * call in seeNotEtudiant.jsp
      */
     public void makeCsvInSeeEtuVal() {
-        csvGeneration(lesIndividus,
-                "exportAvis_" + commissionController.getCommission().getCode() + ".csv");
-        this.lesIndividus = new ArrayList<IndividuPojo>();
+        final String fileNamePrefix = "exportAvis_";
+        final String fileNameSuffix = ".csv";
+        final Commission commission = commissionController.getCommission();
+
+        generateCSVListes(
+                commission,
+                getIndividus(
+                        retrieveOSIVCommission(commission.getId(), commission.getCode()),
+                        Option.<Boolean>none(),
+                        fj.Function.<IndVoeuPojo, Boolean>constant(true)),
+                fileNamePrefix,
+                fileNameSuffix);
     }
 
     /**
