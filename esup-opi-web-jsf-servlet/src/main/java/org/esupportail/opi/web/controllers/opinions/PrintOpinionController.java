@@ -490,7 +490,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
     }
 
     /**
-     * @deprecated see {@see generateCSVListes()} for new implementation
+     * @deprecated see {@see #generateCSVListes()} for new implementation
      *             Generate a CSV of the list of student.
      */
     public String csvGeneration(final List<IndividuPojo> individus, final String fileName) {
