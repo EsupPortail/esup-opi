@@ -42,7 +42,7 @@
                     <p:commandButton value="#{msgs['_.BUTTON.EXPORT']}"
                                      rendered="#{printOpinionController.actionEnum.whatAction
                                                    != printOpinionController.actionEnum.confirmAction}"
-                                     actionListener="#{printOpinionController.generationWarning}"
+                                     actionListener="#{printOpinionController.generationMailAsyncWarning}"
                                      onclick="makeCsvValidationNew()" />
                     <p:commandButton value="#{msgs['OPINION.EDIT.VALIDATION']}"
                                      action="#{printOpinionController.printPDFValidation}"

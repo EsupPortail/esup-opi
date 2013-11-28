@@ -27,7 +27,7 @@
                                          action="#{printOpinionController.generateCSVListesTransfert}" />
                         <p:commandButton value="#{msgs['_.BUTTON.EXPORT']}"
                                          rendered="#{commissionController.commission.code != null}"
-                                         actionListener="#{printOpinionController.generationWarning}"
+                                         actionListener="#{printOpinionController.generationMailAsyncWarning}"
                                          onclick="genCVSListsTrans()" />
                         <p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="ccExp.show()" type="button"/>
                     </div>

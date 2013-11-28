@@ -74,7 +74,7 @@
                                              ajax="false"/>
                             <p:commandButton value="#{msgs['_.BUTTON.EXPORT']}"
                                              rendered="#{commissionController.commission.code != null}"
-                                             actionListener="#{printOpinionController.generationWarning}"
+                                             actionListener="#{printOpinionController.generationMailAsyncWarning}"
                                              onclick="generateCSVListesPreparatoire()" />
                         </h:panelGroup>
                     </h:panelGrid>

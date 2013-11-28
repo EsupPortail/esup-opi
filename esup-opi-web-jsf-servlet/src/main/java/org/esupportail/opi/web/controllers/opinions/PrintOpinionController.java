@@ -1060,7 +1060,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
     }
 
 
-    public void generationWarning() {
+    public void generationMailAsyncWarning() {
         addWarnMessage(null, "Votre document est en cours de génération. Il vous sera envoyé " +
                 "par mail à l'issu du processus.");
     }
