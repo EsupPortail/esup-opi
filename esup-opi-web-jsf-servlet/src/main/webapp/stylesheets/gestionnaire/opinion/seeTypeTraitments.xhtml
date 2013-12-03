@@ -139,9 +139,9 @@
                             <p:column>
                                 <ui:repeat var="indVoeuxPojo"
                                            value="#{individuPojo.indVoeuxPojoAsList}">
-                                    <p:outputPanel rendered="#{!indVoeuxPojo.indVoeu.haveBeTraited
+                                    <p:outputPanel layout="block" rendered="#{!indVoeuxPojo.indVoeu.haveBeTraited
                                                              || !paginatorIndividu.indRechPojo.excludeWishProcessed}"
-                                                   style="display:block; margin:2px 0;padding:0;" styleClass="oneLine">
+                                                   styleClass="oneLine">
                                         <h:outputText value="#{indVoeuxPojo.shortLibVet}"
                                                       style="cursor:pointer;" id="shortLibVet"/>
                                         <p:overlayPanel for="shortLibVet"

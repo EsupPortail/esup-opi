@@ -45,26 +45,6 @@
                                      maxlength="4"/>
                     </h:panelGroup>
                     <h:panelGroup>
-                        <h:outputLabel value="#{msgs['FIELD_LABEL.LONG_LIB']}" for="libelleLong"/>
-                        <h:outputText value="*" styleClass="etoileForChpObli"/>
-                    </h:panelGroup>
-                    <h:panelGroup>
-                        <p:inputText id="libelleLong"
-                                     value="#{nomenclatureController.nomenclature.libelle}" size="50"
-                                     maxlength="500"/>
-                    </h:panelGroup>
-                    <h:panelGroup>
-                        <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"
-                                       for="regimeInscription"/>
-                        <h:outputText value="*" styleClass="etoileForChpObli"/>
-                    </h:panelGroup>
-                    <h:panelGroup>
-                        <p:selectOneMenu id="regimeInscription"
-                                         value="#{nomenclatureController.nomenclature.codeRI}">
-                            <f:selectItems value="#{nomenclatureController.regimeInscriptionsItems}"/>
-                        </p:selectOneMenu>
-                    </h:panelGroup>
-                    <h:panelGroup>
                         <h:outputLabel value="#{msgs['FIELD_LABEL.DATE_DEBUT']}" for="dateDeb"/>
                         <h:outputLabel value="#{msgs['FIELD_LABEL.FORMAT_DATE']}"/>
                         <h:outputText value="*" styleClass="etoileForChpObli"/>
@@ -89,6 +69,15 @@
                                                timeZone="#{sessionController.timezone}"/>
                             <f:validateLength minimum="8"/>
                         </p:inputText>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputLabel value="#{msgs['FIELD_LABEL.LONG_LIB']}" for="libelleLong"/>
+                        <h:outputText value="*" styleClass="etoileForChpObli"/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:inputText id="libelleLong"
+                                     value="#{nomenclatureController.nomenclature.libelle}" size="50"
+                                     maxlength="500"/>
                     </h:panelGroup>
                     <h:panelGroup>
                         <h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}"

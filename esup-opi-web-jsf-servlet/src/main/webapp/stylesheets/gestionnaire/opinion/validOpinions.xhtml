@@ -6,7 +6,7 @@
     <ui:define name="content">
         <div id="maPage" class="div_body">
             <h1>
-                <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
+                <h:outputText value="#{managedAccess.currentTraitement.libelle}" styleClass="section-header"/>
             </h1>
             <div class="messageForUser">
                 <p:messages id="messages" showDetail="true" autoUpdate="true"/>
@@ -77,18 +77,6 @@
                                     <h:outputText value="#{typeDec.libelle}"/>
                                 </p:column>
                             </p:dataTable>
-                            <h:panelGroup>
-                                <br/>
-                                <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="regime"/>
-                                <p:selectManyCheckbox id="regime" value="#{commissionController.listeRI}"
-                                                      converter="#{regimeInscriptionConverter}"
-                                                      disabled="#{!commissionController.canModifyRISearch}"
-                                                      layout="lineDirection">
-                                    <f:selectItems var="ri"
-                                                   itemLabel="#{ri.shortLabel}" itemValue="#{ri}"
-                                                   value="#{nomenclatureController.allRegimeInscription}"/>
-                                </p:selectManyCheckbox>
-                            </h:panelGroup>
                         </h:panelGrid>
                     </div>
                 </ui:fragment>

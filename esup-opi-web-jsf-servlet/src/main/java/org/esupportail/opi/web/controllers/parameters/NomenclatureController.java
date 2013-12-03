@@ -551,6 +551,10 @@ public class NomenclatureController extends AbstractContextAwareController {
 		}
 		String target = null;
 
+        if (nomenclature instanceof Campagne) {
+            ((Campagne) nomenclature).setCodeRI(FormationInitiale.CODE);
+        }
+
 		if (this.wayfEnum.getWhereAreYouFrom() != this.wayfEnum.getPJValue()
 				&& nomenclature == null)	{
 			//Get the first element of addNomenclatures

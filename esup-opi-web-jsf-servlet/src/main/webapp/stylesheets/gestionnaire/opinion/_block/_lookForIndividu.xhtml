@@ -75,17 +75,17 @@
                             <p:ajax update="@form" listener="#{opinionController.searchStudentsByEtp}"/>
                         </p:selectOneMenu>
                     </h:panelGroup>
-                    <h:panelGroup>
-                        <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc"/>
-                    </h:panelGroup>
-                    <p:selectManyCheckbox id="fc" value="#{paginatorIndividu.listeRI}"
-                                          converter="javax.faces.Integer"
-                                          disabled="#{!paginatorIndividu.indRechPojo.canModifyRISearch}"
-                                          layout="lineDirection">
-                        <f:selectItems var="ri"
-                                       itemLabel="#{ri.shortLabel}" itemValue="#{ri.code}"
-                                       value="#{nomenclatureController.allRegimeInscription}"/>
-                    </p:selectManyCheckbox>
+                    <!--<h:panelGroup>-->
+                        <!--<h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc"/>-->
+                    <!--</h:panelGroup>-->
+                    <!--<p:selectManyCheckbox id="fc" value="#{paginatorIndividu.listeRI}"-->
+                                          <!--converter="javax.faces.Integer"-->
+                                          <!--disabled="#{!paginatorIndividu.indRechPojo.canModifyRISearch}"-->
+                                          <!--layout="lineDirection">-->
+                        <!--<f:selectItems var="ri"-->
+                                       <!--itemLabel="#{ri.shortLabel}" itemValue="#{ri.code}"-->
+                                       <!--value="#{nomenclatureController.allRegimeInscription}"/>-->
+                    <!--</p:selectManyCheckbox>-->
                 </h:panelGrid>
             </h:form>
         </div>

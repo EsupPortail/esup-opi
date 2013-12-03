@@ -56,7 +56,7 @@
         </description>
         <property name="regimeInscriptions">
             <list>
-                <ref bean="formationContinue"/>
+                <!--<ref bean="formationContinue"/>-->
                 <ref bean="formationInitiale"/>
             </list>
         </property>
