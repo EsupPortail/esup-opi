@@ -47,15 +47,15 @@
                             <p:ajax partialSubmit="true" listener="#{pjController.doRenderTable}" update="#{toUpdate}" />
                         </p:selectOneMenu>
                     </h:panelGroup>
-                    <h:panelGroup>
-                        <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc"/>
-                    </h:panelGroup>
-                    <p:selectManyCheckbox id="fc" value="#{paginatorIndividu.listeRI}" converter="javax.faces.Integer"
-                                          disabled="#{!paginatorIndividu.indRechPojo.canModifyRISearch}">
-                        <f:selectItems var="ri"
-                                       itemLabel="#{ri.shortLabel}" itemValue="#{ri.code}"
-                                       value="#{nomenclatureController.allRegimeInscription}"/>
-                    </p:selectManyCheckbox>
+                    <!--<h:panelGroup>-->
+                        <!--<h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc"/>-->
+                    <!--</h:panelGroup>-->
+                    <!--<p:selectManyCheckbox id="fc" value="#{paginatorIndividu.listeRI}" converter="javax.faces.Integer"-->
+                                          <!--disabled="#{!paginatorIndividu.indRechPojo.canModifyRISearch}">-->
+                        <!--<f:selectItems var="ri"-->
+                                       <!--itemLabel="#{ri.shortLabel}" itemValue="#{ri.code}"-->
+                                       <!--value="#{nomenclatureController.allRegimeInscription}"/>-->
+                    <!--</p:selectManyCheckbox>-->
                 </h:panelGrid>
             </h:form>
         </div>

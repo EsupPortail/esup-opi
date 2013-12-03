@@ -9,7 +9,7 @@
                 <p:messages id="messages" showDetail="false" autoUpdate="true"/>
             </div>
             <h1>
-                <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
+                <h:outputText value="#{managedAccess.currentTraitement.libelle}" styleClass="section-header"/>
             </h1>
             <ui:fragment rendered="#{printOpinionController.actionEnum.whatAction 
                                    == printOpinionController.actionEnum.confirmAction}">
@@ -28,11 +28,10 @@
                     <div style="text-align:right;">
                         <p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="ccExp.show()" type="button"/>
                     </div>
-                    <h:panelGrid styleClass="tableWidthMax" columns="4"
+                    <h:panelGrid styleClass="tableWidthMax" columns="5"
                                  columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
                         <h:panelGroup>
-                            <h:outputLabel value="#{msgs['COMMISSIONS']}" for="lacommision"/>
-                            <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}" for="fc"/>
+                            <h:outputLabel value="#{msgs['COMMISSIONS']}" for="lesCommissions"/>
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:selectOneMenu id="lesCommissions" converter="javax.faces.Integer"
@@ -44,14 +43,6 @@
                                                itemLabel="#{commission.libelle}" itemValue="#{commission.id}"/>
                                 <p:ajax listener="#{commissionController.selectCommissionForLists}" update="@form"/>
                             </p:selectOneMenu>
-                            <p:selectManyCheckbox value="#{commissionController.listeRI}"
-                                                  converter="#{regimeInscriptionConverter}"
-                                                  disabled="#{!paginatorIndividu.indRechPojo.canModifyRISearch}"
-                                                  layout="lineDirection">
-                                <f:selectItems var="ri"
-                                               itemLabel="#{ri.shortLabel}" itemValue="#{ri}"
-                                               value="#{nomenclatureController.allRegimeInscription}"/>
-                            </p:selectManyCheckbox>
                         </h:panelGroup>
                         <h:panelGroup>
                             <h:outputLabel value="#{msgs['COMMISSION.EDIT_LISTE_PREPA']}"

@@ -7,7 +7,7 @@
     <p:blockUI block="maPage" trigger=":lookForOpinionForm:individuData :lookForOpinionForm:requestIndsData">
         <p:graphicImage library="images" name="ajax-loader.gif"/>
     </p:blockUI>
-    <p:panel id="maPage" styleClass="div_body">
+    <p:outputPanel id="maPage" layout="block" styleClass="div_body">
         <div class="messageForUser">
             <p:messages id="messages" showDetail="true" autoUpdate="true"/>
         </div>
@@ -74,18 +74,6 @@
                                           itemValue="#{false}"/>
                             <f:selectItem itemLabel="#{msgs['OPINION.SELECT_CANDIDAT.VALID']}" itemValue="#{true}"/>
                         </p:selectOneRadio>
-                    </fieldset>
-                    <fieldset
-                            style="border-style: dotted; border-color: #A8A8A8; border-width: 0.1em; margin-bottom: 8px;">
-                        <legend>#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}</legend>
-                        <p:selectManyCheckbox value="#{paginatorIndividu.indRechPojo.listeRI}" id="choixRI"
-                                              converter="#{regimeInscriptionConverter}"
-                                              disabled="#{!paginatorIndividu.indRechPojo.canModifyRISearch}"
-                                              layout="lineDirection" style="margin-left: 6%;">
-                            <f:selectItems var="ri"
-                                           itemLabel="#{ri.shortLabel}" itemValue="#{ri}"
-                                           value="#{nomenclatureController.allRegimeInscription}"/>
-                        </p:selectManyCheckbox>
                     </fieldset>
                     <fieldset
                             style="border-style: dotted; border-color: #A8A8A8; border-width: 0.1em; margin-bottom: 8px;">
@@ -211,6 +199,6 @@
                 </p:panel>
             </p:panel>
         </h:form>
-    </p:panel>
+    </p:outputPanel>
 </ui:define>
 </ui:composition>

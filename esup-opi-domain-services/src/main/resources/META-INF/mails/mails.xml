@@ -17,15 +17,15 @@
 		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
 	</bean>
 
-	<bean id="createDosIndFC" parent="abstractMailForInd"
-		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
-		<description>send to : à la création du dossier pour un candidat
-			de la fomation Continue </description>
-		<property name="code" value="CREATE_DOS_FC" />
-		<property name="defaultBody" value="MAIL.CREATE.DOS_FC.DEFAULT_BODY" />
-		<property name="defaultSubject" value="MAIL.CREATE.DOS_FC.DEFAULT_SJT" />
-		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
-	</bean>
+	<!--<bean id="createDosIndFC" parent="abstractMailForInd"-->
+		<!--class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">-->
+		<!--<description>send to : à la création du dossier pour un candidat-->
+			<!--de la fomation Continue </description>-->
+		<!--<property name="code" value="CREATE_DOS_FC" />-->
+		<!--<property name="defaultBody" value="MAIL.CREATE.DOS_FC.DEFAULT_BODY" />-->
+		<!--<property name="defaultSubject" value="MAIL.CREATE.DOS_FC.DEFAULT_SJT" />-->
+		<!--<property name="mailExceptionMethods" ref="methodExcepGlobal" />-->
+	<!--</bean>-->
 
 	<bean id="addCursusScolFI" parent="abstractMailForInd"
 		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
@@ -38,15 +38,15 @@
 		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
 	</bean>
 
-	<bean id="addCursusScolFC" parent="abstractMailForInd"
-		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
-		<description>send to : pour toutes modifications du cursus post
-			bac pour un candidat FC </description>
-		<property name="code" value="ADD_CUR_SCOL_FC" />
-		<property name="defaultBody" value="MAIL.UPDATE.CURSUS_SCOL_FC.DEFAULT_BODY" />
-		<property name="defaultSubject" value="MAIL.UPDATE.CURSUS_SCOL_FC.DEFAULT_SUBJECT" />
-		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
-	</bean>
+	<!--<bean id="addCursusScolFC" parent="abstractMailForInd"-->
+		<!--class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">-->
+		<!--<description>send to : pour toutes modifications du cursus post-->
+			<!--bac pour un candidat FC </description>-->
+		<!--<property name="code" value="ADD_CUR_SCOL_FC" />-->
+		<!--<property name="defaultBody" value="MAIL.UPDATE.CURSUS_SCOL_FC.DEFAULT_BODY" />-->
+		<!--<property name="defaultSubject" value="MAIL.UPDATE.CURSUS_SCOL_FC.DEFAULT_SUBJECT" />-->
+		<!--<property name="mailExceptionMethods" ref="methodExcepGlobal" />-->
+	<!--</bean>-->
 
 	<bean id="addWishesASFI" parent="abstractMailForInd"
 		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
@@ -57,14 +57,14 @@
 		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
 	</bean>
 
-	<bean id="addWishesASFC" parent="abstractMailForInd"
-		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
-		<description>send to : pour tout ajout de voeux pour un candidat FC</description>
-		<property name="code" value="WISHES_AS_FC" />
-		<property name="defaultBody" value="MAIL.UPDATE.WISHES_FC.AS.DEFAULT_BODY" />
-		<property name="defaultSubject" value="MAIL.UPDATE.WISHES_FC.AS.DEFAULT_SUBJECT" />
-		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
-	</bean>
+	<!--<bean id="addWishesASFC" parent="abstractMailForInd"-->
+		<!--class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">-->
+		<!--<description>send to : pour tout ajout de voeux pour un candidat FC</description>-->
+		<!--<property name="code" value="WISHES_AS_FC" />-->
+		<!--<property name="defaultBody" value="MAIL.UPDATE.WISHES_FC.AS.DEFAULT_BODY" />-->
+		<!--<property name="defaultSubject" value="MAIL.UPDATE.WISHES_FC.AS.DEFAULT_SUBJECT" />-->
+		<!--<property name="mailExceptionMethods" ref="methodExcepGlobal" />-->
+	<!--</bean>-->
 
 	<bean id="addWishesTRVAFI" parent="abstractMailForInd"
 		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
@@ -75,14 +75,14 @@
 		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
 	</bean>
 
-	<bean id="addWishesTRVAFC" parent="abstractMailForInd"
-		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
-		<description>send to : pour tout ajout de voeux pour un candidat FC</description>
-		<property name="code" value="WISHES_TR_VA_FC" />
-		<property name="defaultBody" value="MAIL.UPDATE.WISHES_FC.TR_VA.DEFAULT_BODY" />
-		<property name="defaultSubject" value="MAIL.UPDATE.WISHES_FC.TR_VA.DEFAULT_SUBJECT" />
-		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
-	</bean>
+	<!--<bean id="addWishesTRVAFC" parent="abstractMailForInd"-->
+		<!--class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">-->
+		<!--<description>send to : pour tout ajout de voeux pour un candidat FC</description>-->
+		<!--<property name="code" value="WISHES_TR_VA_FC" />-->
+		<!--<property name="defaultBody" value="MAIL.UPDATE.WISHES_FC.TR_VA.DEFAULT_BODY" />-->
+		<!--<property name="defaultSubject" value="MAIL.UPDATE.WISHES_FC.TR_VA.DEFAULT_SUBJECT" />-->
+		<!--<property name="mailExceptionMethods" ref="methodExcepGlobal" />-->
+	<!--</bean>-->
 
 	<bean id="convocMember" parent="abstractMailForInd"
 		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
@@ -111,15 +111,15 @@
 		</property>
 	</bean>
 
-	<bean id="infoValidWishesFC" parent="abstractMailForInd"
-		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
-		<description>send to : à la création du dossier pour un candidat
-			de la fomation Continue </description>
-		<property name="code" value="VALID_WISHES_FC" />
-		<property name="defaultBody" value="MAIL.COMMISSION.VALIDE_WISHES.DEFAULT_BODY" />
-		<property name="defaultSubject" value="MAIL.COMMISSION.VALIDE_WISHES.DEFAULT_SUBJECT" />
-		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
-	</bean>
+	<!--<bean id="infoValidWishesFC" parent="abstractMailForInd"-->
+		<!--class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">-->
+		<!--<description>send to : à la création du dossier pour un candidat-->
+			<!--de la fomation Continue </description>-->
+		<!--<property name="code" value="VALID_WISHES_FC" />-->
+		<!--<property name="defaultBody" value="MAIL.COMMISSION.VALIDE_WISHES.DEFAULT_BODY" />-->
+		<!--<property name="defaultSubject" value="MAIL.COMMISSION.VALIDE_WISHES.DEFAULT_SUBJECT" />-->
+		<!--<property name="mailExceptionMethods" ref="methodExcepGlobal" />-->
+	<!--</bean>-->
 
 	<bean id="confirmInscriptionFI" parent="abstractMailForInd"
 		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
@@ -130,14 +130,14 @@
 		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
 	</bean>
 
-	<bean id="confirmInscriptionFC" parent="abstractMailForInd"
-		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
-		<description>send to : à la confirmation d'une inscription par un candidat FC </description>
-		<property name="code" value="CONF_INSC_FC" />
-		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.CONF_FC.DEFAULT_BODY" />
-		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.CONF_FC.DEFAULT_SUBJECT" />
-		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
-	</bean>
+	<!--<bean id="confirmInscriptionFC" parent="abstractMailForInd"-->
+		<!--class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">-->
+		<!--<description>send to : à la confirmation d'une inscription par un candidat FC </description>-->
+		<!--<property name="code" value="CONF_INSC_FC" />-->
+		<!--<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.CONF_FC.DEFAULT_BODY" />-->
+		<!--<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.CONF_FC.DEFAULT_SUBJECT" />-->
+		<!--<property name="mailExceptionMethods" ref="methodExcepGlobal" />-->
+	<!--</bean>-->
 
 	<bean id="rappelNumDossFI" parent="abstractMailForInd"
 		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
@@ -148,14 +148,14 @@
 		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
 	</bean>
 
-	<bean id="rappelNumDossFC" parent="abstractMailForInd"
-		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
-		<description>send to : à la demande d'un rappel de num de dossier d'un candidat FC </description>
-		<property name="code" value="RAP_NUM_DOSS_FC" />
-		<property name="defaultBody" value="MAIL.FORGET_NUM_DOS_FC.DEFAULT_BODY" />
-		<property name="defaultSubject" value="MAIL.FORGET_NUM_DOS_FC.DEFAULT_SUBJECT" />
-		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
-	</bean>
+	<!--<bean id="rappelNumDossFC" parent="abstractMailForInd"-->
+		<!--class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">-->
+		<!--<description>send to : à la demande d'un rappel de num de dossier d'un candidat FC </description>-->
+		<!--<property name="code" value="RAP_NUM_DOSS_FC" />-->
+		<!--<property name="defaultBody" value="MAIL.FORGET_NUM_DOS_FC.DEFAULT_BODY" />-->
+		<!--<property name="defaultSubject" value="MAIL.FORGET_NUM_DOS_FC.DEFAULT_SUBJECT" />-->
+		<!--<property name="mailExceptionMethods" ref="methodExcepGlobal" />-->
+	<!--</bean>-->
 
 	<bean id="dossArriveCompletFI" parent="abstractMailForInd"
 		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
@@ -175,23 +175,23 @@
 		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
 	</bean>
 
-	<bean id="dossArriveCompletFC" parent="abstractMailForInd"
-		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
-		<description>send to : à la réception du dossier complet d'un candidat FI </description>
-		<property name="code" value="DOSS_COMPLET_FC" />
-		<property name="defaultBody" value="MAIL.ARRIVE.COMPLET_FC.DEFAULT_BODY" />
-		<property name="defaultSubject" value="MAIL.ARRIVE.COMPLET_FC.DEFAULT_SUBJECT" />
-		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
-	</bean>
+	<!--<bean id="dossArriveCompletFC" parent="abstractMailForInd"-->
+		<!--class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">-->
+		<!--<description>send to : à la réception du dossier complet d'un candidat FI </description>-->
+		<!--<property name="code" value="DOSS_COMPLET_FC" />-->
+		<!--<property name="defaultBody" value="MAIL.ARRIVE.COMPLET_FC.DEFAULT_BODY" />-->
+		<!--<property name="defaultSubject" value="MAIL.ARRIVE.COMPLET_FC.DEFAULT_SUBJECT" />-->
+		<!--<property name="mailExceptionMethods" ref="methodExcepGlobal" />-->
+	<!--</bean>-->
 
-	<bean id="dossArriveIncompletFC" parent="abstractMailForInd"
-		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
-		<description>send to : à la réception du dossier incomplet d'un candidat FI </description>
-		<property name="code" value="DOSS_INCOMP_FC" />
-		<property name="defaultBody" value="MAIL.ARRIVE.INCOMPLET_FC.DEFAULT_BODY" />
-		<property name="defaultSubject" value="MAIL.ARRIVE.INCOMPLET_FC.DEFAULT_SUBJECT" />
-		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
-	</bean>
+	<!--<bean id="dossArriveIncompletFC" parent="abstractMailForInd"-->
+		<!--class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">-->
+		<!--<description>send to : à la réception du dossier incomplet d'un candidat FI </description>-->
+		<!--<property name="code" value="DOSS_INCOMP_FC" />-->
+		<!--<property name="defaultBody" value="MAIL.ARRIVE.INCOMPLET_FC.DEFAULT_BODY" />-->
+		<!--<property name="defaultSubject" value="MAIL.ARRIVE.INCOMPLET_FC.DEFAULT_SUBJECT" />-->
+		<!--<property name="mailExceptionMethods" ref="methodExcepGlobal" />-->
+	<!--</bean>-->
 
 	<bean id="inscriptionAdmFI" parent="abstractMailForInd"
 		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
@@ -263,75 +263,75 @@
 		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
 	</bean>
 	
-	<bean id="inscriptionAdmFC" parent="abstractMailForInd"
-		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
-		<description>send to : à la validation d'un type de convocation menant à 
-		une inscription administrative pour un candidat FC </description>
-		<property name="code" value="INSCR_ADM_FC" />
-		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.FAV_FC.DEFAULT_BODY" />
-		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.FAV_FC.DEFAULT_SUBJECT" />
-		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
-	</bean>
+	<!--<bean id="inscriptionAdmFC" parent="abstractMailForInd"-->
+		<!--class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">-->
+		<!--<description>send to : à la validation d'un type de convocation menant à -->
+		<!--une inscription administrative pour un candidat FC </description>-->
+		<!--<property name="code" value="INSCR_ADM_FC" />-->
+		<!--<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.FAV_FC.DEFAULT_BODY" />-->
+		<!--<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.FAV_FC.DEFAULT_SUBJECT" />-->
+		<!--<property name="mailExceptionMethods" ref="methodExcepGlobal" />-->
+	<!--</bean>-->
 
-	<bean id="inscriptionAdmAppelFC" parent="abstractMailForInd"
-		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
-		<description>send to : à la validation d'un type de convocation menant à 
-		une inscription administrative pour un candidat FC </description>
-		<property name="code" value="INS_ADM_APP_FC" />
-		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.FAV_APPEL_FC.DEFAULT_BODY" />
-		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.FAV_APPEL_FC.DEFAULT_SUBJECT" />
-		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
-	</bean>
+	<!--<bean id="inscriptionAdmAppelFC" parent="abstractMailForInd"-->
+		<!--class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">-->
+		<!--<description>send to : à la validation d'un type de convocation menant à -->
+		<!--une inscription administrative pour un candidat FC </description>-->
+		<!--<property name="code" value="INS_ADM_APP_FC" />-->
+		<!--<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.FAV_APPEL_FC.DEFAULT_BODY" />-->
+		<!--<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.FAV_APPEL_FC.DEFAULT_SUBJECT" />-->
+		<!--<property name="mailExceptionMethods" ref="methodExcepGlobal" />-->
+	<!--</bean>-->
 
-	<bean id="refusedFC" parent="abstractMailForInd"
-		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
-		<description>send to : à la validation d'un type de convocation menant à 
-		un avis défavorable pour un candidat FC </description>
-		<property name="code" value="REFUSED_FC" />
-		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.REFUSED_FC.DEFAULT_BODY" />
-		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.REFUSED_FC.DEFAULT_SUBJECT" />
-		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
-	</bean>
+	<!--<bean id="refusedFC" parent="abstractMailForInd"-->
+		<!--class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">-->
+		<!--<description>send to : à la validation d'un type de convocation menant à -->
+		<!--un avis défavorable pour un candidat FC </description>-->
+		<!--<property name="code" value="REFUSED_FC" />-->
+		<!--<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.REFUSED_FC.DEFAULT_BODY" />-->
+		<!--<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.REFUSED_FC.DEFAULT_SUBJECT" />-->
+		<!--<property name="mailExceptionMethods" ref="methodExcepGlobal" />-->
+	<!--</bean>-->
 
-	<bean id="refusedAppelFC" parent="abstractMailForInd"
-		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
-		<description>send to : à la validation d'un type de convocation menant à 
-		un avis défavorable pour un candidat FC </description>
-		<property name="code" value="REFUS_APPEL_FC" />
-		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.REFUSED_APPEL_FC.DEFAULT_BODY" />
-		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.REFUSED_APPEL_FC.DEFAULT_SUBJECT" />
-		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
-	</bean>
+	<!--<bean id="refusedAppelFC" parent="abstractMailForInd"-->
+		<!--class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">-->
+		<!--<description>send to : à la validation d'un type de convocation menant à -->
+		<!--un avis défavorable pour un candidat FC </description>-->
+		<!--<property name="code" value="REFUS_APPEL_FC" />-->
+		<!--<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.REFUSED_APPEL_FC.DEFAULT_BODY" />-->
+		<!--<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.REFUSED_APPEL_FC.DEFAULT_SUBJECT" />-->
+		<!--<property name="mailExceptionMethods" ref="methodExcepGlobal" />-->
+	<!--</bean>-->
 
-	<bean id="preselectionFC" parent="abstractMailForInd"
-		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
-		<description>send to : à la validation d'un type de convocation menant à 
-		une préselection pour un candidat FC </description>
-		<property name="code" value="PRESELECTION_FC" />
-		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.PRE_FC.DEFAULT_BODY" />
-		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.PRE_FC.DEFAULT_SUBJECT" />
-		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
-	</bean>
+	<!--<bean id="preselectionFC" parent="abstractMailForInd"-->
+		<!--class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">-->
+		<!--<description>send to : à la validation d'un type de convocation menant à -->
+		<!--une préselection pour un candidat FC </description>-->
+		<!--<property name="code" value="PRESELECTION_FC" />-->
+		<!--<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.PRE_FC.DEFAULT_BODY" />-->
+		<!--<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.PRE_FC.DEFAULT_SUBJECT" />-->
+		<!--<property name="mailExceptionMethods" ref="methodExcepGlobal" />-->
+	<!--</bean>-->
 
-	<bean id="listeComplementaireFC" parent="abstractMailForInd"
-		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
-		<description>send to : à la validation d'un type de convocation menant à 
-		une liste complémentaire pour un candidat FC </description>
-		<property name="code" value="LISTE_COMP_FC" />
-		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.LC_FC.DEFAULT_BODY" />
-		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.LC_FC.DEFAULT_SUBJECT" />
-		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
-	</bean>
-	
-	<bean id="intermediaryFC" parent="abstractMailForInd"
-		class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">
-		<description>send to : À la validation d'un type de convocation
-		intermédiaire pour un candidat FC </description>
-		<property name="code" value="INTERM_FC" />
-		<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.INTERM_FC.DEFAULT_BODY" />
-		<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.INTERM_FC.DEFAULT_SUBJECT" />
-		<property name="mailExceptionMethods" ref="methodExcepGlobal" />
-	</bean>
+	<!--<bean id="listeComplementaireFC" parent="abstractMailForInd"-->
+		<!--class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">-->
+		<!--<description>send to : à la validation d'un type de convocation menant à -->
+		<!--une liste complémentaire pour un candidat FC </description>-->
+		<!--<property name="code" value="LISTE_COMP_FC" />-->
+		<!--<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.LC_FC.DEFAULT_BODY" />-->
+		<!--<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.LC_FC.DEFAULT_SUBJECT" />-->
+		<!--<property name="mailExceptionMethods" ref="methodExcepGlobal" />-->
+	<!--</bean>-->
+	<!---->
+	<!--<bean id="intermediaryFC" parent="abstractMailForInd"-->
+		<!--class="org.esupportail.opi.services.mails.MailContentWithExceptionImpl">-->
+		<!--<description>send to : À la validation d'un type de convocation-->
+		<!--intermédiaire pour un candidat FC </description>-->
+		<!--<property name="code" value="INTERM_FC" />-->
+		<!--<property name="defaultBody" value="MAIL.CANDIDAT_AVIS.INTERM_FC.DEFAULT_BODY" />-->
+		<!--<property name="defaultSubject" value="MAIL.CANDIDAT_AVIS.INTERM_FC.DEFAULT_SUBJECT" />-->
+		<!--<property name="mailExceptionMethods" ref="methodExcepGlobal" />-->
+	<!--</bean>-->
 
 	<bean id="methodExcepGlobal"
 		class="org.esupportail.opi.services.mails.MailExceptionMethods">

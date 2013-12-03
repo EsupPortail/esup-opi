@@ -514,7 +514,6 @@
         <property name="intermediary" ref="intermediary"/>
         <property name="listeComplementaire" ref="listeComplementaire"/>
         <property name="printOpinionController" ref="printOpinionController"/>
-        <property name="infoValidWishesFC" ref="infoValidWishesFC"/>
         <property name="commissionController" ref="commissionController"/>
     </bean>
 

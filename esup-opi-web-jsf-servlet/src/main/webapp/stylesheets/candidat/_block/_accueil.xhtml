@@ -51,35 +51,6 @@
                         <h:outputText value="#{etatController.showEtatCurrentInd()}"/>
                     </h:panelGrid>
                 </div>
-                <ui:fragment rendered="#{sessionController.currentInd.managerAsRightsToUpdate and sessionController.canUpdateRI}">
-                    <div id="blockRegInsc" class="blockForm">
-                        <div style="width:100%;">
-                            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-                                         styleClass="tableJustWidthMax">
-                                <h:outputText value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"
-                                              styleClass="section-smallTitle"/>
-                                <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-                                                 action="#{individuController.modifyRegimeInscription}"/>
-                            </h:panelGrid>
-                        </div>
-                        <h:panelGrid columns="2" styleClass="tableWidthMax"
-                                     columnClasses="col1UnDemi,col1UnDemi">
-                            <h:panelGroup>
-                                <h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION.SELECT']}"
-                                               for="regimeInscription"/>
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                <p:selectOneMenu id="regimeInscription"
-                                                 converter="#{regimeInscriptionConverter}"
-                                                 value="#{sessionController.currentInd.regimeInscription}">
-                                    <f:selectItems value="#{nomenclatureController.regimeInscriptionsItemsConv}"/>
-                                </p:selectOneMenu>
-                            </h:panelGroup>
-                        </h:panelGrid>
-                        <br/>
-                        <br/>
-                    </div>
-                </ui:fragment>
                 <ui:fragment
                     rendered="#{not empty formulairesController.indSelectedForms and not sessionController.currentInd.hideMessageInfoForm}">
                     <div class="blockImportant">

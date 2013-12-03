@@ -166,8 +166,8 @@ div.paginator li.currentpage input{
 }
 
 .oneLine {
-    height: 30px !important;
-    vertical-align: middle !important;
+    padding-top: 9px;
+    padding-bottom: 8px;
 }
 
 .oneLineWrapper tr {

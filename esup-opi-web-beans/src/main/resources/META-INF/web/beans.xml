@@ -96,61 +96,61 @@
 		scope="singleton">
 		<property name="controlField" ref="controlFieldFC"/>
 		<property name="i18nService" ref="i18nService"/>
-		<property name="createDossier" ref="createDosIndFC"/>
-		<property name="confirmInscription" ref="confirmInscriptionFC"/>
-		<property name="rappelNumDoss" ref="rappelNumDossFC"/>
-		<property name="dossArriveComplet" ref="dossArriveCompletFC"/>
-		<property name="dossArriveIncomplet" ref="dossArriveIncompletFC"/>
-		<property name="mailAddCursusScol" ref="addCursusScolFC"/>
-		<property name="mailAddWishesAS" ref="addWishesASFC"/>
-		<property name="mailAddWishesTRVA" ref="addWishesASFC"/>
-		<property name="mailTypeConvoc">
-			<map>
-				<entry>
-					<key>
-						<ref bean="inscriptionAdm"/>
-					</key>
-					<list>
-						<ref bean="inscriptionAdmMailFC"/>
-						<ref bean="inscriptionAdmMailAppelFC"/>
-					</list>
-				</entry>
-				<entry>
-					<key>
-						<ref bean="refused"/>
-					</key>
-					<list>
-						<ref bean="refusedMailFC"/>
-						<ref bean="refusedMailAppelFC"/>
-					</list>
-				</entry>
-				<entry>
-					<key>
-						<ref bean="preselection"/>
-					</key>
-					<list>
-						<ref bean="preselectionMailFC"/>
-					</list>
-				</entry>
-				<entry>
-					<key>
-						<ref bean="listeComplementaire"/>
-					</key>
-					<list>
-						<ref bean="listeComplementaireMailFC"/>
-					</list>
-				</entry>
-				<entry>
-					<key>
-						<ref bean="intermediary"/>
-					</key>
-					<list>
-						<ref bean="intermediaryMailFC"/>
-					</list>
-				</entry>
-			</map>
-		</property>
-		
+		<!--<property name="createDossier" ref="createDosIndFC"/>-->
+		<!--<property name="confirmInscription" ref="confirmInscriptionFC"/>-->
+		<!--<property name="rappelNumDoss" ref="rappelNumDossFC"/>-->
+		<!--<property name="dossArriveComplet" ref="dossArriveCompletFC"/>-->
+		<!--<property name="dossArriveIncomplet" ref="dossArriveIncompletFC"/>-->
+		<!--<property name="mailAddCursusScol" ref="addCursusScolFC"/>-->
+		<!--<property name="mailAddWishesAS" ref="addWishesASFC"/>-->
+		<!--<property name="mailAddWishesTRVA" ref="addWishesASFC"/>-->
+		<!--<property name="mailTypeConvoc">-->
+			<!--<map>-->
+				<!--<entry>-->
+					<!--<key>-->
+						<!--<ref bean="inscriptionAdm"/>-->
+					<!--</key>-->
+					<!--<list>-->
+						<!--<ref bean="inscriptionAdmMailFC"/>-->
+						<!--<ref bean="inscriptionAdmMailAppelFC"/>-->
+					<!--</list>-->
+				<!--</entry>-->
+				<!--<entry>-->
+					<!--<key>-->
+						<!--<ref bean="refused"/>-->
+					<!--</key>-->
+					<!--<list>-->
+						<!--<ref bean="refusedMailFC"/>-->
+						<!--<ref bean="refusedMailAppelFC"/>-->
+					<!--</list>-->
+				<!--</entry>-->
+				<!--<entry>-->
+					<!--<key>-->
+						<!--<ref bean="preselection"/>-->
+					<!--</key>-->
+					<!--<list>-->
+						<!--<ref bean="preselectionMailFC"/>-->
+					<!--</list>-->
+				<!--</entry>-->
+				<!--<entry>-->
+					<!--<key>-->
+						<!--<ref bean="listeComplementaire"/>-->
+					<!--</key>-->
+					<!--<list>-->
+						<!--<ref bean="listeComplementaireMailFC"/>-->
+					<!--</list>-->
+				<!--</entry>-->
+				<!--<entry>-->
+					<!--<key>-->
+						<!--<ref bean="intermediary"/>-->
+					<!--</key>-->
+					<!--<list>-->
+						<!--<ref bean="intermediaryMailFC"/>-->
+					<!--</list>-->
+				<!--</entry>-->
+			<!--</map>-->
+		<!--</property>-->
+
 	</bean>
 	
 	<bean id="formationInitiale" class="org.esupportail.opi.web.beans.parameters.FormationInitiale"

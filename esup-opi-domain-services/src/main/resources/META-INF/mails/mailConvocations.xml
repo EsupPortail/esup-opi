@@ -50,51 +50,51 @@
 		<property name="mailContentService" ref="intermediaryFI" />
 	</bean>
 
-	<bean id="inscriptionAdmMailFC"
-		class="org.esupportail.opi.web.beans.parameters.MailConvocation">
-		<description></description>
-		<property name="isAppel" value="false" />
-		<property name="mailContentService" ref="inscriptionAdmFC" />
-	</bean>
+	<!--<bean id="inscriptionAdmMailFC"-->
+		<!--class="org.esupportail.opi.web.beans.parameters.MailConvocation">-->
+		<!--<description></description>-->
+		<!--<property name="isAppel" value="false" />-->
+		<!--<property name="mailContentService" ref="inscriptionAdmFC" />-->
+	<!--</bean>-->
 
-	<bean id="inscriptionAdmMailAppelFC"
-		class="org.esupportail.opi.web.beans.parameters.MailConvocation">
-		<description></description>
-		<property name="isAppel" value="true" />
-		<property name="mailContentService" ref="inscriptionAdmAppelFC" />
-	</bean>
+	<!--<bean id="inscriptionAdmMailAppelFC"-->
+		<!--class="org.esupportail.opi.web.beans.parameters.MailConvocation">-->
+		<!--<description></description>-->
+		<!--<property name="isAppel" value="true" />-->
+		<!--<property name="mailContentService" ref="inscriptionAdmAppelFC" />-->
+	<!--</bean>-->
 
-	<bean id="refusedMailFC"
-		class="org.esupportail.opi.web.beans.parameters.MailConvocation">
-		<description></description>
-		<property name="isAppel" value="false" />
-		<property name="mailContentService" ref="refusedFC" />
-	</bean>
+	<!--<bean id="refusedMailFC"-->
+		<!--class="org.esupportail.opi.web.beans.parameters.MailConvocation">-->
+		<!--<description></description>-->
+		<!--<property name="isAppel" value="false" />-->
+		<!--<property name="mailContentService" ref="refusedFC" />-->
+	<!--</bean>-->
 
-	<bean id="refusedMailAppelFC"
-		class="org.esupportail.opi.web.beans.parameters.MailConvocation">
-		<description></description>
-		<property name="isAppel" value="true" />
-		<property name="mailContentService" ref="refusedAppelFC" />
-	</bean>
+	<!--<bean id="refusedMailAppelFC"-->
+		<!--class="org.esupportail.opi.web.beans.parameters.MailConvocation">-->
+		<!--<description></description>-->
+		<!--<property name="isAppel" value="true" />-->
+		<!--<property name="mailContentService" ref="refusedAppelFC" />-->
+	<!--</bean>-->
 
-	<bean id="preselectionMailFC"
-		class="org.esupportail.opi.web.beans.parameters.MailConvocation">
-		<description></description>
-		<property name="mailContentService" ref="preselectionFC" />
-	</bean>
+	<!--<bean id="preselectionMailFC"-->
+		<!--class="org.esupportail.opi.web.beans.parameters.MailConvocation">-->
+		<!--<description></description>-->
+		<!--<property name="mailContentService" ref="preselectionFC" />-->
+	<!--</bean>-->
 
-	<bean id="listeComplementaireMailFC"
-		class="org.esupportail.opi.web.beans.parameters.MailConvocation">
-		<description></description>
-		<property name="mailContentService" ref="listeComplementaireFC" />
-	</bean>
+	<!--<bean id="listeComplementaireMailFC"-->
+		<!--class="org.esupportail.opi.web.beans.parameters.MailConvocation">-->
+		<!--<description></description>-->
+		<!--<property name="mailContentService" ref="listeComplementaireFC" />-->
+	<!--</bean>-->
 
-	<bean id="intermediaryMailFC"
-		class="org.esupportail.opi.web.beans.parameters.MailConvocation">
-		<description></description>
-		<property name="mailContentService" ref="intermediaryFC" />
-	</bean>
+	<!--<bean id="intermediaryMailFC"-->
+		<!--class="org.esupportail.opi.web.beans.parameters.MailConvocation">-->
+		<!--<description></description>-->
+		<!--<property name="mailContentService" ref="intermediaryFC" />-->
+	<!--</bean>-->
 
 
 </beans>
