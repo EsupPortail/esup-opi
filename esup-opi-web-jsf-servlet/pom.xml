@@ -18,10 +18,10 @@
             </resource>
         </resources>
         <plugins>
-           <plugin>
+            <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.0.2.v20130417</version>
+                <version>9.1.0.v20131115</version>
                 <configuration>
                     <configurationDiscovered>false</configurationDiscovered>
                     <webAppConfig>
@@ -42,7 +42,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
-            
+
             <!-- OPTIMIZE RESOURCES -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -200,20 +200,15 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>1.3.2</version>
-    	</dependency>
-    	<dependency>
-        <groupId>commons-fileupload</groupId>
-        <artifactId>commons-fileupload</artifactId>
-        <version>1.2.1</version>
-    	</dependency>
-    	<dependency>
-     	<groupId>portlet-api</groupId>
-     	<artifactId>portlet-api</artifactId>
-     	<version>1.0</version>
-		</dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>portlet-api</groupId>
+            <artifactId>portlet-api</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
     <properties>
         <rewrite.version>2.0.8.Final</rewrite.version>

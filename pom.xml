@@ -25,7 +25,7 @@
 		</plugins>
 	</reporting> 
     <modules>
-        <module>esup-opi-batch</module>
+        <!--<module>esup-opi-batch</module>-->
         <module>esup-opi-dao</module>
         <module>esup-opi-utils</module>
         <module>esup-opi-domain-beans</module>
@@ -300,7 +300,7 @@
         <esupcommons.version>0.3.2</esupcommons.version>
         <spring.version>3.2.2.RELEASE</spring.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!--Test propoerties-->
+        <!--Test properties-->
         <mockito.version>1.9.5</mockito.version>
         <site.url>file:///tmp/esup-opi/docs</site.url>
     </properties>

@@ -1,10 +1,14 @@
 package org.esupportail.opi.web.controllers.opinions;
 
 import fj.F;
+import fj.P1;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
+import org.esupportail.opi.domain.DomainApoService;
+import org.esupportail.opi.domain.DomainService;
+import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.beans.parameters.*;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
@@ -20,26 +24,27 @@ import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.beanEnum.WayfEnum;
 import org.esupportail.opi.web.beans.paginator.IndividuPaginator;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
-import org.esupportail.opi.web.beans.pojo.AvisPojo;
-import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
-import org.esupportail.opi.web.beans.pojo.IndividuPojo;
-import org.esupportail.opi.web.beans.pojo.NomenclaturePojo;
+import org.esupportail.opi.web.beans.pojo.*;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorDate;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractAccessController;
+import org.esupportail.opi.web.controllers.SessionController;
 import org.esupportail.opi.web.controllers.parameters.NomenclatureController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
 import org.esupportail.opi.web.controllers.user.IndividuController;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
+import org.esupportail.opi.web.utils.paginator.PaginationFunctions;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import java.util.*;
 
+import static fj.data.Array.array;
 import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatArriveComplet;
 import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
+import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
 
 /**
@@ -56,9 +61,6 @@ public class OpinionController
      * A logger.
      */
     private final Logger log = new LoggerImpl(getClass());
-
-	/*
-     ******************* PROPERTIES ******************* */
 
     /**
      * The actionEnum.
@@ -160,7 +162,53 @@ public class OpinionController
 
     private Map<VersionEtpOpi, List<Integer>> mapTestRang = new HashMap<>();
 
-    private LazyDataModel<IndividuPojo> indPojoLDM;
+    private IndRechPojo indRechPojo = new IndRechPojo() {{
+        setUseGestCommsFilter(true);
+        setUseTypeTrtFilter(true);
+        setUseVoeuFilter(true);
+        setTypeTraitements(array(new ValidationAcquis(), new AccesSelectif()).toCollection());
+    }};
+
+    private final F<IndividuPojo, IndividuPojo> setIndPojoAttrs = new F<IndividuPojo, IndividuPojo>() {
+        public IndividuPojo f(IndividuPojo iPojo) {
+            iPojo.setIsUsingLC(isUsingLC);
+            iPojo.setIsUsingDEF(isUsingDEF);
+            for (IndVoeuPojo voeuPojo : iPojo.getIndVoeuxPojo()) {
+                Avis a = new Avis();
+                voeuPojo.setNewAvis(a);
+                voeuPojo.setIsUsingLC(isUsingLC);
+                voeuPojo.setIsUsingDEF(isUsingDEF);
+                if (isUsingPreselect) {
+                    // cas de la selection de la preselection
+                    //charge le commentaire
+                    TraitementCmi t = voeuPojo.getIndVoeu().getLinkTrtCmiCamp().getTraitementCmi();
+                    if (t.getSelection() != null)
+                        voeuPojo.getNewAvis().setCommentaire(t.getSelection().getComment());
+                }
+            }
+            return iPojo;
+        }
+    };
+
+    private final LazyDataModel<IndividuPojo> indPojoLDM = lazyModel(
+            PaginationFunctions.getData(
+                    new P1<SessionController>() {
+                        public SessionController _1() { return getSessionController(); }
+                    },
+                    new P1<DomainService>() {
+                        public DomainService _1() { return getDomainService(); }
+                    },
+                    new P1<DomainApoService>() {
+                        public DomainApoService _1() { return getDomainApoService(); }
+                    },
+                    new P1<ParameterService>() {
+                        public ParameterService _1() { return getParameterService(); }
+                    },
+                    new P1<IndRechPojo>() {
+                        public IndRechPojo _1() { return indRechPojo; }
+                    }),
+            PaginationFunctions.findByRowKey)
+            .map(individuToPojo(getDomainApoService(), getParameterService()).andThen(setIndPojoAttrs));
 
     private boolean renderTable;
 
@@ -205,33 +253,8 @@ public class OpinionController
         Assert.notNull(this.inscriptionAdm,
                 "property inscriptionAdm of class " + this.getClass().getName()
                         + canNotBeNull);
-
-        indPojoLDM = individuController.getIndLDM().map(individuToPojo(
-                getDomainApoService(), getParameterService()).andThen(setIndPojoAttrs));
-
         reset();
     }
-
-    private final F<IndividuPojo, IndividuPojo> setIndPojoAttrs = new F<IndividuPojo, IndividuPojo>() {
-        public IndividuPojo f(IndividuPojo iPojo) {
-            iPojo.setIsUsingLC(isUsingLC);
-            iPojo.setIsUsingDEF(isUsingDEF);
-            for (IndVoeuPojo voeuPojo : iPojo.getIndVoeuxPojo()) {
-                Avis a = new Avis();
-                voeuPojo.setNewAvis(a);
-                voeuPojo.setIsUsingLC(isUsingLC);
-                voeuPojo.setIsUsingDEF(isUsingDEF);
-                if (isUsingPreselect) {
-                    // cas de la selection de la preselection
-                    //charge le commentaire
-                    TraitementCmi t = voeuPojo.getIndVoeu().getLinkTrtCmiCamp().getTraitementCmi();
-                    if (t.getSelection() != null)
-                        voeuPojo.getNewAvis().setCommentaire(t.getSelection().getComment());
-                }
-            }
-            return iPojo;
-        }
-    };
 
     /**
      * Callback to list of student for the gestion of the opinions.
@@ -338,27 +361,24 @@ public class OpinionController
             addInfoMessage(null, "AVIS.INFO.TYP_DEC.NOT_SELECT");
         else {
             //Stockage des indVoeuPojo en erreur pour les reediter dans le formulaire
-            Set<IndVoeuPojo> voeuxInError = new HashSet<IndVoeuPojo>();
+            Set<IndVoeuPojo> voeuxInError = new HashSet<>();
             mapTestRang.clear();
             Boolean isRefused = selectedTypeDec.getIsFinal()
                     && selectedTypeDec.getCodeTypeConvocation().equals(refused.getCode());
 
-            Map<Integer, IndVoeuPojo> mapIndVoeuPojoNewAvis = new HashMap<Integer, IndVoeuPojo>();
+            Map<Integer, IndVoeuPojo> mapIndVoeuPojoNewAvis = new HashMap<>();
             //Récupération de tous les nouveaus avis
-            for (List<IndVoeuPojo> li : wishSelected.values()) {
+            for (List<IndVoeuPojo> li : wishSelected.values())
                 for (IndVoeuPojo iPojo : li)
                     mapIndVoeuPojoNewAvis.put(iPojo.getIndVoeu().getId(), iPojo);
-            }
             //Ajout des nouveaux avis
 //			for (Integer idIndVoeu : mapIndVoeuPojoNewAvis.keySet()) {
             for (Map.Entry<Integer, IndVoeuPojo> idIndVoeu : mapIndVoeuPojoNewAvis.entrySet()) {
                 IndVoeuPojo iVoeuPojo = idIndVoeu.getValue();
                 iVoeuPojo.getNewAvis().setResult(selectedTypeDec);
-                Boolean goodAdd = add(iVoeuPojo.getIndVoeu(),
-                        iVoeuPojo.getNewAvis(), mapIndVoeuPojoNewAvis);
-                if (!goodAdd && isRefused) {
-                    voeuxInError.add(iVoeuPojo);
-                }
+                Boolean goodAdd =
+                        add(iVoeuPojo.getIndVoeu(), iVoeuPojo.getNewAvis(), mapIndVoeuPojoNewAvis);
+                if (!goodAdd && isRefused) voeuxInError.add(iVoeuPojo);
             }
 
             // on memorise selectedTypeDec
@@ -370,7 +390,7 @@ public class OpinionController
                 for (IndVoeuPojo iPojo : voeuxInError) {
                     Individu ind = iPojo.getIndVoeu().getIndividu();
                     List<IndVoeuPojo> li = wishSelected.get(ind);
-                    if (li == null) li = new ArrayList<IndVoeuPojo>();
+                    if (li == null) li = new ArrayList<>();
                     li.add(iPojo);
                     wishSelected.put(ind, li);
                 }
@@ -381,11 +401,9 @@ public class OpinionController
             // apres le reset, on recupere selectedTypeDec
             selectedTypeDec = saveTypeDec;
             selectTypeDecision();
-            if (log.isDebugEnabled()) {
-                log.debug("leaving saveAll");
-            }
+            if (log.isDebugEnabled()) log.debug("leaving saveAll");
             //7468 Pbs saisie résultat résultat défavorable (oubli de la motivation)
-            wishSelected = new HashMap<Individu, List<IndVoeuPojo>>();
+            wishSelected = new HashMap<>();
         }
     }
 
@@ -495,10 +513,8 @@ public class OpinionController
      * Method to the choice the proposition.
      */
     public void addProposition() {
-        final IndividuPaginator individuPaginator = individuController.getIndividuPaginator();
-        if (individuPaginator.getIndRechPojo().getIdCmi() != null) {
-            Commission c = getParameterService().getCommission(
-                    individuPaginator.getIndRechPojo().getIdCmi(), null);
+        if (indRechPojo.getIdCmi() != null) {
+            Commission c = getParameterService().getCommission(indRechPojo.getIdCmi(), null);
             commissionController.initAllTraitementCmi(c);
         }
         actionEnum.setWhatAction(ActionEnum.PROPOSITION_ACTION);
@@ -651,14 +667,12 @@ public class OpinionController
      * TODO : Rename that method
      */
     public void searchStudents() {
-        final IndividuPaginator individuPaginator = individuController.getIndividuPaginator();
-        List<TypeDecision> types = individuPaginator.getIndRechPojo().getTypesDec();
-        Integer codeCommRech = individuPaginator.getIndRechPojo().getIdCmi();
-        Integer codeTrtCmiRech = individuPaginator.getIndRechPojo().getCodeTrtCmiRecherchee();
-        if (!types.isEmpty() && types.get(0).getCode().equals(listeComplementaire.getCode())
-                && (codeCommRech == null || codeTrtCmiRech == null)) {
+        final List<TypeDecision> types = indRechPojo.getTypesDec();
+        final Integer codeCommRech = indRechPojo.getIdCmi();
+        final Integer codeTrtCmiRech = indRechPojo.getCodeTrtCmiRecherchee();
+        if (!types.isEmpty() && types.get(0).getCode().equals(listeComplementaire.getCode()) &&
+                (codeCommRech == null || codeTrtCmiRech == null))
             addInfoMessage(null, "AVIS.INFO.LISTE_COMP");
-        }
     }
 
     /**
@@ -667,16 +681,14 @@ public class OpinionController
      * TODO : Rename that method
      */
     public void searchStudentsByTypeDec() {
-        final IndividuPaginator individuPaginator = individuController.getIndividuPaginator();
-        individuPaginator.getIndRechPojo().setCodeTrtCmiRecherchee(null);
+        indRechPojo.setCodeTrtCmiRecherchee(null);
         searchStudents();
-        List<TypeDecision> types = individuPaginator.getIndRechPojo().getTypesDec();
-        Integer codeCommRech = individuPaginator.getIndRechPojo().getIdCmi();
-        if (!types.isEmpty() && types.get(0).getCode().equals(listeComplementaire.getCode())
-                && codeCommRech != null) {
-            commissionController.initAllTraitementCmi(
-                    getParameterService().getCommission(codeCommRech, null));
-        }
+        final List<TypeDecision> types = indRechPojo.getTypesDec();
+        final Integer codeCommRech = indRechPojo.getIdCmi();
+        if (!types.isEmpty() &&
+                types.get(0).getCode().equals(listeComplementaire.getCode()) &&
+                codeCommRech != null)
+            commissionController.initAllTraitementCmi(getParameterService().getCommission(codeCommRech, null));
     }
 
     /**
@@ -685,16 +697,14 @@ public class OpinionController
      * TODO : Rename that method
      */
     public void searchStudentsByComm() {
-        final IndividuPaginator individuPaginator = individuController.getIndividuPaginator();
-        individuPaginator.getIndRechPojo().setCodeTrtCmiRecherchee(null);
+        indRechPojo.setCodeTrtCmiRecherchee(null);
         searchStudents();
-        List<TypeDecision> types = individuPaginator.getIndRechPojo().getTypesDec();
-        Integer codeCommRech = individuPaginator.getIndRechPojo().getIdCmi();
-        if (!types.isEmpty() && types.get(0).getCode().equals(listeComplementaire.getCode())
-                && codeCommRech != null) {
-            commissionController.initAllTraitementCmi(
-                    getParameterService().getCommission(codeCommRech, null));
-        }
+        final List<TypeDecision> types = indRechPojo.getTypesDec();
+        final Integer codeCommRech = indRechPojo.getIdCmi();
+        if (!types.isEmpty() &&
+                types.get(0).getCode().equals(listeComplementaire.getCode()) &&
+                codeCommRech != null)
+            commissionController.initAllTraitementCmi(getParameterService().getCommission(codeCommRech, null));
     }
 
     /**
@@ -752,7 +762,6 @@ public class OpinionController
                 }
                 ctrlOk = false;
             } else if (mapIndVoeuPojoNewAvis != null) {
-//				for (Integer idVoeuPojo : mapIndVoeuPojoNewAvis.keySet()) {
                 for (Map.Entry<Integer, IndVoeuPojo> idIndVoeu : mapIndVoeuPojoNewAvis.entrySet()) {
                     IndVoeuPojo voeuPojo = idIndVoeu.getValue();
                     VersionEtpOpi etpVoeuNewAvis = voeu.getLinkTrtCmiCamp().
@@ -775,15 +784,6 @@ public class OpinionController
                 }
             }
         }
-        //		if (selectMotiv.equals(MOTIV) && selectedMotivation == null) {
-        //			addErrorMessage(null, Constantes.I18N_EMPTY, getString("AVIS.MOTIVATION"));
-        //			ctrlOk = false;
-        //		} else {
-        //			if (selectMotiv.equals(COMMENTAIRE) && !StringUtils.hasText(avis.getCommentaire())) {
-        //				addErrorMessage(null, Constantes.I18N_EMPTY, getString("AVIS.COMMENTAIRE"));
-        //				ctrlOk = false;
-        //			}
-        //		}
         return ctrlOk;
     }
 
@@ -804,7 +804,7 @@ public class OpinionController
 
     public List<Integer> getListRangForCodEtp(final VersionEtpOpi vet, final Avis avisUpdate) {
         if (!mapTestRang.containsKey(vet)) {
-            List<Integer> listRangAvis = new ArrayList<Integer>();
+            List<Integer> listRangAvis = new ArrayList<>();
             for (Avis avis : getDomainService().getAvisByEtp(vet.getCodEtp(), vet.getCodVrsVet())) {
                 boolean avisNotValid = avis.getResult().getCodeTypeConvocation().equals(
                         listeComplementaire.getCode())
@@ -838,9 +838,8 @@ public class OpinionController
      *         false sinon
      */
     public Boolean getIsFilterLCAndCommissionOK() {
-        final IndividuPaginator individuPaginator = individuController.getIndividuPaginator();
-        final List<TypeDecision> types = individuPaginator.getIndRechPojo().getTypesDec();
-        final Integer codeCommRech = individuPaginator.getIndRechPojo().getIdCmi();
+        final List<TypeDecision> types = indRechPojo.getTypesDec();
+        final Integer codeCommRech = indRechPojo.getIdCmi();
         return !types.isEmpty() &&
                 types.get(0).getCode().equals(listeComplementaire.getCode()) &&
                 codeCommRech != null;
@@ -852,18 +851,17 @@ public class OpinionController
      *         null sinon
      */
     public Set<VersionEtapeDTO> getVersionsEtapeForLCAndCommission() {
-        Set<VersionEtapeDTO> vetComm = new TreeSet<VersionEtapeDTO>(
-                new ComparatorString(VersionEtapeDTO.class));
-        final IndividuPaginator individuPaginator = individuController.getIndividuPaginator();
-        final List<TypeDecision> types = individuPaginator.getIndRechPojo().getTypesDec();
-        final Integer codeCommRech = individuPaginator.getIndRechPojo().getIdCmi();
-        if (!types.isEmpty() && types.get(0).getCode().equals(listeComplementaire.getCode())
-                && codeCommRech != null) {
+        Set<VersionEtapeDTO> vetComm = new TreeSet<>(new ComparatorString(VersionEtapeDTO.class));
+        final List<TypeDecision> types = indRechPojo.getTypesDec();
+        final Integer codeCommRech = indRechPojo.getIdCmi();
+        if (!types.isEmpty() &&
+                types.get(0).getCode().equals(listeComplementaire.getCode()) &&
+                codeCommRech != null) {
             Commission comm = getParameterService().getCommission(codeCommRech, null);
             for (TraitementCmi trait : comm.getTraitementCmi()) {
-                VersionEtpOpi vetOPI = trait.getVersionEtpOpi();
-                VersionEtapeDTO vetDTO = getDomainApoService().getVersionEtape(
-                        vetOPI.getCodEtp(), vetOPI.getCodVrsVet());
+                final VersionEtpOpi vetOPI = trait.getVersionEtpOpi();
+                final VersionEtapeDTO vetDTO =
+                        getDomainApoService().getVersionEtape(vetOPI.getCodEtp(), vetOPI.getCodVrsVet());
                 vetComm.add(vetDTO);
             }
             return vetComm;
@@ -876,7 +874,7 @@ public class OpinionController
      */
     public List<AvisPojo> getListAvisPojo() {
         List<Avis> listAvis = getDomainService().getAvis(indVoeuxPojo.getIndVoeu());
-        listAvisPojo = new ArrayList<AvisPojo>();
+        listAvisPojo = new ArrayList<>();
         for (Avis a : listAvis) {
             listAvisPojo.add(new AvisPojo(a));
             if (a.getResult().getCodeTypeConvocation()
@@ -889,136 +887,78 @@ public class OpinionController
     }
 
 
-    /**
-     * @return the actionEnum
-     */
     public ActionEnum getActionEnum() {
         return actionEnum;
     }
 
-    /**
-     * @param actionEnum the actionEnum to set
-     */
     public void setActionEnum(final ActionEnum actionEnum) {
         this.actionEnum = actionEnum;
     }
 
-
-    /**
-     * @return the wayfEnum
-     */
     public WayfEnum getWayfEnum() {
         return wayfEnum;
     }
 
-    /**
-     * @param wayfEnum the wayfEnum to set
-     */
     public void setWayfEnum(final WayfEnum wayfEnum) {
         this.wayfEnum = wayfEnum;
     }
 
-    /**
-     * @return the indVoeuxPojo
-     */
     public IndVoeuPojo getIndVoeuxPojo() {
         return indVoeuxPojo;
     }
 
-    /**
-     * @param indVoeuxPojo the indVoeuxPojo to set
-     */
     public void setIndVoeuxPojo(final IndVoeuPojo indVoeuxPojo) {
         this.indVoeuxPojo = indVoeuxPojo;
     }
 
-    /**
-     * @return the avis
-     */
     public Avis getAvis() {
         return avis;
     }
 
-    /**
-     * @param avis the avis to set
-     */
     public void setAvis(final Avis avis) {
         this.avis = avis;
     }
 
-    /**
-     * @return the selectedTypeDec
-     */
     public TypeDecision getSelectedTypeDec() {
         return selectedTypeDec;
     }
 
-    /**
-     * @param selectedTypeDec the selectedTypeDec to set
-     */
     public void setSelectedTypeDec(final TypeDecision selectedTypeDec) {
         this.selectedTypeDec = selectedTypeDec;
     }
 
-    /**
-     * @return the idSelectedMotiv
-     */
     public Integer getIdSelectedMotiv() {
         return idSelectedMotiv;
     }
 
-    /**
-     * @param idSelectedMotiv the idSelectedMotiv to set
-     */
     public void setIdSelectedMotiv(final Integer idSelectedMotiv) {
         this.idSelectedMotiv = idSelectedMotiv;
     }
 
-    /**
-     * @return the selectedMotivation
-     */
     public NomenclaturePojo getSelectedMotivation() {
         return selectedMotivation;
     }
 
-    /**
-     * @return the idSelectedComm
-     */
     public Integer getIdSelectedComm() {
         return idSelectedComm;
     }
 
-    /**
-     * @param idSelectedComm the idSelectedComm to set
-     */
     public void setIdSelectedComm(final Integer idSelectedComm) {
         this.idSelectedComm = idSelectedComm;
     }
 
-    /**
-     * @return the nomenclatureController
-     */
     public NomenclatureController getNomenclatureController() {
         return nomenclatureController;
     }
 
-    /**
-     * @param nomenclature the nomenclatureController to set
-     */
     public void setNomenclatureController(final NomenclatureController nomenclature) {
         this.nomenclatureController = nomenclature;
     }
 
-    /**
-     * @return the commissionController
-     */
     public CommissionController getCommissionController() {
         return commissionController;
     }
 
-    /**
-     * @param commissionController the commissionController to set
-     */
     public void setCommissionController(final CommissionController commissionController) {
         this.commissionController = commissionController;
     }
@@ -1033,11 +973,9 @@ public class OpinionController
 
     /**
      * FIXME : Or not ? A hack to comply with jsf
-     *
-     * @return the wishSelected
      */
     public Set<Integer> getWishSelected() {
-        Set<Integer> svp = new HashSet<Integer>();
+        Set<Integer> svp = new HashSet<>();
         for (List<IndVoeuPojo> li : wishSelected.values())
             for (IndVoeuPojo ivp : li)
                 svp.add(ivp.getIndVoeu().getId());
@@ -1054,50 +992,32 @@ public class OpinionController
                     if (id.equals(ivp.getIndVoeu().getId())) {
                         Individu ind = ivp.getIndVoeu().getIndividu();
                         List<IndVoeuPojo> vals = wishSelected.get(ind);
-                        if (vals == null) vals = new ArrayList<IndVoeuPojo>();
+                        if (vals == null) vals = new ArrayList<>();
                         vals.add(ivp);
                         wishSelected.put(ind, vals);
                     }
     }
 
-    /**
-     * @return the allChecked
-     */
     public Boolean getAllChecked() {
         return allChecked;
     }
 
-    /**
-     * @param allChecked the allChecked to set
-     */
     public void setAllChecked(final Boolean allChecked) {
         this.allChecked = allChecked;
     }
 
-    /**
-     * @param refused the refused to set
-     */
     public void setRefused(final Refused refused) {
         this.refused = refused;
     }
 
-    /**
-     * @param preSelection the preSelection to set
-     */
     public void setPreSelection(final Preselection preSelection) {
         this.preSelection = preSelection;
     }
 
-    /**
-     * @param listeComplementaire the listeComplementaire to set
-     */
     public void setListeComplementaire(final ListeComplementaire listeComplementaire) {
         this.listeComplementaire = listeComplementaire;
     }
 
-    /**
-     * @param inscriptionAdm the inscriptionAdm to set
-     */
     public void setInscriptionAdm(final InscriptionAdm inscriptionAdm) {
         this.inscriptionAdm = inscriptionAdm;
     }
@@ -1114,47 +1034,32 @@ public class OpinionController
         this.renderTable = true;
     }
 
-    /**
-     * @return the isUsingLC
-     */
     public Boolean getIsUsingLC() {
         return isUsingLC;
     }
 
-    /**
-     * @param isUsingLC the isUsingLC to set
-     */
     public void setIsUsingLC(final Boolean isUsingLC) {
         this.isUsingLC = isUsingLC;
     }
 
-    /**
-     * @return the isUsingDEF
-     */
     public Boolean getIsUsingDEF() {
         return isUsingDEF;
     }
 
-    /**
-     * @param isUsingDEF the isUsingDEF to set
-     */
     public void setIsUsingDEF(final Boolean isUsingDEF) {
         this.isUsingDEF = isUsingDEF;
     }
 
-    /**
-     * @return the isUsingPreselect
-     */
     public Boolean getIsUsingPreselect() {
         return isUsingPreselect;
     }
 
-    /**
-     * @param isUsingPreselect the isUsingPreselect to set
-     */
     public void setIsUsingPreselect(final Boolean isUsingPreselect) {
         this.isUsingPreselect = isUsingPreselect;
     }
 
+    public IndRechPojo getIndRechPojo() {
+        return indRechPojo;
+    }
 }
 

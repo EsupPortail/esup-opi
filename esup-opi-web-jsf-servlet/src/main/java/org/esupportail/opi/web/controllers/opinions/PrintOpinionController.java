@@ -1,7 +1,7 @@
 package org.esupportail.opi.web.controllers.opinions;
 
 import fj.F;
-import fj.data.Array;
+import fj.P1;
 import fj.data.Option;
 import fj.data.Stream;
 import gouv.education.apogee.commun.transverse.dto.geographie.communedto.CommuneDTO;
@@ -10,6 +10,9 @@ import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
+import org.esupportail.opi.domain.DomainApoService;
+import org.esupportail.opi.domain.DomainService;
+import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.beans.parameters.InscriptionAdm;
 import org.esupportail.opi.domain.beans.parameters.Refused;
 import org.esupportail.opi.domain.beans.parameters.Transfert;
@@ -35,12 +38,14 @@ import org.esupportail.opi.web.beans.utils.PDFUtils;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
+import org.esupportail.opi.web.controllers.SessionController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
 import org.esupportail.opi.web.controllers.user.CursusController;
 import org.esupportail.opi.web.controllers.user.IndividuController;
 import org.esupportail.opi.web.utils.MiscUtils;
 import org.esupportail.opi.web.utils.io.SuperCSV;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
+import org.esupportail.opi.web.utils.paginator.PaginationFunctions;
 import org.esupportail.wssi.services.remote.BacOuxEqu;
 import org.esupportail.wssi.services.remote.Pays;
 import org.esupportail.wssi.services.remote.SignataireDTO;
@@ -66,7 +71,6 @@ import static fj.P.p;
 import static fj.data.Array.iterableArray;
 import static fj.data.IterableW.wrap;
 import static fj.data.Option.fromNull;
-import static fj.data.Option.none;
 import static fj.data.Option.some;
 import static fj.data.Stream.iterableStream;
 import static fj.function.Booleans.not;
@@ -76,6 +80,7 @@ import static org.esupportail.opi.web.utils.fj.Predicates.indWithVoeux;
 import static org.esupportail.opi.web.utils.fj.Predicates.typeTrtEquals;
 import static org.esupportail.opi.web.utils.fj.parallel.ParallelModule.parMod;
 import static org.esupportail.opi.web.utils.io.SuperCSV.*;
+import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
 
 public class PrintOpinionController extends AbstractContextAwareController {
@@ -183,7 +188,38 @@ public class PrintOpinionController extends AbstractContextAwareController {
 
     private IndividuPojo individuPojoSelected;
 
-    private LazyDataModel<IndividuPojo> indPojoLDM;
+    private IndRechPojo indRechPojo = new IndRechPojo();
+
+    private final LazyDataModel<IndividuPojo> indPojoLDM = lazyModel(
+            PaginationFunctions.getData(
+                    new P1<SessionController>() {
+                        public SessionController _1() {
+                            return getSessionController();
+                        }
+                    },
+                    new P1<DomainService>() {
+                        public DomainService _1() {
+                            return getDomainService();
+                        }
+                    },
+                    new P1<DomainApoService>() {
+                        public DomainApoService _1() {
+                            return getDomainApoService();
+                        }
+                    },
+                    new P1<ParameterService>() {
+                        public ParameterService _1() {
+                            return getParameterService();
+                        }
+                    },
+                    new P1<IndRechPojo>() {
+                        public IndRechPojo _1() {
+                            return indRechPojo;
+                        }
+                    }),
+            PaginationFunctions.findByRowKey)
+            .map(individuToPojo(getDomainApoService(), getParameterService()));
+
 
     private boolean renderTable;
 
@@ -197,16 +233,16 @@ public class PrintOpinionController extends AbstractContextAwareController {
         commissionController.reset();
         this.resultSelected = new Object[0];
         this.commissionsSelected = new Object[0];
-        this.lesIndividus = new ArrayList<IndividuPojo>();
-        champsDispos = new ArrayList<String>();
-        List<String> lChampschoisis = new ArrayList<String>();
+        this.lesIndividus = new ArrayList<>();
+        champsDispos = new ArrayList<>();
+        List<String> lChampschoisis = new ArrayList<>();
         for (String champs : HEADER_CVS) {
             champsDispos.add(champs);
             lChampschoisis.add(champs);
         }
         champsChoisis = lChampschoisis.toArray(new String[lChampschoisis.size()]);
         this.allChecked = false;
-        this.pdfData = new HashMap<Commission, List<NotificationOpinion>>();
+        this.pdfData = new HashMap<>();
         this.actionEnum = new ActionEnum();
         renderTable = false;
     }
@@ -223,9 +259,6 @@ public class PrintOpinionController extends AbstractContextAwareController {
         Assert.notNull(this.exportFormOrbeonController,
                 "property exportFormOrbeonController of class " + this.getClass().getName()
                         + " can not be null");
-
-        indPojoLDM = individuController.getIndLDM().map(
-                individuToPojo(getDomainApoService(), getParameterService()));
 
         reset();
     }
@@ -260,11 +293,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
      * call in printOpinions.jsp
      */
     public void seeCandidats() {
-        makeAllIndividus(some(
-                individuController
-                        .getIndividuPaginator()
-                        .getIndRechPojo()
-                        .getSelectValid()));
+        makeAllIndividus(some(indRechPojo.getSelectValid()));
     }
 
     /**
@@ -272,11 +301,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
      * call in printOpinions.jsp
      */
     public void printPDFValidation() {
-        makeAllIndividus(some(
-                individuController
-                        .getIndividuPaginator()
-                        .getIndRechPojo()
-                        .getSelectValid()));
+        makeAllIndividus(some(indRechPojo.getSelectValid()));
         makePDFValidation();
         this.lesIndividus = new ArrayList<>();
     }
@@ -290,12 +315,12 @@ public class PrintOpinionController extends AbstractContextAwareController {
         final String fileNameSuffix = ".csv";
         // list of indivius from the commission selected
         // with an opinion not validate
-        Integer idCmi = individuController.getIndividuPaginator().getIndRechPojo().getIdCmi();
+        Integer idCmi = indRechPojo.getIdCmi();
         if (idCmi != null) {
             Commission cmi = retrieveOSIVCommission(idCmi, null);
             this.commissionController.setCommission(cmi);
-            Boolean selectValid = individuController.getIndividuPaginator().getIndRechPojo().getSelectValid();
-            generateCSVListes(
+            Boolean selectValid = indRechPojo.getSelectValid();
+            writeCSVListes(
                     cmi,
                     getIndividus(cmi, some(selectValid), not(typeTrtEquals(transfert))),
                     fileNamePrefix,
@@ -308,10 +333,8 @@ public class PrintOpinionController extends AbstractContextAwareController {
      * call in printOpinions.jsp
      */
     public void makeCsvFormulaire() {
-        IndRechPojo pojo = individuController.getIndividuPaginator().getIndRechPojo();
-
-        Option<Integer> idComOpt = fromNull(pojo.getIdCmi());
-        List<RegimeInscription> listRI = new ArrayList<>(pojo.getListeRI());
+        Option<Integer> idComOpt = fromNull(indRechPojo.getIdCmi());
+        List<RegimeInscription> listRI = new ArrayList<>(indRechPojo.getListeRI());
 
         for (Integer idCom : idComOpt)
             exportFormOrbeonController.makeCsvFormulaire(
@@ -334,7 +357,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
         final String fileNameSuffix = ".csv";
         final Commission commission = commissionController.getCommission();
 
-        generateCSVListes(
+        writeCSVListes(
                 commission,
                 getIndividus(
                         retrieveOSIVCommission(commission.getId(), commission.getCode()),
@@ -351,12 +374,10 @@ public class PrintOpinionController extends AbstractContextAwareController {
     public void printOneNotification() {
         this.pdfData.clear();
 
-        List<IndividuPojo> individus = new ArrayList<IndividuPojo>();
+        List<IndividuPojo> individus = new ArrayList<>();
         individus.add(individuPojoSelected);
 
-        Commission com = retrieveOSIVCommission(
-                individuController.getIndividuPaginator().getIndRechPojo()
-                        .getIdCmi(), null);
+        Commission com = retrieveOSIVCommission(indRechPojo.getIdCmi(), null);
 
         makePdfData(individus, com);
 
@@ -374,12 +395,9 @@ public class PrintOpinionController extends AbstractContextAwareController {
      */
     public void printPDFAllNotifications() {
         this.pdfData.clear();
-        makeAllIndividus(some(
-                individuController.getIndividuPaginator().getIndRechPojo().getSelectValid()));
+        makeAllIndividus(some(indRechPojo.getSelectValid()));
 
-        Commission com = retrieveOSIVCommission(
-                individuController.getIndividuPaginator().getIndRechPojo()
-                        .getIdCmi(), null);
+        Commission com = retrieveOSIVCommission(indRechPojo.getIdCmi(), null);
 
         makePdfData(lesIndividus, com);
 
@@ -392,42 +410,30 @@ public class PrintOpinionController extends AbstractContextAwareController {
         this.lesIndividus = new ArrayList<>();
     }
 
-    /**
-     * Generate the CSV de la liste preparatoire de la commission.
-     * call in printListsPrepa.jsp
-     */
     public void generateCSVListesPreparatoire() {
-        final String fileNamePrefix = "listePrepa";
-        final String fileNameSuffix = ".csv";
+        writeCSVListes("listePrepa", ".csv", not(typeTrtEquals(transfert)));
+    }
+
+    public void generateCSVListesTransfert() {
+        writeCSVListes("listeTransfert", ".csv", typeTrtEquals(transfert));
+    }
+
+    private void writeCSVListes(String fileNamePrefix, String fileNameSuffix, F<IndVoeuPojo, Boolean> voeuFilter) {
         final Commission commission = commissionController.getCommission();
-        generateCSVListes(
+        writeCSVListes(
                 commission,
                 getIndividus(
                         retrieveOSIVCommission(commission.getId(), commission.getCode()),
                         some(true),
-                        not(typeTrtEquals(transfert))),
+                        voeuFilter),
                 fileNamePrefix,
                 fileNameSuffix);
     }
 
-    public void generateCSVListesTransfert() {
-        final String prefix = "listeTransfert";
-        final String suffix = ".csv";
-        final Commission commission = commissionController.getCommission();
-        generateCSVListes(
-                commission,
-                getIndividus(
-                        retrieveOSIVCommission(commission.getId(), commission.getCode()),
-                        some(true),
-                        typeTrtEquals(transfert)),
-                prefix,
-                suffix);
-    }
-
-    public void generateCSVListes(final Commission commission,
-                                  final Stream<IndividuPojo> individus,
-                                  final String fileNamePrefix,
-                                  final String fileNameSuffix) {
+    private void writeCSVListes(final Commission commission,
+                                final Stream<IndividuPojo> individus,
+                                final String fileNamePrefix,
+                                final String fileNameSuffix) {
         // seems dumb but we prefer to access a copy of the session variable in case of concurrent accesses
         final String[] champs =
                 (champsChoisis == null) ? HEADER_CVS.toArray(new String[HEADER_CVS.size()]) : champsChoisis;
@@ -452,8 +458,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
                         public IOUnit fio(IndividuPojo ip) throws IOException {
                             return forEach(indPojoToLignes(ip, commission), new IOF<LigneCSV, IOUnit>() {
                                 public IOUnit fio(LigneCSV ligne) throws IOException {
-                                    return csv.map(SuperCSV.<LigneCSV>write_().fio(p(ligne, champs)))
-                                            .run();
+                                    return csv.map(SuperCSV.<LigneCSV>write_().fio(p(ligne, champs))).run();
                                 }
                             });
                         }
@@ -483,7 +488,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
     }
 
     /**
-     * @deprecated see {@see #generateCSVListes()} for new implementation
+     * @deprecated see {@see #writeCSVListes()} for new implementation
      *             Generate a CSV of the list of student.
      */
     public String csvGeneration(final List<IndividuPojo> individus, final String fileName) {
@@ -674,9 +679,18 @@ public class PrintOpinionController extends AbstractContextAwareController {
                 });
         final Stream<String> indsIds =
                 iterableStream(getDomainService().getIndsIds(laCommission, onlyValidate, listeRI));
+
         return parMod.parMap(indsIds, fetchInd.andThen(buildPojos))
                 .fmap(Stream.<IndividuPojo>filter().f(indWithVoeux()))
                 .claim();
+        // TODO : see if the below is more efficient
+//        Strategy<IndividuPojo> strat = Strategy.executorStrategy(ParallelModule.pool);
+//        return strat.parMap(
+//                fetchInd.andThen(buildPojos),
+//                iterableArray(getDomainService().getIndsIds(laCommission, onlyValidate, listeRI)))
+//                .map(Conversions.<IndividuPojo>Array_Stream())
+//                ._1()
+//                .filter(indWithVoeux());
     }
 
     /**
@@ -692,7 +706,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
     private void makeAllIndividus(final Option<Boolean> onlyValidate) {
         // list of indivius from the commission selected
         // with an opinion not validate
-        Integer idCmi = individuController.getIndividuPaginator().getIndRechPojo().getIdCmi();
+        Integer idCmi = indRechPojo.getIdCmi();
         if (idCmi != null) {
             this.commissionController.setCommission(getParameterService().
                     getCommission(idCmi, null));
@@ -1061,11 +1075,11 @@ public class PrintOpinionController extends AbstractContextAwareController {
      * Filter individu by commision, validated avis, typeTraitement not equals transfert;
      * foreach individu filter its voeux by avis enService and typeDecision selected.
      * Better look to delegate to DAO layer directly as it's the same operation performed by
-     * {@link org.esupportail.opi.dao.IndividuDaoServiceImpl.typeDecFilter}
+     *  IndividuDaoServiceImpl.typeDecFilter
      */
     public void initIndividus() {
         final List<TypeDecision> typeDecisions = buildSelectedTypeDecision();
-        setLesIndividus(new ArrayList<IndividuPojo>(
+        setLesIndividus(new ArrayList<>(
                 getIndividus(commissionController.getCommission(), some(false), not(typeTrtEquals(transfert)))
                         .map(new F<IndividuPojo, IndividuPojo>() {
                             @Override
@@ -1330,19 +1344,17 @@ public class PrintOpinionController extends AbstractContextAwareController {
         return indPojoLDM;
     }
 
-    public void setIndPojoLDM(LazyDataModel<IndividuPojo> indPojoLDM) {
-        this.indPojoLDM = indPojoLDM;
-    }
+//    public void setIndPojoLDM(LazyDataModel<IndividuPojo> indPojoLDM) {
+//        this.indPojoLDM = indPojoLDM;
+//    }
 
     public boolean isRenderTable() {
         return renderTable;
     }
 
     public void doInitSelectValid() {
-        IndRechPojo rp = individuController.getIndividuPaginator().getIndRechPojo();
-        if (rp.getSelectValid() == null) {
-            rp.setSelectValid(false);
-        }
+        if (indRechPojo.getSelectValid() == null)
+            indRechPojo.setSelectValid(false);
     }
 
     public void doRenderTable() {

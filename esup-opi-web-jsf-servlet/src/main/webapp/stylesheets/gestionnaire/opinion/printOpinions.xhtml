@@ -164,7 +164,8 @@
                                     <p:commandButton
                                             icon="ui-icon-mail-closed"
                                             title="#{msgs['INFO.MAIL.TEST']}" immediate="true"
-                                            action="#{validOpinionController.sendOneMail}" ajax="false">
+                                            action="#{validOpinionController.sendOneMail(printOpinionController.indRechPojo)}"
+                                            ajax="false">
                                         <f:setPropertyActionListener value="#{ivp}"
                                                                      target="#{validOpinionController.indVoeuPojo}"/>
                                         <f:setPropertyActionListener value="#{individuPojo}"
@@ -175,7 +176,8 @@
                                     <p:commandButton
                                             icon="ui-icon-mail-open"
                                             title="#{msgs['INFO.MAIL.RESEND']}" immediate="true"
-                                            action="#{validOpinionController.sendOneMailCandidat}" ajax="false">
+                                            action="#{validOpinionController.sendOneMailCandidat(printOpinionController.indRechPojo)}"
+                                            ajax="false">
                                         <f:setPropertyActionListener value="#{ivp}"
                                                                      target="#{validOpinionController.indVoeuPojo}"/>
                                         <f:setPropertyActionListener value="#{individuPojo}"

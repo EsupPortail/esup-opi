@@ -151,19 +151,15 @@ public class MissingPiecePojo {
 		}
 		//on ne prend pas le voeu de type TR
 		if (codeTypeTrait != null && !codeTypeTrait.equals(EtatNull.getCodeLabel())) {
-			this.commissions.put(new CommissionPojo(cmi, 
-					iList.get(0).getEtat().getCodeLabel(),
-					i18nService), iList);
+			this.commissions.put(new CommissionPojo(cmi, iList.get(0).getEtat().getCodeLabel(),	i18nService), iList);
 		}
 		
 		List<MissingPiece> missP = 
-			domainService.getMissingPiece(
-					this.individuPojo.getIndividu(), cmi);
+			domainService.getMissingPiece(this.individuPojo.getIndividu(), cmi);
 		
 		List<PieceJustificative> listPJ = parameterService.getPiecesJ(vOpi, 
-				Utilitaires.getCodeRIIndividu(this.individuPojo.getIndividu(),
-						domainService).toString());
-		List<MissingPiece> missPListForCmi = new ArrayList<MissingPiece>();
+				Utilitaires.getCodeRIIndividu(this.individuPojo.getIndividu(), domainService).toString());
+		List<MissingPiece> missPListForCmi = new ArrayList<>();
 		for (PieceJustificative pi : listPJ) {
 			Boolean inMissP = false;
 			for (MissingPiece missingP : missP) {

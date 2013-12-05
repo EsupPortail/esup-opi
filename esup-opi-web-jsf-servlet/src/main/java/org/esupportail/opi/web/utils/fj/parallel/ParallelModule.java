@@ -8,12 +8,14 @@ import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static fj.Bottom.error;
+
 public final class ParallelModule {
-    private ParallelModule() { throw new UnsupportedOperationException(); }
+    private ParallelModule() { throw error("forbidden"); }
 
     private static final int PROCS = Runtime.getRuntime().availableProcessors();
 
-    private static final ExecutorService pool = Executors.newFixedThreadPool(PROCS);
+    public static final ExecutorService pool = Executors.newFixedThreadPool(PROCS);
 
     public static final Strategy<Unit> strategy = Strategy.executorStrategy(pool);
 

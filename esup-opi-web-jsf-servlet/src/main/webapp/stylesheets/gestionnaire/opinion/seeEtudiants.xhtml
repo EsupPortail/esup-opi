@@ -26,6 +26,7 @@
                 <ui:fragment rendered="#{!(pjController.currentCmiPojo != null
                                        and pjController.currentCmiPojo.state.displayPJ)}">
                     <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml">
+                        <ui:param name="controller" value="#{pjController}" />
                         <ui:param name="toUpdate" value="individuData"/>
                     </ui:include>
                 </ui:fragment>

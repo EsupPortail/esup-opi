@@ -1,8 +1,8 @@
 package org.esupportail.opi.dao;
 
 import fj.P2;
+import fj.data.Array;
 import fj.data.Option;
-import fj.data.Stream;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
@@ -25,20 +25,21 @@ public interface IndividuDaoService {
      *
      *
      *
+     *
+     *
      * @param pfFilters
      * @param wishCreation
      * @param typeTrtmts
      * @return
      */
-    P2<Long, Stream<Individu>> sliceOfInds(PFFilters pfFilters,
-                                           List<TypeDecision> typesDec,
-                                           Option<Boolean> validWish,
-                                           Option<Boolean> treatedWish,
-                                           Option<Date> wishCreation,
-                                           Collection<TypeTraitement> typeTrtmts,
-                                           Option<Set<TraitementCmi>> trtCmis,
-                                           Set<Integer> listCodesRI,
-                                           Option<List<String>> typesTrtVet);
+    P2<Long, Array<Individu>> sliceOfInds(PFFilters pfFilters,
+                                          List<TypeDecision> typesDec,
+                                          Option<Boolean> validWish,
+                                          Option<Boolean> treatedWish,
+                                          Option<Date> wishCreation,
+                                          Collection<TypeTraitement> typeTrtmts,
+                                          Option<Set<TraitementCmi>> trtCmis,
+                                          Set<Integer> listCodesRI);
 
     /**
      * Return the ids of the {@link Individu}s whom {@link IndVoeu}s are managed by {@code commission}

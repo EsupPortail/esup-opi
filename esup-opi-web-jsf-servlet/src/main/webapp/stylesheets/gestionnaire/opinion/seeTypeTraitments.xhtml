@@ -6,7 +6,8 @@
     <ui:define name="content">
         <h:form id="seeTypeTrtForm">
             <f:event type="preRenderView" listener="#{typeTraitController.doNotRenderTable}" />
-            <f:event type="preRenderView" listener="#{individuController.useTypeTrtVetFilter(true)}" />
+            <!-- <f:event type="preRenderView" listener="#{individuController.useTypeTrtVetFilter(true)}" /> -->
+            <f:event type="postValidate" listener="#{individuController.useTypeTrtFilter(true)}" />
             <f:event type="postValidate" listener="#{individuController.useGestCommsFilter(true)}" />
             <p:blockUI block="maPage" trigger="individuData search-button">
                 <p:graphicImage library="images" name="ajax-loader.gif"/>
@@ -22,6 +23,7 @@
                 </h1>
                 <ui:fragment rendered="#{not empty managedAccess.menuModel.contents}">
                     <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml">
+                        <ui:param name="controller" value="#{typeTraitController}" />
                         <ui:param name="toUpdate" value="individuData"/>
                         <ui:param name="renderTypeTrtBlocks" value="true" />
                         <ui:param name="filterCommsByRight" value="true" />

@@ -3,13 +3,12 @@
  */
 package org.esupportail.opi.web.controllers.formation;
 
-import fj.data.Stream;
+import fj.data.Array;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.BusinessUtil;
-import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.formation.Cles2AnnuForm;
 import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
 import org.esupportail.opi.domain.beans.formation.GrpTypDip;
@@ -265,7 +264,7 @@ public class FormationController extends AbstractAccessController {    /*
                 getDomainService().addIndVoeu(vb);
                 IndividuPojo ind = getCurrentInd();
                 ind.getIndividu().getVoeux().add(vb);
-                ind.setIndVoeuxPojo(ind.getIndVoeuxPojo().append(Stream.stream(indVoeuP)));
+                ind.setIndVoeuxPojo(ind.getIndVoeuxPojo().append(Array.single(indVoeuP)));
             } else {
                 addErrorMessage(null, "ERROR.NB_WISH_MAX", vrsVet.getVersionEtape().getLibWebVet());
             }
@@ -439,7 +438,7 @@ public class FormationController extends AbstractAccessController {    /*
 
         //map with the commission and its etapes sur lesquelles le candidat a deposer des voeux
         Map<Commission, Set<VersionEtapeDTO>> mapCmi =
-                Utilitaires.getCmiForIndVoeux(cmi, Stream.iterableStream(indVoeuPojos), camp);
+                Utilitaires.getCmiForIndVoeux(cmi, Array.iterableArray(indVoeuPojos), camp);
 
         summaryWishes = new ArrayList<SummaryWishesPojo>();
         for (Map.Entry<Commission, Set<VersionEtapeDTO>> cEntry : mapCmi.entrySet()) {
@@ -507,7 +506,7 @@ public class FormationController extends AbstractAccessController {    /*
         Boolean sendMail = false;
         final Map<Commission, Set<VersionEtapeDTO>> wishesByCmi = Utilitaires.getCmiForIndVoeux(
                 getParameterService().getCommissions(true),
-                Stream.iterableStream(indVoeuAdd), camp);
+                Array.iterableArray(indVoeuAdd), camp);
 
         for (Map.Entry<Commission, Set<VersionEtapeDTO>> cmiEntry : wishesByCmi.entrySet()) {
             Commission cmi = cmiEntry.getKey();

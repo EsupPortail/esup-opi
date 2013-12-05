@@ -1,5 +1,6 @@
 package org.esupportail.opi.web.utils.fj;
 
+import fj.Effect;
 import fj.F;
 import fj.F2;
 import fj.Unit;
@@ -11,6 +12,7 @@ import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 
 import java.util.Map;
 
+import static fj.Effect.f;
 import static fj.Unit.unit;
 import static fj.function.Booleans.not;
 import static org.esupportail.opi.web.utils.fj.Predicates.indAvisValidationIs;
@@ -66,5 +68,9 @@ public class Functions {
                 return ri.getCode();
             }
         };
+    }
+
+    public static Effect<String> applyPut(String key, Map<String, String> map) {
+        return f(Functions.<String, Map<String, String>, Unit>apply2(key, map).o(Functions.<String, String>put_()));
     }
 }

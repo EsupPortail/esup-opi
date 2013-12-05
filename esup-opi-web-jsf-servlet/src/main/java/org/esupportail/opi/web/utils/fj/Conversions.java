@@ -2,6 +2,7 @@ package org.esupportail.opi.web.utils.fj;
 
 import fj.*;
 import fj.control.parallel.Promise;
+import fj.data.Array;
 import fj.data.Stream;
 import org.esupportail.opi.domain.BusinessUtil;
 import org.esupportail.opi.domain.DomainApoService;
@@ -24,6 +25,8 @@ import java.util.List;
 import java.util.Set;
 
 import static fj.Function.curry;
+import static fj.data.Array.array;
+import static fj.data.Array.iterableArray;
 import static fj.data.Stream.iterableStream;
 import static org.esupportail.opi.web.beans.utils.Utilitaires.getRecupCalendarRdv;
 import static org.esupportail.opi.web.utils.fj.parallel.ParallelModule.parMod;
@@ -45,6 +48,23 @@ public class Conversions {
     public static <T> F<Stream<T>, Set<T>> streamToSet_() {
         return new F<Stream<T>, Set<T>>() {
             public Set<T> f(Stream<T> ts) {
+                return new HashSet<>(ts.toCollection());
+            }
+        };
+    }
+
+    public static <T> F<Set<T>, Array<T>> setToArray_() {
+        return new F<Set<T>, Array<T>>() {
+            @SuppressWarnings("unchecked")
+            public Array<T> f(Set<T> ts) {
+                return array(ts.toArray((T[]) new Object[ts.size()]));
+            }
+        };
+    }
+
+    public static <T> F<Array<T>, Set<T>> arrayToSet_() {
+        return new F<Array<T>, Set<T>>() {
+            public Set<T> f(Array<T> ts) {
                 return new HashSet<>(ts.toCollection());
             }
         };
@@ -117,7 +137,7 @@ public class Conversions {
                     setIndividu(individu);
                     setEtat(EtatIndividu.fromString(individu.getState().trim()));
                     setDateCreationDossier(individu.getDateCreaEnr());
-                    setIndVoeuxPojo(iterableStream(individu.getVoeux()).map(indVoeuToPojo(apoServ, paramServ)));
+                    setIndVoeuxPojo(iterableArray(individu.getVoeux()).map(indVoeuToPojo(apoServ, paramServ)));
                 }};
             }
         };
@@ -159,7 +179,7 @@ public class Conversions {
                                     setIndividu(individu);
                                     setEtat(EtatIndividu.fromString(individu.getState().trim()));
                                     setDateCreationDossier(individu.getDateCreaEnr());
-                                    setIndVoeuxPojo(indVoeux);
+                                    setIndVoeuxPojo(indVoeux.toArray());
                                 }};
                             }
                         });

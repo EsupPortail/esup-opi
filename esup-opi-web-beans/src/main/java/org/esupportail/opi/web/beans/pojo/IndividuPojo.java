@@ -9,6 +9,7 @@
 package org.esupportail.opi.web.beans.pojo;
 
 import fj.*;
+import fj.data.Array;
 import fj.data.Stream;
 import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.services.i18n.I18nService;
@@ -41,7 +42,7 @@ import java.util.*;
 import static fj.Function.curry;
 import static fj.P.p;
 import static fj.data.Option.fromNull;
-import static fj.data.Stream.*;
+import static java.util.Arrays.asList;
 
 
 /**
@@ -80,7 +81,7 @@ public class IndividuPojo {
 	/**
 	 * The vows of individu.
 	 */
-	private Stream<IndVoeuPojo> indVoeuxPojo = nil();
+	private Array<IndVoeuPojo> indVoeuxPojo = Array.empty();
 
 	/**
 	 * a true si c'est un gestionnaire.
@@ -307,10 +308,10 @@ public class IndividuPojo {
 				final TraitementCmi trtCmi = i.getLinkTrtCmiCamp().getTraitementCmi();
 				final boolean trtsMatch = fromNull(commissions).option(Boolean.TRUE, new F<Set<Commission>, Boolean>() {
 					public Boolean f(Set<Commission> a) {
-						return iterableStream(a).bind(
+						return Stream.iterableStream(a).bind(
 		                        new F<Commission, Stream<TraitementCmi>>() {
 	                            public Stream<TraitementCmi> f(final Commission commission) {
-	                                return iterableStream(commission.getTraitementCmi());
+	                                return Stream.iterableStream(commission.getTraitementCmi());
 	                            }}).exists(
 			                        new F<TraitementCmi, Boolean>() {
 			                            public Boolean f(final TraitementCmi traitementCmi) {
@@ -351,7 +352,7 @@ public class IndividuPojo {
                             trtCmi.getVersionEtpOpi().getCodVrsVet());
                     // must be filtered by versionEtp
                     if (versionsEtp != null)
-                    	addVoeuVet = iterableStream(versionsEtp).exists(new F<VersionEtapeDTO, Boolean>() {
+                    	addVoeuVet = Stream.iterableStream(versionsEtp).exists(new F<VersionEtapeDTO, Boolean>() {
 							@Override
 							public Boolean f(final VersionEtapeDTO v) {
 								return v.getCodEtp().equalsIgnoreCase(vet.getCodEtp()) 
@@ -361,7 +362,9 @@ public class IndividuPojo {
 
 					if (addVoeuType && addVoeuVet) {
 						CalendarRDV cal = Utilitaires.getRecupCalendarRdv(i, listCalendrierParam);
-                        indVoeuxPojo = cons(new IndVoeuPojo(i, vet, i18Service, calIsOpen, t, cal), p(indVoeuxPojo));
+                        indVoeuxPojo = indVoeuxPojo
+                                .append(Array.single(new IndVoeuPojo(i, vet, i18Service, calIsOpen, t, cal)))
+                                .reverse();
 					}
 				}
 			}
@@ -471,7 +474,13 @@ public class IndividuPojo {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<IndVoeuPojo> getVoeuxSortedByLic() {
-	    return new ArrayList<>(indVoeuxPojo.sort(indVoeuPojoOrd).toCollection());
+        IndVoeuPojo[] ar = indVoeuxPojo.array(IndVoeuPojo[].class);
+        Arrays.sort(ar, new Comparator<IndVoeuPojo>() {
+            public int compare(IndVoeuPojo iv1, IndVoeuPojo iv2) {
+                return iv1.getVrsEtape().getLicEtp().compareToIgnoreCase(iv2.getVrsEtape().getLicEtp());
+            }
+        });
+	    return asList(ar);
 	}
 	
 	/*
@@ -538,7 +547,7 @@ public class IndividuPojo {
 	/**
 	 * @return the indVoeuxPojo
 	 */
-	public Stream<IndVoeuPojo> getIndVoeuxPojo() {
+	public Array<IndVoeuPojo> getIndVoeuxPojo() {
 		return indVoeuxPojo;
 	}
 
@@ -546,13 +555,13 @@ public class IndividuPojo {
      * For JSF
      */
 	public List<IndVoeuPojo> getIndVoeuxPojoAsList() {
-		return new ArrayList<>(indVoeuxPojo.toCollection());
+		return asList(indVoeuxPojo.array(IndVoeuPojo[].class));
 	}
 
 	/**
-	 * @param indVoeuxPojo the indVoeuxPojo to set
-	 */
-	public void setIndVoeuxPojo(final Stream<IndVoeuPojo> indVoeuxPojo) {
+     * @param indVoeuxPojo the indVoeuxPojo to set
+     */
+	public void setIndVoeuxPojo(final Array<IndVoeuPojo> indVoeuxPojo) {
 		this.indVoeuxPojo = indVoeuxPojo;
 	}
 

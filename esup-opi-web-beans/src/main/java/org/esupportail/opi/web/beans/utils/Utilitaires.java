@@ -2,6 +2,7 @@ package org.esupportail.opi.web.beans.utils;
 
 
 import fj.*;
+import fj.data.Array;
 import fj.data.Stream;
 import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.services.i18n.I18nService;
@@ -230,15 +231,13 @@ public class Utilitaires {
 	 */
 	public static Map<Commission, Set<VersionEtapeDTO>> getCmiForIndVoeux(
 			final Set<Commission> cmi, 
-			final Stream<IndVoeuPojo> indVoeuxPojo,
+			final Array<IndVoeuPojo> indVoeuxPojo,
 			final Campagne camp) {
 		//map contenant la commission et ses etapes sur lesquelles le candidat e deposer des voeux
-		Set<VersionEtapeDTO> list = new HashSet<VersionEtapeDTO>();
-		if (indVoeuxPojo != null) {
-			for (IndVoeuPojo indV : indVoeuxPojo) {
-				list.add(indV.getVrsEtape());
-			}		
-		}
+		Set<VersionEtapeDTO> list = new HashSet<>();
+		if (indVoeuxPojo != null)
+            for (IndVoeuPojo indV : indVoeuxPojo)
+                list.add(indV.getVrsEtape());
 		return getCmiForVetDTO(cmi, list, camp);
 	}
 

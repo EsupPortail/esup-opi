@@ -1,19 +1,15 @@
 package org.esupportail.opi.web.beans.pojo;
 
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
-import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
+import org.esupportail.opi.web.beans.parameters.FormationInitiale;
+import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 
 import java.util.*;
 
-/**
- * @author tducreux
- *
- */
+import static java.util.Arrays.asList;
+
 public class IndRechPojo {
-	/*
-	 ******************* PROPERTIES ******************* */
-	
 	/**
 	 * Number of dossier searched.
 	 */
@@ -32,7 +28,7 @@ public class IndRechPojo {
 	/**
 	 * Decision types for the student search.
 	 */
-	private List<TypeDecision> typesDec = new ArrayList<TypeDecision>();
+	private List<TypeDecision> typesDec = new ArrayList<>();
 
 	/**
 	 * etape for the student search.
@@ -47,7 +43,9 @@ public class IndRechPojo {
 	/**
 	 * Liste des régimes d'inscription pour la recherche.
 	 */
-	private Set<RegimeInscription> listeRI = new HashSet<RegimeInscription>();
+	private Set<RegimeInscription> listeRI = new HashSet<RegimeInscription>(asList(new FormationInitiale()));
+
+    private Collection<TypeTraitement> typeTraitements = Collections.emptyList();
 
 	/**
 	 * La commision recherchee.
@@ -70,10 +68,6 @@ public class IndRechPojo {
     private Boolean useTypeTrtFilter = false;
 
     /**
-     * Filtre-t-on les individus selon un {@link TypeTraitement}
-     */
-    private Boolean useTypeTrtVetFilter = false;
-    /**
      * Filtre-t-on selon les commissions du gestionnaire courant ?
      */
     private Boolean useGestCommsFilter = false;
@@ -94,29 +88,6 @@ public class IndRechPojo {
 	 */
 	private Boolean canModifyRISearch;
 	
-	/**
-	 * Vet traitement type for student search. Contains "VA" and "TR"
-	 */
-	private List<String> typesTrtVet = new ArrayList<String>();
-
-
-	/*
-	 ******************* INIT ************************* */
-	/**
-	 * Constructor.
-	 */
-	public IndRechPojo() {
-            //this.excludeWishProcessed = true;
-            //this.listeRI = null;
-	}
-
-	/*
-	 ******************* METHODS ********************** */
-
-
-	/**
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "IndRechPojo#" + hashCode() + "numDossierOpiRecherche=[" + numDossierOpiRecherche 
@@ -128,12 +99,6 @@ public class IndRechPojo {
 		+ super.toString() + "]]";
 	}
 
-	/*
-	 ******************* ACCESSORS ******************** */
-
-	/**
-	 * @return the numDossierOpiRecherche
-	 */
 	public String getNumDossierOpiRecherche() {
 		if (numDossierOpiRecherche != null) {
 			return numDossierOpiRecherche.toUpperCase();
@@ -141,18 +106,10 @@ public class IndRechPojo {
 		return numDossierOpiRecherche;
 	}
 
-	/**
-	 * @param numDossierOpiRecherche the numDossierOpiRecherche to set
-	 */
 	public void setNumDossierOpiRecherche(final String numDossierOpiRecherche) {
 		this.numDossierOpiRecherche = numDossierOpiRecherche;
 	}
 
-
-
-	/**
-	 * @return the nomRecherche
-	 */
 	public String getNomRecherche() {
 		if (nomRecherche != null) {
 			return nomRecherche.toUpperCase();
@@ -160,16 +117,10 @@ public class IndRechPojo {
 		return nomRecherche;
 	}
 
-	/**
-	 * @param nomRecherche the nomRecherche to set
-	 */
 	public void setNomRecherche(final String nomRecherche) {
 		this.nomRecherche = nomRecherche;
 	}
 
-	/**
-	 * @return the prenomRecherche
-	 */
 	public String getPrenomRecherche() {
 		if (prenomRecherche != null) {
 			return prenomRecherche.toUpperCase();
@@ -177,37 +128,22 @@ public class IndRechPojo {
 		return prenomRecherche;
 	}
 
-	/**
-	 * @param prenomRecherche the prenomRecherche to set
-	 */
 	public void setPrenomRecherche(final String prenomRecherche) {
 		this.prenomRecherche = prenomRecherche;
 	}
 
-	/**
-	 * @return the codeEtapeRecherchee
-	 */
 	public String getCodeEtapeRecherchee() {
 		return codeEtapeRecherchee;
 	}
 
-	/**
-	 * @param codeEtapeRecherchee the codeEtapeRecherchee to set
-	 */
 	public void setCodeEtapeRecherchee(final String codeEtapeRecherchee) {
 		this.codeEtapeRecherchee = codeEtapeRecherchee;
 	}
 
-	/**
-	 * @return the codeTrtCmiRecherchee
-	 */
 	public Integer getCodeTrtCmiRecherchee() {
 		return codeTrtCmiRecherchee;
 	}
 
-	/**
-	 * @param codeTrtCmiRecherchee the codeTrtCmiRecherchee to set
-	 */
 	public void setCodeTrtCmiRecherchee(final Integer codeTrtCmiRecherchee) {
 		this.codeTrtCmiRecherchee = codeTrtCmiRecherchee;
 	}
@@ -218,9 +154,8 @@ public class IndRechPojo {
     }
 
     public void setTypeDec(TypeDecision typeDec) {
-        // yeah, ugly, but jsf likes it
         typesDec =  (typeDec != null) ?
-                new ArrayList<TypeDecision>(Collections.singleton(typeDec)) :
+                new ArrayList<>(Collections.singleton(typeDec)) :
                 new ArrayList<TypeDecision>();
     }
 
@@ -232,44 +167,26 @@ public class IndRechPojo {
 		this.typesDec = typesDec;
 	}
 
-	/**
-	 * @return the codeCommissionRecherchee
-	 */
 	public Integer getIdCmi() {
 		return idCmi;
 	}
 
-	/**
-	 * @param codeCommissionRecherchee the codeCommissionRecherchee to set
-	 */
 	public void setIdCmi(final Integer codeCommissionRecherchee) {
 		this.idCmi = codeCommissionRecherchee;
 	}
 
-	/**
-	 * @return the listeRI
-	 */
 	public Set<RegimeInscription> getListeRI() {
 		return listeRI;
 	}
 
-	/**
-	 * @param listeRI the listeRI to set
-	 */
 	public void setListeRI(final Set<RegimeInscription> listeRI) {
 		this.listeRI = listeRI;
 	}
 
-	/**
-	 * @return the dateCreationVoeuRecherchee
-	 */
 	public Date getDateCreationVoeuRecherchee() {
 		return dateCreationVoeuRecherchee;
 	}
 
-	/**
-	 * @param dateCreationVoeuRecherchee the dateCreationVoeuRecherchee to set
-	 */
 	public void setDateCreationVoeuRecherchee(final Date dateCreationVoeuRecherchee) {
 		this.dateCreationVoeuRecherchee = dateCreationVoeuRecherchee;
 	}
@@ -290,14 +207,6 @@ public class IndRechPojo {
         this.useTypeTrtFilter = useTypeTrtFilter;
     }
 
-    public Boolean isUseTypeTrtVetFilter() {
-        return useTypeTrtVetFilter;
-    }
-    
-    public void setUseTypeTrtVetFilter(Boolean useTypeTrtVetFilter) {
-        this.useTypeTrtVetFilter = useTypeTrtVetFilter;
-    }
-    
     public Boolean isUseGestCommsFilter() {
         return useGestCommsFilter;
     }
@@ -306,56 +215,35 @@ public class IndRechPojo {
         this.useGestCommsFilter = useGestCommsFilter;
     }
 
-    /**
-	 * @return the excludeWishProcessed
-	 */
 	public Boolean getExcludeWishProcessed() {
 		return excludeWishProcessed;
 	}
 
-	/**
-	 * @param excludeWishProcessed the excludeWishProcessed to set
-	 */
 	public void setExcludeWishProcessed(final Boolean excludeWishProcessed) {
 		this.excludeWishProcessed = excludeWishProcessed;
 	}
 
-	/**
-	 * @return the canModifyRISearch
-	 */
 	public Boolean getCanModifyRISearch() {
 		return canModifyRISearch;
 	}
 
-	/**
-	 * @param canModifyRISearch the canModifyRISearch to set
-	 */
 	public void setCanModifyRISearch(final Boolean canModifyRISearch) {
 		this.canModifyRISearch = canModifyRISearch;
 	}
 
-    /**
-     * @return the selectValid
-     */
     public Boolean getSelectValid() {
         return selectValid;
     }
 
-    /**
-     * @param selectValid the selectValid to set
-     */
     public void setSelectValid(final Boolean selectValid) {
         this.selectValid = selectValid;
     }
-    	
-	/**
-	 * @return the typesTrtVet
-	 */
-	public List<String> getTypesTrtVet() {
-		typesTrtVet.clear();
-		typesTrtVet.add("VA");
-		typesTrtVet.add("TR");
-		return typesTrtVet;
-	}
 
+    public Collection<TypeTraitement> getTypeTraitements() {
+        return typeTraitements;
+    }
+
+    public void setTypeTraitements(Collection<TypeTraitement> typeTraitements) {
+        this.typeTraitements = typeTraitements;
+    }
 }

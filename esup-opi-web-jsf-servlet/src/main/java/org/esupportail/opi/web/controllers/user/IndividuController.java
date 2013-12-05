@@ -5,20 +5,18 @@ package org.esupportail.opi.web.controllers.user;
 
 
 import fj.*;
+import fj.data.Array;
 import fj.data.Option;
-import fj.data.Stream;
 import org.apache.commons.lang.StringUtils;
 import org.esupportail.commons.services.ldap.LdapUser;
 import org.esupportail.commons.services.ldap.LdapUserService;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.opi.domain.beans.etat.EtatIndividu;
-import org.esupportail.opi.domain.beans.parameters.AccesSelectif;
-import org.esupportail.opi.domain.beans.parameters.Campagne;
-import org.esupportail.opi.domain.beans.parameters.Transfert;
-import org.esupportail.opi.domain.beans.parameters.TypeDecision;
-import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
+import org.esupportail.opi.domain.DomainApoService;
+import org.esupportail.opi.domain.DomainService;
+import org.esupportail.opi.domain.ParameterService;
+import org.esupportail.opi.domain.beans.parameters.*;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.references.rendezvous.IndividuDate;
@@ -35,7 +33,6 @@ import org.esupportail.opi.domain.beans.user.situation.IndSituation;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.utils.GenNumDosOPI;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
-import org.esupportail.opi.web.beans.paginator.IndividuPaginator;
 import org.esupportail.opi.web.beans.parameters.FormationContinue;
 import org.esupportail.opi.web.beans.parameters.FormationInitiale;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
@@ -49,6 +46,7 @@ import org.esupportail.opi.web.controllers.formation.FormulairesController;
 import org.esupportail.opi.web.utils.fj.Conversions;
 import org.esupportail.opi.web.utils.fj.Functions;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
+import org.esupportail.opi.web.utils.paginator.PaginationFunctions;
 import org.primefaces.model.SortOrder;
 
 import javax.faces.context.FacesContext;
@@ -57,7 +55,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static fj.Effect.f;
+import static fj.data.Array.array;
+import static fj.data.Array.iterableArray;
 import static fj.data.Option.*;
 import static fj.data.Option.fromString;
 import static fj.data.Stream.*;
@@ -144,11 +143,6 @@ public class IndividuController extends AbstractAccessController {
      */
     private final Logger log = new LoggerImpl(getClass());
 
-
-
-	/*
-     ******************* PROPERTIES ******************* */
-
     /**
      * The Individu.
      */
@@ -179,10 +173,14 @@ public class IndividuController extends AbstractAccessController {
      */
     private SituationController situationController;
 
-    /**
-     * see {@link IndividuPaginator}.
-     */
-    private IndividuPaginator individuPaginator;
+//    /**
+//     * see {@link IndividuPaginator}.
+//     */
+//    private IndividuPaginator individuPaginator;
+
+    private IndRechPojo indRechPojo = new IndRechPojo() {{
+        this.setTypeTraitements(array(new ValidationAcquis(), new AccesSelectif()).toCollection());
+    }};
 
     /**
      * see {@link FormulairesController}.
@@ -211,113 +209,27 @@ public class IndividuController extends AbstractAccessController {
      */
     private String checkEmail;
 
-    private Collection<TypeTraitement> typeTraitements;
-
     private boolean renderTable = false;
 
-    private Effect<String> applyPut(String key, Map<String, String> map) {
-        return f(Functions.<String, Map<String, String>, Unit>apply2(key, map).o(Functions.<String, String>put_()));
-    }
-
     private final LazyDataModel<Individu> indLDM = lazyModel(
-            new F5<Integer, Integer, String, SortOrder, Map<String, String>, P2<Long, Stream<Individu>>>() {
-                public P2<Long, Stream<Individu>> f(final Integer first, final Integer pageSize,
-                                                    final String sortField, final SortOrder sortOrder,
-                                                    final Map<String, String> filters) {
-                    // le gestionnaire courant
-                    SessionController sessionCont = getSessionController();
-                    User user = sessionCont.getCurrentUser();
-                    Gestionnaire gest = !(user instanceof Gestionnaire) ?
-                            sessionCont.getManager() : (Gestionnaire) user;
+            PaginationFunctions.getData(
+                    new P1<SessionController>() {
+                        public SessionController _1() { return getSessionController(); }
+                    },
+                    new P1<DomainService>() {
+                        public DomainService _1() { return getDomainService(); }
+                    },
+                    new P1<DomainApoService>() {
+                        public DomainApoService _1() { return getDomainApoService(); }
+                    },
+                    new P1<ParameterService>() {
+                        public ParameterService _1() { return getParameterService(); }
+                    },
+                    new P1<IndRechPojo>() {
+                        public IndRechPojo _1() { return indRechPojo; }
+                    }),
+            PaginationFunctions.findByRowKey);
 
-                    // les filtres :
-                    IndRechPojo indRechPojo = individuPaginator.getIndRechPojo();
-                    // 1. les numdossier, nom, prenom
-                    fromString(indRechPojo.getNumDossierOpiRecherche())
-                            .foreach(applyPut("numDossierOpi", filters));
-                    fromString(indRechPojo.getNomRecherche())
-                            .foreach(applyPut("nomPatronymique", filters));
-                    fromString(indRechPojo.getPrenomRecherche())
-                            .foreach(applyPut("prenom", filters));
-
-                    // Hack pour filtrer ou non les individus sans voeux :
-                    // indRechPojo.useVoeuFilter est positionné dans les vues par f:event
-                    iif(indRechPojo.isUseVoeuFilter(), "true")
-                            .foreach(applyPut("useVoeuFilter", filters));
-
-                    // 2. le ou les types de décision
-                    final List<TypeDecision> typesDec = indRechPojo.getTypesDec();
-
-                    // 3. les étapes (TraitementCmi) de la commission
-                    Integer idCom = indRechPojo.getIdCmi();
-                    Option<Stream<Commission>> cmis = iif(idCom != null && idCom > 0, idCom)
-                            .map(new F<Integer, Stream<Commission>>() {
-                                public Stream<Commission> f(Integer idCmi) {
-                                    return single(getParameterService().getCommission(idCmi, null));
-                                }})
-                            .orElse(iif(indRechPojo.isUseGestCommsFilter(), // (Hack : isUseGestCommsFilter est positionné par f:event)
-                                    iterableStream(fromNull(getDomainApoService().getListCommissionsByRight(gest, true))
-                                            .orSome(new HashSet<Commission>()))));
-
-                    final Option<Set<TraitementCmi>> trtCmis =
-                            cmis.map(new F<Stream<Commission>, Stream<TraitementCmi>>() {
-                                public Stream<TraitementCmi> f(Stream<Commission> commissions) {
-                                    return commissions.bind(new F<Commission, Stream<TraitementCmi>>() {
-                                        public Stream<TraitementCmi> f(Commission com) {
-                                            return join(fromNull(com.getTraitementCmi())
-                                                    .toStream()
-                                                    .map(Conversions.<TraitementCmi>setToStream_()));
-                                        }
-                                    });
-                                }
-                            }.andThen(Conversions.<TraitementCmi>streamToSet_()));
-
-                    // 4. les régimes d'inscription
-                    final Set<Integer> listCodesRI = new HashSet<>(
-                            iterableStream(fromNull(indRechPojo.getListeRI())
-                                    .orSome(Collections.<RegimeInscription>emptySet()))
-                            .map(new F<RegimeInscription, Integer>() {
-                                public Integer f(RegimeInscription ri) {
-                                    return ri.getCode();
-                                }
-                            }).toCollection());
-
-                    // 5. caractère 'traité' ou non du voeu
-                    Boolean excludeTreated = indRechPojo.getExcludeWishProcessed();
-                    final Option<Boolean> wishTreated = iif(excludeTreated != null && excludeTreated, false);
-
-                    // 6. caratère 'validé' ou non du voeu
-                    final Option<Boolean> validWish = fromNull(indRechPojo.getSelectValid());
-
-                    // 7. le type de traitement (Hack : indRechPojo.useTypeTrtFilter est positionné dans les vues par f:event)
-                    final Collection<TypeTraitement> typeTrtmts =
-                            indRechPojo.isUseTypeTrtFilter() ? typeTraitements : Collections.<TypeTraitement>emptyList();
-
-                    // 8. Date de création des voeux
-                    final Option<Date> dateCrea = fromNull(indRechPojo.getDateCreationVoeuRecherchee());
-
-                    // 9. le ou les types de traitement des étapes
-                    Boolean useTypeTrtVetFilter = indRechPojo.isUseTypeTrtVetFilter();
-                    final Option<List<String>> typesTrtVet =
-                            iif(useTypeTrtVetFilter != null && useTypeTrtVetFilter, indRechPojo.getTypesTrtVet());
-
-                    return getDomainService().sliceOfInd(
-                            pfFilters((long) first, (long) pageSize, sortField, sortOrder, filters),
-                            typesDec, validWish, wishTreated, dateCrea, typeTrtmts, trtCmis, listCodesRI, typesTrtVet);
-                }
-            },
-            new F2<String, Individu, Boolean>() {
-                public Boolean f(String rowKey, Individu individu) {
-                    return individu.getId().toString().equals(rowKey);
-                }
-            }
-    );
-
-    // ******************* INIT *************************
-
-    /**
-     * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
-     */
     @Override
     public void reset() {
         actionEnum = new ActionEnum();
@@ -338,9 +250,6 @@ public class IndividuController extends AbstractAccessController {
         situationController.reset();
     }
 
-    /**
-     * @see org.esupportail.opi.web.controllers.AbstractContextAwareController#afterPropertiesSetInternal()
-     */
     @Override
     public void afterPropertiesSetInternal() {
         super.afterPropertiesSetInternal();
@@ -353,24 +262,14 @@ public class IndividuController extends AbstractAccessController {
                 "property indBacController of class " + this.getClass().getName() + CAN_NO_BE_NULL);
         Assert.notNull(this.situationController,
                 "property situationController of class " + this.getClass().getName() + CAN_NO_BE_NULL);
-        Assert.notNull(this.individuPaginator,
-                "property individuPaginator of class " + this.getClass().getName() + CAN_NO_BE_NULL);
         Assert.notNull(this.formulairesController,
                 "property formulairesController of class " + this.getClass().getName() + CAN_NO_BE_NULL);
     }
 
-
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return "IndividuController#" + hashCode() + "[pojoIndividu =" + pojoIndividu + "]";
     }
-
-	/*
-	 ******************* CALLBACK ********************** */
-
 
     /**
      * Callback to search a Rennes1 student with his NNE code.
@@ -861,7 +760,7 @@ public class IndividuController extends AbstractAccessController {
                 }
             }
         } else if (individuOPI != null) {
-            List<IndCursusScol> indCurScol = new ArrayList<IndCursusScol>();
+            List<IndCursusScol> indCurScol = new ArrayList<>();
             indCurScol.addAll(individuOPI.getCursusScol());
             cursusController.initCursusList(indCurScol);
         }
@@ -869,7 +768,7 @@ public class IndividuController extends AbstractAccessController {
 
     public void initIndRechPojo() {
         if (!FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest()) {
-            final IndRechPojo indRechPojo = new IndRechPojo();
+            indRechPojo = new IndRechPojo();
             final SessionController sessionController = getSessionController();
             final User user = sessionController.getCurrentUser();
             if (user != null && user instanceof Gestionnaire) {
@@ -878,29 +777,25 @@ public class IndividuController extends AbstractAccessController {
                 RegimeInscription regimeIns = sessionController.getRegimeIns().get(codeRI);
                 indRechPojo.getListeRI().add(regimeIns);
                 indRechPojo.setCanModifyRISearch(regimeIns.canModifyRISearch());
+                indRechPojo.setTypeTraitements(array(new ValidationAcquis(), new AccesSelectif()).toCollection());
             }
-            individuPaginator.setIndRechPojo(indRechPojo);
         }
     }
 
     public void useVoeuFilter(Boolean bool) {
-        individuPaginator.getIndRechPojo().setUseVoeuFilter(bool);
+        indRechPojo.setUseVoeuFilter(bool);
     }
 
     public void useTypeTrtFilter(Boolean bool) {
-        individuPaginator.getIndRechPojo().setUseTypeTrtFilter(bool);
+        indRechPojo.setUseTypeTrtFilter(bool);
     }
 
-    public void useTypeTrtVetFilter(Boolean bool) {
-        individuPaginator.getIndRechPojo().setUseTypeTrtVetFilter(bool);
-    }   
-    
     public void useGestCommsFilter(Boolean bool) {
-        individuPaginator.getIndRechPojo().setUseGestCommsFilter(bool);
+        indRechPojo.setUseGestCommsFilter(bool);
     }
 
     public void excludeWishProcessed(Boolean bool) {
-        individuPaginator.getIndRechPojo().setExcludeWishProcessed(bool);
+        indRechPojo.setExcludeWishProcessed(bool);
     }
     
     /**
@@ -1545,14 +1440,6 @@ public class IndividuController extends AbstractAccessController {
         this.actionEnum = actionEnum;
     }
 
-    public IndividuPaginator getIndividuPaginator() {
-        return individuPaginator;
-    }
-
-    public void setIndividuPaginator(final IndividuPaginator individuPaginator) {
-        this.individuPaginator = individuPaginator;
-    }
-
     public AdressController getAdressController() {
         return adressController;
     }
@@ -1650,21 +1537,11 @@ public class IndividuController extends AbstractAccessController {
         return ldapUserService;
     }
 
-    public Collection<TypeTraitement> getTypeTraitements() {
-        return typeTraitements;
-    }
-
-    public void setTypeTraitements(Collection<TypeTraitement> typeTraitements) {
-        this.typeTraitements = typeTraitements;
-    }
-
     public void setLdapUserService(LdapUserService ldapUserService) {
         this.ldapUserService = ldapUserService;
     }
 
-    public LazyDataModel<Individu> getIndLDM() {
-        return indLDM;
-    }
+    //public LazyDataModel<Individu> getIndLDM() { return indLDM; }
 
     public boolean isRenderTable() {
         return renderTable;
@@ -1678,4 +1555,7 @@ public class IndividuController extends AbstractAccessController {
         renderTable = true;
     }
 
+    public IndRechPojo getIndRechPojo() { return indRechPojo; }
+
+    public LazyDataModel<Individu> getIndLDM() { return indLDM; }
 }

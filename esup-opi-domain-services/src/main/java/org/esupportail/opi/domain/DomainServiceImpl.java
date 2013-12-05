@@ -5,13 +5,9 @@
 package org.esupportail.opi.domain;
 
 
-import fj.F;
 import fj.P2;
-import fj.Unit;
-import fj.control.parallel.ParModule;
-import fj.control.parallel.Strategy;
+import fj.data.Array;
 import fj.data.Option;
-import fj.data.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.exceptions.UserNotFoundException;
@@ -47,12 +43,9 @@ import org.esupportail.opi.domain.beans.user.situation.IndSituation;
 import org.esupportail.opi.utils.ldap.LdapAttributes;
 import org.esupportail.opi.utils.primefaces.PFFilters;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.*;
-import java.util.concurrent.Executors;
 
 
 /**
@@ -332,17 +325,16 @@ public final class DomainServiceImpl implements DomainService {
 	}
 	
 	@Override
-	public P2<Long, Stream<Individu>> sliceOfInd(PFFilters pfFilters,
-                                                 List<TypeDecision> typesDec,
-                                                 Option<Boolean> validWish,
-                                                 Option<Boolean> treatedWish,
-                                                 Option<Date> wishCreation,
-                                                 Collection<TypeTraitement> typeTrtmts,
-                                                 Option<Set<TraitementCmi>> trtCmis,
-                                                 Set<Integer> listCodesRI,
-                                                 Option<List<String>> typesTrtVet) {
+	public P2<Long, Array<Individu>> sliceOfInd(PFFilters pfFilters,
+                                                List<TypeDecision> typesDec,
+                                                Option<Boolean> validWish,
+                                                Option<Boolean> treatedWish,
+                                                Option<Date> wishCreation,
+                                                Collection<TypeTraitement> typeTrtmts,
+                                                Option<Set<TraitementCmi>> trtCmis,
+                                                Set<Integer> listCodesRI) {
 	    return individuDaoSrv.sliceOfInds(
-                pfFilters, typesDec, validWish, treatedWish, wishCreation, typeTrtmts, trtCmis, listCodesRI, typesTrtVet);
+                pfFilters, typesDec, validWish, treatedWish, wishCreation, typeTrtmts, trtCmis, listCodesRI);
 	}
 	
 	

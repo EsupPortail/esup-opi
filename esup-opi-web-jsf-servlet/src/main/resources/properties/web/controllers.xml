@@ -128,18 +128,11 @@
         <property name="cursusController" ref="cursusController"/>
         <property name="indBacController" ref="indBacController"/>
         <property name="situationController" ref="situationController"/>
-        <property name="individuPaginator" ref="paginatorIndividu"/>
         <property name="formulairesController" ref="formulairesController"/>
         <property name="isRecupCursus" value="${init.recupCursus}"/>
         <property name="isRecupBac" value="${init.recupBac}"/>
         <property name="isRecupInfos" value="${init.recupInfos}"/>
         <property name="ldapUserService" ref="ldapUserService"/>
-        <property name="typeTraitements">
-            <list>
-                <ref bean="accesSelectif" />
-                <ref bean="validationAcquis" />
-            </list>
-        </property>
     </bean>
 
     <bean id="adressController"
@@ -385,7 +378,6 @@
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the consultRdv.</description>
         <property name="individuPaginator" ref="paginatorIndividuPojo"/>
-        <property name="individuController" ref="individuController" />
     </bean>
 
     <bean id="etapeController"
@@ -462,7 +454,6 @@
           class="org.esupportail.opi.web.controllers.opinions.TypeTraitController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage opinions and traitments.</description>
-        <property name="individuController" ref="individuController" />
         <property name="typeTraitementTR" ref="transfert"/>
         <property name="typeTraitementVA" ref="validationAcquis"/>
         <property name="typeTraitementET" ref="enAttente"/>
@@ -482,7 +473,6 @@
           class="org.esupportail.opi.web.controllers.opinions.PJController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage pj missed.</description>
-        <property name="individuController" ref="individuController"/>
         <property name="commissionController" ref="commissionController"/>
         <property name="smtpService" ref="smtpService"/>
         <property name="transfert" ref="transfert"/>

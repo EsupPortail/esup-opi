@@ -8,7 +8,6 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
               version="2.0">
-
     <application>
         <el-resolver>org.esupportail.commons.jsf.ResourceBundleFacesELResolver</el-resolver>
         <locale-config>
@@ -18,7 +17,7 @@
         </locale-config>
         <message-bundle>META-INF/i18n/bundles/JsfMessages</message-bundle>
     </application>
-    <factory>
-        <exception-handler-factory>org.esupportail.opi.web.utils.exceptions.ExHandlerFactory</exception-handler-factory>
-    </factory>
+    <!--<factory>-->
+        <!--<exception-handler-factory>org.esupportail.opi.web.utils.exceptions.ExHandlerFactory</exception-handler-factory>-->
+    <!--</factory>-->
 </faces-config>

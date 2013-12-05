@@ -1,6 +1,7 @@
 package org.esupportail.opi.web.controllers.references;
 
 
+import fj.P1;
 import org.apache.myfaces.custom.schedule.ScheduleMouseEvent;
 import org.apache.myfaces.custom.schedule.UISchedule;
 import org.apache.myfaces.custom.schedule.model.ScheduleModel;
@@ -10,6 +11,9 @@ import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.BeanUtils;
+import org.esupportail.opi.domain.DomainApoService;
+import org.esupportail.opi.domain.DomainService;
+import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV;
@@ -24,12 +28,15 @@ import org.esupportail.opi.utils.Conversions;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.components.ExtendedEntry;
 import org.esupportail.opi.web.beans.paginator.IndividuPaginator;
+import org.esupportail.opi.web.beans.pojo.IndRechPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.opi.web.beans.utils.ExportUtils;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
+import org.esupportail.opi.web.controllers.SessionController;
 import org.esupportail.opi.web.controllers.user.IndividuController;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
+import org.esupportail.opi.web.utils.paginator.PaginationFunctions;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
 import javax.faces.event.ActionEvent;
@@ -40,28 +47,21 @@ import java.util.*;
 
 import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatConfirme;
 import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
+import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
-
-/**
- * @author brice.quillerie
- */
 public class ConsultRdvController extends AbstractContextAwareController {
-    /**
-     * serialVersionUID.
-     */
     private static final long serialVersionUID = 1397855327856855038L;
 
-    /**     */
     private static final int NB_MS_BY_HALF_HOUR = 1800000;
 
-    /**     */
     private static final int DOUZE = 12;
 
-    /**
-     * Constante Trente.
-     */
     private static final int TRENTE = 30;
-    /**     */
+
+    private int startHour = DOUZE;
+
+    private int endHour = DOUZE;
+
     private static final List<String> HEADER_CVS = new ArrayList<String>() {
         private static final long serialVersionUID = 4451087010675988608L;
         {
@@ -79,19 +79,41 @@ public class ConsultRdvController extends AbstractContextAwareController {
         }
     };
 
-    private int startHour = DOUZE;
-
-    private int endHour = DOUZE;
-
-    private final Logger log = new LoggerImpl(getClass());
-
     private ActionEnum actionEnum;
-
-    IndividuController individuController;
 
     private IndividuPaginator individuPaginator;
 
-    private LazyDataModel<IndividuPojo> indPojoLDM;
+    private IndRechPojo indRechPojo = new IndRechPojo();
+
+    private final LazyDataModel<IndividuPojo> indPojoLDM = lazyModel(
+            PaginationFunctions.getData(
+                    new P1<SessionController>() {
+                        public SessionController _1() {
+                            return getSessionController();
+                        }
+                    },
+                    new P1<DomainService>() {
+                        public DomainService _1() {
+                            return getDomainService();
+                        }
+                    },
+                    new P1<DomainApoService>() {
+                        public DomainApoService _1() {
+                            return getDomainApoService();
+                        }
+                    },
+                    new P1<ParameterService>() {
+                        public ParameterService _1() {
+                            return getParameterService();
+                        }
+                    },
+                    new P1<IndRechPojo>() {
+                        public IndRechPojo _1() {
+                            return indRechPojo;
+                        }
+                    }),
+            PaginationFunctions.findByRowKey)
+            .map(individuToPojo(getDomainApoService(), getParameterService()));
 
     private CalendarRDV calendarRdv;
 
@@ -108,6 +130,8 @@ public class ConsultRdvController extends AbstractContextAwareController {
     private UISchedule uiSchedule;
 
     private boolean inSearch;
+
+    private final Logger log = new LoggerImpl(getClass());
 
     public ConsultRdvController() {
         movedEntryMode = false;
@@ -128,12 +152,6 @@ public class ConsultRdvController extends AbstractContextAwareController {
         }
     }
 
-    @Override
-    public void afterPropertiesSetInternal() {
-        indPojoLDM = individuController.getIndLDM().map(
-                individuToPojo(getDomainApoService(), getParameterService()));
-    }
-
     public String goSeeAllConsultRdv() {
         reset();
         return NavigationRulesConst.SEE_CONSULT_RDV;
@@ -151,10 +169,10 @@ public class ConsultRdvController extends AbstractContextAwareController {
 
     private List<IndVoeu> getVoeuIndCal() {
         String cge = calendarRdv.getCodeCge();
-        List<IndVoeu> listIndVoeu = new ArrayList<IndVoeu>();
+        List<IndVoeu> listIndVoeu = new ArrayList<>();
         if (cge == null) {
-            Set<VersionEtpOpi> listVet = new HashSet<VersionEtpOpi>();
-            Set<VersionEtapeDTO> listVetDto = new HashSet<VersionEtapeDTO>();
+            Set<VersionEtpOpi> listVet = new HashSet<>();
+            Set<VersionEtapeDTO> listVetDto = new HashSet<>();
             //Récupération des versionEtpOpi de la liste commissions
             for (Commission comm : calendarRdv.getCommissions()) {
                 for (TraitementCmi tcmi : comm.getTraitementCmi()) {
@@ -252,11 +270,6 @@ public class ConsultRdvController extends AbstractContextAwareController {
         return "";
     }
 
-    /**
-     * Listener on button move entry.
-     *
-     * @return la chaine d'entree
-     */
     public String deplacer() {
         // Recuperation de la liste IndividuDate
         Date laDate = calendarRdv.getDateParCandidat().get(candidat);
@@ -317,11 +330,6 @@ public class ConsultRdvController extends AbstractContextAwareController {
         return "";
     }
 
-    /**
-     * Supprime l'indDate.
-     *
-     * @return la chaine de redirection
-     */
     public String supprimer() {
         // Recuperation de la liste IndividuDate
         Date laDate = calendarRdv.getDateParCandidat().get(candidat);
@@ -370,9 +378,6 @@ public class ConsultRdvController extends AbstractContextAwareController {
         return "";
     }
 
-    /**
-     * construct the weekScheduleModel.
-     */
     public void setWeekScheduleModel() {
         if (weekScheduleModel == null) {
             log.info("Dans setWeekScheduleModel");
@@ -407,10 +412,6 @@ public class ConsultRdvController extends AbstractContextAwareController {
         }
     }
 
-    /**
-     * @param calDebut
-     * @return l'entry pour la semaine
-     */
     public ExtendedEntry createWeekEntry(final Calendar calDebut) {
         Calendar calFin = new GregorianCalendar();
         calFin.setTimeInMillis(calDebut.getTimeInMillis() + NB_MS_BY_HALF_HOUR);
@@ -454,9 +455,6 @@ public class ConsultRdvController extends AbstractContextAwareController {
         return entry;
     }
 
-    /**
-     * @return schduleModel
-     */
     public ScheduleModel getWeekScheduleModel() {
         if (weekScheduleModel == null) {
             setWeekScheduleModel();
@@ -464,19 +462,10 @@ public class ConsultRdvController extends AbstractContextAwareController {
         return weekScheduleModel;
     }
 
-    /** * */
     public void annuler() {
-//		addedEntryMode = false;
         movedEntryMode = false;
     }
 
-	/*
-	 * ****************** ACCESSORS ********************
-	 */
-
-    /**
-     * @return actionEnum
-     */
     public ActionEnum getActionEnum() {
         if (actionEnum == null) {
             actionEnum = new ActionEnum();
@@ -484,31 +473,18 @@ public class ConsultRdvController extends AbstractContextAwareController {
         return actionEnum;
     }
 
-    /**
-     * @param actionEnum
-     */
     public void setActionEnum(final ActionEnum actionEnum) {
         this.actionEnum = actionEnum;
     }
 
-    /**
-     * @return the calendarRdv
-     */
     public CalendarRDV getCalendarRdv() {
         return calendarRdv;
     }
 
-    /**
-     * @param calendarRdv the calendarRdv to set
-     */
     public void setCalendarRdv(final CalendarRDV calendarRdv) {
         this.calendarRdv = calendarRdv;
     }
 
-    /**
-     * @param date
-     * @return date transformed
-     */
     private Date transformHour(final Date date) {
         Calendar cal = new GregorianCalendar();
         cal.setTime(date);
@@ -524,9 +500,6 @@ public class ConsultRdvController extends AbstractContextAwareController {
         return cal.getTime();
     }
 
-    /**
-     * Action clicked on schedule day.
-     */
     public void scheduleAction() {
         log.info("Dans scheduleAction");
 
@@ -538,11 +511,6 @@ public class ConsultRdvController extends AbstractContextAwareController {
         }
     }
 
-    /**
-     * Listener when schedule is clicked.
-     *
-     * @param event
-     */
     public void scheduleClicked(final ScheduleMouseEvent event) {
         log.info("ScheduleMouseEvent " + event.getEventType());
 
@@ -554,9 +522,6 @@ public class ConsultRdvController extends AbstractContextAwareController {
         }
     }
 
-    /**
-     * @return the day as String (
-     */
     public String getSelectedDay() {
         SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_COMPLETE_FORMAT);
         if (weekScheduleModel.getSelectedEntry() != null) {
@@ -565,11 +530,6 @@ public class ConsultRdvController extends AbstractContextAwareController {
         return sdf.format(weekScheduleModel.getSelectedDate());
     }
 
-    /**
-     * Listener link before (Month/WorkWeek/Day).
-     *
-     * @param event
-     */
     public void before(final ActionEvent event) {
         Calendar cal = new GregorianCalendar();
         cal.setTime(weekScheduleModel.getSelectedDate());
@@ -582,11 +542,6 @@ public class ConsultRdvController extends AbstractContextAwareController {
         dateSelect = cal.getTime();
     }
 
-    /**
-     * Listener link next (Month/WorkWeek/Day).
-     *
-     * @param event
-     */
     public void next(final ActionEvent event) {
         Calendar cal = new GregorianCalendar();
         cal.setTime(weekScheduleModel.getSelectedDate());
@@ -599,53 +554,33 @@ public class ConsultRdvController extends AbstractContextAwareController {
         dateSelect = cal.getTime();
     }
 
-    /**
-     * @return the movedEntryMode
-     */
     public boolean isMovedEntryMode() {
         return movedEntryMode;
     }
 
-    /**
-     * @return the idEntrySelected
-     */
     public String getIdEntrySelected() {
         return idEntrySelected;
     }
 
-    /**
-     * @param idEntrySelected the idEntrySelected to set
-     */
     public void setIdEntrySelected(final String idEntrySelected) {
-        this.idEntrySelected = new String(idEntrySelected);
+        this.idEntrySelected = idEntrySelected;
     }
 
-    /**
-     * @return the startHour
-     */
     public int getStartHour() {
         return startHour;
     }
 
-    /**
-     * @return the endHour
-     */
     public int getEndHour() {
         return endHour;
     }
 
-    /**
-     * Generate a CSV of the list of student.
-     *
-     * @return String
-     */
     public String csvGeneration() {
         // key ligne value vlaue list
-        Map<Integer, List<String>> mapCsv = new HashMap<Integer, List<String>>();
+        Map<Integer, List<String>> mapCsv = new HashMap<>();
         Integer counter = 0;
         mapCsv.put(counter, HEADER_CVS);
 
-        Set<Date> dates = new HashSet<Date>();
+        Set<Date> dates = new HashSet<>();
         if (getActionEnum().getWhatAction().equals(getActionEnum().getEmptyAction())) {
             dates.addAll(calendarRdv.getCandidatsAsMap().keySet());
         } else {
@@ -667,23 +602,20 @@ public class ConsultRdvController extends AbstractContextAwareController {
         for (Date date : dates) {
             Set<Individu> listKey = calendarRdv.getCandidatsAsMap().get(date).keySet();
             for (Individu ind : listKey) {
-                List<String> ligne = new ArrayList<String>();
+                List<String> ligne = new ArrayList<>();
                 ++counter;
-
                 //Commission_CGE_VersionEtape
                 if (calendarRdv.getCodeCge() != null) {
                     ligne.add(calendarRdv.getCodeCge());
                 } else if (calendarRdv.getCommissions() != null) {
-                    StringBuffer listComms = new StringBuffer();
-                    for (Commission comm : calendarRdv.getCommissions()) {
-                        listComms.append(comm.getLibelle() + " - ");
-                    }
+                    StringBuilder listComms = new StringBuilder();
+                    for (Commission comm : calendarRdv.getCommissions())
+                        listComms.append(comm.getLibelle()).append(" - ");
                     ligne.add(listComms.toString());
                 } else if (calendarRdv.getVets() != null) {
                     String listVets = "";
-                    for (VetCalendar vet : calendarRdv.getVets()) {
+                    for (VetCalendar vet : calendarRdv.getVets())
                         listVets += vet.getLibelle() + " - ";
-                    }
                     ligne.add(listVets);
                 }
                 //Date_RDV
@@ -758,51 +690,30 @@ public class ConsultRdvController extends AbstractContextAwareController {
         return null;
     }
 
-    /**
-     * @return the inSearch
-     */
     public boolean isInSearch() {
         return inSearch;
     }
 
-    /**
-     * @param inSearch the inSearch to set
-     */
     public void setInSearch(final boolean inSearch) {
         this.inSearch = inSearch;
     }
 
-    /**
-     * @return the individuPaginator
-     */
     public IndividuPaginator getIndividuPaginator() {
         return individuPaginator;
     }
 
-    /**
-     * @param individuPaginator the individuPaginator to set
-     */
     public void setIndividuPaginator(final IndividuPaginator individuPaginator) {
         this.individuPaginator = individuPaginator;
     }
 
-    /**
-     * @return the candidat
-     */
     public Individu getCandidat() {
         return candidat;
     }
 
-    /**
-     * @param candidat the candidat to set
-     */
     public void setCandidat(final Individu candidat) {
         this.candidat = candidat;
     }
 
-    /**
-     *
-     */
     public void moveEntry() {
         movedEntryMode = true;
         if (weekScheduleModel != null && weekScheduleModel.getSelectedEntry() != null) {
@@ -814,26 +725,12 @@ public class ConsultRdvController extends AbstractContextAwareController {
                 "CALENDAR_RDV.MESSAGES.MOVE_ENTRY");
     }
 
-    /**
-     * @return the uiSchedule
-     */
     public UISchedule getUiSchedule() {
         return uiSchedule;
     }
 
-    /**
-     * @param uiSchedule the uiSchedule to set
-     */
     public void setUiSchedule(final UISchedule uiSchedule) {
         this.uiSchedule = uiSchedule;
-    }
-
-    public IndividuController getIndividuController() {
-        return individuController;
-    }
-
-    public void setIndividuController(IndividuController individuController) {
-        this.individuController = individuController;
     }
 
     public LazyDataModel<IndividuPojo> getIndPojoLDM() {

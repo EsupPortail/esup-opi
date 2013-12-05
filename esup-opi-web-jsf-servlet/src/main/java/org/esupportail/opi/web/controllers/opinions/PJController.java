@@ -1,7 +1,11 @@
 package org.esupportail.opi.web.controllers.opinions;
 
+import fj.P1;
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
+import org.esupportail.opi.domain.DomainApoService;
+import org.esupportail.opi.domain.DomainService;
+import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.parameters.Transfert;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
@@ -17,9 +21,11 @@ import org.esupportail.opi.web.beans.pojo.*;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
+import org.esupportail.opi.web.controllers.SessionController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
 import org.esupportail.opi.web.controllers.user.IndividuController;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
+import org.esupportail.opi.web.utils.paginator.PaginationFunctions;
 
 import javax.faces.model.SelectItem;
 import java.util.ArrayList;
@@ -31,6 +37,7 @@ import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatArriveComplet;
 import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatArriveIncomplet;
 import static org.esupportail.opi.web.utils.DTOs.commissionDTO;
 import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
+import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
 /**
  * @author tducreux
@@ -80,11 +87,6 @@ public class PJController extends AbstractContextAwareController {
     private ActionEnum actionEnum;
 
     /**
-     * see {@link IndividuController}.
-     */
-    private IndividuController individuController;
-
-    /**
      * see {@link CommissionController}.
      */
     private CommissionController commissionController;
@@ -110,7 +112,38 @@ public class PJController extends AbstractContextAwareController {
      */
     private MissingPiecePojo mpPojoSelected;
 
-    private LazyDataModel<MissingPiecePojo> missingPiecePojoLDM;
+    private IndRechPojo indRechPojo = new IndRechPojo();
+
+    private final LazyDataModel<MissingPiecePojo> missingPiecePojoLDM = lazyModel(
+            PaginationFunctions.getData(
+                    new P1<SessionController>() {
+                        public SessionController _1() {
+                            return getSessionController();
+                        }
+                    },
+                    new P1<DomainService>() {
+                        public DomainService _1() {
+                            return getDomainService();
+                        }
+                    },
+                    new P1<DomainApoService>() {
+                        public DomainApoService _1() {
+                            return getDomainApoService();
+                        }
+                    },
+                    new P1<ParameterService>() {
+                        public ParameterService _1() {
+                            return getParameterService();
+                        }
+                    },
+                    new P1<IndRechPojo>() {
+                        public IndRechPojo _1() {
+                            return indRechPojo;
+                        }
+                    }),
+            PaginationFunctions.findByRowKey)
+            .map(individuToPojo(getDomainApoService(), getParameterService())
+                    .andThen(paginatorPM.indPojoToMPPojo()));
 
     private boolean renderTable = false;
 
@@ -144,9 +177,6 @@ public class PJController extends AbstractContextAwareController {
     @Override
     public void afterPropertiesSetInternal() {
         super.afterPropertiesSetInternal();
-        Assert.notNull(this.individuController,
-                "property individuController of class "
-                        + this.getClass().getName() + " can not be null");
         Assert.notNull(this.smtpService,
                 "property smtpService of class "
                         + this.getClass().getName() + " can not be null");
@@ -159,11 +189,6 @@ public class PJController extends AbstractContextAwareController {
         Assert.notNull(this.paginatorPM,
                 "property paginatorPM of class " + this.getClass().getName()
                         + " can not be null");
-
-        missingPiecePojoLDM =
-                individuController.getIndLDM().map(
-                        individuToPojo(getDomainApoService(), getParameterService())
-                                .andThen(paginatorPM.indPojoToMPPojo()));
 
         reset();
     }
@@ -487,17 +512,11 @@ public class PJController extends AbstractContextAwareController {
      * @return the missingPieceModel
      */
     public MissingPieceDataModel getMissingPieceModel() {
-    	missingPieceModel = new MissingPieceDataModel(this.mpPojoSelected.getPiecesForCmi().get(currentCmiPojo.getCommission()));
+    	missingPieceModel =
+                new MissingPieceDataModel(this.mpPojoSelected.getPiecesForCmi().get(currentCmiPojo.getCommission()));
         return missingPieceModel;
     }
     
-    /**
-     * @param individuController the individuController to set
-     */
-    public void setIndividuController(final IndividuController individuController) {
-        this.individuController = individuController;
-    }
-
     /**
      * @param smtpService the smtpService to set
      */
@@ -595,7 +614,5 @@ public class PJController extends AbstractContextAwareController {
         this.renderTable = renderTable;
     }
 
-    public void doRenderTable() {
-        renderTable = true;
-    }
+    public void doRenderTable() { renderTable = true; }
 }

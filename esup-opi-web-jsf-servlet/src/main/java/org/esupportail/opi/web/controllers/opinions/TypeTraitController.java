@@ -1,22 +1,26 @@
 package org.esupportail.opi.web.controllers.opinions;
 
+import fj.P1;
+import fj.data.Array;
 import fj.data.Stream;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
+import org.esupportail.opi.domain.DomainApoService;
+import org.esupportail.opi.domain.DomainService;
+import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.beans.parameters.*;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.utils.Constantes;
-import org.esupportail.opi.web.beans.pojo.AdressePojo;
-import org.esupportail.opi.web.beans.pojo.CommissionPojo;
-import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
-import org.esupportail.opi.web.beans.pojo.IndividuPojo;
+import org.esupportail.opi.web.beans.pojo.*;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
+import org.esupportail.opi.web.controllers.SessionController;
 import org.esupportail.opi.web.controllers.user.IndividuController;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
+import org.esupportail.opi.web.utils.paginator.PaginationFunctions;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
 import javax.faces.context.FacesContext;
@@ -28,23 +32,14 @@ import java.util.Set;
 
 import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatNull;
 import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
+import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
 /**
  * @author tducreux
  *         TypeTraitController :
  */
 public class TypeTraitController extends AbstractContextAwareController {
-
-
-	/*
-     ******************* PROPERTIES ******************* */
-
-    /**
-     * the serialization id.
-     */
     private static final long serialVersionUID = 5545836516397172544L;
-
-    private IndividuController individuController;
 
     /**
      * Select all the type treatment if the type.
@@ -66,9 +61,6 @@ public class TypeTraitController extends AbstractContextAwareController {
      */
     private TypeTraitement typeTraitementET;
 
-    /**
-     * see {@link InscriptionAdm}.
-     */
     private InscriptionAdm inscriptionAdm;
 
     /**
@@ -76,36 +68,48 @@ public class TypeTraitController extends AbstractContextAwareController {
      */
     private List<TypeTraitement> typeTraitements;
 
-    /**
-     * {@link SmtpService}.
-     */
     private SmtpService smtpService;
 
     private boolean renderTable = false;
 
-    private LazyDataModel<IndividuPojo> indPojoLDM;
+    private IndRechPojo indRechPojo = new IndRechPojo();
 
+    private LazyDataModel<IndividuPojo> indPojoLDM = lazyModel(
+            PaginationFunctions.getData(
+                    new P1<SessionController>() {
+                        public SessionController _1() {
+                            return getSessionController();
+                        }
+                    },
+                    new P1<DomainService>() {
+                        public DomainService _1() {
+                            return getDomainService();
+                        }
+                    },
+                    new P1<DomainApoService>() {
+                        public DomainApoService _1() {
+                            return getDomainApoService();
+                        }
+                    },
+                    new P1<ParameterService>() {
+                        public ParameterService _1() {
+                            return getParameterService();
+                        }
+                    },
+                    new P1<IndRechPojo>() {
+                        public IndRechPojo _1() {
+                            return indRechPojo;
+                        }
+                    }),
+            PaginationFunctions.findByRowKey)
+            .map(individuToPojo(getDomainApoService(), getParameterService()));
 
-	 // ******************* INIT *************************
-
-    /**
-     * Constructors.
-     */
-    public TypeTraitController() {
-    }
-
-    /**
-     * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
-     */
     @Override
     public void reset() {
         super.reset();
         codeTypeTrtselected = null;
     }
 
-    /**
-     * @see org.esupportail.opi.web.controllers.AbstractContextAwareController#afterPropertiesSetInternal()
-     */
     @Override
     public void afterPropertiesSetInternal() {
         super.afterPropertiesSetInternal();
@@ -115,35 +119,14 @@ public class TypeTraitController extends AbstractContextAwareController {
         Assert.notNull(this.inscriptionAdm,
                 "property inscriptionAdm of class " + this.getClass().getName()
                         + " can not be null");
-
-        indPojoLDM = individuController.getIndLDM().map(
-                individuToPojo(getDomainApoService(), getParameterService()));
-
         reset();
     }
 
-	/*
-	 ******************* CALLBACK ********************** */
-
-    /**
-     * Callback to list of student for the gestion of the type traitement.
-     *
-     * @return String
-     */
     public String goSeeAllTypeTraitments() {
         reset();
         return NavigationRulesConst.DISPLAY_TYPE_TRAITEMENT;
     }
 
-
-	/*
-	 ******************* METHODS ********************** */
-
-    /**
-     * @param i
-     * @param indVoeuPojo
-     * @param typeT
-     */
     private void sendMails(final IndividuPojo i, final Campagne camp,
                            final Set<IndVoeuPojo> indVoeuPojo,
                            final TypeTraitement typeT) {
@@ -161,7 +144,7 @@ public class TypeTraitController extends AbstractContextAwareController {
         htmlBody = "";
         Map<Commission, Set<VersionEtapeDTO>> mapCmi =
                 Utilitaires.getCmiForIndVoeux(getParameterService().getCommissions(true),
-                        Stream.iterableStream(indVoeuPojo), camp);
+                        Array.iterableArray(indVoeuPojo), camp);
         Integer codeRI = camp.getCodeRI();
         for (Map.Entry<Commission, Set<VersionEtapeDTO>> cmiEntry : mapCmi.entrySet()) {
             Commission cmi = cmiEntry.getKey();
@@ -172,7 +155,7 @@ public class TypeTraitController extends AbstractContextAwareController {
                             .getAdresse(), getDomainApoService()),
                     cmi.getContactsCommission().get(codeRI));
             Set<VersionEtapeDTO> vetDTO = cmiEntry.getValue();
-            StringBuffer html = new StringBuffer();
+            StringBuilder html = new StringBuilder();
             for (VersionEtapeDTO vDTO : vetDTO) {
                 html.append(getString("MAIL.LIST_VET", vDTO.getLibWebVet()));
 
@@ -221,11 +204,11 @@ public class TypeTraitController extends AbstractContextAwareController {
      * Put at true the flag haveBeTraited;
      */
     public void update() {
-        Set<IndVoeuPojo> lesVA = new HashSet<IndVoeuPojo>();
-        Set<IndVoeuPojo> lesTR = new HashSet<IndVoeuPojo>();
+        Set<IndVoeuPojo> lesVA = new HashSet<>();
+        Set<IndVoeuPojo> lesTR = new HashSet<>();
         List<IndividuPojo> lesIndividus = indPojoLDM.getData();
         for (IndividuPojo i : lesIndividus) {
-            Stream<IndVoeuPojo> lesVoeux = i.getIndVoeuxPojo();
+            Array<IndVoeuPojo> lesVoeux = i.getIndVoeuxPojo();
             lesVA.clear();
             lesTR.clear();
             Campagne camp = i.getCampagneEnServ(getDomainService());
@@ -250,14 +233,12 @@ public class TypeTraitController extends AbstractContextAwareController {
                                 }
                             }
                             if (avis.getResult() != null) {
-                                Avis av = (Avis) getDomainService().add(
-                                        avis, getCurrentGest().getLogin());
-
+                                Avis av = getDomainService().add(avis, getCurrentGest().getLogin());
                                 getDomainService().addAvis(av);
                             } else {
                                 throw new ConfigException(
                                         "il n'existe pas de typeDecision amenant"
-                                                + " e l'inscription administrative --> avis Favorable");
+                                                + " l'inscription administrative --> avis Favorable");
                             }
                             //update state in stateNull
                             v.getIndVoeu().setState(EtatNull.getCodeLabel());
@@ -286,101 +267,53 @@ public class TypeTraitController extends AbstractContextAwareController {
     }
 
 
-    /**
-     * The selected type treatment.
-     *
-     * @param event
-     */
     public void selectTypTrt(final ValueChangeEvent event) {
-        String idTypTrt = (String) event.getNewValue();
-        codeTypeTrtselected = idTypTrt;
+        codeTypeTrtselected = (String) event.getNewValue();
         selectAllTypeAction();
     }
 
 
-    /**
-     * Select all the type action select for the visible elements.
-     */
     public void selectAllTypeAction() {
         List<IndividuPojo> lesIndividus = indPojoLDM.getData();
         for (IndividuPojo i : lesIndividus) {
-            Stream<IndVoeuPojo> lesVoeux = i.getIndVoeuxPojo();
-            for (IndVoeuPojo v : lesVoeux) {
+            Array<IndVoeuPojo> lesVoeux = i.getIndVoeuxPojo();
+            for (IndVoeuPojo v : lesVoeux)
                 v.getIndVoeu().setCodTypeTrait(codeTypeTrtselected);
-            }
         }
     }
 
-	/*
-	 ******************* ACCESSORS ******************** */
-
-    public IndividuController getIndividuController() {
-        return individuController;
-    }
-
-    public void setIndividuController(IndividuController individuController) {
-        this.individuController = individuController;
-    }
-
-    /**
-     * @return the codeTypeTrtselected
-     */
     public String getCodeTypeTrtselected() {
         return codeTypeTrtselected;
     }
 
-    /**
-     * @param codeTypeTrtselected the codeTypeTrtselected to set
-     */
     public void setCodeTypeTrtselected(final String codeTypeTrtselected) {
         this.codeTypeTrtselected = codeTypeTrtselected;
     }
 
-    /**
-     * @param typeTraitementVA the typeTraitementVA to set
-     */
     public void setTypeTraitementVA(final TypeTraitement typeTraitementVA) {
         this.typeTraitementVA = typeTraitementVA;
     }
 
-    /**
-     * @param typeTraitementTR the typeTraitementTR to set
-     */
     public void setTypeTraitementTR(final TypeTraitement typeTraitementTR) {
         this.typeTraitementTR = typeTraitementTR;
     }
 
-    /**
-     * @param typeTraitementET the typeTraitemenET to set
-     */
     public void setTypeTraitementET(final TypeTraitement typeTraitementET) {
         this.typeTraitementET = typeTraitementET;
     }
 
-    /**
-     * @param smtpService the smtpService to set
-     */
     public void setSmtpService(final SmtpService smtpService) {
         this.smtpService = smtpService;
     }
 
-    /**
-     * @return the typeTraitement
-     */
     public List<TypeTraitement> getTypeTraitements() {
         return typeTraitements;
     }
 
-    /**
-     * @param typeTraitement the typeTraitement to set
-     */
     public void setTypeTraitements(final List<TypeTraitement> typeTraitement) {
         this.typeTraitements = typeTraitement;
     }
 
-    /**
-     * @param inscriptionAdm the inscriptionAdm to set
-     */
     public void setInscriptionAdm(final InscriptionAdm inscriptionAdm) {
         this.inscriptionAdm = inscriptionAdm;
     }
