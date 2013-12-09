@@ -36,6 +36,8 @@ import java.util.*;
 
 import static fj.data.Array.iterableArray;
 import static java.lang.String.format;
+import static org.esupportail.opi.domain.beans.etat.EtatIndividu.EtatComplet;
+import static org.esupportail.opi.domain.beans.etat.EtatIndividu.EtatIncomplet;
 
 
 /**
@@ -212,19 +214,29 @@ public class CursusController extends AbstractAccessController {
             CursusExt c = (CursusExt) pojoCursusScol.getCursus();
             c.setLibDac(getDomainApoService().getDipAutCur(c.getCodDac()).getLibDac());
             addCursus(c);
-
+            IndividuPojo indPojo = getCurrentInd();
             if (actionEnum.getWhatAction().equals(ActionEnum.UPDATE_ACTION)) {
                 //ajout en base
-                addOneCursusScol(getCurrentInd().getIndividu(), pojoCursusScol.getCursus());
+                addOneCursusScol(indPojo.getIndividu(), pojoCursusScol.getCursus());
                 //Ajout dans l'individu courant
-                getCurrentInd().getIndividu().getCursusScol().add(pojoCursusScol.getCursus());
+                indPojo.getIndividu().getCursusScol().add(pojoCursusScol.getCursus());
+                if (indPojo.getIndividu().getState().equals(EtatIncomplet.getCodeLabel())) {
+                    //si l'etat est incomplet dans le cas d'un dossier candidat créé par un gestionnaire
+                    if (indPojo.getRegimeInscription()
+                            .getControlField().control(indPojo.getIndividu())) {
+                    	indPojo.getIndividu().setState(EtatComplet.getCodeLabel());
+                    	indPojo.setEtat(EtatComplet);
+                        // maj de l'individu pour enregistrer l'état complet
+                        getDomainService().updateUser(indPojo.getIndividu());
+                    }
+                }
                 sendMailAddCursus();
             }
             initCursusScol();
         }
 
     }
-
+    
     /**
      * Update the cursus scol if temFromApogee = true.
      */
@@ -307,6 +319,19 @@ public class CursusController extends AbstractAccessController {
             }
             //Suppression dans le pojo
             cursusList.remove(pojoCursusScol);
+            if(cursusList.isEmpty()) {
+            	IndividuPojo indPojo = getCurrentInd();
+                if (indPojo.getIndividu().getState().equals(EtatComplet.getCodeLabel())) {
+                    //si l'etat est complet mais que le crusus postbac est obligatoire
+                    if (!indPojo.getRegimeInscription()
+                            .getControlField().control(indPojo.getIndividu())) {
+                    	indPojo.getIndividu().setState(EtatIncomplet.getCodeLabel());
+                    	indPojo.setEtat(EtatIncomplet);
+                        // maj de l'individu pour enregistrer l'état incomplet
+                        getDomainService().updateUser(indPojo.getIndividu());
+                    }
+                }
+            }
             initCursusScol();
         }
     }

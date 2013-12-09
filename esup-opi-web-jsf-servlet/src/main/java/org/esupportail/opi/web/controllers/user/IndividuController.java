@@ -51,17 +51,20 @@ import org.esupportail.opi.web.utils.fj.Functions;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.DateTimeConverter;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static fj.Effect.f;
 import static fj.data.Option.*;
-import static fj.data.Option.fromString;
 import static fj.data.Stream.*;
-import static fj.data.Stream.join;
+import static fj.data.Option.fromString;
 import static org.esupportail.opi.domain.beans.etat.EtatIndividu.EtatComplet;
 import static org.esupportail.opi.domain.beans.etat.EtatIndividu.EtatIncomplet;
 import static org.esupportail.opi.utils.primefaces.PFFilters.pfFilters;
@@ -90,6 +93,11 @@ public class IndividuController extends AbstractAccessController {
      *
      */
     private static final int NB_YEAR_LAST = 100;
+    /**
+    *
+    */    
+    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
+    
     /**
      * Current Year Used By default for birth dates().
      */
@@ -194,18 +202,6 @@ public class IndividuController extends AbstractAccessController {
      */
     private String etatDossier;
 
-    /**
-     * Used to Store the birth day.
-     */
-    private String jourNaissance;
-    /**
-     * Used to store the birth month.
-     */
-    private String moisNaissance;
-    /**
-     * Use to store the birth Year.
-     */
-    private String anneeNaissance;
     /**
      * Variable to check the mail address.
      */
@@ -327,10 +323,6 @@ public class IndividuController extends AbstractAccessController {
         pojoIndividu.getIndividu().setCodPayNationalite(Constantes.CODEFRANCE);
 
         checkEmail = "";
-
-        jourNaissance = "";
-        moisNaissance = "";
-        anneeNaissance = "";
 
         adressController.reset();
         cursusController.reset();
@@ -517,7 +509,6 @@ public class IndividuController extends AbstractAccessController {
         //init individu
         initIndividuPojo();
         checkEmail = pojoIndividu.getIndividu().getAdressMail();
-        initChampsSelectAnneeNaissance();
         // init adress
         if (pojoIndividu.getIndividu().getAdresses().get(Constantes.ADR_FIX) != null) {
             adressController.init(
@@ -551,8 +542,6 @@ public class IndividuController extends AbstractAccessController {
         pojoIndividu.setRegimeInscription(getSessionController().getRegimeInsUser());
         addTheCurrentRoad(NavigationRulesConst.ADD_ACCOUNT,
                 getString("INDIVIDU.COORD"), getString("INDIVIDU.COORD"));
-        initChampsSelectAnneeNaissance();
-
         return NavigationRulesConst.ADD_ACCOUNT;
     }
 
@@ -677,7 +666,6 @@ public class IndividuController extends AbstractAccessController {
         Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
         int codeRI = gest.getProfile().getCodeRI();
         pojoIndividu.setRegimeInscription(getRegimeIns().get(codeRI));
-        initChampsSelectAnneeNaissance();
         return NavigationRulesConst.ADD_STUDENT;
     }
 
@@ -936,51 +924,16 @@ public class IndividuController extends AbstractAccessController {
 
         //init indBac
         indBacController.initIndBac(new ArrayList<IndBac>(pojoIndividu.getIndividu().getIndBac()), false);
-
-
     }
-
+    
     /**
-     * Méthode utilisée pour initialiser la liste des années de naissance.
+     * @return the dateDeNaissance in String format
      */
-    private void initListeAnneeNaissance() {
-        Campagne campEnCours;
-        int anneeEnCours = DEFAULT_CURRENT_YEAR;
-        if (pojoIndividu.getRegimeInscription() != null) {
-            int codeRI = pojoIndividu.getRegimeInscription().getCode();
-            campEnCours = getParameterService().getCampagneEnServ(codeRI);
-            anneeEnCours = Integer.parseInt(campEnCours.getCodAnu());
-        }
-        listeAnneeNaissance.add(new SelectItem("", ""));
-        for (int i = anneeEnCours - NB_YEAR_FIRST; i > anneeEnCours
-                - (NB_YEAR_FIRST + NB_YEAR_LAST); i--) {
-            listeAnneeNaissance.add(new SelectItem(String.valueOf(i), String
-                    .valueOf(i)));
-        }
-    }
-
-    /**
-     * Méthode permettant d'initialiser les champs Select utilisés pour la
-     * saisie de la date de naissance d' un individu.
-     */
-    private void initChampsSelectAnneeNaissance() {
-        //On initialise la liste des années de naissance si elle est vide.
-        if (listeAnneeNaissance.isEmpty()) {
-            initListeAnneeNaissance();
-        }
-        // Si l'individu a déja une date de naissance on initialise les champs
-        // select avec celle-ci.
-        if (getPojoIndividu().getIndividu().getDateNaissance() != null) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(pojoIndividu
-                    .getIndividu().getDateNaissance());
-            jourNaissance = StringUtils.leftPad(String.valueOf(calendar
-                    .get(Calendar.DAY_OF_MONTH)), 2, '0');
-            moisNaissance = StringUtils.leftPad(String.valueOf(calendar
-                    .get(Calendar.MONTH) + 1), 2, '0');
-            anneeNaissance = String.valueOf(calendar.get(Calendar.YEAR));
-        }
-
+    public String getStringDateDeNaissance() {
+    	if (getPojoIndividu().getIndividu().getDateNaissance() == null) {
+            return "";
+    	}
+        return dateFormat.format(getPojoIndividu().getIndividu().getDateNaissance());
     }
 
     /**
@@ -1130,7 +1083,8 @@ public class IndividuController extends AbstractAccessController {
      */
     public void update() {
         if (getActionEnum().getWhatAction().equals(ActionEnum.UPDATE_ACTION)
-                && ctrlEnterMinimum()) {
+                &&  ctrlEnterMail()                    
+                ) {
             boolean haveToInit = false;
             if ((StringUtils.isNotBlank(pojoIndividu.getIndividu()
                     .getCodDepPaysNaissance()))
@@ -1138,7 +1092,7 @@ public class IndividuController extends AbstractAccessController {
                     .getCodPayNaissance())) {
                 haveToInit = true;
             }
-
+            
             pojoIndividu.setIndividu(toUpperCaseAnyAttributs(pojoIndividu.getIndividu()));
 
             // on ajoute éventuellement la nouvelle campagne correspondant au régime d'inscription
@@ -1195,6 +1149,16 @@ public class IndividuController extends AbstractAccessController {
                 adressController.update(adressController.getFixAdrPojo());
             }
         }
+        if (StringUtils.equals(pojoIndividu.getIndividu().getState(), EtatIncomplet.getCodeLabel())) {
+            //si l'etat est incomplet dans le cas d'un dossier candidat créé par un gestionnaire
+            if (pojoIndividu.getRegimeInscription()
+                    .getControlField().control(pojoIndividu.getIndividu())) {
+                pojoIndividu.getIndividu().setState(EtatComplet.getCodeLabel());
+                pojoIndividu.setEtat(EtatComplet);
+                // maj de l'individu pour enregistrer l'état complet
+                getDomainService().updateUser(pojoIndividu.getIndividu());
+            }
+        } 
     }
 
     /**
@@ -1284,9 +1248,6 @@ public class IndividuController extends AbstractAccessController {
     }
 
 
-
-
-
 	/* ### ALL CONTROL ####*/
 
     /**
@@ -1317,23 +1278,6 @@ public class IndividuController extends AbstractAccessController {
         if (!StringUtils.isNotBlank(ind.getPrenom())) {
             addErrorMessage(null, Constantes.I18N_EMPTY, getString("INDIVIDU.PRENOM"));
             ctrlOk = false;
-        }
-        if (!(StringUtils.isNotBlank(jourNaissance)
-                && StringUtils.isNotBlank(moisNaissance) && StringUtils
-                .isNotBlank(anneeNaissance))) {
-            addErrorMessage(null, Constantes.I18N_EMPTY,
-                    getString("INDIVIDU.DATE_NAI_COURT"));
-            ctrlOk = false;
-        } else {
-            SimpleDateFormat sdf = new SimpleDateFormat(Constantes.DATE_SHORT_FORMAT);
-            sdf.setLenient(false);
-            try {
-                ind.setDateNaissance(sdf.parse(jourNaissance + moisNaissance
-                        + anneeNaissance));
-            } catch (ParseException e) {
-                addErrorMessage(null, "ERROR.FIELD.DAT_NAISS.INEXIST");
-                ctrlOk = false;
-            }
         }
 
         // check individu mail fields
@@ -1488,7 +1432,7 @@ public class IndividuController extends AbstractAccessController {
         }
         return ctrlOk;
     }
-
+    
     /**
      * Upper any attributs in Individu.
      *
@@ -1610,30 +1554,10 @@ public class IndividuController extends AbstractAccessController {
         this.isRecupBac = isRecupBac;
     }
 
-    public String getJourNaissance() {
-        return jourNaissance;
+    public Date getToday() {
+        return new Date();
     }
-
-    public void setJourNaissance(final String jourNaissance) {
-        this.jourNaissance = jourNaissance;
-    }
-
-    public String getMoisNaissance() {
-        return moisNaissance;
-    }
-
-    public void setMoisNaissance(final String moisNaissance) {
-        this.moisNaissance = moisNaissance;
-    }
-
-    public String getAnneeNaissance() {
-        return anneeNaissance;
-    }
-
-    public void setAnneeNaissance(final String anneeNaissance) {
-        this.anneeNaissance = anneeNaissance;
-    }
-
+    
     public List<SelectItem> getListeAnneeNaissance() {
         return listeAnneeNaissance;
     }

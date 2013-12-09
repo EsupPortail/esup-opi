@@ -4,6 +4,9 @@
 package org.esupportail.opi.web.controllers.user;
 
 
+import static org.esupportail.opi.domain.beans.etat.EtatIndividu.EtatComplet;
+import static org.esupportail.opi.domain.beans.etat.EtatIndividu.EtatIncomplet;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -232,7 +235,7 @@ public class IndBacController extends AbstractAccessController {
      * @param individu
      */
     public void add(final Individu individu) {
-        //Dans le cas oe le candidat ne vient pas de Rennes1
+        //Dans le cas ou le candidat ne vient pas de Rennes1
         if (indBacPojos.isEmpty()) {
             //TODO ajout controle
             indBacPojos.add(new IndBacPojo(indBac));
@@ -256,7 +259,6 @@ public class IndBacController extends AbstractAccessController {
             indBacPojos.add(new IndBacPojo(indBac));
         }
 
-//		boolean updateUser = false;
         // Add all the indBac
         for (IndBacPojo indBacPojo : indBacPojos) {
             if (indBacPojo.getIndBac().getId() == 0) {
@@ -264,10 +266,7 @@ public class IndBacController extends AbstractAccessController {
                     //on met le currentInd
                     indBacPojo.getIndBac().setIndividu(
                             getCurrentInd().getIndividu());
-//					updateUser = true;
-
                 }
-
 
                 Etablissement e = getDomainApoService().getEtablissement(
                         indBacPojo.getIndBac().getCodEtb());
@@ -282,13 +281,17 @@ public class IndBacController extends AbstractAccessController {
                                 indBacPojo.getIndBac(),
                                 Utilitaires.codUserThatIsAction(
                                         getCurrentGest(), i)));
-
+                if (getCurrentInd().getIndividu().getState().equals(EtatIncomplet.getCodeLabel())) {
+                    //si l'etat est incomplet dans le cas d'un dossier candidat créé par un gestionnaire
+                    if (getCurrentInd().getRegimeInscription()
+                            .getControlField().control(getCurrentInd().getIndividu())) {
+                    	getCurrentInd().getIndividu().setState(EtatComplet.getCodeLabel());
+                    	i.setEtat(EtatComplet);
+                        // maj de l'individu pour enregistrer l'état complet
+                        getDomainService().updateUser(getCurrentInd().getIndividu());
+                    }
+                }
             }
-//			if (updateUser) {
-//				getDomainService().updateStateIndividu(
-//							getCurrentInd().getIndividu(), getCurrentGest());
-//				
-//			}
         }
         if (actionEnum.getWhatAction().equals(ActionEnum.ADD_ACTION)) {
             addInfoMessage(null, "INFO.CANDIDAT.BAC.ADD_OK");
