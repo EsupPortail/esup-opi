@@ -39,6 +39,8 @@
                                      value="#{calendarController.calendars}"
                                      paginator="true" paginatorAlwaysVisible="false"
                                      rows="40" rowsPerPageTemplate="10,20,30,40"
+                                     paginatorTemplate="#{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
+                                     currentPageReportTemplate="#{msgs['CALENDARS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
                                      filteredValue="#{calendarController.filteredCalendars}"
                                      filterDelay="1000" styleClass="paginatorData">
                             <p:columnGroup type="header">

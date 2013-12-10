@@ -77,13 +77,10 @@
     								!= nomenclatureController.actionEnum.readAction}">
                 <f:selectItems value="#{nomenclatureController.regimeInscriptionsItems}"/>
             </p:selectOneMenu>
-            <p:selectOneMenu id="regimeInscription2" readonly="true"
-                             value="#{nomenclatureController.nomenclature.codeRI}"
-                             rendered="#{nomenclatureController.actionEnum.whatAction
-    								== nomenclatureController.actionEnum.readAction}"
-                             disabled="true">
-                <f:selectItems value="#{nomenclatureController.regimeInscriptionsItems}"/>
-            </p:selectOneMenu>
+            <h:panelGroup rendered="#{nomenclatureController.actionEnum.whatAction
+     								== nomenclatureController.actionEnum.readAction}">
+     			   <h:outputText value="#{nomenclatureController.someRegimeInscription[nomenclatureController.nomenclature.codeRI]}"/>           
+            </h:panelGroup>
         </h:panelGroup>
         <h:panelGroup/>
         <h:panelGroup/>

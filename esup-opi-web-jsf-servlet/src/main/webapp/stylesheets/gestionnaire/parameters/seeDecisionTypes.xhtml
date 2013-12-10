@@ -103,12 +103,9 @@
 	   							<f:facet name="header">
 	   								<h:outputText value="#{msgs['TYP_DECISION.CONVOCATION_TYPE']}" />
 	   							</f:facet>
-	   							<p:selectOneMenu id="typeConvocation" readonly="#{true}"
-	   									rendered="#{!(nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction
-	   									and typeDecision == nomenclatureController.nomenclature)}"
-	   								value="#{typeDecision.codeTypeConvocation}">
-	   								<f:selectItems value="#{nomenclatureController.typeConvocationsItems}"/>
-	   							</p:selectOneMenu>
+	   							<h:outputText rendered="#{!(nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction
+  	   									and typeDecision == nomenclatureController.nomenclature)}"
+ 	   									value="#{nomenclatureController.someTypeConvocationsItems[typeDecision.codeTypeConvocation]}"/>
 	   							<p:selectOneMenu id="typeConvocUpdate" rendered="#{nomenclatureController.actionEnum.whatAction == nomenclatureController.actionEnum.updateAction
 	   									and typeDecision == nomenclatureController.nomenclature}"
 	   								value="#{nomenclatureController.nomenclature.codeTypeConvocation}">
