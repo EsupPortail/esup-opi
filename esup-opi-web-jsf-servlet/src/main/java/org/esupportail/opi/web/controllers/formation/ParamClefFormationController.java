@@ -217,7 +217,7 @@ public class ParamClefFormationController extends AbstractAccessController {
         }
 
         getListCles().add(getCles());
-        Collections.sort(getListCles(), new BeanComparator("ClesAnnuForm",
+        Collections.sort(getListCles(), new BeanComparator("clesAnnuForm",
                 new BeanComparator("codCles", new NullComparator())));
         reset();
 
@@ -414,7 +414,7 @@ public class ParamClefFormationController extends AbstractAccessController {
      */
     public void validModLangLib() {
         if (libSaisi == null || libSaisi.equals("")) {
-            addErrorMessage(FORMULAIRE_CLEF, "ERROR.FIELD.EMPTY", "Libele");
+            addErrorMessage(FORMULAIRE_CLEF, "ERROR.FIELD.EMPTY", "Libelle");
             return;
         }
         recupLangLib().setLibCles(libSaisi);
@@ -427,7 +427,7 @@ public class ParamClefFormationController extends AbstractAccessController {
      */
     public void validAddLangLib() {
         if (libSaisi == null || libSaisi.equals("")) {
-            addErrorMessage(FORMULAIRE_CLEF, "ERROR.FIELD.EMPTY", "Libele");
+            addErrorMessage(FORMULAIRE_CLEF, "ERROR.FIELD.EMPTY", "Libelle");
             return;
         }
         Cles2AnnuForm langLib = new Cles2AnnuForm();
@@ -702,7 +702,7 @@ public class ParamClefFormationController extends AbstractAccessController {
                 domPojo.setDomaine2AnnuForm(iApogee.getDomaine2AnnuForm(dom.getCodDom()));
                 listDomain.add(domPojo);
             }
-            Collections.sort(listDomain, new BeanComparator("DomaineAnnuForm",
+            Collections.sort(listDomain, new BeanComparator("domaineAnnuForm",
                     new BeanComparator("codDom", new NullComparator())));
         }
         return listDomain;
