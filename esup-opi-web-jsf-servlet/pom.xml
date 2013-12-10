@@ -74,7 +74,7 @@
             <plugin>
                 <groupId>org.primefaces.extensions</groupId>
                 <artifactId>resources-optimizer-maven-plugin</artifactId>
-                <version>0.6</version>
+                <version>1.0.0</version>
                 <executions>
                     <execution>
                         <id>optimize</id>

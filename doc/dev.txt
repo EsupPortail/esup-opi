@@ -14,6 +14,8 @@ cd esup-opi-web-jsf-servlet ; mvn -Dconfig.location=$configFile jetty:run ; cd -
 
 * Création d'une release :
 mvn release:prepare -Darguments="-Dconfig.location=$configFile"
+**** Si ERREUR ICI 	=> mvn release:rollback 
+****				=> permet de revenir à la version précédente (penser en local à restaurer les .bak)
 mvn release:perform -Darguments="-Dconfig.location=$configFile"
 
 * Batch :

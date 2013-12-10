@@ -388,7 +388,7 @@
 		<property name="libelle" value="Les mot clefs des VET"/>
 		<property name="shortLabel" value="Mot clé"/>
 <!-- 		<property name="typeClassString" value="org.esupportail.opi.web.beans.pojo.Ren1ClesAnnuFormPojo"/> -->
-		<property name="methode" value="getRen1ClesAnnuFormPojo"/>
+		<property name="methode" value="getClesAnnuFormPojo"/>
 		<property name="idObjectIsInteger" value="N"/>
 		<property name="idObject" value="codCles"/>
 		<property name="libelleObject" value="libClesFr"/>
