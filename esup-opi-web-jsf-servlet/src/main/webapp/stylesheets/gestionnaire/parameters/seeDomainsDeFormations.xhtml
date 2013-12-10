@@ -14,6 +14,11 @@
                       rendered="#{paramDomainFormationController.actionEnum.whatAction == paramDomainFormationController.actionEnum.deleteAction}">
             <ui:include src="_delete/_deleteDomainsDeFormations.xhtml"/>
         </h:panelGroup>
+        
+        <h:panelGroup id="addDomain"
+                      rendered="#{paramDomainFormationController.actionEnum.whatAction == paramDomainFormationController.actionEnum.addAction}">
+            <ui:include src="_add/_enterDomainsDeFormations.xhtml"/>
+        </h:panelGroup>
         <h:form id="seeDomainsForm" styleClass="div_subSection">
             <ui:fragment
                     rendered="#{paramDomainFormationController.actionEnum.whatAction == paramDomainFormationController.actionEnum.emptyAction}">
@@ -181,9 +186,5 @@
                 </p:column>
             </p:dataTable>
         </h:form>
-        <h:panelGroup id="addDomain"
-                      rendered="#{paramDomainFormationController.actionEnum.whatAction == paramDomainFormationController.actionEnum.addAction}">
-            <ui:include src="_add/_enterDomainsDeFormations.xhtml"/>
-        </h:panelGroup>
     </ui:define>
 </ui:composition>

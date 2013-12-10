@@ -7,6 +7,7 @@ import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections.comparators.NullComparator;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
+import org.esupportail.opi.domain.beans.formation.ClesAnnuForm;
 import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
 import org.esupportail.opi.domain.beans.formation.DomaineAnnuForm;
 import org.esupportail.opi.services.remote.client.IApogee;
@@ -17,6 +18,7 @@ import org.esupportail.opi.web.controllers.AbstractAccessController;
 import org.esupportail.opi.web.controllers.PreferencesController;
 
 import javax.faces.model.SelectItem;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -212,19 +214,37 @@ public class ParamDomainFormationController extends AbstractAccessController {
      * Delete a fonction to the dataBase.
      */
     public void delete() {
+    	
+    	DomaineAnnuForm domaineObj = domain.getDomaineAnnuForm();
+    	
         if (log.isDebugEnabled()) {
-            log.debug("enterind delete with domain = " + domain.getDomaineAnnuForm().getCodDom());
+            log.debug("enterind delete with domain = " + domaineObj.getCodDom());
         }
-
+        
+        /** (DEBUT) - CELINEMALLET - UM1 - AJOUT CONTROL AUCUNE CLE RATTACHEE **/
+        List<ClesAnnuForm> lstCles = iApogee.getClesAnnuForm();
+        for(ClesAnnuForm cle : lstCles)
+        {	
+        	String id_dom = domaineObj.getCodDom();
+			if(cle.getCodDom().equalsIgnoreCase(id_dom)) {
+				// BLOQUER - UNE CLE EXSTE !
+				addErrorMessage(FORMULAIRE_DOMAIN, "ERROR.DOMAIN.DELETE", id_dom);
+				reset();
+	            return;
+			}
+        }
+        /** (FIN) - CELINEMALLET - UM1 - AJOUT CONTROL AUCUNE CLE RATTACHEE **/
+        
         for (Domaine2AnnuForm langLib : domain.getDomaine2AnnuForm()) {
-            //delete Domaine2AnnuForm
-            iApogee.delete(langLib);
-        }
-        getListDomain().remove(domain);
-        //delete DomaineAnnuForm
-        iApogee.delete(domain.getDomaineAnnuForm());
-        reset();
+		     //delete Domaine2AnnuForm
+		      iApogee.delete(langLib);
+		 }
+		 getListDomain().remove(domain);
+		 //delete DomaineAnnuForm
+		 iApogee.delete(domain.getDomaineAnnuForm());
+		 reset();
 
+        
         if (log.isDebugEnabled()) {
             log.debug("leaving delete");
         }
