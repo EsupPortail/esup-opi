@@ -14,6 +14,10 @@
               rendered="#{paramClefFormationController.actionEnum.whatAction == paramClefFormationController.actionEnum.deleteAction}">
     <ui:include src="_delete/_deleteClefsDesFormations.xhtml"/>
 </h:panelGroup>
+<h:panelGroup id="addClef"
+      rendered="#{paramClefFormationController.actionEnum.whatAction == paramClefFormationController.actionEnum.addAction}">
+ <ui:include src="_add/_enterClefsDesFormations.xhtml"/>
+</h:panelGroup>
 <h:form id="seeClefsForm" styleClass="div_subSection">
 <ui:fragment
         rendered="#{paramClefFormationController.actionEnum.whatAction == paramClefFormationController.actionEnum.emptyAction}">
@@ -250,9 +254,5 @@
 </p:column>
 </p:dataTable>
 </h:form>
-<h:panelGroup id="addClef"
-              rendered="#{paramClefFormationController.actionEnum.whatAction == paramClefFormationController.actionEnum.addAction}">
-    <ui:include src="_add/_enterClefsDesFormations.xhtml"/>
-</h:panelGroup>
 </ui:define>
 </ui:composition>

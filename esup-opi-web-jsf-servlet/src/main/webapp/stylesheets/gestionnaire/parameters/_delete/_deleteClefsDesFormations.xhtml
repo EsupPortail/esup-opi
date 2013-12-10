@@ -7,13 +7,15 @@
             <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
                          styleClass="tableJustWidthMax">
                 <h:outputFormat value="#{msgs['CLEF.CONFIRM.DELETE']}">
-                    <f:param value="#{paramClefFormationController.cles.ren1ClesAnnuForm.codCles}"/>
+                    <f:param value="#{paramClefFormationController.cles.clesAnnuForm.codCles}"/>
                 </h:outputFormat>
                 <h:panelGroup>
                     <p:commandButton value="#{msgs['_.BUTTON.YES']}"
-                                     action="#{paramClefFormationController.delete}"/>
+                                     action="#{paramClefFormationController.delete}"
+                                     ajax="false"/>
                     <p:commandButton value="#{msgs['_.BUTTON.NO']}"
                                      action="#{paramClefFormationController.reset}"
+                                     ajax="false"
                                      immediate="true"/>
                 </h:panelGroup>
             </h:panelGrid>

@@ -39,6 +39,47 @@ public class Cles2AnnuFormId implements Serializable {
 		this.codCles = codCles;
 	}
 
+/** AJOUT METHODES OVERRIDE **/
+	/** 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codLang == null) ? 0 : codLang.hashCode());
+		result = prime * result + ((codCles == null) ? 0 : codCles.hashCode());
+		return result;
+	}
+
+
+
+
+	/** 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cles2AnnuFormId other = (Cles2AnnuFormId) obj;
+		if (codLang == null) {
+			if (other.codLang != null)
+				return false;
+		} else if (!codLang.equals(other.codLang))
+			return false;
+		if (codCles == null) {
+			if (other.codCles != null)
+				return false;
+		} else if (!codCles.equals(other.codCles))
+			return false;
+		return true;
+	}
+	/*
 	/*
 	 ******************* ACCESSORS ******************* */
 
