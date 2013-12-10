@@ -18,7 +18,7 @@
         <h:outputLabel value="#{msgs['FIELD_LABEL.NB_VOEU']}"
                        styleClass="form-field-label-inHeader-validator" for="nbV"/>
 
-        <p:selectOneMenu id="inCGE"
+        <p:selectOneMenu id="inCGE" styleClass="form-field-min-select"
                          value="#{nbVoeuByCGEController.nbVoeuCge.codeCge}">
             <f:selectItems value="#{nbVoeuByCGEController.codeCgeItems}"/>
         </p:selectOneMenu>

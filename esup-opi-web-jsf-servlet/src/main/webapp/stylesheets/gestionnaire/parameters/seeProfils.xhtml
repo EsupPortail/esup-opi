@@ -64,10 +64,7 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"/>
                                 </f:facet>
-                                <p:selectOneMenu id="regimeInscription" readonly="true"
-                                                 value="#{beanProfil.profile.codeRI}">
-                                    <f:selectItems value="#{nomenclatureController.regimeInscriptionsItems}"/>
-                                </p:selectOneMenu>
+                                <h:outputText value="#{nomenclatureController.someRegimeInscription[beanProfil.profile.codeRI]}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">

@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -1047,11 +1048,21 @@ public class NomenclatureController extends AbstractContextAwareController {
 		s.add(new SelectItem("", ""));
 		for (TypeConvocation t : getTypeConvocations()) {
 			s.add(new SelectItem(t.getCode(), t.getLabel()));
-		}
-		
+		}		
 		Collections.sort(s, new ComparatorSelectItem());
+		return s;		
+	}
+
+	/**
+	 * Map of specific type for convocation type.
+	 * @return Map of <String, String>
+	 */
+	public Map<String, String> getSomeTypeConvocationsItems() {
+		Map<String, String> s = new HashMap<String, String>();
+		for (TypeConvocation t : getTypeConvocations()) {
+			s.put(t.getCode(), t.getLabel());
+		}
 		return s;
-		
 	}
 	
 	/**
@@ -1158,7 +1169,17 @@ public class NomenclatureController extends AbstractContextAwareController {
 		return null;
 	}
 	
-	
+		/**
+	 * @return the regime inscription code and label
+	 */
+	public Map<Integer, String> getSomeRegimeInscription() {
+		Map<Integer, String> mri = new HashMap<Integer, String>();
+		Map<Integer, RegimeInscription> mapRI = getRegimeIns();
+		for (Map.Entry<Integer, RegimeInscription> entryRI : mapRI.entrySet()) {
+			mri.put(entryRI.getValue().getCode(), entryRI.getValue().getLabel());
+		}		
+		return mri;
+	}
 	
 	/*
 	 ******************* ACCESSORS ******************** */
