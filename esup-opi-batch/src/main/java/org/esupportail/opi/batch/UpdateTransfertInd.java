@@ -15,7 +15,7 @@ import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.beans.parameters.InscriptionAdm;
-import org.esupportail.opi.domain.beans.parameters.Transfert;
+import org.esupportail.opi.domain.beans.parameters.typetrt.Transfert;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;

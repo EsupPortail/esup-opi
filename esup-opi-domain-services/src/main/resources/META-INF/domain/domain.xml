@@ -46,17 +46,8 @@
 	<bean
 		id="parameterService"
         lazy-init="true"
-		class="org.esupportail.opi.domain.ParameterServiceImpl"
-		>
+		class="org.esupportail.opi.domain.ParameterServiceImpl">
 		<property name="daoService" ref="paramDaoService" />
-		<property name="typeTraitements">
-			<list>
-				<ref bean="transfert"/>
-				<ref bean="accesSelectif"/>
-				<ref bean="validationAcquis"/>
-				<ref bean="enAttente"/>
-			</list>
-		</property>
 		<property name="typeConvocations">
 			<list>
 				<ref bean="refused"/>
@@ -138,8 +129,7 @@
 	<bean
 		id="orbeonService"
         lazy-init="true"
-		class="org.esupportail.opi.domain.OrbeonServiceImpl"
-		>
+		class="org.esupportail.opi.domain.OrbeonServiceImpl">
 		<property name="xslXmlPath" value="${xsl_xml.path}" />
 		<property name="orbeonUrl" value="${orbeon.url}"/>
 		<property name="orbeonUsername" value="${orbeon.username}"/>
@@ -150,20 +140,16 @@
 	<bean
 		id="opiWebService"
 		lazy-init="true"
-		class="org.esupportail.opi.domain.OpiWebServiceImpl"
-		>
-		<property name="transfert" ref="transfert"/>
+		class="org.esupportail.opi.domain.OpiWebServiceImpl">
 		<property name="typeEtabUniv" value="${init.typEtbUniv}"/>
 		<property name="codEtabUniv" value="${init.codEtbInt}"/>
 		<property name="remoteApoRenOpiMetier" ref="remoteApoRenOpiMetier"/>
-		<!--<property name="domainApoService" ref="domainApoService"/>
-	--></bean>
+    </bean>
 	
 	<bean
 		id="pilotageService"
         lazy-init="true"
-		class="org.esupportail.opi.domain.PilotageServiceImpl"
-		>
+		class="org.esupportail.opi.domain.PilotageServiceImpl">
 		<property name="daoService" ref="pilotageDaoService" />
 		<property name="domainApoService" ref="domainApoService" />
 		<property name="parameterService" ref="parameterService" />
@@ -176,8 +162,7 @@
 	<bean
 		id="voidOpiWebService"
 		lazy-init="true"
-		class="org.esupportail.opi.domain.VoidOpiWebServiceImpl"
-		>
+		class="org.esupportail.opi.domain.VoidOpiWebServiceImpl">
 	</bean>
 	
 	<bean id="ldapAttributes" class="org.esupportail.opi.utils.ldap.LdapAttributes"

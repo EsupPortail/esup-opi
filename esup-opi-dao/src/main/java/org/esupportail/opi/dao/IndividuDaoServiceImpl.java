@@ -32,7 +32,6 @@ import java.util.*;
 
 import static com.mysema.query.group.GroupBy.groupBy;
 import static com.mysema.query.group.GroupBy.set;
-import static fj.Function.curry;
 import static fj.P.p;
 import static fj.data.Array.array;
 import static fj.data.Array.iterableArray;
@@ -143,19 +142,6 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                 }
             };
 
-//    final F<List<String>, F<BooleanExpression, BooleanExpression>> typesTrtVetFilter =
-//            new F<List<String>, F<BooleanExpression, BooleanExpression>>() {
-//                public F<BooleanExpression, BooleanExpression> f(final List<String> typeTrtCmis) {
-//                    return new F<BooleanExpression, BooleanExpression>() {
-//                        public BooleanExpression f(BooleanExpression subExpr) {
-//                            return typeTrtCmis.size() > 0 ?
-//                                    subExpr.and(trtCmi.get("codTypeTrait").in(typeTrtCmis)) :
-//                                    subExpr.and(trtCmi.isNull());
-//                        }
-//                    };
-//                }
-//            };
-            
     final F<List<TypeDecision>, F<BooleanExpression, BooleanExpression>> typeDecFilter =
             new F<List<TypeDecision>, F<BooleanExpression, BooleanExpression>>() {
                 public F<BooleanExpression, BooleanExpression> f(final List<TypeDecision> typesDecision) {
@@ -188,7 +174,7 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                             return expr.and(indVoeu.get("codTypeTrait").in(iterableArray(typeTraitements)
                                     .map(new F<TypeTraitement, String>() {
                                         public String f(TypeTraitement typeTraitement) {
-                                            return typeTraitement.getCode();
+                                            return typeTraitement.code;
                                         }
                                     })
                                     .toCollection()));
@@ -277,10 +263,11 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                             public void e(Individu individu) {
                                 List<IndVoeu> voeux =
                                         from(indVoeu)
-                                         .leftJoin(indVoeu.get("individu", Individu.class), ind)
-                                         .where(ind.get("id").eq(individu.getId()))
-                                        .where(customVoeuFilter.f(oneIsOne))
-                                        .list(indVoeu);
+                                                .leftJoin(indVoeu.get("individu", Individu.class), ind)
+                                                .leftJoin(indVoeuAvis, avis)
+                                                .where(ind.get("id").eq(individu.getId()))
+                                                .where(customVoeuFilter.f(oneIsOne))
+                                                .list(indVoeu);
                                 individu.setVoeux(new HashSet<>(voeux));
                             }
                         });
@@ -329,6 +316,7 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
     }
 
     @Override
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public Individu fetchIndById(String id, Option<Boolean> onlyValidWishes) {
         final Map<Individu, Set<IndVoeu>> results =
                 from(indEnt)

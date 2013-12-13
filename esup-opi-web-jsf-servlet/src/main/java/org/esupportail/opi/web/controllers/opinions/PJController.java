@@ -1,5 +1,6 @@
 package org.esupportail.opi.web.controllers.opinions;
 
+import fj.F;
 import fj.P1;
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
@@ -7,13 +8,11 @@ import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.beans.etat.EtatVoeu;
-import org.esupportail.opi.domain.beans.parameters.Transfert;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.MissingPiece;
 import org.esupportail.opi.utils.primefaces.MissingPieceDataModel;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
-import org.esupportail.opi.web.beans.paginator.PMPaginator;
 import org.esupportail.opi.web.beans.parameters.FormationContinue;
 import org.esupportail.opi.web.beans.parameters.FormationInitiale;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
@@ -23,7 +22,6 @@ import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.opi.web.controllers.SessionController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
-import org.esupportail.opi.web.controllers.user.IndividuController;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.esupportail.opi.web.utils.paginator.PaginationFunctions;
 
@@ -39,10 +37,6 @@ import static org.esupportail.opi.web.utils.DTOs.commissionDTO;
 import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
 import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
-/**
- * @author tducreux
- *         TypeTraitController :
- */
 public class PJController extends AbstractContextAwareController {
 
     /**
@@ -98,21 +92,25 @@ public class PJController extends AbstractContextAwareController {
     private SmtpService smtpService;
 
     /**
-     * Injected.
-     */
-    private PMPaginator paginatorPM;
-
-    /**
-     * see {@link Transfert}.
-     */
-    private Transfert transfert;
-
-    /**
      * MissingPiecePojo selected.
      */
     private MissingPiecePojo mpPojoSelected;
 
     private IndRechPojo indRechPojo = new IndRechPojo();
+
+    private final F<IndividuPojo, MissingPiecePojo> indPojoToMPPojo =
+            new F<IndividuPojo, MissingPiecePojo>() {
+                public MissingPiecePojo f(IndividuPojo individuPojo) {
+                    MissingPiecePojo mp = new MissingPiecePojo();
+                    mp.setIndividuPojo(individuPojo);
+                    mp.initCommissions(
+                            getParameterService(),
+                            getI18nService(),
+                            getDomainService(),
+                            indRechPojo.getIdCmi());
+                    return mp;
+                }
+            };
 
     private final LazyDataModel<MissingPiecePojo> missingPiecePojoLDM = lazyModel(
             PaginationFunctions.getData(
@@ -140,10 +138,21 @@ public class PJController extends AbstractContextAwareController {
                         public IndRechPojo _1() {
                             return indRechPojo;
                         }
-                    }),
+                    }
+            ),
             PaginationFunctions.findByRowKey)
-            .map(individuToPojo(getDomainApoService(), getParameterService())
-                    .andThen(paginatorPM.indPojoToMPPojo()));
+            .map(individuToPojo(
+                    new P1<DomainApoService>() {
+                        public DomainApoService _1() {
+                            return getDomainApoService();
+                        }
+                    },
+                    new P1<ParameterService>() {
+                        public ParameterService _1() {
+                            return getParameterService();
+                        }
+                    }
+            ).andThen(indPojoToMPPojo));
 
     private boolean renderTable = false;
 
@@ -163,7 +172,7 @@ public class PJController extends AbstractContextAwareController {
         currentCmiPojo = null;
         missingPiece = new MissingPiece[0];
         actionEnum = new ActionEnum();
-        missPieceForInd = new HashSet<MissingPiece>();
+        missPieceForInd = new HashSet<>();
         missingPieceModel = new MissingPieceDataModel();
     }
     
@@ -180,16 +189,9 @@ public class PJController extends AbstractContextAwareController {
         Assert.notNull(this.smtpService,
                 "property smtpService of class "
                         + this.getClass().getName() + " can not be null");
-        Assert.notNull(this.transfert,
-                "property transfert of class " + this.getClass().getName()
-                        + " can not be null");
         Assert.notNull(this.commissionController,
                 "property commissionController of class " + this.getClass().getName()
                         + " can not be null");
-        Assert.notNull(this.paginatorPM,
-                "property paginatorPM of class " + this.getClass().getName()
-                        + " can not be null");
-
         reset();
     }
 
@@ -233,8 +235,6 @@ public class PJController extends AbstractContextAwareController {
 
     /**
      * items state for the wishes.
-     *
-     * @return List< SelectItem>
      */
     public List<SelectItem> getStateItems() {
         List<SelectItem> list = new ArrayList<SelectItem>();
@@ -279,8 +279,6 @@ public class PJController extends AbstractContextAwareController {
 
     /**
      * Change the state for all wishes in one commission.
-     *
-     * @param trtUnit
      */
     private void changeState(final Boolean trtUnit, final IndividuPojo pojoIndividu) {
         currentCmiPojo.setStateCurrentOld(currentCmiPojo.getStateCurrent());
@@ -466,144 +464,82 @@ public class PJController extends AbstractContextAwareController {
 
     }
 
-    /**
-     * @return the currentCmiPojo
-     */
     public CommissionPojo getCurrentCmiPojo() {
         return currentCmiPojo;
     }
 
-    /**
-     * @param currentCmiPojo the currentCmiPojo to set
-     */
     public void setCurrentCmiPojo(final CommissionPojo currentCmiPojo) {
         this.currentCmiPojo = currentCmiPojo;
     }
 
-    /**
-     * @return the allChecked
-     */
     public Boolean getAllChecked() {
         return allChecked;
     }
 
-    /**
-     * @param allChecked the allChecked to set
-     */
     public void setAllChecked(final Boolean allChecked) {
         this.allChecked = allChecked;
     }
 
-    /**
-     * @return the missingPiece
-     */
     public MissingPiece[] getMissingPiece() {
         return missingPiece;
     }
 
-    /**
-     * @param missingPiece the missingPiece to set
-     */
     public void setMissingPiece(final MissingPiece[] missingPiece) {
     	this.missingPiece = missingPiece;
     }
-    
-    /**
-     * @return the missingPieceModel
-     */
+
     public MissingPieceDataModel getMissingPieceModel() {
     	missingPieceModel =
                 new MissingPieceDataModel(this.mpPojoSelected.getPiecesForCmi().get(currentCmiPojo.getCommission()));
         return missingPieceModel;
     }
-    
-    /**
-     * @param smtpService the smtpService to set
-     */
+
     public void setSmtpService(final SmtpService smtpService) {
         this.smtpService = smtpService;
     }
 
-    /**
-     * @return the actionEnum
-     */
     public ActionEnum getActionEnum() {
         return actionEnum;
     }
 
-    /**
-     * @param actionEnum the actionEnum to set
-     */
     public void setActionEnum(final ActionEnum actionEnum) {
         this.actionEnum = actionEnum;
     }
 
-    /**
-     * @return the missPieceForInd
-     */
     public Set<MissingPiece> getMissPieceForInd() {
         return missPieceForInd;
     }
 
-    /**
-     * @param missPieceForInd the missPieceForInd to set
-     */
     public void setMissPieceForInd(final Set<MissingPiece> missPieceForInd) {
         this.missPieceForInd = missPieceForInd;
     }
 
-
-    /**
-     * @param paginatorPM the paginatorPM to set
-     */
-    public void setPaginatorPM(final PMPaginator paginatorPM) {
-        this.paginatorPM = paginatorPM;
-    }
-
-    /**
-     * @param commissionController the commissionController to set
-     */
     public void setCommissionController(final CommissionController commissionController) {
         this.commissionController = commissionController;
     }
 
-    /**
-     * @param transfert the transfert to set
-     */
-    public void setTransfert(final Transfert transfert) {
-        this.transfert = transfert;
-    }
-
-    /**
-     * @return the mpPojoSelected
-     */
     public MissingPiecePojo getMpPojoSelected() {
         return mpPojoSelected;
     }
 
-    /**
-     * @param mpPojoSelected the mpPojoSelected to set
-     */
     public void setMpPojoSelected(final MissingPiecePojo mpPojoSelected) {
         this.mpPojoSelected = mpPojoSelected;
     }
 
-    /**
-     * @return the stateSelected
-     */
     public String getStateSelected() {
         return stateSelected;
     }
 
-    /**
-     * @param stateSelected the stateSelected to set
-     */
     public void setStateSelected(final String stateSelected) {
         this.stateSelected = stateSelected;
     }
 
     public LazyDataModel<MissingPiecePojo> getMissingPiecePojoLDM() {
         return missingPiecePojoLDM;
+    }
+
+    public IndRechPojo getIndRechPojo() {
+        return indRechPojo;
     }
 
     public boolean isRenderTable() {

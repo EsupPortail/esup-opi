@@ -68,11 +68,6 @@ public class ParameterServiceImpl implements ParameterService {
     private OrbeonService orbeonService;
 
     /**
-     * The list of bean TypeTraitement.
-     */
-    private List<TypeTraitement> typeTraitements;
-
-    /**
      * The list of bean typeConvocations.
      */
     private List<TypeConvocation> typeConvocations;
@@ -130,8 +125,6 @@ public class ParameterServiceImpl implements ParameterService {
      */
     public void afterPropertiesSet() {
         Assert.notNull(this.daoService, "property daoService of class "
-                + this.getClass().getName() + " can not be null");
-        Assert.notNull(this.typeTraitements, "property typeTraitements of class "
                 + this.getClass().getName() + " can not be null");
         Assert.notEmpty(this.typeConvocations, "property typeConvocations of class "
                 + this.getClass().getName() + " can not be empty");
@@ -1038,11 +1031,6 @@ public class ParameterServiceImpl implements ParameterService {
         return map;
     }
 
-    /**
-     * @param indSelected
-     * @param voeu
-     * @return boolean
-     */
     public boolean isExitFormulaireInd(final Individu indSelected, final VersionEtpOpi vet) {
         return daoService.isExitFormulaireInd(indSelected, vet);
     }
@@ -1308,14 +1296,6 @@ public class ParameterServiceImpl implements ParameterService {
 
     public void setOrbeonService(final OrbeonService orbeonService) {
         this.orbeonService = orbeonService;
-    }
-
-    public List<TypeTraitement> getTypeTraitements() {
-        return typeTraitements;
-    }
-
-    public void setTypeTraitements(final List<TypeTraitement> typeTraitements) {
-        this.typeTraitements = typeTraitements;
     }
 
     public List<TypeConvocation> getTypeConvocations() {

@@ -190,8 +190,9 @@ public class IndVoeu extends NormeSI {
 	/**
 	 * @return the avis
 	 */
-	public List<Avis> getAvisAsList() {
-		List<Avis> result = new ArrayList<Avis>();
+	@SuppressWarnings({"JpaAttributeTypeInspection", "JpaAttributeMemberSignatureInspection"})
+    public List<Avis> getAvisAsList() {
+		List<Avis> result = new ArrayList<>();
 		if (avis != null) result.addAll(avis);
 		return result;
 	}

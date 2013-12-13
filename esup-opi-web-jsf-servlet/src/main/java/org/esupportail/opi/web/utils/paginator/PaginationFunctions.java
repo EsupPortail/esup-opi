@@ -24,7 +24,6 @@ import java.util.*;
 import static fj.Bottom.error;
 import static fj.data.Array.iterableArray;
 import static fj.data.Option.*;
-import static fj.data.Stream.iterableStream;
 import static org.esupportail.opi.utils.primefaces.PFFilters.pfFilters;
 import static org.esupportail.opi.web.utils.fj.Functions.applyPut;
 
@@ -49,7 +48,7 @@ public final class PaginationFunctions {
 
                 // le gestionnaire courant
                 User user = sessionCont.getCurrentUser();
-                Gestionnaire gest = !(user instanceof Gestionnaire) ?
+                final Gestionnaire gest = !(user instanceof Gestionnaire) ?
                         sessionCont.getManager() : (Gestionnaire) user;
 
                 // les filtres :
@@ -60,9 +59,6 @@ public final class PaginationFunctions {
                         .foreach(applyPut("nomPatronymique", filters));
                 fromString(indRechPojo.getPrenomRecherche())
                         .foreach(applyPut("prenom", filters));
-
-                // Hack pour filtrer ou non les individus sans voeux :
-                // indRechPojo.useVoeuFilter est positionné dans les vues par f:event
                 iif(indRechPojo.isUseVoeuFilter(), "true")
                         .foreach(applyPut("useVoeuFilter", filters));
 
@@ -76,9 +72,12 @@ public final class PaginationFunctions {
                             public Array<Commission> f(Integer idCmi) {
                                 return Array.single(paramServ.getCommission(idCmi, null));
                             }})
-                        .orElse(iif(indRechPojo.isUseGestCommsFilter(), // (Hack : isUseGestCommsFilter est positionné par f:event)
-                                iterableArray(fromNull(apoServ.getListCommissionsByRight(gest, true)) //TODO : use a P1 here !!
-                                        .orSome(new HashSet<Commission>()))));
+                        .orElse(iif(indRechPojo.isUseGestCommsFilter(), new P1<Array<Commission>>() {
+                            public Array<Commission> _1() {
+                                return iterableArray(fromNull(apoServ.getListCommissionsByRight(gest, true))
+                                        .orSome(new HashSet<Commission>()));
+                            }
+                        }));
 
                 final Option<Set<TraitementCmi>> trtCmis =
                         cmis.map(new F<Array<Commission>, Array<TraitementCmi>>() {
@@ -110,9 +109,8 @@ public final class PaginationFunctions {
                 // 6. caratère 'validé' ou non du voeu
                 final Option<Boolean> validWish = fromNull(indRechPojo.getSelectValid());
 
-                // 7. le type de traitement (Hack : indRechPojo.useTypeTrtFilter est positionné dans les vues par f:event)
-                final Collection<TypeTraitement> typeTrtmts = indRechPojo.isUseTypeTrtFilter() ?
-                        indRechPojo.getTypeTraitements() : Collections.<TypeTraitement>emptyList();
+                // 7. le type de traitement
+                final Collection<TypeTraitement> typeTrtmts = indRechPojo.getTypeTraitements();
 
                 // 8. Date de création des voeux
                 final Option<Date> dateCrea = fromNull(indRechPojo.getDateCreationVoeuRecherchee());

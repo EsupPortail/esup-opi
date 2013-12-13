@@ -35,7 +35,7 @@
                         <f:selectItems var="commission"
                                        value="#{commissionController.getCommissionsItemsByRightParametrable(filterCommsByRight)}"
                                        itemLabel="#{commission.libelle}" itemValue="#{commission.id}"/>
-                        <p:ajax disabled="#{!renderOpinionBlocks}" update="formGrid"
+                        <p:ajax disabled="#{empty renderOpinionBlocks || !renderOpinionBlocks}" update="formGrid"
                                 listener="#{opinionController.searchStudentsByComm}"/>
                     </p:selectOneMenu>
                 </h:panelGroup>

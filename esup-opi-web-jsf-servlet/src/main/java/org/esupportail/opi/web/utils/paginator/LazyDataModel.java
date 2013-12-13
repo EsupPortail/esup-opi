@@ -5,16 +5,13 @@ import fj.F2;
 import fj.F5;
 import fj.P2;
 import fj.data.Array;
-import fj.data.Stream;
 import org.primefaces.model.SortOrder;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static fj.data.Option.fromNull;
-import static fj.data.Stream.nil;
 import static java.util.Arrays.asList;
 
 public final class LazyDataModel<T> extends org.primefaces.model.LazyDataModel<T> {
@@ -80,6 +77,4 @@ public final class LazyDataModel<T> extends org.primefaces.model.LazyDataModel<T
                     }
                 });
     }
-
-
 }

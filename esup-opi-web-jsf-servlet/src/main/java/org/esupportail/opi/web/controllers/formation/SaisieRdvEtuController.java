@@ -7,6 +7,7 @@ import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.services.smtp.SmtpService;
+import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV;
 import org.esupportail.opi.domain.beans.references.rendezvous.IndividuDate;
@@ -517,9 +518,6 @@ public class SaisieRdvEtuController extends AbstractAccessController {
 
         return null;
     }
-	
-	/*
-	 ******************* ACCESSORS ******************** */
 
     /**
      * @return actionEnum
@@ -644,24 +642,25 @@ public class SaisieRdvEtuController extends AbstractAccessController {
                         indDatePojo.setDateRdv(indivDate.getDateRdv());
                         indDatePojo.setMessageRdv(calRdv.getMsgValidation());
                         IndVoeu indVoeu = indivDate.getVoeu();
-                        //init hib proxy linkTrtCmiCamp
-//						getDomainService().initOneProxyHib(indVoeu, 
-//						indVoeu.getLinkTrtCmiCamp(), LinkTrtCmiCamp.class);
                         getDomainService().initOneProxyHib(indVoeu.getLinkTrtCmiCamp(),
                                 indVoeu.getLinkTrtCmiCamp().getTraitementCmi(), TraitementCmi.class);
                         TraitementCmi trtCmi = indVoeu.getLinkTrtCmiCamp().getTraitementCmi();
                         VersionEtapeDTO vet = getDomainApoService().getVersionEtape(
                                 trtCmi.getVersionEtpOpi().getCodEtp(),
                                 trtCmi.getVersionEtpOpi().getCodVrsVet());
-                        indDatePojo.setVoeuRdv(new IndVoeuPojo(indVoeu, vet,
-                                getI18nService(), false, null,
-                                Utilitaires.getRecupCalendarRdv(indVoeu,
+                        indDatePojo.setVoeuRdv(new IndVoeuPojo(
+                                indVoeu,
+                                vet,
+                                EtatVoeu.fromString(indVoeu.getState()),
+                                false,
+                                null,
+                                Utilitaires.getRecupCalendarRdv(
+                                        indVoeu,
                                         getParameterService().getCalendarRdv())));
                         if (allRdvEtu.containsKey(indDatePojo.getDateRdv())) {
                             allRdvEtu.get(indDatePojo.getDateRdv()).add(indDatePojo);
                         } else {
-                            List<IndividuDatePojo> listIndDatePojo =
-                                    new ArrayList<IndividuDatePojo>();
+                            List<IndividuDatePojo> listIndDatePojo = new ArrayList<>();
                             listIndDatePojo.add(indDatePojo);
                             allRdvEtu.put(indDatePojo.getDateRdv(), listIndDatePojo);
                         }

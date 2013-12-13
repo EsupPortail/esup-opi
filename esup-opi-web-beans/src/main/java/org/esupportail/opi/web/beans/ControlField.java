@@ -40,7 +40,7 @@ public class ControlField implements Serializable {
 	/**
 	 * The fields by class.
 	 */
-	private Map<Class< ? >, List<String>> fields;
+	private Map<Class<?>, List<String>> fields;
 	
 	/**
 	 * A logger.

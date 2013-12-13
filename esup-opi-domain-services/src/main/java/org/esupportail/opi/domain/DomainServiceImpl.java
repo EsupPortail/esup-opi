@@ -23,6 +23,7 @@ import org.esupportail.opi.domain.beans.NormeSI;
 import org.esupportail.opi.domain.beans.VersionManager;
 import org.esupportail.opi.domain.beans.parameters.*;
 import org.esupportail.opi.domain.beans.parameters.accessRight.Profile;
+import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.pilotage.ArchiveTask;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;

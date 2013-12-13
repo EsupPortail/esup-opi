@@ -3,7 +3,6 @@ package org.esupportail.opi.web.beans.utils;
 
 import fj.*;
 import fj.data.Array;
-import fj.data.Stream;
 import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.commons.services.logging.Logger;
@@ -14,7 +13,6 @@ import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
-import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.references.calendar.CalendarIns;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
@@ -44,6 +42,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static fj.data.Array.iterableArray;
 
 
 /**
@@ -286,55 +285,25 @@ public class Utilitaires {
 		return mapCmi;
 	}
 
-
-	
-	
-	/**
-	 * @param n1
-	 * @param annee
-	 * @return Set
-	 */
-//	public static Set<VersionEtpOpi> getVersionEtpOpi(final Ren1ClesAnnuFormPojo n1,
-//			final String annee, final DomainApoService domainApoService) {
-//		Set<VersionEtapeDTO> listEtp = new HashSet<VersionEtapeDTO>();
-//		for (VersionDiplomeDTO vrsDip 
-//				: domainApoService.getVersionDiplomes(n1.getRen1ClesAnnuForm().getCodCles(), annee)) {
-//			listEtp.addAll(domainApoService.getVersionEtapes(vrsDip, annee));
-//		}
-//		return convertVetInVetOpi(listEtp);
-//	}
-
-
 	/**
 	 * Convert a Individu list in IndividuPojo list.
-	 * @param listInd
-	 * @param parameterService
-	 * @param iService
-	 * @param apoServ 
-	 * @param commissions 
-	 * @param typesDecisions 
-	 * @param versionsEtape 
-	 * @return List< IndividuPojo>
 	 */
 	public static List<IndividuPojo> convertIndInIndPojo(
-			final List<Individu> listInd,
-			final ParameterService parameterService,
-			final I18nService iService,
-			final DomainApoService apoServ,
-			final Set<Commission> commissions,
-			final Set<TypeDecision> typesDecisions,
-			final List<TypeTraitement> typeTraitements,
-			final List<CalendarRDV> listCalendrierParam,
-			final Set<VersionEtapeDTO> versionsEtape,
-			final boolean excludeWishProcessed) {
-		List<IndividuPojo> indPojo = new ArrayList<IndividuPojo>();
+            final List<Individu> listInd,
+            final ParameterService parameterService,
+            final DomainApoService apoServ,
+            final Set<Commission> commissions,
+            final Set<TypeDecision> typesDecisions,
+            final List<CalendarRDV> listCalendrierParam,
+            final Set<VersionEtapeDTO> versionsEtape,
+            final boolean excludeWishProcessed) {
+		List<IndividuPojo> indPojo = new ArrayList<>();
 		if (listInd != null) {
 			for (Individu i : listInd) {
-				IndividuPojo iPojo = new IndividuPojo(i, apoServ, iService,
-						parameterService, commissions, typesDecisions, typeTraitements, listCalendrierParam, versionsEtape);
-				if (!excludeWishProcessed || !iPojo.getHasAllVoeuxTraited()) {
-					indPojo.add(iPojo);
-				}
+				IndividuPojo iPojo =
+                        new IndividuPojo(i, apoServ, parameterService, commissions, typesDecisions, listCalendrierParam, versionsEtape);
+				if (!excludeWishProcessed || !iPojo.getHasAllVoeuxTraited())
+                    indPojo.add(iPojo);
 			}
 		}
 		return indPojo;
@@ -360,7 +329,7 @@ public class Utilitaires {
 	 */
 	public static Campagne getCampagneEnServ(final Individu individu, 
 			final DomainService domainService) {
-		List<Campagne> listCamp = new ArrayList<Campagne>();
+		List<Campagne> listCamp = new ArrayList<>();
 		Individu nonLazyInd = domainService.getIndividu(individu.getNumDossierOpi(), individu.getDateNaissance());
 		listCamp.addAll(nonLazyInd.getCampagnes());
         for (Campagne camp : listCamp) {
@@ -378,13 +347,13 @@ public class Utilitaires {
 	 */
 	public static Integer getCodeRIIndividu(final Individu individu, 
 			final DomainService domainService) {
-		List<Campagne> listCamp = new ArrayList<Campagne>();
-		
+		List<Campagne> listCamp = new ArrayList<>();
+
 		try {
 			listCamp.addAll(individu.getCampagnes());
 		} catch (LazyInitializationException lazy) {
-			domainService.initOneProxyHib(individu, individu.getCampagnes(), Campagne.class);
-			listCamp.addAll(individu.getCampagnes());
+			listCamp.addAll(domainService.getIndividu(individu.getNumDossierOpi(), individu.getDateNaissance())
+                    .getCampagnes());
 		} finally {
 			for (Campagne camp : listCamp) {
 				if (camp.getTemoinEnService()) {
@@ -392,7 +361,6 @@ public class Utilitaires {
 				}
 			}
 		}
-		
 		return null;
 	}
 
@@ -442,57 +410,21 @@ public class Utilitaires {
 			if (StringUtils.hasText(endBody)) {
 				s.append(endBody);
 			}
-//			smtpService.sendtocc(
-//					tos, null, null, subject, 
-//					s.toString(), null, null);
-			
-			smtpService.send(
-					tos[0], subject, 
-					s.toString(), null);
+			smtpService.send(tos[0], subject,s.toString(), null);
 		} catch (AddressException e) {
-			LOGGER.error("error in instance Internet adresse for individu with numDosOpi = " 
-					+ ind.getNumDossierOpi(), e);
+			LOGGER.error("error in instance Internet adresse for individu with numDosOpi = "+ ind.getNumDossierOpi(), e);
 		}
 	}
 
 	/**
 	 * Tous les mails commencent et finissent par les memes textes.
 	 * On ajoute e htmlBody ces 2 parties.
-	 * @param htmlBody
-	 * @param iService
-	 * @param numDossier
-	 * @return String
 	 */
 	public static String makeHtmlBody(final String htmlBody, final I18nService iService, final String numDossier) {
-		if (iService != null) {
-			StringBuilder s = new StringBuilder();
-			s.append(iService.getString("MAIL.NOT_RESPONSE"));
-			s.append(htmlBody);
-			s.append(iService.getString("MAIL.END.RAPPEL_NUM_DOS", numDossier));
-			return s.toString();
-		}
+		if (iService != null)
+            return iService.getString("MAIL.NOT_RESPONSE") + htmlBody + iService.getString("MAIL.END.RAPPEL_NUM_DOS", numDossier);
 		return htmlBody;
 	}
-
-	/**
-	 * The current year for university is :
-	 * July to December = year = n + 1.
-	 * January to June = year = n.
-	 * @param period id true return current year - current year + 1 (Ex.: 2009 - 2010)
-	 * @return String
-	 */
-//	public static String getCurrentYear(final Boolean period) {
-//		Calendar c = Calendar.getInstance();
-//		int year = c.get(Calendar.YEAR);
-//		int month = c.get(Calendar.MONTH);
-//		if (month >= Calendar.DECEMBER && month <= Calendar.DECEMBER) {
-//			year += 1;
-//		}
-//		if (period) {
-//			return String.valueOf(year) + " - " + String.valueOf(year + 1);
-//		}
-//		return String.valueOf(year);
-//	}
 
 	/**
 	 * List of the commissions without treatment.

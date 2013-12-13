@@ -4,6 +4,7 @@ import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
+import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.pilotage.ArchiveTask;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
@@ -269,8 +270,7 @@ public class ArchiveTaskController extends AbstractContextAwareController {
                 // et non hors service
                 if (Utilitaires.isTraitementCmiInCamp(t, campToArch)
                         && !Utilitaires.isTraitementCmiOff(t, campToArch.getCodeRI())) {
-                    BeanTrtCmi b = new BeanTrtCmi(t,
-                            getParameterService().getTypeTraitements());
+                    BeanTrtCmi b = new BeanTrtCmi(t, TypeTraitement.fromCode(t.getCodTypeTrait()));
                     b.setEtape(getDomainApoService().getVersionEtape(
                             b.getTraitementCmi().getVersionEtpOpi().getCodEtp(),
                             b.getTraitementCmi().getVersionEtpOpi().getCodVrsVet()));
@@ -279,8 +279,7 @@ public class ArchiveTaskController extends AbstractContextAwareController {
                 }
                 if (Utilitaires.isTraitementCmiOff(t, campToArch.getCodeRI())
                         && Utilitaires.getLinkTrtCmiCamp(t, campToArch) != null) {
-                    BeanTrtCmi b = new BeanTrtCmi(t,
-                            getParameterService().getTypeTraitements());
+                    BeanTrtCmi b = new BeanTrtCmi(t, TypeTraitement.fromCode(t.getCodTypeTrait()));
                     b.setEtape(getDomainApoService().getVersionEtape(
                             b.getTraitementCmi().getVersionEtpOpi().getCodEtp(),
                             b.getTraitementCmi().getVersionEtpOpi().getCodVrsVet()));

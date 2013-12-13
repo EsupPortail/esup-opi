@@ -9,7 +9,7 @@
     </p:blockUI>
     <p:outputPanel id="maPage" layout="block" styleClass="div_body">
         <div class="messageForUser">
-            <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+            <p:messages id="messages" showDetail="false" autoUpdate="true"/>
         </div>
         <h1>
             <h:outputText value="#{managedAccess.currentTraitement.libelle}" styleClass="section-header" />
@@ -57,7 +57,7 @@
                     <fieldset
                             style="border-style: dotted; border-color: #A8A8A8; border-width: 0.1em; margin-bottom: 8px;">
                         <legend>#{msgs['AVIS.LABEL_DECISION']}</legend>
-                        <p:selectCheckboxMenu value="#{paginatorIndividu.indRechPojo.typesDec}"
+                        <p:selectCheckboxMenu value="#{printOpinionController.indRechPojo.typesDec}"
                                               id="typeOpinionData" label="Filtrer sur"
                                               converter="#{typeDecisionConverter}" style="margin-left: 6%;"
                                               widgetVar="typeOpinion">
@@ -69,7 +69,7 @@
                             style="border-style: dotted; border-color: #A8A8A8; border-width: 0.1em; margin-bottom: 8px;">
                         <legend>#{msgs['OPINION.SELECT_CANDIDAT.LABEL']}</legend>
                         <p:selectOneRadio id="choixValid"
-                                          value="#{paginatorIndividu.indRechPojo.selectValid}" style="margin-left: 6%;">
+                                          value="#{printOpinionController.indRechPojo.selectValid}" style="margin-left: 6%;">
                             <f:selectItem itemLabel="#{msgs['OPINION.SELECT_CANDIDAT.NOT_VALID']}"
                                           itemValue="#{false}"/>
                             <f:selectItem itemLabel="#{msgs['OPINION.SELECT_CANDIDAT.VALID']}" itemValue="#{true}"/>
@@ -79,7 +79,7 @@
                             style="border-style: dotted; border-color: #A8A8A8; border-width: 0.1em; margin-bottom: 8px;">
                         <legend>#{msgs['COMMISSIONS']}</legend>
                         <p:selectOneMenu id="lesCommissions" converter="javax.faces.Integer"
-                                         value="#{paginatorIndividu.indRechPojo.idCmi}"
+                                         value="#{printOpinionController.indRechPojo.idCmi}"
                                          style="margin-left: 6%; margin-bottom: 1px;">
                             <f:selectItem itemLabel="" itemValue=""/>
                             <f:selectItems var="commission"

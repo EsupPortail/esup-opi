@@ -75,7 +75,7 @@ public class TraitementCmi extends NormeSI {
 	 */
 	public TraitementCmi() {
 		super();
-		linkTrtCmiCamp = new HashSet<LinkTrtCmiCamp>();
+		linkTrtCmiCamp = new HashSet<>();
 	}
 	
 	/**
@@ -146,14 +146,7 @@ public class TraitementCmi extends NormeSI {
 		s += ",  [" + super.toString() + "]]";
 		return s;
 	}
-	
-	/**
-	 * @return the libelle
-	 */
-//	@Override
-//	public String getLibelle() {
-//		return versionEtpOpi.getCodEtp() + "-" + versionEtpOpi.getCodVrsVet();
-//	}
+
 	
 	
 	

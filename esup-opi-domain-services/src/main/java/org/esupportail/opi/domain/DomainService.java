@@ -51,8 +51,6 @@ import org.esupportail.opi.utils.primefaces.PFFilters;
 
 import fj.P2;
 import fj.data.Option;
-import fj.data.Stream;
-
 
 
 /**

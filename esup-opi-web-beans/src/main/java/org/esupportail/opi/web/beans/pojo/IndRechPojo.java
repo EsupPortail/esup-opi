@@ -63,11 +63,6 @@ public class IndRechPojo {
     private Boolean useVoeuFilter = true;
 
     /**
-     * Filtre-t-on les individus selon un {@link TypeTraitement}
-     */
-    private Boolean useTypeTrtFilter = false;
-
-    /**
      * Filtre-t-on selon les commissions du gestionnaire courant ?
      */
     private Boolean useGestCommsFilter = false;
@@ -191,25 +186,13 @@ public class IndRechPojo {
 		this.dateCreationVoeuRecherchee = dateCreationVoeuRecherchee;
 	}
 
-    public Boolean isUseVoeuFilter() {
-        return useVoeuFilter;
-    }
+    public Boolean isUseVoeuFilter() { return useVoeuFilter; }
 
     public void setUseVoeuFilter(Boolean useVoeuFilter) {
         this.useVoeuFilter = useVoeuFilter;
     }
 
-    public Boolean isUseTypeTrtFilter() {
-        return useTypeTrtFilter;
-    }
-
-    public void setUseTypeTrtFilter(Boolean useTypeTrtFilter) {
-        this.useTypeTrtFilter = useTypeTrtFilter;
-    }
-
-    public Boolean isUseGestCommsFilter() {
-        return useGestCommsFilter;
-    }
+    public Boolean isUseGestCommsFilter() { return useGestCommsFilter; }
 
     public void setUseGestCommsFilter(Boolean useGestCommsFilter) {
         this.useGestCommsFilter = useGestCommsFilter;

@@ -22,7 +22,6 @@ import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.BeanTrtCmi;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.beanEnum.WayfEnum;
-import org.esupportail.opi.web.beans.paginator.IndividuPaginator;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 import org.esupportail.opi.web.beans.pojo.*;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
@@ -32,7 +31,6 @@ import org.esupportail.opi.web.controllers.AbstractAccessController;
 import org.esupportail.opi.web.controllers.SessionController;
 import org.esupportail.opi.web.controllers.parameters.NomenclatureController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
-import org.esupportail.opi.web.controllers.user.IndividuController;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.esupportail.opi.web.utils.paginator.PaginationFunctions;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
@@ -41,8 +39,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import java.util.*;
 
-import static fj.data.Array.array;
+import static java.util.Arrays.asList;
 import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatArriveComplet;
+import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.AccesSelectif;
+import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.ValidationAcquis;
 import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
 import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
@@ -158,15 +158,12 @@ public class OpinionController
 
     private CommissionController commissionController;
 
-    private IndividuController individuController;
-
     private Map<VersionEtpOpi, List<Integer>> mapTestRang = new HashMap<>();
 
     private IndRechPojo indRechPojo = new IndRechPojo() {{
         setUseGestCommsFilter(true);
-        setUseTypeTrtFilter(true);
         setUseVoeuFilter(true);
-        setTypeTraitements(array(new ValidationAcquis(), new AccesSelectif()).toCollection());
+        setTypeTraitements(asList(ValidationAcquis, AccesSelectif));
     }};
 
     private final F<IndividuPojo, IndividuPojo> setIndPojoAttrs = new F<IndividuPojo, IndividuPojo>() {
@@ -193,22 +190,44 @@ public class OpinionController
     private final LazyDataModel<IndividuPojo> indPojoLDM = lazyModel(
             PaginationFunctions.getData(
                     new P1<SessionController>() {
-                        public SessionController _1() { return getSessionController(); }
+                        public SessionController _1() {
+                            return getSessionController();
+                        }
                     },
                     new P1<DomainService>() {
-                        public DomainService _1() { return getDomainService(); }
+                        public DomainService _1() {
+                            return getDomainService();
+                        }
                     },
                     new P1<DomainApoService>() {
-                        public DomainApoService _1() { return getDomainApoService(); }
+                        public DomainApoService _1() {
+                            return getDomainApoService();
+                        }
                     },
                     new P1<ParameterService>() {
-                        public ParameterService _1() { return getParameterService(); }
+                        public ParameterService _1() {
+                            return getParameterService();
+                        }
                     },
                     new P1<IndRechPojo>() {
-                        public IndRechPojo _1() { return indRechPojo; }
-                    }),
+                        public IndRechPojo _1() {
+                            return indRechPojo;
+                        }
+                    }
+            ),
             PaginationFunctions.findByRowKey)
-            .map(individuToPojo(getDomainApoService(), getParameterService()).andThen(setIndPojoAttrs));
+            .map(individuToPojo(
+                    new P1<DomainApoService>() {
+                        public DomainApoService _1() {
+                            return getDomainApoService();
+                        }
+                    },
+                    new P1<ParameterService>() {
+                        public ParameterService _1() {
+                            return getParameterService();
+                        }
+                    })
+                    .andThen(setIndPojoAttrs));
 
     private boolean renderTable;
 
@@ -961,14 +980,6 @@ public class OpinionController
 
     public void setCommissionController(final CommissionController commissionController) {
         this.commissionController = commissionController;
-    }
-
-    public IndividuController getIndividuController() {
-        return individuController;
-    }
-
-    public void setIndividuController(IndividuController individuController) {
-        this.individuController = individuController;
     }
 
     /**

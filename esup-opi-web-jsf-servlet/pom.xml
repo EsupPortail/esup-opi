@@ -21,9 +21,10 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.1.0.v20131115</version>
+                <version>9.0.2.v20130417</version>
+                <!--<version>9.1.0.v20131115</version>-->
                 <configuration>
-                    <configurationDiscovered>false</configurationDiscovered>
+                    <!--<configurationDiscovered>false</configurationDiscovered>-->
                     <webAppConfig>
                         <jettyEnvXml>${jetty.envXml}</jettyEnvXml>
                         <overrideDescriptor>src/main/jetty/web-jetty.xml</overrideDescriptor>
@@ -151,21 +152,6 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>3.8</version>
-        </dependency>
-        <dependency>
-            <groupId>org.esupportail</groupId>
-            <artifactId>esup-commons2-jsf2-exception</artifactId>
-            <version>${esupcommons.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>ehcache</artifactId>
-                    <groupId>net.sf.ehcache</groupId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-simple</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>javax.el</groupId>

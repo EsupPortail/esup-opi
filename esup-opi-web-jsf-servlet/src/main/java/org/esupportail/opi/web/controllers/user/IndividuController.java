@@ -4,9 +4,7 @@
 package org.esupportail.opi.web.controllers.user;
 
 
-import fj.*;
-import fj.data.Array;
-import fj.data.Option;
+import fj.P1;
 import org.apache.commons.lang.StringUtils;
 import org.esupportail.commons.services.ldap.LdapUser;
 import org.esupportail.commons.services.ldap.LdapUserService;
@@ -16,14 +14,12 @@ import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
-import org.esupportail.opi.domain.beans.parameters.*;
+import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
-import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.references.rendezvous.IndividuDate;
 import org.esupportail.opi.domain.beans.user.Adresse;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.domain.beans.user.Individu;
-import org.esupportail.opi.domain.beans.user.User;
 import org.esupportail.opi.domain.beans.user.candidature.IndFormulaire;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
@@ -43,27 +39,19 @@ import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.controllers.AbstractAccessController;
 import org.esupportail.opi.web.controllers.SessionController;
 import org.esupportail.opi.web.controllers.formation.FormulairesController;
-import org.esupportail.opi.web.utils.fj.Conversions;
-import org.esupportail.opi.web.utils.fj.Functions;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.esupportail.opi.web.utils.paginator.PaginationFunctions;
-import org.primefaces.model.SortOrder;
 
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static fj.data.Array.array;
-import static fj.data.Array.iterableArray;
-import static fj.data.Option.*;
-import static fj.data.Option.fromString;
-import static fj.data.Stream.*;
-import static fj.data.Stream.join;
+import static java.util.Arrays.asList;
 import static org.esupportail.opi.domain.beans.etat.EtatIndividu.EtatComplet;
 import static org.esupportail.opi.domain.beans.etat.EtatIndividu.EtatIncomplet;
-import static org.esupportail.opi.utils.primefaces.PFFilters.pfFilters;
+import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.AccesSelectif;
+import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.ValidationAcquis;
 import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
 
@@ -179,7 +167,7 @@ public class IndividuController extends AbstractAccessController {
 //    private IndividuPaginator individuPaginator;
 
     private IndRechPojo indRechPojo = new IndRechPojo() {{
-        this.setTypeTraitements(array(new ValidationAcquis(), new AccesSelectif()).toCollection());
+        this.setTypeTraitements(asList(ValidationAcquis, AccesSelectif));
     }};
 
     /**
@@ -766,28 +754,24 @@ public class IndividuController extends AbstractAccessController {
         }
     }
 
-    public void initIndRechPojo() {
-        if (!FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest()) {
-            indRechPojo = new IndRechPojo();
-            final SessionController sessionController = getSessionController();
-            final User user = sessionController.getCurrentUser();
-            if (user != null && user instanceof Gestionnaire) {
-                Gestionnaire gest = (Gestionnaire) user;
-                int codeRI = gest.getProfile().getCodeRI();
-                RegimeInscription regimeIns = sessionController.getRegimeIns().get(codeRI);
-                indRechPojo.getListeRI().add(regimeIns);
-                indRechPojo.setCanModifyRISearch(regimeIns.canModifyRISearch());
-                indRechPojo.setTypeTraitements(array(new ValidationAcquis(), new AccesSelectif()).toCollection());
-            }
-        }
-    }
+//    public void initIndRechPojo() {
+//        if (!FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest()) {
+//            indRechPojo = new IndRechPojo();
+//            final SessionController sessionController = getSessionController();
+//            final User user = sessionController.getCurrentUser();
+//            if (user != null && user instanceof Gestionnaire) {
+//                Gestionnaire gest = (Gestionnaire) user;
+//                int codeRI = gest.getProfile().getCodeRI();
+//                RegimeInscription regimeIns = sessionController.getRegimeIns().get(codeRI);
+//                indRechPojo.getListeRI().add(regimeIns);
+//                indRechPojo.setCanModifyRISearch(regimeIns.canModifyRISearch());
+//                indRechPojo.setTypeTraitements(asList(ValidationAcquis, AccesSelectif));
+//            }
+//        }
+//    }
 
     public void useVoeuFilter(Boolean bool) {
         indRechPojo.setUseVoeuFilter(bool);
-    }
-
-    public void useTypeTrtFilter(Boolean bool) {
-        indRechPojo.setUseTypeTrtFilter(bool);
     }
 
     public void useGestCommsFilter(Boolean bool) {
@@ -826,13 +810,11 @@ public class IndividuController extends AbstractAccessController {
         //init cursus Pro
         cursusController.initCursus(pojoIndividu.getIndividu().getCursus());
         cursusController.initCursusList(
-                new ArrayList<IndCursusScol>(
+                new ArrayList<>(
                         pojoIndividu.getIndividu().getCursusScol()));
 
         //init indBac
-        indBacController.initIndBac(new ArrayList<IndBac>(pojoIndividu.getIndividu().getIndBac()), false);
-
-
+        indBacController.initIndBac(new ArrayList<>(pojoIndividu.getIndividu().getIndBac()), false);
     }
 
     /**

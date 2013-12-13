@@ -27,8 +27,9 @@ import java.util.Set;
 
 import static fj.data.Option.some;
 import static fj.function.Booleans.not;
+import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.Transfert;
 import static org.esupportail.opi.web.utils.DTOs.commissionDTO;
-import static org.esupportail.opi.web.utils.fj.Predicates.typeTrtEquals;
+import static org.esupportail.opi.web.utils.fj.Predicates.hasTypeTrt;
 
 
 public class ValidOpinionController extends AbstractContextAwareController {
@@ -339,7 +340,7 @@ public class ValidOpinionController extends AbstractContextAwareController {
         int codeRI = gest.getProfile().getCodeRI();
         RegimeInscription regimeIns = getSessionController().getRegimeIns().get(codeRI);
         final List<IndividuPojo> individus = new ArrayList<>(
-                printOpinionController.getIndividus(com, some(false), not(typeTrtEquals(printOpinionController.getTransfert())))
+                printOpinionController.getIndividus(com, some(false), not(hasTypeTrt(Transfert)))
                 .toCollection());
         for (IndividuPojo ind : individus) {
             Set<Avis> avisFavorable = new HashSet<>();

@@ -13,7 +13,6 @@ import org.esupportail.commons.exceptions.UserNotFoundException;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.opi.domain.beans.parameters.Transfert;
 import org.esupportail.opi.domain.beans.parameters.accessRight.Profile;
 import org.esupportail.opi.domain.beans.references.calendar.CalendarCmi;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
@@ -59,9 +58,9 @@ import static fj.Semigroup.stringSemigroup;
 import static fj.Unit.unit;
 import static fj.data.IterableW.wrap;
 import static fj.data.Option.fromNull;
-import static fj.data.Option.none;
 import static fj.data.Stream.iterableStream;
 import static fj.data.Validation.validation;
+import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.Transfert;
 
 
 /**
@@ -160,11 +159,6 @@ public class CommissionController
 	 * The list of members selected for the mail send.
 	 */
 	private Object[] membersSelected;
-
-	/**
-	 * see {@link Transfert}.
-	 */
-	private Transfert transfert;
 
 	/**
 	 * see {@link AdressController}.
@@ -303,9 +297,6 @@ public class CommissionController
 				+ " can not be null");
 		Assert.notNull(this.castorService,
 				"property castorService of class " + this.getClass().getName()
-				+ " can not be null");
-		Assert.notNull(this.transfert,
-				"property transfert of class " + this.getClass().getName()
 				+ " can not be null");
 		reset();
 	}
@@ -992,10 +983,9 @@ public class CommissionController
 
 		List<IndividuPojo> listeIndPojo =
 			Utilitaires.convertIndInIndPojo(listeInd,
-					getParameterService(), getI18nService(),
-					getDomainApoService(), listComm, null,
-					getParameterService().getTypeTraitements(),
-					getParameterService().getCalendarRdv(), null, false);
+					getParameterService(),
+                    getDomainApoService(), listComm, null,
+                    getParameterService().getCalendarRdv(), null, false);
 
 		for (IndividuPojo iP : listeIndPojo)
             MiscUtils.initIndCursusScolPojo(iP, getDomainApoService());
@@ -1036,19 +1026,14 @@ public class CommissionController
 			}
 
 			// boucle sur la liste des IndVoeuPojo
-			for (IndVoeuPojo iVoeuP : iP.getIndVoeuxPojo()) {
+            // on ajoute les voeux qui ne sont pas en transfert
+            for (IndVoeuPojo iVoeuP : iP.getIndVoeuxPojo())
+                if (iVoeuP.getTypeTraitement() != Transfert)
+                    unIndPrepa.getIndVoeuxPojo().add(iVoeuP);
 
-				// on ajoute les voeux qui ne sont pas en transfert
-				if (!iVoeuP.getTypeTraitement().equals(transfert)) {
-					unIndPrepa.getIndVoeuxPojo().add(iVoeuP);
-				}
-			}
-
-
-			if (!unIndPrepa.getIndVoeuxPojo().isEmpty()) {
-				// ajout e la liste des individus
-				listeIndPrepa.add(unIndPrepa);
-			}
+            // ajout e la liste des individus
+            if (!unIndPrepa.getIndVoeuxPojo().isEmpty())
+                listeIndPrepa.add(unIndPrepa);
 		}
 		return listeIndPrepa;
 	}
@@ -1359,53 +1344,22 @@ public class CommissionController
 		return getCommissionsItems();
 	}
 
-
-	/**
-	 * @return the selectedCommissions
-	 */
 	public List<Commission> getSelectedCommissions() {
 		return selectedCommissions;
 	}
 
-	/**
-	 * @param selectedCommissions the selectedCommissions to set
-	 */
 	public void setSelectedCommissions(final List<Commission> selectedCommissions) {
 		this.selectedCommissions = selectedCommissions;
 	}
 
-	/**
-	 * @return the membersSelected
-	 */
 	public Object[] getMembersSelected() {
 		return membersSelected;
 	}
 
-	/**
-	 * @param membersSelected the membersSelected to set
-	 */
 	public void setMembersSelected(final Object[] membersSelected) {
 		this.membersSelected = membersSelected;
 	}
 
-	/**
-	 * @return the transfert
-	 */
-	public Transfert getTransfert() {
-		return transfert;
-	}
-
-	/**
-	 * @param transfert the transfert to set
-	 */
-	public void setTransfert(final Transfert transfert) {
-		this.transfert = transfert;
-	}
-
-	/**
-	 * return membersToDisplay.keySet.
-	 * @return Set<Member>
-	 */
 	public List<Member> getKeySetMbrToDisplay() {
 		List<Member> members = new ArrayList<Member>();
 		members.addAll(getMembersToDisplay().keySet());
@@ -1413,25 +1367,16 @@ public class CommissionController
 		return members;
 	}
 
-	/**
-	 * @return List<SignataireDTO>
-	 */
 	public List<SignataireDTO> getSignataireInUse() {
 		List<SignataireDTO> l = getDomainApoService().getSignataires();
 		Collections.sort(l, new ComparatorString(SignataireDTO.class));
 		return l;
 	}
 
-	/**
-	 * @return the commission
-	 */
 	public Commission getCommission() {
 		return commission;
 	}
 
-	/**
-	 * @param commission the commission to set
-	 */
 	public void setCommission(final Commission commission) {
 		//Clone est utilise afin que l'utilisateur puisse modifier
 		//l'objet sans toucher au CACHE (par reference)
@@ -1442,171 +1387,94 @@ public class CommissionController
 		this.commission = commission;
 	}
 
-	/**
-	 * @return the contactCommission
-	 */
 	public ContactCommission getContactCommission() {
 		return contactCommission;
 	}
 
-	/**
-	 * @param contactCommission the contactCommission to set
-	 */
 	public void setContactCommission(final ContactCommission contactCommission) {
 		this.contactCommission = contactCommission;
 	}
 
-	/**
-	 * @return the actionEnum
-	 */
 	public ActionEnum getActionEnum() {
 		return actionEnum;
 	}
 
-	/**
-	 * @param actionEnum the actionEnum to set
-	 */
 	public void setActionEnum(final ActionEnum actionEnum) {
 		this.actionEnum = actionEnum;
 	}
 
-	/**
-	 * @return the objectToAdd
-	 */
 	public Object[] getObjectToAdd() {
 		return objectToAdd.toArray();
 	}
 
-	/**
-     * @param objectToAdd the objectToAdd to set
-     */
 	public void setObjectToAdd(final Object[] objectToAdd) {
 		this.objectToAdd = Arrays.asList(objectToAdd);
 	}
 
-	/**
-	 * @return the membersToDisplay
-	 */
 	public Map<Member, String> getMembersToDisplay() {
 		return membersToDisplay;
 	}
 
-	/**
-	 * @param membersToDisplay the membersToDisplay to set
-	 */
 	public void setMembersToDisplay(final Map<Member, String> membersToDisplay) {
 		this.membersToDisplay = membersToDisplay;
 	}
 
-	/**
-	 * @return the memberToDelete
-	 */
 	public Member getMemberToDelete() {
 		return memberToDelete;
 	}
 
-	/**
-	 * @param memberToDelete the memberToDelete to set
-	 */
 	public void setMemberToDelete(final Member memberToDelete) {
 		this.memberToDelete = memberToDelete;
 	}
 
-
-
-
-	/*----------------------------------------
-	 *  GETTERS POUR JSF
-	 */
-
-	/**
-	 * @return the IS_GESTIONNAIRE
-	 */
 	public String getIsGestionnaire() {
 		return IS_GESTIONNAIRE;
 	}
 
-	/**
-	 * @return the MUST_BE_ADD_GEST
-	 */
 	public String getMustBeGest() {
 		return MUST_BE_ADD_GEST;
 	}
 
-	/**
-	 * @return the ENTER_MBR
-	 */
 	public String getEnterMbr() {
 		return ENTER_MBR;
 	}
 
-
-	/**
-	 * @return the wayfEnum
-	 */
 	public WayfEnum getWayfEnum() {
 		return wayfEnum;
 	}
 
-	/**
-	 * @param wayfEnum the wayfEnum to set
-	 */
 	public void setWayfEnum(final WayfEnum wayfEnum) {
 		this.wayfEnum = wayfEnum;
 	}
 
-	/**
-	 * @return the listeRI
-	 */
 	public List<RegimeInscription> getListeRI() {
 		return listeRI;
 	}
 
-	/**
-	 * @param listeRI the listeRI to set
-	 */
 	public void setListeRI(final List<RegimeInscription> listeRI) {
 		this.listeRI = listeRI;
 	}
 
-	/**
-	 * @return the canModifyRISearch
-	 */
 	public Boolean getCanModifyRISearch() {
 		return canModifyRISearch;
 	}
 
-	/**
-	 * @param canModifyRISearch the canModifyRISearch to set
-	 */
 	public void setCanModifyRISearch(final Boolean canModifyRISearch) {
 		this.canModifyRISearch = canModifyRISearch;
 	}
 
-	/**
-	 * @return the idCmiForAdress
-	 */
 	public Integer getIdCmiForAdress() {
 		return idCmiForAdress;
 	}
 
-	/**
-	 * @param idCmiForAdress the idCmiForAdress to set
-	 */
 	public void setIdCmiForAdress(final Integer idCmiForAdress) {
 		this.idCmiForAdress = idCmiForAdress;
 	}
 
-	/**
-	 * @param adressController the adressController to set
-	 */
 	public void setAdressController(final AdressController adressController) {
 		this.adressController = adressController;
 	}
 
-	/**
-	 * @return the deep link for the students
-	 */
 	public Map<Integer, String> getDeepLinks() {
 		Map<Integer, String> deepLinks;
 		// TODO : optimiser !
@@ -1622,46 +1490,26 @@ public class CommissionController
 		// }
 	}
 
-
-	/**
-	 * @return the castorService
-	 */
 	public ISerializationService getCastorService() {
 		return castorService;
 	}
 
-	/**
-	 * @param castorService the castorService to set
-	 */
 	public void setCastorService(final ISerializationService castorService) {
 		this.castorService = castorService;
 	}
 
-
-	/**
-	 * @return the listCmiPojo
-	 */
 	public List<CommissionPojo> getListCmiPojo() {
 		return listCmiPojo;
 	}
 
-	/**
-	 * @param listCmiPojo the listCmiPojo to set
-	 */
 	public void setListCmiPojo(List<CommissionPojo> listCmiPojo) {
 		this.listCmiPojo = listCmiPojo;
 	}
 
-	/**
-	 * @return the filteredListCmiPojo
-	 */
 	public List<CommissionPojo> getFilteredListCmiPojo() {
 		return filteredListCmiPojo;
 	}
 
-	/**
-	 * @param filteredListCmiPojo the filteredListCmiPojo to set
-	 */
 	public void setFilteredListCmiPojo(List<CommissionPojo> filteredListCmiPojo) {
 		this.filteredListCmiPojo = filteredListCmiPojo;
 	}
@@ -1670,24 +1518,14 @@ public class CommissionController
 		this.trtCmiController = trtCmiController;
 	}
 
-
-	/**
-	 * @param convocMember the convocMember to set
-	 */
 	public void setConvocMember(final MailContentService convocMember) {
 		this.convocMember = convocMember;
 	}
 
-	/**
-	 * @return the managerUsed
-	 */
 	public boolean isManagerUsed() {
 		return managerUsed;
 	}
 
-	/**
-	 * @param managerUsed the managerUsed to set
-	 */
 	public void setManagerUsed(final boolean managerUsed) {
 		this.managerUsed = managerUsed;
 	}

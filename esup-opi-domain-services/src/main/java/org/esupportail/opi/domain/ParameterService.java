@@ -725,16 +725,7 @@ public interface ParameterService extends Serializable {
 	int getListEtudiantsParCalendarRdvParDemiJournee(
 			int idCalendarRdv, int month, 
 			Date date, Date dateDebut, Date dateFin);
-	
-	//////////////////////////////////////////////////////////////
-	// TypeTraitement
-	//////////////////////////////////////////////////////////////
-	/**
-	 * Return all TypeTraitement.
-	 * @return List< TypeTraitement>
-	 */
-	List<TypeTraitement> getTypeTraitements();
-	
+
 	
 	//////////////////////////////////////////////////////////////
 	// TypeConvocation
@@ -742,7 +733,7 @@ public interface ParameterService extends Serializable {
 	
 	/**
 	 * Return all TypeConvocation.
-	 * @return List< TypeConvocation>
+	 * @return List<TypeConvocation>
 	 */
 	List<TypeConvocation> getTypeConvocations();
 	
@@ -753,7 +744,7 @@ public interface ParameterService extends Serializable {
 	
 	/**
 	 * Return all TypeContrat.
-	 * @return List< TypeContrat>
+	 * @return List<TypeContrat>
 	 */
 	List<TypeContrat> getTypeContrats();
 	
@@ -764,7 +755,7 @@ public interface ParameterService extends Serializable {
 	
 	/**
 	 * Return all TypeStatut.
-	 * @return List< TypeStatut>
+	 * @return List<TypeStatut>
 	 */
 	List<TypeStatut> getTypeStatuts();
 	
@@ -774,7 +765,7 @@ public interface ParameterService extends Serializable {
 	
 	/**
 	 * Return all TypeOrganisme.
-	 * @return List< TypeOrganisme>
+	 * @return List<TypeOrganisme>
 	 */
 	List<TypeOrganisme> getTypeOrganismes();
 	
@@ -784,7 +775,7 @@ public interface ParameterService extends Serializable {
 	
 	/**
 	 * Return all TypeSituation.
-	 * @return List< TypeSituation>
+	 * @return List<TypeSituation>
 	 */
 	List<TypeSituation> getTypeSituations();
 	

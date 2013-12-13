@@ -7,6 +7,8 @@ import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.BusinessUtil;
 import org.esupportail.opi.domain.OpiWebService;
+import org.esupportail.opi.domain.beans.etat.Etat;
+import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.InscriptionAdm;
@@ -192,7 +194,7 @@ public class ConfirmationController extends AbstractAccessController {
                         addErrorMessage(null, "STATE.DESIST.WARNING");
                     }
                 }
-                indVoeuPojo.initEtat(indVoeu.getState(), getI18nService());
+                indVoeuPojo.setEtat(EtatVoeu.fromString(indVoeu.getState()));
             }
         }
 
@@ -302,11 +304,9 @@ public class ConfirmationController extends AbstractAccessController {
         IndividuPojo individuPojo = new IndividuPojo(
                 indVoeuLc.getIndividu(),
                 getDomainApoService(),
-                getI18nService(),
                 getParameterService(),
                 lesCommissions,
                 lesTypeDecisions,
-                getParameterService().getTypeTraitements(),
                 getParameterService().getCalendarRdv(),
                 versionsEtape);
 

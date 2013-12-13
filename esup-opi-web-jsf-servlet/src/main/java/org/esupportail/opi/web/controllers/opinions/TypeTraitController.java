@@ -1,15 +1,18 @@
 package org.esupportail.opi.web.controllers.opinions;
 
+import fj.F;
 import fj.P1;
 import fj.data.Array;
-import fj.data.Stream;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
-import org.esupportail.opi.domain.beans.parameters.*;
+import org.esupportail.opi.domain.beans.parameters.Campagne;
+import org.esupportail.opi.domain.beans.parameters.InscriptionAdm;
+import org.esupportail.opi.domain.beans.parameters.TypeDecision;
+import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.utils.Constantes;
@@ -18,61 +21,52 @@ import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.opi.web.controllers.SessionController;
-import org.esupportail.opi.web.controllers.user.IndividuController;
+import org.esupportail.opi.web.utils.MiscUtils;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.esupportail.opi.web.utils.paginator.PaginationFunctions;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import static java.util.Arrays.asList;
 import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatNull;
+import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.*;
 import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
 import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
-/**
- * @author tducreux
- *         TypeTraitController :
- */
 public class TypeTraitController extends AbstractContextAwareController {
     private static final long serialVersionUID = 5545836516397172544L;
 
-    /**
-     * Select all the type treatment if the type.
-     */
     private String codeTypeTrtselected;
 
-    /**
-     * type Traitement ET (Bean).
-     */
-    private TypeTraitement typeTraitementVA;
-
-    /**
-     * type Traitement ET (Bean).
-     */
-    private TypeTraitement typeTraitementTR;
-
-    /**
-     * type Traitement ET (Bean).
-     */
-    private TypeTraitement typeTraitementET;
-
     private InscriptionAdm inscriptionAdm;
-
-    /**
-     * Type treatment VA and TR.
-     */
-    private List<TypeTraitement> typeTraitements;
 
     private SmtpService smtpService;
 
     private boolean renderTable = false;
 
-    private IndRechPojo indRechPojo = new IndRechPojo();
+    private IndRechPojo indRechPojo = new IndRechPojo() {
+        public void setExcludeWishProcessed(Boolean exclude) {
+            super.setExcludeWishProcessed(exclude);
+            if (exclude)
+                setTypeTraitements(asList(ValidationAcquis, Transfert, EnAttente));
+            else
+                setTypeTraitements(Collections.<TypeTraitement>emptyList());
+        }
+        {
+        setExcludeWishProcessed(true);
+        setUseGestCommsFilter(true);
+        setUseVoeuFilter(false);
+    }};
+
+    private F<IndividuPojo, IndividuPojo> initCursus = new F<IndividuPojo, IndividuPojo>() {
+        public IndividuPojo f(IndividuPojo individuPojo) {
+            MiscUtils.initIndCursusScolPojo(individuPojo, getDomainApoService());
+            return individuPojo;
+        }
+    };
 
     private LazyDataModel<IndividuPojo> indPojoLDM = lazyModel(
             PaginationFunctions.getData(
@@ -102,7 +96,18 @@ public class TypeTraitController extends AbstractContextAwareController {
                         }
                     }),
             PaginationFunctions.findByRowKey)
-            .map(individuToPojo(getDomainApoService(), getParameterService()));
+            .map(individuToPojo(
+                    new P1<DomainApoService>() {
+                        public DomainApoService _1() {
+                            return getDomainApoService();
+                        }
+                    },
+                    new P1<ParameterService>() {
+                        public ParameterService _1() {
+                            return getParameterService();
+                        }
+                    })
+                    .andThen(initCursus));
 
     @Override
     public void reset() {
@@ -163,14 +168,14 @@ public class TypeTraitController extends AbstractContextAwareController {
                 corresponding = cmiPojo.getContactCommission().getCorresponding();
             }
             htmlBody += html.toString();
-            if (typeT instanceof Transfert) {
+            if (typeT == Transfert) {
                 htmlBody += getString("MAIL.CANDIDAT_VOEU_TR.HTMLTEXT_BODY1");
                 htmlBody += getString("MAIL.CANDIDAT_VOEU_TR.HTMLTEXT_BODY2",
                         i.getCampagneEnServ(getDomainService()).getCodAnu());
                 // coordonnees commission
                 htmlBody += htmlCoordonnees;
                 htmlBody += getString("MAIL.CANDIDAT_VOEU_TR.HTMLTEXT_BODY3");
-            } else if (typeT instanceof ValidationAcquis) {
+            } else if (typeT == ValidationAcquis) {
                 String commDateEnd = cmi.getCalendarCmi().getCommDatEndBack();
                 if (commDateEnd == null) {
                     commDateEnd = "";
@@ -215,11 +220,11 @@ public class TypeTraitController extends AbstractContextAwareController {
             for (IndVoeuPojo v : lesVoeux) {
                 String codeTrt = v.getIndVoeu().getCodTypeTrait();
                 if (codeTrt != null) {
-                    if (!codeTrt.equals(this.typeTraitementET.getCode())) {
+                    if (!codeTrt.equals(EnAttente.code)) {
                         // voeu non traite qui a ete modifie
-                        if (codeTrt.equals(this.typeTraitementVA.getCode())) {
+                        if (codeTrt.equals(ValidationAcquis.code)) {
                             lesVA.add(v);
-                        } else if (codeTrt.equals(this.typeTraitementTR.getCode())) {
+                        } else if (codeTrt.equals(Transfert.code)) {
                             lesTR.add(v);
                             // ajout un avis favorable
                             Avis avis = new Avis();
@@ -253,15 +258,15 @@ public class TypeTraitController extends AbstractContextAwareController {
                         v.getIndVoeu().setHaveBeTraited(true);
 
                     }
-                    //on met tous les temps le voeu e jour
+                    //on met le voeu à jour
                     getDomainService().updateIndVoeu(v.getIndVoeu());
                 }
             }
             if (!lesVA.isEmpty()) {
-                sendMails(i, camp, lesVA, typeTraitementVA);
+                sendMails(i, camp, lesVA, ValidationAcquis);
             }
             if (!lesTR.isEmpty()) {
-                sendMails(i, camp, lesTR, typeTraitementTR);
+                sendMails(i, camp, lesTR, Transfert);
             }
         }
     }
@@ -282,6 +287,10 @@ public class TypeTraitController extends AbstractContextAwareController {
         }
     }
 
+    public List<TypeTraitement> getTypesTraitement() {
+        return asList(ValidationAcquis, Transfert, EnAttente);
+    }
+
     public String getCodeTypeTrtselected() {
         return codeTypeTrtselected;
     }
@@ -290,28 +299,8 @@ public class TypeTraitController extends AbstractContextAwareController {
         this.codeTypeTrtselected = codeTypeTrtselected;
     }
 
-    public void setTypeTraitementVA(final TypeTraitement typeTraitementVA) {
-        this.typeTraitementVA = typeTraitementVA;
-    }
-
-    public void setTypeTraitementTR(final TypeTraitement typeTraitementTR) {
-        this.typeTraitementTR = typeTraitementTR;
-    }
-
-    public void setTypeTraitementET(final TypeTraitement typeTraitementET) {
-        this.typeTraitementET = typeTraitementET;
-    }
-
     public void setSmtpService(final SmtpService smtpService) {
         this.smtpService = smtpService;
-    }
-
-    public List<TypeTraitement> getTypeTraitements() {
-        return typeTraitements;
-    }
-
-    public void setTypeTraitements(final List<TypeTraitement> typeTraitement) {
-        this.typeTraitements = typeTraitement;
     }
 
     public void setInscriptionAdm(final InscriptionAdm inscriptionAdm) {
@@ -320,6 +309,10 @@ public class TypeTraitController extends AbstractContextAwareController {
 
     public LazyDataModel<IndividuPojo> getIndPojoLDM() {
         return indPojoLDM;
+    }
+
+    public IndRechPojo getIndRechPojo() {
+        return indRechPojo;
     }
 
     public boolean isRenderTable() {

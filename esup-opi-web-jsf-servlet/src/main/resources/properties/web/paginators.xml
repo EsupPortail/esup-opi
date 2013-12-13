@@ -4,63 +4,6 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="paginatorIndividu"
-          class="org.esupportail.opi.web.beans.paginator.IndividuPaginator"
-          scope="session">
-        <property name="sessionController" ref="sessionController"/>
-        <property name="daoService" ref="daoService"/>
-        <property name="maxNearPages" value="4"/>
-        <property name="defaultPageSize" value="20"/>
-        <property name="pageSize" value="20"/>
-        <property name="pageSizeValues">
-            <set>
-                <value>10</value>
-                <value>20</value>
-                <value>30</value>
-                <value>40</value>
-            </set>
-        </property>
-    </bean>
-
-
-    <bean id="paginatorIndividuPojo"
-          class="org.esupportail.opi.web.beans.paginator.IndividuPojoPaginator"
-          scope="session">
-        <property name="sessionController" ref="sessionController"/>
-        <property name="domainApoService" ref="domainApoService"/>
-        <property name="daoService" ref="daoService"/>
-        <property name="maxNearPages" value="4"/>
-        <property name="defaultPageSize" value="20"/>
-        <property name="pageSizeValues">
-            <set>
-                <value>10</value>
-                <value>20</value>
-                <value>30</value>
-                <value>40</value>
-            </set>
-        </property>
-    </bean>
-
-
-    <bean id="paginatorPM" class="org.esupportail.opi.web.beans.paginator.PMPaginator"
-          scope="session">
-        <property name="sessionController" ref="sessionController"/>
-        <property name="domainApoService" ref="domainApoService"/>
-        <property name="daoService" ref="daoService"/>
-        <property name="maxNearPages" value="4"/>
-        <property name="defaultPageSize" value="20"/>
-        <property name="pageSize" value="20"/>
-        <property name="pageSizeValues">
-            <set>
-                <value>10</value>
-                <value>20</value>
-                <value>30</value>
-                <value>40</value>
-            </set>
-        </property>
-    </bean>
-
-
     <bean id="paginatorCommission"
           class="org.esupportail.opi.web.beans.paginator.CommissionPaginator"
           scope="session">
@@ -70,17 +13,18 @@
         <property name="defaultPageSize" value="20"/>
         <property name="pageSize" value="20"/>
         <property name="pageSizeValues">
-            <set>
+            <list>
                 <value>10</value>
                 <value>20</value>
                 <value>30</value>
                 <value>40</value>
-            </set>
+            </list>
         </property>
     </bean>
 
 
-    <bean id="paginatorVET" class="org.esupportail.opi.web.beans.paginator.VETPaginator"
+    <bean id="paginatorVET"
+          class="org.esupportail.opi.web.beans.paginator.VETPaginator"
           scope="session">
         <property name="parameterService" ref="parameterService"/>
         <property name="domainApoService" ref="domainApoService"/>
@@ -90,12 +34,12 @@
         <property name="defaultPageSize" value="20"/>
         <property name="pageSize" value="20"/>
         <property name="pageSizeValues">
-            <set>
+            <list>
                 <value>10</value>
                 <value>20</value>
                 <value>30</value>
                 <value>40</value>
-            </set>
+            </list>
         </property>
     </bean>
 </beans>

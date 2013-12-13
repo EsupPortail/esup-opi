@@ -6,6 +6,7 @@ import org.esupportail.commons.utils.ContextUtils;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
+import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
@@ -126,8 +127,7 @@ public class VETPaginator extends ListPaginator<VersionEtapeDTO> {
             for (TraitementCmi t : commission.getTraitementCmi()) {
 
                 if (!Utilitaires.isTraitementCmiOff(t, codeRI)) {
-                    BeanTrtCmi b = new BeanTrtCmi(t,
-                            getParameterService().getTypeTraitements());
+                    BeanTrtCmi b = new BeanTrtCmi(t, TypeTraitement.fromCode(t.getCodTypeTrait()));
                     VersionEtapeDTO vdto = getVetFromTrtCmi(b);
                     etapes.add(vdto);
                 }

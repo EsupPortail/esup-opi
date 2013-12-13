@@ -5,7 +5,7 @@
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
         <h:form id="seeIndividusForm" rendered="#{!pjController.currentCmiPojo.state.displayPJ}">
-        	<f:event type="preRenderView" listener="#{individuController.useTypeTrtFilter(true)}" />
+            <!-- <f:event type="preRenderView" listener="#{individuController.useTypeTrtFilter(true)}" /> -->
             <p:blockUI block="maPage" trigger="changeStateAll individuData search-button">
                 <p:graphicImage library="images" name="ajax-loader.gif"/>
             </p:blockUI>
@@ -32,7 +32,7 @@
                 </ui:fragment>
                 <p:remoteCommand id="renderTable" name="renderTable"
                                  autoRun="true" async="true"
-                                 update="dataPanel"
+                                 update="changeStateAll dataPanel"
                                  actionListener="#{pjController.doRenderTable}"/>
                 <div style="width:100%;">
                     <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"

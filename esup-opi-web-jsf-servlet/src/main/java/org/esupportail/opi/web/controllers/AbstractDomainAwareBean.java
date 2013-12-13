@@ -15,6 +15,7 @@ import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.beans.user.User;
+import org.esupportail.opi.web.beans.parameters.FormationInitiale;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 
@@ -22,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import static java.util.Arrays.asList;
 
 /**
  * An abstract class inherited by all the beans for them to get:
@@ -65,7 +68,7 @@ public abstract class AbstractDomainAwareBean extends AbstractJsfMessagesAwareBe
     /**
      * The list of bean regimeInscription.
      */
-    private List<RegimeInscription> regimeInscriptions;
+    private List<RegimeInscription> regimeInscriptions = asList((RegimeInscription) new FormationInitiale());
 
     /**
      * Constructor.
@@ -120,7 +123,7 @@ public abstract class AbstractDomainAwareBean extends AbstractJsfMessagesAwareBe
         if (logger.isDebugEnabled()) {
             logger.debug("entering getRegimeInscriptions");
         }
-        Map<Integer, RegimeInscription> map = new HashMap<Integer, RegimeInscription>();
+        Map<Integer, RegimeInscription> map = new HashMap<>();
         for (RegimeInscription ri : regimeInscriptions) {
             map.put(ri.getCode(), ri);
         }

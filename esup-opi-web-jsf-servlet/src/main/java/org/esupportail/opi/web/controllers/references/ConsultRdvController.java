@@ -27,14 +27,12 @@ import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.utils.Conversions;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.components.ExtendedEntry;
-import org.esupportail.opi.web.beans.paginator.IndividuPaginator;
 import org.esupportail.opi.web.beans.pojo.IndRechPojo;
 import org.esupportail.opi.web.beans.pojo.IndividuPojo;
 import org.esupportail.opi.web.beans.utils.ExportUtils;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.opi.web.controllers.SessionController;
-import org.esupportail.opi.web.controllers.user.IndividuController;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.esupportail.opi.web.utils.paginator.PaginationFunctions;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
@@ -81,8 +79,6 @@ public class ConsultRdvController extends AbstractContextAwareController {
 
     private ActionEnum actionEnum;
 
-    private IndividuPaginator individuPaginator;
-
     private IndRechPojo indRechPojo = new IndRechPojo();
 
     private final LazyDataModel<IndividuPojo> indPojoLDM = lazyModel(
@@ -113,7 +109,17 @@ public class ConsultRdvController extends AbstractContextAwareController {
                         }
                     }),
             PaginationFunctions.findByRowKey)
-            .map(individuToPojo(getDomainApoService(), getParameterService()));
+            .map(individuToPojo(
+                    new P1<DomainApoService>() {
+                        public DomainApoService _1() {
+                            return getDomainApoService();
+                        }
+                    },
+                    new P1<ParameterService>() {
+                        public ParameterService _1() {
+                            return getParameterService();
+                        }
+                    }));
 
     private CalendarRDV calendarRdv;
 
@@ -696,14 +702,6 @@ public class ConsultRdvController extends AbstractContextAwareController {
 
     public void setInSearch(final boolean inSearch) {
         this.inSearch = inSearch;
-    }
-
-    public IndividuPaginator getIndividuPaginator() {
-        return individuPaginator;
-    }
-
-    public void setIndividuPaginator(final IndividuPaginator individuPaginator) {
-        this.individuPaginator = individuPaginator;
     }
 
     public Individu getCandidat() {

@@ -8,6 +8,7 @@ import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
+import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
@@ -29,22 +30,12 @@ import org.springframework.util.StringUtils;
 import javax.faces.event.ValueChangeEvent;
 import java.util.*;
 
-
-/**
- * @author cleprous
- */
 public class TrtCmiController extends AbstractAccessController {
-
 
     /**
      * The serialization id.
      */
     private static final long serialVersionUID = -385061645426193790L;
-
-
-	/*
-     ******************* PROPERTIES ******************* */
-
 
     /**
      * A logger.
@@ -132,21 +123,10 @@ public class TrtCmiController extends AbstractAccessController {
      */
     private EtapeController etapeController;
 
-
-	/*
-	 ******************* INIT ************************* */
-
-
-    /**
-     * Constructors.
-     */
     public TrtCmiController() {
         super();
     }
 
-    /**
-     * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
-     */
     @Override
     public void reset() {
         super.reset();
@@ -163,9 +143,6 @@ public class TrtCmiController extends AbstractAccessController {
         this.actionEnum = new ActionEnum();
     }
 
-    /**
-     * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#afterPropertiesSetInternal()
-     */
     @Override
     public void afterPropertiesSetInternal() {
         Assert.notNull(this.etapeController,
@@ -173,10 +150,6 @@ public class TrtCmiController extends AbstractAccessController {
                         + " can not be null");
         reset();
     }
-
-	/*
-	 ******************* CALLBACK ********************** */
-
 
     /**
      * @return String
@@ -214,10 +187,6 @@ public class TrtCmiController extends AbstractAccessController {
         return NavigationRulesConst.MANAGED_CAMP_TO_VET;
     }
 
-	/*
-	 ******************* METHODS ********************** */
-
-
     /**
      * method to look for commission.
      */
@@ -253,14 +222,11 @@ public class TrtCmiController extends AbstractAccessController {
                             getParameterService().getCampagneEnServ(
                                     getCurrentGest().getProfile().getCodeRI())
                             , trtCmi));
-                    BeanTrtCmi b = new BeanTrtCmi(trtCmi,
-                            getParameterService().getTypeTraitements());
+                    BeanTrtCmi b = new BeanTrtCmi(trtCmi, TypeTraitement.fromCode(trtCmi.getCodTypeTrait()));
                     b = prepareTrtCmi(b);
 
                     allTraitementCmi.add(b);
                 } else {
-//					addErrorMessage(null, "ERROR.TRT.CMI.CONNECT_CMI", 
-//							v.getCodVrsVet() + "-" + v.getCodEtp() + ":" + v.getLicEtp());
                     listVETToTransfert.add(v);
                 }
             }
@@ -273,14 +239,11 @@ public class TrtCmiController extends AbstractAccessController {
                             getParameterService().getCampagneEnServ(
                                     getCurrentGest().getProfile().getCodeRI())
                             , trtCmi));
-                    BeanTrtCmi b = new BeanTrtCmi(trtCmi,
-                            getParameterService().getTypeTraitements());
+                    BeanTrtCmi b = new BeanTrtCmi(trtCmi, TypeTraitement.fromCode(trtCmi.getCodTypeTrait()));
                     b = prepareTrtCmi(b);
 
                     allTraitementCmi.add(b);
                 } else {
-//					addErrorMessage(null, "ERROR.TRT.CMI.CONNECT_CMI", 
-//							v.getCodVrsVet() + "-" + v.getCodEtp() + ":" + v.getLicEtp());
                     listVETToTransfert.add(v);
                 }
             }
@@ -307,17 +270,13 @@ public class TrtCmiController extends AbstractAccessController {
 
     /**
      * Initialize the allTraitmentCmi(the treatment of commission) attribute.
-     *
-     * @param c
-     * @param initLinkForInUse
-     * @param inUse            if true do only trtCmi in use, if null all
      */
     public void initAllTraitementCmi(final Commission c, final Boolean inUse) {
         if (log.isDebugEnabled()) {
             log.debug("entering initAllTraitementCmi( " + c + " )");
         }
-        allTraitementCmi = new ArrayList<BeanTrtCmi>();
-        treatmentsCmiOff = new ArrayList<BeanTrtCmi>();
+        allTraitementCmi = new ArrayList<>();
+        treatmentsCmiOff = new ArrayList<>();
         Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
         int codeRI = gest.getProfile().getCodeRI();
         // maj du régime d'inscription
@@ -326,17 +285,12 @@ public class TrtCmiController extends AbstractAccessController {
         Commission com = getParameterService().getCommission(c.getId(), c.getCode());
 
         for (TraitementCmi t : com.getTraitementCmi()) {
-            //init proxy hib
-            // passage du link en lazy false
-            //getDomainService().initOneProxyHib(t, t.getLinkTrtCmiCamp(), Set.class);
             if ((inUse == null || !inUse) && Utilitaires.isTraitementCmiOff(t, codeRI)) {
-                BeanTrtCmi b = new BeanTrtCmi(t,
-                        getParameterService().getTypeTraitements());
+                BeanTrtCmi b = new BeanTrtCmi(t, TypeTraitement.fromCode(t.getCodTypeTrait()));
                 treatmentsCmiOff.add(prepareTrtCmi(b));
             }
             if ((inUse == null || inUse) && !Utilitaires.isTraitementCmiOff(t, codeRI)) {
-                BeanTrtCmi b = new BeanTrtCmi(t,
-                        getParameterService().getTypeTraitements());
+                BeanTrtCmi b = new BeanTrtCmi(t, TypeTraitement.fromCode(t.getCodTypeTrait()));
                 allTraitementCmi.add(prepareTrtCmi(b));
             }
         }
@@ -402,8 +356,7 @@ public class TrtCmiController extends AbstractAccessController {
      * @param event
      */
     public void selectTypTrt(final ValueChangeEvent event) {
-        String idTypTrt = (String) event.getNewValue();
-        codeTypeTrtselected = idTypTrt;
+        codeTypeTrtselected = (String) event.getNewValue();
         selectAllTypeTrt();
     }
 
@@ -412,9 +365,8 @@ public class TrtCmiController extends AbstractAccessController {
      * Select all the type treatment for beanTrtCmi.
      */
     public void selectAllTypeTrt() {
-        for (BeanTrtCmi b : allTraitementCmi) {
+        for (BeanTrtCmi b : allTraitementCmi)
             b.getTraitementCmi().setCodTypeTrait(codeTypeTrtselected);
-        }
     }
 
     /**
@@ -432,8 +384,7 @@ public class TrtCmiController extends AbstractAccessController {
             List<TraitementCmi> trtcmiToDelete = new ArrayList<TraitementCmi>();
 
             for (TraitementCmi t : commission.getTraitementCmi()) {
-                BeanTrtCmi b = new BeanTrtCmi(t,
-                        getParameterService().getTypeTraitements());
+                BeanTrtCmi b = new BeanTrtCmi(t, TypeTraitement.fromCode(t.getCodTypeTrait()));
                 if (!allTraitementCmi.contains(b) && !treatmentsCmiOff.contains(b)) {
                     trtcmiToDelete.add(t);
                 }
@@ -443,11 +394,8 @@ public class TrtCmiController extends AbstractAccessController {
             Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
             int codeRI = gest.getProfile().getCodeRI();
             Set<Campagne> campagnes = new HashSet<Campagne>();
-            if (StringUtils.hasText(etapeController.getCodAnu())) {
+            if (StringUtils.hasText(etapeController.getCodAnu()))
                 campagnes.addAll(getParameterService().getCampagnesAnu(etapeController.getCodAnu()));
-            } else {
-                //campagnes.add(getParameterService().getCampagneEnServ(codeRI));
-            }
             // on utilise que les campagnes auquels à le droit le gestionnaire
             Set<Campagne> campagnesAdd = new HashSet<Campagne>();
             for (Campagne camp : campagnes) {
@@ -457,9 +405,8 @@ public class TrtCmiController extends AbstractAccessController {
             }
             
             List<TraitementCmi> listTrtCmi = new ArrayList<TraitementCmi>();
-            for (BeanTrtCmi b : allTraitementCmi) {
-            	listTrtCmi.add(b.getTraitementCmi());
-            }
+            for (BeanTrtCmi b : allTraitementCmi)
+                listTrtCmi.add(b.getTraitementCmi());
             listTrtCmi.removeAll(trtcmiToDelete);
 
             //update or add trtCmi
@@ -488,12 +435,9 @@ public class TrtCmiController extends AbstractAccessController {
 					}
             		
             	} else { //existe donc à mettre à jour
-//            		trtcmi.setSelection(b.getTraitementCmi().getSelection());
-//            		trtcmi.setLinkTrtCmiCamp(b.getTraitementCmi().getLinkTrtCmiCamp());
 					trtcmi.setCommission(commission);
 					trtcmi = getDomainService().update(trtcmi, getCurrentGest().getLogin());
 					getParameterService().updateTraitementCmi(trtcmi);
-            		
             	}
             }
 
@@ -528,8 +472,7 @@ public class TrtCmiController extends AbstractAccessController {
                             trtCmi.getVersionEtpOpi().getCodVrsVet());
                     addErrorMessage(null, "ERROR.TRT.CMI.EXIST_VOEU",
                             v.getCodEtp() + "_" + v.getCodVrsVet() + ":" + v.getLicEtp());
-                    BeanTrtCmi b = new BeanTrtCmi(trtCmi,
-                            getParameterService().getTypeTraitements());
+                    BeanTrtCmi b = new BeanTrtCmi(trtCmi, TypeTraitement.fromCode(trtCmi.getCodTypeTrait()));
                     b.setEtape(v);
                     treatmentsCmiOff.add(b);
                 }
@@ -627,8 +570,6 @@ public class TrtCmiController extends AbstractAccessController {
         }
     }
 
-	/* ### ALL CONTROL ####*/
-
     /**
      * Control Commission treatment to update.
      *
@@ -645,82 +586,46 @@ public class TrtCmiController extends AbstractAccessController {
                 return false;
             }
         }
-        //control if connect another commission
-
-
         if (log.isDebugEnabled()) {
             log.debug("leaving ctrlAdd return = " + ctrlOk);
         }
         return ctrlOk;
     }
 
-	/*
-	 ******************* ACCESSORS ******************** */
-
-    /**
-     * @return the allTraitementCmi
-     */
     public List<BeanTrtCmi> getAllTraitementCmi() {
         Collections.sort(allTraitementCmi, new ComparatorString(BeanTrtCmi.class));
         return allTraitementCmi;
     }
 
-
-    /**
-     * @return the treatmentCmiOff
-     */
     public List<BeanTrtCmi> getTreatmentsCmiOff() {
         Collections.sort(treatmentsCmiOff, new ComparatorString(BeanTrtCmi.class));
         return treatmentsCmiOff;
     }
 
-    /**
-     * @param allTraitementCmi the allTraitementCmi to set
-     */
     public void setAllTraitementCmi(final List<BeanTrtCmi> allTraitementCmi) {
         this.allTraitementCmi = allTraitementCmi;
     }
 
-    /**
-     * @return the actionEnum
-     */
     public ActionEnum getActionEnum() {
         return actionEnum;
     }
 
-    /**
-     * @param actionEnum the actionEnum to set
-     */
     public void setActionEnum(final ActionEnum actionEnum) {
         this.actionEnum = actionEnum;
     }
 
-
-    /**
-     * @param etapeController
-     */
     public void setEtapeController(final EtapeController etapeController) {
         this.etapeController = etapeController;
     }
 
-
-    /**
-     * @return String
-     */
     public String getCodeCmi() {
         return codeCmi;
     }
 
-    /**
-     * @param codeCmi
-     */
     public void setCodeCmi(final String codeCmi) {
         this.codeCmi = codeCmi;
     }
 
-    /**
-     * @return Integer
-     */
     public Integer getIdCmi() {
         if (idCmi == null) {
             return 0;
@@ -728,164 +633,94 @@ public class TrtCmiController extends AbstractAccessController {
         return idCmi;
     }
 
-    /**
-     * @param idCmi
-     */
     public void setIdCmi(final Integer idCmi) {
         this.idCmi = idCmi;
     }
 
-    /**
-     * @return the codeTypeTrtselected
-     */
     public String getCodeTypeTrtselected() {
         return codeTypeTrtselected;
     }
 
-    /**
-     * @param codeTypeTrtselected the codeTypeTrtselected to set
-     */
     public void setCodeTypeTrtselected(final String codeTypeTrtselected) {
         this.codeTypeTrtselected = codeTypeTrtselected;
     }
 
-
-    /**
-     * @return the beanTrtCmi
-     */
     public BeanTrtCmi getbeanTrtCmi() {
         return beanTrtCmi;
     }
 
-    /**
-     * @param beanTrtCmi the beanTrtCmi to set
-     */
     public void setbeanTrtCmi(final BeanTrtCmi beanTrtCmi) {
         this.beanTrtCmi = beanTrtCmi;
     }
 
-    /**
-     * @return the commission
-     */
     public Commission getCommission() {
         return commission;
     }
 
-    /**
-     * @param commission the commission to set
-     */
     public void setCommission(final Commission commission) {
         this.commission = commission;
     }
 
-    /**
-     * @return the etapeController
-     */
     public EtapeController getEtapeController() {
         return etapeController;
     }
 
-    /**
-     * @param treatmentCmiOff the treatmentCmiOff to set
-     */
     public void setTreatmentsCmiOff(final List<BeanTrtCmi> treatmentCmiOff) {
         this.treatmentsCmiOff = treatmentCmiOff;
     }
 
-    /**
-     * @return the campagneSelected
-     */
     public Campagne getCampagneSelected() {
         return campagneSelected;
     }
 
-    /**
-     * @param campagneSelected the campagneSelected to set
-     */
     public void setCampagneSelected(final Campagne campagneSelected) {
         this.campagneSelected = campagneSelected;
     }
 
-    /**
-     * @return the linkToDel
-     */
     public LinkTrtCmiCamp getLinkToDel() {
         return linkToDel;
     }
 
-    /**
-     * @param linkToDel the linkToDel to set
-     */
     public void setLinkToDel(final LinkTrtCmiCamp linkToDel) {
         this.linkToDel = linkToDel;
     }
 
-    /**
-     * @return the listeCampagne
-     */
     public List<Campagne> getListeCampagne() {
         return listeCampagne;
     }
 
-    /**
-     * @param listeCampagne the listeCampagne to set
-     */
     public void setListeCampagne(final List<Campagne> listeCampagne) {
         this.listeCampagne = listeCampagne;
     }
 
-    /**
-     * @return the currentRegime
-     */
     public RegimeInscription getCurrentRegime() {
         return currentRegime;
     }
 
-    /**
-     * @param currentRegime the currentRegime to set
-     */
     public void setCurrentRegime(final RegimeInscription currentRegime) {
         this.currentRegime = currentRegime;
     }
 
-    /**
-     * @return the listVETToTransfert
-     */
     public List<VersionEtapeDTO> getListVETToTransfert() {
         return listVETToTransfert;
     }
 
-    /**
-     * @param listVETToTransfert the listVETToTransfert to set
-     */
     public void setListVETToTransfert(final List<VersionEtapeDTO> listVETToTransfert) {
         this.listVETToTransfert = listVETToTransfert;
     }
 
-    /**
-     * @return the vetToTransfert
-     */
     public VersionEtapeDTO getVetToTransfert() {
         return vetToTransfert;
     }
 
-    /**
-     * @param vetToTransfert the vetToTransfert to set
-     */
     public void setVetToTransfert(final VersionEtapeDTO vetToTransfert) {
         this.vetToTransfert = vetToTransfert;
     }
 
-    /**
-     * @return the transfertVet
-     */
     public boolean isTransfertVet() {
         return transfertVet;
     }
 
-    /**
-     * @param transfertVet the transfertVet to set
-     */
     public void setTransfertVet(final boolean transfertVet) {
         this.transfertVet = transfertVet;
     }
