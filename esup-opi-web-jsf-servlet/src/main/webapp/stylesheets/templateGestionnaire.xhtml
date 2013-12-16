@@ -13,9 +13,37 @@
     </ui:define>
     <ui:define name="navigation">
         <h:form id="navHeaderManager" styleClass="opiR1_form">
-            <pe:ajaxErrorHandler/>
+            <!-- <pe:ajaxErrorHandler/> -->
+            <pe:ajaxErrorHandler button="Close warning!" widgetVar="myAjaxErrorHandler">  
+                <div>  
+                    <h2 class="ui-dialog-titlebar" style="border-bottom: 2px solid blue; border-top: 2px solid blue;padding: 15px; text-align:center;background:#ccc;">  
+                        Error <span style="color: red;">{error-name}</span>  
+                    </h2>  
+                    <div class="ui-dialog-content">  
+                        <p:panel header="Base information" toggleable="true">  
+                            <h:panelGrid columns="2">  
+                                <h:outputLabel value="Error message:" />  
+                                <h:outputText value="{error-message}" style="font-size: 1.2em;color:navy;" />  
+                                
+                                <h:outputLabel value="Server name:" />  
+                                <h:outputText value="{error-hostname}"  style="font-size: 1.2em;color:navy;"/>  
+                            </h:panelGrid>  
+                        </p:panel>  
+                        <p:panel header="Exception details" toggleable="true">  
+                            <div style="overflow: auto; height: 300px; width: 440px;">  
+                                {error-stacktrace}  
+                            </div>  
+                        </p:panel>  
+                        
+                        <div style="text-align  :center; padding: 5px;">  
+                            <p:commandButton onclick="window.location.href=window.location.href; return false;" value="RELOAD"/>  
+                            <p:commandButton onclick="myAjaxErrorHandler.hide(); return false;" value="CLOSE"/>  
+                        </div>  
+                    </div>  
+                </div>  
+            </pe:ajaxErrorHandler> 
             <!-- Initialisation du pojo de recherche d'individu -->
-            <f:event type="preRenderView" listener="#{individuController.initIndRechPojo}" />
+            <!-- <f:event type="preRenderView" listener="#{individuController.initIndRechPojo}" /> -->
             <ui:include src="/stylesheets/gestionnaire/_navigation/_navGestionnaire.xhtml"/>
         </h:form>
     </ui:define>

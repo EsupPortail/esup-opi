@@ -1,12 +1,13 @@
 package org.esupportail.opi.web.controllers.formation;
 
-import fj.data.Stream;
+import fj.data.Array;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.BusinessUtil;
 import org.esupportail.opi.domain.OpiWebService;
+import org.esupportail.opi.domain.beans.etat.Etat;
 import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
@@ -193,7 +194,7 @@ public class ConfirmationController extends AbstractAccessController {
                         addErrorMessage(null, "STATE.DESIST.WARNING");
                     }
                 }
-                indVoeuPojo.initEtat(indVoeu.getState(), getI18nService());
+                indVoeuPojo.setEtat(EtatVoeu.fromString(indVoeu.getState()));
             }
         }
 
@@ -303,11 +304,9 @@ public class ConfirmationController extends AbstractAccessController {
         IndividuPojo individuPojo = new IndividuPojo(
                 indVoeuLc.getIndividu(),
                 getDomainApoService(),
-                getI18nService(),
                 getParameterService(),
                 lesCommissions,
                 lesTypeDecisions,
-                getParameterService().getTypeTraitements(),
                 getParameterService().getCalendarRdv(),
                 versionsEtape);
 
@@ -369,7 +368,7 @@ public class ConfirmationController extends AbstractAccessController {
         Set<Commission> cmi = getParameterService().getCommissions(true);
         // map des commissions sur lesquels le candidat a confirmé des voeux
         Map<Commission, Set<VersionEtapeDTO>> mapCmi =
-                Utilitaires.getCmiForIndVoeux(cmi, Stream.iterableStream(voeux), camp);
+                Utilitaires.getCmiForIndVoeux(cmi, Array.iterableArray(voeux), camp);
 
         for (Map.Entry<Commission, Set<VersionEtapeDTO>> entryCmi : mapCmi.entrySet()) {
 
@@ -656,7 +655,7 @@ public class ConfirmationController extends AbstractAccessController {
         // récupère la liste des commissions
         Set<Commission> listComm = getParameterService().getCommissions(true);
         // Initialise la liste des voeux favorables
-        Stream<IndVoeuPojo> listIndVoeu = getCurrentInd().getIndVoeuxPojo();
+        Array<IndVoeuPojo> listIndVoeu = getCurrentInd().getIndVoeuxPojo();
         for (IndVoeuPojo indVoeuPojo : listIndVoeu) {
             Avis a = indVoeuPojo.getAvisEnService();
             // Sort the type of avis
@@ -714,7 +713,7 @@ public class ConfirmationController extends AbstractAccessController {
     public Boolean getCanConfirmVoeux() {
         //can be null when it's the first connect for an individu (in ent)
         if (getCurrentInd() != null) {
-            Stream<IndVoeuPojo> listIndVoeu = getCurrentInd().getIndVoeuxPojo();
+            Array<IndVoeuPojo> listIndVoeu = getCurrentInd().getIndVoeuxPojo();
             for (IndVoeuPojo indVoeuPojo : listIndVoeu) {
                 Avis a = indVoeuPojo.getAvisEnService();
                 // Sort the type of avis

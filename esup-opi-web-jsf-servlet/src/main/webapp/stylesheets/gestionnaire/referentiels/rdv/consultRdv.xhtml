@@ -19,6 +19,7 @@
                                              value="#{false}" />
             </p:remoteCommand>
             <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml">
+                <ui:param name="controller" value="#{consultRdvController}" />
                 <ui:param name="toUpdate" value="dataPanel" />
             </ui:include>
             <p:panel  id="dataPanel" layout="block">

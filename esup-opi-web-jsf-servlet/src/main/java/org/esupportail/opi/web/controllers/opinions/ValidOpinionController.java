@@ -15,10 +15,7 @@ import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
 import org.esupportail.opi.web.beans.parameters.FormationContinue;
 import org.esupportail.opi.web.beans.parameters.FormationInitiale;
 import org.esupportail.opi.web.beans.parameters.RegimeInscription;
-import org.esupportail.opi.web.beans.pojo.AdressePojo;
-import org.esupportail.opi.web.beans.pojo.CommissionPojo;
-import org.esupportail.opi.web.beans.pojo.IndVoeuPojo;
-import org.esupportail.opi.web.beans.pojo.IndividuPojo;
+import org.esupportail.opi.web.beans.pojo.*;
 import org.esupportail.opi.web.beans.utils.NavigationRulesConst;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
@@ -30,8 +27,9 @@ import java.util.Set;
 
 import static fj.data.Option.some;
 import static fj.function.Booleans.not;
+import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.Transfert;
 import static org.esupportail.opi.web.utils.DTOs.commissionDTO;
-import static org.esupportail.opi.web.utils.fj.Predicates.typeTrtEquals;
+import static org.esupportail.opi.web.utils.fj.Predicates.hasTypeTrt;
 
 
 public class ValidOpinionController extends AbstractContextAwareController {
@@ -172,7 +170,6 @@ public class ValidOpinionController extends AbstractContextAwareController {
                          final CommissionPojo currentCmiPojo,
                          final Boolean sendToIndividu,
                          final String sendToMail) {
-
         // hibernate session reattachment
         Individu ind = indPojo.getIndividu();
         ind = getDomainService().getIndividu(
@@ -214,21 +211,21 @@ public class ValidOpinionController extends AbstractContextAwareController {
     /**
      * Send one mail to commission of indVoeuPojo.
      */
-    public void sendOneMail() {
-        sendOneMailToCandidatOrCommission(false);
+    public void sendOneMail(IndRechPojo indRechPojo) {
+        sendOneMailToCandidatOrCommission(indRechPojo, false);
     }
 
     /**
      * Send one mail to candidat of indVoeuPojo.
      */
-    public void sendOneMailCandidat() {
-        sendOneMailToCandidatOrCommission(true);
+    public void sendOneMailCandidat(IndRechPojo indRechPojo) {
+        sendOneMailToCandidatOrCommission(indRechPojo, true);
     }
 
     /**
      * Send one mail to candidat or to commission of indVoeuPojo.
      */
-    private void sendOneMailToCandidatOrCommission(final boolean envCandidat) {
+    private void sendOneMailToCandidatOrCommission(IndRechPojo indRechPojo, final boolean envCandidat) {
         // récupération du régime d'inscription  du gestionnaire
         final Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
         final int codeRI = gest.getProfile().getCodeRI();
@@ -246,14 +243,14 @@ public class ValidOpinionController extends AbstractContextAwareController {
                                         av.getResult().getCodeTypeConvocation()), av.getAppel()) :
                         null;
 
-        final Commission c = getParameterService().getCommission(
-                printOpinionController.getIndividuController().getIndividuPaginator().getIndRechPojo().getIdCmi(),
-                null);
-        final ContactCommission cc = c.getContactsCommission().get(regimeIns.getCode());
-        final CommissionPojo currentCmiPojo = new CommissionPojo(c,
-                new AdressePojo(cc.getAdresse(), getDomainApoService()), cc);
-
         if (mail != null) {
+            final Commission c =
+                    getParameterService().getCommission(indRechPojo.getIdCmi(), null);
+            final ContactCommission cc = c.getContactsCommission().get(regimeIns.getCode());
+            final CommissionPojo currentCmiPojo = new CommissionPojo(c,
+                    new AdressePojo(cc.getAdresse(), getDomainApoService()), cc);
+
+
             sendMail(printOpinionController.getIndividuPojoSelected(), a,
                     mail, currentCmiPojo, envCandidat, null);
 
@@ -343,7 +340,7 @@ public class ValidOpinionController extends AbstractContextAwareController {
         int codeRI = gest.getProfile().getCodeRI();
         RegimeInscription regimeIns = getSessionController().getRegimeIns().get(codeRI);
         final List<IndividuPojo> individus = new ArrayList<>(
-                printOpinionController.getIndividus(com, some(false), not(typeTrtEquals(printOpinionController.getTransfert())))
+                printOpinionController.getIndividus(com, some(false), not(hasTypeTrt(Transfert)))
                 .toCollection());
         for (IndividuPojo ind : individus) {
             Set<Avis> avisFavorable = new HashSet<>();

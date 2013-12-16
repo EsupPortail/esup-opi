@@ -28,6 +28,7 @@
             </ui:fragment>
             <h:form id="seeManagersForm">
                 <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml">
+                    <ui:param name="controller" value="#{individuController}" />
                     <ui:param name="toUpdate" value=":seeManagersForm:managerData"/>
                 </ui:include>
                 <div class="messageForUser">

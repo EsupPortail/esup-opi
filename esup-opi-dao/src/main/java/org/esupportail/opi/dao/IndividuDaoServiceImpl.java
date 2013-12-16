@@ -2,7 +2,6 @@ package org.esupportail.opi.dao;
 
 
 import com.mysema.query.Tuple;
-import com.mysema.query.group.Group;
 import com.mysema.query.jpa.JPQLQuery;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 import com.mysema.query.types.EntityPath;
@@ -11,12 +10,9 @@ import com.mysema.query.types.path.EntityPathBase;
 import com.mysema.query.types.path.PathBuilder;
 import com.mysema.query.types.path.SetPath;
 import com.mysema.query.types.template.BooleanTemplate;
-import fj.F;
-import fj.F2;
-import fj.Function;
-import fj.P2;
+import fj.*;
+import fj.data.Array;
 import fj.data.Option;
-import fj.data.Stream;
 import org.esupportail.opi.dao.utils.Paginator;
 import org.esupportail.opi.dao.utils.PaginatorFactory;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
@@ -29,7 +25,6 @@ import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.utils.primefaces.PFFilters;
-import org.omg.CosNaming.NamingContextPackage.AlreadyBoundHelper;
 import org.springframework.orm.hibernate3.HibernateTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -38,11 +33,11 @@ import java.util.*;
 import static com.mysema.query.group.GroupBy.groupBy;
 import static com.mysema.query.group.GroupBy.set;
 import static fj.P.p;
+import static fj.data.Array.array;
 import static fj.data.Array.iterableArray;
 import static fj.data.IterableW.wrap;
 import static fj.data.List.list;
 import static fj.data.Option.*;
-import static fj.data.Stream.iterableStream;
 import static org.esupportail.opi.utils.fj.Conversions.parseBoolean;
 
 @SuppressWarnings("unchecked")
@@ -147,19 +142,6 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                 }
             };
 
-    final F<List<String>, F<BooleanExpression, BooleanExpression>> typesTrtVetFilter =
-            new F<List<String>, F<BooleanExpression, BooleanExpression>>() {
-                public F<BooleanExpression, BooleanExpression> f(final List<String> typeTrtCmis) {
-                    return new F<BooleanExpression, BooleanExpression>() {
-                        public BooleanExpression f(BooleanExpression subExpr) {
-                            return typeTrtCmis.size() > 0 ?
-                                    subExpr.and(trtCmi.get("codTypeTrait").in(typeTrtCmis)) :
-                                    subExpr.and(trtCmi.isNull());
-                        }
-                    };
-                }
-            };            
-            
     final F<List<TypeDecision>, F<BooleanExpression, BooleanExpression>> typeDecFilter =
             new F<List<TypeDecision>, F<BooleanExpression, BooleanExpression>>() {
                 public F<BooleanExpression, BooleanExpression> f(final List<TypeDecision> typesDecision) {
@@ -192,7 +174,7 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                             return expr.and(indVoeu.get("codTypeTrait").in(iterableArray(typeTraitements)
                                     .map(new F<TypeTraitement, String>() {
                                         public String f(TypeTraitement typeTraitement) {
-                                            return typeTraitement.getCode();
+                                            return typeTraitement.code;
                                         }
                                     })
                                     .toCollection()));
@@ -231,15 +213,14 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
 
 
     @Override
-    public P2<Long, Stream<Individu>> sliceOfInds(final PFFilters pfFilters,
-                                                  final List<TypeDecision> typesDec,
-                                                  final Option<Boolean> validWish,
-                                                  final Option<Boolean> treatedWish,
-                                                  final Option<Date> wishCreation,
-                                                  final Collection<TypeTraitement> typeTrtmts,
-                                                  final Option<Set<TraitementCmi>> trtCmis,
-                                                  final Set<Integer> listCodesRI,
-                                                  final Option<List<String>> typesTrtVet) {
+    public P2<Long,Array<Individu>> sliceOfInds(final PFFilters pfFilters,
+                                                final List<TypeDecision> typesDec,
+                                                final Option<Boolean> validWish,
+                                                final Option<Boolean> treatedWish,
+                                                final Option<Date> wishCreation,
+                                                final Collection<TypeTraitement> typeTrtmts,
+                                                final Option<Set<TraitementCmi>> trtCmis,
+                                                final Set<Integer> listCodesRI) {
 
         final F<BooleanExpression, BooleanExpression> customCampFilter =
                 p(indEnService).<BooleanExpression>constant().andThen(campTemoinAndRIFilter.f(listCodesRI));
@@ -250,7 +231,6 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                                 .map(parseBoolean.andThen(baseVoeuFilter)),
                         trtCmis.map(trtCmiFilter),
                         iif(!typesDec.isEmpty(), typeDecFilter.f(typesDec)),
-                        typesTrtVet.map(typesTrtVetFilter),
                         validWish.map(validWishFilter),
                         treatedWish.map(unTreatedWishFilter),
                         iif(!typeTrtmts.isEmpty(), isCodeTypeTrtmtFilter.f(typeTrtmts)),
@@ -275,29 +255,24 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                 pfFilters.sortOrder,
                 pfFilters.filters,
                 some(customFilterQuery),
-                new F2<EntityPathBase<Individu>, HibernateQuery, Stream<Individu>>() {
-                    public Stream<Individu> f(EntityPathBase<Individu> ent, HibernateQuery query) {
-                        //TODO sorry a hack of https://groups.google.com/forum/#!topic/querydsl/O3xXFFqeYuw check to make it elegant,
-                        if (trtCmis.map(trtCmiFilter).isNone()){
-                            return iterableStream(query.list(ent));
-                        }else {
-                            final Map<String, Group> transform = query.transform(groupBy(ind.getString("numDossierOpi"))
-                                    .as(ind, set(indVoeu)));
-                            return iterableStream(transform.keySet())
-                                    .map(new F<String, Individu>() {
-                                        @Override
-                                        public Individu f(final String numDossierOpi) {
-                                            Group group = transform.get(numDossierOpi);
-                                            final Individu individu = group.getOne(ind);
-                                            final Set<IndVoeu> voeux = group.getSet(indVoeu);
-                                            individu.setVoeux(voeux);
-                                            return individu;
-                                        }
-                                    });
-                        }
+                new F2<EntityPathBase<Individu>, HibernateQuery, Array<Individu>>() {
+                    public Array<Individu> f(final EntityPathBase<Individu> ent, HibernateQuery query) {
+                        List<Individu> individus = query.list(ent);
+                        final Array<Individu> inds = array(individus.toArray(new Individu[individus.size()]));
+                        inds.foreach(new Effect<Individu>() {
+                            public void e(Individu individu) {
+                                List<IndVoeu> voeux =
+                                        from(indVoeu)
+                                                .leftJoin(indVoeu.get("individu", Individu.class), ind)
+                                                .leftJoin(indVoeuAvis, avis)
+                                                .where(ind.get("id").eq(individu.getId()))
+                                                .where(customVoeuFilter.f(oneIsOne))
+                                                .list(indVoeu);
+                                individu.setVoeux(new HashSet<>(voeux));
+                            }
+                        });
+                        return inds;
                     }
-
-
                 });
     }
 
@@ -320,7 +295,7 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                         some(commission.getTraitementCmi()).map(trtCmiFilter),
                         fromNull(listeRICodes).map(and.o(campRiFilter)),
                         validate.map(validWishFilter),
-                        iif(validate != null, and.f(avisEnServ))
+                        iif(validate.isSome(), and.f(avisEnServ))
                 )).foldLeft(Function.<BooleanExpression, BooleanExpression, BooleanExpression>andThen(),
                         Function.<BooleanExpression>identity());
 
@@ -341,6 +316,7 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
     }
 
     @Override
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public Individu fetchIndById(String id, Option<Boolean> onlyValidWishes) {
         final Map<Individu, Set<IndVoeu>> results =
                 from(indEnt)

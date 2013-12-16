@@ -3,20 +3,20 @@
 
 <Configure class="org.eclipse.jetty.webapp.WebAppContext">
     <New id="myds" class="org.eclipse.jetty.plus.jndi.Resource">
-        <Arg></Arg>
+        <Arg/>
         <Arg>jdbc/esup-opi</Arg>
         <Arg>
             <New class="org.apache.commons.dbcp.BasicDataSource">
                 <Set name="driverClassName">org.hsqldb.jdbcDriver</Set>
                 <Set name="url">jdbc:hsqldb:mem:opi</Set>
                 <Set name="username">sa</Set>
-                <Set name="password"></Set>
+                <Set name="password"/>
             </New>
         </Arg>
     </New>
     
     <New id="tmjndi" class="org.eclipse.jetty.plus.jndi.Resource">
-        <Arg></Arg>
+        <Arg/>
         <Arg>java:/TransactionManager</Arg>
         <Arg>
             <New class="com.atomikos.icatch.jta.UserTransactionManager" />

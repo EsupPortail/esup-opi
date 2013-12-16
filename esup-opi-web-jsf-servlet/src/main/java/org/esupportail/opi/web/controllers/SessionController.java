@@ -11,7 +11,6 @@ import static org.esupportail.opi.web.beans.utils.Utilitaires.upperCaseFirstChar
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -31,7 +30,6 @@ import org.esupportail.commons.utils.ContextUtils;
 import org.esupportail.commons.utils.strings.StringUtils;
 import org.esupportail.commons.web.controllers.ExceptionController;
 import org.esupportail.commons.web.controllers.Resettable;
-import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.Gestionnaire;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.User;
@@ -230,11 +228,13 @@ public class SessionController extends AbstractDomainAwareBean {
         }
         if (individu != null) {
             IndividuPojo indPojo = new IndividuPojo(
-                    individu, getDomainApoService(),
-                    i18NUtils, getParameterService(),
-                    getRegimeIns().get(Utilitaires.getCodeRIIndividu(individu,
-                            getDomainService())), getParameterService().getTypeTraitements(),
-                    getParameterService().getCalendarRdv(), null);
+                    individu,
+                    getDomainApoService(),
+                    i18NUtils,
+                    getParameterService(),
+                    getRegimeIns().get(Utilitaires.getCodeRIIndividu(individu, getDomainService())),
+                    getParameterService().getCalendarRdv(),
+                    null);
             // put boolean for the management and rights of update
             indPojo.setIsManager(isManager);
             indPojo.setIsUpdaterOfThisStudent(canUpdateStudent);

@@ -5,8 +5,8 @@
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
         <h:form id="seeOpinionsForm">
-            <f:event type="postValidate" listener="#{individuController.useTypeTrtFilter(true)}" />
-            <f:event type="postValidate" listener="#{individuController.useGestCommsFilter(true)}" />
+            <!-- <f:event type="postValidate" listener="#{individuController.useTypeTrtFilter(true)}" /> -->
+            <!-- <f:event type="postValidate" listener="#{individuController.useGestCommsFilter(true)}" /> -->
             <p:blockUI block="maPage" trigger="choiceTypeDecision individuData individuData:checkAll search-button"
                        widgetVar="pageBlocker">
                 <p:graphicImage library="images" name="ajax-loader.gif" />
@@ -20,6 +20,7 @@
                 </h1>
                 <ui:fragment rendered="#{opinionController.actionEnum.whatAction != opinionController.actionEnum.propositionAction}">
                     <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml">
+                        <ui:param name="controller" value="#{opinionController}" />
                         <ui:param name="toUpdate" value="individuData" />
                         <ui:param name="renderOpinionBlocks" value="true" />
                         <ui:param name="filterCommsByRight" value="true" />

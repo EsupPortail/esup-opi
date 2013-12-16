@@ -6,9 +6,7 @@
     <ui:define name="content">
         <h:form id="seeTypeTrtForm">
             <f:event type="preRenderView" listener="#{typeTraitController.doNotRenderTable}" />
-            <f:event type="preRenderView" listener="#{individuController.useTypeTrtVetFilter(true)}" />
-            <f:event type="postValidate" listener="#{individuController.useGestCommsFilter(true)}" />
-            <p:blockUI block="maPage" trigger="individuData search-button">
+            <p:blockUI block="maPage" trigger="individuData valid-button search-button">
                 <p:graphicImage library="images" name="ajax-loader.gif"/>
             </p:blockUI>
             <p:blockUI block=":seeTypeTrtForm:dataPanel" trigger=":seeTypeTrtForm:renderTable">
@@ -22,6 +20,7 @@
                 </h1>
                 <ui:fragment rendered="#{not empty managedAccess.menuModel.contents}">
                     <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml">
+                        <ui:param name="controller" value="#{typeTraitController}" />
                         <ui:param name="toUpdate" value="individuData"/>
                         <ui:param name="renderTypeTrtBlocks" value="true" />
                         <ui:param name="filterCommsByRight" value="true" />
@@ -37,6 +36,7 @@
                 <div style="width:100%;text-align:right;">
                     <h:panelGroup>
                         <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                         id="valid-button"
                                          action="#{typeTraitController.update}"
                                          rendered="#{managedAccess.updateAuthorized
                                                    || managedAccess.addAuthorized}" update="individuData" />
@@ -139,13 +139,11 @@
                             <p:column>
                                 <ui:repeat var="indVoeuxPojo"
                                            value="#{individuPojo.indVoeuxPojoAsList}">
-                                    <p:outputPanel layout="block" rendered="#{!indVoeuxPojo.indVoeu.haveBeTraited
-                                                             || !paginatorIndividu.indRechPojo.excludeWishProcessed}"
+                                    <p:outputPanel layout="block"
                                                    styleClass="oneLine">
                                         <h:outputText value="#{indVoeuxPojo.shortLibVet}"
                                                       style="cursor:pointer;" id="shortLibVet"/>
                                         <p:overlayPanel for="shortLibVet"
-                                                        appendToBody="true"
                                                         showEvent="mouseover"
                                                         hideEvent="mouseout"
                                                         styleClass="containerPopup"
@@ -166,8 +164,9 @@
                                 <f:facet name="header">
                                     <p:selectOneRadio id="selectAllCodeTypeTrt"
                                                       value="#{typeTraitController.codeTypeTrtselected}">
-                                        <f:selectItems value="#{typeTraitController.typeTraitements}" var="typeTrt"
-                                                       itemValue="#{typeTrt.code}" itemLabel="#{typeTrt.code}"/>
+                                        <f:selectItems value="#{typeTraitController.typesTraitement}"
+                                                       var="typeTrt"
+                                                       itemValue="#{typeTrt.code}" itemLabel="#{typeTrt.code}" />
                                         <p:ajax listener="#{typeTraitController.selectAllTypeAction}"
                                                 process="@this"
                                                 update="@(.ui-datatable-data .ui-selectoneradio)"/>
@@ -175,12 +174,11 @@
                                 </f:facet>
                                 <ui:repeat var="indVoeuxPojo" value="#{individuPojo.indVoeuxPojoAsList}"
                                            varStatus="countIndVoeux">
-                                    <p:outputPanel style="display:block;margin:0px;padding:0px;"
-                                                   rendered="#{!indVoeuxPojo.indVoeu.haveBeTraited
-                                                             || !paginatorIndividu.indRechPojo.excludeWishProcessed}">
+                                    <p:outputPanel style="display:block;margin:0px;padding:0px;">
                                         <p:selectOneRadio value="#{indVoeuxPojo.indVoeu.codTypeTrait}">
-                                            <f:selectItems value="#{typeTraitController.typeTraitements}" var="typeTrt"
-                                                           itemValue="#{typeTrt.code}" itemLabel=""/>
+                                            <f:selectItems value="#{typeTraitController.typesTraitement}"
+                                                           var="typeTrt"
+                                                           itemValue="#{typeTrt.code}" itemLabel="" />
                                         </p:selectOneRadio>
                                     </p:outputPanel>
                                 </ui:repeat>

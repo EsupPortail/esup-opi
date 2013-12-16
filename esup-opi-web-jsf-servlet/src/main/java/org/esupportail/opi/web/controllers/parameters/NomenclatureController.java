@@ -3,41 +3,17 @@
  */
 package org.esupportail.opi.web.controllers.parameters;
 
-import static fj.data.Stream.iterableStream;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
-
+import fj.F;
+import fj.F2;
+import fj.Function;
+import fj.P1;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.myfaces.component.html.ext.HtmlInputText;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.opi.domain.beans.parameters.Campagne;
-import org.esupportail.opi.domain.beans.parameters.InscriptionAdm;
-import org.esupportail.opi.domain.beans.parameters.MotivationAvis;
-import org.esupportail.opi.domain.beans.parameters.Nomenclature;
-import org.esupportail.opi.domain.beans.parameters.PieceJustiVet;
-import org.esupportail.opi.domain.beans.parameters.PieceJustificative;
-import org.esupportail.opi.domain.beans.parameters.TypeConvocation;
-import org.esupportail.opi.domain.beans.parameters.TypeDecision;
+import org.esupportail.opi.domain.beans.parameters.*;
 import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
 import org.esupportail.opi.utils.Constantes;
@@ -55,16 +31,22 @@ import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.opi.web.controllers.references.EtapeController;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
-import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.util.StringUtils;
 
-import fj.F;
+import javax.faces.model.SelectItem;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.*;
 
-/**
- * @author cleprous
- *
- */
+import static fj.data.Array.iterableArray;
+import static fj.data.Array.single;
+import static fj.data.Option.fromString;
+import static fj.data.Stream.iterableStream;
+import static java.util.Arrays.asList;
+
 public class NomenclatureController extends AbstractContextAwareController {
 	/**
 	 * The serialization id.
@@ -200,55 +182,55 @@ public class NomenclatureController extends AbstractContextAwareController {
 	 */
 	private Boolean isFinal = false;
 
-	private static final F<Collection<TypeDecision>, Collection<SelectItem>> typeDec2SelectItems = 
-			new F<Collection<TypeDecision>, Collection<SelectItem>>() {
-		public Collection<SelectItem> f(Collection<TypeDecision> c) {
-			return iterableStream(c).map(new F<TypeDecision, SelectItem>() {
-				public SelectItem f(final TypeDecision t) {
-					return new SelectItem(t, t.getCode() + "-"
-							+ t.getShortLabel());
-				}
-			}).cons(new SelectItem(new TypeDecision(), "")).toCollection();
-		}
-	};
+    private static F<TypeDecision,SelectItem> typeDecToItem = new F<TypeDecision, SelectItem>() {
+        public SelectItem f(final TypeDecision t) {
+            return fromString(t.getCode())
+                    .apply(fromString(t.getShortLabel())
+                            .map(Function.curry(new F2<String, String, SelectItem>() {
+                                public SelectItem f(String label, String code) {
+                                    return new SelectItem(t, code, label);
+                                }
+                            })))
+                    .orSome(new P1<SelectItem>() {
+                        public SelectItem _1() {
+                            return new SelectItem(new TypeDecision(), "???");
+                        }
+                    });
+        }
+    };
 	
-	/*
-	 ******************* INIT ************************* */
-	/**
-	 * Constructors.
-	 */
-	public NomenclatureController() {
+    public NomenclatureController() {
 		super();
 		reset();
 	}
 	
 	public void initTypesDec() {
-		typesDec = new ArrayList<TypeDecision>(
-				getParameterService().getTypeDecisions(null));
-		sortedTypesDec = new ArrayList<TypeDecision>(typesDec);
-		Collections.sort(sortedTypesDec,
-				new ComparatorString(TypeDecision.class));
-		typesDecInUse = new ArrayList<TypeDecision>(
-				getParameterService().getTypeDecisions(true));
-		typesDecItems = new ArrayList<SelectItem>(typeDec2SelectItems.f(typesDec));
-		typesDecInUseItems = new ArrayList<SelectItem>(typeDec2SelectItems.f(typesDecInUse));
+		typesDec = new ArrayList<>(getParameterService().getTypeDecisions(null));
+		sortedTypesDec = new ArrayList<>(typesDec);
+		Collections.sort(sortedTypesDec, new ComparatorString(TypeDecision.class));
+		typesDecInUse = new ArrayList<>(getParameterService().getTypeDecisions(true));
+		typesDecItems = typeDecsToItems(typesDec);
+		typesDecInUseItems = typeDecsToItems(typesDecInUse);
 	}
 	
-	/** 
-	 * @see org.esupportail.opi.web.controllers.AbstractDomainAwareBean#reset()
-	 */
-	@Override
+    private List<SelectItem> typeDecsToItems(List<TypeDecision> typeDecisions) {
+        return asList(single(new SelectItem(new TypeDecision(), ""))
+                .append(iterableArray(typeDecisions).map(typeDecToItem))
+                .array(SelectItem[].class));
+    }
+
+    @Override
 	public void reset() {
 		super.reset();
 		nomenclature = null;
 		actionEnum = new ActionEnum();
-		addNomenclatures = new ArrayList<Nomenclature>();
+		addNomenclatures = new ArrayList<>();
 		objectToAdd = new Object[0];
-		allEtapes = new HashSet<PieceJustiVetPojo>();
-		allPJs = new TreeSet<NomenclaturePojo>(new ComparatorString(NomenclaturePojo.class));
-		addPJs = new HashSet<NomenclaturePojo>();
-		deleteEtapes = new HashSet<PieceJustiVetPojo>();
-		deletePJs = new HashSet<NomenclaturePojo>();	
+		allEtapes = new HashSet<>();
+		allPJs = new TreeSet<>(new ComparatorString(NomenclaturePojo.class));
+		addPJs = new HashSet<>();
+		deleteEtapes = new HashSet<>();
+		deletePJs = new HashSet<>();
 		etapeTraitee = new PieceJustiVetPojo();
 		wayfEnum = new WayfEnum();
 	}
@@ -270,8 +252,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 		wayfEnum = new WayfEnum();
 	}
 	
-	/** 
-	 */
 	@Override
 	public void afterPropertiesSetInternal() {
 		super.afterPropertiesSetInternal();
@@ -282,13 +262,8 @@ public class NomenclatureController extends AbstractContextAwareController {
 		
 	}
 	
-	
-	
-	/*
-	 ******************* CALLBACK ********************** */
 	/**
 	 * Callback to treatment type list.
-	 * @return String 
 	 */
 	public String goSeeAllTypTrt() {
 		reset();
@@ -297,7 +272,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 	
 	/**
 	 * Callback to decision type list.
-	 * @return String 
 	 */
 	public String goSeeAllTypDecision() {
 		reset();
@@ -306,7 +280,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 	
 	/**
 	 * Callback to convocation type list.
-	 * @return String 
 	 */
 	public String goSeeAllTypConv() {
 		reset();
@@ -315,7 +288,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 	
 	/**
 	 * Callback to convocation type list.
-	 * @return String 
 	 */
 	public String goSeeAllMotivAvis() {
 		reset();
@@ -324,7 +296,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 	
 	/**
 	 * Callback to convocation type list.
-	 * @return String 
 	 */
 	public String goSeeAllCampagnes() {
 		reset();
@@ -333,7 +304,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 	
 	/**
 	 * Callback to PJ list.
-	 * @return String 
 	 */
 	public String goSeeAllPJ() {
 		reset();
@@ -342,7 +312,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 	
 	/**
 	 * Callback to PJ list to affect VET.
-	 * @return String 
 	 */
 	public String goSeeAllAffectPJ() {
 		reset();
@@ -351,7 +320,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 	
 	/**
 	 * Callback to searchPJForVet
-	 * @return  String
 	 */
 	public String goSeePJforVet(){
 		//reset();
@@ -360,7 +328,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 	
 	/**
 	 * Callback to document list.
-	 * @return String 
 	 */
 	public String goSeeAllDocument() {
 		reset();
@@ -370,7 +337,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 	
 	/**
 	 * Callback to treatment type list.
-	 * @return String 
 	 */
 	public String goAddTypDecision() {
 		addNomenclatures = new ArrayList<Nomenclature>();
@@ -398,7 +364,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 	
 	/**
 	 * Callback to treatment type list.
-	 * @return String 
 	 */
 	public String goAddPJ() {
 		nomenclature = new PieceJustificative();
@@ -412,7 +377,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 	
 	/**
 	 * Callback to treatment type list.
-	 * @return String 
 	 */
 	public String goAddOrChoicesPJ() {
 		return NavigationRulesConst.CHOICES_PJ;
@@ -420,7 +384,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 	
 	/**
 	 * Callback to treatment type list.
-	 * @return String 
 	 */
 	public String goUpdatePJ() {
 		// type of action : Update
@@ -450,7 +413,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 	
 	/**
 	 * Callback to read PJ.
-	 * @return String 
 	 */
 	public String goSeeOnePJ() {
 		// type of action : Read
@@ -479,7 +441,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 	
 	/**
 	 * Callback to affect PJ to VET.
-	 * @return String 
 	 */
 	public String goSeeAffectPJ() {
 		// Charge les Etapes
@@ -506,7 +467,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 	
 	/**
 	 * Callback to search version etape.
-	 * @return String 
 	 */
 	public String goSearchEtpForPJ() {
 		etapeController.reset();
@@ -514,8 +474,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 		// define from where we go to search Vet
 		etapeController.setWayfEnum(this.wayfEnum);
 		// on initialise la liste de campagne
-//		Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
-//		int codeRI = gest.getProfile().getCodeRI();
 		etapeController.getCampagnes().addAll(getParameterService().getCampagnes(null,
 		    String.valueOf(codeRI)));
 		etapeController.setCodAnu(getParameterService().getCampagneEnServ(codeRI).getCodAnu());
@@ -530,18 +488,11 @@ public class NomenclatureController extends AbstractContextAwareController {
 		return NavigationRulesConst.SEARCH_VET;
 	}	
 
-	
-	/**
-	 * Callback to search version etape.
-	 * @return String 
-	 */
 	public String goBackFromSearchPJ() {
 		reset();
 		return etapeController.goSearchVetForGestPJ();
 	}
 	
-	/*
-	 ******************* METHODS ********************** */
 	/**
 	 * Add a Nomenclature to the dataBase.
 	 * @return String
@@ -564,10 +515,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 
 		if (ctrlEnter(nomenclature)) {
 			addInfoMessage(null, "INFO.ENTER.SUCCESS");
-			//comment the 21/04/2009
-//			if (nomenclature instanceof TypeConvocation) { 
-//				target = NavigationRulesConst.MANAGED_TYP_CONV;
-//			} else
 			if (nomenclature instanceof TypeDecision) {	
 				target = NavigationRulesConst.MANAGED_TYP_DECISION;
 			} else if (nomenclature instanceof PieceJustificative) {
@@ -590,10 +537,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 		return target;
 	}
 	
-	/**
-	 * Update a Domain to the dataBase.
-	 * @return String
-	 */
 	public String update() {
 		if (log.isDebugEnabled()) {
 			log.debug("enterind update with nomenclature = " + nomenclature);
@@ -639,10 +582,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 		return jsfRetour;
 	}
 	
-	
-	/**
-	 * Delete a Nomenclature to the dataBase.
-	 */
 	public void delete() {
 		if (log.isDebugEnabled()) {
 			log.debug("enterind delete with nomenclature = " + nomenclature);
@@ -668,10 +607,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 		}
 	}
 	
-	/**
-	 * Add the members in objectToAdd to allEtapes (to display).
-	 * @return String
-	 */
 	public String addEtapes() {
 		Set<VersionEtpOpi> listEtpByRight = Utilitaires.getListEtpByRight(getCurrentGest());
 		if (objectToAdd.length > 0) {
@@ -716,100 +651,53 @@ public class NomenclatureController extends AbstractContextAwareController {
 		return callback;
 	}
 	
-	/**
-	 * Add the members in objectToAdd to allPJs (to display).
-	 * @return String
-	 */
 	public String addPJs() {
-		allPJs= new TreeSet<NomenclaturePojo>(new ComparatorString(NomenclaturePojo.class));
-//		Set<VersionEtpOpi> listEtpByRight = Utilitaires.getListEtpByRight(getCurrentGest());
-		if (getObjectToAdd().length > 0) {
-			for (Object o : objectToAdd) {
-				NomenclaturePojo v = (NomenclaturePojo) o;
-				
-//				if (!isInSet(v,allPJs)){
-					if(!isInSet(v,deletePJs)){
-						this.addPJs.add(v);
-						this.allPJs.add(v);
-					}else{
-					// remove from PJs to delete
-					deletePJs = removePJfromSet(v, deletePJs);
-					}
-//				}
-				
-			}
-		}
-		this.etapeController.reset();
-		getPiecesJToNomenclaturePojo();
-		objectToAdd = new Object[0];
-		
+        allPJs= new TreeSet<>(new ComparatorString(NomenclaturePojo.class));
+        if (getObjectToAdd().length > 0) {
+            for (Object o : objectToAdd) {
+                NomenclaturePojo v = (NomenclaturePojo) o;
+                if(!isInSet(v,deletePJs)){
+                    this.addPJs.add(v);
+                    this.allPJs.add(v);
+                }else{
+                    deletePJs = removePJfromSet(v, deletePJs);
+                }
+            }
+        }
+        this.etapeController.reset();
+        getPiecesJToNomenclaturePojo();
+        objectToAdd = new Object[0];
 		return NavigationRulesConst.ENTER_VET;
-		
 	}
 
-	/**
-	 * @param np
-	 * @param set
-	 * @return true si la PieceJustificative est déjà dans le set en paramètre
-	 */
 	public boolean isInSet(NomenclaturePojo np, Set<NomenclaturePojo> set){
 		PieceJustificative pj = (PieceJustificative)np.getNomenclature();
-		
-		Iterator<NomenclaturePojo> it = set.iterator();
-		
-		while(it.hasNext()){
-			NomenclaturePojo piecePojo = it.next();
-			PieceJustificative pjust = (PieceJustificative)piecePojo.getNomenclature();
-			if (pjust.getCode().equalsIgnoreCase(pj.getCode()))
-				return true;
-		}
-		
+        for (NomenclaturePojo piecePojo : set) {
+            PieceJustificative pjust = (PieceJustificative) piecePojo.getNomenclature();
+            if (pjust.getCode().equalsIgnoreCase(pj.getCode()))
+                return true;
+        }
 		return false;
-		
 	}
 	
-	
-	/**
-	 * @param np
-	 * @param set
-	 * @return the set without the nomenclature Pojo in Parameter
-	 */
 	public Set<NomenclaturePojo> removePJfromSet(NomenclaturePojo np, Set<NomenclaturePojo> set){
-		
-		Set<NomenclaturePojo> setTemp = new HashSet<NomenclaturePojo>();
+		Set<NomenclaturePojo> setTemp = new HashSet<>();
 		setTemp.addAll(set);
-				
-		Iterator<NomenclaturePojo> it = setTemp.iterator();
-		
-		while(it.hasNext()){
-			NomenclaturePojo piecePojo = it.next();
-			
-			if (np.getNomenclature().getCode().equalsIgnoreCase(piecePojo.getNomenclature().getCode()))
-				set.remove(piecePojo);
-		}
-		
+        for (NomenclaturePojo piecePojo : setTemp)
+            if (np.getNomenclature().getCode().equalsIgnoreCase(piecePojo.getNomenclature().getCode()))
+                set.remove(piecePojo);
 		return set;
-		
 	}
 
-
-	/**
-	 * Remove Etape in allEtapes.
-	 */
 	public void removeTrtEtape() {
-		if (log.isDebugEnabled()) {
-			log.debug("entering removeTrtEtape etapeTraitee" + etapeTraitee);
-		}
+		if (log.isDebugEnabled())
+            log.debug("entering removeTrtEtape etapeTraitee" + etapeTraitee);
 		// ajoute dans la liste des etapes e supprimer
 		this.deleteEtapes.add(this.etapeTraitee);
 		// enleve de l'objet pj
 		this.allEtapes.remove(this.etapeTraitee);
 	}
 	
-	
-	/**
-	 * Remove PJ in allPJs.
-	 */
 	public void removeTrtPJ() {
 		if (log.isDebugEnabled()) {
 			log.debug("entering removeTrtPJ PJTraitee" + PJTraitee);
@@ -821,75 +709,39 @@ public class NomenclatureController extends AbstractContextAwareController {
 		this.addPJs.remove(this.PJTraitee);
 	}
 	
-	/**
-	 * Sauvegarde les modifications en ajout ou en suppression des PJs (pièces justificatives)
-	 * 
-	 */
 	public void updatePJs(){
+        Set<PieceJustiVet> listP = new HashSet<>();
+        PieceJustiVetPojo pjvp = new PieceJustiVetPojo(vetDTO);
+        listP.add(pjvp.getPieceJustiVet());
 
+        //on sauvegarde les PJs ajoutées
+        for (NomenclaturePojo piecePojo : addPJs) {
+            PieceJustificative pj = (PieceJustificative) piecePojo.getNomenclature();
+            pj.setVersionEtapes(listP);
+            getParameterService().updateNomenclature(pj);
+        }
+
+        //on supprime les PJs à supprimer
+        for (NomenclaturePojo piecePojo : deletePJs) {
+            PieceJustificative pj = (PieceJustificative) piecePojo.getNomenclature();
+            Set<PieceJustiVet> setPiece = pj.getVersionEtapes();
+            //on cherche le bon code etp pour supprimer la PieceJutsiVet correpondant à la pièce justificative et
+            // à la vet
+            for (PieceJustiVet pjv : setPiece) {
+                VersionEtpOpi ved = pjv.getVersionEtpOpi();
+                if (vetDTO.getCodEtp().equalsIgnoreCase(ved.getCodEtp()))
+                    getParameterService().deletePieceJustiVetWithFlush(pjv);
+            }
+        }
 		
-	Set<PieceJustiVet> listP = new HashSet<PieceJustiVet>();
-	PieceJustiVetPojo pjvp = new PieceJustiVetPojo(vetDTO);	
-	listP.add(pjvp.getPieceJustiVet());
-	
-	Iterator<NomenclaturePojo> itAdd = addPJs.iterator();
-	
-	//on sauvegarde les PJs ajoutées
-	while(itAdd.hasNext()){
-		NomenclaturePojo piecePojo = itAdd.next();
-		PieceJustificative pj = (PieceJustificative)piecePojo.getNomenclature();
-		pj.setVersionEtapes(listP);
-		getParameterService().updateNomenclature(pj);
-	}
-	
-	
-	//on supprime les PJs à supprimer
-	Iterator<NomenclaturePojo> itDel = deletePJs.iterator();
-	
-		while(itDel.hasNext()){
-			NomenclaturePojo piecePojo = itDel.next();
-
-			PieceJustificative pj = (PieceJustificative)piecePojo.getNomenclature();
-			Set<PieceJustiVet> setPiece = pj.getVersionEtapes();
-
-			Iterator<PieceJustiVet> itVet = setPiece.iterator();
-		
-		
-			//on cherche le bon code etp pour supprimer la PieceJutsiVet correpondant à la pièce justificative et 
-			// à la vet
-			while(itVet.hasNext()){
-				PieceJustiVet pjv = itVet.next();	
-				VersionEtpOpi ved = pjv.getVersionEtpOpi();
-			
-				if (vetDTO.getCodEtp().equalsIgnoreCase(ved.getCodEtp()))
-					getParameterService().deletePieceJustiVetWithFlush(pjv);
-			}
-
-			//allPJs = getPiecesJToNomenclaturePojo();
-			
-	
-		}
-		allPJs = new TreeSet<NomenclaturePojo>(new ComparatorString(NomenclaturePojo.class));
-	
-		Set<NomenclaturePojo> affichAllPJs = getPiecesJToNomenclaturePojo();
+        allPJs = new TreeSet<>(new ComparatorString(NomenclaturePojo.class));
+        Set<NomenclaturePojo> affichAllPJs = getPiecesJToNomenclaturePojo();
 		affichAllPJs.removeAll(deletePJs);
-		deletePJs = new HashSet<NomenclaturePojo>();
-//		List<NomenclaturePojo> list = new ArrayList<NomenclaturePojo>(affichAllPJs);
-//		Collections.sort(list, new ComparatorString(NomenclaturePojo.class));
-//		allPJs.addAll(list);
+		deletePJs = new HashSet<>();
 		allPJs.addAll(affichAllPJs);
 		addInfoMessage(null, "INFO.ENTER.SUCCESS");
 	}
 	
-	
-	
-	/* ### ALL CONTROL ####*/
-	
-	/**
-	 * Control Nomenclature attributes for the adding and updating.
-	 * @param nom
-	 * @return Boolean
-	 */
 	private Boolean ctrlEnter(final Nomenclature nom) {
 		Boolean ctrlOk = true;
 		if (!StringUtils.hasText(nom.getCode())) {
@@ -1029,26 +881,15 @@ public class NomenclatureController extends AbstractContextAwareController {
 		return ctrlOk;
 	}
 
-	/**
-	 * Contrôle si la suppression est possible.
-	 * @param nom
-	 * @return boolean true if can delete 
-	 */
 	private boolean ctrlDelete(final Nomenclature nom) {
 		return getParameterService().canDeleteNomclature(nom);
 	}
 	
-	
-	/**
-	 * List of specific type for convocation type.
-	 * @return List of SelectItem
-	 */
 	public List<SelectItem> getTypeConvocationsItems() {
-		List<SelectItem> s = new ArrayList<SelectItem>();
+		List<SelectItem> s = new ArrayList<>();
 		s.add(new SelectItem("", ""));
-		for (TypeConvocation t : getTypeConvocations()) {
-			s.add(new SelectItem(t.getCode(), t.getLabel()));
-		}		
+		for (TypeConvocation t : getTypeConvocations())
+            s.add(new SelectItem(t.getCode(), t.getLabel()));
 		Collections.sort(s, new ComparatorSelectItem());
 		return s;		
 	}
@@ -1065,58 +906,32 @@ public class NomenclatureController extends AbstractContextAwareController {
 		return s;
 	}
 	
-	/**
-	 * List of specific type for decision type.
-	 * @return List of SelectItem
-	 */
 	public List<SelectItem> getTypeDecisionItems() {
 		return typesDecItems;
 	}
 	
-	/**
-	 * List of specific type for decision type.
-	 * @return List of SelectItem
-	 */
 	public List<SelectItem> getTypeDecisionInUseItems() {
 		return typesDecInUseItems;
 	}
 	
-	/**
-	 * List of specific type for regimeInscriptions type.
-	 * @return List of SelectItem
-	 */
 	public List<SelectItem> getRegimeInscriptionsItems() {
-		List<SelectItem> s = new ArrayList<SelectItem>();
+		List<SelectItem> s = new ArrayList<>();
 		Map<Integer, RegimeInscription> mapRI = getRegimeIns();
-		for (Map.Entry<Integer, RegimeInscription> entryRI : mapRI.entrySet()) {
-			s.add(new SelectItem(entryRI.getKey(), entryRI.getValue().getLabel()));
-		}
-		
+		for (Map.Entry<Integer, RegimeInscription> entryRI : mapRI.entrySet())
+            s.add(new SelectItem(entryRI.getKey(), entryRI.getValue().getLabel()));
 		Collections.sort(s, new ComparatorSelectItem());
 		return s;
-		
 	}
 
-	
-	/**
-	 * List of specific type for regimeInscriptions type.
-	 * @return List of SelectItem
-	 */
 	public List<SelectItem> getRegimeInscriptionsItemsConv() {
-		List<SelectItem> s = new ArrayList<SelectItem>();
+		List<SelectItem> s = new ArrayList<>();
 		Map<Integer, RegimeInscription> mapRI = getRegimeIns();
-		for (Map.Entry<Integer, RegimeInscription> entryRI : mapRI.entrySet()) {
-			s.add(new SelectItem(entryRI.getValue(), entryRI.getValue().getLabel()));
-		}
-		
+		for (Map.Entry<Integer, RegimeInscription> entryRI : mapRI.entrySet())
+            s.add(new SelectItem(entryRI.getValue(), entryRI.getValue().getLabel()));
 		Collections.sort(s, new ComparatorSelectItem());
 		return s;
-		
 	}
 	
-	/**
-	 * @return la liste des RegimeInscription
-	 */
 	public List<RegimeInscription> getAllRegimeInscription() {
 		List<RegimeInscription> listeRI = new ArrayList<RegimeInscription>();
 		for (Map.Entry<Integer, RegimeInscription> ri : getRegimeIns().entrySet()) {
@@ -1140,9 +955,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 		return 0;
 	}
 	
-	/**
-	 * @return boolean
-	 */
 	public boolean isRightPjForAllVet() {
 		if (getSessionController().isAllViewPJ()) {
 			return true;
@@ -1155,10 +967,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 		return true;
 	}
 	
-	
-	/**
-	 * @return the regime inscription label from the codeRI given by etapeController
-	 */
 	public String getRegimeInscription(){
 		Map<Integer, RegimeInscription> mapRI = getRegimeIns();
 		for (Map.Entry<Integer, RegimeInscription> entryRI : mapRI.entrySet()) {
@@ -1192,24 +1000,15 @@ public class NomenclatureController extends AbstractContextAwareController {
 		this.isFinal = isFinal;
 	}
 
-	/**
-	 * Return all PieceJustificative.
-	 * @return Set< NomenclaturePojo>
-	 */
 	public Set<NomenclaturePojo> getAllPieceJustificatives() {
-		Set<NomenclaturePojo> nom = new TreeSet<NomenclaturePojo>(new ComparatorString(NomenclaturePojo.class));
+		Set<NomenclaturePojo> nom = new TreeSet<>(new ComparatorString(NomenclaturePojo.class));
 		
-		for (PieceJustificative m : getParameterService().getPJs(null)) {
-			nom.add(new NomenclaturePojo(m, getRegimeIns().get(m.getCodeRI())));
-		}
+		for (PieceJustificative m : getParameterService().getPJs(null))
+            nom.add(new NomenclaturePojo(m, getRegimeIns().get(m.getCodeRI())));
 		
 		return nom;
 	}
 	
-	/**
-	 * Return all PieceJustificative.
-	 * @return Set< NomenclaturePojo>
-	 */
 	public List<NomenclaturePojo> getPieceJustificatives() {
 		Set<NomenclaturePojo> nom = new TreeSet<NomenclaturePojo>(new ComparatorString(NomenclaturePojo.class));
 		Set<VersionEtpOpi> listEtpByRight = Utilitaires.getListEtpByRight(getCurrentGest());
@@ -1254,10 +1053,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 		return new ArrayList<NomenclaturePojo>(nom);
 	}
 	
-	
-	/**
-	 * @return the piece justificatives selected
-	 */
 	public List<NomenclaturePojo> getPieceJustificativesSelected() {
 		List<NomenclaturePojo> nom = getPieceJustificatives();
 		
@@ -1269,13 +1064,8 @@ public class NomenclatureController extends AbstractContextAwareController {
 		return nom;
 	}
 	
-	/**
-	 * Return all NomenclaturePojo in use.
-	 * @return List< NomenclaturePojo>
-	 */
 	public List<NomenclaturePojo> getPieceJustificativesItems() {
-		List<NomenclaturePojo> pj = new ArrayList<NomenclaturePojo>(getPieceJustificatives());	
-		return pj;
+        return new ArrayList<>(getPieceJustificatives());
 	}
 	
 	/**
@@ -1283,29 +1073,20 @@ public class NomenclatureController extends AbstractContextAwareController {
 	 */
 	
 	public Set<NomenclaturePojo> getPiecesJToNomenclaturePojo() {
-		Set<NomenclaturePojo> nom = new TreeSet<NomenclaturePojo>(
-				new ComparatorString(NomenclaturePojo.class));
+		Set<NomenclaturePojo> nom =
+                new TreeSet<>(new ComparatorString(NomenclaturePojo.class));
 
 		List<PieceJustificative> pjs = getParameterService().getPiecesJ(
 				new VersionEtpOpi(vetDTO), null);
-		List<PieceJustificative> pjsTemp = new ArrayList<PieceJustificative>();
+		List<PieceJustificative> pjsTemp = new ArrayList<>();
 		pjsTemp.addAll(pjs);
 
-		Iterator<PieceJustificative> it1 = pjsTemp.iterator();
-
-		while (it1.hasNext()) {
-			PieceJustificative pj = it1.next();
-
-			Iterator<NomenclaturePojo> it2 = deletePJs.iterator();
-
-			while (it2.hasNext()) {
-				NomenclaturePojo np = it2.next();
-				String codeTemp = np.getNomenclature().getCode();
-				if (codeTemp.equalsIgnoreCase(pj.getCode())) {
-					pjs.remove(pj);
-				}
-			}
-		}
+        for (PieceJustificative pj : pjsTemp)
+            for (NomenclaturePojo np : deletePJs) {
+                String codeTemp = np.getNomenclature().getCode();
+                if (codeTemp.equalsIgnoreCase(pj.getCode()))
+                    pjs.remove(pj);
+            }
 
 		for (PieceJustificative m : pjs) {
 			NomenclaturePojo np = new NomenclaturePojo(m, getRegimeIns().get(
@@ -1320,85 +1101,50 @@ public class NomenclatureController extends AbstractContextAwareController {
 		return allPJs;
 	}
 	
-	/**
-	 * Return all TypeTraitement.
-	 * @return Set< TypeTraitement>
-	 */
 	public List<TypeTraitement> getTypeTrts() {
-		return getParameterService().getTypeTraitements();
+		return asList(TypeTraitement.values());
 	}
 	
-	/**
-	 * Return all MotivationAvis.
-	 * @return Set< NomenclaturePojo>
-	 */
 	public Set<NomenclaturePojo> getMotivationsAvis() {
 		Set<MotivationAvis> mo = getParameterService().getMotivationsAvis(true);
-		Set<NomenclaturePojo> nom = new TreeSet<NomenclaturePojo>(new ComparatorString(NomenclaturePojo.class));
+		Set<NomenclaturePojo> nom = new TreeSet<>(new ComparatorString(NomenclaturePojo.class));
 		for (MotivationAvis m : mo) {
 			nom.add(new NomenclaturePojo(m));
 		}
 		return nom;
 	}
 	
-	/**
-	 * Return all MotivationAvis.
-	 * @return Set< NomenclaturePojo>
-	 */
 	public Set<NomenclaturePojo> getAllMotivationsAvis() {
 		Set<MotivationAvis> mo = getParameterService().getMotivationsAvis(null);
-		Set<NomenclaturePojo> nom = new TreeSet<NomenclaturePojo>(new ComparatorString(NomenclaturePojo.class));
+		Set<NomenclaturePojo> nom = new TreeSet<>(new ComparatorString(NomenclaturePojo.class));
 		for (MotivationAvis m : mo) {
 			nom.add(new NomenclaturePojo(m));
 		}
 		return nom;
 	}
 	
-	/**
-	 * Return all MotivationAvis in use.
-	 * @return List< NomenclaturePojo>
-	 */
 	public List<NomenclaturePojo> getAllMotivationsAvisItems() {
-		List<NomenclaturePojo> np = new ArrayList<NomenclaturePojo>(getAllMotivationsAvis());	
-		return np;
+        return new ArrayList<>(getAllMotivationsAvis());
 	}
 	
-	/**
-	 * Return all Campagne.
-	 * @return Set< Campagne>
-	 */
 	public Set<NomenclaturePojo> getCampagnes() {
 		Set<Campagne> ca = getParameterService().getCampagnes(null, null);
-		Set<NomenclaturePojo> nom = new TreeSet<NomenclaturePojo>(new ComparatorString(NomenclaturePojo.class));
-		for (Campagne c : ca) {
-			nom.add(new NomenclaturePojo(c, getRegimeIns().get(c.getCodeRI())));
-		}
+		Set<NomenclaturePojo> nom = new TreeSet<>(new ComparatorString(NomenclaturePojo.class));
+		for (Campagne c : ca)
+            nom.add(new NomenclaturePojo(c, getRegimeIns().get(c.getCodeRI())));
 		return nom;
 	}
 	
-	/**
-	 * Return all Campagne in use.
-	 * @return List< NomenclaturePojo>
-	 */
 	public List<NomenclaturePojo> getCampagnesInUse() {
-		List<NomenclaturePojo> pj = new ArrayList<NomenclaturePojo>(getCampagnes());	
-		return pj;
+        return new ArrayList<>(getCampagnes());
 	}
 	
-	/**
-	 * Return all Campagne in use.
-	 * @return Set< Campagne>
-	 */
 	public List<Campagne> getCampagnesItems() {
-		List<Campagne> l = new ArrayList<Campagne>(getParameterService().getCampagnes(true, null));
+		List<Campagne> l = new ArrayList<>(getParameterService().getCampagnes(true, null));
 		Collections.sort(l, new ComparatorString(Campagne.class));
-		
 		return l;
 	}
 	
-	 /**
-	 * Add a file to the justificative piece
-	 */
 	public void ajouterFichierPJ() {        
 	        // Prepare file and outputstream.
 	    File file = null;
@@ -1438,10 +1184,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 	        }
 	}
 	
-	
-	/**
-	 * Remove the file from the justification piece 
-	 */
 	public void removeFile(){
 		PieceJustificative pj = (PieceJustificative)nomenclature;
 		pj.setNomDocument(null);
@@ -1449,28 +1191,14 @@ public class NomenclatureController extends AbstractContextAwareController {
 		addInfoMessage(null, "PJ.REMOVED_FILE");
 	}
 	
-
-	
-	/**
-	 * Return all Typeconvocation.
-	 * @return List< TypeConvocation>
-	 */
 	public List<TypeConvocation> getTypeConvocations() {
 		return getParameterService().getTypeConvocations();
 	}
 	
-	/**
-	 * Return all Typedecision not sorted.
-	 * @return Set< TypeDecision>
-	 */
 	public List<TypeDecision> getTypeDecisions() {
 		return typesDec;
 	}
 	
-	/**
-	 * Return all Typedecision sorted.
-	 * @return List< TypeDecision>
-	 */
 	public List<TypeDecision> getTypeDecisionsSorted() {
 		typesDec = new ArrayList<TypeDecision>(
 				getParameterService().getTypeDecisions(null));
@@ -1480,10 +1208,6 @@ public class NomenclatureController extends AbstractContextAwareController {
 		return sortedTypesDec;
 	}
 	
-	/**
-	 * Return all Typedecision in use.
-	 * @return Set< TypeDecision>
-	 */
 	public List<TypeDecision> getTypeDecisionsInUse() {
 		return typesDecInUse;
 	}
@@ -1498,21 +1222,14 @@ public class NomenclatureController extends AbstractContextAwareController {
 						}).toCollection());
 	}
 
-	/**
-	 * @return the nomenclature
-	 */
 	public Nomenclature getNomenclature() {
 		return nomenclature;
 	}
 
-	/**
-	 * @param nomenclature the nomenclature to set
-	 */
 	public void setNomenclature(final Nomenclature nomenclature) {
-		//Clone est utilise afin que l'utilisateur puisse modifier l'objet sans toucher au CACHE (par r?f?rence)
-		//Probleme rencontre lors du modification annulee(par exemple), le cache etait tout de meme modifier
+		//Clone est utilisé afin que l'utilisateur puisse modifier l'objet sans toucher au CACHE (par référence ?)
+		//Problème rencontré lors d'une modification annulée(par exemple), le cache était tout de même modifié
 		if (nomenclature instanceof TypeDecision) {
-			
 			TypeDecision t = (TypeDecision) nomenclature;
 			this.nomenclature = t.clone();
 		} else if (nomenclature instanceof PieceJustificative) {
@@ -1527,167 +1244,94 @@ public class NomenclatureController extends AbstractContextAwareController {
 		}
 	}
 
-	/**
-	 * @return the actionEnum
-	 */
 	public ActionEnum getActionEnum() {
 		return actionEnum;
 	}
 
-	/**
-	 * @param actionEnum the actionEnum to set
-	 */
 	public void setActionEnum(final ActionEnum actionEnum) {
 		this.actionEnum = actionEnum;
 	}
 
-	
-
-	/**
-	 * @param addNomenclatures the addNomenclatures to set
-	 */
 	public void setAddNomenclatures(final List<Nomenclature> addNomenclatures) {
 		this.addNomenclatures = addNomenclatures;
 	}
 
-	/**
-	 * @return the addNomenclatures
-	 */
 	public List<Nomenclature> getAddNomenclatures() {
 		return addNomenclatures;
 	}
 
-	/**
-	 * @return the wayfEnum
-	 */
 	public WayfEnum getWayfEnum() {
 		return wayfEnum;
 	}
 
-	/**
-	 * @param wayfEnum the wayfEnum to set
-	 */
 	public void setWayfEnum(final WayfEnum wayfEnum) {
 		this.wayfEnum = wayfEnum;
 	}
 
-	/**
-	 * @return the allEtapes
-	 */
 	public Set<PieceJustiVetPojo> getAllEtapes() {
 		return allEtapes;
 	}
 
-	/**
-	 * Return all PieceJustiVetPojo in use.
-	 * @return List< PieceJustiVetPojo>
-	 */
 	public List<PieceJustiVetPojo> getAllEtapesItems() {
-		List<PieceJustiVetPojo> pj = new ArrayList<PieceJustiVetPojo>(getAllEtapes());	
-		return pj;
+        return new ArrayList<>(getAllEtapes());
 	}
 	
-	/**
-	 * @param allEtapes the allEtapes to set
-	 */
 	public void setAllEtapes(final Set<PieceJustiVetPojo> allEtapes) {
 		this.allEtapes = allEtapes;
 	}
 
-	/**
-	 * @return the etapeTraitee
-	 */
 	public PieceJustiVetPojo getEtapeTraitee() {
 		return etapeTraitee;
 	}
 
-	/**
-	 * @param etapeTraitee the etapeTraitee to set
-	 */
 	public void setEtapeTraitee(final PieceJustiVetPojo etapeTraitee) {
 		this.etapeTraitee = etapeTraitee;
 	}
 
-	/**
-	 * @return the objectToAdd
-	 */
 	public Object[] getObjectToAdd() {
 		return objectToAdd;
 	}
 
-	/**
-	 * @param objectToAdd the objectToAdd to set
-	 */
 	public void setObjectToAdd(final Object[] objectToAdd) {
 		this.objectToAdd = objectToAdd;
 	}
 
-	/**
-	 * @param etapeController the etapeController to set
-	 */
 	public void setEtapeController(final EtapeController etapeController) {
 		this.etapeController = etapeController;
 	}
 
-	/**
-	 * @return the deleteEtapes
-	 */
 	public Set<PieceJustiVetPojo> getDeleteEtapes() {
 		return deleteEtapes;
 	}
 
-	/**
-	 * @param deleteEtapes the deleteEtapes to set
-	 */
 	public void setDeleteEtapes(final Set<PieceJustiVetPojo> deleteEtapes) {
 		this.deleteEtapes = deleteEtapes;
 	}
 
-	/**
-	 * @param inscriptionAdm the inscriptionAdm to set
-	 */
 	public void setInscriptionAdm(final InscriptionAdm inscriptionAdm) {
 		this.inscriptionAdm = inscriptionAdm;
 	}
 	
-	/**
-	 * @return vetDTO
-	 */
 	public VersionEtapeDTO getVetDTO() {
 		return vetDTO;
 	}
 
-	/**
-	 * @param vetDTO
-	 */
 	public void setVetDTO(VersionEtapeDTO vetDTO) {
 		this.vetDTO = vetDTO;
 	}
 
-	/**
-	 * @return codeRI
-	 */
 	public int getCodeRI() {
 		return codeRI;
 	}
 
-	/**
-	 * @param codeRI
-	 */
 	public void setCodeRI(int codeRI) {
 		this.codeRI = codeRI;
 	}
 
-	/**
-	 * @return allPJs
-	 */
 	public List<NomenclaturePojo> getAllPJs() {
 		return new ArrayList<NomenclaturePojo>(allPJs);
 	}
 
-	/**
-	 * @param allPJs
-	 */
 	public void setAllPJs(Collection<NomenclaturePojo> allPJs) {
 		Set<NomenclaturePojo> set = new TreeSet<NomenclaturePojo>(
 				new ComparatorString(NomenclaturePojo.class));
@@ -1695,72 +1339,42 @@ public class NomenclatureController extends AbstractContextAwareController {
 		this.allPJs = set;
 	}
 	
-	/**
-	 * @return code
-	 */
 	public HtmlInputText getCode() {
 		return code;
 	}
 
-	/**
-	 * @param code
-	 */
 	public void setCode(HtmlInputText code) {
 		this.code = code;
 	}
 
-	/**
-	 * @param pJTraitee
-	 */
 	public void setPJTraitee(NomenclaturePojo pJTraitee) {
 		PJTraitee = pJTraitee;
 	}
 
-	/**
-	 * @return pjTraitee
-	 */
 	public NomenclaturePojo getPJTraitee() {
 		return PJTraitee;
 	}
 	
-	/**
-	 * @return uploadPath
-	 */
 	public String getUploadPath() {
 		return uploadPath;
 	}
 
-	/**
-	 * @param uploadPath
-	 */
 	public void setUploadPath(String uploadPath) {
 		this.uploadPath = uploadPath;
 	}
 
-	/**
-	 * @return uploadedFile
-	 */
 	public UploadedFile getUploadedFile() {
 		return uploadedFile;
 	}
 
-	/**
-	 * @param uploadedFile
-	 */
 	public void setUploadedFile(UploadedFile uploadedFile) {
 		this.uploadedFile = uploadedFile;
 	}
 	
-	/**
-	 * @return String
-	 */
 	public String getFileName() {
 		return fileName;
 	}
 
-	/**
-	 * @param fileName
-	 */
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}

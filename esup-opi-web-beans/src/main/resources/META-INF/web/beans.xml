@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
+<!--suppress InjectionValueTypeInspection -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
@@ -17,83 +18,74 @@
 		</description>
 	</bean>
 
-	<bean id="managedCalendar" class="org.esupportail.opi.web.beans.ManagedCalendar"
-		scope="singleton">
+	<bean id="managedCalendar" class="org.esupportail.opi.web.beans.ManagedCalendar">
 		<description>
 			A bean to managed to calendars for the acces of individu.
 		</description>
 		<property name="parameterService" ref="parameterService" />
 		<property name="domainService" ref="domainService" />
-		<property name="i18Service" ref="i18nService"></property>
+		<property name="i18Service" ref="i18nService"/>
 	</bean>
 
 
 	<!-- ****  TypeTraitement **** -->
+	<!--<bean id="transfert" class="org.esupportail.opi.domain.beans.parameters.typetrt.Transfert"-->
+		<!--scope="singleton">-->
+		<!--<property name="code" value="TR"/>-->
+		<!--<property name="label" value="Transfert"/>-->
+	<!--</bean>-->
+	<!---->
+	<!--<bean id="accesSelectif" class="org.esupportail.opi.domain.beans.parameters.typetrt.AccesSelectif"-->
+		<!--scope="singleton">-->
+		<!--<property name="code" value="AS"/>-->
+		<!--<property name="label" value="Accès sélectif"/>-->
+	<!--</bean>-->
+	<!---->
+	<!--<bean id="validationAcquis" class="org.esupportail.opi.domain.beans.parameters.typetrt.ValidationAcquis"-->
+		<!--scope="singleton">-->
+		<!--<property name="code" value="VA"/>-->
+		<!--<property name="label" value="Validation Acquis"/>-->
+	<!--</bean>-->
 
-
-	<bean id="transfert" class="org.esupportail.opi.domain.beans.parameters.Transfert"
-		scope="singleton">
-		<property name="code" value="TR"/>
-		<property name="label" value="Transfert"/>
-	</bean>
-	
-	<bean id="accesSelectif" class="org.esupportail.opi.domain.beans.parameters.AccesSelectif"
-		scope="singleton">
-		<property name="code" value="AS"/>
-		<property name="label" value="Accès sélectif"/>
-	</bean>
-	
-	<bean id="validationAcquis" class="org.esupportail.opi.domain.beans.parameters.ValidationAcquis"
-		scope="singleton">
-		<property name="code" value="VA"/>
-		<property name="label" value="Validation Acquis"/>
-	</bean>
-
-	<bean id="enAttente" class="org.esupportail.opi.domain.beans.parameters.EnAttente"
-		scope="singleton">
-		<property name="code" value="ET"/>
-		<property name="label" value="En Attente"/>
-	</bean>
+	<!--<bean id="enAttente" class="org.esupportail.opi.domain.beans.parameters.typetrt.EnAttente"-->
+		<!--scope="singleton">-->
+		<!--<property name="code" value="ET"/>-->
+		<!--<property name="label" value="En Attente"/>-->
+	<!--</bean>-->
 
 	<!-- ****  TypeConvocation **** -->
-	<bean id="preselection" class="org.esupportail.opi.domain.beans.parameters.Preselection"
-		scope="singleton">
+	<bean id="preselection" class="org.esupportail.opi.domain.beans.parameters.Preselection">
 		<property name="code" value="PS"/>
 		<property name="label" value="Présélection"/>
 		<property name="shortLabel" value="Présélect."/>
 	</bean>
 	
-	<bean id="listeComplementaire" class="org.esupportail.opi.domain.beans.parameters.ListeComplementaire"
-		scope="singleton">
+	<bean id="listeComplementaire" class="org.esupportail.opi.domain.beans.parameters.ListeComplementaire">
 		<property name="code" value="LC"/>
 		<property name="label" value="Liste Complémentaire"/>
 		<property name="shortLabel" value="Liste Comp"/>
 	</bean>
 
-	<bean id="inscriptionAdm" class="org.esupportail.opi.domain.beans.parameters.InscriptionAdm"
-		scope="singleton">
+	<bean id="inscriptionAdm" class="org.esupportail.opi.domain.beans.parameters.InscriptionAdm">
 		<property name="code" value="IA"/>
 		<property name="label" value="Inscription administrative"/>
 		<property name="shortLabel" value="ins. admi."/>
 	</bean>
 
-	<bean id="refused" class="org.esupportail.opi.domain.beans.parameters.Refused"
-		scope="singleton">
+	<bean id="refused" class="org.esupportail.opi.domain.beans.parameters.Refused">
 		<property name="code" value="RF"/>
 		<property name="label" value="Refusé"/>
 		<property name="shortLabel" value="Refusé"/>
 	</bean>
 
-	<bean id="intermediary" class="org.esupportail.opi.domain.beans.parameters.Intermediary"
-		scope="singleton">
+	<bean id="intermediary" class="org.esupportail.opi.domain.beans.parameters.Intermediary">
 		<property name="code" value="INT"/>
 		<property name="label" value="Intermédiaire"/>
 		<property name="shortLabel" value="Interm."/>
 	</bean>
 
 	<!-- ****  regime inscription **** -->
-	<bean id="formationContinue" class="org.esupportail.opi.web.beans.parameters.FormationContinue"
-		scope="singleton">
+	<bean id="formationContinue" class="org.esupportail.opi.web.beans.parameters.FormationContinue">
 		<property name="controlField" ref="controlFieldFC"/>
 		<property name="i18nService" ref="i18nService"/>
 		<!--<property name="createDossier" ref="createDosIndFC"/>-->
@@ -153,8 +145,7 @@
 
 	</bean>
 	
-	<bean id="formationInitiale" class="org.esupportail.opi.web.beans.parameters.FormationInitiale"
-		scope="singleton">
+	<bean id="formationInitiale" class="org.esupportail.opi.web.beans.parameters.FormationInitiale">
 		<property name="controlField" ref="controlFieldFI"/>
 		<property name="i18nService" ref="i18nService"/>
 		<property name="managedCalendar" ref="managedCalendar"/>
@@ -168,45 +159,30 @@
 		<property name="mailAddWishesTRVA" ref="addWishesTRVAFI"/>
 		<property name="mailTypeConvoc">
 			<map>
-				<entry>
-					<key>
-						<ref bean="inscriptionAdm"/>
-					</key>
-					<list>
+				<entry key-ref="inscriptionAdm">
+                    <list>
 						<ref bean="inscriptionAdmMailFI"/>
 						<ref bean="inscriptionAdmMailAppelFI"/>
 					</list>
 				</entry>
-				<entry>
-					<key>
-						<ref bean="refused"/>
-					</key>
-					<list>
+				<entry key-ref="refused">
+                    <list>
 						<ref bean="refusedMailFI"/>
 						<ref bean="refusedMailAppelFI"/>
 					</list>
 				</entry>
-				<entry>
-					<key>
-						<ref bean="preselection"/>
-					</key>
-					<list>
+				<entry key-ref="preselection">
+                    <list>
 						<ref bean="preselectionMailFI"/>
 					</list>
 				</entry>
-				<entry>
-					<key>
-						<ref bean="listeComplementaire"/>
-					</key>
-					<list>
+				<entry key-ref="listeComplementaire">
+                    <list>
 						<ref bean="listeComplementaireMailFI"/>
 					</list>
 				</entry>
-				<entry>
-					<key>
-						<ref bean="intermediary"/>
-					</key>
-					<list>
+				<entry key-ref="intermediary">
+                    <list>
 						<ref bean="intermediaryMailFI"/>
 					</list>
 				</entry>
@@ -215,15 +191,11 @@
 	</bean>
 
 	<bean id="controlFieldFC"
-		class="org.esupportail.opi.web.beans.ControlField"
-		scope="singleton">
+		class="org.esupportail.opi.web.beans.ControlField">
 		<property name="fields">
 			<map>
-				<entry>
-					<key>
-						<value>org.esupportail.opi.domain.beans.user.Individu</value>
-					</key>
-					<list>
+				<entry key="org.esupportail.opi.domain.beans.user.Individu">
+                    <list>
 						<value>nomPatronymique</value>
 						<value>prenom</value>
 						<value>numDossierOpi</value>
@@ -242,15 +214,11 @@
 	</bean>
 
 	<bean id="controlFieldFI"
-		class="org.esupportail.opi.web.beans.ControlField"
-		scope="singleton">
+		class="org.esupportail.opi.web.beans.ControlField">
 		<property name="fields">
 			<map>
-				<entry>
-					<key>
-						<value>org.esupportail.opi.domain.beans.user.Individu</value>
-					</key>
-					<list>
+				<entry key="org.esupportail.opi.domain.beans.user.Individu">
+                    <list>
 						<value>nomPatronymique</value>
 						<value>prenom</value>
 						<value>numDossierOpi</value>
@@ -270,93 +238,78 @@
 	</bean>
 
 	<!-- ****  TypeContrat **** -->
-	<bean id="cdd" class="org.esupportail.opi.domain.beans.parameters.situation.TypeContrat"
-		scope="singleton">
+	<bean id="cdd" class="org.esupportail.opi.domain.beans.parameters.situation.TypeContrat">
 		<property name="code" value="CDD"/>
 		<property name="label" value="CDD"/>
 	</bean>
 
-	<bean id="cdi" class="org.esupportail.opi.domain.beans.parameters.situation.TypeContrat"
-		scope="singleton">
+	<bean id="cdi" class="org.esupportail.opi.domain.beans.parameters.situation.TypeContrat">
 		<property name="code" value="CDI"/>
 		<property name="label" value="CDI"/>
 	</bean>
 
-	<bean id="autreContrat" class="org.esupportail.opi.domain.beans.parameters.situation.TypeContrat"
-		scope="singleton">
+	<bean id="autreContrat" class="org.esupportail.opi.domain.beans.parameters.situation.TypeContrat">
 		<property name="code" value="autre"/>
 		<property name="label" value="Autre"/>
 	</bean>
 
 	<!-- ****  TypeStatut **** -->
-	<bean id="cadre" class="org.esupportail.opi.domain.beans.parameters.situation.TypeStatut"
-		scope="singleton">
+	<bean id="cadre" class="org.esupportail.opi.domain.beans.parameters.situation.TypeStatut">
 		<property name="code" value="cadre"/>
 		<property name="label" value="cadre"/>
 	</bean>
 
-	<bean id="employe" class="org.esupportail.opi.domain.beans.parameters.situation.TypeStatut"
-		scope="singleton">
+	<bean id="employe" class="org.esupportail.opi.domain.beans.parameters.situation.TypeStatut">
 		<property name="code" value="employe"/>
 		<property name="label" value="employé"/>
 	</bean>
 
-	<bean id="ouvrier" class="org.esupportail.opi.domain.beans.parameters.situation.TypeStatut"
-		scope="singleton">
+	<bean id="ouvrier" class="org.esupportail.opi.domain.beans.parameters.situation.TypeStatut">
 		<property name="code" value="ouvrier"/>
 		<property name="label" value="ouvrier"/>
 	</bean>
 
-	<bean id="proIntermediaire" class="org.esupportail.opi.domain.beans.parameters.situation.TypeStatut"
-		scope="singleton">
+	<bean id="proIntermediaire" class="org.esupportail.opi.domain.beans.parameters.situation.TypeStatut">
 		<property name="code" value="proInterm"/>
 		<property name="label" value="profession intermédiaire"/>
 	</bean>
 
 	<!-- ****  TypeOrganisme **** -->
-	<bean id="orgPublic" class="org.esupportail.opi.domain.beans.parameters.situation.TypeOrganisme"
-		scope="singleton">
+	<bean id="orgPublic" class="org.esupportail.opi.domain.beans.parameters.situation.TypeOrganisme">
 		<property name="code" value="public"/>
 		<property name="label" value="public ou parapublic"/>
 	</bean>
 
-	<bean id="orgPrivate" class="org.esupportail.opi.domain.beans.parameters.situation.TypeOrganisme"
-		scope="singleton">
+	<bean id="orgPrivate" class="org.esupportail.opi.domain.beans.parameters.situation.TypeOrganisme">
 		<property name="code" value="private"/>
 		<property name="label" value="privé"/>
 	</bean>
 
 	<!-- ****  TypeSituation **** -->
-	<bean id="salarie" class="org.esupportail.opi.domain.beans.parameters.situation.TypeSituation"
-		scope="singleton">
+	<bean id="salarie" class="org.esupportail.opi.domain.beans.parameters.situation.TypeSituation">
 		<property name="code" value="sal"/>
 		<property name="label" value="Salarié en exercice"/>
 	</bean>
 
-	<bean id="pro_lib" class="org.esupportail.opi.domain.beans.parameters.situation.TypeSituation"
-		scope="singleton">
+	<bean id="pro_lib" class="org.esupportail.opi.domain.beans.parameters.situation.TypeSituation">
 		<property name="code" value="pro_lib"/>
 		<property name="label" value="Professionnel libéral, vous exercez une activité indépendante"/>
 	</bean>
 
-	<bean id="dem_emp" class="org.esupportail.opi.domain.beans.parameters.situation.TypeSituation"
-		scope="singleton">
+	<bean id="dem_emp" class="org.esupportail.opi.domain.beans.parameters.situation.TypeSituation">
 		<property name="code" value="dem_emp"/>
 		<property name="label" value="Demandeur d'emploi"/>
 	</bean>
 
-	<bean id="etu" class="org.esupportail.opi.domain.beans.parameters.situation.TypeSituation"
-		scope="singleton">
+	<bean id="etu" class="org.esupportail.opi.domain.beans.parameters.situation.TypeSituation">
 		<property name="code" value="etu"/>
 		<property name="label" value="Etudiant"/>
 	</bean>
 
-	<bean id="other" class="org.esupportail.opi.domain.beans.parameters.situation.TypeSituation"
-		scope="singleton">
+	<bean id="other" class="org.esupportail.opi.domain.beans.parameters.situation.TypeSituation">
 		<property name="code" value="other"/>
 		<property name="label" value="Autre"/>
 	</bean>
-
 
 	<!-- ****  Type pour l'axes des ordonnées (statistique) **** -->
 	<bean id="commissionStat"
@@ -515,8 +468,7 @@
 	
 	<!-- ****  Liste des etats des voeux pour l'axes des abscisses (statistique) **** -->
 	<bean id="listEtatVoeu"
-		class="java.util.ArrayList"
-		scope="singleton">
+		class="java.util.ArrayList">
 		<constructor-arg index="0">
 			<list>
 				<bean class="org.esupportail.opi.domain.beans.etat.EtatVoeu" factory-method="valueOf">
@@ -542,8 +494,7 @@
 	</bean>
 	<!-- ****  Liste des etats des individus pour l'axes des abscisses (statistique) **** -->
 	<bean id="listEtatIndividu"
-		class="java.util.ArrayList"
-		scope="singleton">
+		class="java.util.ArrayList">
 		<constructor-arg index="0">
 			<list>
 				<bean class="org.esupportail.opi.domain.beans.etat.EtatIndividu" factory-method="valueOf">
@@ -557,8 +508,7 @@
 	</bean>
 	<!-- ****  Liste des etats des individus pour l'axes des abscisses (statistique) **** -->
 	<bean id="listRi"
-		class="java.util.ArrayList"
-		scope="singleton">
+		class="java.util.ArrayList">
 		<constructor-arg index="0">
 			<list>
 				<ref bean="formationInitiale"/>
@@ -568,8 +518,7 @@
 	</bean>
 	<!-- ****  Liste des etats des individus pour l'axes des abscisses (statistique) **** -->
 	<bean id="listTypeConvocation"
-		class="java.util.ArrayList"
-		scope="singleton">
+		class="java.util.ArrayList">
 		<constructor-arg index="0">
 			<list>
 				<ref bean="preselection"/>

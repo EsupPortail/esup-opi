@@ -3,17 +3,19 @@
  */
 package org.esupportail.opi.web.controllers.formation;
 
-import fj.data.Stream;
+import fj.data.Array;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
-import org.esupportail.opi.domain.BusinessUtil;
 import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.formation.Cles2AnnuForm;
 import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
 import org.esupportail.opi.domain.beans.formation.GrpTypDip;
-import org.esupportail.opi.domain.beans.parameters.*;
+import org.esupportail.opi.domain.beans.parameters.Campagne;
+import org.esupportail.opi.domain.beans.parameters.Nomenclature;
+import org.esupportail.opi.domain.beans.parameters.PieceJustificative;
+import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.references.NombreVoeuCge;
 import org.esupportail.opi.domain.beans.references.calendar.CalendarCmi;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
@@ -47,7 +49,10 @@ import javax.faces.model.SelectItemGroup;
 import java.util.*;
 import java.util.Map.Entry;
 
+import static fj.data.Array.iterableArray;
 import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatNonArrive;
+import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.AccesSelectif;
+import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.ValidationAcquis;
 import static org.esupportail.opi.web.utils.DTOs.buildCommissionDTO;
 
 
@@ -234,38 +239,36 @@ public class FormationController extends AbstractAccessController {    /*
                         Utilitaires.codUserThatIsAction(getCurrentGest(), getCurrentInd()));
                 //All vows save init to state non arrive.
                 vb.setState(EtatNonArrive.getCodeLabel());
-                typTrt = BusinessUtil.getTypeTraitement(
-                        getParameterService().getTypeTraitements(),
-                        traitementCmi.getCodTypeTrait());
-                vb.setCodTypeTrait(typTrt.getCode());
+                typTrt = TypeTraitement.fromCode(traitementCmi.getCodTypeTrait());
+                vb.setCodTypeTrait(typTrt.code);
                 String codCge = traitementCmi.getVersionEtpOpi().getCodCge();
                 //vb.getVersionEtpOpi().setCodCge(codCge);
-                if (typTrt instanceof AccesSelectif) {
+                if (typTrt == AccesSelectif)
                     vb.setHaveBeTraited(true);
-                }
                 // dans le cas de la formation continue
                 // on met automatiquement en VA et traité
                 if (regime instanceof FormationContinue) {
-                    vb.setCodTypeTrait(BusinessUtil.getCodeVATypeTraitement(
-                            getParameterService().getTypeTraitements()));
+                    vb.setCodTypeTrait(ValidationAcquis.code);
                     vb.setHaveBeTraited(true);
                 }
                 //control VET par CGE.
                 authorizedAddWish =
                         controlNbVowByCge(getCurrentInd().getIndividu().getVoeux(), codCge);
-
             }
             if (authorizedAddWish != null && authorizedAddWish) {
                 CalendarRDV cal = Utilitaires.getRecupCalendarRdv(vb, getParameterService().getCalendarRdv());
                 IndVoeuPojo indVoeuP = new IndVoeuPojo(
-                        vb, vrsVet.getVersionEtape(),
-                        getI18nService(), false,
-                        typTrt, cal);
+                        vb,
+                        vrsVet.getVersionEtape(),
+                        EtatVoeu.fromString(vb.getState()),
+                        false,
+                        typTrt,
+                        cal);
                 indVoeuAdd.add(indVoeuP);
                 getDomainService().addIndVoeu(vb);
                 IndividuPojo ind = getCurrentInd();
                 ind.getIndividu().getVoeux().add(vb);
-                ind.setIndVoeuxPojo(ind.getIndVoeuxPojo().append(Stream.stream(indVoeuP)));
+                ind.setIndVoeuxPojo(ind.getIndVoeuxPojo().append(Array.single(indVoeuP)));
             } else {
                 addErrorMessage(null, "ERROR.NB_WISH_MAX", vrsVet.getVersionEtape().getLibWebVet());
             }
@@ -425,8 +428,6 @@ public class FormationController extends AbstractAccessController {    /*
 
     /**
      * Init the initSummaryWishes attributes.
-     *
-     * @param indVoeuPojos
      */
     private void initSummaryWishes(final Set<IndVoeuPojo> indVoeuPojos) {
         Individu ind = getCurrentInd().getIndividu();
@@ -439,7 +440,7 @@ public class FormationController extends AbstractAccessController {    /*
 
         //map with the commission and its etapes sur lesquelles le candidat a deposer des voeux
         Map<Commission, Set<VersionEtapeDTO>> mapCmi =
-                Utilitaires.getCmiForIndVoeux(cmi, Stream.iterableStream(indVoeuPojos), camp);
+                Utilitaires.getCmiForIndVoeux(cmi, iterableArray(indVoeuPojos), camp);
 
         summaryWishes = new ArrayList<SummaryWishesPojo>();
         for (Map.Entry<Commission, Set<VersionEtapeDTO>> cEntry : mapCmi.entrySet()) {
@@ -468,8 +469,7 @@ public class FormationController extends AbstractAccessController {    /*
                             .getTraitementCmi().getVersionEtpOpi().equals(v)) {
                         s.getVows().add(indVPojo);
                         if (canDownload) {
-                            canDownload = indVPojo.
-                                    getTypeTraitement().getDownloadDocument();
+                            canDownload = indVPojo.getTypeTraitement().canDownloadDocument();
                         }
 //						if (!(indVPojo.getTypeTraitement() instanceof AccesSelectif)) {
 //							canDownload = true;
@@ -495,8 +495,6 @@ public class FormationController extends AbstractAccessController {    /*
      * <p/>
      * Si typTrt = AS : un mail par commission
      * sinon = un mail pour toutes les VET.
-     *
-     * @param indVoeuAdd
      */
     private void sendMailIfAddWishes(final Set<IndVoeuPojo> indVoeuAdd) {
         final Individu ind = getCurrentInd().getIndividu();
@@ -507,7 +505,7 @@ public class FormationController extends AbstractAccessController {    /*
         Boolean sendMail = false;
         final Map<Commission, Set<VersionEtapeDTO>> wishesByCmi = Utilitaires.getCmiForIndVoeux(
                 getParameterService().getCommissions(true),
-                Stream.iterableStream(indVoeuAdd), camp);
+                iterableArray(indVoeuAdd), camp);
 
         for (Map.Entry<Commission, Set<VersionEtapeDTO>> cmiEntry : wishesByCmi.entrySet()) {
             Commission cmi = cmiEntry.getKey();
@@ -516,8 +514,7 @@ public class FormationController extends AbstractAccessController {    /*
             Set<VersionEtapeDTO> vetDTO = cmiEntry.getValue();
             for (VersionEtapeDTO vDTO : vetDTO) {
                 for (IndVoeuPojo iPojo : indVoeuAdd) {
-                    TraitementCmi trtCmi = iPojo.getIndVoeu().getLinkTrtCmiCamp()
-                            .getTraitementCmi();
+                    TraitementCmi trtCmi = iPojo.getIndVoeu().getLinkTrtCmiCamp().getTraitementCmi();
                     if (vDTO.getCodEtp().equals(
                             trtCmi.getVersionEtpOpi().getCodEtp())
                             && vDTO.getCodVrsVet().equals(
@@ -535,7 +532,7 @@ public class FormationController extends AbstractAccessController {    /*
             list.add(cmiDTO);
             list.add(vetDTO);
             list.add(ind);
-            if (typTrt instanceof AccesSelectif) {
+            if (typTrt == AccesSelectif) {
                 //on envoie un mail par commission
                 if (regimeIns.getMailAddWishesAS() != null) {
                     regimeIns.getMailAddWishesAS().send(ind.getAdressMail(),
@@ -684,65 +681,38 @@ public class FormationController extends AbstractAccessController {    /*
         return null;
     }
 
-    /**
-     * @return the searchFormationPojo
-     */
     public SearchFormationPojo getSearchFormationPojo() {
         return searchFormationPojo;
     }
 
-    /**
-     * @param searchFormationPojo the searchFormationPojo to set
-     */
     public void setSearchFormationPojo(final SearchFormationPojo searchFormationPojo) {
         this.searchFormationPojo = searchFormationPojo;
     }
 
-    /**
-     * @return the action
-     */
     public ActionEnum getAction() {
         return action;
     }
 
-    /**
-     * @param action the action to set
-     */
     public void setAction(final ActionEnum action) {
         this.action = action;
     }
 
-    /**
-     * @return the indVoeuToDelete
-     */
     public IndVoeuPojo getIndVoeuPojo() {
         return indVoeuPojo;
     }
 
-    /**
-     * @param indVoeuToDelete the indVoeuToDelete to set
-     */
     public void setIndVoeuPojo(final IndVoeuPojo indVoeuToDelete) {
         this.indVoeuPojo = indVoeuToDelete;
     }
 
-    /**
-     * @return the summaryWishes
-     */
     public List<SummaryWishesPojo> getSummaryWishes() {
         return summaryWishes;
     }
 
-    /**
-     * @param summaryWishes the summaryWishes to set
-     */
     public void setSummaryWishes(final List<SummaryWishesPojo> summaryWishes) {
         this.summaryWishes = summaryWishes;
     }
 
-    /**
-     * @param smtpService the smtpService to set
-     */
     public void setSmtpService(final SmtpService smtpService) {
         this.smtpService = smtpService;
     }

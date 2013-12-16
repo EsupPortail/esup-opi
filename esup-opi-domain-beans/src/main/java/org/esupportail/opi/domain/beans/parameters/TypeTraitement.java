@@ -1,153 +1,49 @@
-/**
- * 
- */
 package org.esupportail.opi.domain.beans.parameters;
 
-import java.io.Serializable;
 
+import static fj.Bottom.error;
 
-/**
- * @author cleprous
- *
- */
-public abstract class TypeTraitement  implements Serializable {
+public enum TypeTraitement {
+    AccesSelectif("AS", "Accès sélectif") {
+        public boolean canDownloadDocument() {
+            return true;
+        }
+    },
+    EnAttente("ET", "En Attente") {
+        public boolean canDownloadDocument() {
+            return false;
+        }
+    },
+    Transfert("TR", "Transfert") {
+        public boolean canDownloadDocument() {
+            return false;
+        }
+    },
+    ValidationAcquis("VA", "Validation Acquis") {
+        public boolean canDownloadDocument() {
+            return true;
+        }
+    };
 
-	
-	/**
-	 * The serialization id.
-	 */
-	private static final long serialVersionUID = 1041991591224846110L;
-	
-	/*
-	 ******************* PROPERTIES ******************* */
+    public final String code, label;
 
-	
-	/**
-	 * The code.
-	 */
-	private String code;
-	
-	/**
-	 * The label.
-	 */
-	private String label;
-	
-	/*
-	 ******************* INIT ************************* */
-	
+    private TypeTraitement(String code, String label) {
+        this.code = code;
+        this.label = label;
+    }
 
+    public abstract boolean canDownloadDocument();
 
-	
-
-
-	/**
-	 * Constructors.
-	 */
-	public TypeTraitement() {
-		super();
-	}
-
-	
-	
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "TypeTraitement#" + hashCode() + "[code = " + code + "], [label = " + label + "]]";
-
-	}
-
-
-
-	/** 
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((code == null) ? 0 : code.hashCode());
-		result = prime * result + ((label == null) ? 0 : label.hashCode());
-		return result;
-	}
-
-
-
-	/** 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj) { return true; }
-		if (obj == null) { return false; }
-		if (getClass() != obj.getClass()) { return false; }
-		TypeTraitement other = (TypeTraitement) obj;
-		if (code == null) {
-			if (other.code != null) {  return false; }
-		} else if (!code.equals(other.code)) { return false; }
-		if (label == null) {
-			if (other.label != null) { return false; }
-		} else if (!label.equals(other.label)) { return false; }
-		return true;
-	}
-
-	
-
-	
-
-	
-	/*
-	 ******************* METHODS ********************** */
-
-	/**
-	 * if true if candidat can download his document.
-	 * @return Boolean
-	 */
-	public Boolean getDownloadDocument() {
-		return false;
-	}
-	
-	
-	/*
-	 ******************* ACCESSORS ******************** */
-
-	/**
-	 * @return the code
-	 */
-	public String getCode() {
-		return code;
-	}
-
-
-
-	/**
-	 * @param code the code to set
-	 */
-	public void setCode(final String code) {
-		this.code = code;
-	}
-
-
-
-	/**
-	 * @return the label
-	 */
-	public String getLabel() {
-		return label;
-	}
-
-
-
-	/**
-	 * @param label the label to set
-	 */
-	public void setLabel(final String label) {
-		this.label = label;
-	}
-	
-
-
-
-	
+    public static TypeTraitement fromCode(String code) {
+        switch (code) {
+            case "AS": return AccesSelectif;
+            case "ET": return EnAttente;
+            case "TR": return Transfert;
+            case "VA": return ValidationAcquis;
+            default: throw error(code + " cannot be associated with any existing TypeTraitement");
+        }
+    }
+    // getters for jsf
+    public String getCode() { return code; }
+    public String getLabel() { return label; }
 }

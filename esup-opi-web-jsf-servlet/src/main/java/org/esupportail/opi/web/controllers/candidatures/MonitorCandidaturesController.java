@@ -3,7 +3,10 @@
  */
 package org.esupportail.opi.web.controllers.candidatures;
 
+import fj.P1;
 import org.esupportail.commons.utils.Assert;
+import org.esupportail.opi.domain.DomainApoService;
+import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
@@ -17,10 +20,16 @@ import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractAccessController;
 import org.esupportail.opi.web.controllers.opinions.PrintOpinionController;
 import org.esupportail.opi.web.controllers.references.CommissionController;
+import org.esupportail.opi.web.utils.fj.Conversions;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
 import javax.faces.event.ValueChangeEvent;
 import java.util.*;
+
+import static fj.P.p;
+import static fj.data.Array.iterableArray;
+import static java.util.Arrays.asList;
+import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
 
 /**
  * @author cleprous
@@ -169,36 +178,38 @@ public class MonitorCandidaturesController extends AbstractAccessController {
      * Make the list student for the idTrtCmi selected.
      */
     public void makeListStudent() {
-    	individus = new ArrayList<IndividuPojo>();
+    	individus = new ArrayList<>();
         if (idTrtCmi != 0) {
             TraitementCmi t = getParameterService().getTraitementCmi(idTrtCmi);
             //listes des individus avec un etat confirme ou desiste donc forcement valide
             List<Individu> l = getDomainService().getIndividusTrtCmiState(t, stateSelected);
             // on filtre la listeInd selon le choix dans listeRI
-            List<Individu> filteredListeInd = new ArrayList<Individu>();
-            for (Individu ind : l) {
-                if (commissionController.getListeRI().contains(getRegimeIns()
-                        .get(Utilitaires.getCodeRIIndividu(ind,
-                                getDomainService())))) {
+            ArrayList<Individu> filteredListeInd = new ArrayList<>();
+            for (Individu ind : l)
+                if (commissionController.getListeRI().contains(
+                        getRegimeIns().get(Utilitaires.getCodeRIIndividu(ind, getDomainService()))))
                     filteredListeInd.add(ind);
-                }
-            }
-            Set<Campagne> camps = new HashSet<Campagne>();
+            Set<Campagne> camps = new HashSet<>();
             for (RegimeInscription reg : commissionController.getListeRI()) {
                 camps.addAll(getParameterService().getCampagnes(true,
                         String.valueOf(reg.getCode())));
             }
-            Set<VersionEtapeDTO> v = new HashSet<VersionEtapeDTO>();
+            Set<VersionEtapeDTO> v = new HashSet<>();
             for (Campagne camp : camps) {
                 v.add(getBusinessCacheService().getVetDTO(
                         t.getVersionEtpOpi().getCodEtp(),
                         t.getVersionEtpOpi().getCodVrsVet(),
                         camp.getCodAnu()));
             }
-            individus = Utilitaires.convertIndInIndPojo(filteredListeInd, getParameterService(),
-                    getI18nService(), getDomainApoService(), null, null,
-                    getParameterService().getTypeTraitements(),
-                    getParameterService().getCalendarRdv(), v, false);
+            individus = Utilitaires.convertIndInIndPojo(
+                    filteredListeInd,
+                    getParameterService(),
+                    getDomainApoService(),
+                    null,
+                    null,
+                    getParameterService().getCalendarRdv(),
+                    v,
+                    false);
             Collections.sort(individus, new ComparatorString(IndividuPojo.class));
         }
     }

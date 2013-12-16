@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Collection;
 
+import fj.data.Array;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.application.Version;
 import org.esupportail.commons.services.ldap.LdapUser;
@@ -50,8 +51,6 @@ import org.esupportail.opi.utils.primefaces.PFFilters;
 
 import fj.P2;
 import fj.data.Option;
-import fj.data.Stream;
-
 
 
 /**
@@ -188,15 +187,14 @@ public interface DomainService extends Serializable {
 	 * Retrieves a slice of {@link Individu} from the DB
 	 * 
 	 */
-	P2<Long, Stream<Individu>> sliceOfInd(PFFilters pfFilters,
-                                          List<TypeDecision> typesDec,
-                                          Option<Boolean> validWish,
-                                          Option<Boolean> treatedWish,
-                                          Option<Date> wishCreation,
-                                          Collection<TypeTraitement> typeTrtmts,
-                                          Option<Set<TraitementCmi>> trtCmis,
-                                          Set<Integer> listCodesRI,
-                                          Option<List<String>> typesTrtVet);
+	P2<Long,Array<Individu>> sliceOfInd(PFFilters pfFilters,
+                                        List<TypeDecision> typesDec,
+                                        Option<Boolean> validWish,
+                                        Option<Boolean> treatedWish,
+                                        Option<Date> wishCreation,
+                                        Collection<TypeTraitement> typeTrtmts,
+                                        Option<Set<TraitementCmi>> trtCmis,
+                                        Set<Integer> listCodesRI);
 
 	/**
 	 * @param individu

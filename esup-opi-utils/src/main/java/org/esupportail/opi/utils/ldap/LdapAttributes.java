@@ -3,9 +3,6 @@
  */
 package org.esupportail.opi.utils.ldap;
 
-import org.esupportail.commons.utils.Assert;
-import org.springframework.beans.factory.InitializingBean;
-
 import static fj.Bottom.error;
 import static fj.data.Option.fromNull;
 
@@ -55,6 +52,7 @@ public class LdapAttributes {
 	public final String filterPers;
 
 
+    @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
     private LdapAttributes() {
         uidAttribute = error("unauthorized constructor").toString();
         displayNameAttribute = error("unauthorized constructor").toString();

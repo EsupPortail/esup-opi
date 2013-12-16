@@ -1,9 +1,6 @@
 package org.esupportail.opi.domain;
 
-import static fj.data.Option.fromString;
-import static fj.data.Stream.iterableStream;
 import fj.F;
-import geographiemetier_06062007_impl.servicesmetiers.commun.apogee.education.gouv.GeographieMetierServiceInterface;
 import gouv.education.apogee.commun.transverse.dto.opi.donneesopidto2.DonneesOpiDTO2;
 import gouv.education.apogee.commun.transverse.dto.opi.donneesopidto2.TableauVoeu;
 import gouv.education.apogee.commun.transverse.dto.opi.majconvocationdto.MAJConvocationDTO;
@@ -22,20 +19,10 @@ import gouv.education.apogee.commun.transverse.dto.opi.majpremiereinscriptiondto
 import gouv.education.apogee.commun.transverse.dto.opi.majprgechangedto.MAJPrgEchangeDTO;
 import gouv.education.apogee.commun.transverse.dto.opi.majsituationannpredto.MAJSituationAnnPreDTO;
 import gouv.education.apogee.commun.transverse.dto.opi.majtitreaccesexternedto.MAJTitreAccesExterneDTO;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
 import opimetier_24022011_impl.servicesmetiers.commun.apogee.education.gouv.OpiMetierServiceInterface;
-//import opimetier_24022011_impl.servicesmetiers.commun.apogee.education.gouv.OpiMetierServiceInterfaceService;
-
 import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
-import org.esupportail.opi.domain.beans.parameters.Transfert;
 import org.esupportail.opi.domain.beans.user.Adresse;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
@@ -46,42 +33,27 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.utils.Constantes;
 import org.springframework.util.StringUtils;
 
-/**
- * Universite de Rennes 1 - 2007
- * Classe : OpiWebServiceImpl.java
- * Description : Met e jour la base APOGEE via l'appel du WEBSERVICE OPI.
- * Copyright : Copyright (c) 2007
- * @author cleprous
- * @version 1.0
- */
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import static fj.data.Option.fromString;
+import static fj.data.Stream.iterableStream;
+import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.Transfert;
+
 public class OpiWebServiceImpl implements OpiWebService {
 
-
-	/*
-	 *************************** PROPERTIES ******************************** */
-
-	/**
-	 * A log.
-	 */
 	private final Logger log = new LoggerImpl(OpiWebServiceImpl.class);
 
-	/**
-	 * see {@link DomainApoService}.
-	 */
-//	private DomainApoService domainApoService;
 	/**
 	 * Can read the table of GeographiqueMetier in Apogee.
 	 */
 	private OpiMetierServiceInterface remoteApoRenOpiMetier;
-	
-	
-	/**
-	 * see {@link Transfert}.
-	 */
-	private Transfert transfert;
 
 	/**
-	 * Code type etab correspondant aux universitÃÂ©s.
+	 * Code type etab correspondant aux universités
 	 */
 	private String typeEtabUniv;
 	
@@ -89,23 +61,6 @@ public class OpiWebServiceImpl implements OpiWebService {
 	 * Code de l'etablissement.
 	 */
 	private String codEtabUniv;
-
-
-	/*
-	 *************************** INIT ************************************** */
-
-
-	/**
-	 * Constructor.
-	 */
-	public OpiWebServiceImpl() {
-		super();
-	}
-
-
-	/*
-	 *************************** METHODS *********************************** */
-
 
 	public synchronized Boolean launchWebService(final Individu individu, final List<IndVoeu> voeux) {
 		if (log.isDebugEnabled()) {
@@ -486,9 +441,6 @@ public class OpiWebServiceImpl implements OpiWebService {
 
 	/**
 	 * Mise a jour donnee OpiBac().
-	 * @param individu IndividuDTO
-	 * @param voeu VoeuxDTO
-	 * @return MAJOpiBacDTO
 	 */
 	private MAJOpiBacDTO mettreajourOpiBac(final Individu individu) {
 
@@ -524,9 +476,6 @@ public class OpiWebServiceImpl implements OpiWebService {
 
 	/**
 	 * Mise e jour donnee OpiBac().
-	 * @param individu IndividuDTO
-	 * @param voeu VoeuxDTO
-	 * @return MAJOpiBacDTO
 	 */
 	@SuppressWarnings("unused")
 	private MAJOpiDacDTO mettreajourOpiDac(final Individu individu) {
@@ -577,10 +526,6 @@ public class OpiWebServiceImpl implements OpiWebService {
 
 	/**
 	 * Mise e jour donnee OpiVoeux.
-	 * @param individu IndividuDTO
-	 * @param voeu VoeuxDTO
-	 * @param formation FormationDTO
-	 * @return MAJOpiVoeuDTO
 	 */
 	private MAJOpiVoeuDTO[] mettreajourOpiVoeux(
 			final Individu individu,
@@ -605,7 +550,7 @@ public class OpiWebServiceImpl implements OpiWebService {
 			                    new Avis()).getResult().getCodeApogee());
 			
 			//c pour acces libre et T pour acces selectif
-			if (wishes.get(i).getCodTypeTrait().equals(transfert.getCode())) {
+			if (wishes.get(i).getCodTypeTrait().equals(Transfert.code)) {
 				voeux[i].setCodDemDos("C");
 			} else {
 				voeux[i].setCodDemDos("T");
@@ -672,11 +617,6 @@ public class OpiWebServiceImpl implements OpiWebService {
 		return titre;
 	}
 
-
-	/**
-	 * @param ind
-	 * @return IndCursusScol the last cursus scol.
-	 */
 	@RequestCache
 	private IndCursusScol getLastCursus(final Individu ind) {
 		IndCursusScol cur = null;
@@ -704,49 +644,18 @@ public class OpiWebServiceImpl implements OpiWebService {
 		return cur;
 	}
 
-	/*
-	 *************************** ACCESSORS ********************************* */
-
-	/**
-	 * @param domainService the domainService to set
-	 */
-//	public void setDomainApoService(final DomainApoService domainApoService) {
-//		this.domainApoService = domainApoService;
-//	}
-	
-	/**
-	 * @return OpiMetierService
-	 */	
 	public OpiMetierServiceInterface getRemoteApoRenOpiMetier() {
 		return remoteApoRenOpiMetier;
 	}
-	
-	/**
-	 * @param remoteApoRenOpiMetier the remoteApoRenOpiMetier to set
-	 */
+
 	public void setRemoteApoRenOpiMetier(final OpiMetierServiceInterface remoteApoRenOpiMetier) {
 		this.remoteApoRenOpiMetier = remoteApoRenOpiMetier;
 	}
-	
-	/**
-	 * @param transfert the transfert to set
-	 */
-	public void setTransfert(final Transfert transfert) {
-		this.transfert = transfert;
-	}
 
-
-	/**
-	 * @param typeEtabUniv
-	 */
 	public void setTypeEtabUniv(final String typeEtabUniv) {
 		this.typeEtabUniv = typeEtabUniv;
 	}
 
-
-	/**
-	 * @param codEtabUniv
-	 */
 	public void setCodEtabUniv(final String codEtabUniv) {
 		this.codEtabUniv = codEtabUniv;
 	}

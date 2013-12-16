@@ -128,18 +128,11 @@
         <property name="cursusController" ref="cursusController"/>
         <property name="indBacController" ref="indBacController"/>
         <property name="situationController" ref="situationController"/>
-        <property name="individuPaginator" ref="paginatorIndividu"/>
         <property name="formulairesController" ref="formulairesController"/>
         <property name="isRecupCursus" value="${init.recupCursus}"/>
         <property name="isRecupBac" value="${init.recupBac}"/>
         <property name="isRecupInfos" value="${init.recupInfos}"/>
         <property name="ldapUserService" ref="ldapUserService"/>
-        <property name="typeTraitements">
-            <list>
-                <ref bean="accesSelectif" />
-                <ref bean="validationAcquis" />
-            </list>
-        </property>
     </bean>
 
     <bean id="adressController"
@@ -284,30 +277,10 @@
         <description>A bean to manage the access right.</description>
         <property name="accessTypes">
             <map>
-                <entry>
-                    <key>
-                        <value>READ</value>
-                    </key>
-                    <ref bean="accessRead"/>
-                </entry>
-                <entry>
-                    <key>
-                        <value>ADD</value>
-                    </key>
-                    <ref bean="accessAdd"/>
-                </entry>
-                <entry>
-                    <key>
-                        <value>UPDATE</value>
-                    </key>
-                    <ref bean="accessUpdate"/>
-                </entry>
-                <entry>
-                    <key>
-                        <value>DELETE</value>
-                    </key>
-                    <ref bean="accessDelete"/>
-                </entry>
+                <entry key="READ" value-ref="accessRead"/>
+                <entry key="ADD" value-ref="accessAdd"/>
+                <entry key="UPDATE" value-ref="accessUpdate"/>
+                <entry key="DELETE" value-ref="accessDelete"/>
             </map>
         </property>
     </bean>
@@ -366,7 +339,6 @@
         <property name="adressController" ref="adressController"/>
         <property name="castorService" ref="castorService"/>
         <property name="convocMember" ref="convocMember"/>
-        <property name="transfert" ref="transfert"/>
         <property name="managerUsed" value="${init.cmi.manager}"/>
         <property name="listCmiByRight" value="${init.listcmi.byright}"/>
         <property name="ldapAttrs" ref="ldapAttributes" />
@@ -384,8 +356,6 @@
           class="org.esupportail.opi.web.controllers.references.ConsultRdvController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage the consultRdv.</description>
-        <property name="individuPaginator" ref="paginatorIndividuPojo"/>
-        <property name="individuController" ref="individuController" />
     </bean>
 
     <bean id="etapeController"
@@ -421,18 +391,8 @@
         <property name="commissionController" ref="commissionController"/>
         <property name="calendarType">
             <map>
-                <entry>
-                    <key>
-                        <value>CAL_INS</value>
-                    </key>
-                    <value>Dépôt voeux</value>
-                </entry>
-                <entry>
-                    <key>
-                        <value>CAL_CMI</value>
-                    </key>
-                    <value>Commissions</value>
-                </entry>
+                <entry key="CAL_INS" value="Dépôt voeux"/>
+                <entry key="CAL_CMI" value="Commissions"/>
                 <!--<entry>
                     <key>
                         <value>CAL_TYP_TRT</value>
@@ -462,19 +422,8 @@
           class="org.esupportail.opi.web.controllers.opinions.TypeTraitController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage opinions and traitments.</description>
-        <property name="individuController" ref="individuController" />
-        <property name="typeTraitementTR" ref="transfert"/>
-        <property name="typeTraitementVA" ref="validationAcquis"/>
-        <property name="typeTraitementET" ref="enAttente"/>
         <property name="inscriptionAdm" ref="inscriptionAdm"/>
         <property name="smtpService" ref="smtpService"/>
-        <property name="typeTraitements">
-            <list>
-                <ref bean="validationAcquis"/>
-                <ref bean="transfert"/>
-                <ref bean="enAttente"/>
-            </list>
-        </property>
     </bean>
 
     <bean id="pjController"
@@ -482,11 +431,8 @@
           class="org.esupportail.opi.web.controllers.opinions.PJController"
           parent="abstractContextAwareController" scope="session">
         <description>A bean to manage pj missed.</description>
-        <property name="individuController" ref="individuController"/>
         <property name="commissionController" ref="commissionController"/>
         <property name="smtpService" ref="smtpService"/>
-        <property name="transfert" ref="transfert"/>
-        <property name="paginatorPM" ref="paginatorPM"/>
     </bean>
 
     <bean id="opinionController"
@@ -496,7 +442,6 @@
         <description>A bean to manage opinions.</description>
         <property name="nomenclatureController" ref="nomenclatureController"/>
         <property name="commissionController" ref="commissionController"/>
-        <property name="individuController" ref="individuController" />
         <property name="refused" ref="refused"/>
         <property name="preSelection" ref="preselection"/>
         <property name="listeComplementaire" ref="listeComplementaire"/>
@@ -536,8 +481,6 @@
         <property name="smtpService" ref="smtpService" />
         <property name="inscriptionAdm" ref="inscriptionAdm"/>
         <property name="refused" ref="refused"/>
-        <property name="transfert" ref="transfert"/>
-<!-- NOT USED IN CONTROLLER		<property name="ligneListePrepaPojo" ref="ligneListePrepaPojo"/> -->
     </bean>
 
 

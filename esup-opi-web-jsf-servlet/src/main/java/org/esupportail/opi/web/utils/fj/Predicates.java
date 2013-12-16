@@ -1,6 +1,5 @@
 package org.esupportail.opi.web.utils.fj;
 
-import fj.Equal;
 import fj.F;
 import fj.F2;
 import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
@@ -19,15 +18,15 @@ public final class Predicates {
     private Predicates() { throw new UnsupportedOperationException(); }
 
     /**
-     * Tests an {@link IndVoeuPojo}'s {@link TypeTraitement} for non-equality
+     * Tests an {@link IndVoeuPojo}'s {@link TypeTraitement} for equality
      * against {@code typeTraitement}
      *
      * @return true if non-equality is verified, false otherwise
      */
-    public static F<IndVoeuPojo, Boolean> typeTrtEquals(final TypeTraitement typeTraitement) {
+    public static F<IndVoeuPojo, Boolean> hasTypeTrt(final TypeTraitement typeTraitement) {
         return new F<IndVoeuPojo, Boolean>() {
             public Boolean f(final IndVoeuPojo indVoeuPojo) {
-                return indVoeuPojo.getTypeTraitement().equals(typeTraitement);
+                return indVoeuPojo.getTypeTraitement() == typeTraitement;
             }
         };
     }
