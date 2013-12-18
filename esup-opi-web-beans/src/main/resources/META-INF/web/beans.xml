@@ -27,32 +27,6 @@
 		<property name="i18Service" ref="i18nService"/>
 	</bean>
 
-
-	<!-- ****  TypeTraitement **** -->
-	<!--<bean id="transfert" class="org.esupportail.opi.domain.beans.parameters.typetrt.Transfert"-->
-		<!--scope="singleton">-->
-		<!--<property name="code" value="TR"/>-->
-		<!--<property name="label" value="Transfert"/>-->
-	<!--</bean>-->
-	<!---->
-	<!--<bean id="accesSelectif" class="org.esupportail.opi.domain.beans.parameters.typetrt.AccesSelectif"-->
-		<!--scope="singleton">-->
-		<!--<property name="code" value="AS"/>-->
-		<!--<property name="label" value="Accès sélectif"/>-->
-	<!--</bean>-->
-	<!---->
-	<!--<bean id="validationAcquis" class="org.esupportail.opi.domain.beans.parameters.typetrt.ValidationAcquis"-->
-		<!--scope="singleton">-->
-		<!--<property name="code" value="VA"/>-->
-		<!--<property name="label" value="Validation Acquis"/>-->
-	<!--</bean>-->
-
-	<!--<bean id="enAttente" class="org.esupportail.opi.domain.beans.parameters.typetrt.EnAttente"-->
-		<!--scope="singleton">-->
-		<!--<property name="code" value="ET"/>-->
-		<!--<property name="label" value="En Attente"/>-->
-	<!--</bean>-->
-
 	<!-- ****  TypeConvocation **** -->
 	<bean id="preselection" class="org.esupportail.opi.domain.beans.parameters.Preselection">
 		<property name="code" value="PS"/>
@@ -532,8 +506,7 @@
 	
 	<!-- ****  COMPONENTS **** -->
 	
-	<bean
-    	id="extendedEntryRenderer"
+	<bean id="extendedEntryRenderer"
     	class="org.esupportail.opi.web.beans.components.ExtendedEntryRenderer"
     	scope="session">
     	<description>A bean to manage entry renderer</description>
