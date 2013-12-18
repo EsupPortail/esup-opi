@@ -122,7 +122,7 @@ public final class PaginationFunctions {
         };
     }
 
-    public static F2<String, Individu, Boolean> findByRowKey = new F2<String, Individu, Boolean>() {
+    public static final F2<String, Individu, Boolean> findByRowKey = new F2<String, Individu, Boolean>() {
         public Boolean f(String rowKey, Individu individu) {
             return individu.getId().toString().equals(rowKey);
         }

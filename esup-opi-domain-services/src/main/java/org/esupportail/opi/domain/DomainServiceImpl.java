@@ -631,7 +631,6 @@ public final class DomainServiceImpl implements DomainService {
 		daoService.addUser(gest);
 		log.info("user '" + gest.getLogin()
 				+ "' has been added to the database");
-
 	}
 
 	/**
@@ -639,41 +638,26 @@ public final class DomainServiceImpl implements DomainService {
 	 * org.esupportail.opi.domain.beans.user.Gestionnaire)
 	 */
 	public Boolean gestionnaireLoginIsUnique(final Gestionnaire manager) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering gestionnaireLoginIsUnique( " + manager + " )");
-		}
-		Gestionnaire g = daoService.getManager(manager.getLogin());
-		if (g != null && !g.equals(manager)) {
-			return false;
-		} 
-		
-		return true;
-	}
+		if (log.isDebugEnabled())
+            log.debug("entering gestionnaireLoginIsUnique( " + manager + " )");
+		final Gestionnaire g = daoService.getManager(manager.getLogin());
+        return g == null || g.equals(manager);
+    }
 
-	/** 
-	 * @see org.esupportail.opi.domain.DomainService#hasGestionnaireRightsOnStudent(
-	 * java.util.Set, java.util.Set)
-	 */
-	public Boolean hasGestionnaireRightsOnStudent(final Set<IndVoeu> lesVoeux,
+
+	@SuppressWarnings("LoopStatementThatDoesntLoop")
+    public Boolean hasGestionnaireRightsOnStudent(final Set<IndVoeu> lesVoeux,
                                                   final Set<Commission> lesCommissions) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering hasGestionnaireRightsOnStudent( " + lesVoeux + " ---- "
-			+ lesCommissions + " )");
-		}
+		if (log.isDebugEnabled())
+            log.debug("entering hasGestionnaireRightsOnStudent( " + lesVoeux + " ---- " + lesCommissions + " )");
 		if (lesVoeux == null ) { return false; }
 		if (lesCommissions == null) { return false; }
-		boolean result = false;
-		for (IndVoeu indVoeu : lesVoeux) {
-			for (Commission commission : lesCommissions) {
-				for (TraitementCmi traitementCmi : commission.getTraitementCmi()) {
-					if (traitementCmi.getVersionEtpOpi().equals(indVoeu.getLinkTrtCmiCamp()
-							.getTraitementCmi().getVersionEtpOpi())) {
-						return true;
-					}
-				}
-			}
-		}
-		return result;
+        for (IndVoeu indVoeu : lesVoeux)
+            for (Commission commission : lesCommissions)
+                for (TraitementCmi traitementCmi : commission.getTraitementCmi())
+                    return traitementCmi.getVersionEtpOpi().equals(
+                            indVoeu.getLinkTrtCmiCamp().getTraitementCmi().getVersionEtpOpi());
+		return false;
 	}
 	
 	// ////////////////////////////////////////////////////////////

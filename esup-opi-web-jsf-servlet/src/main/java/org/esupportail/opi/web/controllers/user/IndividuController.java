@@ -59,15 +59,8 @@ import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.AccesSe
 import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.ValidationAcquis;
 import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
-
-/**
- * @author cleprous
- */
 public class IndividuController extends AbstractAccessController {
 
-    /**
-     * The serialization id.
-     */
     private static final long serialVersionUID = 1739075202274589002L;
 
     /**
@@ -171,15 +164,6 @@ public class IndividuController extends AbstractAccessController {
      */
     private SituationController situationController;
 
-//    /**
-//     * see {@link IndividuPaginator}.
-//     */
-//    private IndividuPaginator individuPaginator;
-
-    private IndRechPojo indRechPojo = new IndRechPojo() {{
-        this.setTypeTraitements(asList(ValidationAcquis, AccesSelectif));
-    }};
-
     /**
      * see {@link FormulairesController}.
      */
@@ -195,7 +179,14 @@ public class IndividuController extends AbstractAccessController {
      */
     private String checkEmail;
 
+    /**
+     * Used to know if the list cmi has to be filtered by right
+     */
+    private boolean listCmiByRight;
+
     private boolean renderTable = false;
+
+    private IndRechPojo indRechPojo;
 
     private final LazyDataModel<Individu> indLDM = lazyModel(
             PaginationFunctions.getData(
@@ -246,6 +237,10 @@ public class IndividuController extends AbstractAccessController {
                 "property situationController of class " + this.getClass().getName() + CAN_NO_BE_NULL);
         Assert.notNull(this.formulairesController,
                 "property formulairesController of class " + this.getClass().getName() + CAN_NO_BE_NULL);
+
+        indRechPojo = new IndRechPojo() {{
+            setUseGestCommsFilter(listCmiByRight);
+        }};
     }
 
     @Override
@@ -414,10 +409,7 @@ public class IndividuController extends AbstractAccessController {
      */
     public String goSeeCursus() {
         pojoIndividu = getCurrentInd();
-        indBacController.initIndBac(
-                new ArrayList<>(
-                        pojoIndividu.getIndividu().getIndBac()), false);
-
+        indBacController.initIndBac(new ArrayList<>(pojoIndividu.getIndividu().getIndBac()), false);
         return NavigationRulesConst.SEE_CURSUS;
     }
 
@@ -466,8 +458,8 @@ public class IndividuController extends AbstractAccessController {
     public String goSeeOneIndividu() {
         //put true boolean isManager attribute in indPojo
         //put the boolean canUpdateStudent atttribute in indPojo
-        Set<Commission> rightOnCmi = new HashSet<Commission>(getDomainApoService().getListCommissionsByRight(
-                getCurrentGest(), true));
+        final Set<Commission> rightOnCmi =
+                new HashSet<>(getDomainApoService().getListCommissionsByRight(getCurrentGest(), true));
 
         pojoIndividu.setIndividu(getDomainService().getIndividu(
                 pojoIndividu.getIndividu().getNumDossierOpi(),
@@ -569,16 +561,10 @@ public class IndividuController extends AbstractAccessController {
         addInfoMessage(null, "INFO.CANDIDAT.MAIL_OK");
         return NavigationRulesConst.DISPLAY_STUDENT;
     }
-	
-	
-	
-	/*
-	 ******************* METHODS ********************** */
+
 
     /**
      * add a student (by a gestionnaire manager).
-     *
-     * @return String
      */
     public String addIndGestionnaire() {
         if (log.isDebugEnabled()) {
@@ -602,8 +588,6 @@ public class IndividuController extends AbstractAccessController {
     }
 
     /**
-     * @param attributName
-     * @param attribut
      * @return a List de user ldap si ils sont enregistrés dans LDAP
      */
     public List<LdapUser> isInLdap(String attributName, String attribut) {
@@ -617,16 +601,12 @@ public class IndividuController extends AbstractAccessController {
     /**
      * Initialisation de l'individu à partir de l'individu Apogée.
      * Si on a un individu dans Opi
-     *
-     * @param individuOPI
-     * @param individuApogee
      */
     public void initIndividuFromApogee(final Individu individuOPI, final Individu individuApogee) {
         if (log.isDebugEnabled()) {
             log.debug("entering initIndividuFromApogee(individuOPI "
                     + individuOPI + ", individuApogee " + individuApogee + " ) ");
         }
-
         if (individuOPI != null) {
             // si individuOPI != null, on est dans un cas de mise à jour de dossier
             etatDossier = DOSSIER_UPDATE;
@@ -744,22 +724,6 @@ public class IndividuController extends AbstractAccessController {
         }
     }
 
-//    public void initIndRechPojo() {
-//        if (!FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest()) {
-//            indRechPojo = new IndRechPojo();
-//            final SessionController sessionController = getSessionController();
-//            final User user = sessionController.getCurrentUser();
-//            if (user != null && user instanceof Gestionnaire) {
-//                Gestionnaire gest = (Gestionnaire) user;
-//                int codeRI = gest.getProfile().getCodeRI();
-//                RegimeInscription regimeIns = sessionController.getRegimeIns().get(codeRI);
-//                indRechPojo.getListeRI().add(regimeIns);
-//                indRechPojo.setCanModifyRISearch(regimeIns.canModifyRISearch());
-//                indRechPojo.setTypeTraitements(asList(ValidationAcquis, AccesSelectif));
-//            }
-//        }
-//    }
-
     public void useVoeuFilter(Boolean bool) {
         indRechPojo.setUseVoeuFilter(bool);
     }   
@@ -790,7 +754,6 @@ public class IndividuController extends AbstractAccessController {
     public void initAllPojo() {
         //init individu
         initIndividuPojo();
-
         // init adress
         Adresse a = pojoIndividu.getIndividu()
                 .getAdresses().get(Constantes.ADR_FIX);
@@ -802,7 +765,6 @@ public class IndividuController extends AbstractAccessController {
         cursusController.initCursusList(
                 new ArrayList<>(
                         pojoIndividu.getIndividu().getCursusScol()));
-
         //init indBac
         indBacController.initIndBac(new ArrayList<>(pojoIndividu.getIndividu().getIndBac()), false);
     }
@@ -872,17 +834,13 @@ public class IndividuController extends AbstractAccessController {
         }
 
         // affiliation à la campagne en cours
-
-        pojoIndividu.getIndividu().getCampagnes().add(
-                getParameterService().getCampagneEnServ(codeRI));
+        pojoIndividu.getIndividu().getCampagnes().add(getParameterService().getCampagneEnServ(codeRI));
 
         pojoIndividu.setIndividu(toUpperCaseAnyAttributs(pojoIndividu.getIndividu()));
 
-
         getDomainService().addUser(pojoIndividu.getIndividu());
 
-        log.info("save to database the individu with the num dossier = "
-                + pojoIndividu.getIndividu().getNumDossierOpi());
+        log.info("save to database the individu with the num dossier = " + pojoIndividu.getIndividu().getNumDossierOpi());
     }
 
 
@@ -892,16 +850,8 @@ public class IndividuController extends AbstractAccessController {
      * @return to accueil
      */
     public String addFullInd() {
-        if (log.isDebugEnabled()) {
+        if (log.isDebugEnabled())
             log.debug("entering addFullInd with individu = " + pojoIndividu.getIndividu());
-        }
-
-//		getDomainService().initOneProxyHib(pojoIndividu.getIndividu(), 
-//				pojoIndividu.getIndividu().getCampagnes(), Campagne.class);
-
-        //l'etat est forcement complet
-
-
         //On teste si le dossier n'a pas déja été créé.
         if (getDomainService().getIndividu(
                 pojoIndividu.getIndividu().getNumDossierOpi(),
@@ -910,7 +860,6 @@ public class IndividuController extends AbstractAccessController {
                     .getIndividu().getNumDossierOpi());
             return NavigationRulesConst.GET_NUM_DOSSIER;
         }
-
         pojoIndividu.getIndividu().setState(EtatComplet.getCodeLabel());
 
         if (etatDossier != null && etatDossier.equals(DOSSIER_CREATE)) {
@@ -930,9 +879,7 @@ public class IndividuController extends AbstractAccessController {
         situationController.add(pojoIndividu.getIndividu());
 
         //Send email
-
-        pojoIndividu.getRegimeInscription()
-                .sendCreateDos(pojoIndividu.getIndividu());
+        pojoIndividu.getRegimeInscription().sendCreateDos(pojoIndividu.getIndividu());
 
         getSessionController().initCurrentInd(
                 pojoIndividu.getIndividu().getNumDossierOpi(),
@@ -942,9 +889,8 @@ public class IndividuController extends AbstractAccessController {
         addInfoMessage(null, "INFO.CANDIDAT.SAVE_OK");
         addInfoMessage(null, "INFO.CANDIDAT.SEND_MAIL.NUM_DOS");
 
-        if (log.isDebugEnabled()) {
+        if (log.isDebugEnabled())
             log.debug("leaving add");
-        }
         return NavigationRulesConst.GET_NUM_DOSSIER;
     }
 
@@ -952,28 +898,19 @@ public class IndividuController extends AbstractAccessController {
      * Initialisation de l'adresse.
      */
     public void initAdresse() {
-        if (pojoIndividu.getIndividu().getAdresses().get(Constantes.ADR_FIX) != null) {
-            adressController.init(
-                    pojoIndividu.getIndividu()
-                            .getAdresses().get(Constantes.ADR_FIX), false);
-        }
+        if (pojoIndividu.getIndividu().getAdresses().get(Constantes.ADR_FIX) != null)
+            adressController.init(pojoIndividu.getIndividu().getAdresses().get(Constantes.ADR_FIX), false);
     }
 
     /**
      * Update the individu.
      */
     public void update() {
-        if (getActionEnum().getWhatAction().equals(ActionEnum.UPDATE_ACTION)
-                &&  ctrlEnterMail()                    
-                ) {
-            boolean haveToInit = false;
-            if ((StringUtils.isNotBlank(pojoIndividu.getIndividu()
-                    .getCodDepPaysNaissance()))
-                    || StringUtils.isNotBlank(pojoIndividu.getIndividu()
-                    .getCodPayNaissance())) {
-                haveToInit = true;
-            }
-            
+        if (getActionEnum().getWhatAction().equals(ActionEnum.UPDATE_ACTION) &&  ctrlEnterMail()) {
+            final boolean haveToInit =
+                    StringUtils.isNotBlank(pojoIndividu.getIndividu().getCodDepPaysNaissance()) ||
+                            StringUtils.isNotBlank(pojoIndividu.getIndividu().getCodPayNaissance());
+
             pojoIndividu.setIndividu(toUpperCaseAnyAttributs(pojoIndividu.getIndividu()));
 
             // on ajoute éventuellement la nouvelle campagne correspondant au régime d'inscription
@@ -982,11 +919,10 @@ public class IndividuController extends AbstractAccessController {
                 Campagne campEnCours = getParameterService().getCampagneEnServ(codeRI);
                 Campagne campDel = null;
 
-                for (Campagne camp : pojoIndividu.getIndividu().getCampagnes()) {
-                    if (camp.getCodAnu().equals(campEnCours.getCodAnu())) {
+                for (Campagne camp : pojoIndividu.getIndividu().getCampagnes())
+                    if (camp.getCodAnu().equals(campEnCours.getCodAnu()))
                         campDel = camp;
-                    }
-                }
+
                 if (campDel == null) {
                     pojoIndividu.getIndividu().getCampagnes().add(campEnCours);
                 } else {
@@ -1106,7 +1042,7 @@ public class IndividuController extends AbstractAccessController {
      * @return List<SelectItem>
      */
     public List<SelectItem> getCiviliteItems() {
-        List<SelectItem> s = new ArrayList<SelectItem>();
+        List<SelectItem> s = new ArrayList<>();
         s.add(new SelectItem("", ""));
         s.add(new SelectItem(Constantes.COD_SEXE_FEMININ, getString(Constantes.I18N_CIV_MM)));
         s.add(new SelectItem(Constantes.COD_SEXE_MASCULIN, getString(Constantes.I18N_CIV_MR)));
@@ -1382,7 +1318,6 @@ public class IndividuController extends AbstractAccessController {
         return indBacController;
     }
 
-
     public SituationController getSituationController() {
         return situationController;
     }
@@ -1451,8 +1386,6 @@ public class IndividuController extends AbstractAccessController {
         this.ldapUserService = ldapUserService;
     }
 
-    //public LazyDataModel<Individu> getIndLDM() { return indLDM; }
-
     public boolean isRenderTable() {
         return renderTable;
     }
@@ -1468,4 +1401,12 @@ public class IndividuController extends AbstractAccessController {
     public IndRechPojo getIndRechPojo() { return indRechPojo; }
 
     public LazyDataModel<Individu> getIndLDM() { return indLDM; }
+
+    public void setListCmiByRight(boolean listCmiByRight) {
+        this.listCmiByRight = listCmiByRight;
+    }
+
+    public boolean getListCmiByRight() {
+        return listCmiByRight;
+    }
 }

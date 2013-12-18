@@ -133,6 +133,7 @@
         <property name="isRecupBac" value="${init.recupBac}"/>
         <property name="isRecupInfos" value="${init.recupInfos}"/>
         <property name="ldapUserService" ref="ldapUserService"/>
+        <property name="listCmiByRight" value="${init.listcmi.byright}"/>
     </bean>
 
     <bean id="adressController"

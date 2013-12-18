@@ -1,5 +1,6 @@
 package org.esupportail.opi.web.controllers.opinions;
 
+import fj.Effect;
 import fj.F;
 import fj.P1;
 import fj.control.parallel.Strategy;
@@ -18,7 +19,6 @@ import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.beans.parameters.InscriptionAdm;
 import org.esupportail.opi.domain.beans.parameters.Refused;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
-import org.esupportail.opi.domain.beans.references.calendar.CalendarCmi;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.ContactCommission;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
@@ -78,11 +78,12 @@ import static fj.data.Option.some;
 import static fj.data.Stream.iterableStream;
 import static fj.function.Booleans.not;
 import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.Transfert;
+import static org.esupportail.opi.utils.Constantes.ADR_FIX;
+import static org.esupportail.opi.utils.Constantes.DATE_FORMAT;
+import static org.esupportail.opi.web.beans.utils.Utilitaires.convertDateToString;
 import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
 import static org.esupportail.opi.web.utils.fj.Functions.getRICode;
 import static org.esupportail.opi.web.utils.fj.Predicates.hasTypeTrt;
-import static org.esupportail.opi.web.utils.fj.Predicates.indWithVoeux;
-import static org.esupportail.opi.web.utils.fj.parallel.ParallelModule.parMod;
 import static org.esupportail.opi.web.utils.io.SuperCSV.*;
 import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
 
@@ -234,7 +235,6 @@ public class PrintOpinionController extends AbstractContextAwareController {
 
     public PrintOpinionController() {
         super();
-
     }
 
     @Override
@@ -268,12 +268,8 @@ public class PrintOpinionController extends AbstractContextAwareController {
         Assert.notNull(this.exportFormOrbeonController,
                 "property exportFormOrbeonController of class " + this.getClass().getName()
                         + " can not be null");
-
         reset();
     }
-
-    /*
-          ******************* CALLBACK ********************** */
 
     /**
      * Callback for the print of opinions.
@@ -294,8 +290,6 @@ public class PrintOpinionController extends AbstractContextAwareController {
         reset();
         return NavigationRulesConst.DISPLAY_PRINT_TR_OPINIONS;
     }
-    /*
-          ******************* METHODS ********************** */
 
     /**
      * Find student.
@@ -502,9 +496,8 @@ public class PrintOpinionController extends AbstractContextAwareController {
      */
     @Deprecated
     public String csvGeneration(final List<IndividuPojo> individus, final String fileName) {
-        if (champsChoisis == null) {
+        if (champsChoisis == null)
             champsChoisis = HEADER_CVS.toArray(new String[HEADER_CVS.size()]);
-        }
         List<LigneCSV> listePrepa = new ArrayList<>(); //indPojoToLignes(individus);
         try {
             ExportUtils.superCsvGenerate(listePrepa, champsChoisis, fileName);
@@ -524,7 +517,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
         Individu i = ind.getIndividu();
         Pays pays = null;
         CommuneDTO commune = null;
-        Adresse adresse = i.getAdresses().get(Constantes.ADR_FIX);
+        Adresse adresse = i.getAdresses().get(ADR_FIX);
         if (adresse != null) {
             commune = getDomainApoService().getCommune(adresse.getCodCommune(), adresse.getCodBdi());
             pays = getDomainApoService().getPays(adresse.getCodPays());
@@ -634,10 +627,10 @@ public class PrintOpinionController extends AbstractContextAwareController {
 
                 if (v.getAvisEnService().getValidation()) {
                     ligne.setAvis_date_validation(ExportUtils.isNotNull(
-                            Utilitaires.convertDateToString(
+                            convertDateToString(
                                     v.getAvisEnService().
                                             getDateModifEnr(),
-                                    Constantes.DATE_FORMAT)));
+                                    DATE_FORMAT)));
                 } else {
                     ligne.setAvis_date_validation("");
                 }
@@ -687,19 +680,16 @@ public class PrintOpinionController extends AbstractContextAwareController {
                         return ip;
                     }
                 });
-        final Stream<String> indsIds =
-                iterableStream(getDomainService().getIndsIds(laCommission, onlyValidate, listeRI));
-
-        return parMod.parMap(indsIds, fetchInd.andThen(buildPojos))
-                .fmap(Stream.<IndividuPojo>filter().f(indWithVoeux()))
-                .claim();
-        // TODO : see if the below is more efficient
-//        final List<String> indsIds = getDomainService().getIndsIds(laCommission, onlyValidate, listeRI);
-//        final Strategy<IndividuPojo> strat = Strategy.executorStrategy(ParallelModule.pool);
-//        return strat.parMap(fetchInd.andThen(buildPojos), array(indsIds.toArray(new String[indsIds.size()])))
-//                .map(Conversions.<IndividuPojo>Array_Stream())
-//                ._1()
-//                .filter(indWithVoeux());
+        final List<String> indsIds = getDomainService().getIndsIds(laCommission, onlyValidate, listeRI);
+        final Strategy<IndividuPojo> strat =
+                Strategy.<IndividuPojo>executorStrategy(ParallelModule.pool).errorStrategy(new Effect<Error>() {
+                    public void e(Error error) {
+                        error.printStackTrace();
+                    }
+                });
+        return strat.parMap(fetchInd.andThen(buildPojos), array(indsIds.toArray(new String[indsIds.size()])))
+                .map(Conversions.<IndividuPojo>Array_Stream())
+                ._1();
     }
 
     /**
@@ -890,12 +880,11 @@ public class PrintOpinionController extends AbstractContextAwareController {
                 String fileNamePdf = "commission_" + laCommission.getCode() + ".pdf";
                 List<NotificationOpinion> lesNotifs = this.pdfData.get(laCommission);
 
-                for (NotificationOpinion n : lesNotifs) {
+                for (NotificationOpinion n : lesNotifs)
                     if (printOnlyDef) {
                         n.setVoeuxFavorable(new HashSet<IndVoeuPojo>());
                         n.setVoeuxFavorableAppel(new HashSet<IndVoeuPojo>());
                     }
-                }
                 castorService.objectToFileXml(lesNotifs, fileNameXml);
                 CastorService cs = (CastorService) castorService;
                 if (lesCommissions.size() > 1) {
@@ -996,13 +985,6 @@ public class PrintOpinionController extends AbstractContextAwareController {
 
     /**
      * Initialisation pojo.
-     *
-     * @param i
-     * @param laCommission
-     * @param indVoeuPojoFav
-     * @param indVoeuPojoDef
-     * @param indVoeuPojoFavAppel
-     * @param indVoeuPojoDefAppel
      * @return NotificationOpinion
      */
     private NotificationOpinion initNotificationOpinion(
@@ -1030,43 +1012,23 @@ public class PrintOpinionController extends AbstractContextAwareController {
                 Utilitaires.getCodeRIIndividu(i.getIndividu(), getDomainService()));
         AdressePojo aPojo = null;
         if (contactCommission != null) {
-            aPojo = new AdressePojo(contactCommission.getAdresse(),
-                    getDomainApoService());
+            aPojo = new AdressePojo(contactCommission.getAdresse(), getDomainApoService());
             notificationOpinion.setCoordonneesContact(aPojo);
         }
-        aPojo = null;
-        //init hib proxy adresse
-        getDomainService().initOneProxyHib(i.getIndividu(),
-                i.getIndividu().getAdresses(), Adresse.class);
-        if (i.getIndividu().getAdresses() != null) {
-            if (i.getIndividu().getAdresses().get(Constantes.ADR_FIX) != null) {
-                aPojo = new AdressePojo(i.getIndividu().getAdresses().
-                        get(Constantes.ADR_FIX), getDomainApoService());
-            }
-        }
-        if (laCommission.getCalendarCmi() != null) {
-            getDomainService().initOneProxyHib(
-                    laCommission,
-                    laCommission.getCalendarCmi(),
-                    CalendarCmi.class);
-            if (laCommission.getCalendarCmi().getEndDatConfRes() != null) {
-                notificationOpinion.setDateCloture(
-                        Utilitaires.convertDateToString(laCommission.
-                                getCalendarCmi().getEndDatConfRes(),
-                                Constantes.DATE_FORMAT));
-            }
-        }
+        if (i.getIndividu().getAdresses() != null && i.getIndividu().getAdresses().get(ADR_FIX) != null)
+            aPojo = new AdressePojo(i.getIndividu().getAdresses().get(ADR_FIX), getDomainApoService());
+
+        if (laCommission.getCalendarCmi() != null && laCommission.getCalendarCmi().getEndDatConfRes() != null)
+            notificationOpinion.setDateCloture(convertDateToString(laCommission.getCalendarCmi().getEndDatConfRes(), DATE_FORMAT));
 
         SignataireDTO s = null;
         Integer codeRI = i.getCampagneEnServ(getDomainService()).getCodeRI();
-        if (StringUtils.hasText(laCommission.getContactsCommission()
-                .get(codeRI).getCodSig())) {
-            s = getDomainApoService().getSignataire(laCommission.getContactsCommission()
-                    .get(codeRI).getCodSig());
-        }
+
+        if (StringUtils.hasText(laCommission.getContactsCommission().get(codeRI).getCodSig()))
+            s = getDomainApoService().getSignataire(laCommission.getContactsCommission().get(codeRI).getCodSig());
+
         notificationOpinion.setSignataire(s);
-        notificationOpinion.setNomCommission(laCommission.getContactsCommission()
-                .get(codeRI).getCorresponding());
+        notificationOpinion.setNomCommission(laCommission.getContactsCommission().get(codeRI).getCorresponding());
         notificationOpinion.setAdresseEtu(aPojo);
 
         return notificationOpinion;
@@ -1118,12 +1080,11 @@ public class PrintOpinionController extends AbstractContextAwareController {
      */
     private List<TypeDecision> buildSelectedTypeDecision() {
         List<TypeDecision> result = new ArrayList<>();
-        for (Object o : this.resultSelected) {
+        for (Object o : this.resultSelected)
             if (o instanceof TypeDecision) {
                 TypeDecision t = (TypeDecision) o;
                 result.add(t);
             }
-        }
         return result;
     }
 

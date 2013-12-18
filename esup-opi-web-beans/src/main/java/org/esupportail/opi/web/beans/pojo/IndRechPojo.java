@@ -95,33 +95,24 @@ public class IndRechPojo {
 	}
 
 	public String getNumDossierOpiRecherche() {
-		if (numDossierOpiRecherche != null) {
-			return numDossierOpiRecherche.toUpperCase();
-		}
-		return numDossierOpiRecherche;
-	}
+        return numDossierOpiRecherche != null ? numDossierOpiRecherche.toUpperCase() : numDossierOpiRecherche;
+    }
 
 	public void setNumDossierOpiRecherche(final String numDossierOpiRecherche) {
 		this.numDossierOpiRecherche = numDossierOpiRecherche;
 	}
 
 	public String getNomRecherche() {
-		if (nomRecherche != null) {
-			return nomRecherche.toUpperCase();
-		}
-		return nomRecherche;
-	}
+        return nomRecherche != null ? nomRecherche.toUpperCase() : nomRecherche;
+    }
 
 	public void setNomRecherche(final String nomRecherche) {
 		this.nomRecherche = nomRecherche;
 	}
 
 	public String getPrenomRecherche() {
-		if (prenomRecherche != null) {
-			return prenomRecherche.toUpperCase();
-		}
-		return prenomRecherche;
-	}
+        return prenomRecherche != null ? prenomRecherche.toUpperCase() : prenomRecherche;
+    }
 
 	public void setPrenomRecherche(final String prenomRecherche) {
 		this.prenomRecherche = prenomRecherche;

@@ -8,6 +8,7 @@ import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.beans.etat.EtatVoeu;
+import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
 import org.esupportail.opi.domain.beans.user.candidature.MissingPiece;
@@ -31,8 +32,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static java.util.Arrays.asList;
 import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatArriveComplet;
 import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatArriveIncomplet;
+import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.AccesSelectif;
+import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.ValidationAcquis;
 import static org.esupportail.opi.web.utils.DTOs.commissionDTO;
 import static org.esupportail.opi.web.utils.fj.Conversions.individuToPojo;
 import static org.esupportail.opi.web.utils.paginator.LazyDataModel.lazyModel;
@@ -96,7 +100,10 @@ public class PJController extends AbstractContextAwareController {
      */
     private MissingPiecePojo mpPojoSelected;
 
-    private IndRechPojo indRechPojo = new IndRechPojo();
+    private final IndRechPojo indRechPojo = new IndRechPojo() {{
+        setExcludeWishProcessed(true);
+        setTypeTraitements(asList(AccesSelectif, ValidationAcquis));
+    }};
 
     private final F<IndividuPojo, MissingPiecePojo> indPojoToMPPojo =
             new F<IndividuPojo, MissingPiecePojo>() {

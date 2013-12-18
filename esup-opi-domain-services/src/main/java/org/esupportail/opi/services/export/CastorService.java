@@ -3,9 +3,13 @@ package org.esupportail.opi.services.export;
 import static fj.P.p;
 import static fj.Unit.unit;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.management.RuntimeErrorException;
 
@@ -27,34 +31,20 @@ public class CastorService implements ISerializationService {
 	
 	final String xslXmlPath;
 
-	final Effect<P2<String, F<Writer, Unit>>> writeToFile = 
-			new Effect<P2<String, F<Writer,Unit>>>() {
-				public void e(P2<String, F<Writer, Unit>> tuple) {
-					Writer w = null;
-					try {
-						w = new FileWriter(tuple._1());
-						tuple._2().f(w);
-						w.flush();
-					} catch (Exception e) {
-						throw new ExportException("Problem opening or using a java.io.Writer : ", e);
-					} finally {
-						try {
-							if(w != null) {
-								w.close();
-							}							
-						} catch (IOException e) {
-							throw new ExportException("Problem closing a java.io.Writer : ", e);
-						}	
-					}}};
-				
-	
+    private void writeToFile(String fileName, F<Writer, Unit> f) {
+        try(BufferedWriter w = Files.newBufferedWriter(Paths.get(fileName), Charset.forName("UTF-8"))) {
+            f.f(w);
+            w.flush();
+        } catch (IOException e) {
+            throw new ExportException(e);
+        }
+    }
 	
 	public CastorService(final String xslXmlPath, final String castorMapping) {
 		this.xslXmlPath = xslXmlPath; 
 		final Mapping mp = new Mapping();
 		try {
-			mp.loadMapping(new InputSource(
-					new ClassPathResource(castorMapping).getInputStream()));
+			mp.loadMapping(new InputSource(new ClassPathResource(castorMapping).getInputStream()));
 			final XMLContext ctx = new XMLContext();
 			ctx.addMapping(mp);
 			marshaller = ctx.createMarshaller();
@@ -62,18 +52,15 @@ public class CastorService implements ISerializationService {
 			marshaller.setProperty("org.exolab.castor.xml.proxyInterfaces",
 					"net.sf.cglib.proxy.Factory, org.hibernate.proxy.HibernateProxy");
 		} catch (Exception e) {
-			throw new RuntimeErrorException(new Error(e));
+			throw new Error(e);
 		} 
 	}
-	
 
 	/**
 	 * Generate the xml in the file.
-	 * @param object 
-	 * @param fileName 
 	 */
 	public void objectToFileXml(final Object object, final String fileName ) {
-		writeToFile.e(p(xslXmlPath + fileName, (F<Writer, Unit>) new F<Writer, Unit>() {
+		writeToFile(xslXmlPath + fileName, new F<Writer, Unit>() {
 			public Unit f(Writer w) {
 				try {
 					marshaller.setWriter(w);
@@ -82,7 +69,7 @@ public class CastorService implements ISerializationService {
 					throw new ExportException("Problem while marshalling using castor : ", e);					
 				}
 				return unit();
-			}}));
+			}});
 	}
 	
 	

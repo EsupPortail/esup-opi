@@ -261,7 +261,7 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                         final Array<Individu> inds = array(individus.toArray(new Individu[individus.size()]));
                         inds.foreach(new Effect<Individu>() {
                             public void e(Individu individu) {
-                                List<IndVoeu> voeux =
+                                final List<IndVoeu> voeux =
                                         from(indVoeu)
                                                 .leftJoin(indVoeu.get("individu", Individu.class), ind)
                                                 .leftJoin(indVoeuAvis, avis)
@@ -320,8 +320,8 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
     public Individu fetchIndById(String id, Option<Boolean> onlyValidWishes) {
         final Map<Individu, Set<IndVoeu>> results =
                 from(indEnt)
-                        .leftJoin(indVoeux, indVoeu)
-                        .leftJoin(indVoeuAvis, avis)
+                        .innerJoin(indVoeux, indVoeu)
+                        .innerJoin(indVoeuAvis, avis)
                         .where(ind.getString("numDossierOpi").eq(id)
                                 .and(onlyValidWishes
                                         .option(p(oneIsOne).<BooleanExpression>constant(), validWishFilter)

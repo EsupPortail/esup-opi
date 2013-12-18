@@ -5,8 +5,6 @@
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
         <h:form id="seeOpinionsForm">
-            <!-- <f:event type="postValidate" listener="#{individuController.useTypeTrtFilter(true)}" /> -->
-            <!-- <f:event type="postValidate" listener="#{individuController.useGestCommsFilter(true)}" /> -->
             <p:blockUI block="maPage" trigger="choiceTypeDecision individuData individuData:checkAll search-button"
                        widgetVar="pageBlocker">
                 <p:graphicImage library="images" name="ajax-loader.gif" />
