@@ -25,7 +25,7 @@
 		</plugins>
 	</reporting> 
     <modules>
-        <!--<module>esup-opi-batch</module>-->
+        <module>esup-opi-batch</module>
         <module>esup-opi-dao</module>
         <module>esup-opi-utils</module>
         <module>esup-opi-domain-beans</module>
