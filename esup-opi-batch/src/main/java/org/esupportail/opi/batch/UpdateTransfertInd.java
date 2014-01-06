@@ -15,11 +15,12 @@ import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.beans.parameters.InscriptionAdm;
-import org.esupportail.opi.domain.beans.parameters.typetrt.Transfert;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
+
+import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.*;
 
 
 /**
@@ -47,12 +48,11 @@ public class UpdateTransfertInd  {
 	 */
 	private static void updateTransfert() {
 		DomainService domainService = (DomainService) ApplicationContextHolder.getContext().getBean("domainService");
-		Transfert transfert = (Transfert) ApplicationContextHolder.getContext().getBean("transfert");
 		try {
 
 			DatabaseUtils.open();
 			DatabaseUtils.begin();
-			List<Individu> individus = domainService.getIndividusWishes(null, transfert.getCode());
+			List<Individu> individus = domainService.getIndividusWishes(null, Transfert.code);
 			TypeDecision favorable = getFavorable();
 			if (favorable == null) {
 				throw new ConfigException(
@@ -63,7 +63,7 @@ public class UpdateTransfertInd  {
 			for (Individu i : individus) {
 				//on regarde les voeux en trasfert
 				for (IndVoeu iVoeu : i.getVoeux()) {
-					if (iVoeu.getCodTypeTrait().equals(transfert.getCode())) {
+					if (iVoeu.getCodTypeTrait().equals(Transfert.code)) {
 						if (iVoeu.getAvis() == null 
 								|| iVoeu.getAvis().isEmpty()) {
 							LOG.info("add avis for iVoeu = " + iVoeu);

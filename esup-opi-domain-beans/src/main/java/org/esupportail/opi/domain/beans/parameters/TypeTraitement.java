@@ -1,6 +1,5 @@
 package org.esupportail.opi.domain.beans.parameters;
 
-
 import static fj.Bottom.error;
 
 public enum TypeTraitement {
