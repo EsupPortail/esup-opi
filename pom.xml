@@ -88,9 +88,9 @@
             <url>https://mvn.esup-portail.org/content/repositories/snapshots</url>
         </snapshotRepository>
         <site>
-			<id>site-docs</id>
+	    <id>site-docs</id>
             <url>${site.url}</url>
-		</site> 
+	</site> 
     </distributionManagement>
     <scm>
     	<connection>scm:git:ssh://git@github.com/EsupPortail/esup-opi</connection>
