@@ -74,7 +74,7 @@ public interface ParameterService extends Serializable {
 	 * @param temEnSve 
 	 * @return Set< BeanProfile> 
 	 */
-	Set<BeanProfile> getProfiles(Boolean temEnSve);
+	List<BeanProfile> getProfiles(Boolean temEnSve);
 	
 	/**
 	 * Test if profile code is unique.

@@ -4,8 +4,6 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-
-
         <div id="maPage" class="div_body">
             <h1>
                 <span class="section-header">
@@ -18,17 +16,13 @@
             <h:form id="seeProfilsForm">
                 <p:outputPanel id="delete_panel">
                     <ui:fragment
-                            rendered="#{profilController.actionEnum.whatAction == profilController.actionEnum.deleteAction}">
+                        rendered="#{profilController.actionEnum.whatAction == profilController.actionEnum.deleteAction}">
                         <div id="div_subSectionDelete" class="div_subSection">
                             <ui:include src="_delete/_deleteProfil.xhtml"/>
                         </div>
                     </ui:fragment>
                 </p:outputPanel>
                 <div id="div_subSection" class="div_subSection">
-                    <br/>
-                    <br/>
-                    <br/>
-
                     <div id="blockFormInfo" class="blockForm">
                         <div style="width:100%;">
                             <div class="blockButton">
@@ -36,17 +30,15 @@
                                     <p:commandButton value="#{msgs['_.BUTTON.ADD']}"
                                                      immediate="true"
                                                      rendered="#{managedAccess.addAuthorized}"
-                                                     action="#{profilController.goEnterProfil}">
+                                                     action="#{profilController.goEnterProfil}"
+                                                     ajax="false">
                                         <f:setPropertyActionListener value="#{profilController.actionEnum.addAction}"
                                                                      target="#{profilController.actionEnum.whatAction}"/>
                                     </p:commandButton>
-                                    <!-- <p:commandButton value="#{msgs['_.BUTTON.BACK']}"
-                                        immediate="true"
-                                        action="#{managedAccess.goDisplayFunction}"/> -->
                                 </h:panelGroup>
                             </div>
                         </div>
-                        <p:dataTable var="beanProfil" value="#{profilController.beanProfileItems}"
+                        <p:dataTable var="beanProfil" value="#{profilController.beanProfile}"
                                      styleClass="displayInfo" alternateColors="false">
                             <p:column>
                                 <f:facet name="header">
@@ -86,7 +78,8 @@
                                                  styleClass="form-button-image"
                                                  immediate="true"
                                                  action="#{profilController.goSeeProfil}"
-                                                 title="#{msgs['_.BUTTON.DISPLAY']}">
+                                                 title="#{msgs['_.BUTTON.DISPLAY']}"
+                                                 ajax="false">
                                     <f:setPropertyActionListener value="#{beanProfil.profile}"
                                                                  target="#{profilController.profil}"/>
                                 </p:commandButton>
@@ -96,7 +89,8 @@
                                                  immediate="true"
                                                  rendered="#{managedAccess.updateAuthorized}"
                                                  action="#{profilController.goEnterProfil}"
-                                                 styleClass="form-button-image" title="#{msgs['BUTTON.UPDATE']}">
+                                                 styleClass="form-button-image" title="#{msgs['BUTTON.UPDATE']}"
+                                                 ajax="false">
                                     <f:setPropertyActionListener value="#{profilController.actionEnum.updateAction}"
                                                                  target="#{profilController.actionEnum.whatAction}"/>
                                     <f:setPropertyActionListener value="#{beanProfil.profile}"
@@ -118,18 +112,9 @@
                             </p:column>
                         </p:dataTable>
                     </div>
-                    <br/>
-                    <br/>
-                    <br/>
-
                 </div>
             </h:form>
         </div>
-
-        <script type="text/javascript">
-            highlightChildrenLiTags('navigationHeader:navigation');
-            highlightChildrenLiTags('navigationFooter:navigation');
-        </script>
     </ui:define>
 </ui:composition>
 

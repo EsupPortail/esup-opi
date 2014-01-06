@@ -284,13 +284,7 @@ public class MailExceptionMethods implements Serializable, InitializingBean {
 	 */
 	public String getSelectionPlace(final Selection selection) {
 		String htmlBody = "";
-		if (selection != null) {
-			htmlBody += " " + selection.getPlace();
-			//ne pas afficher dans le mail comment do the 26/05/2009
-//			htmlBody += " " + selection.getPeriodeAdmissibilite();
-//			htmlBody += " " + selection.getResultSelection();  
-//			htmlBody += " " + selection.getComment();
-		}
+		if (selection != null) htmlBody += " " + selection.getPlace();
 		return htmlBody;
 	}
 	

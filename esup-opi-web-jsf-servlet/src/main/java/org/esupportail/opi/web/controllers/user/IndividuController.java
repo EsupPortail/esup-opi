@@ -460,35 +460,31 @@ public class IndividuController extends AbstractAccessController {
         //put the boolean canUpdateStudent atttribute in indPojo
         final Set<Commission> rightOnCmi =
                 new HashSet<>(getDomainApoService().getListCommissionsByRight(getCurrentGest(), true));
+        final Individu unsafeInd = pojoIndividu.getIndividu();
+        final Individu ind = getDomainService().getIndividu(unsafeInd.getNumDossierOpi(), unsafeInd.getDateNaissance());
 
-        pojoIndividu.setIndividu(getDomainService().getIndividu(
-                pojoIndividu.getIndividu().getNumDossierOpi(),
-                pojoIndividu.getIndividu().getDateNaissance()));
+        pojoIndividu.setIndividu(ind);
 
         getSessionController().initCurrentInd(
-                pojoIndividu.getIndividu().getNumDossierOpi(),
-                pojoIndividu.getIndividu().getDateNaissance(),
+                ind.getNumDossierOpi(),
+                ind.getDateNaissance(),
                 true,
-                getDomainService().hasGestionnaireRightsOnStudent(
-                        pojoIndividu.getIndividu().getVoeux(),
-                        rightOnCmi));
-        getCurrentInd();
+                getDomainService().hasGestionnaireRightsOnStudent(ind.getVoeux(), rightOnCmi));
 
-        if (getCurrentInd().getEtat() == EtatIncomplet) {
+        final IndividuPojo curInd = getCurrentInd();
+
+        if (curInd.getEtat() == EtatIncomplet) {
             //on informe l'individu qu'il doit completer sur dossier avant de deposer de voeux
-            if (!getSessionController()
-                    .getCurrentInd()
-                    .getRegimeInscription()
-                    .getDisplayInfoFC())
+            if (!curInd.getRegimeInscription().getDisplayInfoFC())
                 addInfoMessage(null, "INFO.CANDIDAT.ETAT_INCOMPLET.1");
             else
                 addInfoMessage(null, "INFO.CANDIDAT.ETAT_INCOMPLET.1.FC");
             addInfoMessage(null, "INFO.CANDIDAT.ETAT_INCOMPLET.2");
         }
         // initialisation de la situation de l'individu si FC
-        if (getCurrentInd().getRegimeInscription() instanceof FormationContinue)
+        if (curInd.getRegimeInscription() instanceof FormationContinue)
             getSituationController().setIndSituation(
-                    getDomainService().getIndSituation(getCurrentInd().getIndividu()));
+                    getDomainService().getIndSituation(curInd.getIndividu()));
 
         formulairesController.reset();
         return NavigationRulesConst.ACCUEIL_CANDIDAT;
@@ -1396,6 +1392,11 @@ public class IndividuController extends AbstractAccessController {
 
     public void doRenderTable() {
         renderTable = true;
+    }
+
+    public void doNotRenderTable() {
+        if (!FacesContext.getCurrentInstance().isPostback())
+            this.renderTable = false;
     }
 
     public IndRechPojo getIndRechPojo() { return indRechPojo; }

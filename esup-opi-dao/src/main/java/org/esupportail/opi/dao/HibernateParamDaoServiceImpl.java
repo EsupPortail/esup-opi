@@ -5,6 +5,7 @@
 package org.esupportail.opi.dao;
 
 
+import com.mysema.query.jpa.JPQLQuery;
 import com.mysema.query.jpa.hibernate.HibernateQuery;
 import com.mysema.query.types.EntityPath;
 import com.mysema.query.types.path.EntityPathBase;
@@ -92,16 +93,24 @@ public class HibernateParamDaoServiceImpl extends AbstractSimpleHibernateDaoServ
 	private final Logger log = new LoggerImpl(getClass());
 
 
+    static final EntityPathBase<Traitement> trtBase = new EntityPathBase<>(Traitement.class, "trt");
+    static final PathBuilder<Traitement> trt = new PathBuilder<>(Traitement.class, trtBase.getMetadata());
 
-	/**
-	 * Bean constructor.
-	 */
+    static final EntityPathBase<Profile> profBase = new EntityPathBase<>(Profile.class, "profil");
+    static final PathBuilder<Profile> prof = new PathBuilder<>(Profile.class, profBase.getMetadata());
+
+    static final EntityPathBase<Commission> comBase = new EntityPathBase<>(Commission.class, "commission");
+    static final PathBuilder<Commission> com = new PathBuilder<>(Commission.class, comBase.getMetadata());
+
+    static final EntityPath<CalendarIns> calBase = new EntityPathBase<>(CalendarIns.class, "calendar");
+    static final PathBuilder<CalendarIns> cal = new PathBuilder<>(CalendarIns.class, calBase.getMetadata());
+
+    static final EntityPath<TraitementCmi> trtCmiBase = new EntityPathBase<>(TraitementCmi.class, "trtCmi");
+    static final PathBuilder<TraitementCmi> trtCmi = new PathBuilder<>(TraitementCmi.class, trtCmiBase.getMetadata());
+
 	public HibernateParamDaoServiceImpl() {
 		super();
 	}
-
-
-
 
 	//////////////////////////////////////////////////////////////
 	// Profile
@@ -132,9 +141,9 @@ public class HibernateParamDaoServiceImpl extends AbstractSimpleHibernateDaoServ
 				a.setTraitement(null);
 				deleteObject(a);
 			}
+            profile.getAccessRight().clear();
 		}
 		deleteObject(profile);
-
 	}
 
 	/**
@@ -153,16 +162,14 @@ public class HibernateParamDaoServiceImpl extends AbstractSimpleHibernateDaoServ
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Profile> getProfiles(final Boolean temEnSve) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering getProfiles( " + temEnSve + " )");
-		}
-		DetachedCriteria criteria = DetachedCriteria.forClass(Profile.class);
-		criteria.setFetchMode("gestionnaires", FetchMode.JOIN);
-		if (temEnSve != null) {
-			criteria.add(Restrictions.eq(IN_USE_ATTRIBUTE, temEnSve));
-		}
+		if (log.isDebugEnabled())
+            log.debug("entering getProfiles( " + temEnSve + " )");
 
-		return getHibernateTemplate().findByCriteria(criteria);
+        final JPQLQuery query = from(prof);
+
+        return temEnSve != null ?
+                query.where(prof.get(IN_USE_ATTRIBUTE).eq(temEnSve)).list(prof) :
+                query.list(prof);
 	}
 
 	/** 
@@ -318,15 +325,9 @@ public class HibernateParamDaoServiceImpl extends AbstractSimpleHibernateDaoServ
 	 */
 	@SuppressWarnings("unchecked")
 	public Traitement getTraitement(final Integer id) {
-		if (log.isDebugEnabled()) {
-			log.debug("entering getFonction( " + id + " )");
-		}
-		DetachedCriteria criteria = DetachedCriteria.forClass(Traitement.class);
-		criteria.setFetchMode("accessRight", FetchMode.JOIN).add(
-				Restrictions.eq(ID_ATTRIBUTE, id));
-
-		List<Fonction> f = getHibernateTemplate().findByCriteria(criteria);
-		return f.get(0);
+		if (log.isDebugEnabled())
+            log.debug("entering getFonction( " + id + " )");
+        return from(trt).where(trt.get(ID_ATTRIBUTE).eq(id)).uniqueResult(trt);
 	}
 
 	/**
@@ -814,15 +815,6 @@ public class HibernateParamDaoServiceImpl extends AbstractSimpleHibernateDaoServ
 
     @Override
     public Set<CalendarIns> getCalendars(VersionEtpOpi versionEtpOpi) {
-        EntityPathBase<Commission> comBase = new EntityPathBase<>(Commission.class, "commission");
-        PathBuilder<Commission> com = new PathBuilder<>(Commission.class, comBase.getMetadata());
-
-        EntityPath<CalendarIns> calBase = new EntityPathBase<>(CalendarIns.class, "calendar");
-        PathBuilder<CalendarIns> cal = new PathBuilder<>(CalendarIns.class, calBase.getMetadata());
-
-        EntityPath<TraitementCmi> trtCmiBase = new EntityPathBase<>(TraitementCmi.class, "trtCmi");
-        PathBuilder<TraitementCmi> trtCmi = new PathBuilder<>(TraitementCmi.class, trtCmiBase.getMetadata());
-
         return new HashSet<>(
                 from(comBase, calBase, trtCmiBase)
                         .where(com.get("id").eq(trtCmi.get("commission"))

@@ -1,89 +1,92 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
-    		<h1>
+    	    <h1>
                 <span class="section-header">
                     <h:outputText value="#{msgs['PROFIL.TITLE.SEE']}" />
                 </span>
             </h1>
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="updateProfilForm">
-    				<div id="blockFormInfo" class="blockForm">
-    					<div class="blockButton">
-    						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    							styleClass="tableJustWidthMax">
-    							<h:panelGroup />
-    							<h:panelGroup>
-    								<p:commandButton value="#{msgs['BUTTON.UPDATE']}"
-    									immediate="true"
-    									action="#{profilController.goEnterProfil}">
-    									<f:setPropertyActionListener value="#{profilController.actionEnum.updateAction}" target="#{profilController.actionEnum.whatAction}" />
-    								</p:commandButton>
-    								<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" 
-    									action="#{profilController.goSeeAllProfil}"
-    									immediate="true"/>
-    							</h:panelGroup>
-    						</h:panelGrid>
-    
-    					</div>
-    					<h:panelGrid styleClass="tableWidthMax" columns="2"
-    						columnClasses="col1UnDemi,col2UnDemi">
-    						<h:panelGroup>
-    							<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}  " for="code" />
-    							<h:outputText id="code"  
-    								value="#{profilController.profil.code}"/>
-    						</h:panelGroup>
-    						<h:panelGroup>
-    							<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}  " for="libelle" />
-    							<h:outputText id="libelle"
-    								value="#{profilController.profil.libelle}"/>
-    						</h:panelGroup>
-    					</h:panelGrid>
-    				</div>
-    				<br />
-    				<br />
-    				<br />
-    				<div id="blockFormFonction" class="blockForm">
-    					<p:dataTable id="functionData"  var="beanAccess" value="#{profilController.allAccess }"
-    						styleClass="paginatorData" alternateColors="true"
-    						rowIndexVar="variable" >
-    						<p:column>
-    							<f:facet name="header">
-    								<h:outputText value="#{msgs['DOMAIN']}" />
-    							</f:facet>
-    							<h:outputText value="#{beanAccess.traitement.domain.libelle}" rendered="#{beanAccess.isFunction}"/>
-    							<h:outputText value="#{beanAccess.traitement.libelle}" rendered="#{!beanAccess.isFunction}"/>
-    						</p:column>
-						<p:column>
-							<f:facet name="header">
-								<h:outputText value="#{msgs['FUNCTION']}" />
-							</f:facet>
-							<h:outputText value="#{beanAccess.traitement.libelle }" rendered="#{beanAccess.isFunction}"/>
-						</p:column>
-						<p:columns var="codeAccess" value="#{accessRController.codeAccessItems}" style="width:5%;">
-							<f:facet name="header">
-								<h:outputText value="#{accessRController.accessTypes[codeAccess].libelle} " />
-							</f:facet>
-							<p:graphicImage library="images" name="check2.gif"
-								rendered="#{beanAccess.theDroits[accessRController.accessTypes[codeAccess]] != null
-									and beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/>
-							<p:graphicImage library="images" name="check0.gif"
-								rendered="#{beanAccess.theDroits[accessRController.accessTypes[codeAccess]] != null
-									and !beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/>
-						</p:columns>
-					</p:dataTable>
-				</div>
-			</h:form>
-		</div>
+    	    <div id="div_subSection" class="div_subSection">
+    		<h:form id="updateProfilForm">
+    		    <div id="blockFormInfo" class="blockForm">
+    			<div class="blockButton">
+    			    <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+    					 styleClass="tableJustWidthMax">
+    				<h:panelGroup />
+    				<h:panelGroup>
+    				    <p:commandButton value="#{msgs['BUTTON.UPDATE']}"
+    						     immediate="true"
+    						     action="#{profilController.goEnterProfil}"
+                                                     ajax="false">
+    					<f:setPropertyActionListener value="#{profilController.actionEnum.updateAction}"
+                                                                     target="#{profilController.actionEnum.whatAction}" />
+    				    </p:commandButton>
+    				    <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}" 
+    						     action="#{profilController.goSeeAllProfil}"
+                                                     ajax="false"
+    						     immediate="true"/>
+    				</h:panelGroup>
+    			    </h:panelGrid>
+                            
+    			</div>
+    			<h:panelGrid styleClass="tableWidthMax" columns="2"
+    				     columnClasses="col1UnDemi,col2UnDemi">
+    			    <h:panelGroup>
+    				<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}  " for="code" />
+    				<h:outputText id="code"  
+    					      value="#{profilController.profil.code}"/>
+    			    </h:panelGroup>
+    			    <h:panelGroup>
+    				<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}  " for="libelle" />
+    				<h:outputText id="libelle"
+    					      value="#{profilController.profil.libelle}"/>
+    			    </h:panelGroup>
+    			</h:panelGrid>
+    		    </div>
+    		    <br />
+    		    <br />
+    		    <br />
+    		    <div id="blockFormFonction" class="blockForm">
+    			<p:dataTable id="functionData"  var="beanAccess" value="#{profilController.allAccess }"
+    				     styleClass="paginatorData" alternateColors="true"
+    				     rowIndexVar="variable" >
+    			    <p:column>
+    				<f:facet name="header">
+    				    <h:outputText value="#{msgs['DOMAIN']}" />
+    				</f:facet>
+    				<h:outputText value="#{beanAccess.traitement.domain.libelle}" rendered="#{beanAccess.isFunction}"/>
+    				<h:outputText value="#{beanAccess.traitement.libelle}" rendered="#{!beanAccess.isFunction}"/>
+    			    </p:column>
+			    <p:column>
+				<f:facet name="header">
+				    <h:outputText value="#{msgs['FUNCTION']}" />
+				</f:facet>
+				<h:outputText value="#{beanAccess.traitement.libelle }" rendered="#{beanAccess.isFunction}"/>
+			    </p:column>
+			    <p:columns var="codeAccess" value="#{accessRController.codeAccessItems}" style="width:5%;">
+				<f:facet name="header">
+				    <h:outputText value="#{accessRController.accessTypes[codeAccess].libelle} " />
+				</f:facet>
+				<p:graphicImage library="images" name="check2.gif"
+						rendered="#{beanAccess.theDroits[accessRController.accessTypes[codeAccess]] != null
+							  and beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/>
+				<p:graphicImage library="images" name="check0.gif"
+						rendered="#{beanAccess.theDroits[accessRController.accessTypes[codeAccess]] != null
+							  and !beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}"/>
+			    </p:columns>
+			</p:dataTable>
+		    </div>
+		</h:form>
+	    </div>
 	</div>
 	
 	<script type="text/javascript">
-    	highlightChildrenLiTags('navigationHeader:navigation');
-    	highlightChildrenLiTags('navigationFooter:navigation');
-    </script>
-</ui:define>
+    	    highlightChildrenLiTags('navigationHeader:navigation');
+    	    highlightChildrenLiTags('navigationFooter:navigation');
+        </script>
+    </ui:define>
 </ui:composition>

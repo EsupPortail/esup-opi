@@ -261,8 +261,8 @@ public class BusinessCacheServiceImpl
 			log.debug("entering getSignataire(" + codSig +" )");
 		}
 		
-		// dans le cas ou le cache ne contient pas l'ÃÂ©tape ou si le cache a ÃÂ©tÃÂ© flushÃÂ©
-		// on rÃÂ©initialise le cache
+		// dans le cas ou le cache ne contient pas l'ÃÂ©tape ou si le cache a été flushé
+		// on réinitialise le cache
 		if (cacheSign.get(codSig) == null) {
 			initCacheSignataire();
 		}

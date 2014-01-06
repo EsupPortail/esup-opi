@@ -5,6 +5,8 @@
 package org.esupportail.opi.web.beans;
 
 
+import com.googlecode.ehcache.annotations.Cacheable;
+import org.esupportail.commons.annotations.cache.SessionCache;
 import org.esupportail.commons.exceptions.WebFlowException;
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.commons.services.i18n.I18nUtils;
@@ -65,6 +67,14 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
 
     private MenuModel menuModel;
 
+    private Boolean readAuthorized = null;
+
+    private Boolean addAuthorized = null;
+
+    private Boolean updateAuthorized = null;
+
+    private Boolean deleteAuthorized = null;
+
     /**
      * private field with no direct mutator to drive additional menu visibility if current user is a gestionnaire.
      * getter at {@link #shouldShowSearch()}
@@ -101,17 +111,11 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
         reset();
     }
 
-	/*
-	 ******************* CALLBACK ********************** */
-
     @Override
     public void reset() {
     }
 	
 	
-	/*
-	 ******************* METHODS ********************** */
-
     /**
      * Permet de definir si un user a le droit sur la fonctionnalite courante.
      *
@@ -142,121 +146,133 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
     }
 
 
-	/*####### AUTHORISATION #######*/
-
     /**
      * @return Boolean true if user has the read right.
      */
     public Boolean getReadAuthorized() {
-        User u = sessionController.getCurrentUser();
-        if (u != null && u instanceof Gestionnaire) {
-            Gestionnaire g = (Gestionnaire) u;
-            return ctrlAccess(AccessType.COD_READ, g);
+        if (readAuthorized == null) {
+            User u = sessionController.getCurrentUser();
+            if (u != null && u instanceof Gestionnaire) {
+                Gestionnaire g = (Gestionnaire) u;
+                readAuthorized = ctrlAccess(AccessType.COD_READ, g);
+            } else
+                readAuthorized = false;
         }
-        return false;
+        return readAuthorized;
     }
 
     /**
      * @return Boolean true if user has the add right.
      */
     public Boolean getAddAuthorized() {
-        User u = sessionController.getCurrentUser();
-        if (u != null && u instanceof Gestionnaire) {
-            Gestionnaire g = (Gestionnaire) u;
-            return ctrlAccess(AccessType.COD_ADD, g);
+        if (addAuthorized == null) {
+            User u = sessionController.getCurrentUser();
+            if (u != null && u instanceof Gestionnaire) {
+                Gestionnaire g = (Gestionnaire) u;
+                addAuthorized = ctrlAccess(AccessType.COD_ADD, g);
+            } else
+                addAuthorized = false;
         }
-        return false;
+        return addAuthorized;
     }
 
     /**
      * @return Boolean true if user has the update right.
      */
     public Boolean getUpdateAuthorized() {
-        User u = sessionController.getCurrentUser();
-        if (u != null && u instanceof Gestionnaire) {
-            Gestionnaire g = (Gestionnaire) u;
-            return ctrlAccess(AccessType.COD_UPDATE, g);
+        if (updateAuthorized == null) {
+            User u = sessionController.getCurrentUser();
+            if (u != null && u instanceof Gestionnaire) {
+                Gestionnaire g = (Gestionnaire) u;
+                updateAuthorized = ctrlAccess(AccessType.COD_UPDATE, g);
+            } else
+                updateAuthorized = false;
         }
-        return false;
+        return updateAuthorized;
     }
 
     /**
      * @return Boolean true if user has the delete right.
      */
     public Boolean getDeleteAuthorized() {
-        User u = sessionController.getCurrentUser();
-        if (u != null && u instanceof Gestionnaire) {
-            Gestionnaire g = (Gestionnaire) u;
-            return ctrlAccess(AccessType.COD_DELETE, g);
+        if (deleteAuthorized == null) {
+            User u = sessionController.getCurrentUser();
+            if (u != null && u instanceof Gestionnaire) {
+                Gestionnaire g = (Gestionnaire) u;
+                deleteAuthorized = ctrlAccess(AccessType.COD_DELETE, g);
+            } else
+                deleteAuthorized = false;
         }
-        return false;
+        return deleteAuthorized;
     }
 
     public MenuModel getMenuGestionnaire() {
-        menuModel = new DefaultMenuModel();
-        I18nService i18nService = I18nUtils.createI18nService();
-        FacesContext fc = FacesContext.getCurrentInstance();
-        ExpressionFactory factory = fc.getApplication().getExpressionFactory();
-        MenuItem accueil = new MenuItem();
-        accueil.setAjax(false);
-        accueil.setValue(i18nService.getString("NAVIGATION.TEXT.WELCOME"));
-        accueil.setActionExpression(factory.createMethodExpression(fc.getELContext(), "#{welcomeController.goWelcomeManager}", String.class, new Class[]{}));
-        accueil.setAjax(false);
-        menuModel.addMenuItem(accueil);
-        User u = sessionController.getCurrentUser();
-        if (u != null) {
-            if (u instanceof Gestionnaire) {
-                showSearch = true;
-                Gestionnaire g = (Gestionnaire) u;
-                Set<Traitement> domains =
-                        new TreeSet<Traitement>(new ComparatorInteger(Traitement.class));
-                domains.addAll(parameterService.getTraitements(
-                        g.getProfile(), Traitement.TYPE_DOMAIN, null));
-                for (Traitement d : domains) {
-                    Set<Traitement> dFunctions = parameterService.getTraitements(
-                            g.getProfile(), Traitement.TYPE_FUNCTION, (Domain) d);
-                    if (dFunctions.isEmpty()) {
-                        final MethodExpression me = factory
-                                .createMethodExpression(
-                                        fc.getELContext(),
-                                        "#{managedAccess.callFunction(" + d.getId() + ")}",
-                                        String.class,
-                                        new Class[]{Integer.class});
-                        MenuItem sub = new MenuItem();
-                        sub.setValue(d.getLibelle());
-                        sub.setActionExpression(me);
-                        sub.setAjax(false);
-                        menuModel.addMenuItem(sub);
-                    } else {
-                        Submenu sub = new Submenu();
-                        sub.setLabel(d.getLibelle());
-                        Set<Traitement> functions =
-                                new TreeSet<Traitement>(new ComparatorInteger(Traitement.class));
-                        functions.addAll(dFunctions);
-                        for (final Traitement f : functions) {
+        if (menuModel == null) {
+            menuModel = new DefaultMenuModel();
+            I18nService i18nService = I18nUtils.createI18nService();
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ExpressionFactory factory = fc.getApplication().getExpressionFactory();
+            MenuItem accueil = new MenuItem();
+            accueil.setAjax(false);
+            accueil.setValue(i18nService.getString("NAVIGATION.TEXT.WELCOME"));
+            accueil.setActionExpression(factory.createMethodExpression(fc.getELContext(), "#{welcomeController.goWelcomeManager}", String.class, new Class[]{}));
+            accueil.setAjax(false);
+            menuModel.addMenuItem(accueil);
+            User u = sessionController.getCurrentUser();
+            if (u != null) {
+                if (u instanceof Gestionnaire) {
+                    showSearch = true;
+                    Gestionnaire g = (Gestionnaire) u;
+                    Set<Traitement> domains =
+                            new TreeSet<>(new ComparatorInteger(Traitement.class));
+                    domains.addAll(
+                            parameterService.getTraitements(g.getProfile(), Traitement.TYPE_DOMAIN, null));
+                    for (Traitement d : domains) {
+                        Set<Traitement> dFunctions =
+                                parameterService.getTraitements(g.getProfile(), Traitement.TYPE_FUNCTION, (Domain) d);
+                        if (dFunctions.isEmpty()) {
                             final MethodExpression me = factory
                                     .createMethodExpression(
                                             fc.getELContext(),
-                                            "#{managedAccess.callFunction(" + f.getId() + ")}",
+                                            "#{managedAccess.callFunction(" + d.getId() + ")}",
                                             String.class,
                                             new Class[]{Integer.class});
-                            MenuItem item = new MenuItem();
-                            item.setValue(f.getLibelle());
-                            item.setActionExpression(me);
-                            item.setAjax(false);
-                            sub.getChildren().add(item);
+                            MenuItem sub = new MenuItem();
+                            sub.setValue(d.getLibelle());
+                            sub.setActionExpression(me);
+                            sub.setAjax(false);
+                            menuModel.addMenuItem(sub);
+                        } else {
+                            Submenu sub = new Submenu();
+                            sub.setLabel(d.getLibelle());
+                            Set<Traitement> functions =
+                                    new TreeSet<>(new ComparatorInteger(Traitement.class));
+                            functions.addAll(dFunctions);
+                            for (final Traitement f : functions) {
+                                final MethodExpression me = factory
+                                        .createMethodExpression(
+                                                fc.getELContext(),
+                                                "#{managedAccess.callFunction(" + f.getId() + ")}",
+                                                String.class,
+                                                new Class[]{Integer.class});
+                                MenuItem item = new MenuItem();
+                                item.setValue(f.getLibelle());
+                                item.setActionExpression(me);
+                                item.setAjax(false);
+                                sub.getChildren().add(item);
+                            }
+                            menuModel.addSubmenu(sub);
                         }
-                        menuModel.addSubmenu(sub);
                     }
                 }
             }
+            MenuItem logout = new MenuItem();
+            logout.setRendered(sessionController.getIsServlet());
+            logout.setValue(i18nService.getString("NAVIGATION.TEXT.LOGOUT"));
+            logout.setActionExpression(factory.createMethodExpression(fc.getELContext(), "#{sessionController.logoutGest}", String.class, new Class[]{}));
+            logout.setAjax(false);
+            menuModel.addMenuItem(logout);
         }
-        MenuItem logout = new MenuItem();
-        logout.setRendered(sessionController.getIsServlet());
-        logout.setValue(i18nService.getString("NAVIGATION.TEXT.LOGOUT"));
-        logout.setActionExpression(factory.createMethodExpression(fc.getELContext(), "#{sessionController.logoutGest}", String.class, new Class[]{}));
-        logout.setAjax(false);
-        menuModel.addMenuItem(logout);
         return menuModel;
     }
 
@@ -272,10 +288,6 @@ public class ManagedAccess implements Resettable, InitializingBean, Serializable
         this.menuModel = menuModel;
     }
 
-    /**
-     * @param codTrt
-     * @return
-     */
     public String callFunction(final Integer codTrt) {
         Traitement trt = parameterService.getTraitement(codTrt);
         setCurrentTraitement(trt);

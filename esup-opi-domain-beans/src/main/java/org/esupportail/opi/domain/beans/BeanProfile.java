@@ -4,122 +4,60 @@
 */
 package org.esupportail.opi.domain.beans;
 
-import java.io.Serializable;
-
 import org.esupportail.opi.domain.beans.parameters.accessRight.Profile;
+import org.esupportail.opi.domain.beans.user.Gestionnaire;
 
-/**
- * @author invite
- *
- */
+import java.io.Serializable;
+import java.util.Set;
+
 public class BeanProfile implements Serializable {
-
-	/**
-	 * The serialization id.
-	 */
 	private static final long serialVersionUID = 3670656713361699391L;
 	
-	/*
-	 ******************* PROPERTIES ********************** */
-	
-	/**
-	 * The profil.
-	 */
-	private Profile profile;
-	
-	/*
-	 ******************* INIT ************************* */
-	
-	/**
-	 * Constructor.
-	 */
-	public BeanProfile() {
-		super();
-	}
-	
-	/**
-	 * Constructor.
-	 * @param p 
-	 */
+	private final Profile profile;
+
+    private final int nbGest;
+
 	public BeanProfile(final Profile p) {
 		super();
 		profile = p;
-	}
-	
-
-	
-	/** 
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((profile == null) ? 0 : profile.hashCode());
-		return result;
+        Set<Gestionnaire> gest = p.getGestionnaires();
+        nbGest = gest != null ? gest.size() : 0;
 	}
 
-
-
-
-	/** 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj) { return true; }
-		if (obj == null) { return false; }
-		if (!(obj instanceof BeanProfile)) { return false; }
-		BeanProfile other = (BeanProfile) obj;
-		if (profile == null) {
-			if (other.profile != null) { return false; }
-		} else if (!profile.equals(other.profile)) { return false; }
-		return true;
-	}
-
-
-
-
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "BeanProfil#" + hashCode() + "[ " + profile.toString() + " ]";
-	}
-	
-	/*
-	 ******************* METHODS ********************** */
-
-	/**
-	 * Return all gestionnaire who has this profil.
-	 * @return int
-	 */
 	public int getNbGest() {
-		if (profile.getGestionnaires() != null) {
-			return profile.getGestionnaires().size();
-		}
-		return 0;
+//		if (profile.getGestionnaires() != null) {
+//			return profile.getGestionnaires().size();
+//		}
+//		return 0;
+        return nbGest;
 	}
-	
-	/*
-	 ******************* ACCESSORS ******************** */
-	
 
-	/**
-	 * @return Profil
-	 */
 	public Profile getProfile() {
 		return profile;
 	}
 
+    @Override
+    public String toString() {
+        return "BeanProfil#" + hashCode() + "[ " + profile.toString() + " ]";
+    }
 
-	/**
-	 * @param profil
-	 */
-	public void setProfile(final Profile profil) {
-		this.profile = profil;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((profile == null) ? 0 : profile.hashCode());
+        return result;
+    }
 
-
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) { return true; }
+        if (obj == null) { return false; }
+        if (!(obj instanceof BeanProfile)) { return false; }
+        BeanProfile other = (BeanProfile) obj;
+        if (profile == null) {
+            if (other.profile != null) { return false; }
+        } else if (!profile.equals(other.profile)) { return false; }
+        return true;
+    }
 }

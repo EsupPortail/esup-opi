@@ -1,187 +1,191 @@
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    template="/stylesheets/templateGestionnaire.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
     	<div id="maPage" class="div_body">
-    		<h1>
+    	    <h1>
                 <span class="section-header">
                     <h:outputText value="#{msgs['PROFIL.TITLE.ENTER']}" />
                 </span>
             </h1>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    		<div class="maxDivTextRight">
-    			<h:panelGroup>
-    				<h:outputText value="#{msgs['INFO.CHAMP']}" />
+    	    <div class="messageForUser">
+    		<p:messages id="messages" showDetail="true" autoUpdate="true" />
+    	    </div>
+    	    <div class="maxDivTextRight">
+    		<h:panelGroup>
+    		    <h:outputText value="#{msgs['INFO.CHAMP']}" />
+    		    <h:outputText value="*" styleClass="etoileForChpObli" />
+    		</h:panelGroup>
+    	    </div>
+    	    <div id="div_subSection" class="div_subSection">
+    		<h:form id="enterProfilForm">
+    		    <div id="blockFormInfo" class="blockForm">
+    			<div class="blockButton">
+    			    <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+    					 styleClass="tableJustWidthMax">
+    				<h:panelGroup />
+    				<h:panelGroup>
+    				    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+    						     rendered="#{profilController.actionEnum.whatAction == profilController.actionEnum.addAction
+    							       and managedAccess.addAuthorized}"
+    						     action="#{profilController.add}"
+                                                     ajax="false" />
+    				    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+    						     rendered="#{profilController.actionEnum.whatAction == profilController.actionEnum.updateAction
+    							       and managedAccess.updateAuthorized}"
+    						     action="#{profilController.update}"
+                                                     ajax="false" />
+    				    <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+    						     action="#{profilController.goSeeAllProfil}"
+                                                     ajax="false"
+                                                     immediate="true" />
+    				</h:panelGroup>
+    			    </h:panelGrid>
+                            
+    			</div>
+    			<h:panelGrid styleClass="tableWidthMax" columns="4"
+    				     columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+    			    <h:panelGroup>
+    				<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code" />
     				<h:outputText value="*" styleClass="etoileForChpObli" />
-    			</h:panelGroup>
-    		</div>
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="enterProfilForm">
-    				<div id="blockFormInfo" class="blockForm">
-    					<div class="blockButton">
-    						<h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
-    							styleClass="tableJustWidthMax">
-    							<h:panelGroup />
-    							<h:panelGroup>
-    								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    									rendered="#{profilController.actionEnum.whatAction == profilController.actionEnum.addAction
-    											and managedAccess.addAuthorized}"
-    									action="#{profilController.add}" />
-    								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    									rendered="#{profilController.actionEnum.whatAction == profilController.actionEnum.updateAction
-    										and managedAccess.updateAuthorized}"
-    									action="#{profilController.update}" />
-    								<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    									action="#{profilController.goSeeAllProfil}" immediate="true" />
-    							</h:panelGroup>
-    						</h:panelGrid>
-    
-    					</div>
-    					<h:panelGrid styleClass="tableWidthMax" columns="4"
-    						columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-    						<h:panelGroup>
-    							<h:outputLabel value="#{msgs['FIELD_LABEL.CODE']}" for="code" />
-    							<h:outputText value="*" styleClass="etoileForChpObli" />
-    						</h:panelGroup>
-    						<p:inputText id="code" size="11" maxlength="10"
-    							value="#{profilController.profil.code}" />
-    						<h:panelGroup>	
-    							<h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}"
-    								for="temoinEnService" />
-    							<h:outputText value="*" styleClass="etoileForChpObli" />
-    						</h:panelGroup>
-    						<p:selectBooleanCheckbox id="temoinEnService" value="#{profilController.profil.temoinEnService}"/>
-    						
-    						
-    						<h:panelGroup>
-    							<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
-    								for="libelle" />
-    							<h:outputText value="*" styleClass="etoileForChpObli" />
-    						</h:panelGroup>
-    						<p:inputText id="libelle" size="51" maxlength="50"
-    							value="#{profilController.profil.libelle}" />
-    						<h:panelGroup>
-    							<h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"
-    								for="regimeInscription" />
-    							<h:outputText value="*" styleClass="etoileForChpObli" />
-    						</h:panelGroup>
-    						<p:selectOneMenu id="regimeInscription"
-    							value="#{profilController.profil.codeRI}">
-    							<f:selectItems value="#{nomenclatureController.regimeInscriptionsItems}"/>
-    						</p:selectOneMenu>
-    					</h:panelGrid>
-    				</div>
-    				<br />
-    				<br />
-    				<br />
-    				<div id="blockFormDomain" class="blockForm">
-    					<h:panelGrid styleClass="tableWidthMax" columns="2"
-    						columnClasses="col1UnDemi,col2UnDemi">
-    						<h:outputLabel value="#{msgs['DOMAIN.CHOOSE.ONE']}" for="choiceDomain" />
-    						<h:panelGroup>
-								<p:selectOneMenu id="choiceDomain" converter="javax.faces.Integer"
-									value="#{profilController.idDomainSelected}">
-									<f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}"
-										itemValue="" />
-									<f:selectItems var="domain" value="#{domainController.domains}"
-										itemLabel="#{domain.libelle}" itemValue="#{domain.id}" />
-									<f:selectItem itemLabel="#{msgs['DOMAIN.SELECTED.ALL']}"
-										itemValue="#{profilController.selectAllDomain}" />
-									<p:ajax update="displayAccess" listener="#{profilController.selectDomain}" />
-								</p:selectOneMenu>
-    						</h:panelGroup>
-    					</h:panelGrid>
-    				
-    				</div>
-    				<p:outputPanel id="displayAccess" layout="block">
-        				<p:panel id="access" rendered="#{not empty profilController.idDomainSelected}">
-        					<br />
-        					<br />
-        					<br />
-        					<div id="blockDataDomain" class="blockForm">
-        						<p:dataTable id="domainData" var="beanAccess" 
-                                    value="#{profilController.accessDomain }"
-        							styleClass="paginatorData" rowIndexVar="variable">
-        							<p:column style="width:80%;">
-        								<f:facet name="header">
-        									<h:outputText value="#{msgs['DOMAIN']}" />
-        								</f:facet>
-        								<h:outputText value="#{beanAccess.traitement.libelle}" />
+    			    </h:panelGroup>
+    			    <p:inputText id="code" size="11" maxlength="10"
+    					 value="#{profilController.profil.code}" />
+    			    <h:panelGroup>	
+    				<h:outputLabel value="#{msgs['FIELD_LABEL.IN_USE']}"
+    					       for="temoinEnService" />
+    				<h:outputText value="*" styleClass="etoileForChpObli" />
+    			    </h:panelGroup>
+    			    <p:selectBooleanCheckbox id="temoinEnService" value="#{profilController.profil.temoinEnService}"/>
+    			    
+    			    
+    			    <h:panelGroup>
+    				<h:outputLabel value="#{msgs['FIELD_LABEL.LIBELLE']}"
+    					       for="libelle" />
+    				<h:outputText value="*" styleClass="etoileForChpObli" />
+    			    </h:panelGroup>
+    			    <p:inputText id="libelle" size="51" maxlength="50"
+    					 value="#{profilController.profil.libelle}" />
+    			    <h:panelGroup>
+    				<h:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"
+    					       for="regimeInscription" />
+    				<h:outputText value="*" styleClass="etoileForChpObli" />
+    			    </h:panelGroup>
+    			    <p:selectOneMenu id="regimeInscription"
+    					     value="#{profilController.profil.codeRI}">
+    				<f:selectItems value="#{nomenclatureController.regimeInscriptionsItems}"/>
+    			    </p:selectOneMenu>
+    			</h:panelGrid>
+    		    </div>
+    		    <br />
+    		    <br />
+    		    <br />
+    		    <div id="blockFormDomain" class="blockForm">
+    			<h:panelGrid styleClass="tableWidthMax" columns="2"
+    				     columnClasses="col1UnDemi,col2UnDemi">
+    			    <h:outputLabel value="#{msgs['DOMAIN.CHOOSE.ONE']}" for="choiceDomain" />
+    			    <h:panelGroup>
+				<p:selectOneMenu id="choiceDomain" converter="javax.faces.Integer"
+						 value="#{profilController.idDomainSelected}">
+				    <f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}"
+						  itemValue="" />
+				    <f:selectItems var="domain" value="#{domainController.domains}"
+						   itemLabel="#{domain.libelle}" itemValue="#{domain.id}" />
+				    <f:selectItem itemLabel="#{msgs['DOMAIN.SELECTED.ALL']}"
+						  itemValue="#{profilController.selectAllDomain}" />
+				    <p:ajax update="displayAccess" listener="#{profilController.selectDomain}" />
+				</p:selectOneMenu>
+    			    </h:panelGroup>
+    			</h:panelGrid>
+    			
+    		    </div>
+    		    <p:outputPanel id="displayAccess" layout="block">
+        		<p:panel id="access" rendered="#{not empty profilController.idDomainSelected}">
+        		    <br />
+        		    <br />
+        		    <br />
+        		    <div id="blockDataDomain" class="blockForm">
+        			<p:dataTable id="domainData" var="beanAccess" 
+                                             value="#{profilController.accessDomain }"
+        				     styleClass="paginatorData" rowIndexVar="variable">
+        			    <p:column style="width:80%;">
+        				<f:facet name="header">
+        				    <h:outputText value="#{msgs['DOMAIN']}" />
+        				</f:facet>
+        				<h:outputText value="#{beanAccess.traitement.libelle}" />
                                         <h:panelGroup rendered="#{beanAccess.onlyReadDomain}">
                                             <p:graphicImage library="images" name="informationSmall.png"
-                                                style="cursor:pointer;" id="infoAnneeUni" />
+                                                            style="cursor:pointer;" id="infoAnneeUni" />
                                             <p:overlayPanel for="infoAnneeUni"
-                                                showEvent="mouseover"
-                                                hideEvent="mouseout"
-                                                styleClass="containerPopup">
-        										<h:panelGroup>
-        											<h:panelGrid columns="1">
-        												<h:outputText styleClass="titrePopupAide"
-        													value="#{beanAccess.traitement.libelle}" />
-        												<h:outputText styleClass="libellesAide"
-        														value="#{msgs['PROFIL.INFO.DOM.READ']}" />
-        											</h:panelGrid>
-        										</h:panelGroup>
-        									</p:overlayPanel>
-        								</h:panelGroup>    								
-        							</p:column>
-        							<p:columns var="codeAccess" value="#{accessRController.codeAccessItems}" style="width:5%;">
-        								<f:facet name="header">
-        									<h:outputText value="#{accessRController.accessTypes[codeAccess].libelle} " />
-        								</f:facet>
-        								<p:selectBooleanCheckbox value="#{beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}" converter="#{booleanConverter}" rendered="#{!beanAccess.onlyReadDomain}"/>
-        							</p:columns>
-        							<p:column style="width:5%;">
-        								<f:facet name="header">
-        									<h:outputText value="#{msgs['FIELD_LABEL.ALL']}" />
-        								</f:facet>
-        								<p:selectBooleanCheckbox onchange="checkRows('enterProfilForm:domainData',#{variable}, this.checked);"
-        									rendered="#{!beanAccess.onlyReadDomain}"/>
-        							</p:column>
-        						</p:dataTable>
-        					</div>
-        					
-        					<br />
-        					<br />
-        					<br />
-        					<div id="blockFormFonction" class="blockForm">
-        						<p:dataTable id="functionData" var="beanAccess" 
-                                    value="#{profilController.accessFct}"
-        							styleClass="paginatorData" rowIndexVar="variable">
-        							<p:column>
-        								<f:facet name="header">
-        									<h:outputText value="#{msgs['DOMAIN']}" />
-        								</f:facet>
-        								<h:outputText value="#{beanAccess.traitement.domain.libelle}" />
-        							</p:column>
-        							<p:column>
-        								<f:facet name="header">
-        									<h:outputText value="#{msgs['FUNCTION']}" />
-        								</f:facet>
-        								<h:outputText value="#{beanAccess.traitement.libelle }" />
-        							</p:column>
-        							<p:columns var="codeAccess" value="#{accessRController.codeAccessItems}" style="width:5%;">
-        								<f:facet name="header">
-        									<h:outputText value="#{accessRController.accessTypes[codeAccess].libelle} " />
-        								</f:facet>
-        								<p:selectBooleanCheckbox value="#{beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}" converter="#{booleanConverter}" />
-        							</p:columns>
-        							<p:column style="width:5%;">
-        								<f:facet name="header">
-        									<h:outputText value="#{msgs['FIELD_LABEL.ALL']}" />
-        								</f:facet>
-        								<p:selectBooleanCheckbox onchange="checkRows('enterProfilForm:functionData',#{variable}, this.checked);"/>
-        							</p:column>
-        						</p:dataTable>
-        					</div>
-    					</p:panel>
-    				</p:outputPanel>
-    			</h:form>
-    		</div>
+                                                            showEvent="mouseover"
+                                                            hideEvent="mouseout"
+                                                            styleClass="containerPopup">
+        					<h:panelGroup>
+        					    <h:panelGrid columns="1">
+        						<h:outputText styleClass="titrePopupAide"
+        							      value="#{beanAccess.traitement.libelle}" />
+        						<h:outputText styleClass="libellesAide"
+        							      value="#{msgs['PROFIL.INFO.DOM.READ']}" />
+        					    </h:panelGrid>
+        					</h:panelGroup>
+        				    </p:overlayPanel>
+        				</h:panelGroup>    								
+        			    </p:column>
+        			    <p:columns var="codeAccess" value="#{accessRController.codeAccessItems}" style="width:5%;">
+        				<f:facet name="header">
+        				    <h:outputText value="#{accessRController.accessTypes[codeAccess].libelle} " />
+        				</f:facet>
+        				<p:selectBooleanCheckbox value="#{beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}" converter="#{booleanConverter}" rendered="#{!beanAccess.onlyReadDomain}"/>
+        			    </p:columns>
+        			    <p:column style="width:5%;">
+        				<f:facet name="header">
+        				    <h:outputText value="#{msgs['FIELD_LABEL.ALL']}" />
+        				</f:facet>
+        				<p:selectBooleanCheckbox onchange="checkRows('enterProfilForm:domainData',#{variable}, this.checked);"
+        							 rendered="#{!beanAccess.onlyReadDomain}"/>
+        			    </p:column>
+        			</p:dataTable>
+        		    </div>
+        		    
+        		    <br />
+        		    <br />
+        		    <br />
+        		    <div id="blockFormFonction" class="blockForm">
+        			<p:dataTable id="functionData" var="beanAccess" 
+                                             value="#{profilController.accessFct}"
+        				     styleClass="paginatorData" rowIndexVar="variable">
+        			    <p:column>
+        				<f:facet name="header">
+        				    <h:outputText value="#{msgs['DOMAIN']}" />
+        				</f:facet>
+        				<h:outputText value="#{beanAccess.traitement.domain.libelle}" />
+        			    </p:column>
+        			    <p:column>
+        				<f:facet name="header">
+        				    <h:outputText value="#{msgs['FUNCTION']}" />
+        				</f:facet>
+        				<h:outputText value="#{beanAccess.traitement.libelle }" />
+        			    </p:column>
+        			    <p:columns var="codeAccess" value="#{accessRController.codeAccessItems}" style="width:5%;">
+        				<f:facet name="header">
+        				    <h:outputText value="#{accessRController.accessTypes[codeAccess].libelle} " />
+        				</f:facet>
+        				<p:selectBooleanCheckbox value="#{beanAccess.theDroits[accessRController.accessTypes[codeAccess]]}" converter="#{booleanConverter}" />
+        			    </p:columns>
+        			    <p:column style="width:5%;">
+        				<f:facet name="header">
+        				    <h:outputText value="#{msgs['FIELD_LABEL.ALL']}" />
+        				</f:facet>
+        				<p:selectBooleanCheckbox onchange="checkRows('enterProfilForm:functionData',#{variable}, this.checked);"/>
+        			    </p:column>
+        			</p:dataTable>
+        		    </div>
+    			</p:panel>
+    		    </p:outputPanel>
+    		</h:form>
+    	    </div>
     	</div>
     </ui:define>
 </ui:composition>

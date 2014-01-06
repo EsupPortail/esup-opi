@@ -10,8 +10,6 @@
 	<!--
 		Note: EhCache is disabled by default in hibernate.cfg.xml.
 	-->
-
-
 	<cache name="fr.univ.rennes1.cri.opiR1.domain.beans.VersionManager"
 		maxElementsInMemory="100" eternal="false" timeToIdleSeconds="30"
 		timeToLiveSeconds="60" overflowToDisk="false" />
@@ -77,7 +75,7 @@
 
 	<!-- *****  RENNES1 APOGEE (2 jours dans le cache) ***** -->
 	<cache name="enseignementApogee"
-		maxElementsInMemory="1" eternal="false" timeToIdleSeconds="172800"
+		maxElementsInMemory="4000" eternal="false" timeToIdleSeconds="172800"
 		timeToLiveSeconds="172800" overflowToDisk="true" />
 
 	<defaultCache maxElementsInMemory="10000" eternal="false"

@@ -69,6 +69,7 @@ public abstract class AbstractDomainAwareBean extends AbstractJsfMessagesAwareBe
      * The list of bean regimeInscription.
      */
     private List<RegimeInscription> regimeInscriptions = asList((RegimeInscription) new FormationInitiale());
+    private Map<Integer,RegimeInscription> codeRIMap = new HashMap<>();
 
     /**
      * Constructor.
@@ -120,68 +121,41 @@ public abstract class AbstractDomainAwareBean extends AbstractJsfMessagesAwareBe
      * @return Map all RegimeInscription by code.
      */
     public Map<Integer, RegimeInscription> getRegimeIns() {
-        if (logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled())
             logger.debug("entering getRegimeInscriptions");
-        }
-        Map<Integer, RegimeInscription> map = new HashMap<>();
-        for (RegimeInscription ri : regimeInscriptions) {
-            map.put(ri.getCode(), ri);
-        }
-        return map;
+        if (codeRIMap.isEmpty())
+            for (RegimeInscription ri : regimeInscriptions)
+                codeRIMap.put(ri.getCode(), ri);
+        return codeRIMap;
     }
 
-	/*
-	 ******************* ACCESSORS ******************** */
-
-    /**
-     * @param regimeInscriptions
-     */
     public void setRegimeInscriptions(final List<RegimeInscription> regimeInscriptions) {
         this.regimeInscriptions = regimeInscriptions;
     }
 
-
-    /**
-     * @param domainService the domainService to set
-     */
     public void setDomainService(final DomainService domainService) {
         this.domainService = domainService;
     }
 
-    /**
-     * @return the domainService
-     */
     public DomainService getDomainService() {
         return domainService;
     }
 
-    /**
-     * @return the current user.
-     */
     protected User getCurrentUser() {
         // this method should be overriden
         return null;
     }
 
-    /**
-     * @return the current individu.
-     */
-    protected IndividuPojo getCurrentInd() {
+   protected IndividuPojo getCurrentInd() {
         // this method should be overriden
         return null;
     }
     
-    /**
-     * @return the current individu without using the cache
-     */
-    protected IndividuPojo getCurrentIndInit() {
+   protected IndividuPojo getCurrentIndInit() {
         // this method should be overriden
         return null;
     }
 
-    /**
-     * @return the current user's locale.
-     */
     @Override
     public Locale getCurrentUserLocale() {
         if (logger.isDebugEnabled()) {
@@ -219,44 +193,26 @@ public abstract class AbstractDomainAwareBean extends AbstractJsfMessagesAwareBe
         return locale;
     }
 
-    /**
-     * @return the parameterService
-     */
     public ParameterService getParameterService() {
         return parameterService;
     }
 
-    /**
-     * @param parameterService the parameterService to set
-     */
     public void setParameterService(final ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
-    /**
-     * @return the domainApoService
-     */
     public DomainApoService getDomainApoService() {
         return domainApoService;
     }
 
-    /**
-     * @param domainApoService the domainApoService to set
-     */
     public void setDomainApoService(final DomainApoService domainApoService) {
         this.domainApoService = domainApoService;
     }
 
-    /**
-     * @return the businessCacheService
-     */
     public BusinessCacheService getBusinessCacheService() {
         return businessCacheService;
     }
 
-    /**
-     * @param businessCacheService the businessCacheService to set
-     */
     public void setBusinessCacheService(final BusinessCacheService businessCacheService) {
         this.businessCacheService = businessCacheService;
     }

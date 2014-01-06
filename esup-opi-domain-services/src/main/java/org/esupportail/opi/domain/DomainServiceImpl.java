@@ -655,8 +655,9 @@ public final class DomainServiceImpl implements DomainService {
         for (IndVoeu indVoeu : lesVoeux)
             for (Commission commission : lesCommissions)
                 for (TraitementCmi traitementCmi : commission.getTraitementCmi())
-                    return traitementCmi.getVersionEtpOpi().equals(
-                            indVoeu.getLinkTrtCmiCamp().getTraitementCmi().getVersionEtpOpi());
+                    if (traitementCmi.getVersionEtpOpi()
+                            .equals(indVoeu.getLinkTrtCmiCamp().getTraitementCmi().getVersionEtpOpi()))
+                        return true;
 		return false;
 	}
 	

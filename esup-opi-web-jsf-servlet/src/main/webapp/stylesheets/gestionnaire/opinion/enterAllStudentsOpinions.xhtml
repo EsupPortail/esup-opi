@@ -5,11 +5,12 @@
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
         <h:form id="seeOpinionsForm">
-            <p:blockUI block="maPage" trigger="choiceTypeDecision individuData individuData:checkAll search-button"
+            <p:blockUI block="maPage"
+                       trigger="choiceTypeDecision individuData individuData:checkAll search-button"
                        widgetVar="pageBlocker">
                 <p:graphicImage library="images" name="ajax-loader.gif" />
             </p:blockUI>
-            <p:blockUI block="dataPanel" trigger="renderTable" widgetVar="panelBlocker">
+            <p:blockUI block="dataPanel" trigger="renderTable">
                 <p:graphicImage library="images" name="ajax-loader.gif" />
             </p:blockUI>
             <p:panel id="maPage" styleClass="div_body">

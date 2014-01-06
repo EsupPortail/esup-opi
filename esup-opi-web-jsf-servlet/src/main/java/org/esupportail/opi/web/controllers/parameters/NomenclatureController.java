@@ -198,7 +198,8 @@ public class NomenclatureController extends AbstractContextAwareController {
                     });
         }
     };
-	
+    private Map<Integer,String> codeLabelRIMap = new HashMap<>();
+
     public NomenclatureController() {
 		super();
 		reset();
@@ -981,12 +982,11 @@ public class NomenclatureController extends AbstractContextAwareController {
 	 * @return the regime inscription code and label
 	 */
 	public Map<Integer, String> getSomeRegimeInscription() {
-		Map<Integer, String> mri = new HashMap<Integer, String>();
-		Map<Integer, RegimeInscription> mapRI = getRegimeIns();
+        Map<Integer, RegimeInscription> mapRI = getRegimeIns();
 		for (Map.Entry<Integer, RegimeInscription> entryRI : mapRI.entrySet()) {
-			mri.put(entryRI.getValue().getCode(), entryRI.getValue().getLabel());
+			codeLabelRIMap.put(entryRI.getValue().getCode(), entryRI.getValue().getLabel());
 		}		
-		return mri;
+		return codeLabelRIMap;
 	}
 	
 	/*

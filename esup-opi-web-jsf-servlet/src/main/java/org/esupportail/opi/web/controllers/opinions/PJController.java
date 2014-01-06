@@ -26,6 +26,7 @@ import org.esupportail.opi.web.controllers.references.CommissionController;
 import org.esupportail.opi.web.utils.paginator.LazyDataModel;
 import org.esupportail.opi.web.utils.paginator.PaginationFunctions;
 
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -558,4 +559,10 @@ public class PJController extends AbstractContextAwareController {
     }
 
     public void doRenderTable() { renderTable = true; }
+
+    public void doNotRenderTable() {
+        if (!FacesContext.getCurrentInstance().isPostback())
+            this.renderTable = false;
+    }
+
 }

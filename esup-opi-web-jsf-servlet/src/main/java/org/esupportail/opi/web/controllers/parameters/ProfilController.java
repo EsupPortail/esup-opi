@@ -3,6 +3,7 @@
  */
 package org.esupportail.opi.web.controllers.parameters;
 
+import fj.F;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
@@ -20,16 +21,14 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import java.util.*;
 
+import static fj.data.Array.array;
+import static java.util.Arrays.asList;
 
 /**
  * @author cleprous
  */
 public class ProfilController extends AbstractContextAwareController {
-
-    /**
-     * The serialization id.
-     */
-    private static final long serialVersionUID = 594487224624313963L;
+   private static final long serialVersionUID = 594487224624313963L;
 
     /**
      * Default value to select all domains.
@@ -48,6 +47,8 @@ public class ProfilController extends AbstractContextAwareController {
      * the domain id selected.
      */
     private Integer idDomainSelected;
+
+    private List<BeanProfile> beanProfiles = new ArrayList<>();
 
     /**
      * The access function for this profil.
@@ -92,11 +93,10 @@ public class ProfilController extends AbstractContextAwareController {
     public void reset() {
         super.reset();
         profil = new Profile();
-        accessFct = new ArrayList<BeanAccess>();
-        accessDomain = new ArrayList<BeanAccess>();
+        accessFct = new ArrayList<>();
+        accessDomain = new ArrayList<>();
         actionEnum = new ActionEnum();
         idDomainSelected = null;
-
     }
 
     /**
@@ -154,11 +154,12 @@ public class ProfilController extends AbstractContextAwareController {
             log.debug("enterind add with profil = " + profil);
         }
         if (ctrlEnter(profil)) {
-            profil = (Profile) getDomainService().add(profil, getCurrentGest().getLogin());
+            profil = getDomainService().add(profil, getCurrentGest().getLogin());
             getParameterService().addProfile(profil);
 
             //add the rights
-            getAccessRController().add(getAccessDomain(), getAccessFct(), getProfil());
+            getAccessRController().add(accessDomain, accessFct, profil);
+            beanProfiles.add(new BeanProfile(profil));
 
             reset();
             getAccessRController().reset();
@@ -175,7 +176,7 @@ public class ProfilController extends AbstractContextAwareController {
 
 
     /**
-     * Update a profil to the dataBase.
+     * Update a profil in the dataBase.
      *
      * @return String
      */
@@ -184,11 +185,12 @@ public class ProfilController extends AbstractContextAwareController {
             log.debug("enterind update with profil = " + profil);
         }
         if (ctrlEnter(profil)) {
-            profil = (Profile) getDomainService().update(profil, getCurrentGest().getLogin());
+            profil = getDomainService().update(profil, getCurrentGest().getLogin());
             getParameterService().updateProfile(profil);
 
             //add the rights
-            getAccessRController().update(getAccessDomain(), getAccessFct(), getProfil());
+            getAccessRController().update(accessDomain, accessFct, profil);
+            beanProfiles = getParameterService().getProfiles(null);
 
             reset();
 
@@ -210,7 +212,11 @@ public class ProfilController extends AbstractContextAwareController {
         if (log.isDebugEnabled()) {
             log.debug("enterind delete with profil = " + profil);
         }
+        // réattachment à la session hibernate
+        profil = getParameterService().getProfile(profil.getId(), profil.getCode());
+        // effacement
         getParameterService().deleteProfile(profil);
+        beanProfiles = getParameterService().getProfiles(null);
         reset();
         addInfoMessage(null, "INFO.DELETE.SUCCESS");
         if (log.isDebugEnabled()) {
@@ -221,12 +227,9 @@ public class ProfilController extends AbstractContextAwareController {
 
     /**
      * The selected domain.
-     *
-     * @param event
      */
     public void selectDomain(final ValueChangeEvent event) {
-        Integer value = (Integer) event.getNewValue();
-        idDomainSelected = value;
+        idDomainSelected = (Integer) event.getNewValue();
         selectDomain();
         FacesContext.getCurrentInstance().renderResponse();
     }
@@ -247,7 +250,7 @@ public class ProfilController extends AbstractContextAwareController {
                 Domain d = getParameterService().getDomain(idDomainSelected);
                 Set<Fonction> fonctions = d.getFonctions();
                 setAccessFct(makeAccess(new HashSet<Traitement>(fonctions)));
-                Set<Traitement> trait = new HashSet<Traitement>();
+                Set<Traitement> trait = new HashSet<>();
                 trait.add(d);
                 setAccessDomain(makeAccess(trait));
             }
@@ -257,45 +260,19 @@ public class ProfilController extends AbstractContextAwareController {
     }
 
     /**
-     * Build the list contains all access for all functions.
-     *
-     * @param traitements
-     * @return List< BeanAccess>
+     * Build the list that contains all access for all functions.
      */
     private List<BeanAccess> makeAccess(final Set<Traitement> traitements) {
-        List<BeanAccess> theAccess = new ArrayList<BeanAccess>();
+        List<BeanAccess> theAccess = new ArrayList<>();
 
-        for (Iterator<Traitement> ite = traitements.iterator(); ite.hasNext(); ) {
-            Traitement t = ite.next();
+        for (Traitement t : traitements) {
             //init proxy Hib
             getDomainService().initOneProxyHib(t, t.getAccessRight(), Set.class);
             BeanAccess beanAccess = new BeanAccess();
             beanAccess.setTraitement(t);
-            Map<AccessType, Boolean> droits = new HashMap<AccessType, Boolean>();
+            Map<AccessType, Boolean> droits = new HashMap<>();
             Domain d = null;
-            if (t instanceof Domain) {
-                d = (Domain) t;
-
-            }
-            //commente par CL le 28/01/2009
-            //le fait de ne pas bloquer le droit des domain slt e lecture permet
-            //de possibilite dans la realisation d'interface. (Par afficher les fonctionnalite + module etudiant)
-//			if (d != null && d.getFonctions() != null && !d.getFonctions().isEmpty()) {
-//				if (actionEnum.getWhatAction().equals(ActionEnum.ADD_ACTION) 
-//						|| actionEnum.getWhatAction().equals(ActionEnum.UPDATE_ACTION)) {
-//					//si le domain a des fonctions le seule droit autorise sur ce domain est lecture
-//					droits.put(
-//							getAccessRController().getAccessTypes()
-//								.get(AccessType.COD_READ), true);
-//				} else {
-//					droits.put(
-//							getAccessRController().getAccessTypes()
-//								.get(AccessType.COD_READ), ctrlDom(beanAccess));
-//				}
-//				beanAccess.setTheDroits(droits);
-//				theAccess.add(beanAccess);
-//
-//			} else {
+            if (t instanceof Domain) d = (Domain) t;
 
             for (String codeAc : getAccessRController().getAccessTypes().keySet()) {
                 AccessType ac = getAccessRController().getAccessTypes().get(codeAc);
@@ -321,7 +298,6 @@ public class ProfilController extends AbstractContextAwareController {
             }
             beanAccess.setTheDroits(droits);
             theAccess.add(beanAccess);
-//			}
         }
 
         //trier
@@ -329,15 +305,8 @@ public class ProfilController extends AbstractContextAwareController {
         return theAccess;
     }
 
-
-
-	/* ### ALL CONTROL ####*/
-
     /**
      * Control Profile attributes for the adding and updating.
-     *
-     * @param pro
-     * @return Boolean
      */
     private Boolean ctrlEnter(final Profile pro) {
         Boolean ctrlOk = true;
@@ -365,15 +334,12 @@ public class ProfilController extends AbstractContextAwareController {
 
     /**
      * Control if the functions of domain has rights. If not rights return false.
-     *
-     * @param beanAccessDom
-     * @return Boolean
      */
     public Boolean ctrlDom(final BeanAccess beanAccessDom) {
         Domain dom = (Domain) beanAccessDom.getTraitement();
         //a true si au moins une fonction du domain a des droits
         boolean oneFunctionHaveRight = false;
-        Set<Traitement> functions = new HashSet<Traitement>();
+        Set<Traitement> functions = new HashSet<>();
         functions.addAll(dom.getFonctions());
         List<BeanAccess> beanAccessFct = makeAccess(functions);
         for (BeanAccess aFct : beanAccessFct) {
@@ -386,16 +352,9 @@ public class ProfilController extends AbstractContextAwareController {
                 }
             }
         }
-
         return oneFunctionHaveRight;
     }
 
-	/*
-	 ******************* ACCESSORS ******************** */
-
-    /**
-     * @return List< BeanAccess>
-     */
     public List<BeanAccess> getAllAccess() {
         Set<Traitement> allTraitement = new HashSet<Traitement>(getParameterService().getFonctions(true, true));
         Set<Traitement> tDom = new HashSet<Traitement>(getParameterService().getDomains(true, true));
@@ -403,133 +362,73 @@ public class ProfilController extends AbstractContextAwareController {
         return makeAccess(allTraitement);
     }
 
-    /**
-     * @return Set< BeanProfile>
-     */
-    public Set<BeanProfile> getBeanProfile() {
-        return getParameterService().getProfiles(null);
+    public List<BeanProfile> getBeanProfile() {
+        if (beanProfiles.isEmpty())
+            beanProfiles = getParameterService().getProfiles(null);
+        return beanProfiles;
     }
 
-    /**
-     * @return Set< BeanProfile>
-     */
-    public Set<BeanProfile> getBeanProfileInUse() {
-        if (getCurrentGest().getProfile().getSuperProfile()) {
-            return getParameterService().getProfiles(true);
-        }
-        //Not Diplay the superProfiles if the user has not a super profile.
-        Set<BeanProfile> beanP = new HashSet<BeanProfile>();
-        for (BeanProfile b : getParameterService().getProfiles(true)) {
-            if (!b.getProfile().getSuperProfile()) {
-                beanP.add(b);
-            }
-        }
-
-        return beanP;
+    public List<BeanProfile> getBeanProfileInUse() {
+        final List<BeanProfile> profiles = getParameterService().getProfiles(true);
+        return getCurrentGest().getProfile().getSuperProfile() ?
+                profiles :
+                asList(array(profiles.toArray(new BeanProfile[profiles.size()]))
+                        .filter(new F<BeanProfile, Boolean>() {
+                            public Boolean f(BeanProfile b) {
+                                return !b.getProfile().getSuperProfile();
+                            }
+                        })
+                        .array(BeanProfile[].class));
     }
 
+    public List<BeanAccess> getAccessFct() { return accessFct; }
 
-    /**
-     * List of BeanProfile in use.
-     *
-     * @return
-     */
-    public List<BeanProfile> getBeanProfileItems() {
-        List<BeanProfile> p = new ArrayList<BeanProfile>();
-        p.addAll(getBeanProfile());
-        return p;
-    }
-
-    /**
-     * @return List< BeanAccess>
-     */
-    public List<BeanAccess> getAccessFct() {
-        return accessFct;
-    }
-
-
-    /**
-     * @param access the access to set
-     */
     public void setAccessFct(final List<BeanAccess> access) {
         this.accessFct = access;
     }
 
-    /**
-     * @return the profil
-     */
     public Profile getProfil() {
         return profil;
     }
 
-    /**
-     * @param profil the profil to set
-     */
     public void setProfil(final Profile profil) {
         //Clone est utilise afin que l'utilisateur puisse modifier l'objet sans toucher au CACHE (par reference)
         //Probleme rencontre lors du modification annulee(par exemple), le cache etait tout de meme modifier
         this.profil = profil.clone();
     }
 
-    /**
-     * @return the accessRController
-     */
     public AccessRightController getAccessRController() {
         return accessRController;
     }
 
-    /**
-     * @param accessRController the accessRController to set
-     */
     public void setAccessRController(final AccessRightController accessRController) {
         this.accessRController = accessRController;
     }
 
-    /**
-     * @return the SELECT_ALL_DOMAIN
-     */
     public int getSelectAllDomain() {
         return SELECT_ALL_DOMAIN;
     }
 
-    /**
-     * @return the actionEnum
-     */
     public ActionEnum getActionEnum() {
         return actionEnum;
     }
 
-    /**
-     * @param actionEnum the actionEnum to set
-     */
     public void setActionEnum(final ActionEnum actionEnum) {
         this.actionEnum = actionEnum;
     }
 
-    /**
-     * @return the accessDomain
-     */
     public List<BeanAccess> getAccessDomain() {
         return accessDomain;
     }
 
-    /**
-     * @param accessDomain the accessDomain to set
-     */
     public void setAccessDomain(final List<BeanAccess> accessDomain) {
         this.accessDomain = accessDomain;
     }
 
-    /**
-     * @return the idDomainSelected
-     */
     public Integer getIdDomainSelected() {
         return idDomainSelected;
     }
 
-    /**
-     * @param idDomainSelected the idDomainSelected to set
-     */
     public void setIdDomainSelected(final Integer idDomainSelected) {
         this.idDomainSelected = idDomainSelected;
     }

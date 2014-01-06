@@ -5,6 +5,7 @@
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
         <h:form id="seeIndividusForm" rendered="#{!pjController.currentCmiPojo.state.displayPJ}">
+            <f:event type="preRenderView" listener="#{pjController.doNotRenderTable}" />
             <p:blockUI block="maPage" trigger="changeStateAll individuData search-button">
                 <p:graphicImage library="images" name="ajax-loader.gif"/>
             </p:blockUI>

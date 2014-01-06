@@ -4,154 +4,151 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
-    	
-    	
     	<div id="maPage" class="div_body">
-    		<ui:fragment rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.addAction}">
-    			<h1>
+    	    <ui:fragment rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.addAction}">
+    		<h1>
                     <span class="section-header">
                         <h:outputText value="#{msgs['GESTIONNAIRE.TITLE.ADD']}"/>
                     </span>
                 </h1>
-    		</ui:fragment>
-    		<ui:fragment rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.updateAction}">
-    			<h1>
+    	    </ui:fragment>
+    	    <ui:fragment rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.updateAction}">
+    		<h1>
                     <span class="section-header">
                         <h:outputText value="#{msgs['GESTIONNAIRE.TITLE.UPDATE']}"/>
                     </span>
                 </h1>
-    		</ui:fragment>
-    		<div class="messageForUser">
-    			<p:messages id="messages" showDetail="true" autoUpdate="true" />
-    		</div>
-    		<div class="maxDivTextRight">
-    			<h:panelGroup>
-    				<h:outputText value="#{msgs['INFO.CHAMP']}" />
+    	    </ui:fragment>
+    	    <div class="messageForUser">
+    		<p:messages id="messages" showDetail="true" autoUpdate="true" />
+    	    </div>
+    	    <div class="maxDivTextRight">
+    		<h:panelGroup>
+    		    <h:outputText value="#{msgs['INFO.CHAMP']}" />
+    		    <h:outputText value="*" styleClass="etoileForChpObli" />
+    		</h:panelGroup>
+    	    </div>    
+    	    <div id="div_subSection" class="div_subSection">
+    		<h:form id="enterManagerForm">
+    		    <div id="blockFormInfo" class="blockForm">
+    			<div class="blockButton">
+    			    <h:panelGrid columns="2" columnClasses="col2UnDemi,col2UnDemi"
+    					 styleClass="twoGroupsButton">
+    				<p:commandButton value="#{msgs['GESTIONNAIRE.SEARCH_LDAP']}"
+    						 immediate="true" onclick="javascript:{clickAnnuler = true;}"
+    						 action="#{gestionnaireController.goSearchManager}"
+    						 rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.addAction}">
+    				    <f:setPropertyActionListener value="#{ldapSearchController.ldapEnum.managerValue}" target="#{ldapSearchController.ldapEnum.whereAreYouFrom}" />
+    				</p:commandButton>
+    				<h:panelGroup
+    				    rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.updateAction}" />
+    				<h:panelGroup>
+    				    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+    						     action="#{gestionnaireController.add}" ajax="false"
+    						     rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.addAction
+    							       and managedAccess.addAuthorized}" />
+    				    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+    						     action="#{gestionnaireController.update}" ajax="false"
+    						     rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.updateAction
+    							       and managedAccess.updateAuthorized}" />
+    				    <p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
+    						     onclick="javascript:{clickAnnuler = true;}" ajax="false" immediate="true"
+    						     action="#{gestionnaireController.goSeeAllManagers}" />
+    				</h:panelGroup>
+    			    </h:panelGrid>
+    			</div>
+    			<h:panelGrid styleClass="tableWidthMax" columns="4"
+    				     columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
+    			    <h:panelGroup>
+    				<h:outputLabel value="#{msgs['FIELD_LABEL.NAME']}" for="nom"
+    					       styleClass="form-field-label-validator" />
     				<h:outputText value="*" styleClass="etoileForChpObli" />
-    			</h:panelGroup>
-    		</div>    
-    		<div id="div_subSection" class="div_subSection">
-    			<h:form id="enterManagerForm">
-    				<div id="blockFormInfo" class="blockForm">
-    					<div class="blockButton">
-    						<h:panelGrid columns="2" columnClasses="col2UnDemi,col2UnDemi"
-    							styleClass="twoGroupsButton">
-    							<p:commandButton value="#{msgs['GESTIONNAIRE.SEARCH_LDAP']}"
-    								immediate="true" onclick="javascript:{clickAnnuler = true;}"
-    								action="#{gestionnaireController.goSearchManager}"
-    								rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.addAction}">
-    								<f:setPropertyActionListener value="#{ldapSearchController.ldapEnum.managerValue}" target="#{ldapSearchController.ldapEnum.whereAreYouFrom}" />
-    							</p:commandButton>
-    							<h:panelGroup
-    								rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.updateAction}" />
-    							<h:panelGroup>
-    								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    									         action="#{gestionnaireController.add}" ajax="false"
-    									         rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.addAction
-    										           and managedAccess.addAuthorized}" />
-    								<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
-    									         action="#{gestionnaireController.update}" ajax="false"
-    									         rendered="#{gestionnaireController.actionEnum.whatAction == gestionnaireController.actionEnum.updateAction
-    											   and managedAccess.updateAuthorized}" />
-    								<p:commandButton value="#{msgs['_.BUTTON.CANCEL']}"
-    									         onclick="javascript:{clickAnnuler = true;}" ajax="false" immediate="true"
-    									         action="#{gestionnaireController.goSeeAllManagers}" />
-    							</h:panelGroup>
-    						</h:panelGrid>
-    					</div>
-    					<h:panelGrid styleClass="tableWidthMax" columns="4"
-    						columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
-    						<h:panelGroup>
-    							<h:outputLabel value="#{msgs['FIELD_LABEL.NAME']}" for="nom"
-    								styleClass="form-field-label-validator" />
-    							<h:outputText value="*" styleClass="etoileForChpObli" />
-    						</h:panelGroup>
-    						<p:inputText id="nom" size="31" maxlength="30"
-    							value="#{gestionnaireController.manager.nomUsuel}" />
-    						<h:panelGroup>
-    							<h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom"
-    								styleClass="form-field-label-validator" />
-    							<h:outputText value="*" styleClass="etoileForChpObli" />
-    						</h:panelGroup>
-    						<p:inputText id="prenom" size="22" maxlength="20"
-    							value="#{gestionnaireController.manager.prenom}" />
-    
-    						<h:panelGroup>
-    							<h:outputLabel value="#{msgs['GESTIONNAIRE.LOGIN']}" for="login"
-    								styleClass="form-field-label-validator" />
-    							<h:outputText value="*" styleClass="etoileForChpObli" />
-    						</h:panelGroup>
-    						<p:inputText id="login" size="35" maxlength="50"
-    							value="#{gestionnaireController.manager.login}" />
-    						<h:panelGroup>
-    							<h:outputLabel value="#{msgs['FIELD_LABEL.MAIL']}"
-    								styleClass="form-field-label-validator" for="adressMail" />
-    							<h:outputText value="*" styleClass="etoileForChpObli" />
-    						</h:panelGroup>
-    						<p:inputText id="adressMail" size="43" maxlength="50"
-    							value="#{gestionnaireController.manager.adressMail}" />
-    
-    						<h:panelGroup>
-    							<h:outputLabel value="#{msgs['PROFIL']}" for="profil"
-    								styleClass="form-field-label-validator" />
-    							<h:outputText value="*" styleClass="etoileForChpObli" />
-    						</h:panelGroup>
-    						<p:selectOneMenu id="profil" converter="javax.faces.Integer"
-    							value="#{gestionnaireController.idProfilSelected}">
-    							<f:selectItem itemLabel=""
-    									itemValue="" />
-    							<f:selectItems var="beanProfile"
-    								value="#{profilController.beanProfileInUse}"
-    								itemLabel="#{beanProfile.profile.libelle}"
-    								itemValue="#{beanProfile.profile.id}" />
-    						</p:selectOneMenu>
-    						<h:outputLabel value="#{msgs['FIELD_LABEL.CGE']}"
-                                styleClass="form-field-label-validator" for="cge" />
-    						<h:panelGroup>
-    							<p:selectOneMenu id="cge"
-    								value="#{gestionnaireController.manager.codeCge}">
-    								<f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}"
-    									itemValue="" />
-    								<f:selectItems var="centreGestion"
-    									value="#{gestionnaireController.centreGestion}"
-    									itemLabel="#{centreGestion.libCge}"
-    									itemValue="#{centreGestion.codCge}" />
-                                    <!-- <p:ajax update="@form" /> -->
-    							</p:selectOneMenu>
-    						</h:panelGroup>
-    
-    						<h:panelGroup>
-    							<h:outputLabel value="#{msgs['GESTIONNAIRE.DBT_VALID']}"
-    								styleClass="form-field-label-validator" for="datdbtvalid" />
-    							<h:outputText value="*" styleClass="etoileForChpObli" />
-    						</h:panelGroup>
+    			    </h:panelGroup>
+    			    <p:inputText id="nom" size="31" maxlength="30"
+    					 value="#{gestionnaireController.manager.nomUsuel}" />
+    			    <h:panelGroup>
+    				<h:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenom"
+    					       styleClass="form-field-label-validator" />
+    				<h:outputText value="*" styleClass="etoileForChpObli" />
+    			    </h:panelGroup>
+    			    <p:inputText id="prenom" size="22" maxlength="20"
+    					 value="#{gestionnaireController.manager.prenom}" />
+                            
+    			    <h:panelGroup>
+    				<h:outputLabel value="#{msgs['GESTIONNAIRE.LOGIN']}" for="login"
+    					       styleClass="form-field-label-validator" />
+    				<h:outputText value="*" styleClass="etoileForChpObli" />
+    			    </h:panelGroup>
+    			    <p:inputText id="login" size="35" maxlength="50"
+    					 value="#{gestionnaireController.manager.login}" />
+    			    <h:panelGroup>
+    				<h:outputLabel value="#{msgs['FIELD_LABEL.MAIL']}"
+    					       styleClass="form-field-label-validator" for="adressMail" />
+    				<h:outputText value="*" styleClass="etoileForChpObli" />
+    			    </h:panelGroup>
+    			    <p:inputText id="adressMail" size="43" maxlength="50"
+    					 value="#{gestionnaireController.manager.adressMail}" />
+                            
+    			    <h:panelGroup>
+    				<h:outputLabel value="#{msgs['PROFIL']}" for="profil"
+    					       styleClass="form-field-label-validator" />
+    				<h:outputText value="*" styleClass="etoileForChpObli" />
+    			    </h:panelGroup>
+    			    <p:selectOneMenu id="profil" converter="javax.faces.Integer"
+    					     value="#{gestionnaireController.idProfilSelected}">
+    				<f:selectItem itemLabel=""
+    					      itemValue="" />
+    				<f:selectItems var="beanProfile"
+    					       value="#{profilController.beanProfileInUse}"
+    					       itemLabel="#{beanProfile.profile.libelle}"
+    					       itemValue="#{beanProfile.profile.id}" />
+    			    </p:selectOneMenu>
+    			    <h:outputLabel value="#{msgs['FIELD_LABEL.CGE']}"
+                                           styleClass="form-field-label-validator" for="cge" />
+    			    <h:panelGroup>
+    				<p:selectOneMenu id="cge"
+    						 value="#{gestionnaireController.manager.codeCge}">
+    				    <f:selectItem itemLabel="#{msgs['FIELD_LABEL.SELECT']}"
+    						  itemValue="" />
+    				    <f:selectItems var="centreGestion"
+    						   value="#{gestionnaireController.centreGestion}"
+    						   itemLabel="#{centreGestion.libCge}"
+    						   itemValue="#{centreGestion.codCge}" />
+    				</p:selectOneMenu>
+    			    </h:panelGroup>
+                            
+    			    <h:panelGroup>
+    				<h:outputLabel value="#{msgs['GESTIONNAIRE.DBT_VALID']}"
+    					       styleClass="form-field-label-validator" for="datdbtvalid" />
+    				<h:outputText value="*" styleClass="etoileForChpObli" />
+    			    </h:panelGroup>
                             <p:calendar id="datdbtvalid"
-                                value="#{gestionnaireController.manager.dateDbtValidite}"
-                                pattern="ddMMyyyy" timeZone="#{sessionController.timezone}"
-                                size="10" />
-    						<h:outputLabel value="#{msgs['GESTIONNAIRE.END_VALID']}"
-                                styleClass="form-field-label-validator"
-    							for="datfinvalid" />
+                                        value="#{gestionnaireController.manager.dateDbtValidite}"
+                                        pattern="ddMMyyyy" timeZone="#{sessionController.timezone}"
+                                        size="10" />
+    			    <h:outputLabel value="#{msgs['GESTIONNAIRE.END_VALID']}"
+                                           styleClass="form-field-label-validator"
+    					   for="datfinvalid" />
                             <p:calendar id="datfinvalid"
-                                value="#{gestionnaireController.manager.dateFinValidite}"
-                                mindate="#{gestionnaireController.manager.dateDbtValidite}"
-                                pattern="ddMMyyyy" timeZone="#{sessionController.timezone}"
-                                size="10" />
-    					</h:panelGrid>
-    				</div>
+                                        value="#{gestionnaireController.manager.dateFinValidite}"
+                                        mindate="#{gestionnaireController.manager.dateDbtValidite}"
+                                        pattern="ddMMyyyy" timeZone="#{sessionController.timezone}"
+                                        size="10" />
+    			</h:panelGrid>
+    		    </div>
                     
-    				<br />
-    				<br />
-    				<br />
+    		    <br />
+    		    <br />
+    		    <br />
                     <p:outputPanel rendered="#{gestionnaireController.manager.codeCge == ''
-                                || gestionnaireController.manager.codeCge == null}">
-    					<ui:include src="../referentiels/_commission/_selectCmi.xhtml" />
+                                             || gestionnaireController.manager.codeCge == null}">
+    			<ui:include src="../referentiels/_commission/_selectCmi.xhtml" />
                     </p:outputPanel>
-    			</h:form>
-    		</div>    
-    		<br />
-    		<br />
-    		<br />
+    		</h:form>
+    	    </div>    
+    	    <br />
+    	    <br />
+    	    <br />
     	</div>
     	
 

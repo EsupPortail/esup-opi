@@ -4,6 +4,7 @@
  */
 package org.esupportail.opi.domain;
 
+import fj.F;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
@@ -37,6 +38,9 @@ import java.io.IOException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static fj.data.Array.array;
+import static java.util.Arrays.asList;
 
 
 /**
@@ -173,18 +177,19 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     @Override
-    public Set<BeanProfile> getProfiles(final Boolean temEnSve) {
-        if (log.isDebugEnabled()) {
+    public List<BeanProfile> getProfiles(final Boolean temEnSve) {
+        if (log.isDebugEnabled())
             log.debug("entering getProfiles( " + temEnSve + " )");
-        }
-        List<Profile> l = daoService.getProfiles(temEnSve);
-        Set<BeanProfile> beanP = new HashSet<BeanProfile>();
-        for (Profile p : l) {
-            BeanProfile b = new BeanProfile(p);
-            beanP.add(b);
-        }
 
-        return beanP;
+        final List<Profile> l = daoService.getProfiles(temEnSve);
+
+        return new ArrayList<>(array(l.toArray(new Profile[l.size()]))
+                .map(new F<Profile, BeanProfile>() {
+                    public BeanProfile f(Profile p) {
+                        return new BeanProfile(p);
+                    }
+                })
+                .toCollection());
     }
 
     @Override
