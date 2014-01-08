@@ -7,23 +7,6 @@
     <packaging>pom</packaging>
     <description>An Blank Application to start your project</description>
 	<name>esup-opi</name>
-    <reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-changelog-plugin</artifactId>
-				<version>2.2</version>
-				<reportSets>
-					<reportSet>
-						<id>changelog-report</id>
-						<reports>
-							<report>changelog</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-		</plugins>
-	</reporting> 
     <modules>
         <module>esup-opi-batch</module>
         <module>esup-opi-dao</module>
@@ -87,10 +70,6 @@
             <name>esup-portail</name>
             <url>https://mvn.esup-portail.org/content/repositories/snapshots</url>
         </snapshotRepository>
-        <site>
-			<id>site-docs</id>
-            <url>${site.url}</url>
-		</site> 
     </distributionManagement>
     <scm>
     	<connection>scm:git:ssh://git@github.com/EsupPortail/esup-opi</connection>
@@ -299,7 +278,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--Test properties-->
         <mockito.version>1.9.5</mockito.version>
-        <site.url>file:///tmp/esup-opi/docs</site.url>
     </properties>
 </project>
 
