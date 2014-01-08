@@ -65,15 +65,16 @@ public class ExHandler extends ExceptionHandlerWrapper {
                 //e = ExceptionUtils.catchException(result.getCause());
                 e = ExceptionUtils.catchException(result);
                 request.getSession().setAttribute(ExceptionUtils.EXCEPTION_MARKER_NAME, e);
+
+                NavigationHandler navigation = fc.getApplication().getNavigationHandler();
+                // Redirection vers la page des erreurs
+                String view = e.getExceptionView();
+                navigation.handleNavigation(fc, null, view);
+                fc.renderResponse();
             } catch (Throwable th) {
                 log.error("problem to catch exception = " + th, th);
                 getWrapped().handle();
             }
-            NavigationHandler navigation = fc.getApplication().getNavigationHandler();
-            // Redirection vers la page des erreurs
-            String view = e.getExceptionView();
-            navigation.handleNavigation(fc, null, view);
-            fc.renderResponse();
         }
     }
 }
