@@ -142,7 +142,9 @@
     		    <br />
                     <p:outputPanel rendered="#{gestionnaireController.manager.codeCge == ''
                                              || gestionnaireController.manager.codeCge == null}">
-    			<ui:include src="../referentiels/_commission/_selectCmi.xhtml" />
+    			    <ui:include src="../referentiels/_commission/_selectCmi.xhtml">
+                        <ui:param name="toUpdate" value="@form" />
+                    </ui:include>
                     </p:outputPanel>
     		</h:form>
     	    </div>    

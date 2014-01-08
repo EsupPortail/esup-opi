@@ -714,7 +714,7 @@ public class CommissionController
 			Profile mbr = getParameterService().getProfile(null, Constantes.COD_PRO_MEMBER);
 			if (mbr == null) {
 				throw new ConfigException("Le profil MEMBRE n'existe pas. "
-						+ "Il faut qu'il soit enregistre dans la base de donner "
+						+ "Il faut qu'il soit enregistre dans la base de données "
 						+ "pour ajouter des membres en tant que gestionnaires.");
 			}
 
