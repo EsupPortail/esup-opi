@@ -24,6 +24,12 @@
             <div class="messageForUser">
                 <p:messages id="messages" showDetail="true" autoUpdate="true"/>
             </div>
+            <div class="maxDivTextRight">
+                <h:panelGroup>
+                    <h:outputText value="#{msgs['INFO.CHAMP']}"/>
+                    <h:outputText value="*" styleClass="etoileForChpObli"/>
+                </h:panelGroup>
+            </div>
             <div id="div_subSectionCmiForm" class="div_subSection">
                 <h:form id="enterCommissionForm">
                     <div id="blockFormInfo" class="blockForm">
