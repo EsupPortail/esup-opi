@@ -38,11 +38,12 @@
     								<p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
     									immediate="true"
     									action="#{calendarController.goUpdateCal}"
-    									rendered="#{managedAccess.updateAuthorized}" >
+    									rendered="#{managedAccess.updateAuthorized}"
+                                                                        ajax="false">
     									<f:setPropertyActionListener value="#{calendarController.actionEnum.updateAction}" target="#{calendarController.actionEnum.whatAction}" />
     								</p:commandButton>
     								<p:commandButton value="#{msgs['_.BUTTON.BACK']}" immediate="true"
-    									action="#{calendarController.goSeeAllCal}" />
+    									action="#{calendarController.goSeeAllCal}" ajax="false" />
     							</h:panelGroup>
     						</h:panelGrid>
     					</div>
