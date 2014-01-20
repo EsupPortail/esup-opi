@@ -8,7 +8,7 @@
             <h:panelGrid styleClass="tableWidthMax" columns="2"
                          columnClasses="col1UnDemi,col1UnDemi">
                 <h:panelGroup>
-                    <h:outputLabel value="#{msgs['COMMISSION.CHOICE']}" for="selectCmi"/>
+                    <h:outputLabel value="#{msgs['COMMISSION.CHOICE']}" for="allCmis"/>
                 </h:panelGroup>
                 <h:panelGroup>
                     <p:selectOneMenu id="allCmis" converter="javax.faces.Integer"
@@ -17,7 +17,8 @@
                         <f:selectItems var="cmi"
                                        value="#{commissionController.commissionsItemsByRight}"
                                        itemLabel="#{cmi.libelle}" itemValue="#{cmi.id}"/>
-                        <p:ajax listener="#{commissionController.selectCommission}" update="@form"/>
+                        <p:ajax listener="#{commissionController.selectCommission}" update="#{toUpdate}"/>
+                        <!--<p:ajax listener="#{commissionController.selectCommission}" update="@form"/>-->
                     </p:selectOneMenu>
                 </h:panelGroup>
             </h:panelGrid>
@@ -31,7 +32,8 @@
                 <h:outputText value="#{msgs['COMMISSIONS']}"
                               styleClass="section-smallTitle"/>
                 <p:commandButton id="addCmiButton" value="#{msgs['_.BUTTON.ADD']}"
-                                 update="@form"
+                                 update="mainBlockSelectCmi"
+                                 process="@this" partialSubmit="true"
                                  rendered="#{commissionController.actionEnum.whatAction != commissionController.actionEnum.seeSelectCmi}">
                     <f:setPropertyActionListener value="#{commissionController.actionEnum.seeSelectCmi}"
                                                  target="#{commissionController.actionEnum.whatAction}"/>
@@ -57,6 +59,7 @@
                     <p:commandButton icon="ui-icon-minus"
                                      update="listeCommission"
                                      action="#{commissionController.removeCmi}"
+                                     process="@this" partialSubmit="true"
                                      title="#{msgs['_.BUTTON.DELETE']}">
                         <p:collector value="#{commission}" removeFrom="#{commissionController.selectedCommissions}"/>
                     </p:commandButton>

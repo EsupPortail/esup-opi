@@ -14,7 +14,6 @@ import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.beans.parameters.*;
-import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.beanEnum.ActionEnum;
@@ -31,6 +30,7 @@ import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.controllers.AbstractContextAwareController;
 import org.esupportail.opi.web.controllers.references.EtapeController;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.util.StringUtils;
 
@@ -88,6 +88,11 @@ public class NomenclatureController extends AbstractContextAwareController {
 	 */
 	private WayfEnum wayfEnum;
 
+    /**
+     * Confirmation de la suppression.
+     */
+    private Boolean confirmeDelete;
+    
 	/**
 	 * List of Etapes attached to the PJ. 
 	 */
@@ -203,6 +208,7 @@ public class NomenclatureController extends AbstractContextAwareController {
     public NomenclatureController() {
 		super();
 		reset();
+        confirmeDelete = false;
 	}
 	
 	public void initTypesDec() {
@@ -234,6 +240,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 		deletePJs = new HashSet<>();
 		etapeTraitee = new PieceJustiVetPojo();
 		wayfEnum = new WayfEnum();
+        confirmeDelete = false;
 	}
 	
 	/**
@@ -251,6 +258,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 		deleteEtapes = new HashSet<PieceJustiVetPojo>();	
 		etapeTraitee = new PieceJustiVetPojo();
 		wayfEnum = new WayfEnum();
+        confirmeDelete = false;
 	}
 	
 	@Override
@@ -1145,43 +1153,69 @@ public class NomenclatureController extends AbstractContextAwareController {
 		return l;
 	}
 	
+    /**
+     * @return the confirmeDelete
+     */
+    public boolean isConfirmeDelete() {
+        return confirmeDelete;
+    }
+
+    public void setConfirmeDelete() {
+    	this.confirmeDelete = this.confirmeDelete ? false : true;
+    }
+    
 	public void ajouterFichierPJ() {        
-	        // Prepare file and outputstream.
-	    File file = null;
-	    OutputStream output = null;
-	        
-	    try {
-	        	
-	       if (FilenameUtils.getExtension(uploadedFile.getFileName()).equalsIgnoreCase("txt") || FilenameUtils.getExtension(uploadedFile.getFileName()).equalsIgnoreCase("pdf")
-	        	|| FilenameUtils.getExtension(uploadedFile.getFileName()).equalsIgnoreCase("doc") || FilenameUtils.getExtension(uploadedFile.getFileName()).equalsIgnoreCase("odt")
-	        	|| FilenameUtils.getExtension(uploadedFile.getFileName()).equalsIgnoreCase("xls")){
-	    	   // Create file with unique name in upload folder and write to it.
-	    	   file = new File(uploadPath,uploadedFile.getFileName());
-	    	   output = new FileOutputStream(file);
-	    	   IOUtils.copy(uploadedFile.getInputstream(), output);
-	    	   fileName = file.getName();
+		// Prepare file and outputstream.
+		File file = null;
+		OutputStream output = null;
+		if (uploadedFile == null) {
+			addErrorMessage(null, "FILES.MESSAGE.NO_FILE_GIVEN");
+		} else {
+			try {
+				if (FilenameUtils.getExtension(uploadedFile.getFileName())
+						.equalsIgnoreCase("txt")
+						|| FilenameUtils.getExtension(
+								uploadedFile.getFileName()).equalsIgnoreCase(
+								"pdf")
+						|| FilenameUtils.getExtension(
+								uploadedFile.getFileName()).equalsIgnoreCase(
+								"doc")
+						|| FilenameUtils.getExtension(
+								uploadedFile.getFileName()).equalsIgnoreCase(
+								"odt")
+						|| FilenameUtils.getExtension(
+								uploadedFile.getFileName()).equalsIgnoreCase(
+								"xls")) {
+					// Create file with unique name in upload folder and write
+					// to it.
+					file = new File(uploadPath, uploadedFile.getFileName());
+					output = new FileOutputStream(file);
+					IOUtils.copy(uploadedFile.getInputstream(), output);
+					fileName = file.getName();
 
-	    	   // Show succes message.
-	    	   addInfoMessage(null,"PJ.FILE_IS_ADDED");
-	            
-	    	   PieceJustificative pj = (PieceJustificative) nomenclature;
-	    	   pj.setNomDocument(fileName);
-	    	   getParameterService().updateNomenclature(pj);
-	        }else 
-	        		throw new IOException();
-	 
-	        } catch (IOException e) {
-	            // Cleanup.
-	           if (file != null) file.delete();
+					// Show succes message.
+					addInfoMessage(null, "PJ.FILE_IS_ADDED");
 
-	            // Show error message.
-	           addErrorMessage(null, "PJ.FILE_ADDED_FAILED");
+					PieceJustificative pj = (PieceJustificative) nomenclature;
+					pj.setNomDocument(fileName);
+					getParameterService().updateNomenclature(pj);
+				} else
+					throw new IOException();
 
-	            // Always log stacktraces (with a real logger).
-	           e.printStackTrace();
-	        } finally {
-	           IOUtils.closeQuietly(output);
-	        }
+			} catch (IOException e) {
+				// Cleanup.
+				if (file != null)
+					file.delete();
+
+				// Show error message.
+				addErrorMessage(null, "PJ.FILE_ADDED_FAILED");
+
+				// Always log stacktraces (with a real logger).
+				e.printStackTrace();
+			} finally {
+				IOUtils.closeQuietly(output);
+			}
+		}
 	}
 	
 	public void removeFile(){
@@ -1189,6 +1223,7 @@ public class NomenclatureController extends AbstractContextAwareController {
 		pj.setNomDocument(null);
 		getParameterService().updateNomenclature(pj);
 		addInfoMessage(null, "PJ.REMOVED_FILE");
+        this.confirmeDelete = false;
 	}
 	
 	public List<TypeConvocation> getTypeConvocations() {

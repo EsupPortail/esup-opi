@@ -4,34 +4,92 @@
              xmlns:p="http://primefaces.org/ui">
     <br/>
     <br/>
+   
+	<ui:fragment
+		rendered="#{nomenclatureController.nomenclature.nomDocument!=null}">
+		<h:panelGrid columns="3" styleClass="displayInfo"
+			columnClasses="colUnQuart,,buttonTD">
+			<h:panelGroup style="text-align:left">
+				<h:outputLabel value="#{msgs['PJ.ADDED_FILE']}" for="file" />
+			</h:panelGroup>
+			<h:commandLink
+				value="#{nomenclatureController.nomenclature.nomDocument}"
+				action="#{formulairesController.download}">
+				<f:setPropertyActionListener
+					value="#{nomenclatureController.nomenclature.nomDocument}"
+					target="#{formulairesController.nomDocument}" />
+			</h:commandLink>
+			<h:panelGroup
+				rendered="#{nomenclatureController.actionEnum.whatAction 
+ 				== nomenclatureController.actionEnum.updateAction
+ 				and managedAccess.updateAuthorized}">
+				<p:commandButton icon="ui-icon-minus"
+				ajax="false"
+					action="#{nomenclatureController.setConfirmeDelete}"
+					title="#{msgs['_.BUTTON.DELETE']}">
+				</p:commandButton>
+			</h:panelGroup>
+		</h:panelGrid>
+	</ui:fragment>
 
-    <div style="text-align:right;">
-        <p:commandButton value="#{msgs['_.BUTTON.ADD']}" ajax="false" actionListener="#{nomenclatureController.ajouterFichierPJ}"/>
-    </div>
-    <h:panelGrid styleClass="tableWidthMax" columnClasses="colUnCinquieme,colUnQuart,colUnQuart,colUnQuart" columns="4">
-        <h:panelGroup style="text-align:left">
-            <h:outputLabel value="#{msgs['PJ.ADDED_FILE']}" for="file"/>
-        </h:panelGroup>
-        <h:panelGroup>
-            <p:fileUpload value="#{nomenclatureController.uploadedFile}" mode="simple" />
-           			 
-            <h:commandLink value="#{nomenclatureController.nomenclature.nomDocument}"
-                           rendered="#{nomenclatureController.nomenclature.nomDocument!=null}"
-                           action="#{formulairesController.download}" >
-                <f:setPropertyActionListener value="#{nomenclatureController.nomenclature.nomDocument}"
-                                             target="#{formulairesController.nomDocument}"/>
-            </h:commandLink>
-            <p:commandButton icon="ui-icon-minus"
-                             styleClass="form-button-image" immediate="true"
-                             rendered="#{nomenclatureController.nomenclature.nomDocument!=null}"
-                             action="#{nomenclatureController.removeFile}"
-                             title="#{msgs['_.BUTTON.DELETE']}"  update="@form">
-            </p:commandButton>
-        </h:panelGroup>
+	<ui:fragment
+		rendered="#{nomenclatureController.actionEnum.whatAction 
+ 				== nomenclatureController.actionEnum.updateAction
+ 				and managedAccess.updateAuthorized
+ 				and nomenclatureController.nomenclature.nomDocument==null}">
+		<div style="text-align: right;">
+			<p:commandButton value="#{msgs['_.BUTTON.ADD']}" ajax="false"
+				actionListener="#{nomenclatureController.ajouterFichierPJ}" />
+		</div>
+		<h:panelGrid styleClass="tableWidthMax"
+			columnClasses="colUnQuart,col1UnDemi,colUnQuart" columns="3">
+			<h:panelGroup style="text-align:left">
+				<h:outputLabel value="#{msgs['PJ.ADDED_FILE']}" for="file" />
+			</h:panelGroup>
+			<p:fileUpload value="#{nomenclatureController.uploadedFile}"
+				mode="simple" allowTypes="/(\.|\/)(doc|txt|xls|pdf)$/"
+				invalidFileMessage="#{msgs['ERROR.THESIS.FORMAT']}"
+				showButtons="false" auto="true" id="file" />
+			<h:panelGroup
+				rendered="#{nomenclatureController.nomenclature.nomDocument==null}">
+				<h:outputLabel value="#{msgs['PJ.ACCEPTED_FILE_FORMAT']}"
+					rendered="#{nomenclatureController.nomenclature.nomDocument==null}" />
+			</h:panelGroup>
+		</h:panelGrid>
+	</ui:fragment>
 
-        <h:panelGroup rendered="#{nomenclatureController.nomenclature.nomDocument==null}">
-            <h:outputLabel value="#{msgs['PJ.ACCEPTED_FILE_FORMAT']}"
-                           rendered="#{nomenclatureController.nomenclature.nomDocument==null}"/>
-        </h:panelGroup>
-    </h:panelGrid>
+	<!-- 	    <div style="text-align:right;"> -->
+<!--         <p:commandButton value="#{msgs['_.BUTTON.ADD']}" ajax="false" actionListener="#{nomenclatureController.ajouterFichierPJ}"/> -->
+<!--     </div> -->
+<!--     <h:panelGrid styleClass="tableWidthMax" columnClasses="colUnCinquieme,colUnQuart,colUnQuart,colUnQuart" columns="4"> -->
+<!--         <h:panelGroup style="text-align:left"> -->
+<!--             <h:outputLabel value="#{msgs['PJ.ADDED_FILE']}" for="file"/> -->
+<!--         </h:panelGroup> -->
+<!--         <h:panelGroup> -->
+<!--             <p:fileUpload value="#{nomenclatureController.uploadedFile}" mode="simple" /> -->
+<!--         	<p:fileUpload value="#{nomenclatureController.uploadedFile}" mode="simple"    -->
+<!--                       allowTypes="/(\.|\/)(doc|txt|xls|pdf)$/" -->
+<!--                       invalidFileMessage="#{msgs['ERROR.THESIS.FORMAT']}" -->
+<!--                       label="#{msgs['FILEBROWSE']}" -->
+<!--                       showButtons="false" -->
+<!--                       auto="true"/>           			  -->
+<!--             <h:commandLink value="#{nomenclatureController.nomenclature.nomDocument}" -->
+<!--                            rendered="#{nomenclatureController.nomenclature.nomDocument!=null}" -->
+<!--                            action="#{formulairesController.download}" > -->
+<!--                 <f:setPropertyActionListener value="#{nomenclatureController.nomenclature.nomDocument}" -->
+<!--                                              target="#{formulairesController.nomDocument}"/> -->
+<!--             </h:commandLink> -->
+<!--             <p:commandButton icon="ui-icon-minus" -->
+<!--                              styleClass="form-button-image" immediate="true" -->
+<!--                              rendered="#{nomenclatureController.nomenclature.nomDocument!=null}" -->
+<!--                              action="#{nomenclatureController.removeFile}" -->
+<!--                              title="#{msgs['_.BUTTON.DELETE']}"  update="@form"> -->
+<!--             </p:commandButton> -->
+<!--         </h:panelGroup> -->
+
+<!--         <h:panelGroup rendered="#{nomenclatureController.nomenclature.nomDocument==null}"> -->
+<!--             <h:outputLabel value="#{msgs['PJ.ACCEPTED_FILE_FORMAT']}" -->
+<!--                            rendered="#{nomenclatureController.nomenclature.nomDocument==null}"/> -->
+<!--         </h:panelGroup> -->
+<!--     </h:panelGrid> -->
 </ui:fragment>

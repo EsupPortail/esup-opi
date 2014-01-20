@@ -3,10 +3,7 @@
  */
 package org.esupportail.opi.web.controllers.references;
 
-import fj.F;
-import fj.F2;
-import fj.F3;
-import fj.Unit;
+import fj.*;
 import fj.data.Option;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.exceptions.UserNotFoundException;
@@ -57,6 +54,7 @@ import static fj.Function.curry;
 import static fj.Semigroup.stringSemigroup;
 import static fj.Unit.unit;
 import static fj.data.IterableW.wrap;
+import static fj.data.List.iterableList;
 import static fj.data.Option.fromNull;
 import static fj.data.Stream.iterableStream;
 import static fj.data.Validation.validation;
@@ -637,7 +635,7 @@ public class CommissionController
 	 */
 	public void selectCommission() {
 		commission = getParameterService().getCommission(commission.getId(), null);
-		fj.data.List<Commission> list = fj.data.List.iterableList(selectedCommissions).cons(commission);
+		fj.data.List<Commission> list = iterableList(selectedCommissions).cons(commission);
 		selectedCommissions = new ArrayList<Commission>(list.nub().toCollection());
 		actionEnum.setWhatAction(ActionEnum.EMPTY_ACTION);
 		commission = new Commission();
@@ -648,12 +646,25 @@ public class CommissionController
 	 */
 	public void selectCommAdress() {
 		Commission commSelected = getParameterService().getCommission(idCmiForAdress, null);
-		Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
-        Integer codeRI = gest.getProfile().getCodeRI();
-		AdresseCommission adrRI =
-                commSelected.getContactsCommission().get(codeRI.toString()).getAdresse();
-		adressController.init(adrRI, true);
-		addInfoMessage(null, "COMMISSION.WARN_CHANGE_ADRESS");
+		final Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
+        final Integer codeRI = gest.getProfile().getCodeRI();
+		final Option<AdresseCommission> adrRI = fromNull(commSelected.getContactsCommission())
+                .bind(new F<Map<Integer, ContactCommission>, Option<AdresseCommission>>() {
+                    public Option<AdresseCommission> f(Map<Integer, ContactCommission> contacts) {
+                        return fromNull(contacts.get(codeRI)).bind(new F<ContactCommission, Option<AdresseCommission>>() {
+                            public Option<AdresseCommission> f(ContactCommission contact) {
+                                return fromNull(contact.getAdresse());
+                            }
+                        });
+                    }
+                });
+        adrRI.foreach(new Effect<AdresseCommission>() {
+            public void e(AdresseCommission adresse) {
+                adressController.init(adresse, true);
+                addInfoMessage(null, "COMMISSION.WARN_CHANGE_ADRESS");
+            }
+        });
+
 	}
 
 	/**
@@ -714,7 +725,7 @@ public class CommissionController
 			Profile mbr = getParameterService().getProfile(null, Constantes.COD_PRO_MEMBER);
 			if (mbr == null) {
 				throw new ConfigException("Le profil MEMBRE n'existe pas. "
-						+ "Il faut qu'il soit enregistre dans la base de donner "
+						+ "Il faut qu'il soit enregistre dans la base de données "
 						+ "pour ajouter des membres en tant que gestionnaires.");
 			}
 
@@ -1304,15 +1315,20 @@ public class CommissionController
 	 * @return Set<Commission>
 	 */
 	public List<Commission> getCommissionsForAdresses() {
-		Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
+        final Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
 		final Integer codeRI = gest.getProfile().getCodeRI();
 
-		return new ArrayList<Commission>(iterableStream(comsInUseByRight).filter(
-				new F<Commission, Boolean>() {
-					public Boolean f(Commission c) {
-						final Commission cmi = getParameterService().getCommission(c.getId(), null);
-						return cmi.getContactsCommission().get(codeRI.toString()) != null;
-					}}).toCollection());
+		return new ArrayList<>(iterableList(comsInUseByRight).filter(
+                new F<Commission, Boolean>() {
+                    public Boolean f(Commission c) {
+                        final Commission cmi = getParameterService().getCommission(c.getId(), null);
+                        return fromNull(cmi.getContactsCommission()).map(new F<Map<Integer, ContactCommission>, Boolean>() {
+                            public Boolean f(Map<Integer, ContactCommission> map) {
+                                return map.get(codeRI) != null;
+                            }
+                        }).orSome(Boolean.FALSE);
+                    }
+                }).toCollection());
 	}
 
 	/**

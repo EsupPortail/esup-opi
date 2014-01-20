@@ -163,6 +163,8 @@ public class CalendarController extends AbstractContextAwareController {
      */
     public String goAddCall() {
         reset();
+        getBeanCalendar().setCalendar(new CalendarIns());
+        getBeanCalendar().setTypeSelected(Calendar.TYPE_CAL_INSCRIPTION);
         commissionController.reset();
         commissionController.getWayfEnum().setWhereAreYouFrom(WayfEnum.CALENDAR_VALUE);
         commissionController.getActionEnum().setWhatAction(ActionEnum.SEE_SELECT_CMI);

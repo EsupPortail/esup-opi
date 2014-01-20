@@ -384,19 +384,19 @@ public class AdressController extends AbstractContextAwareController {
             }
             ctrlOk = false;
         }
-        if (!StringUtils.hasText(a.getAdr1())) {
-            if (displayMessage) {
-                addErrorMessage(null, Constantes.I18N_EMPTY, getString("ADRESS"));
-            }
-            ctrlOk = false;
-        }
         if (!StringUtils.hasText(a.getPhoneNumber())) {
             if (displayMessage) {
                 addErrorMessage(null, Constantes.I18N_EMPTY, getString("ADRESS.TEL_FIX"));
             }
             ctrlOk = false;
         }
-        if (ctrlOk && a.getCodPays().equals(Constantes.CODEFRANCE)) {
+        if (!StringUtils.hasText(a.getAdr1())) {
+            if (displayMessage) {
+                addErrorMessage(null, Constantes.I18N_EMPTY, getString("ADRESS"));
+            }
+            ctrlOk = false;
+        }
+        if (a.getCodPays().equals(Constantes.CODEFRANCE)) {
             if (!StringUtils.hasText(a.getCodBdi())) {
                 if (displayMessage) {
                     addErrorMessage(null, Constantes.I18N_EMPTY, getString("ADRESS.COD_POST"));
@@ -409,7 +409,7 @@ public class AdressController extends AbstractContextAwareController {
                 }
                 ctrlOk = false;
             }
-        } else if (ctrlOk && !a.getCodPays().equals(Constantes.CODEFRANCE)) {
+        } else {
             if (!StringUtils.hasText(a.getLibComEtr())) {
                 if (displayMessage) {
                     addErrorMessage(null, Constantes.I18N_EMPTY, getString("ADRESS.VIL.ETR"));
