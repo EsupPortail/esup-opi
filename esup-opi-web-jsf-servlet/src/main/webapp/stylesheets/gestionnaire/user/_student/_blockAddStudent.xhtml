@@ -90,14 +90,19 @@
                 <p:inputText id="clefNNE" size="1" maxlength="1"
                              value="#{individuController.pojoIndividu.individu.codeClefNNE}"/>
             </h:panelGroup>
-
-            <p:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"
+            
+            <!-- SUPPRESSION DU REGIME D'INSCRIPTION -->
+            <p:outputLabel/>
+            <h:panelGroup/>
+            <!-- p:outputLabel value="#{msgs['FIELD_LABEL.REGIME_INSCRIPTION']}"
                            for="regimeInscription"/>
             <p:selectOneMenu id="regimeInscription" required="true"
                              converter="#{regimeInscriptionConverter}"
                              value="#{individuController.pojoIndividu.regimeInscription}">
                 <f:selectItems value="#{nomenclatureController.regimeInscriptionsItemsConv}"/>
             </p:selectOneMenu>
+            -->
+            
         </h:panelGrid>
     </p:outputPanel>
 </ui:fragment>
