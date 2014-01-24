@@ -158,7 +158,7 @@ autres : préconiser déclinaison à partir de la couleur secondaire.
 }
 
 .esup-opiR1 div.welcomeBackSalamander {
-	background-image: url("#{request.contextPath}/resources/images/back_salamandre.png");
+	background-image: url("#{request.contextPath}/resources/images/background_body.png");
 	background-position: center;
 	background-repeat: no-repeat;
 	width: auto;
