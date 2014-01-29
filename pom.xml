@@ -69,11 +69,7 @@
             <id>esup</id>
             <name>esup-portail</name>
             <url>https://mvn.esup-portail.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <site>
-	    <id>site-docs</id>
-            <url>${site.url}</url>
-	</site> 
+        </snapshotRepository> 
     </distributionManagement>
     <scm>
     	<connection>scm:git:ssh://git@github.com/EsupPortail/esup-opi</connection>
