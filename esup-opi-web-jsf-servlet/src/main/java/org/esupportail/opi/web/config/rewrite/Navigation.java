@@ -20,6 +20,7 @@ import org.ocpsoft.rewrite.servlet.config.HttpCondition;
 import org.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
 import org.ocpsoft.rewrite.servlet.config.HttpOperation;
 import org.ocpsoft.rewrite.servlet.config.Redirect;
+import org.ocpsoft.rewrite.servlet.config.Request;
 import org.ocpsoft.rewrite.servlet.config.RequestParameter;
 import org.ocpsoft.rewrite.servlet.config.URL;
 import org.ocpsoft.rewrite.servlet.http.event.HttpServletRewrite;
@@ -35,7 +36,6 @@ public class Navigation extends HttpConfigurationProvider {
 	@Override
 	public Configuration getConfiguration(final ServletContext context) {
 		return ConfigurationBuilder.begin()
-				
 				.addRule()
 				.when(URL.matches("http{*}://{*}/stylesheets/cas/accueil.xhtml?ent={ent}&isManager={isManager}").withRequestBinding()
 						.and(RequestParameter.exists("isManager"))
