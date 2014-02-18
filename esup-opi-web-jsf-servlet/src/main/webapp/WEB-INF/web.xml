@@ -84,7 +84,11 @@
         <param-name>org.apache.myfaces.CHECK_EXTENSIONS_FILTER</param-name>
         <param-value>true</param-value>
     </context-param>
-	
+
+    <listener>
+        <listener-class>org.esupportail.opi.web.utils.listener.Coerce2zero</listener-class>
+    </listener>
+
     <listener>
         <listener-class>
             org.springframework.web.util.Log4jConfigListener
