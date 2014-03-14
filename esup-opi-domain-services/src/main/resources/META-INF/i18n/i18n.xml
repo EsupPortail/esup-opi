@@ -24,12 +24,13 @@
           class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basenames">
             <list>
+                <value>file:${i18n_bundles.path}/Custom</value>
                 <value>classpath:properties/i18n/bundles/Commons</value>
-                <value>classpath:properties/i18n/bundles/Messages</value>
                 <value>classpath:properties/i18n/bundles/Custom</value>
+                <value>classpath:properties/i18n/bundles/Messages</value>
                 <value>classpath:META-INF/i18n/bundles/Commons</value>
-                <value>classpath:META-INF/i18n/bundles/Messages</value>
                 <value>classpath:META-INF/i18n/bundles/Custom</value>
+                <value>classpath:META-INF/i18n/bundles/Messages</value>
                 <value>classpath:META-INF/i18n/bundles/JsfMessages</value>
             </list>
         </property>
