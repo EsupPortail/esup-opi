@@ -15,13 +15,13 @@
     <br/>
     <p:messages id="messages" showDetail="true" autoUpdate="true" styleClass="messageForUser"/>
 
-    <div style="margin-left:3%;">
+    <!-- div style="margin-left:3%;">
         <h1>
             <h:outputFormat value="#{msgs['INFO.CANDIDAT.SERVER_RI']}" styleClass="section-header">
                 <f:param value="#{sessionController.regimeInsUser.label}"/>
             </h:outputFormat>
         </h1>
-    </div>
+    </div-->
     <ui:fragment rendered="#{sessionController.regimeInsUser.displayInfoFC}">
         <div class="blockTable" style="width:700px; margin-left:3%;">
             <h:outputFormat value="#{msgs['INFO.CANDIDAT.RESERVED_FC']}"
