@@ -161,6 +161,7 @@ public class MonitorCandidaturesController extends AbstractAccessController {
     }
     
     public void changeCommissionAndMakeListStudent() {
+        idTrtCmi = 0;
     	changeCommission();
     	makeListStudent();
     }
@@ -225,7 +226,7 @@ public class MonitorCandidaturesController extends AbstractAccessController {
 
     public void exportList() {
         String state = getString(stateSelected);
-        printOpinionController.csvGeneration(individus, "export_"
+        printOpinionController.csvGeneration(individus, commissionController.getCommission(), "export_"
                 + StringUtils.sansAccent(state) + "_ForCmi_"
                 + commissionController.getCommission().getCode() + ".csv");
         reset();

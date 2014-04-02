@@ -284,14 +284,16 @@ public class TrtCmiController extends AbstractAccessController {
         // Avoid a hibernate LazyInitException
         Commission com = getParameterService().getCommission(c.getId(), c.getCode());
 
-        for (TraitementCmi t : com.getTraitementCmi()) {
-            if ((inUse == null || !inUse) && Utilitaires.isTraitementCmiOff(t, codeRI)) {
-                BeanTrtCmi b = new BeanTrtCmi(t, TypeTraitement.fromCode(t.getCodTypeTrait()));
-                treatmentsCmiOff.add(prepareTrtCmi(b));
-            }
-            if ((inUse == null || inUse) && !Utilitaires.isTraitementCmiOff(t, codeRI)) {
-                BeanTrtCmi b = new BeanTrtCmi(t, TypeTraitement.fromCode(t.getCodTypeTrait()));
-                allTraitementCmi.add(prepareTrtCmi(b));
+        if (com != null) {
+            for (TraitementCmi t : com.getTraitementCmi()) {
+                if ((inUse == null || !inUse) && Utilitaires.isTraitementCmiOff(t, codeRI)) {
+                    BeanTrtCmi b = new BeanTrtCmi(t, TypeTraitement.fromCode(t.getCodTypeTrait()));
+                    treatmentsCmiOff.add(prepareTrtCmi(b));
+                }
+                if ((inUse == null || inUse) && !Utilitaires.isTraitementCmiOff(t, codeRI)) {
+                    BeanTrtCmi b = new BeanTrtCmi(t, TypeTraitement.fromCode(t.getCodTypeTrait()));
+                    allTraitementCmi.add(prepareTrtCmi(b));
+                }
             }
         }
     }
