@@ -35,7 +35,7 @@
                                 <p:selectOneRadio id="etats" value="#{monitorCandidaturesController.stateSelected}">
                                     <f:selectItem itemLabel="#{msgs['STATE.DESIST']}" itemValue="STATE.DESIST"/>
                                     <f:selectItem itemLabel="#{msgs['STATE.CONFIRM']}" itemValue="STATE.CONFIRM"/>
-                                    <p:ajax event="change" listener="#{monitorCandidaturesController.changeCommissionAndMakeListStudent}"
+                                    <p:ajax event="change" listener="#{monitorCandidaturesController.makeListStudent}"
                                             update="@form,blockIndividuData"/>
                                 </p:selectOneRadio>
                             </h:panelGroup>

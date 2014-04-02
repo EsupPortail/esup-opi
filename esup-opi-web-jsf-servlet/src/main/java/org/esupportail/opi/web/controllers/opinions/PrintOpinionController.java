@@ -76,6 +76,7 @@ import static fj.data.IterableW.wrap;
 import static fj.data.Option.fromNull;
 import static fj.data.Option.some;
 import static fj.data.Stream.iterableStream;
+import static fj.data.Stream.join;
 import static fj.function.Booleans.not;
 import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.Transfert;
 import static org.esupportail.opi.utils.Constantes.ADR_FIX;
@@ -495,10 +496,16 @@ public class PrintOpinionController extends AbstractContextAwareController {
      *             Generate a CSV of the list of student.
      */
     @Deprecated
-    public String csvGeneration(final List<IndividuPojo> individus, final String fileName) {
+    public String csvGeneration(final List<IndividuPojo> individus, final Commission commission,final String fileName) {
         if (champsChoisis == null)
             champsChoisis = HEADER_CVS.toArray(new String[HEADER_CVS.size()]);
-        List<LigneCSV> listePrepa = new ArrayList<>(); //indPojoToLignes(individus);
+
+        List<LigneCSV> listePrepa = new ArrayList<>(
+                join(iterableArray(individus).map(new F<IndividuPojo, Stream<LigneCSV>>() {
+                    public Stream<LigneCSV> f(IndividuPojo individuPojo) {
+                        return indPojoToLignes(individuPojo, commission);
+                    }
+                }).toStream()).toCollection());
         try {
             ExportUtils.superCsvGenerate(listePrepa, champsChoisis, fileName);
         } catch (IOException e) {
