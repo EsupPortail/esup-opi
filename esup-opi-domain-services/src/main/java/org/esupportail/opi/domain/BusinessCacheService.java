@@ -5,6 +5,7 @@ package org.esupportail.opi.domain;
 
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.esupportail.wssi.services.remote.Etablissement;
 import org.esupportail.wssi.services.remote.SignataireDTO;
@@ -46,6 +47,8 @@ public interface BusinessCacheService  extends Serializable {
 	// SignataireDTO
 	//////////////////////////////////////////////////////////////
 
-	public SignataireDTO getSignataire(String codSig);
+    public List<SignataireDTO> getSignataires();
+
+    public SignataireDTO getSignataire(String codSig);
 
 }

@@ -64,15 +64,12 @@ public final class PDFUtils {
 			final String directory, 
 			final String fileNamePdf, 
 			final String fileNameXsl) {
+        final File f1 = new File(directory + fileNameXml);
 		try {
-			File f1 = new File(directory + fileNameXml);
 			byte[] arrayPDF = transformXMLPDF(
 					f1,
 					new File(directory + fileNameXsl),
 					directory);
-			
-			
-			f1.delete();
 			
 			setDownLoadAndSend(arrayPDF, facesContext,
 					Constantes.HTTP_TYPE_PDF, fileNamePdf);
@@ -81,8 +78,10 @@ public final class PDFUtils {
 			
 		} catch (TransformerException e) {
 			LOGGER.error("probleme de transformation pdf = " + fileNamePdf + "exception : " + e);
-		}
-	}
+		} finally {
+            f1.delete();
+        }
+    }
 	
 	
 	
@@ -99,7 +98,7 @@ public final class PDFUtils {
 			final String directory, 
 			final String fileNamePdf, 
 			final String fileNameXsl) {
-		File f1 = new File(directory + fileNameXml);
+		final File f1 = new File(directory + fileNameXml);
 		byte[] arrayPDF;
 		try {
 			arrayPDF = PDFUtils.transformXMLPDF(
@@ -113,15 +112,16 @@ public final class PDFUtils {
 
 			zipStream.write(arrayPDF);
 			zipStream.closeEntry();
-			f1.delete();
 		} catch (TransformerException e) {
 			LOGGER.error("probleme de preparation du zip contenant le pdf = "
 								+ fileNamePdf + "exception : " + e);
 		} catch (IOException e) {
 			LOGGER.error("probleme de preparation du zip contenant le pdf = " 
 								+ fileNamePdf + "exception : " + e);
-		}     				    
-		
+		} finally {
+            f1.delete();
+        }
+
 		return zipStream;
 		
 	}

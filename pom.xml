@@ -80,6 +80,21 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>3.0.6.RELEASE</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-frontend-jaxws</artifactId>
                 <version>2.7.5</version>
@@ -108,6 +123,63 @@
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-all</artifactId>
                 <version>${mockito.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate.javax.persistence</groupId>
+                <artifactId>hibernate-jpa-2.0-api</artifactId>
+                <version>1.0.1.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>org.esupportail</groupId>
+                <artifactId>esup-commons2-core</artifactId>
+                <version>${esupcommons.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>net.sf.ehcache</groupId>
+                        <artifactId>ehcache</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.esupportail</groupId>
+                <artifactId>esup-commons2-auth</artifactId>
+                <version>${esupcommons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.esupportail</groupId>
+                <artifactId>esup-commons2-jsf2-exception</artifactId>
+                <version>${esupcommons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.esupportail</groupId>
+                <artifactId>esup-commons2-hibernate</artifactId>
+                <version>${esupcommons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.esupportail</groupId>
+                <artifactId>esup-commons2-ldap</artifactId>
+                <version>${esupcommons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.esupportail</groupId>
+                <artifactId>esup-commons2-annotations</artifactId>
+                <version>${esupcommons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.esupportail</groupId>
+                <artifactId>esup-commons2-ws-cxf</artifactId>
+                <version>${esupcommons.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.primefaces</groupId>
+                <artifactId>primefaces</artifactId>
+                <version>3.5</version>
+            </dependency>
+            <dependency>
+                <groupId>org.primefaces.extensions</groupId>
+                <artifactId>primefaces-extensions</artifactId>
+                <version>0.6.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -142,11 +214,6 @@
             <version>3.0.6.RELEASE</version>
         </dependency>
         <dependency>
-            <groupId>org.primefaces</groupId>
-            <artifactId>primefaces</artifactId>
-            <version>3.5</version>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.10</version>
@@ -172,15 +239,16 @@
             <version>3.2.3</version>
         </dependency>
         <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.primefaces.extensions</groupId>
             <artifactId>primefaces-extensions</artifactId>
-            <version>0.6.1</version>
         </dependency>
         <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-commons2-auth</artifactId>
-            <version>${esupcommons.version}</version>
-            <type>jar</type>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>
@@ -199,7 +267,6 @@
         <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-commons2-jsf2-exception</artifactId>
-            <version>${esupcommons.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>
@@ -277,7 +344,7 @@
     </build>
     <properties>
         <javax.servlet.version>3.0.1</javax.servlet.version>
-        <esupcommons.version>0.3.2</esupcommons.version>
+        <esupcommons.version>0.3.4</esupcommons.version>
         <spring.version>3.2.2.RELEASE</spring.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--Test properties-->

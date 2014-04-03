@@ -5,6 +5,7 @@ package org.esupportail.opi.domain;
 
 import java.util.List;
 
+import fj.F;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -20,6 +21,8 @@ import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.springframework.util.StringUtils;
 
 import com.googlecode.ehcache.annotations.Cacheable;
+
+import static fj.data.Array.iterableArray;
 
 /**
  * @author cleprous
@@ -121,7 +124,6 @@ public class BusinessCacheServiceImpl
 			cacheManager.addCache(SIGN_CACHE_NAME);
 		}
 		cacheSign = cacheManager.getCache(SIGN_CACHE_NAME);
-		initCacheSignataire();
 	}
 	
 	/*
@@ -138,8 +140,8 @@ public class BusinessCacheServiceImpl
 	//////////////////////////////////////////////////////////////
 
 	/** 
-	 * @see org.esupportail.opi.domain.BusinessCacheService#getVetDTO(
-	 * java.lang.String, java.lang.Integer)
+	 * @see org.esupportail.opi.domain.BusinessCacheService
+     * #getVetDTO(java.lang.String, java.lang.Integer, java.lang.String)
 	 */
 	@Override
 	@Cacheable(cacheName = CacheModelConst.ENS_APOGEE_MODEL)
@@ -230,47 +232,30 @@ public class BusinessCacheServiceImpl
 	// SignataireDTO
 	//////////////////////////////////////////////////////////////
 
-	/**
-	 * Initialisation du cache Signataire.
-	 */
-	public void initCacheSignataire() {
-		if (log.isDebugEnabled()) {
-			log.debug("entering initCacheSignataire( )");
-		}
-		
-		cacheSign.flush();
-		
-		//  mise en cache des ÃÂ©lÃÂ©ments
-		List<SignataireDTO> signs = domainApoService.getSignataires();
-		for (SignataireDTO sign : signs) {
-			cacheSign.put(new Element(sign.getCodSig(), sign));
-		}
-		
-		if (log.isDebugEnabled()) {
-			log.debug("leanving initCacheSignataire");
-		}
-	}
+    @Override
+    @Cacheable(cacheName = CacheModelConst.SIGNATAIRES)
+    public List<SignataireDTO> getSignataires() {
+        return domainApoService.getSignataires();
+    }
 	
 	/**
-	 * @see org.esupportail.opi.domain.BusinessCacheService#
-	 * getSignataire(java.lang.String)
+	 * @see org.esupportail.opi.domain.BusinessCacheService#getSignataire(java.lang.String)
 	 */
 	@Override
+    @Cacheable(cacheName = CacheModelConst.SIGNATAIRES)
 	public SignataireDTO getSignataire(final String codSig) {
 		if (log.isDebugEnabled()) {
 			log.debug("entering getSignataire(" + codSig +" )");
 		}
-		
-		// dans le cas ou le cache ne contient pas l'ÃÂ©tape ou si le cache a été flushé
-		// on réinitialise le cache
-		if (cacheSign.get(codSig) == null) {
-			initCacheSignataire();
-		}
-		
-		SignataireDTO result = (SignataireDTO) cacheSign.get(codSig).getObjectValue();
+
+		final SignataireDTO result = iterableArray(getSignataires()).find(new F<SignataireDTO, Boolean>() {
+            public Boolean f(SignataireDTO signataireDTO) {
+                return signataireDTO.getCodSig().equalsIgnoreCase(codSig);
+            }
+        }).toNull();
 		
 		if (log.isDebugEnabled()) {
-			log.debug("leanving getSignataire with vet =" + result);
+			log.debug("leaving getSignataire with vet =" + result);
 		}
 		return result;
 	}

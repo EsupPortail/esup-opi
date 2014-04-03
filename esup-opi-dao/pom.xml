@@ -23,7 +23,6 @@
         <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-commons2-hibernate</artifactId>
-            <version>${esupcommons.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.hibernate</groupId>
