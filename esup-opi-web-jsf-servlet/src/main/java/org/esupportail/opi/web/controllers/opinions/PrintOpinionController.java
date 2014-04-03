@@ -937,12 +937,12 @@ public class PrintOpinionController extends AbstractContextAwareController {
         Commission com = retrieveOSIVCommission(
                 laCommission.getId(), laCommission.getCode());
 
-        List<NotificationOpinion> dataPDF = new ArrayList<NotificationOpinion>();
+        List<NotificationOpinion> dataPDF = new ArrayList<>();
         for (IndividuPojo i : individus) {
-            Set<IndVoeuPojo> indVoeuPojoFav = new HashSet<IndVoeuPojo>();
-            Set<IndVoeuPojo> indVoeuPojoDef = new HashSet<IndVoeuPojo>();
-            Set<IndVoeuPojo> indVoeuPojoFavAppel = new HashSet<IndVoeuPojo>();
-            Set<IndVoeuPojo> indVoeuPojoDefAppel = new HashSet<IndVoeuPojo>();
+            Set<IndVoeuPojo> indVoeuPojoFav = new HashSet<>();
+            Set<IndVoeuPojo> indVoeuPojoDef = new HashSet<>();
+            Set<IndVoeuPojo> indVoeuPojoFavAppel = new HashSet<>();
+            Set<IndVoeuPojo> indVoeuPojoDefAppel = new HashSet<>();
             for (IndVoeuPojo indVPojo : i.getIndVoeuxPojo()) {
                 Avis a = indVPojo.getAvisEnService();
                 if (a != null) {

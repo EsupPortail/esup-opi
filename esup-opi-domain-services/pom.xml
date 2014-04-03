@@ -33,12 +33,7 @@
         <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-commons2-ldap</artifactId>
-            <version>${esupcommons.version}</version>
             <exclusions>
-                <exclusion>
-                    <artifactId>esup-commons2-core</artifactId>
-                    <groupId>org.esupportail</groupId>
-                </exclusion>
                 <exclusion>
                     <artifactId>spring-tx</artifactId>
                     <groupId>org.springframework</groupId>
@@ -52,12 +47,7 @@
         <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-commons2-annotations</artifactId>
-            <version>${esupcommons.version}</version>
             <exclusions>
-                <exclusion>
-                    <artifactId>esup-commons2-core</artifactId>
-                    <groupId>org.esupportail</groupId>
-                </exclusion>
                 <exclusion>
                     <artifactId>slf4j-simple</artifactId>
                     <groupId>org.slf4j</groupId>

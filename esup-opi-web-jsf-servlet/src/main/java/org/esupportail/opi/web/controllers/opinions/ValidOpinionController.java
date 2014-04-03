@@ -323,7 +323,7 @@ public class ValidOpinionController extends AbstractContextAwareController {
     /**
      * Validate the students for one commission passed by param.
      */
-    private void validateStudentsForTheCommission(
+    private String validateStudentsForTheCommission(
             final Commission laCommission) {
         if (log.isDebugEnabled()) {
             log.debug("entering validateStudentsForTheCommission() " + laCommission.toString());
@@ -481,6 +481,7 @@ public class ValidOpinionController extends AbstractContextAwareController {
             addInfoMessage(null, "OPINION.VALIDATION_OK.WITHOUT_MAIL");
         }
         reset();
+        return null;
     }
 
     public void setPrintOpinionController(

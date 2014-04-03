@@ -197,7 +197,7 @@
         </dependency>
     </dependencies>
     <properties>
-        <rewrite.version>2.0.8.Final</rewrite.version>
+        <rewrite.version>2.0.11.Final</rewrite.version>
         <jetty.envXml>src/main/jetty/jetty-env.xml</jetty.envXml>
     </properties>
     <name>esup-opi-web-jsf-servlet</name>
