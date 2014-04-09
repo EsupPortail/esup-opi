@@ -291,10 +291,13 @@ public class OpinionController
      * @return String
      */
     public String goSeeOpinionVoeu() {
-        for (Avis a : indVoeuxPojo.getIndVoeu().getAvis()) {
-            if (a.getResult().getCodeTypeConvocation()
-                    .equals(listeComplementaire.getCode())) {
-                indVoeuxPojo.setIsUsingLC(true);
+        final IndVoeu indVoeu = indVoeuxPojo.getIndVoeu();
+        if (indVoeu != null) {
+            for (Avis a : indVoeu.getAvis()) {
+                if (a.getResult().getCodeTypeConvocation()
+                        .equals(listeComplementaire.getCode())) {
+                    indVoeuxPojo.setIsUsingLC(true);
+                }
             }
         }
         isUsingDEF = false;
