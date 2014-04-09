@@ -290,7 +290,7 @@ autres : préconiser déclinaison à partir de la couleur secondaire.
 	font-size: 14px;
 	color: #b7b6b6;
 	font-weight: bold;
-	font-style: none;
+	font-style: normal;
 	padding-left: 15px;
 	background-image: url("#{request.contextPath}/resources/images/bullet_red.png");
 	background-repeat: no-repeat;
@@ -302,7 +302,7 @@ autres : préconiser déclinaison à partir de la couleur secondaire.
 	font-size: 14px;
 	color: Black;
 	font-weight: bold;
-	font-style: none;
+	font-style: normal;
 }
 
 /*####   Section FORM ########*/
@@ -553,7 +553,7 @@ autres : préconiser déclinaison à partir de la couleur secondaire.
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	padding-bottom: 3px;
-	white-space: wrap;
+	white-space: normal;
 }
 
 .esup-opiR1 .displayInfo td.buttonTD,
@@ -584,7 +584,7 @@ autres : préconiser déclinaison à partir de la couleur secondaire.
 }
 
 .esup-opiR1 table.displayInfo .codeDisplayInfo {
-	vertical-align: center;
+	vertical-align: middle;
 }
 
 .esup-opiR1 table.displayInfo th.thOrdonne {
@@ -737,7 +737,7 @@ table.displayAddRdv tr td.right {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	padding-bottom: 3px;
-	white-space: wrap;
+	white-space: normal;
 }
 
 .esup-opiR1 .colMiddle {
@@ -827,7 +827,6 @@ table.displayAddRdv tr td.right {
 	font-weight: bold;
 }
 
-}
 .esup-opiR1 div.messageForUser .msg-alert {
 	padding: 2px;
 	display: block;
@@ -1102,6 +1101,11 @@ a.ui-button:hover {
 
 .ui-outputlabel.ui-state-error {
 	background: transparent;
+}
+
+.ui-button-icon-only {
+    width: 24px !important;
+    height: 24px !important;
 }
 
 .form-section {

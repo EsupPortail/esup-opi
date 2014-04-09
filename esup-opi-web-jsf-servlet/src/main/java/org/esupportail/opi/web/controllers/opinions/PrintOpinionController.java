@@ -674,19 +674,23 @@ public class PrintOpinionController extends AbstractContextAwareController {
                                              final F<IndVoeuPojo, Boolean> voeuFilter) {
         final HashSet<Integer> listeRI =
                 new HashSet<>(wrap(commissionController.getListeRI()).map(getRICode()).toStandardList());
-        final F<String, Individu> fetchInd = new F<String, Individu>() {
-            public Individu f(String id) {
+        final F<String, Option<Individu>> fetchInd = new F<String, Option<Individu>>() {
+            public Option<Individu> f(String id) {
                 return getDomainService().fetchIndById(id, onlyValidate);
             }
         };
-        final F<Individu, IndividuPojo> buildPojos =
-                individuToPojo(p(getDomainApoService()), p(getParameterService()))
-                .andThen(new F<IndividuPojo, IndividuPojo>() {
-                    public IndividuPojo f(IndividuPojo ip) {
-                        ip.setIndVoeuxPojo(ip.getIndVoeuxPojo().filter(voeuFilter));
-                        return ip;
-                    }
-                });
+        final F<Option<Individu>, Option<IndividuPojo>> buildPojos = new F<Option<Individu>, Option<IndividuPojo>>() {
+            public Option<IndividuPojo> f(Option<Individu> optInd) {
+                return optInd.map(individuToPojo(p(getDomainApoService()), p(getParameterService()))
+                                .andThen(new F<IndividuPojo, IndividuPojo>() {
+                                    public IndividuPojo f(IndividuPojo ip) {
+                                        ip.setIndVoeuxPojo(ip.getIndVoeuxPojo().filter(voeuFilter));
+                                        return ip;
+                                    }
+                                }));
+            }
+        };
+
         final List<String> indsIds = getDomainService().getIndsIds(laCommission, onlyValidate, listeRI);
         final Strategy<IndividuPojo> strat =
                 Strategy.<IndividuPojo>executorStrategy(ParallelModule.pool).errorStrategy(new Effect<Error>() {
@@ -694,7 +698,7 @@ public class PrintOpinionController extends AbstractContextAwareController {
                         error.printStackTrace();
                     }
                 });
-        return strat.parMap(fetchInd.andThen(buildPojos), array(indsIds.toArray(new String[indsIds.size()])))
+        return strat.parMap(fetchInd.andThen(buildPojos).andThen(Option.<IndividuPojo>fromSome()), array(indsIds.toArray(new String[indsIds.size()])))
                 .map(Conversions.<IndividuPojo>Array_Stream())
                 ._1();
     }

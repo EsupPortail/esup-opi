@@ -168,7 +168,19 @@ div.paginator li.currentpage input{
 .oneLine {
     padding-top: 9px;
     padding-bottom: 8px;
+    min-height: 13px;
+    vertical-align: baseline;
 }
+
+.oneLine button {
+    margin: 0 !important;
+}
+
+.oneLine input[type=text], .oneLine button {
+    margin-top: -7px!important;
+    margin-bottom: -6px!important;
+}
+
 
 .oneLineWrapper tr {
     height: 30px !important;

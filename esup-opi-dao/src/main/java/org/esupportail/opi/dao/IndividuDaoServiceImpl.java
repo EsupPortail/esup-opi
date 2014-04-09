@@ -317,7 +317,7 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
 
     @Override
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public Individu fetchIndById(String id, Option<Boolean> onlyValidWishes) {
+    public Option<Individu> fetchIndById(String id, Option<Boolean> onlyValidWishes) {
         final Map<Individu, Set<IndVoeu>> results =
                 from(indEnt)
                         .innerJoin(indVoeux, indVoeu)
@@ -328,19 +328,21 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
                                         .f(oneIsOne)))
                         .transform(groupBy(indEnt).as(set(indVoeu)));
 
-        final Individu individu = results.keySet().iterator().next();
-        final Set<IndVoeu> voeux = results.get(individu);
+        for (Individu individu : results.keySet()) {
+            final Set<IndVoeu> voeux = results.get(individu);
 
-        // Gros hack dégoûtant (mais efficace, en tout cas plus que du fetch/join)
-        // pour forcer le chargement des collections par hibernate
-        for (IndVoeu v : voeux) {
-            LinkTrtCmiCamp link = v.getLinkTrtCmiCamp();
-            TraitementCmi trt = link.getTraitementCmi();
-            link.toString();
-            trt.toString();
+            // Gros hack dégoûtant (mais efficace, en tout cas plus que du fetch/join)
+            // pour forcer le chargement des collections par hibernate
+            for (IndVoeu v : voeux) {
+                LinkTrtCmiCamp link = v.getLinkTrtCmiCamp();
+                TraitementCmi trt = link.getTraitementCmi();
+                link.toString();
+                trt.toString();
+            }
+
+            individu.setVoeux(voeux);
+            return some(individu);
         }
-
-        individu.setVoeux(voeux);
-        return individu;
+        return none();
     }
 }
