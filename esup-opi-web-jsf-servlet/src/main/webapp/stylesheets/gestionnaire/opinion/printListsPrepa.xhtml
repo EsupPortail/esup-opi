@@ -28,7 +28,7 @@
                     <div style="text-align:right;">
                         <p:commandButton value="#{msgs['_.BUTTON.CHOICE_COL']}" onclick="ccExp.show()" type="button"/>
                     </div>
-                    <h:panelGrid styleClass="tableWidthMax" columns="5"
+                    <h:panelGrid styleClass="tableWidthMax" columns="45"
                                  columnClasses="colUnQuart,colUnQuart,colUnQuart,colUnQuart">
                         <h:panelGroup>
                             <h:outputLabel value="#{msgs['COMMISSIONS']}" for="lesCommissions"/>
@@ -44,25 +44,22 @@
                                 <p:ajax listener="#{commissionController.selectCommissionForLists}" update="@form"/>
                             </p:selectOneMenu>
                         </h:panelGroup>
+                        <h:panelGroup><!-- separator --></h:panelGroup>
                         <h:panelGroup>
-                            <h:outputLabel value="#{msgs['COMMISSION.EDIT_LISTE_PREPA']}"
-                                           rendered="#{commissionController.commission.code != null}"/>
-                        </h:panelGroup>
-                        <h:panelGroup>
+                            <p:menuButton value="#{msgs['COMMISSION.EDIT_LISTE_PREPA']}"
+                                          rendered="#{commissionController.commission.code != null}">
+                                <p:menuitem value="#{msgs['COMMISSION.EDIT_LISTE_PREPA_ALPHA']}"
+                                            actionListener="#{commissionController.makePDFListesPreparatoireAlpha}"
+                                            ajax="false"/>
+                                <p:menuitem value="#{msgs['COMMISSION.EDIT_LISTE_PREPA_ETAPE']}"
+                                            actionListener="#{commissionController.makePDFListesPreparatoireEtape}"
+                                            ajax="false"/>
+                                <p:menuitem value="#{msgs['COMMISSION.EDIT_LISTE_PREPA_TITRE']}"
+                                            actionListener="#{commissionController.makePDFListesPreparatoireTitre}"
+                                            ajax="false"/>
+                            </p:menuButton>
                             <p:remoteCommand name="generateCSVListesPreparatoire" async="true"
                                              action="#{printOpinionController.generateCSVListesPreparatoire}" />
-                            <p:commandButton value="#{msgs['COMMISSION.EDIT_LISTE_PREPA_ALPHA']}"
-                                             rendered="#{commissionController.commission.code != null}"
-                                             action="#{commissionController.makePDFListesPreparatoireAlpha}"
-                                             ajax="false"/>
-                            <p:commandButton value="#{msgs['COMMISSION.EDIT_LISTE_PREPA_ETAPE']}"
-                                             rendered="#{commissionController.commission.code != null}"
-                                             action="#{commissionController.makePDFListesPreparatoireEtape}"
-                                             ajax="false"/>
-                            <p:commandButton value="#{msgs['COMMISSION.EDIT_LISTE_PREPA_TITRE']}"
-                                             rendered="#{commissionController.commission.code != null}"
-                                             action="#{commissionController.makePDFListesPreparatoireTitre}"
-                                             ajax="false"/>
                             <p:commandButton value="#{msgs['_.BUTTON.EXPORT']}"
                                              rendered="#{commissionController.commission.code != null}"
                                              actionListener="#{printOpinionController.generationMailAsyncWarning}"

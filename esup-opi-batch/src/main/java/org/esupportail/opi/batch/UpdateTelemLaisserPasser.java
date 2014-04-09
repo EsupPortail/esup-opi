@@ -1,5 +1,6 @@
 package org.esupportail.opi.batch;
 
+import fj.Effect;
 import fj.data.Option;
 import fj.data.Stream;
 import org.esupportail.commons.context.ApplicationContextHolder;
@@ -54,16 +55,16 @@ public class UpdateTelemLaisserPasser  {
 	 */
 	private static void update() {
 		DomainService domainService = (DomainService) ApplicationContextHolder.getContext().getBean("domainService");
-		DomainApoService domainApoService = (DomainApoService) ApplicationContextHolder.getContext().getBean("domainApoService");
+		final DomainApoService domainApoService = (DomainApoService) ApplicationContextHolder.getContext().getBean("domainApoService");
 		ParameterService parameterService = (ParameterService) ApplicationContextHolder.getContext().getBean("parameterService");
-		OpiWebService opiWebService = (OpiWebService) ApplicationContextHolder.getContext().getBean("opiWebService");
+		final OpiWebService opiWebService = (OpiWebService) ApplicationContextHolder.getContext().getBean("opiWebService");
 		try {
 
 			DatabaseUtils.open();
 			DatabaseUtils.begin();
 			Set<Commission> commissions = parameterService.getCommissions(true);
-			List<Individu> iAlreadyAddInApo = new ArrayList<>();
-			int nbIndApo = 0;
+			final List<Individu> iAlreadyAddInApo = new ArrayList<>();
+            final int[] nbIndApo = {0};
 			for (Commission cmi : commissions) {
                 // TODO : n'a pas l'air de servir à grand chose...
 				List<VersionEtpOpi> vets = new ArrayList<>();
@@ -72,31 +73,36 @@ public class UpdateTelemLaisserPasser  {
 				}
 
                 for (String id : domainService.getIndsIds(cmi, some(true), null))	{
-				    Individu i = domainService.fetchIndById(id, Option.<Boolean>none());
-						if (!iAlreadyAddInApo.contains(i)) {
-						List<IndVoeu> list = new ArrayList<>();
-						for (IndVoeu indVoeu : i.getVoeux()) {
-							if (indVoeu.getState().equals(EtatConfirme.getCodeLabel())) {
-								list.add(indVoeu);
-							}
-						}
-						if (!list.isEmpty() && opiWebService != null) {
-							//on deverse tous les temps dans Apogee
-							opiWebService.launchWebService(i, list);
-						
-							//on creer les laisser passer 
-							domainApoService.addTelemLaisserPasser(list, 
-									StringUtils.hasText(i.getCodeEtu()));
-							
-							iAlreadyAddInApo.add(i);
-							nbIndApo++;
-						}
-					}
+                    final Option<Individu> optInd = domainService.fetchIndById(id, Option.<Boolean>none());
+                    optInd.foreach(new Effect<Individu>() {
+                        public void e(final Individu i) {
+                            if (!iAlreadyAddInApo.contains(i)) {
+                                List<IndVoeu> list = new ArrayList<>();
+                                for (IndVoeu indVoeu : i.getVoeux()) {
+                                    if (indVoeu.getState().equals(EtatConfirme.getCodeLabel())) {
+                                        list.add(indVoeu);
+                                    }
+                                }
+                                if (!list.isEmpty() && opiWebService != null) {
+                                    //on deverse tous les temps dans Apogee
+                                    opiWebService.launchWebService(i, list);
+
+                                    //on creer les laisser passer
+                                    domainApoService.addTelemLaisserPasser(list,
+                                            StringUtils.hasText(i.getCodeEtu()));
+
+                                    iAlreadyAddInApo.add(i);
+                                    nbIndApo[0]++;
+                                }
+                            }
+
+                        }
+                    });
 				}
 					
 			}
 			
-			LOG.info(nbIndApo + " individus ont été déposés dans Apogée.");
+			LOG.info(nbIndApo[0] + " individus ont été déposés dans Apogée.");
 			DatabaseUtils.commit();
 
 		} catch (Exception e) {

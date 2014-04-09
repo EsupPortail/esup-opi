@@ -52,11 +52,11 @@ public interface IndividuDaoService {
 
     /**
      * <b>Eagerly</b> (in hibernate sense) fetch an {@link Individu} from the DB by its id
-     * @param id The id (i.e 'numDossierOpi') of the {@link Individu}
-     * @param onlyValidWishes wether the {@link IndVoeu}s of the {@link Individu} should be filtered
-     *                        with regard to the validity of their Avis(cf. {@link Avis#validation}).
-     *                        A {@link Option#none()} value means no filtering.
+     * @param id The id (i.e 'numDossierOpi') of the {@link org.esupportail.opi.domain.beans.user.Individu}
+     * @param onlyValidWishes wether the {@link org.esupportail.opi.domain.beans.user.candidature.IndVoeu}s of the {@link org.esupportail.opi.domain.beans.user.Individu} should be filtered
+     *                        with regard to the validity of their Avis(cf. {@link org.esupportail.opi.domain.beans.user.candidature.Avis#validation}).
+     *                        A {@link fj.data.Option#none()} value means no filtering.
      * @return The {@link Individu} of 'numDossierOpi' {@code id}
      */
-    Individu fetchIndById(String id, Option<Boolean> onlyValidWishes);
+    Option<Individu> fetchIndById(String id, Option<Boolean> onlyValidWishes);
 }
