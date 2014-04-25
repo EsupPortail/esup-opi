@@ -56,6 +56,7 @@ import static fj.Unit.unit;
 import static fj.data.IterableW.wrap;
 import static fj.data.List.iterableList;
 import static fj.data.Option.fromNull;
+import static fj.data.Option.somes;
 import static fj.data.Stream.iterableStream;
 import static fj.data.Validation.validation;
 import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.Transfert;
@@ -984,10 +985,11 @@ public class CommissionController
 
         // recuperation de la liste des individus ayant fait un voeu dans la commission
         List<String> ids = getDomainService().getIndsIds(commission, Option.<Boolean>none(), codesRI);
-        List<Individu> listeInd =
-                wrap(ids).map(new F<String, Individu>() {
-            public Individu f(String id) { return getDomainService().fetchIndById(id, Option.<Boolean>none()); }
-        }).toStandardList();
+        List<Individu> listeInd = new ArrayList<>(somes(iterableList(ids).map(new F<String, Option<Individu>>() {
+            public Option<Individu> f(String id) {
+                return getDomainService().fetchIndById(id, Option.<Boolean>none());
+            }
+        })).toCollection());
 
 		Set<Commission> listComm = new HashSet<>();
 		listComm.add(commission);

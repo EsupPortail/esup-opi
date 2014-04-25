@@ -35,7 +35,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executors;
 
+import static fj.data.List.iterableList;
 import static fj.data.Option.some;
+import static fj.data.Option.somes;
 import static org.esupportail.opi.domain.beans.etat.EtatVoeu.EtatConfirme;
 
 
@@ -84,9 +86,9 @@ public class SendMailConfirm  {
 					vets.add(trt.getVersionEtpOpi());
 				}
 
-                final Effect<Iterable<Individu>> sendMail = new Effect<Iterable<Individu>>() {
-                    public void e(Iterable<Individu> inds) {
-                        for (Individu ind : inds) {
+                final Effect<Iterable<Option<Individu>>> sendMail = new Effect<Iterable<Option<Individu>>>() {
+                    public void e(Iterable<Option<Individu>> inds) {
+                        for (Individu ind : somes(iterableList(inds))) {
                             Integer codeRi = Utilitaires.getCodeRIIndividu(ind, domainService);
                             //send the mail
                             Set<IndVoeu> voeuxSendMail = new HashSet<>();
@@ -142,10 +144,10 @@ public class SendMailConfirm  {
                     }
                 };
 
-                final Actor<Iterable<Individu>> mailSender = parModule.effect(sendMail);
+                final Actor<Iterable<Option<Individu>>> mailSender = parModule.effect(sendMail);
 
-                final F<String, Individu> fetchInd = new F<String, Individu>() {
-                    public Individu f(String id) {
+                final F<String, Option<Individu>> fetchInd = new F<String, Option<Individu>>() {
+                    public Option<Individu> f(String id) {
                         return domainService.fetchIndById(id, Option.<Boolean>none());
                     }
                 };

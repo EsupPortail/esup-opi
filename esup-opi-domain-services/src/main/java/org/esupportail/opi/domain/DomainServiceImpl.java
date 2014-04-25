@@ -295,7 +295,7 @@ public final class DomainServiceImpl implements DomainService {
     }
 
     @Override
-    public Individu fetchIndById(String id, Option<Boolean> onlyValidWishes) {
+    public Option<Individu> fetchIndById(String id, Option<Boolean> onlyValidWishes) {
         return individuDaoSrv.fetchIndById(id, onlyValidWishes);
     }
 
