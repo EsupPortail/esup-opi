@@ -3,15 +3,20 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 template="/stylesheets/templateGestionnaire.xhtml">
+                
     <ui:define name="content">
         <h:form id="seeIndividusForm" rendered="#{!pjController.currentCmiPojo.state.displayPJ}">
+        
             <f:event type="preRenderView" listener="#{pjController.doNotRenderTable}" />
-            <p:blockUI block="maPage" trigger="changeStateAll individuData search-button">
+            
+            <p:blockUI block="maPage" trigger="individuData search-button">
                 <p:graphicImage library="images" name="ajax-loader.gif"/>
             </p:blockUI>
+            
             <p:blockUI block="dataPanel" trigger="renderTable">
                 <p:graphicImage library="images" name="ajax-loader.gif"/>
             </p:blockUI>
+            
             <p:panel id="maPage" styleClass="div_body">
                 <h1>
                     <span class="section-header">
@@ -19,10 +24,10 @@
                     </span>
                 </h1>
                 <div class="messageForUser">
-                    <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+                    <p:messages id="messages" showDetail="false" autoUpdate="true"/>
                 </div>
                 <ui:include src="_block/_sendMailStudent.xhtml"/>
-                <ui:include src="_block/_enterPM.xhtml"/>
+
                 <ui:fragment rendered="#{!(pjController.currentCmiPojo != null
                                        and pjController.currentCmiPojo.state.displayPJ)}">
                     <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml">
@@ -30,44 +35,28 @@
                         <ui:param name="toUpdate" value="individuData"/>
                     </ui:include>
                 </ui:fragment>
+                
                 <p:remoteCommand id="renderTable" name="renderTable"
                                  autoRun="true" async="true"
-                                 update="changeStateAll dataPanel"
                                  actionListener="#{pjController.doRenderTable}"/>
+                                 
                 <div style="width:100%;">
                     <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
                                  styleClass="tableJustWidthMax">
-                        <h:outputText value="#{msgs['PM.TITLE.SEE']}"
-                                      styleClass="section-smallTitle"/>
-                        <h:panelGroup>
-                            <p:commandButton value="#{msgs['_.BUTTON.UPDATE']}"
-                                             id="changeStateAll"
-                                             action="#{pjController.changeStateAll}"
-                                             update="individuData"
-                                             rendered="#{pjController.renderTable and
-                                                       (managedAccess.updateAuthorized ||
-                                                       managedAccess.addAuthorized) and
-                                                       !(pjController.currentCmiPojo != null and
-                                                       pjController.currentCmiPojo.state.displayPJ)}" />
-                        </h:panelGroup>
+                        <h:outputText value="#{msgs['PM.TITLE.SEE']}"  styleClass="section-smallTitle"/>
+                        <h:panelGroup></h:panelGroup>
                     </h:panelGrid>
                 </div>
-                <p:panel id="dataPanel" layout="block" styleClass="dataPanel">
+                
+                 <p:panel id="dataPanel" styleClass="dataPanel" >
                     <p:panel styleClass="dataSubPanel">
-                        <p:remoteCommand id="resetAllState" name="resetAllState"
-                                         async="true"
-                                         update="individuData:selectAllState">
-                            <f:setPropertyActionListener target="#{pjController.stateSelected}" value="" />
-                        </p:remoteCommand>
+                    
                         <p:dataTable var="missingPiecePojos" id="individuData"
                                      value="#{pjController.missingPiecePojoLDM}"
-                                     paginator="true" rows="10" rowsPerPageTemplate="10,20,30,40"
+                                     paginator="true" rows="20" rowsPerPageTemplate="10,20,30,40"
                                      paginatorTemplate="#{msgs['PRIMEFACES.TEMPLATE.PAGINATOR']}"
                                      currentPageReportTemplate="#{msgs['INDIVIDUS']} #{msgs['PRIMEFACES.TEMPLATE.CURRENTPAGE']}"
-                                     styleClass="paginatorData"
-                                     lazy="true" sortBy="#{nomPatronymique}"
-                                     rendered="#{pjController.renderTable}">
-                            <p:ajax event="page" oncomplete="resetAllState()" />
+                                     styleClass="paginatorData" lazy="true" >                                     
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}"/>
@@ -78,17 +67,14 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['FIELD_LABEL.NAME']}"/>
                                 </f:facet>
-                                <h:outputText
+                                <h:outputText id="nomPatronymique"
                                     value="#{missingPiecePojos.individuPojo.individu.nomPatronymique} #{missingPiecePojos.individuPojo.individu.prenom}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['INDIVIDU.DATE_NAI_COURT']}"/>
                                 </f:facet>
-                                <h:outputText value="#{missingPiecePojos.individuPojo.individu.dateNaissance}">
-                                    <f:convertDateTime pattern="dd/MM/yyyy"
-                                                       timeZone="#{sessionController.timezone}"/>
-                                </h:outputText>
+                                <h:outputText value="#{missingPiecePojos.individuPojo.individu.dateNaissance}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
@@ -96,8 +82,7 @@
                                 </f:facet>
                                 <h:outputLink
                                     value="mailto:#{missingPiecePojos.individuPojo.individu.adressMail}">
-                                    <h:outputText
-                                        value="#{missingPiecePojos.individuPojo.individu.adressMail}"/>
+                                    <h:outputText  value="#{missingPiecePojos.individuPojo.individu.adressMail}"/>
                                 </h:outputLink>
                             </p:column>
                             <p:column>
@@ -107,9 +92,10 @@
                                 <ui:repeat
                                     var="commissionPojo"
                                     value="#{missingPiecePojos.cmiKeySet}">
+                                    <!-- CELINEMALLET - ON AFFICHE LE LIBELLE ET NON LE CODE (DEVIENT INFO POPUP AIDE CONTEXTUELLE) -->
                                     <div class="oneLine">
-                                        <h:outputText value="#{commissionPojo.commission.code}" id="codeCom"/>
-                                        <p:overlayPanel for="codeCom"
+                                        <h:outputText value="#{commissionPojo.commission.libelle}" id="libelleCom"/>
+                                        <p:overlayPanel for="libelleCom"
                                                         appendToBody="true"
                                                         showEvent="mouseover"
                                                         hideEvent="mouseout"
@@ -118,9 +104,9 @@
                                             <h:panelGroup>
                                                 <h:panelGrid columns="1">
                                                     <h:outputText styleClass="titrePopupAide"
-                                                                  value="#{msgs['FIELD_LABEL.LIBELLE']} #{msgs['FIELD_LABEL.COMMISSION']}"/>
+                                                                  value="#{msgs['FIELD_LABEL.CODE']} #{msgs['FIELD_LABEL.COMMISSION']}"/>
                                                     <h:outputText styleClass="libellesAide"
-                                                                  value="#{commissionPojo.commission.libelle}"/>
+                                                                  value="#{commissionPojo.commission.code}"/>
                                                 </h:panelGrid>
                                             </h:panelGroup>
                                         </p:overlayPanel>
@@ -128,40 +114,32 @@
                                 </ui:repeat>
                             </p:column>
                             <p:column>
+                                <!-- CELINEMALLET - ON ENLEVE LES RADIO BOUTON DE L'ENTETE -->
                                 <f:facet name="header">
-                                    <p:selectOneRadio id="selectAllState"
-                                                      value="#{pjController.stateSelected}">
-                                        <f:selectItem itemValue="STATE.NON_ARRIVE" itemLabel="#{msgs['STATE.NON_ARRIVE']}"/>
-                                        <f:selectItem itemValue="STATE.ARRIVE_COMPLET"
-                                                      itemLabel="#{msgs['STATE.ARRIVE_COMPLET']}"/>
-                                        <f:selectItem itemValue="STATE.ARRIVE_INCOMPLET"
-                                                      itemLabel="#{msgs['STATE.ARRIVE_INCOMPLET']}"/>
-                                        <p:ajax listener="#{pjController.putStateAll}"
-                                                process="@this"
-                                                update="@(.ui-datatable-data .ui-selectoneradio)"/>
-                                    </p:selectOneRadio>
+                                    <h:outputText value="#{msgs['STATE.LABEL']}"/>
                                 </f:facet>
+                                <!-- CELINEMALLET - ON ENLEVE LES RADIO BOUTON des LIGNES, AFFICHER LIBELLES -->
                                 <ui:repeat var="commissionPojo" value="#{missingPiecePojos.cmiKeySet}">
-                                    <p:selectOneRadio value="#{commissionPojo.stateCurrent}">
-                                        <f:selectItem itemValue="STATE.NON_ARRIVE" 
-                                        	      itemLabel="#{msgs['STATE.NON_ARRIVE']}"/>
-                                        <f:selectItem itemValue="STATE.ARRIVE_COMPLET"
-                                                      itemLabel="#{msgs['STATE.ARRIVE_COMPLET']}"/>
-                                        <f:selectItem itemValue="STATE.ARRIVE_INCOMPLET"
-                                                      itemLabel="#{msgs['STATE.ARRIVE_INCOMPLET']}"/>
-                                    </p:selectOneRadio>
+	                               <div class="oneLine">
+	                                	<h:outputText value="#{msgs[commissionPojo.stateCurrent]}"/>                                
+                                  </div>
                                 </ui:repeat>
                             </p:column>
-                            <p:column>
-                                <p:commandButton icon="ui-icon-pencil"
-                                                 id="updateState" immediate="true" ajax="false"
-                                                 title="#{msgs['_.BUTTON.UPDATE']}"
-                                                 rendered="#{managedAccess.updateAuthorized and !(pjController.currentCmiPojo != null
-                                                           and pjController.currentCmiPojo.state.displayPJ)}"
-                                                 action="#{pjController.goSeePMEtudiant}">
-                                    <f:setPropertyActionListener value="#{missingPiecePojos}"
-                                                                 target="#{pjController.mpPojoSelected}"/>
-                                </p:commandButton>
+                            <p:column>                    
+                             <ui:repeat var="commissionPojo" value="#{missingPiecePojos.cmiKeySet}">
+	                               <div>
+				                        <p:commandButton icon="ui-icon-pencil" size="10" height="10" immediate="true"
+				                                         action="#{pjController.goSeePMEtudiant}"
+				                                         title="#{msgs['_.BUTTON.DISPLAY']}" ajax="true" >
+				                            <f:setPropertyActionListener value="#{commissionPojo}"
+				                                                         target="#{pjController.currentCmiPojo}"/>
+				                            <f:setPropertyActionListener value="#{pjController.actionEnum.listePm}"
+				                            							 target="#{pjController.actionEnum.whatAction}"/>                            							 
+				                            <f:setPropertyActionListener value="#{missingPiecePojos}"
+				                                                         target="#{pjController.mpPojoSelected}"/>
+				                        </p:commandButton>
+                                 	</div>
+                                </ui:repeat>
                             </p:column>
                         </p:dataTable>
                     </p:panel>
