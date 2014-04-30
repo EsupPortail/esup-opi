@@ -644,8 +644,9 @@ public class CommissionController
 
 	/**
 	 *  The selected commission.
+	 *  FONCTIONNALITE SUPPRIMEE CAR GESTION INTERNE APPLI MAL ARCHITECTUREE
 	 */
-	public void selectCommAdress() {
+	/*public void selectCommAdress() {
 		Commission commSelected = getParameterService().getCommission(idCmiForAdress, null);
 		final Gestionnaire gest = (Gestionnaire) getSessionController().getCurrentUser();
         final Integer codeRI = gest.getProfile().getCodeRI();
@@ -666,7 +667,7 @@ public class CommissionController
             }
         });
 
-	}
+	}*/
 
 	/**
 	 * The selected commission.

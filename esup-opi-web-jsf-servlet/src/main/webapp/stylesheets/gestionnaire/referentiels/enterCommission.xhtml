@@ -22,7 +22,7 @@
                 </h1>
             </ui:fragment>
             <div class="messageForUser">
-                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+                <p:messages id="messages" showDetail="false" autoUpdate="true"/>
             </div>
             <div class="maxDivTextRight">
                 <h:panelGroup>
@@ -90,7 +90,8 @@
                                 <h:outputText value="#{msgs['COMMISSION.CONTACT']}"
                                               styleClass="section-smallTitle"/>
                                 <h:panelGroup/>
-                                <h:panelGroup rendered="#{commissionController.contactCommission.adresse eq null}">
+                                
+                                <!--h:panelGroup rendered="#{commissionController.contactCommission.adresse eq null}">
                                     <h:outputLabel value="#{msgs['COMMISSION.SELECT_ADRESS']}"
                                                    for="selectAdress"/>
                                 </h:panelGroup>
@@ -104,7 +105,7 @@
                                                        itemLabel="#{commission.libelle}" itemValue="#{commission.id}"/>
                                         <p:ajax listener="#{commissionController.selectCommAdress}" update="blockFormContact"/>
                                     </p:selectOneMenu>
-                                </h:panelGroup>
+                                </h:panelGroup-->
                             </h:panelGrid>
                         </div>
                         <div class="tableWidthMax">
@@ -151,6 +152,7 @@
                                 </p:selectOneMenu>
                             </h:panelGrid>
                             <ui:include src="_commission/_blockAddressCmi.xhtml"/>
+                            
                             <ui:fragment rendered="#{commissionController.managerUsed}">
                                 <div id="blockFormManager" class="blockForm">
                                     <div style="width:100%;">
@@ -188,9 +190,9 @@
                                 </div>
                             </ui:fragment>
                         </div>
-                        <p:blockUI block="blockFormContact" trigger="selectAdress">
+                        <!--p:blockUI block="blockFormContact" trigger="selectAdress">
                             <p:graphicImage library="images" name="ajax-loader.gif"/>
-                        </p:blockUI>
+                        </p:blockUI-->
                     </p:outputPanel>
                     <div id="blockFormMembre" class="blockForm">
                         <div style="width:100%;">
