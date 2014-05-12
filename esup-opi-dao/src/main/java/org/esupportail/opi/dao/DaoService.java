@@ -13,6 +13,7 @@ import java.util.Set;
 
 import fj.P3;
 import fj.data.Seq;
+
 import org.esupportail.opi.domain.beans.VersionManager;
 import org.esupportail.opi.domain.beans.parameters.AutoListPrincipale;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
@@ -274,13 +275,12 @@ public interface DaoService extends Serializable {
 	 * @param adresse
 	 */
 	void updateAdresse(Adresse adresse);
-	
+
 	/**
 	 * Add a adresse.
 	 * @param adresse
 	 */
 	void addAdresse(Adresse adresse);
-
 
 	//////////////////////////////////////////////////////////////
 	// IndBac
@@ -618,6 +618,20 @@ public interface DaoService extends Serializable {
 	List<IndVoeu> getRecupListIndVoeuLc(TypeDecision typeDec, VersionEtpOpi versionEtpOpi);
 
 
+	/**
+	 * CELINEMALLET - AJOUT
+	 * @param temoinEnService
+	 * @param ind
+	 * @return List<IndVoeu>
+	 */
+	List<IndVoeu> getRecupListIndVoeu(Individu ind, Boolean temoinEnService);
+
+	/**
+	 * Add a indSituation.
+	 * @param indSituation
+	 */
+	void deleteIndividu(Individu ind) ;
+	
 	//////////////////////////////////////////////////////////////
 	// IndSituation
 	//////////////////////////////////////////////////////////////
@@ -639,11 +653,12 @@ public interface DaoService extends Serializable {
 	 * @param indSituation
 	 */
 	void deleteIndSituation(IndSituation indSituation);
-	
+
 	/**
 	 * Get the indSituation for the ind.
 	 * @param ind
 	 */
 	IndSituation getIndSituation(Individu ind);
+
 
 }

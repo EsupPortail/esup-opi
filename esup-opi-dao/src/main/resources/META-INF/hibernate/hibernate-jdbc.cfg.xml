@@ -2,13 +2,13 @@
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
                                          "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
- <!-- 
+<!-- 
          /properties/dao/hibernate/hibernate.cfg.xml
          The main Hibernate configuration file.
          It is referenced from /properties/dao/dao.xml
          and the database mapping is in folder 
          /properties/dao/hibernate/mapping. 
-    -->
+-->
     <session-factory>
         <property name="hibernate.connection.autocommit">false</property>
         <property name="hibernate.connection.charSet">UTF-8</property>
@@ -16,6 +16,9 @@
         <property name="format_sql">false</property>
         <property name="use_sql_comments">false</property>
         <property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
+        
+        <property name="hibernate.current_session_context_class">thread</property>
+
         <property name="connection.autoReconnectForPools">true</property>
         <property name="connection.is-connection-validation-required">true</property>
         <property name="connection.autoReconnect">true</property>

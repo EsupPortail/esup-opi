@@ -5,8 +5,10 @@
                 template="/stylesheets/templateGestionnaire.xhtml">
     <ui:define name="content">
         <h:form id="seeManagersForm">
-            <f:event type="preRenderView" listener="#{individuController.doNotRenderTable}" />
-            <p:blockUI block="maPage" trigger="managerData search-button" widgetVar="pageBlocker">
+
+            <f:event type="preRenderView" listener="#{individuController.doRenderTable}" />
+            
+            <p:blockUI block="maPage" trigger="managerData search-button no-button yes-button" widgetVar="pageBlocker">
                 <p:graphicImage library="images" name="ajax-loader.gif"/>
             </p:blockUI>
             <p:blockUI block="dataPanel" trigger="renderTable">
@@ -19,17 +21,39 @@
                     </span>
                 </h1>
                 <ui:fragment rendered="#{individuController.actionEnum.whatAction ==
-                                       individuController.actionEnum.deleteAction}">
-                    <div id="div_subSectionDelete" class="div_subSection">
-                        <ui:include src="_student/_deleteStudent.xhtml"/>
-                    </div>
-                </ui:fragment>
-                <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml">
-                    <ui:param name="controller" value="#{individuController}" />
-                    <ui:param name="toUpdate" value="managerData"/>
-                </ui:include>
+                                       individuController.actionEnum.deleteAction}">		                                                   
+			        <div style="width:100%;">
+			            <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
+			                         styleClass="tableJustWidthMax">
+			                <h:outputFormat value="#{msgs['INDIVIDU.CONFIRM.DELETE']}">
+			                    <f:param
+			                            value="#{individuController.pojoIndividu.individu.nomPatronymique} #{individuController.pojoIndividu.individu.prenom}"/>
+			                </h:outputFormat>
+			                <h:panelGroup>
+			                    <p:commandButton id="yes-button" value="#{msgs['_.BUTTON.YES']}" immediate="true" ajax="true"
+                                                 rendered="#{managedAccess.deleteAuthorized}" action="#{individuController.delete}" update="seeManagersForm" >
+                                  				<f:setPropertyActionListener value="#{individuController.actionEnum.emptyAction}"
+                                                                 target="#{individuController.actionEnum.whatAction}"/>
+                                 </p:commandButton>
+			                    <p:commandButton id="no-button" value="#{msgs['_.BUTTON.NO']}" immediate="true" ajax="true"
+                                                 rendered="#{managedAccess.deleteAuthorized}" action="#{individuController.reset}" update="seeManagersForm" >
+                                                 <f:setPropertyActionListener value="#{individuController.actionEnum.emptyAction}"
+                                                                 target="#{individuController.actionEnum.whatAction}"/>
+                                 </p:commandButton>
+			                </h:panelGroup>
+			            </h:panelGrid>
+			        </div>
+		        </ui:fragment>
+		        
+                <ui:fragment rendered="#{individuController.actionEnum.whatAction !=
+                                       individuController.actionEnum.deleteAction}">                                       
+	                <ui:include src="/stylesheets/gestionnaire/user/_student/_lookForIndividu.xhtml">
+	                    <ui:param name="controller" value="#{individuController}" />
+	                    <ui:param name="toUpdate" value="managerData"/>
+	                </ui:include>	                
+		        </ui:fragment>
                 <div class="messageForUser">
-                    <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+                    <p:messages id="messages" showDetail="false" autoUpdate="true"/>
                 </div>
                 <p:remoteCommand id="renderTable" name="renderTable"
                                  autoRun="true" async="true"
@@ -101,5 +125,3 @@
         </h:form>
     </ui:define>
 </ui:composition>
-
-

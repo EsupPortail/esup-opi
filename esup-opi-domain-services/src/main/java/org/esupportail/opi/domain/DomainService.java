@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.Collection;
 
 import fj.data.Array;
+
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.services.application.Version;
 import org.esupportail.commons.services.ldap.LdapUser;
@@ -369,7 +370,6 @@ public interface DomainService extends Serializable {
 	 */
 	void updateAdresse(Adresse adresse);
 
-	
 	/**
 	 * Set the information of a Gestionnaire from a ldapUser.
 	 * @param gest 
@@ -377,7 +377,7 @@ public interface DomainService extends Serializable {
 	 * @return Gestionnaire
 	 */
 	Gestionnaire setUserInfo(Gestionnaire gest, LdapUser ldapUser);
-	
+
 	/**
 	 * Add the first admin to the creation of the database.
 	 * @param firstAdministratorId
@@ -559,6 +559,8 @@ public interface DomainService extends Serializable {
 	 * 
 	 */
 	void deleteIndividusSansVoeux();
+
+	void deleteIndividu(Individu ind);
 
 
 	//////////////////////////////////////////////////////////////
@@ -744,6 +746,14 @@ public interface DomainService extends Serializable {
 	 */
 	IndVoeu getRecupIndVoeuLc(AutoListPrincipale autoLp, VersionEtpOpi versionEtpOpi);
 
+	/**
+	 * CELINEMALLET - AJOUT
+	 * @param temoinEnService
+	 * @param ind
+	 * @return List<IndVoeu>
+	 */
+	List<IndVoeu> getRecupListIndVoeu(Individu ind, Boolean temoinEnService);
+	
 	//////////////////////////////////////////////////////////////
 	// IndSituation
 	//////////////////////////////////////////////////////////////

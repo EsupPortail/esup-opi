@@ -4,9 +4,9 @@
              xmlns:p="http://primefaces.org/ui">
     <div id="maPageCandidat" class="div_body">
         <div id="div_subSectionCandidat" class="div_subSection">
-
             <h:form id="accueilCandidatForm" styleClass="opiR1_form">
-                <h:panelGroup>
+                <h:panelGroup columns="2" columnClasses="col1UnDemi,col2UnDemi"
+			                         styleClass="tableJustWidthMax">
                     <h:outputText value="#{msgs['INDIVIDU.TITLE.RECAP_DOS']}"
                                   styleClass="section-header"/>
                     <h:outputText value="(#{sessionController.currentInd.campagneEnServ.libelle})"
