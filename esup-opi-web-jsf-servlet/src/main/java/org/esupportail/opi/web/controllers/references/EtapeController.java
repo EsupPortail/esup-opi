@@ -4,6 +4,7 @@
 package org.esupportail.opi.web.controllers.references;
 
 
+import fj.data.Option;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.domain.beans.NormeSI;
@@ -262,7 +263,7 @@ public class EtapeController extends AbstractContextAwareController {
                             .equals(vDTO.getCodVrsVet())) {
                         //init proxy hib
                         t.setCommission(cmi);
-                        BeanTrtCmi b = new BeanTrtCmi(t, TypeTraitement.fromCode(t.getCodTypeTrait()));
+                        BeanTrtCmi b = new BeanTrtCmi(t, Option.some(TypeTraitement.fromCode(t.getCodTypeTrait())));
                         b.setEtape(vDTO);
                         listTrt.add(b);
                         break;
