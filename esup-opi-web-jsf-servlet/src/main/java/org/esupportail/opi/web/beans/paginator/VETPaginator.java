@@ -1,5 +1,6 @@
 package org.esupportail.opi.web.beans.paginator;
 
+import fj.data.Option;
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.commons.services.paginator.ListPaginator;
 import org.esupportail.commons.utils.ContextUtils;
@@ -127,7 +128,7 @@ public class VETPaginator extends ListPaginator<VersionEtapeDTO> {
             for (TraitementCmi t : commission.getTraitementCmi()) {
 
                 if (!Utilitaires.isTraitementCmiOff(t, codeRI)) {
-                    BeanTrtCmi b = new BeanTrtCmi(t, TypeTraitement.fromCode(t.getCodTypeTrait()));
+                    BeanTrtCmi b = new BeanTrtCmi(t, Option.some(TypeTraitement.fromCode(t.getCodTypeTrait())));
                     VersionEtapeDTO vdto = getVetFromTrtCmi(b);
                     etapes.add(vdto);
                 }

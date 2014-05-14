@@ -3,6 +3,7 @@
  */
 package org.esupportail.opi.web.controllers.references;
 
+import fj.data.Option;
 import org.esupportail.commons.services.exceptionHandling.ExceptionUtils;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
@@ -29,6 +30,8 @@ import org.springframework.util.StringUtils;
 
 import javax.faces.event.ValueChangeEvent;
 import java.util.*;
+
+import static org.esupportail.opi.domain.beans.parameters.TypeTraitement.EnAttente;
 
 public class TrtCmiController extends AbstractAccessController {
 
@@ -122,6 +125,7 @@ public class TrtCmiController extends AbstractAccessController {
      * see {@link EtapeController}.
      */
     private EtapeController etapeController;
+    private BeanTrtCmi beanTrtCmi1;
 
     public TrtCmiController() {
         super();
@@ -222,9 +226,10 @@ public class TrtCmiController extends AbstractAccessController {
                             getParameterService().getCampagneEnServ(
                                     getCurrentGest().getProfile().getCodeRI())
                             , trtCmi));
-                    BeanTrtCmi b = new BeanTrtCmi(trtCmi, TypeTraitement.fromCode(trtCmi.getCodTypeTrait()));
+//                    BeanTrtCmi b = new BeanTrtCmi(trtCmi, TypeTraitement.fromCode(trtCmi.getCodTypeTrait()));
+                    BeanTrtCmi b = new BeanTrtCmi(trtCmi, Option.<TypeTraitement>none());
                     b = prepareTrtCmi(b);
-
+//                    b = beanTrtCmi1;
                     allTraitementCmi.add(b);
                 } else {
                     listVETToTransfert.add(v);
@@ -239,7 +244,8 @@ public class TrtCmiController extends AbstractAccessController {
                             getParameterService().getCampagneEnServ(
                                     getCurrentGest().getProfile().getCodeRI())
                             , trtCmi));
-                    BeanTrtCmi b = new BeanTrtCmi(trtCmi, TypeTraitement.fromCode(trtCmi.getCodTypeTrait()));
+//                    BeanTrtCmi b = new BeanTrtCmi(trtCmi, TypeTraitement.fromCode(trtCmi.getCodTypeTrait()));
+                    BeanTrtCmi b = new BeanTrtCmi(trtCmi, Option.<TypeTraitement>none());
                     b = prepareTrtCmi(b);
 
                     allTraitementCmi.add(b);
@@ -287,11 +293,11 @@ public class TrtCmiController extends AbstractAccessController {
         if (com != null) {
             for (TraitementCmi t : com.getTraitementCmi()) {
                 if ((inUse == null || !inUse) && Utilitaires.isTraitementCmiOff(t, codeRI)) {
-                    BeanTrtCmi b = new BeanTrtCmi(t, TypeTraitement.fromCode(t.getCodTypeTrait()));
+                    BeanTrtCmi b = new BeanTrtCmi(t,  Option.some(TypeTraitement.fromCode(t.getCodTypeTrait())));
                     treatmentsCmiOff.add(prepareTrtCmi(b));
                 }
                 if ((inUse == null || inUse) && !Utilitaires.isTraitementCmiOff(t, codeRI)) {
-                    BeanTrtCmi b = new BeanTrtCmi(t, TypeTraitement.fromCode(t.getCodTypeTrait()));
+                    BeanTrtCmi b = new BeanTrtCmi(t, Option.some(TypeTraitement.fromCode(t.getCodTypeTrait())));
                     allTraitementCmi.add(prepareTrtCmi(b));
                 }
             }
@@ -386,7 +392,7 @@ public class TrtCmiController extends AbstractAccessController {
             List<TraitementCmi> trtcmiToDelete = new ArrayList<TraitementCmi>();
 
             for (TraitementCmi t : commission.getTraitementCmi()) {
-                BeanTrtCmi b = new BeanTrtCmi(t, TypeTraitement.fromCode(t.getCodTypeTrait()));
+                BeanTrtCmi b = new BeanTrtCmi(t, Option.some(TypeTraitement.fromCode(t.getCodTypeTrait())));
                 if (!allTraitementCmi.contains(b) && !treatmentsCmiOff.contains(b)) {
                     trtcmiToDelete.add(t);
                 }
@@ -425,7 +431,7 @@ public class TrtCmiController extends AbstractAccessController {
 					trtcmi = getDomainService().add(trtcmi, getCurrentGest().getLogin());
 					
 					getParameterService().addTraitementCmi(trtcmi);
-					
+
 					// création du linkTrtCmiCamp pour chaque campagne
 					for (Campagne camp : campagnesAdd) {
 					    LinkTrtCmiCamp linkTrtCmiCamp = new LinkTrtCmiCamp();
@@ -435,7 +441,6 @@ public class TrtCmiController extends AbstractAccessController {
 					    // sauvegarde en base
 					    getParameterService().addLinkTrtCmiCamp(linkTrtCmiCamp);
 					}
-            		
             	} else { //existe donc à mettre à jour
 					trtcmi.setCommission(commission);
 					trtcmi = getDomainService().update(trtcmi, getCurrentGest().getLogin());
@@ -474,7 +479,7 @@ public class TrtCmiController extends AbstractAccessController {
                             trtCmi.getVersionEtpOpi().getCodVrsVet());
                     addErrorMessage(null, "ERROR.TRT.CMI.EXIST_VOEU",
                             v.getCodEtp() + "_" + v.getCodVrsVet() + ":" + v.getLicEtp());
-                    BeanTrtCmi b = new BeanTrtCmi(trtCmi, TypeTraitement.fromCode(trtCmi.getCodTypeTrait()));
+                    BeanTrtCmi b = new BeanTrtCmi(trtCmi, Option.some(TypeTraitement.fromCode(trtCmi.getCodTypeTrait())));
                     b.setEtape(v);
                     treatmentsCmiOff.add(b);
                 }
