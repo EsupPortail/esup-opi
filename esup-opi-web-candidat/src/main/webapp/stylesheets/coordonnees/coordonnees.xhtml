@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/stylesheets/template.xhtml">
+    <ui:define name="main">
+        <section>
+            <h2>#{msgs['INDIVIDU.COORD']}</h2>
+        </section>
+        <section>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="well">
+                        <h:form>
+                            <fieldset>
+                                <legend>#{msgs['INDIVIDU.ETAT_CIV']}</legend>
+                            </fieldset>
+                        </h:form>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="well">
+                        <h:form>
+                            <fieldset>
+                                <legend>#{msgs['ADRESS.FIX']}</legend>
+                            </fieldset>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </ui:define>
+</ui:composition>

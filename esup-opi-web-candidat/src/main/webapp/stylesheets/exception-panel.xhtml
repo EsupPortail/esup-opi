@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+    <pe:ajaxErrorHandler button="Fermer"
+                         widgetVar="ajaxErrorHandler">
+        <div>
+            <h4 class="ui-dialog-titlebar">
+                Error <span style="color: red;">{error-name}</span>
+            </h4>
+            <div class="ui-dialog-content">
+                <p:panel header="Information de base" toggleable="true">
+                    <dl class="dl-horizontal">
+                        <dt>Message : </dt>
+                        <dd>{error-message}</dd>
+                        <dt>Serveur : </dt>
+                        <dd>{error-hostname}</dd>
+                    </dl>
+                </p:panel>
+                <p:panel header="Détails" toggleable="true">
+                    {error-stacktrace}
+                </p:panel>
+                <div style="text-align: center; padding: 5px;">
+                    <p:commandLink styleClass="btn btn-default"
+                                   onclick="window.location.href=window.location.href; return false;"
+                                   value="Recharger la page" />
+                    <p:commandLink styleClass="btn btn-default"
+                                   onclick="ajaxErrorHandler.hide(); return false;"
+                                   value="Fermer" />
+                </div>
+            </div>
+        </div>
+    </pe:ajaxErrorHandler>
+</ui:composition>

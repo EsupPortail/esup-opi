@@ -15,6 +15,7 @@
         <module>esup-opi-domain-services</module>
         <module>esup-opi-web-jsf-servlet</module>
         <module>esup-opi-web-beans</module>
+        <module>esup-opi-web-candidat</module>
     </modules>
     <repositories>
         <repository>
