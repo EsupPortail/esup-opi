@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <section class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <p:outputLabel value="#{msgs['INDIVIDU.CIVILITE']}" for="civInput" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <h:selectOneMenu id="civInput" required="true" value="#{coordonneesController.candidat.etatCivil.civilite}" styleClass="form-control">
+                            <f:selectItem itemValue="" itemLabel="" />
+                            <f:selectItems value="#{coordonneesController.civilites}" />
+                        </h:selectOneMenu>
+                        <p:message for="civInput" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel value="#{msgs['INDIVIDU.NOM']}" for="nomInput" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <div class="input-group">
+                            <p:inputText id="nomInput" required="true" value="#{coordonneesController.candidat.etatCivil.nomPatronymique}" maxlength="30" styleClass="form-control" />
+                            <span class="input-group-addon" data-toggle="tooltip" data-container="body" title="#{msgs['INDIVIDU.NOM.HELP']}"><i class="fa fa-info-circle"/></span>
+                        </div>
+                        <p:message for="nomInput" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel value="#{msgs['INDIVIDU.NOM_USUEL']}" for="nomUsuelInput" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <div class="input-group">
+                            <p:inputText id="nomUsuelInput" value="#{coordonneesController.candidat.etatCivil.nomUsuel}" maxlength="30" styleClass="form-control" />
+                            <span class="input-group-addon" data-toggle="tooltip" data-container="body" title="#{msgs['INDIVIDU.NOM_USUEL.HELP']}"><i class="fa fa-info-circle"/></span>
+                        </div>
+                        <p:message for="nomUsuelInput" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel value="#{msgs['INDIVIDU.PRENOM']}" for="prenomInput" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <p:inputText id="prenomInput" required="true" value="#{coordonneesController.candidat.etatCivil.prenom}" maxlength="20" styleClass="form-control" />
+                        <p:message for="prenomInput" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel value="#{msgs['INDIVIDU.PRENOM_OTHER']}" for="prenom2Input" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <p:inputText id="prenom2Input" value="#{coordonneesController.candidat.etatCivil.prenomAutre}" maxlength="20" styleClass="form-control" />
+                        <p:message for="prenom2Input" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel value="#{msgs['INDIVIDU.DATE_NAI']}" for="dateNaisInput" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <p:calendar id="dateNaisInput" required="true" value="#{coordonneesController.candidat.etatCivil.dateNaissance}" readonlyInput="true" locale="fr" navigator="true" pattern="dd/MM/yyyy" />
+                        <p:message for="dateNaisInput" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel value="#{msgs['INDIVIDU.PAY_NAI']}" for="paysNaisInput" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <h:selectOneMenu id="paysNaisInput" required="true" value="#{coordonneesController.candidat.etatCivil.paysNaissance}" maxlength="20" styleClass="form-control">
+                            <f:selectItem itemLabel="" itemValue="" />
+                            <f:selectItems value="#{coordonneesController.pays}" var="pays" itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}" />
+
+                            <p:ajax listener="#{coordonneesController.resetDeptNais}"
+                                    partialSubmit="true" process="@this"
+                                    update="deptNaisGroup,nationaliteGroup" />
+                        </h:selectOneMenu>
+                        <p:message for="paysNaisInput" />
+                    </div>
+                </div>
+                <p:outputPanel layout="block" autoUpdate="true">
+                    <p:outputPanel id="deptNaisGroup" styleClass="form-group" rendered="#{coordonneesController.candidat.etatCivil.paysNaissance eq '100'}">
+                        <p:outputLabel value="#{msgs['INDIVIDU.DEP_NAI']}" for="deptNaisInput" styleClass="col-md-2 control-label" />
+                        <div class="col-md-10">
+                            <h:selectOneMenu id="deptNaisInput" required="true" value="#{coordonneesController.candidat.etatCivil.deptNaissance}" maxlength="20" styleClass="form-control">
+
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItems var="dept" value="#{coordonneesController.departements}"
+                                               itemLabel="#{dept.libDep}" itemValue="#{dept.codDep}" />
+                            </h:selectOneMenu>
+                            <p:message for="deptNaisInput" />
+                        </div>
+                    </p:outputPanel>
+                    <div class="form-group">
+                        <p:outputLabel value="#{msgs['INDIVIDU.VIL_NAI']}" for="villeNaisInput" styleClass="col-md-2 control-label" />
+                        <div class="col-md-10">
+                            <p:inputText id="villeNaisInput" required="true" value="#{coordonneesController.candidat.etatCivil.villeNaissance}" maxlength="20" styleClass="form-control" />
+                            <p:message for="villeNaisInput" />
+                        </div>
+                    </div>
+                    <p:outputPanel id="nationaliteGroup" styleClass="form-group">
+                        <p:outputLabel value="#{msgs['INDIVIDU.NAT']}" for="nationaliteInput" styleClass="col-md-2 control-label" />
+                        <div class="col-md-10">
+                            <h:selectOneMenu id="nationaliteInput" required="true" value="#{coordonneesController.candidat.etatCivil.nationalite}" maxlength="20" styleClass="form-control">
+                                <f:selectItem itemLabel="" itemValue="" />
+                                <f:selectItems value="#{coordonneesController.nationalites}" var="nat" itemLabel="#{nat.libNat}" itemValue="#{nat.codPay}" />
+                            </h:selectOneMenu>
+                            <p:message for="nationaliteInput" />
+                        </div>
+                    </p:outputPanel>
+                </p:outputPanel>
+                <div class="form-group">
+                    <p:outputLabel value="#{msgs['INDIVIDU.NUM_NNE']}" for="nneInput" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <p:inputMask id="nneInput" value="#{coordonneesController.candidat.etatCivil.nne}" mask="9999999999-*" maxlength="20" styleClass="form-control" />
+                        <p:message for="nneInput" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</ui:composition>

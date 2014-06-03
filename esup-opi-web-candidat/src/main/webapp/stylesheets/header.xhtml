@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+            <div class="page-header">
+                <h1>
+                    <span class="pull-right user-logged">#{candidat.etatCivil.displayName}</span>
+                    #{title}<h:outputText rendered="#{not empty subtitle}"><small> - #{subtitle}</small></h:outputText>
+                </h1>
+            </div>
+</ui:composition>

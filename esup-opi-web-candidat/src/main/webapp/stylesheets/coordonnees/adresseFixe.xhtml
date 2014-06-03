@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <section class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <p:outputLabel value="#{msgs['FIELD_LABEL.MAIL_PERSO']}" for="emailInput" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <div class=" input-group">
+                            <p:inputText id="emailInput" required="true" value="#{coordonneesController.candidat.adresseFixe.email}" maxlength="50" styleClass="form-control" />
+                            <span class="input-group-addon" data-toggle="tooltip" data-container="body" title="#{msgs['FIELD_LABEL.MAIL_PERSO.HELP']}"><i class="fa fa-info-circle" /></span>
+                        </div>
+                        <p:message for="emailInput" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel value="#{msgs['ADRESS.TEL_FIX']}" for="telInput" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <div class=" input-group">
+                            <p:inputText id="telInput" required="true" value="#{coordonneesController.candidat.adresseFixe.telFixe}" maxlength="15" styleClass="form-control" />
+                            <span class="input-group-addon" data-toggle="tooltip" data-container="body" title="#{msgs['ADRESS.TEL_POR.HELP']}"><i class="fa fa-info-circle" /></span>
+                        </div>
+                        <p:message for="telInput" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel value="#{msgs['ADRESS.TEL_POR']}" for="telPorInput" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <div class=" input-group">
+                            <p:inputText id="telPorInput" value="#{coordonneesController.candidat.adresseFixe.telPortable}" maxlength="15" styleClass="form-control" />
+                            <span class="input-group-addon" data-toggle="tooltip" data-container="body" title="#{msgs['ADRESS.TEL_POR.HELP']}"><i class="fa fa-info-circle" /></span>
+                        </div>
+                        <p:message for="telPorInput" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel value="#{msgs['ADRESS.PAY']}" for="paysAdresse" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <h:selectOneMenu id="paysAdresse" required="true" value="#{coordonneesController.candidat.adresseFixe.pays}" styleClass="form-control">
+                            <f:selectItem itemLabel="" itemValue="" />
+                            <f:selectItems value="#{coordonneesController.pays}" var="pays" itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}" />
+                            <p:ajax update="fragment-adr-fr" partialSubmit="true" process="@this"/>
+                        </h:selectOneMenu>
+                        <p:message for="paysAdresse" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel value="#{msgs['ADRESS']}" for="adr1Input" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <p:inputText id="adr1Input" required="true" value="#{coordonneesController.candidat.adresseFixe.adresse}" maxlength="32" styleClass="form-control" />
+                        <p:message for="adr1Input" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel value="#{msgs['ADRESS.COMP']}" for="adr2Input" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <p:inputText id="adr2Input" value="#{coordonneesController.candidat.adresseFixe.adresseCmp1}" maxlength="40" styleClass="form-control" />
+                        <p:message for="adr2Input" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p:outputLabel value="#{msgs['ADRESS.COMP']}" for="adr3Input" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <p:inputText id="adr3Input" value="#{coordonneesController.candidat.adresseFixe.adresseCmp2}" maxlength="40" styleClass="form-control" />
+                        <p:message for="adr3Input" />
+                    </div>
+                </div>
+                <p:outputPanel layout="block" autoUpdate="true">
+                    <p:outputPanel id="fragment-adr-fr" rendered="#{coordonneesController.candidat.adresseFixe.pays eq '100'}">
+                        <div class="form-group">
+                            <p:outputLabel value="#{msgs['ADRESS.COD_POST']}" for="codPostInput" styleClass="col-md-2 control-label" />
+                            <div class="col-md-10">
+                                <p:inputText id="codPostInput" required="true" value="#{coordonneesController.candidat.adresseFixe.codePostal}" maxlength="5" styleClass="form-control">
+                                    <p:ajax event="blur" listener="#{coordonneesController.computeCities}" update="@form" partialSubmit="true" process="@this" />
+                                    <f:validateLength  maximum="5" minimum="5" />
+                                </p:inputText>
+                                <p:message for="codPostInput" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <p:outputLabel value="#{msgs['ADRESS.VIL']}" for="villeInput" styleClass="col-md-2 control-label" />
+                            <div class="col-md-10">
+                                <h:selectOneMenu id="villeInput" required="true" value="#{coordonneesController.candidat.adresseFixe.ville}" styleClass="form-control">
+                                    <f:selectItems var="ville" value="#{coordonneesController.communesFix}" itemLabel="#{ville.libCommune}" itemValue="#{ville.codeCommune}" required="true" />
+                                </h:selectOneMenu>
+                                <p:message for="villeInput" />
+                            </div>
+                        </div>
+                    </p:outputPanel>
+                    <p:outputPanel id="fragment-adr-etr" rendered="#{coordonneesController.candidat.adresseFixe.pays ne '100'}">
+                        <div class="form-group">
+                            <p:outputLabel value="#{msgs['ADRESS.VIL.ETR']}" for="villeEtrInput" styleClass="col-md-2 control-label" />
+                            <div class="col-md-10">
+                                <p:inputText id="villeEtrInput" required="true" value="#{coordonneesController.candidat.adresseFixe.villeEtr}" maxlength="40" styleClass="form-control" />
+                                <p:message for="villeEtrInput" />
+                            </div>
+                        </div>
+                    </p:outputPanel>
+                </p:outputPanel>
+            </div>
+        </div>
+    </section>
+</ui:composition>

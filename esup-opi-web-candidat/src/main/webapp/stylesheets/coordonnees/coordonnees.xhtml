@@ -3,32 +3,51 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
                 template="/stylesheets/template.xhtml">
     <ui:define name="main">
-        <section>
-            <h2>#{msgs['INDIVIDU.COORD']}</h2>
-        </section>
-        <section>
+        <f:metadata>
+            <f:viewAction action="#{coordonneesController.initView}" />
+        </f:metadata>
+        <ui:include src="/stylesheets/sidebar.xhtml">
+            <ui:param name="candidat" value="#{coordonneesController.candidat}" />
+        </ui:include>
+        <ui:include src="/stylesheets/header.xhtml">
+            <ui:param name="candidat" value="#{coordonneesController.candidat}" />
+            <ui:param name="title" value="#{msgs['INDIVIDU.COORD']}" />
+        </ui:include>
+        <h:form id="coordonneesForm" styleClass="form-horizontal">
+            <p:tabView id="tabsCoordonnees" dynamic="true">
+                <p:tab>
+                    <f:facet name="title">
+                        <span class="fa fa-lg fa-user" title="#{msgs['INDIVIDU.ETAT_CIV']}" /><span class="hidden-xs">#{msgs['INDIVIDU.ETAT_CIV']}</span>
+                    </f:facet>
+                    <ui:include src="etatCivil.xhtml" />
+                </p:tab>
+                <p:tab>
+                    <f:facet name="title">
+                        <span class="fa fa-lg fa-map-marker" title="#{msgs['ADRESS.FIX']}"/><span class="hidden-xs"> #{msgs['ADRESS.FIX']}</span>
+                    </f:facet>
+                    <ui:include src="adresseFixe.xhtml" />
+                </p:tab>
+            </p:tabView>
             <div class="row">
-                <div class="col-xs-6">
-                    <div class="well">
-                        <h:form>
-                            <fieldset>
-                                <legend>#{msgs['INDIVIDU.ETAT_CIV']}</legend>
-                            </fieldset>
-                        </h:form>
-                    </div>
-                </div>
-                <div class="col-xs-6">
-                    <div class="well">
-                        <h:form>
-                            <fieldset>
-                                <legend>#{msgs['ADRESS.FIX']}</legend>
-                            </fieldset>
-                        </h:form>
+                <div class="col-xs-12">
+                    <div class="form-actions clearfix">
+                        <div class="pull-right">
+                            <p:commandLink value="#{msgs['_.BUTTON.SAVE']}" actionListener="#{coordonneesController.save}" update="@form" styleClass="btn btn-primary"/>
+                            <p:commandLink value="#{msgs['_.BUTTON.CANCEL']}" update="@form" styleClass="btn btn-default">
+                                <p:resetInput target="tabsCoordonnees" />
+                            </p:commandLink>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+
+            <h:outputScript>
+                $("input[type=text]").addClass("form-control");
+                $("[data-toggle=tooltip]").tooltip();
+            </h:outputScript>
+        </h:form>
     </ui:define>
 </ui:composition>

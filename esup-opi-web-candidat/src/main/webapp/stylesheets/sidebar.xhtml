@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="#{request.contextPath}/" title="#{msgs['APPLICATION.BIG_TITLE']} - #{msgs['APPLICATION.TITLE']}"><p:graphicImage library="img" name="logo.png" width="75" /></a>
+            </div>
+            <ul>
+                <!--<li class="divider"></li>-->
+                <li>
+                    <a href="#{request.contextPath}/candidats/#{candidat.dossier}/coordonnees" title="#{msgs['INDIVIDU.COORD']}">
+                        <i class="fa fa-2x fa-map-marker"/>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <span class="alert-sign text-danger"><i class="fa fa-exclamation-triangle"/></span>
+                    <a href="#{request.contextPath}/candidats/#{candidat.dossier}/cursus" title="#{msgs['INDIVIDU.CURSUS']}">
+                        <i class="fa fa-2x fa-graduation-cap"/>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <span class="alert-sign text-danger"><i class="fa fa-exclamation-triangle"/></span>
+                    <a href="#{request.contextPath}/candidats/#{candidat.dossier}/candidatures" title="#{msgs['INDIVIDU.YOUR.CANDIDATURES']}">
+                        <i class="fa fa-2x fa-file-text-o" />
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li class="faq">
+                    <a href="#{request.contextPath}/stylesheets/help/faq.html#whatIne" title="#{msgs['NAVIGATION.TEXT.FAQ']}">
+                        <i class="fa fa-2x fa-question" />
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+</ui:composition>

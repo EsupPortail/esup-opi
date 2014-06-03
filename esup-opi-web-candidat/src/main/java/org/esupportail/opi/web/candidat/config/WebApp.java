@@ -28,7 +28,7 @@ public class WebApp implements WebApplicationInitializer {
         servletContext.setInitParameter("javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE", "true");
         servletContext.setInitParameter("org.apache.myfaces.ERROR_HANDLING", "false");
         servletContext.setInitParameter("org.apache.myfaces.SERIALIZE_STATE_IN_SESSION", "false"); // for viewscope
-        servletContext.setInitParameter("primefaces.THEME", "bootstrap");
+        servletContext.setInitParameter("primefaces.THEME", "none");
 
         createRootContext(servletContext);
     }
@@ -37,7 +37,7 @@ public class WebApp implements WebApplicationInitializer {
 
         AnnotationConfigWebApplicationContext root = new AnnotationConfigWebApplicationContext();
         root.register(ContextConfig.class);
-        root.refresh();
+//        root.refresh();
 
         servletContext.addListener(new ContextLoaderListener(root));
         servletContext.addListener(new RequestContextListener());

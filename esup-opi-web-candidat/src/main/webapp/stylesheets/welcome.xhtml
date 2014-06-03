@@ -5,6 +5,13 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/stylesheets/template.xhtml">
     <ui:define name="main">
+        <ui:include src="/stylesheets/sidebar.xhtml">
+            <ui:param name="candidat" value="#{coordonneesController.candidat}" />
+        </ui:include>
+        <ui:include src="/stylesheets/header.xhtml">
+            <ui:param name="title" value="#{msgs['APPLICATION.BIG_TITLE']}" />
+            <ui:param name="subtitle" value="#{msgs['APPLICATION.TITLE']}" />
+        </ui:include>
         <section>
             <h2>Accueil</h2>
         </section>

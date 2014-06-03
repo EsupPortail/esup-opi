@@ -1,7 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
+<html xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -9,90 +7,64 @@
 
     <f:view>
         <h:head>
-            <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
             <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-            <meta http-equiv="Pragma" content="no-cache" />
-            <meta http-equiv="Cache-Control" content="no-cache" />
-            <meta http-equiv="Expires" content="0" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <title>ToIP : Gestion des abonnements téléphoniques</title>
+            <title>#{msgs['APPLICATION.BIG_TITLE']} - #{msgs['APPLICATION.TITLE']}</title>
 
             <f:facet name="first">
                 <h:outputStylesheet library="primefaces" name="primefaces.css" />
-                <h:outputStylesheet library="primefaces-bootstrap" name="theme.css" />
+                <h:outputStylesheet library="primefaces-extensions" name="primefaces-extensions.css" />
                 <h:outputScript library="primefaces" name="jquery/jquery.js" />
                 <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" />
             </f:facet>
             <f:facet name="middle">
                 <h:outputStylesheet library="webjars" name="bootstrap/3.1.1/css/bootstrap.min.css" />
-                <h:outputStylesheet library="webjars" name="bootstrap/3.1.1/css/bootstrap-theme.min.css" />
+                <h:outputScript library="webjars" name="bootstrap/3.1.1/js/bootstrap.min.js" />
             </f:facet>
             <f:facet name="last">
-                <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,700,300' rel='stylesheet' type='text/css' />
-                <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'/>
+                <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'/>
                 <h:outputStylesheet library="css" name="font-awesome.css" />
-                <h:outputStylesheet library="css" name="opi-candidat.css" />
+                <h:outputStylesheet library="css" name="opi-candidat.min.css" />
             </f:facet>
         </h:head>
         <body id="body">
             <p:growl id="globalMessages" globalOnly="true" showDetail="true" autoUpdate="true" />
-            <ui:include src="exception-panel.xhtml" />
-            <ui:fragment rendered="#{not empty param['expired']}">
-                <p:dialog modal="true" resizable="false" dynamic="true" visible="true" closable="false" header="Votre session a expiré" widgetVar="confirmDlg">
-                    <f:facet name="footer">
-                        <div class="ui-dialog-footer clearfix">
-                            <div class="pull-right">
-                                <a href="#{request.contextPath}/" class="btn btn-default btn-sm">Fermer</a>
-                            </div>
-                        </div>
 
-                    </f:facet>
-                </p:dialog>
-            </ui:fragment>
-            <nav class="sidebar">
-                <div class="logo">
-                    <a href="${contextPath}/"><p:graphicImage library="img" name="logo.png" width="75" /></a>
+            <div id="content-wrapper">
+                <div class="content">
+                    <ui:include src="exception-panel.xhtml" />
+                    <ui:fragment rendered="#{not empty param['expired']}">
+                        <p:dialog modal="true" resizable="false" dynamic="true" visible="true" closable="false" header="Votre session a expiré" widgetVar="confirmDlg">
+                            <f:facet name="footer">
+                                <div class="ui-dialog-footer clearfix">
+                                    <div class="pull-right">
+                                        <a href="#{request.contextPath}/" class="btn btn-default btn-sm">Fermer</a>
+                                    </div>
+                                </div>
+
+                            </f:facet>
+                        </p:dialog>
+                    </ui:fragment>
+
+                    <ui:insert name="main"/>
                 </div>
-                <ul>
-                    <li>
-                        <a href="${contextPath}/candidat/6UUEZPA9/coordonnees" title="#{msgs['INDIVIDU.COORD']}">
-                            <i class="fa fa-2x fa-user"/>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="${contextPath}/candidat/6UUEZPA9/cursus" title="#{msgs['INDIVIDU.CURSUS']}">
-                            <i class="fa fa-2x fa-graduation-cap"/>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="${contextPath}/candidat/6UUEZPA9/candidatures" title="#{msgs['INDIVIDU.YOUR.CANDIDATURES']}">
-                            <i class="fa fa-2x fa-file-text-o" />
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div>
-                <h1>
-                    <span class="pull-right user-logged">
-                        Lionel Le Vagueresse
-                    </span>
-                    #{msgs['APPLICATION.BIG_TITLE']} <small> - #{msgs['APPLICATION.TITLE']}</small>
-                </h1>
-                <ui:insert name="main"/>
             </div>
-            <h:outputScript library="webjars" name="bootstrap/3.1.1/js/bootstrap.min.js" />
-            <script language="javascript" type="text/javascript">
+
+
+            <h:outputScript library="js" name="primefaces-locales.js" />
+            <h:outputScript>
                 $(document).ready(function() {
-                    var currentPath = window.location.pathname;
-                    $(".sidebar > ul > li > a").each(function() {
+                    currentPath = window.location.pathname;
+                    $("nav > ul > li > a").each(function() {
                         element = $(this);
                         if (element.attr('href') == currentPath) {
                             parent = $(element.parent());
-                            parent.addClass('active');
+                            parent.addClass("active");
+                            return;
                         }
                     });
                 });
-            </script>
+            </h:outputScript>
         </body>
     </f:view>
 </html>

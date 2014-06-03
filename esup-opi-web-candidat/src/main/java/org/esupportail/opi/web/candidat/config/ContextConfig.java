@@ -20,9 +20,28 @@ import java.util.Map;
 import static java.util.Arrays.asList;
 
 @Configuration
+@ImportResource({"classpath*:/META-INF/archives/archives.xml",
+        "classpath*:/META-INF/auth/auth.xml",
+        "classpath*:/META-INF/cache/cache.xml",
+        "classpath*:/META-INF/esup-opi-dao-dao.xml",
+        "classpath*:/META-INF/domain/domain.xml",
+//        "exceptionHandling/exceptionHandling.xml",
+        "classpath*:/META-INF/i18n/i18n.xml",
+        "classpath*:/META-INF/ldap/ldap.xml",
+        "classpath*:/META-INF/misc/abstractBeans.xml",
+        "classpath*:/META-INF/esup-opi-domain-services-application.xml",
+//        "portal/portal.xml",
+        "classpath*:/META-INF/remote/remote.xml",
+//        "classpath*:/META-INF/export/castor.xml",
+        "classpath*:/META-INF/mails/mails.xml",
+        "classpath*:/META-INF/mails/mailConvocations.xml",
+        "classpath*:/META-INF/smtp/smtp.xml",
+        "classpath*:/META-INF/init/init.xml",
+        "classpath*:/META-INF/parameters/accessType.xml",
+        "classpath*:/META-INF/urlGeneration/urlGeneration.xml",
+//        "web/managedAccess.xml",
+        "classpath*:/META-INF/web/beans.xml"})
 @Import({ ControllerConfig.class })
-@ImportResource({"classpath*:/META-INF/i18n/i18n.xml",
-        "classpath*:/META-INF/esup-opi-domain-services-application.xml"})
 public class ContextConfig {
 
     @Bean

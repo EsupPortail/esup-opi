@@ -193,6 +193,11 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.esupportail</groupId>
+                <artifactId>esup-opi-web-beans</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.myfaces.core</groupId>
                 <artifactId>myfaces-impl</artifactId>
                 <version>${myfaces.version}</version>
@@ -264,10 +269,10 @@
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.primefaces.themes</groupId>
-            <artifactId>bootstrap</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.primefaces.themes</groupId>-->
+            <!--<artifactId>bootstrap</artifactId>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.primefaces.extensions</groupId>
             <artifactId>primefaces-extensions</artifactId>
@@ -284,8 +289,22 @@
             <version>3.1.1</version>
         </dependency>
         <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>5.1.1.Final</version>
+        </dependency>
+        <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-opi-domain-services</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.esupportail</groupId>
+            <artifactId>esup-opi-web-beans</artifactId>
         </dependency>
 
     </dependencies>

@@ -5,9 +5,15 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/stylesheets/template.xhtml">
     <ui:define name="main">
-        <section>
-            <h2>#{msgs['INDIVIDU.YOUR.CANDIDATURES']}</h2>
-        </section>
-        <section></section>
+        <f:metadata>
+            <f:viewAction action="#{candidaturesController.initView}" />
+        </f:metadata>
+        <ui:include src="/stylesheets/sidebar.xhtml">
+            <ui:param name="candidat" value="#{candidaturesController.candidat}" />
+        </ui:include>
+        <ui:include src="/stylesheets/header.xhtml">
+            <ui:param name="candidat" value="#{candidaturesController.candidat}" />
+            <ui:param name="title" value="#{msgs['INDIVIDU.YOUR.CANDIDATURES']}" />
+        </ui:include>
     </ui:define>
 </ui:composition>

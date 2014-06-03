@@ -19,16 +19,16 @@ public class Navigation extends HttpConfigurationProvider {
             .addRule(Join.path("/")
                     .to("/stylesheets/welcome.xhtml").withInboundCorrection())
 
-            .addRule().when(Path.matches("/candidat/{dossier}"))
-                .perform(Redirect.permanent("/candidat/{dossier}/coordonnees"))
+            .addRule().when(Path.matches("/candidats/{dossier}"))
+                .perform(Redirect.permanent("/candidats/{dossier}/coordonnees"))
 
-            .addRule(Join.path("/candidat/{dossier}/coordonnees")
+            .addRule(Join.path("/candidats/{dossier}/coordonnees")
                     .to("/stylesheets/coordonnees/coordonnees.xhtml").withInboundCorrection())
 
-            .addRule(Join.path("/candidat/{dossier}/cursus")
+            .addRule(Join.path("/candidats/{dossier}/cursus")
                     .to("/stylesheets/cursus/cursus.xhtml").withInboundCorrection())
 
-            .addRule(Join.path("/candidat/{dossier}/candidatures")
+            .addRule(Join.path("/candidats/{dossier}/candidatures")
                     .to("/stylesheets/candidatures/candidatures.xhtml").withInboundCorrection())
 
             .addRule()
