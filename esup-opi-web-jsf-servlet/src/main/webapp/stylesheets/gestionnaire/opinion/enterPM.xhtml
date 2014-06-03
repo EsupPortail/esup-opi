@@ -3,20 +3,26 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 template="/stylesheets/templateGestionnaire.xhtml">
+                
     <ui:define name="content">
-		<p:panel id="maPage" styleClass="div_body">
-        <div>
+        <f:event type="preRenderView" listener="#{pjController.seeMissingPiecePrincipal}" />  
+                         
+          <p:blockUI block="maPagePM" trigger="detailPMform:valid-button">
+              <p:graphicImage library="images" name="ajax-loader.gif"/>
+          </p:blockUI>
+            
+		<p:panel id="maPagePM" styleClass="div_body">
             <h1>
                 <span class="section-header">
                     <h:outputText value="#{managedAccess.currentTraitement.libelle}"/>
                 </span>
             </h1>
             <div class="messageForUser">
-                <p:messages id="messages" showDetail="true" autoUpdate="true"/>
+                <p:messages id="messages" showDetail="false" autoUpdate="true"/>
             </div>
 
             <ui:include src="_block/_sendMailStudent.xhtml"/>
-
+            
             <div id="blockInfoCoord" class="blockForm">
                 <div style="width:100%;">
                     <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
@@ -27,37 +33,37 @@
                                              action="#{pjController.goBackMPStudent}" ajax="false"/>
                         </h:form>
                     </h:panelGrid>
-                </div>
-                <h:panelGrid columns="5" styleClass="displayInfo"
-                             rowClasses="headerRow, ">
-                    <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}"/>
-                    <h:outputText value="#{msgs['INDIVIDU.NOM']}"/>
-                    <h:outputText value="#{msgs['INDIVIDU.PRENOM']}"/>
-                    <h:outputText value="#{msgs['INDIVIDU.NAISSANCE']}"/>
-                    <h:outputText value="#{msgs['FIELD_LABEL.MAIL_PERSO']}"/>
-
-                    <h:outputText
-                            value="#{pjController.mpPojoSelected.individuPojo.individu.numDossierOpi}"/>
-                    <h:outputText
-                            value="#{pjController.mpPojoSelected.individuPojo.individu.nomPatronymique}"/>
-                    <h:outputText value="#{pjController.mpPojoSelected.individuPojo.individu.prenom}"/>
-                    <h:outputText
-                            value="#{pjController.mpPojoSelected.individuPojo.individu.dateNaissance}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"
-                                           timeZone="#{sessionController.timezone}"/>
-                    </h:outputText>
-                    <h:outputLink
-                            value="mailto:#{pjController.mpPojoSelected.individuPojo.individu.adressMail}">
-                        <h:outputText
-                                value="#{pjController.mpPojoSelected.individuPojo.individu.adressMail}"/>
-                    </h:outputLink>
-                </h:panelGrid>
-            </div>
-            <br/>
-            <br/>
-            <br/>
-
-            <h:form id="detailPMform" styleClass="opiR1_form">
+                </div>	                
+	       		<h:form styleClass="opiR1_form">	 
+            
+	                <h:panelGrid columns="5" styleClass="displayInfo"
+	                             rowClasses="headerRow, ">
+	                    <h:outputText value="#{msgs['INDIVIDU.NUM_DOSSIER']}"/>
+	                    <h:outputText value="#{msgs['INDIVIDU.NOM']}"/>
+	                    <h:outputText value="#{msgs['INDIVIDU.PRENOM']}"/>
+	                    <h:outputText value="#{msgs['INDIVIDU.NAISSANCE']}"/>
+	                    <h:outputText value="#{msgs['FIELD_LABEL.MAIL_PERSO']}"/>
+	
+	                    <h:outputText
+	                            value="#{pjController.mpPojoSelected.individuPojo.individu.numDossierOpi}"/>
+	                    <h:outputText
+	                            value="#{pjController.mpPojoSelected.individuPojo.individu.nomPatronymique}"/>
+	                    <h:outputText value="#{pjController.mpPojoSelected.individuPojo.individu.prenom}"/>
+	                    <h:outputText
+	                            value="#{pjController.mpPojoSelected.individuPojo.individu.dateNaissance}">
+	                        <f:convertDateTime pattern="dd/MM/yyyy"
+	                                           timeZone="#{sessionController.timezone}"/>
+	                    </h:outputText>
+	                    <h:outputLink
+	                            value="mailto:#{pjController.mpPojoSelected.individuPojo.individu.adressMail}">
+	                        <h:outputText
+	                                value="#{pjController.mpPojoSelected.individuPojo.individu.adressMail}"/>
+	                    </h:outputLink>
+	                </h:panelGrid>           
+	           	</h:form> 	           
+            </div>     
+            
+            <h:form id="detailPMform" styleClass="opiR1_form">                           
                 <div style="width:100%;">
                     <h:panelGrid columns="2" columnClasses="col1UnDemi,col2UnDemi"
                                  styleClass="tableJustWidthMax">
@@ -66,7 +72,22 @@
                     </h:panelGrid>
                 </div>
 
-                <p:dataTable var="commissionPojo" value="#{pjController.mpPojoSelected.cmiKeySet}"
+		             <div class="blockButton" style="text-align:right;">
+		                <h:panelGroup>
+		                    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+		                                     id="valid-button"
+		                                     rendered="#{managedAccess.updateAuthorized || managedAccess.addAuthorized}"
+		        							 immediate="true"
+		                                     update=":listePieceManquante"
+		                                     action="#{pjController.saveMissingPiecePrincipal}" ajax="false" >
+		                            		<f:setPropertyActionListener value="#{commissionPojo}" target="#{pjController.currentCmiPojo}"/>
+		                                                               
+						      </p:commandButton>                                                      
+		                </h:panelGroup>     
+		            </div>       
+		            
+		            
+                <p:dataTable var="commissionPojo" value="#{pjController.currentCmiPojo}"
                              alternateColors="false" renderedIfEmpty="false"
                              styleClass="displayInfo" rowIndexVar="rowVar">
                     <p:column>
@@ -86,43 +107,72 @@
                             <h:outputText value="#{msgs['STATE']}"/>
                         </f:facet>
                         <p:selectOneRadio value="#{commissionPojo.stateCurrent}">
-                            <f:selectItem itemValue="STATE.NON_ARRIVE" itemLabel="#{msgs['STATE.NON_ARRIVE']}"/>
+                            <f:selectItem itemValue="STATE.NON_ARRIVE" itemLabel="#{msgs['STATE.NON_ARRIVE']}"/>                         
                             <f:selectItem itemValue="STATE.ARRIVE_COMPLET" itemLabel="#{msgs['STATE.ARRIVE_COMPLET']}"/>
                             <f:selectItem itemValue="STATE.ARRIVE_INCOMPLET"
                                           itemLabel="#{msgs['STATE.ARRIVE_INCOMPLET']}"/>
-                        </p:selectOneRadio>
-                    </p:column>
-
-                    <p:column styleClass="buttonTD">
-                        <p:commandButton icon="ui-icon-pencil"
-                                         title="#{msgs['_.BUTTON.UPDATE']}"
-                                         action="#{pjController.changeState}"
-                                         rendered="#{managedAccess.updateAuthorized
-    								|| managedAccess.addAuthorized}" ajax="false">
-                            <f:setPropertyActionListener value="#{commissionPojo}"
-                                                         target="#{pjController.currentCmiPojo}"/>
-                        </p:commandButton>
-                    </p:column>
-                    <p:column styleClass="buttonTD">
-                        <p:commandButton icon="ui-icon-search" immediate="true"
-                                         action="#{pjController.seeMissingPiecePrincipal}"
-                                         title="#{msgs['_.BUTTON.DISPLAY']}" ajax="false"
-                                         update=":listePieceManquante"
-                                         disabled="#{!(commissionPojo.stateCurrent eq 'STATE.ARRIVE_INCOMPLET')}">
-                            <f:setPropertyActionListener value="#{commissionPojo}"
-                                                         target="#{pjController.currentCmiPojo}"/>
-                            <f:setPropertyActionListener value="#{pjController.actionEnum.listePm}"
-                            							 target="#{pjController.actionEnum.whatAction}"/>
-                        </p:commandButton>
+                          <p:ajax listener="#{pjController.changeStateAndMP}"
+                                    process="@form"
+                                    event="click"
+                                    update="@form, :detailPMform, :listePieceManquante"/> 
+                        </p:selectOneRadio>                           
                     </p:column>
                 </p:dataTable>
             </h:form>
-            <br/>
-            <br/>
-            <br/>
+      <br/>
 
-            <ui:include src="_block/_enterPM.xhtml"/>
-        </div>
+     <h:form id="listePieceManquante">
+       <ui:fragment rendered="#{pjController.actionEnum.whatAction == pjController.actionEnum.listePm}">	
+           
+            <!-- div class="blockButton" style="text-align:right;">
+                <h:panelGroup>
+                    <p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}"
+                                     id="valid-button"
+                                     rendered="#{managedAccess.updateAuthorized
+        								|| managedAccess.addAuthorized}"
+        							 immediate="true"
+                                     action="#{pjController.saveMissingPiecePrincipal}"
+                                     update=":detailPMform"/>                                     
+                </h:panelGroup>
+            </div-->            
+            <p:dataTable id="pmData" var="missingPiece"
+                         value="#{pjController.missingPieceModel}"
+                         selection="#{pjController.missingPiece}"
+                         lazy="false" rowKey="#{missingPiece.piece.id}"
+                         styleClass="displayInfo" ><!-- rowIndexVar="rowVar">-->
+                <p:column>
+                    <p:graphicImage library="images" name="informationSmall.png"
+                                    style="cursor:pointer;" id="helpMotivation"/>
+                    <p:overlayPanel for="helpMotivation"
+                                    showEvent="mouseover"
+                                    hideEvent="mouseout"
+                                    styleClass="containerPopup">
+                        <h:panelGroup>
+                            <h:panelGrid columns="1">
+                                <h:outputText styleClass="titrePopupAide"
+                                              value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+                                <h:outputText styleClass="libellesAide"
+                                              value="#{missingPiece.piece.libelle}"/>
+                            </h:panelGrid>
+                        </h:panelGroup>
+                    </p:overlayPanel>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msgs['FIELD_LABEL.LIBELLE']}"/>
+                    </f:facet>
+                    <h:outputText value="#{missingPiece.piece.libelle}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msgs['FIELD_LABEL.COMMENTAIRE']}"/>
+                    </f:facet>
+                    <p:inputText value="#{missingPiece.libelle}" size="40" maxlength="500"/>
+                </p:column>
+                <p:column selectionMode="multiple" disabledSelection="#{commissionPojo.stateCurrent == msgs['STATE.ARRIVE_COMPLET']}"/>
+            </p:dataTable>
+   			</ui:fragment>
+   		 </h:form>
         </p:panel>
     </ui:define>
 </ui:composition>

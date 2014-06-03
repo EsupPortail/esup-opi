@@ -8,6 +8,7 @@ package org.esupportail.opi.domain;
 import fj.P2;
 import fj.data.Array;
 import fj.data.Option;
+
 import org.apache.commons.lang3.StringUtils;
 import org.esupportail.commons.exceptions.ConfigException;
 import org.esupportail.commons.exceptions.UserNotFoundException;
@@ -960,6 +961,17 @@ public final class DomainServiceImpl implements DomainService {
 			daoService.deleteUser(individu);
 		}
 	}
+
+	/**
+	 * @see org.esupportail.opi.domain.DomainService#deleteIndividu(
+	 * org.esupportail.opi.domain.beans.Individu)
+	 */
+	public void deleteIndividu(final Individu ind) {
+		if (log.isDebugEnabled()) {
+			log.debug("entering deleteIndividu( " + ind + " )");
+		}
+		daoService.deleteIndividu(ind);
+	}
 	
 	
 	//////////////////////////////////////////////////////////////
@@ -1324,7 +1336,7 @@ public final class DomainServiceImpl implements DomainService {
 		}
 		daoService.deleteVetAutoLp(vet);
 	}
-	
+
 	/**
 	 * @see org.esupportail.opi.domain.DomainService#
 	 * getRecupIndVoeuLc(org.esupportail.opi.domain.beans.parameters.AutoListPrincipale,
@@ -1363,6 +1375,29 @@ public final class DomainServiceImpl implements DomainService {
 		}
 		return indVoeu;
 	}
+	
+	/**
+	 * CELINEMALLET - AJOUT
+	 * @see org.esupportail.opi.dao.DaoService#
+	 * getRecupListIndVoeu(final Individu ind, final Boolean temoinEnService)
+	 */
+	@SuppressWarnings("unchecked")
+	public List<IndVoeu> getRecupListIndVoeu(final Individu ind, final Boolean temoinEnService) {
+		
+		if (log.isDebugEnabled()) {
+			log.debug("");
+		}
+
+		List<IndVoeu> listIndVoeu = daoService.getRecupListIndVoeu(ind, temoinEnService);
+			
+
+		if (listIndVoeu == null || listIndVoeu.isEmpty()) {
+			return null;
+		}
+		
+		return listIndVoeu;
+	}
+		
 
 	//////////////////////////////////////////////////////////////
 	// IndSituation

@@ -4,7 +4,7 @@
     <parent>
         <artifactId>esup-opi</artifactId>
         <groupId>org.esupportail</groupId>
-        <version>2.0.0-beta4-pre113-SNAPSHOT</version>
+        <version>2.0.0-beta4-pre116-SNAPSHOT</version>
     </parent>
     <artifactId>esup-opi-domain-beans</artifactId>
     <description>The business object</description>
@@ -117,7 +117,7 @@
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 			<version>1.8.3</version>
-		</dependency>        
+		</dependency>
     </dependencies>
     <name>esup-opi-domain-beans</name>
 </project>

@@ -1,12 +1,17 @@
 package org.esupportail.opi.web.controllers.opinions;
 
+import org.esupportail.commons.services.logging.Logger;
+import org.esupportail.commons.services.logging.LoggerImpl;
+
 import fj.F;
 import fj.P1;
+
 import org.esupportail.commons.services.smtp.SmtpService;
 import org.esupportail.commons.utils.Assert;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
+import org.esupportail.opi.domain.beans.etat.EtatNonRenseigne;
 import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
@@ -28,6 +33,7 @@ import org.esupportail.opi.web.utils.paginator.PaginationFunctions;
 
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -49,12 +55,16 @@ public class PJController extends AbstractContextAwareController {
      */
     private static final long serialVersionUID = -4483704731784087003L;
 
+    /**
+     * A logger.
+     */
+    private final Logger log = new LoggerImpl(getClass());    
 
     /**
      * The current CommissionPojo.
      */
     private CommissionPojo currentCmiPojo;
-
+  
     /**
      * true if all missing piece are selected.
      */
@@ -68,7 +78,8 @@ public class PJController extends AbstractContextAwareController {
     /**
      * Missing piece selected.
      */
-    private MissingPiece[] missingPiece;
+     //private MissingPiece[] missingPiece;
+     private List<MissingPiece> missingPiece;
     
     /**
      * Missing piece selected.
@@ -102,7 +113,7 @@ public class PJController extends AbstractContextAwareController {
     private MissingPiecePojo mpPojoSelected;
 
     private final IndRechPojo indRechPojo = new IndRechPojo() {{
-        setExcludeWishProcessed(true);
+        setExcludeWishProcessed(false);//true
         setTypeTraitements(asList(AccesSelectif, ValidationAcquis));
     }};
 
@@ -178,15 +189,16 @@ public class PJController extends AbstractContextAwareController {
         allChecked = false;
         stateSelected = "";
         currentCmiPojo = null;
-        missingPiece = new MissingPiece[0];
+        missingPiece = new ArrayList<MissingPiece>();
+       //missingPiece = new MissingPiece[0];
         actionEnum = new ActionEnum();
-        missPieceForInd = new HashSet<>();
+        missPieceForInd = new HashSet<MissingPiece>();
         missingPieceModel = new MissingPieceDataModel();
     }
     
-    public void resetPm() {
+   /* public void resetPm() {
     	actionEnum = new ActionEnum();
-    }
+    }*/
 
     /**
      * @see org.esupportail.opi.web.controllers.AbstractContextAwareController#afterPropertiesSetInternal()
@@ -200,7 +212,6 @@ public class PJController extends AbstractContextAwareController {
         Assert.notNull(this.commissionController,
                 "property commissionController of class " + this.getClass().getName()
                         + " can not be null");
-        reset();
     }
 
     /**
@@ -236,15 +247,15 @@ public class PJController extends AbstractContextAwareController {
     /**
      * search Students.
      */
-    @SuppressWarnings({"serial", "synthetic-access"})
-    public void searchStudents() {
-    	resetPm();
-    }
+   // @SuppressWarnings({"serial", "synthetic-access"})
+   /* public void searchStudents() {
+    	reset();//	resetPm();
+    }*/
 
     /**
      * items state for the wishes.
      */
-    public List<SelectItem> getStateItems() {
+  /*  public List<SelectItem> getStateItems() {
         List<SelectItem> list = new ArrayList<SelectItem>();
         list.add(new SelectItem("STATE.NON_ARRIVE",
                 getString("STATE.NON_ARRIVE")));
@@ -253,58 +264,40 @@ public class PJController extends AbstractContextAwareController {
         list.add(new SelectItem("STATE.ARRIVE_INCOMPLET",
                 getString("STATE.ARRIVE_INCOMPLET")));
         return list;
-    }
-
-    /**
-     * Change all the state for the elements
-     * Display in the paginator.
-     */
-    public void changeStateAll() {
-        List<MissingPiecePojo> allPojo = missingPiecePojoLDM.getData();
-        for (MissingPiecePojo m : allPojo) {
-            this.mpPojoSelected = m;
-            if (m.getCommissions() != null) {
-                for (CommissionPojo c : m.getCommissions().keySet()) {
-                    this.currentCmiPojo = c;
-                    if (!currentCmiPojo.getStateCurrent().equals(
-                            currentCmiPojo.getStateCurrentOld())) {
-                        changeState(false, m.getIndividuPojo());
-                    }
-                }
-            }
-        }
-        addInfoMessage(null, "INFO.PM.ALL.SUCCESS");
-        reset();
-    }
-
+    }*/
+    
     /**
      * change state for one individu.
      * from enterPM;
      */
-    public void changeState() {
-        changeState(true, mpPojoSelected.getIndividuPojo());
-    }
+    public void changeStateAndMP() {
+     //  changeState(true, mpPojoSelected.getIndividuPojo());
+       currentCmiPojo.setStateCurrentOld(currentCmiPojo.getStateCurrent());
+       currentCmiPojo.setState(EtatVoeu.fromString(currentCmiPojo.getStateCurrent()));
+       
+       seeMissingPiecePrincipal();
+      }
 
     /**
      * Change the state for all wishes in one commission.
-     */
+     
     private void changeState(final Boolean trtUnit, final IndividuPojo pojoIndividu) {
         currentCmiPojo.setStateCurrentOld(currentCmiPojo.getStateCurrent());
         currentCmiPojo.setState(EtatVoeu.fromString(currentCmiPojo.getStateCurrent()));
 
-        RegimeInscription regimeIns = getRegimeIns().get(
-                Utilitaires.getCodeRIIndividu(pojoIndividu.getIndividu(),
-                        getDomainService()));
-        if (currentCmiPojo.getState() == EtatArriveIncomplet
+        //RegimeInscription regimeIns = getRegimeIns().get(
+      //          Utilitaires.getCodeRIIndividu(pojoIndividu.getIndividu(),
+       //                 getDomainService()));
+       if (currentCmiPojo.getState() == EtatArriveIncomplet
                 && trtUnit) {
             // Arrive Incomplet
             seeMissingPiecePrincipal();
-        } else if (currentCmiPojo.getState() == EtatArriveComplet) {
+        } else{ //if (currentCmiPojo.getState() == EtatArriveComplet) {
             // Arrive Complet
             //delete all missing pieces
-            Commission c = getParameterService()
-                    .getCommission(currentCmiPojo.getCommission().getId(), null);
-            currentCmiPojo.setCommission(c);
+           // Commission c = getParameterService()
+           //         .getCommission(currentCmiPojo.getCommission().getId(), null);
+            //currentCmiPojo.setCommission(c);
             List<MissingPiece> missP =
                     getDomainService().getMissingPiece(
                             pojoIndividu.getIndividu(), currentCmiPojo.getCommission());
@@ -312,13 +305,12 @@ public class PJController extends AbstractContextAwareController {
                 getDomainService().deleteMissingPiece(missP, null);
             }
 
-            //send Mail if FI ou FC && not(trtUnit)
-            if (regimeIns instanceof FormationContinue && trtUnit) {
-                actionEnum.setWhatAction(ActionEnum.SEND_MAIL);
-            } else {
-                sendMail(false);
-            }
-
+          	//  send Mail if FI ou FC && not(trtUnit)
+          //  if (regimeIns instanceof FormationContinue && trtUnit) {
+          //      actionEnum.setWhatAction(ActionEnum.SEND_MAIL);
+          //  } else {
+          //      sendMail(false);
+          //  }
 
         }
         //update state all wishes in cmi.
@@ -329,87 +321,122 @@ public class PJController extends AbstractContextAwareController {
             IndVoeu iV = (IndVoeu) getDomainService().update(i.getIndVoeu(), getCurrentGest().getLogin());
             getDomainService().updateIndVoeu(iV);
         }
-        if (regimeIns instanceof FormationInitiale
-                && !(currentCmiPojo.getState() == EtatArriveIncomplet)) {
-            reset();
-        }
-    }
+       // if (regimeIns instanceof FormationInitiale && !(currentCmiPojo.getState() == EtatArriveIncomplet)) {
+         //   reset();
+        //}
+    }**/
 
     /**
      * see the missing pieces if state = EtatArriveIncomplet.
      */
+    /**CELINEMALLET**/
     public void seeMissingPiecePrincipal() {
         IndividuPojo pojoIndividu = this.mpPojoSelected.getIndividuPojo();
-        if (currentCmiPojo.getState() == EtatArriveIncomplet) {
-            List<MissingPiece> missP =
-                    getDomainService().getMissingPiece(
+        boolean showMP = false; /** CELINEMALLET **/
+
+        if (currentCmiPojo.getState().toString() == EtatArriveIncomplet.toString()) {
+        	showMP = true;
+            List<MissingPiece> missP = getDomainService().getMissingPiece(
                             pojoIndividu.getIndividu(), currentCmiPojo.getCommission());
-            if (missP != null && !missP.isEmpty()) {
-            	missingPiece = new MissingPiece[missP.size()];	
+            
+            if (missP != null && !missP.isEmpty()) { 
+            	/** CELINEMALLET **/
+                missingPiece = new ArrayList<MissingPiece>();
+                for(MissingPiece e : missP) { missingPiece.add(e);}
+            	/** CELINEMALLET **/
+            	/*missingPiece = new MissingPiece[missP.size()];	
             	for(int i=0; i<missP.size(); i++) {
             		missingPiece[i] = missP.get(i);
-            	}
-            } else {
-            	missingPiece = new MissingPiece[0];
+            	}  */
             }
-        } else {
-            addInfoMessage(null, "MISSING_PIECE.NOT_EMPTY_STATE", getString("STATE.ARRIVE_INCOMPLET"));
         }
-    }
 
+             
+        /** CELINEMALLET **/
+        if(!showMP) 	{
+           // addInfoMessage(null, "MISSING_PIECE.NOT_EMPTY_STATE", getString("STATE.ARRIVE_INCOMPLET"));
+        	actionEnum.setWhatAction(ActionEnum.EMPTY_ACTION); // MASQUE la liste de PM
+        }
+        else actionEnum.setWhatAction(ActionEnum.LISTE_PM); // affiche la liste de PM
+    }
 
     /**
      * Update the state in all the wishes of the commissions.
      */
     public void saveMissingPiecePrincipal() {
-        List<MissingPiece> listMPToDelete = new ArrayList<MissingPiece>();
-        if (allChecked) {
-            missPieceForInd = new HashSet<MissingPiece>(
-                    this.mpPojoSelected.getPiecesForCmi().get(currentCmiPojo.getCommission()));
-        } else {
-            //TODO probleme de lazy aleatoire a voir 01042009
-            for (MissingPiece mp : missingPiece) {
-                missPieceForInd.add(mp);
-            }
-            for (MissingPiece mp
-                    : this.mpPojoSelected.getPiecesForCmi().get(currentCmiPojo.getCommission())) {
+    	
+     //  List<MissingPiece> listMPToDelete = new ArrayList<MissingPiece>();
+        
+        /*if (allChecked) {*/
+       
+       //TOUTES LES PIECES REQUISES POUR CETTE COMMISSION     
+       	missPieceForInd = new HashSet<MissingPiece>(this.mpPojoSelected.getPiecesForCmi().get(currentCmiPojo.getCommission()));
+       	if(currentCmiPojo.getState().equals(EtatArriveIncomplet)){
+        //} else { //TODO probleme de lazy aleatoire a voir 01042009        	
+            
+	         //LES PIECES SELECTIONNEES
+	          if(missingPiece != null) {
+	          	 missPieceForInd = new HashSet<MissingPiece>();
+	             	for (MissingPiece mp : missingPiece) {
+	             		missPieceForInd.add(mp);
+	          	}
+	          }
+	       	}
+       	
+       	else if(currentCmiPojo.getState().equals(EtatArriveComplet)){}
+       	
+       	else{
+       		missPieceForInd = new HashSet<MissingPiece>();
+       	}
+            /*
+            for (MissingPiece mp : missPieceForInd) {            	
                 //missing piece already in dataBase
-                if (!mp.getId().equals(0)) {
+            	if (!mp.getId().equals(0)) {
                     if (!missPieceForInd.contains(mp)) {
-                        //if not contains --> delete missingPiece
+                    	
+                        //if not contains --> delete missingPiece             	
+                    	
                         listMPToDelete.add(mp);
                     }
                 }
-            }
-        }
+            }*/
+        //}
 
         if (!missPieceForInd.isEmpty()) {
             getDomainService().saveOrUpdateMissingPiece(
                     new ArrayList<MissingPiece>(missPieceForInd),
                     getCurrentGest().getLogin());
         }
-
+/*
         //DELETE THE MP NOT SELECTED
-        if (!listMPToDelete.isEmpty()) {
+       if (!listMPToDelete.isEmpty()) {
             getDomainService().deleteMissingPiece(listMPToDelete, null);
+        }*/
+        
+        /** CELINEMALLET **/
+        // update state all wishes in cmi.
+        List<IndVoeuPojo> iList = this.mpPojoSelected.getCommissions().get(currentCmiPojo);
+        for (IndVoeuPojo i : iList) {
+            i.getIndVoeu().setState(currentCmiPojo.getStateCurrent());
+            IndVoeu iV = (IndVoeu) getDomainService().update(i.getIndVoeu(), getCurrentGest().getLogin());
+            getDomainService().updateIndVoeu(iV);
         }
-
         actionEnum.setWhatAction(ActionEnum.SEND_MAIL);
         addInfoMessage(null, "MISSING_PIECE.SAVE_OK");
-
+        sendMail(false);// ++
     }
 
 
     /**
      * Change all state of visibleItems for stateSelected.
      */
-    public void putStateAll() {
+    /*public void putStateAll() {
         for (MissingPiecePojo mPojo : missingPiecePojoLDM.getData()) {
             for (CommissionPojo c : mPojo.getCommissions().keySet()) {
                 c.setStateCurrent(stateSelected);
             }
         }
-    }
+    }*/
 
     /**
      * Send mail when confirm.
@@ -439,7 +466,7 @@ public class PJController extends AbstractContextAwareController {
                 List<Object> list = new ArrayList<>();
                 list.add(pojoIndividu.getIndividu());
                 list.add(this.mpPojoSelected.getCommissions().get(currentCmiPojo));
-                list.add(missPieceForInd);
+                list.add(this.missPieceForInd);
                 list.add(commissionDTO(currentCmiPojo));
 
                 regimeIns.getDossArriveIncomplet().send(pojoIndividu.getIndividu().getAdressMail(),
@@ -466,10 +493,9 @@ public class PJController extends AbstractContextAwareController {
                     pojoIndividu.getIndividu().getNumDossierOpi());
 
         }
-        if (doReset) {
+        /*if (doReset) {
             reset();
-        }
-
+        }*/
     }
 
     public CommissionPojo getCurrentCmiPojo() {
@@ -488,11 +514,11 @@ public class PJController extends AbstractContextAwareController {
         this.allChecked = allChecked;
     }
 
-    public MissingPiece[] getMissingPiece() {
+    public List<MissingPiece> getMissingPiece() {
         return missingPiece;
     }
 
-    public void setMissingPiece(final MissingPiece[] missingPiece) {
+    public void setMissingPiece(final List<MissingPiece> missingPiece) {
     	this.missingPiece = missingPiece;
     }
 

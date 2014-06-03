@@ -98,24 +98,22 @@ public class HibernateDaoServiceImpl extends AbstractSimpleHibernateDaoService i
 	 * @param o1
 	 */
 	private void lockObject(final Object o1) {
+		if(o1 != null){
+			if (log.isDebugEnabled()) {
+				log.debug("entering lockObject( " + o1 + " )");
+			}
+			// Session s = getHibernateTemplate().getSessionFactory().getCurrentSession();
 
-		if (log.isDebugEnabled()) {
-			log.debug("entering lockObject( " + o1 + " )");
+			// on ne lock que si l'objet n'est pas en session
+			// si 2 objet identique n'ont pas le meme emplacement memoire : contains ne les reconnais pas
+			// par contre une NonUniqueObjectException sera levee cause des id database identique
+			if (log.isDebugEnabled()) {
+				log.debug("getHibernateTemplate.contains(o1) = " + getHibernateTemplate().contains(o1));
+			}
+
+			if (!getHibernateTemplate().contains(o1)) { getHibernateTemplate().lock(o1, LockMode.NONE); }
 		}
-//		Session s = getHibernateTemplate().getSessionFactory().getCurrentSession();
-
-
-		//on ne lock que si l'objet n'est pas en session
-		//si 2 objet identique n'ont pas le meme emplacement memoire : contains ne les reconnais pas
-		//par contre une NonUniqueObjectException sera leve e cause des id database identique
-		if (log.isDebugEnabled()) {
-			log.debug("getHibernateTemplate.contains(o1) = " + getHibernateTemplate().contains(o1));
-		}
-		if (!getHibernateTemplate().contains(o1)) {
-			getHibernateTemplate().lock(o1, LockMode.NONE);
-		} 
 	}
-
 
 
 	/** 
@@ -130,8 +128,7 @@ public class HibernateDaoServiceImpl extends AbstractSimpleHibernateDaoService i
 		if (proxy != null) {
 //			NormeSI obj = (NormeSI) args;
 			try {
-//				if (!proxy.getClass().isAssignableFrom(proxyClass)) {
-					
+//				if (!proxy.getClass().isAssignableFrom(proxyClass)) {					
 					lockObject(args);
 					if (log.isDebugEnabled()) {
 						log.debug("execute Hibernate.initialize(proxy)");
@@ -161,10 +158,8 @@ public class HibernateDaoServiceImpl extends AbstractSimpleHibernateDaoService i
 //				getHibernateTemplate().get(obj.getClass(), obj.getId());
 //				obj = (NormeSI) s.get(obj.getClass(), obj.getId());
 //				log.info(" object from hibernate template : " + obj);
-			} 
-
+			}
 		}
-
 	}
 
 	//////////////////////////////////////////////////////////////
@@ -857,6 +852,7 @@ public class HibernateDaoServiceImpl extends AbstractSimpleHibernateDaoService i
 		}
 		updateObject(adresse);
 	}
+
 
 	//////////////////////////////////////////////////////////////
 	// VersionManager
@@ -1557,6 +1553,18 @@ public class HibernateDaoServiceImpl extends AbstractSimpleHibernateDaoService i
 		
 	}
 
+	/**
+	 * @see org.esupportail.opi.dao.DaoService#
+	 * updateIndSituation(org.esupportail.opi.domain.beans.user.Individu)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public void deleteIndividu(final Individu ind) {
+		if (log.isDebugEnabled()) {
+			log.debug("entering deleteObject( " + ind + " )");
+		}
+		deleteObject(ind);		
+	}
 
 	/**
 	 * @see org.esupportail.opi.dao.DaoService#
@@ -1576,9 +1584,25 @@ public class HibernateDaoServiceImpl extends AbstractSimpleHibernateDaoService i
 		if (indSitu != null && !indSitu.isEmpty()) {
 			return indSitu.get(0);
 		}
-
 		return null;
-	
+	}
+
+
+	/**
+	 * CELINEMALLET - AJOUT
+	 * @see org.esupportail.opi.dao.DaoService#
+	 * getRecupListIndVoeu(final Individu ind, final Boolean temoinEnService)
+	 */
+	@SuppressWarnings("unchecked")
+	public List<IndVoeu> getRecupListIndVoeu(final Individu ind, final Boolean temoinEnService) {		
+		
+		if (log.isDebugEnabled()) {
+			log.debug("entering -- getRecupListIndVoeu ( ind : " + ind + ", " + temoinEnService + " ) ");
+		}
+		
+		DetachedCriteria criteria = DetachedCriteria.forClass(IndVoeu.class, "i");		
+		criteria.add(Restrictions.eq("i.temoinEnService", true)).add(Restrictions.eq("i.individu", ind));		
+		return getHibernateTemplate().findByCriteria(criteria);
 	}
 }
 

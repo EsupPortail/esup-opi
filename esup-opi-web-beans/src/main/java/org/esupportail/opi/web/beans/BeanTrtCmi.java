@@ -3,6 +3,7 @@
  */
 package org.esupportail.opi.web.beans;
 
+import fj.data.Option;
 import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
@@ -12,13 +13,13 @@ public class BeanTrtCmi {
 	
 	private VersionEtapeDTO etape;
 	
-	private TypeTraitement typeTraitement;
+	private Option<TypeTraitement> typeTraitement;
 
 	public BeanTrtCmi() {
 		traitementCmi = new TraitementCmi();
 	}
 
-	public BeanTrtCmi(TraitementCmi traitementCmi, TypeTraitement typeTraitement) {
+	public BeanTrtCmi(TraitementCmi traitementCmi, Option<TypeTraitement> typeTraitement) {
 		this.traitementCmi = traitementCmi;
 		this.typeTraitement = typeTraitement;
 	}
@@ -66,11 +67,11 @@ public class BeanTrtCmi {
 		this.etape = etape;
 	}
 
-	public TypeTraitement getTypeTraitement() {
+	public Option<TypeTraitement> getTypeTraitement() {
 		return typeTraitement;
 	}
 
-	public void setTypeTraitement(final TypeTraitement typeTraitement) {
+	public void setTypeTraitement(final Option<TypeTraitement> typeTraitement) {
 		this.typeTraitement = typeTraitement;
 	}
 }

@@ -189,6 +189,7 @@ public class IndividuController extends AbstractAccessController {
     private IndRechPojo indRechPojo;
 
     private final LazyDataModel<Individu> indLDM = lazyModel(
+
             PaginationFunctions.getData(
                     new P1<SessionController>() {
                         public SessionController _1() { return getSessionController(); }
@@ -209,14 +210,14 @@ public class IndividuController extends AbstractAccessController {
 
     @Override
     public void reset() {
+        super.reset();
         actionEnum = new ActionEnum();
-
+        this.actionEnum.setWhatAction(ActionEnum.EMPTY_ACTION);
         pojoIndividu = new IndividuPojo();
         pojoIndividu.getIndividu().setCodPayNaissance(Constantes.CODEFRANCE);
         pojoIndividu.getIndividu().setCodPayNationalite(Constantes.CODEFRANCE);
 
         checkEmail = "";
-
         adressController.reset();
         cursusController.reset();
         indBacController.reset();
@@ -981,48 +982,79 @@ public class IndividuController extends AbstractAccessController {
         if (log.isDebugEnabled()) {
             log.debug("entering delete with individu = " + pojoIndividu.getIndividu());
         }
+        
+        Individu indToDelete = pojoIndividu.getIndividu();
+        
         // on supprime les formulaires
         Map<VersionEtpOpi, IndFormulaire> indF =
-                getParameterService().getIndFormulaires(pojoIndividu.getIndividu());
+                getParameterService().getIndFormulaires(indToDelete);
 
         RegimeInscription regime = getRegimeIns().get(
-                Utilitaires.getCodeRIIndividu(pojoIndividu.getIndividu(),
+                Utilitaires.getCodeRIIndividu(indToDelete,
                         getDomainService()));
 
         if (indF != null && !indF.isEmpty()) {
             for (Map.Entry<VersionEtpOpi, IndFormulaire> vOpi : indF.entrySet()) {
                 getParameterService().deleteIndFormulaire(vOpi.getValue(),
-                        pojoIndividu.getIndividu().getNumDossierOpi(),
+                		indToDelete.getNumDossierOpi(),
                         regime.getShortLabel());
             }
         }
 
         // on supprime les rendez vous s'il y en a
-        //init hib proxy adresse
-        getDomainService().initOneProxyHib(pojoIndividu.getIndividu(),
-                pojoIndividu.getIndividu().getVoeux(), IndVoeu.class);
-        for (IndVoeu indVoeu : pojoIndividu.getIndividu().getVoeux()) {
-            IndividuDate individuDate = getDomainService().getIndividuDate(indVoeu);
-            if (individuDate != null) {
-                getDomainService().deleteIndividuDate(individuDate);
-            }
-        }
-        // de même pour les voeux archivés
-        for (IndVoeu indVoeu : pojoIndividu.getIndividu().getArchVoeux()) {
-            IndividuDate individuDate = getDomainService().getIndividuDate(indVoeu);
-            if (individuDate != null) {
-                getDomainService().deleteIndividuDate(individuDate);
-            }
-        }
+       List<IndVoeu> indVoeuLst = getDomainService().getRecupListIndVoeu(indToDelete, true);
+         if (indVoeuLst != null) {
+         	  for (IndVoeu indVoeu : indVoeuLst) {
+   	            IndividuDate individuDate = getDomainService().getIndividuDate(indVoeu);
+   	            if (individuDate != null) {
+   	                getDomainService().deleteIndividuDate(individuDate);
+   	            }
+   	        }
+         }
+         
+         // on supprime pour les voeux archivés
+         List<IndVoeu> indVoeuArchLst = getDomainService().getRecupListIndVoeu(indToDelete, false);
+           if (indVoeuArchLst != null) {
+           	  for (IndVoeu indVoeu : indVoeuArchLst) {
+     	            IndividuDate individuDate = getDomainService().getIndividuDate(indVoeu);
+     	            if (individuDate != null) {
+     	                getDomainService().deleteIndividuDate(individuDate);
+     	            }
+     	        }
+           }
 
+        //init hib proxy adresse
+       /* getDomainService().initOneProxyHib(pojoIndividu.getIndividu(),
+                pojoIndividu.getIndividu().getVoeux(), IndVoeu.class);
+        if(pojoIndividu.getIndividu().getVoeux() !=null)
+	        for (IndVoeu indVoeu : pojoIndividu.getIndividu().getVoeux()) {
+	            IndividuDate individuDate = getDomainService().getIndividuDate(indVoeu);
+	            if (individuDate != null) {
+	                getDomainService().deleteIndividuDate(individuDate);
+	            }
+	        }
+        // de même pour les voeux archivés
+        if(pojoIndividu.getIndividu().getArchVoeux() !=null)
+	        for (IndVoeu indVoeu : pojoIndividu.getIndividu().getArchVoeux()) {
+	            IndividuDate individuDate = getDomainService().getIndividuDate(indVoeu);
+	            if (individuDate != null) {
+	                getDomainService().deleteIndividuDate(individuDate);
+	            }
+	        }
+        */
+           
         // on supprime la situation de l'individu si FC
-        IndSituation indSituation = getDomainService().getIndSituation(pojoIndividu.getIndividu());
+        IndSituation indSituation = getDomainService().getIndSituation(indToDelete);
         if (indSituation != null) {
             getDomainService().deleteIndSituation(indSituation);
         }
 
-        getDomainService().deleteUser(pojoIndividu.getIndividu());
+        // on supprime l'individu (contrainte clé étrangere)
+        getDomainService().deleteIndividu(indToDelete);
 
+        // on supprime le user
+        //getDomainService().deleteUser(indToDelete);
+        
         reset();
 
         addInfoMessage(null, "INFO.DELETE.SUCCESS");
