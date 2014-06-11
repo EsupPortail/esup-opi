@@ -2,10 +2,9 @@
 @import url("http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,700,300");
 
 
-@import "variables.less";
+@import "variables";
 
 body {
-  font-family: 'Open Sans', Helvetica, Arial, san-serif;
   font-size: 12px;
 }
 
@@ -24,11 +23,8 @@ body {
   position: fixed;
   background-color: @page-header-bg;
   border-top: 1px solid @border-default-color;
+  text-align: center;
   z-index: 999;
-
-  .btn {
-    margin: auto 5px;
-  }
 }
 
 section {
@@ -65,6 +61,18 @@ section {
 .page-header h1 {
   color: @nav-active-link;
   margin: 0;
+}
+
+.table-column-limit {
+  max-width: 75px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+//  white-space: nowrap;
+}
+
+.table-action-icon {
+  max-width: 30px;
+  width: 30px;
 }
 
 nav {
@@ -186,6 +194,22 @@ nav {
   }
 }
 
+.alert {
+  font-weight: 400;
+}
+//
+//.alert.alert-info {
+//  background-color: lighten(#4fc0e8, 10%);
+//  border-color: lighten(#2fb5e4, 10%);
+//}
+//
+//.alert.alert-warning {
+//  background-color: desaturate(#ffce55, 10%);
+//  border-color: desaturate(#ffc73b, 10%);
+//}
+
+/* Primefaces*/
+
 .ui-tabs.ui-tabs-top {
   margin: 0;
   padding: 0;
@@ -211,6 +235,9 @@ nav {
         display: block;
         padding: 15px;
         position: relative;
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
         &:hover,
         &:focus {
           text-decoration: none;
@@ -255,4 +282,11 @@ nav {
 }
 .ui-datepicker thead {
   background-color: #dcdcdc;
+}
+
+.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
+  border: none;
+}
+.ui-datatable thead th, .ui-datatable tfoot td {
+  text-align: left;
 }

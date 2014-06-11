@@ -17,7 +17,7 @@
             <ui:param name="title" value="#{msgs['INDIVIDU.COORD']}" />
         </ui:include>
         <h:form id="coordonneesForm" styleClass="form-horizontal">
-            <p:tabView id="tabsCoordonnees" dynamic="true">
+            <p:tabView id="tabsCoordonnees">
                 <p:tab>
                     <f:facet name="title">
                         <span class="fa fa-lg fa-user" title="#{msgs['INDIVIDU.ETAT_CIV']}" /><span class="hidden-xs">#{msgs['INDIVIDU.ETAT_CIV']}</span>
@@ -31,23 +31,6 @@
                     <ui:include src="adresseFixe.xhtml" />
                 </p:tab>
             </p:tabView>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="form-actions clearfix">
-                        <div class="pull-right">
-                            <p:commandLink value="#{msgs['_.BUTTON.SAVE']}" actionListener="#{coordonneesController.save}" update="@form" styleClass="btn btn-primary"/>
-                            <p:commandLink value="#{msgs['_.BUTTON.CANCEL']}" update="@form" styleClass="btn btn-default">
-                                <p:resetInput target="tabsCoordonnees" />
-                            </p:commandLink>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <h:outputScript>
-                $("input[type=text]").addClass("form-control");
-                $("[data-toggle=tooltip]").tooltip();
-            </h:outputScript>
         </h:form>
     </ui:define>
 </ui:composition>

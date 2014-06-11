@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <section class="container-fluid">
+        <div class="row">
+            <p:outputPanel layout="block" autoUpdate="true" styleClass="col-xs-12">
+                <div class="form-group">
+                    <p:outputLabel value="#{msgs['ADRESS.PAY']}" for="bacPaysInput" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <h:selectOneMenu id="bacPaysInput" required="true" value="#{cursusController.candidat.baccalaureat.pays}" styleClass="form-control">
+                            <f:selectItem itemValue="" itemLabel="" />
+                            <f:selectItems value="#{cursusController.pays}" var="pays" itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}" />
+                            <p:ajax update="@this,bacDeptGroup" process="@this" partialSubmit="true" />
+                        </h:selectOneMenu>
+                        <p:message for="bacPaysInput" />
+                    </div>
+                </div>
+                <p:outputPanel id="bacDeptGroup" layout="block" styleClass="form-group" rendered="#{cursusController.candidat.baccalaureat.pays eq '100'}">
+                    <p:outputLabel value="#{msgs['FIELD_LABEL.DEPARTEMENT']}" for="bacDeptInput" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <h:selectOneMenu id="bacDeptInput" required="true" value="#{cursusController.candidat.baccalaureat.departement}" styleClass="form-control">
+                            <f:selectItem itemValue="" itemLabel="" />
+                            <f:selectItems value="#{cursusController.departements}" var="dept" itemLabel="#{dept.libDep}" itemValue="#{dept.codDep}" />
+                            <p:ajax update="@this,bacVilleGroup" process="@this" partialSubmit="true" />
+                        </h:selectOneMenu>
+                        <p:message for="bacDeptInput" />
+                    </div>
+                </p:outputPanel>
+                <p:outputPanel id="bacVilleGroup" layout="block" styleClass="form-group" rendered="#{cursusController.candidat.baccalaureat.pays eq '100' and not empty cursusController.candidat.baccalaureat.departement}">
+                    <p:outputLabel value="#{msgs['ADRESS.VIL']}" for="bacVilleInput" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <h:selectOneMenu id="bacVilleInput" required="true" value="#{cursusController.candidat.baccalaureat.ville}" styleClass="form-control">
+                            <f:selectItem itemValue="" itemLabel="" />
+                            <f:selectItems value="#{cursusController.communes(cursusController.candidat.baccalaureat.departement)}" var="ville" itemLabel="#{ville.libCom}" itemValue="#{ville.codCom}" />
+                            <p:ajax update="@this,bacEtbGroup" process="@this" partialSubmit="true" />
+                        </h:selectOneMenu>
+                        <p:message for="bacVilleInput" />
+                    </div>
+                </p:outputPanel>
+                <p:outputPanel id="bacEtbGroup" layout="block" styleClass="form-group" rendered="#{cursusController.candidat.baccalaureat.pays eq '100' and not empty cursusController.candidat.baccalaureat.ville}">
+                    <p:outputLabel value="#{msgs['ETABLISSEMENT']}" for="bacEtbInput" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <div class=" input-group">
+                            <span class="input-group-addon" data-toggle="tooltip" data-container="body" title="#{msgs['ETABLISSEMENT.HELP']}"><i class="fa fa-info-circle" /></span>
+                            <h:selectOneMenu id="bacEtbInput" required="true" value="#{cursusController.candidat.baccalaureat.etablissement}" styleClass="form-control">
+                                <f:selectItem itemValue="" itemLabel="" />
+                                <f:selectItems value="#{cursusController.lycees(cursusController.candidat.baccalaureat.pays, cursusController.candidat.baccalaureat.departement, cursusController.candidat.baccalaureat.ville)}" var="lycee" itemLabel="#{lycee.libOffEtb}" itemValue="#{lycee.codEtb}" />
+                            </h:selectOneMenu>
+                        </div>
+                        <p:message for="bacEtbInput" />
+                    </div>
+                </p:outputPanel>
+
+                <div class="form-group">
+                    <p:outputLabel value="#{msgs['INDIVIDU.BAC.DAA_OBT']}" for="bacDateObtInput" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <div class=" input-group">
+                            <span class="input-group-addon" data-toggle="tooltip" data-container="body" title="#{msgs['INDIVIDU.BAC.DAA_OBT.HELP']}"><i class="fa fa-info-circle" /></span>
+                            <p:inputMask id="bacDateObtInput" required="true" value="#{cursusController.candidat.baccalaureat.dateObtention}" mask="9999" maxlength="4" styleClass="form-control">
+                                <p:ajax event="blur" update="bacSerieBacGroup" process="@this" partialSubmit="true"/>
+                            </p:inputMask>
+                        </div>
+                        <p:message for="bacDateObtInput" />
+                    </div>
+                </div>
+                <p:outputPanel id="bacSerieBacGroup" layout="block" styleClass="form-group">
+                    <p:outputLabel value="#{msgs['INDIVIDU.CURSUS.SERIE_BAC']}" for="bacSerieBacInput" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <div class=" input-group">
+                            <span class="input-group-addon" data-toggle="tooltip" data-container="body" title="#{msgs['INDIVIDU.CURSUS.SERIE_BAC.HELP']}"><i class="fa fa-info-circle" /></span>
+                            <h:selectOneMenu id="bacSerieBacInput" required="true" value="#{cursusController.candidat.baccalaureat.bac}" styleClass="form-control">
+                                <f:selectItem itemValue="" itemLabel="" />
+                                <f:selectItems value="#{cursusController.bacs}" var="bac" itemLabel="#{bac.libBac}" itemValue="#{bac.codBac}" />
+                            </h:selectOneMenu>
+                        </div>
+                        <p:message for="bacSerieBacInput" />
+                    </div>
+                </p:outputPanel>
+                <p:outputPanel id="bacMentionGroup" layout="block" styleClass="form-group">
+                    <p:outputLabel value="#{msgs['INDIVIDU.CURSUS.MENTION']}" for="bacMentionInput" styleClass="col-md-2 control-label" />
+                    <div class="col-md-10">
+                        <h:selectOneMenu  id="bacMentionInput" value="#{cursusController.candidat.baccalaureat.mention}" styleClass="form-control">
+                            <f:selectItem itemValue="" itemLabel="" />
+                            <f:selectItems value="#{cursusController.mentionNivBacs}" var="mention" itemLabel="#{mention.libMnb}" itemValue="#{mention.codMnb}" />
+                        </h:selectOneMenu>
+                        <p:message for="bacMentionInput" />
+                    </div>
+                </p:outputPanel>
+            </p:outputPanel>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-actions">
+                    <p:commandLink value="#{msgs['_.BUTTON.SAVE']}" actionListener="#{cursusController.save}" update="@form" styleClass="btn btn-primary"/>
+                </div>
+            </div>
+        </div>
+    </section>
+</ui:composition>

@@ -1,20 +1,44 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:p="http://primefaces.org/ui"
-                template="/stylesheets/template.xhtml">
-    <ui:define name="main">
-        <ui:include src="/stylesheets/sidebar.xhtml">
-            <ui:param name="candidat" value="#{coordonneesController.candidat}" />
-        </ui:include>
-        <ui:include src="/stylesheets/header.xhtml">
-            <ui:param name="title" value="#{msgs['APPLICATION.BIG_TITLE']}" />
-            <ui:param name="subtitle" value="#{msgs['APPLICATION.TITLE']}" />
-        </ui:include>
-        <section>
-            <h2>Accueil</h2>
-        </section>
-        <section></section>
-    </ui:define>
-</ui:composition>
+<!DOCTYPE html>
+<html xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <f:view>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>#{msgs['APPLICATION.BIG_TITLE']} - #{msgs['APPLICATION.TITLE']}</title>
+
+            <f:facet name="first">
+                <h:outputStylesheet library="primefaces" name="primefaces.css" />
+                <h:outputStylesheet library="primefaces-extensions" name="primefaces-extensions.css" />
+                <h:outputScript library="primefaces" name="jquery/jquery.js" />
+                <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" />
+            </f:facet>
+            <f:facet name="middle">
+                <h:outputStylesheet library="webjars" name="bootstrap/3.1.1/css/bootstrap.min.css" />
+                <h:outputScript library="webjars" name="bootstrap/3.1.1/js/bootstrap.min.js" />
+            </f:facet>
+            <f:facet name="last">
+                <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'/>
+                <h:outputStylesheet library="css" name="font-awesome.css" />
+                <h:outputStylesheet library="css" name="opi-candidat.min.css" />
+            </f:facet>
+        </h:head>
+        <body id="body">
+            <ui:include src="/stylesheets/header.xhtml">
+                <ui:param name="title" value="#{msgs['APPLICATION.BIG_TITLE']}" />
+                <ui:param name="subtitle" value="#{msgs['APPLICATION.TITLE']}" />
+            </ui:include>
+
+            <section class="jumbotron">
+                <p class="small">
+                    Saisir une URL de la forme:
+                    <b>#{request.scheme}://#{request.serverName}<h:outputText value=":#{request.serverPort}" rendered="#{not empty request.serverPort}"/>#{request.contextPath}/candidats/numDossier</b> où numDossier est le numéro de dossier d'un candidat
+                </p>
+            </section>
+        </body>
+    </f:view>
+</html>

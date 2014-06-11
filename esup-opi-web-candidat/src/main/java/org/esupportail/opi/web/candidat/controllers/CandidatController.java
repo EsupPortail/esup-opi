@@ -7,11 +7,18 @@ import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.beans.user.Individu;
+import org.esupportail.opi.web.beans.utils.comparator.ComparatorPays;
 import org.esupportail.opi.web.candidat.beans.CandidatPojo;
 import org.esupportail.opi.web.candidat.utils.Transform;
+import org.esupportail.wssi.services.remote.Departement;
+import org.esupportail.wssi.services.remote.Pays;
 
+import javax.faces.application.NavigationHandler;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+
+import java.util.Collections;
+import java.util.List;
 
 import static fj.data.Option.fromNull;
 import static fj.data.Option.fromString;
@@ -42,20 +49,29 @@ public abstract class CandidatController {
         final Option<String> dossier = fromString(externalContext.getRequestParameterMap().get("dossier"));
         final Option<CandidatPojo> maybeCandidat = join(dossier.map(new F<String, Option<CandidatPojo>>() {
             public Option<CandidatPojo> f(String d) {
-                return fromNull(domainService.getIndividu(d, null)).map(individuToCandidatPojo);
+                return fromNull(domainService.getIndividu(d, null)).map(individuToCandidatPojo.f(apoService));
             }
         }));
-        maybeCandidat.foreach(new Effect<CandidatPojo>() {
-            public void e(CandidatPojo pojo) {
-                candidat = pojo;
-            }
-        });
+
+        if (maybeCandidat.isNone()) {
+            redirect("/stylesheets/welcome.xhtml?faces-redirect=true");
+        }
+        candidat = maybeCandidat.some();
     }
 
     public void save() {
         final Individu individu = domainService.getIndividu(candidat.getDossier(), null);
 
         domainService.updateUser(Transform.candidatPojoToIndividu.f(candidat, individu));
+    }
+
+    protected void redirect(final String outcome) {
+        final FacesContext context = FacesContext.getCurrentInstance();
+
+        final NavigationHandler navHandler = context.getApplication().getNavigationHandler();
+
+        navHandler.handleNavigation(context, null, outcome);
+        context.responseComplete();
     }
 
     public CandidatPojo getCandidat() {
@@ -72,5 +88,21 @@ public abstract class CandidatController {
 
     public void setCurrentTabIndex(int currentTabIndex) {
         this.currentTabIndex = currentTabIndex;
+    }
+
+    public List<Pays> getPays() {
+        List<Pays> l = apoService.getPays();
+        Collections.sort(l, new ComparatorPays(ComparatorPays.PAYS));
+        return l;
+    }
+
+    public List<Departement> getDepartements() {
+        return apoService.getDepartements();
+    }
+
+    public List<Pays> getNationalites() {
+        List<Pays> l = apoService.getPays();
+        Collections.sort(l, new ComparatorPays(ComparatorPays.NATIONALITE));
+        return l;
     }
 }

@@ -11,8 +11,8 @@
                     <p:outputLabel value="#{msgs['FIELD_LABEL.MAIL_PERSO']}" for="emailInput" styleClass="col-md-2 control-label" />
                     <div class="col-md-10">
                         <div class=" input-group">
-                            <p:inputText id="emailInput" required="true" value="#{coordonneesController.candidat.adresseFixe.email}" maxlength="50" styleClass="form-control" />
                             <span class="input-group-addon" data-toggle="tooltip" data-container="body" title="#{msgs['FIELD_LABEL.MAIL_PERSO.HELP']}"><i class="fa fa-info-circle" /></span>
+                            <p:inputText id="emailInput" required="true" value="#{coordonneesController.candidat.adresseFixe.email}" maxlength="50" styleClass="form-control" />
                         </div>
                         <p:message for="emailInput" />
                     </div>
@@ -21,8 +21,8 @@
                     <p:outputLabel value="#{msgs['ADRESS.TEL_FIX']}" for="telInput" styleClass="col-md-2 control-label" />
                     <div class="col-md-10">
                         <div class=" input-group">
-                            <p:inputText id="telInput" required="true" value="#{coordonneesController.candidat.adresseFixe.telFixe}" maxlength="15" styleClass="form-control" />
                             <span class="input-group-addon" data-toggle="tooltip" data-container="body" title="#{msgs['ADRESS.TEL_POR.HELP']}"><i class="fa fa-info-circle" /></span>
+                            <p:inputText id="telInput" required="true" value="#{coordonneesController.candidat.adresseFixe.telFixe}" maxlength="15" styleClass="form-control" />
                         </div>
                         <p:message for="telInput" />
                     </div>
@@ -31,8 +31,8 @@
                     <p:outputLabel value="#{msgs['ADRESS.TEL_POR']}" for="telPorInput" styleClass="col-md-2 control-label" />
                     <div class="col-md-10">
                         <div class=" input-group">
-                            <p:inputText id="telPorInput" value="#{coordonneesController.candidat.adresseFixe.telPortable}" maxlength="15" styleClass="form-control" />
                             <span class="input-group-addon" data-toggle="tooltip" data-container="body" title="#{msgs['ADRESS.TEL_POR.HELP']}"><i class="fa fa-info-circle" /></span>
+                            <p:inputText id="telPorInput" value="#{coordonneesController.candidat.adresseFixe.telPortable}" maxlength="15" styleClass="form-control" />
                         </div>
                         <p:message for="telPorInput" />
                     </div>
@@ -75,7 +75,7 @@
                             <p:outputLabel value="#{msgs['ADRESS.COD_POST']}" for="codPostInput" styleClass="col-md-2 control-label" />
                             <div class="col-md-10">
                                 <p:inputText id="codPostInput" required="true" value="#{coordonneesController.candidat.adresseFixe.codePostal}" maxlength="5" styleClass="form-control">
-                                    <p:ajax event="blur" listener="#{coordonneesController.computeCities}" update="@form" partialSubmit="true" process="@this" />
+                                    <p:ajax event="blur" listener="#{coordonneesController.computeCities}" update="villeInput" partialSubmit="true" process="@this" />
                                     <f:validateLength  maximum="5" minimum="5" />
                                 </p:inputText>
                                 <p:message for="codPostInput" />
@@ -101,6 +101,13 @@
                         </div>
                     </p:outputPanel>
                 </p:outputPanel>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-actions">
+                    <p:commandLink value="#{msgs['_.BUTTON.SAVE']}" actionListener="#{coordonneesController.save}" update="@form" styleClass="btn btn-primary"/>
+                </div>
             </div>
         </div>
     </section>

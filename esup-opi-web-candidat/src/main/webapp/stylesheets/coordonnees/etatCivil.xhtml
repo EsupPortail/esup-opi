@@ -21,8 +21,8 @@
                     <p:outputLabel value="#{msgs['INDIVIDU.NOM']}" for="nomInput" styleClass="col-md-2 control-label" />
                     <div class="col-md-10">
                         <div class="input-group">
-                            <p:inputText id="nomInput" required="true" value="#{coordonneesController.candidat.etatCivil.nomPatronymique}" maxlength="30" styleClass="form-control" />
                             <span class="input-group-addon" data-toggle="tooltip" data-container="body" title="#{msgs['INDIVIDU.NOM.HELP']}"><i class="fa fa-info-circle"/></span>
+                            <p:inputText id="nomInput" required="true" value="#{coordonneesController.candidat.etatCivil.nomPatronymique}" maxlength="30" styleClass="form-control" />
                         </div>
                         <p:message for="nomInput" />
                     </div>
@@ -31,8 +31,8 @@
                     <p:outputLabel value="#{msgs['INDIVIDU.NOM_USUEL']}" for="nomUsuelInput" styleClass="col-md-2 control-label" />
                     <div class="col-md-10">
                         <div class="input-group">
-                            <p:inputText id="nomUsuelInput" value="#{coordonneesController.candidat.etatCivil.nomUsuel}" maxlength="30" styleClass="form-control" />
                             <span class="input-group-addon" data-toggle="tooltip" data-container="body" title="#{msgs['INDIVIDU.NOM_USUEL.HELP']}"><i class="fa fa-info-circle"/></span>
+                            <p:inputText id="nomUsuelInput" value="#{coordonneesController.candidat.etatCivil.nomUsuel}" maxlength="30" styleClass="form-control" />
                         </div>
                         <p:message for="nomUsuelInput" />
                     </div>
@@ -54,14 +54,17 @@
                 <div class="form-group">
                     <p:outputLabel value="#{msgs['INDIVIDU.DATE_NAI']}" for="dateNaisInput" styleClass="col-md-2 control-label" />
                     <div class="col-md-10">
-                        <p:calendar id="dateNaisInput" required="true" value="#{coordonneesController.candidat.etatCivil.dateNaissance}" readonlyInput="true" locale="fr" navigator="true" pattern="dd/MM/yyyy" />
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-calendar"/></span>
+                            <p:calendar id="dateNaisInput" required="true" value="#{coordonneesController.candidat.etatCivil.dateNaissance}" readonlyInput="true" locale="fr" navigator="true" pattern="dd/MM/yyyy" />
+                        </div>
                         <p:message for="dateNaisInput" />
                     </div>
                 </div>
                 <div class="form-group">
                     <p:outputLabel value="#{msgs['INDIVIDU.PAY_NAI']}" for="paysNaisInput" styleClass="col-md-2 control-label" />
                     <div class="col-md-10">
-                        <h:selectOneMenu id="paysNaisInput" required="true" value="#{coordonneesController.candidat.etatCivil.paysNaissance}" maxlength="20" styleClass="form-control">
+                        <h:selectOneMenu id="paysNaisInput" required="true" value="#{coordonneesController.candidat.etatCivil.paysNaissance}" styleClass="form-control">
                             <f:selectItem itemLabel="" itemValue="" />
                             <f:selectItems value="#{coordonneesController.pays}" var="pays" itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}" />
 
@@ -76,7 +79,7 @@
                     <p:outputPanel id="deptNaisGroup" styleClass="form-group" rendered="#{coordonneesController.candidat.etatCivil.paysNaissance eq '100'}">
                         <p:outputLabel value="#{msgs['INDIVIDU.DEP_NAI']}" for="deptNaisInput" styleClass="col-md-2 control-label" />
                         <div class="col-md-10">
-                            <h:selectOneMenu id="deptNaisInput" required="true" value="#{coordonneesController.candidat.etatCivil.deptNaissance}" maxlength="20" styleClass="form-control">
+                            <h:selectOneMenu id="deptNaisInput" required="true" value="#{coordonneesController.candidat.etatCivil.deptNaissance}" styleClass="form-control">
 
                                 <f:selectItem itemLabel="" itemValue="" />
                                 <f:selectItems var="dept" value="#{coordonneesController.departements}"
@@ -109,6 +112,13 @@
                         <p:inputMask id="nneInput" value="#{coordonneesController.candidat.etatCivil.nne}" mask="9999999999-*" maxlength="20" styleClass="form-control" />
                         <p:message for="nneInput" />
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-actions">
+                    <p:commandLink value="#{msgs['_.BUTTON.SAVE']}" actionListener="#{coordonneesController.save}" update="@form" styleClass="btn btn-primary"/>
                 </div>
             </div>
         </div>

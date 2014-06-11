@@ -17,7 +17,7 @@
                 </li>
                 <li class="divider"></li>
                 <li>
-                    <span class="alert-sign text-danger"><i class="fa fa-exclamation-triangle"/></span>
+                    <p:outputPanel rendered="#{empty candidat.cursusScols}" styleClass="alert-sign text-danger"><i class="fa fa-exclamation-triangle"/></p:outputPanel>
                     <a href="#{request.contextPath}/candidats/#{candidat.dossier}/cursus" title="#{msgs['INDIVIDU.CURSUS']}">
                         <i class="fa fa-2x fa-graduation-cap"/>
                     </a>

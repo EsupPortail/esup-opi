@@ -7,7 +7,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static fj.data.Option.fromString;
 import static java.lang.String.format;
@@ -25,13 +27,21 @@ public class CandidatPojo implements Serializable {
     @NotNull
     private AdresseFixe adresseFixe;
 
+    @NotNull
+    private Baccalaureat baccalaureat;
+
+    @NotNull
+    private List<CursusScolPojo> cursusScols;
+
     private CandidatPojo() {}
 
     public static CandidatPojo empty() {
         return new CandidatPojo()
                 .withDossier("")
                 .withEtatCivil(EtatCivil.empty())
-                .withAdresseFixe(AdresseFixe.empty());
+                .withAdresseFixe(AdresseFixe.empty())
+                .withBaccalaureat(Baccalaureat.empty())
+                .withCursusScols(new ArrayList<CursusScolPojo>());
     }
 
     public String getDossier() {
@@ -70,6 +80,32 @@ public class CandidatPojo implements Serializable {
 
     public CandidatPojo withAdresseFixe(AdresseFixe adresseFixe) {
         setAdresseFixe(adresseFixe);
+        return this;
+    }
+
+    public Baccalaureat getBaccalaureat() {
+        return baccalaureat;
+    }
+
+    public void setBaccalaureat(Baccalaureat baccalaureat) {
+        this.baccalaureat = baccalaureat;
+    }
+
+    public CandidatPojo withBaccalaureat(Baccalaureat baccalaureat) {
+        setBaccalaureat(baccalaureat);
+        return this;
+    }
+
+    public List<CursusScolPojo> getCursusScols() {
+        return cursusScols;
+    }
+
+    public void setCursusScols(List<CursusScolPojo> cursusScols) {
+        this.cursusScols = cursusScols;
+    }
+
+    public CandidatPojo withCursusScols(List<CursusScolPojo> cursusScols) {
+        setCursusScols(cursusScols);
         return this;
     }
 
@@ -443,4 +479,126 @@ public class CandidatPojo implements Serializable {
             return this;
         }
     }
+
+    public static final class Baccalaureat implements Serializable {
+
+        @NotNull
+        private String bac;
+
+        private String mention;
+
+        @NotNull
+        @Size(min=4, max=4)
+        private String dateObtention;
+
+        @NotNull
+        private String pays;
+
+        @NotNull
+        private String departement;
+
+        @NotNull
+        private String ville;
+
+        @NotNull
+        private String etablissement;
+
+        private Baccalaureat() {}
+
+        public static Baccalaureat empty() {
+            return new Baccalaureat();
+        }
+
+        public String getBac() {
+            return bac;
+        }
+
+        public void setBac(String bac) {
+            this.bac = bac;
+        }
+
+        public Baccalaureat withBac(String bac) {
+            setBac(bac);
+            return this;
+        }
+
+        public String getMention() {
+            return mention;
+        }
+
+        public void setMention(String mention) {
+            this.mention = mention;
+        }
+
+        public Baccalaureat withMention(String mention) {
+            setMention(mention);
+            return this;
+        }
+
+        public String getDateObtention() {
+            return dateObtention;
+        }
+
+        public void setDateObtention(String dateObtention) {
+            this.dateObtention = dateObtention;
+        }
+
+        public Baccalaureat withDateObtention(String dateObtention) {
+            setDateObtention(dateObtention);
+            return this;
+        }
+
+        public String getPays() {
+            return pays;
+        }
+
+        public void setPays(String pays) {
+            this.pays = pays;
+        }
+
+        public Baccalaureat withPays(String pays) {
+            setPays(pays);
+            return this;
+        }
+
+        public String getDepartement() {
+            return departement;
+        }
+
+        public void setDepartement(String departement) {
+            this.departement = departement;
+        }
+
+        public Baccalaureat withDepartement(String departement) {
+            setDepartement(departement);
+            return this;
+        }
+
+        public String getVille() {
+            return ville;
+        }
+
+        public void setVille(String ville) {
+            this.ville = ville;
+        }
+
+        public Baccalaureat withVille(String ville) {
+            setVille(ville);
+            return this;
+        }
+
+        public String getEtablissement() {
+            return etablissement;
+        }
+
+        public void setEtablissement(String etablissement) {
+            this.etablissement = etablissement;
+        }
+
+        public Baccalaureat withEtablissement(String etablissement) {
+            setEtablissement(etablissement);
+            return this;
+        }
+    }
+
 }

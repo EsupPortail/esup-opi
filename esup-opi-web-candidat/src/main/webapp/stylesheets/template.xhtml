@@ -18,7 +18,7 @@
                 <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" />
             </f:facet>
             <f:facet name="middle">
-                <h:outputStylesheet library="webjars" name="bootstrap/3.1.1/css/bootstrap.min.css" />
+                <h:outputStylesheet library="css" name="bootstrap.min.css" />
                 <h:outputScript library="webjars" name="bootstrap/3.1.1/js/bootstrap.min.js" />
             </f:facet>
             <f:facet name="last">
@@ -63,6 +63,26 @@
                             return;
                         }
                     });
+
+                    $("input[type=text]").addClass("form-control");
+                    $("[data-toggle=tooltip]").tooltip();
+
+                    // select the target node
+                    var target = document;
+
+                    // create an observer instance
+                    var observer = new MutationObserver(function(mutations) {
+                        mutations.forEach(function(mutation) {
+                            $("input[type=text]").addClass("form-control");
+                            $("[data-toggle=tooltip]").tooltip();
+                        });
+                    });
+
+                    // configuration of the observer:
+                    var config = { attributes: false, childList: true, characterData: true, subtree: true };
+
+                    // pass in the target node, as well as the observer options
+                    observer.observe(target, config);
                 });
             </h:outputScript>
         </body>

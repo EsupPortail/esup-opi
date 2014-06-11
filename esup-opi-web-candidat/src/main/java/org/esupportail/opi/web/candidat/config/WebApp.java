@@ -29,6 +29,7 @@ public class WebApp implements WebApplicationInitializer {
         servletContext.setInitParameter("org.apache.myfaces.ERROR_HANDLING", "false");
         servletContext.setInitParameter("org.apache.myfaces.SERIALIZE_STATE_IN_SESSION", "false"); // for viewscope
         servletContext.setInitParameter("primefaces.THEME", "none");
+        servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", "true");
 
         createRootContext(servletContext);
     }

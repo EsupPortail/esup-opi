@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <div class="modal fade" id="modalPostBac" tabindex="-1" role="dialog" aria-labelledby="#{msgs['INDIVIDU.CURSUS_UNI']}" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">#{msgs['INDIVIDU.CURSUS_UNI']}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <p:outputPanel layout="block" autoUpdate="true" styleClass="col-xs-12">
+                            <div class="form-group">
+                                <p:outputLabel value="#{msgs['ADRESS.PAY']}" for="postbacPaysInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+                                    <h:selectOneMenu id="postbacPaysInput" required="true" value="#{cursusController.cursusScol.etablissement.pays}" styleClass="form-control">
+                                        <f:selectItem itemValue="#{null}" itemLabel="" />
+                                        <f:selectItems value="#{cursusController.pays}" var="pays" itemLabel="#{pays.libPay}" itemValue="#{pays.codPay}" />
+                                        <p:ajax update="postbacDeptGroup,postbacEtbEtrGroup" process="@this" partialSubmit="true" />
+                                    </h:selectOneMenu>
+                                    <p:message for="postbacPaysInput" />
+                                </div>
+                            </div>
+                            <p:outputPanel id="postbacDeptGroup" layout="block" styleClass="form-group" rendered="#{cursusController.cursusScol.etablissement.pays eq '100'}">
+                                <p:outputLabel value="#{msgs['FIELD_LABEL.DEPARTEMENT']}" for="postbacDeptInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+                                    <h:selectOneMenu id="postbacDeptInput" required="true" value="#{cursusController.cursusScol.etablissement.departement}" styleClass="form-control">
+                                        <f:selectItem itemValue="#{null}" itemLabel="" />
+                                        <f:selectItems value="#{cursusController.departements}" var="dept" itemLabel="#{dept.libDep}" itemValue="#{dept.codDep}" />
+                                        <p:ajax update="postbacVilleGroup" process="@this" partialSubmit="true" />
+                                    </h:selectOneMenu>
+                                    <p:message for="postbacDeptInput" />
+                                </div>
+                            </p:outputPanel>
+                            <p:outputPanel id="postbacVilleGroup" layout="block" styleClass="form-group" rendered="#{cursusController.cursusScol.etablissement.pays eq '100' and not empty cursusController.cursusScol.etablissement.departement}">
+                            <p:outputLabel value="#{msgs['ADRESS.VIL']}" for="postbacVilleInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+                                    <h:selectOneMenu id="postbacVilleInput" required="true" value="#{cursusController.cursusScol.etablissement.ville}" styleClass="form-control">
+                                        <f:selectItem itemValue="#{null}" itemLabel="" />
+                                        <f:selectItems value="#{cursusController.communes(cursusController.cursusScol.etablissement.departement)}" var="ville" itemLabel="#{ville.libCom}" itemValue="#{ville.codCom}" />
+                                        <p:ajax update="postbacEtbGroup" process="@this" partialSubmit="true" />
+                                    </h:selectOneMenu>
+                                    <p:message for="postbacVilleInput" />
+                                </div>
+                            </p:outputPanel>
+                            <p:outputPanel id="postbacEtbGroup" layout="block" styleClass="form-group" rendered="#{cursusController.cursusScol.etablissement.pays eq '100' and not empty cursusController.cursusScol.etablissement.ville}">
+                                <p:outputLabel value="#{msgs['FIELD_LABEL.ETABLISSEMENT']}" for="postbacEtbInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+                                    <h:selectOneMenu id="postbacEtbInput" required="true" value="#{cursusController.cursusScol.etablissement.etablissement}" styleClass="form-control">
+                                        <f:selectItem itemValue="#{null}" itemLabel="" />
+                                        <f:selectItems value="#{cursusController.lycees(cursusController.cursusScol.etablissement.pays, cursusController.cursusScol.etablissement.departement, cursusController.cursusScol.etablissement.ville)}" var="lycee" itemLabel="#{lycee.libOffEtb}" itemValue="#{lycee.codEtb}" />
+                                    </h:selectOneMenu>
+                                    <p:message for="postbacEtbInput" />
+                                </div>
+                            </p:outputPanel>
+                            <p:outputPanel id="postbacEtbEtrGroup" layout="block" styleClass="form-group" rendered="#{not empty cursusController.cursusScol.etablissement.pays and cursusController.cursusScol.etablissement.pays ne '100'}">
+                                <p:outputLabel value="#{msgs['FIELD_LABEL.ETABLISSEMENT']}" for="postbacEtbEtrInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+                                    <h:inputText id="postbacEtbEtrInput" required="true" value="#{cursusController.cursusScol.etablissement.etablissementEtr}" styleClass="form-control"/>
+                                    <p:message for="postbacEtbEtrInput" />
+                                </div>
+                            </p:outputPanel>
+
+                            <div class="form-group">
+                                <p:outputLabel value="#{msgs['INDIVIDU.CURSUS.ANNEE_UNI']}" for="postbacAnneeUnivInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+                                    <div class=" input-group">
+                                        <span class="input-group-addon" data-toggle="tooltip" title="#{msgs['INDIVIDU.CURSUS.ANNEE_UNI.HELP']}"><i class="fa fa-info-circle" /></span>
+                                        <p:inputMask id="postbacAnneeUnivInput" required="true" value="#{cursusController.cursusScol.annee}" mask="9999" maxlength="4" styleClass="form-control">
+                                        </p:inputMask>
+                                    </div>
+                                    <p:message for="postbacAnneeUnivInput" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <p:outputLabel value="#{msgs['FIELD_LABEL.DIPLOME_PREP']}" for="postbacDacInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+                                    <div class=" input-group">
+                                        <span class="input-group-addon" data-toggle="tooltip" title="#{msgs['FIELD_LABEL.DIPLOME_PREP.INFOS']}"><i class="fa fa-info-circle" /></span>
+                                        <h:selectOneMenu id="postbacDacInput" required="true" value="#{cursusController.cursusScol.formation.dac}" styleClass="form-control">
+                                            <f:selectItems value="#{cursusController.dipAutCurs(cursusController.cursusScol.etablissement.pays)}" var="dipAutCur"
+                                                           itemLabel="#{dipAutCur.libDac}" itemValue="#{dipAutCur.codDac}"/>
+                                        </h:selectOneMenu>
+                                    </div>
+                                    <p:message for="postbacDacInput" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <p:outputLabel value="#{msgs['FIELD_LABEL.DIPLOME.OBT']}" for="postbacObtInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+                                    <h:selectOneMenu id="postbacObtInput" required="true" value="#{cursusController.cursusScol.obtention}" styleClass="form-control">
+                                        <f:selectItem itemValue="#{null}" itemLabel="" />
+                                        <f:selectItems value="#{cursusController.obtentionValues}" />
+                                    </h:selectOneMenu>
+                                    <p:message for="postbacObtInput" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <p:outputLabel value="#{msgs['FIELD_LABEL.MENTION']}" for="postbacMentionInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+                                    <h:selectOneMenu id="postbacMentionInput" value="#{cursusController.cursusScol.mention}" styleClass="form-control">
+                                        <f:selectItem itemValue="#{null}" itemLabel="" />
+                                        <f:selectItems value="#{cursusController.mentionNivBacs}" var="mention" itemLabel="#{mention.libMnb}" itemValue="#{mention.libMnb}" />
+                                    </h:selectOneMenu>
+                                    <p:message for="postbacMentionInput" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <p:outputLabel value="#{msgs['FIELD_LABEL.DIPLOME.EXACT']}" for="postbacLibFormInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+                                    <h:inputText id="postbacLibFormInput" value="#{cursusController.cursusScol.formation.libFormation}" styleClass="form-control"/>
+                                    <p:message for="postbacLibFormInput" />
+                                </div>
+                            </div>
+                        </p:outputPanel>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <p:commandLink value="#{msgs['_.BUTTON.CANCEL']}" styleClass="btn btn-sm btn-default" immediate="true">
+                        <p:ajax resetValues="true" onsuccess="$('#modalPostBac').modal('hide');"/>
+                    </p:commandLink>
+                    <p:commandLink value="#{msgs['_.BUTTON.ADD']}" styleClass="btn btn-sm btn-success"
+                                   actionListener="#{cursusController.addCursusScol}" update="cursusScols">
+                    </p:commandLink>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="container-fluid">
+        <div class="row">
+            <p:outputPanel layout="block" autoUpdate="true" styleClass="col-xs-12">
+                <div class="alert alert-info alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times"/></a>
+                    <p>#{msgs['INDIVIDU.CURSUS_UNI.DESC']} #{msgs['INDIVIDU.CURSUS_UNI.DESC2']}</p>
+                    <p>#{msgs['INDIVIDU.CURSUS_UNI.DESC3']}</p>
+                </div>
+                <p:dataTable id="cursusScols" value="#{cursusController.candidat.cursusScols}" var="cursus" tableStyleClass="table table-hover table-striped">
+                    <p:column styleClass="table-column-limit">
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['INDIVIDU.CURSUS.ANNEE_UNI']}" title="#{msgs['INDIVIDU.CURSUS.ANNEE_UNI']}" />
+                        </f:facet>
+                        #{cursus.annee}
+                    </p:column>
+                    <p:column styleClass="table-column-limit">
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['FIELD_LABEL.FORMATION']}" title="#{msgs['FIELD_LABEL.FORMATION']}" />
+                        </f:facet>
+                        #{cursus.formation.libFormation}
+                    </p:column>
+                    <p:column styleClass="table-column-limit">
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['FIELD_LABEL.ETABLISSEMENT']}" title="#{msgs['FIELD_LABEL.ETABLISSEMENT']}" />
+                        </f:facet>
+                        #{cursus.etablissement.etablissement}
+                    </p:column>
+                    <p:column styleClass="table-column-limit">
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['FIELD_LABEL.DIPLOME.OBT']}" title="#{msgs['FIELD_LABEL.DIPLOME.OBT']}" />
+                        </f:facet>
+                        #{fn:replace(fn:replace(cursus.obtention,'O',msgs['_.BUTTON.YES']),'N',msgs['_.BUTTON.NO'])}
+                    </p:column>
+                    <p:column styleClass="table-column-limit">
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['FIELD_LABEL.MENTION']}" title="#{msgs['FIELD_LABEL.MENTION']}" />
+                        </f:facet>
+                        #{cursus.mention}
+                    </p:column>
+                    <p:column styleClass="table-action-icon" rendered="#{fn:length(cursusController.candidat.cursusScols) gt 0}">
+                        <p:commandLink styleClass="text-danger" disabled="#{cursus.fromApogee}">
+                            <i class="fa fa-trash-o"/>
+                            <p:ajax update="cursusScols" listener="#{cursusController.deleteCursusScol(cursus)}"/>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+            </p:outputPanel>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-actions">
+                    <a href="#" data-toggle="modal" data-target="#modalPostBac" class="btn btn-primary">#{msgs['_.BUTTON.ADD']}</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</ui:composition>
