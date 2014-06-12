@@ -197,16 +197,6 @@ nav {
 .alert {
   font-weight: 400;
 }
-//
-//.alert.alert-info {
-//  background-color: lighten(#4fc0e8, 10%);
-//  border-color: lighten(#2fb5e4, 10%);
-//}
-//
-//.alert.alert-warning {
-//  background-color: desaturate(#ffce55, 10%);
-//  border-color: desaturate(#ffc73b, 10%);
-//}
 
 /* Primefaces*/
 
@@ -224,10 +214,12 @@ nav {
     > li {
       border-bottom: 1px solid @border-default-color;
       border-right: 1px solid @border-default-color;
+      display: inline-block;
       margin: -1px 0 0 0;
       padding: 0;
       position: relative;
       background: @tabs-tab-bg;
+      overflow: hidden;
       float: left;
 
       > a {
@@ -256,6 +248,55 @@ nav {
 
         > a {
           color: #444;
+        }
+      }
+
+    }
+  }
+
+  &.ui-tabs-1 > .ui-tabs-nav > li {
+    width: 100%;
+  }
+  &.ui-tabs-2 > .ui-tabs-nav > li {
+    width: 100% / 2;
+  }
+  &.ui-tabs-3 > .ui-tabs-nav > li {
+    width: 100% / 3;
+  }
+  &.ui-tabs-4 > .ui-tabs-nav > li {
+    width: 100% / 4;
+  }
+  &.ui-tabs-5 > .ui-tabs-nav > li {
+    width: 100% / 5;
+  }
+  &.ui-tabs-6 > .ui-tabs-nav > li {
+    width: 100% / 6;
+  }
+  &.ui-tabs-7 > .ui-tabs-nav > li {
+    width: 100% / 7;
+  }
+  &.ui-tabs-8 > .ui-tabs-nav > li {
+    width: 100% / 8;
+  }
+  &.ui-tabs-1 > .ui-tabs-nav > li,
+  &.ui-tabs-2 > .ui-tabs-nav > li,
+  &.ui-tabs-3 > .ui-tabs-nav > li,
+  &.ui-tabs-4 > .ui-tabs-nav > li,
+  &.ui-tabs-5 > .ui-tabs-nav > li,
+  &.ui-tabs-6 > .ui-tabs-nav > li,
+  &.ui-tabs-7 > .ui-tabs-nav > li,
+  &.ui-tabs-8 > .ui-tabs-nav > li {
+    min-width: 55px;
+    > a {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    @media all and (max-width: 25em) {
+      > a {
+        text-align: center;
+        span {
+          display: none;
         }
       }
 
