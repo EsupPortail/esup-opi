@@ -174,7 +174,7 @@
                         </f:facet>
                         #{cursus.mention}
                     </p:column>
-                    <p:column styleClass="table-action-icon" rendered="#{fn:length(cursusController.candidat.cursusScols) gt 0}">
+                    <p:column styleClass="table-action-icon" rendered="#{fn:length(cursusController.candidat.cursusScols) gt 1}">
                         <p:commandLink styleClass="text-danger" disabled="#{cursus.fromApogee}">
                             <i class="fa fa-trash-o"/>
                             <p:ajax update="cursusScols" listener="#{cursusController.deleteCursusScol(cursus)}"/>
