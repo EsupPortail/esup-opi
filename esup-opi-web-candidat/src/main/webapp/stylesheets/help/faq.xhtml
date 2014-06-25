@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+    <div class="modal-header">
+        <div class="h4 modal-title">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&#215;</button>
+            #{msgs['NAVIGATION.TEXT.FAQ']}
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse01">
+                            Qu'est-ce que l'INE ? Comment le trouver ?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse01" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Si vous avez été candidat à un baccalauréat français depuis 1995 ou
+                            avez été inscrit dans l'enseignement supérieur français depuis cette date, vous
+                            possédez un INE (Identifiant National Etudiant) ou l'équivalent un numéro BEA (numéro
+                            de base élèves académiques).
+                        </p>
+
+                        <p>
+                            Vous trouverez ce numéro :
+                            <ul>
+                                <li> Soit en haut à gauche dans l'entête du relevé de notes du baccalauréat</li>
+                                <li> Soit sur tout relevé de notes universitaire.</li>
+                            </ul>
+                        </p>
+                        <p>
+                            Soyez vigilants lors de la saisie : l'INE est constitué de 10 caractères alphanumériques et
+                            d'une clé.
+                        </p>
+
+                        <p>
+                            Les candidats étrangers n'ayant jamais été inscrits dans un établissement français
+                            n'ont pas d'INE.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse02">
+                            L'application ne répond pas ou me signale une erreur de communication avec Apogée
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse02" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Pour des raisons techniques, la base de données de référence de
+                            l'application peut être coupée.
+                        </p>
+
+                        <p>
+                            Merci de vous reconnecter plus tard.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse03">
+                            La liste des villes est vide
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse03" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>Il faut saisir le code postal ou le département et ENSUITE cliquer dans le champ ville (avec la souris) ou appuyer sur la touche tabulation.</p>
+
+                        <p>La liste des villes correspondant au code postal saisi apparaissent.</p>
+
+                        <p>Ne pas cliquer sur la touche "Entrée" du clavier.</p>
+
+                        <p><p:graphicImage library="img" name="FAQ_html_m167688e5.jpg" width="646" height="358" border="0"/></p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse04">
+                            Comment se déplacer d'écran en écran ?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse04" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Il ne faut pas utiliser les flèches "suivant" et "précédent" de votre navigateur. Utilisez les boutons
+                            <p:graphicImage library="img" name="FAQ_html_m64fe34be.jpg" width="69" height="15"
+                                            border="0"/> qui apparaissent sur les écrans.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse05">
+                            Je n'ai pas de numéro de dossier
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse05" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Pour obtenir votre numéro de dossier, vous devez saisir vos coordonnées (état civil et contact), votre baccalauréat et votre cursus post bac. Un numéro de dossier vous est alors indiqué, vous devez cliquer sur le bouton &#171; Enregistrer mon dossier &#187;, sinon votre saisie est perdue.
+                        </p>
+
+                        <p><p:graphicImage library="img" name="FAQ_html_m777a1f48.png" width="380" height="129" border="0"/></p>
+
+                        <p>
+                            Un mail récapitulatif vous est envoyé au moment de l'enregistrement de votre dossier.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse06">
+                            J'ai des lignes vides ou en doublon dans l'écran &#171; Cursus post-baccalauréat &#187;
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse06" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Vous devez:
+                            <ul>
+                                <li>
+                                    Supprimer ces lignes vides grâce à la corbeille <span class="text-danger"><i
+                                        class="fa fa-trash-o"/></span> sur la ligne
+                                </li>
+                                <li>
+                                    Vérifier que toutes vos années d'études apparaissent bien et compléter le cas échéant.
+                                </li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse07">
+                            J'ai perdu mon numéro de dossier
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse07" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            En première page, vous devez cliquer sur &#171; Vous avez oublié votre numéro de dossier &#187;
+                        </p>
+
+                        <p>
+                            <p:graphicImage library="img" name="FAQ_html_3c1f7b20.png" width="392" height="173" border="0"/>
+                        </p>
+
+                        <p>
+                            Il vous suffit de saisir l'adresse email que vous avez renseignée. Votre numéro de dossier vous sera envoyé par mail.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse08">
+                            J'ai saisi mon numéro INE mais j'ai le message &#171; Ce numéro NNE ne correspond à aucun étudiant ou ancien étudiant de Rennes 1 &#187;
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse08" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            La saisie du numéro INE n'est utile que pour les étudiants de l'Université Rennes 1 (UR1) ou les étudiants ayant fait au moins une année d'étude à l'UR1.
+                            En saisissant le code INE, toutes les informations saisies lors de l'inscription à l'Université Rennes 1 apparaissent dans Candidatures.
+                            Les étudiants en cours de scolarité à l'UR1 ont accès à Candidatures dans <u><a
+                                href="http://ent.univ-rennes1.fr/" target="_blank">l'ENT</a></u>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse09">
+                            Qu'est-ce que je dois saisir dans le cursus post-bac ?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse09" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Toutes vos années d'études et vos diplômes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse10">
+                            Je ne trouve pas ma formation
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse10" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            La formation à laquelle vous souhaitez candidater n'est peut être pas encore ouverte à la candidature ou ne rentre pas dans la procédure de candidature en ligne.
+                        </p>
+
+                        <p>
+                            Consultez la fiche formation sur le site internet de l'université pour avoir tous les renseignements utiles
+                            <a href="http://formations.univ-rennes1.fr/" target="_blank">http://formations.univ-rennes1.fr/</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse11">
+                            Je ne trouve pas un établissement (lycée, école, etc.) pour mon cursus post-bac, comment faire ?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse11" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            La liste des établissements est constituée à partir du code postal et de la ville que vous avez saisie.
+                        </p>
+
+                        <p>
+                            <p:graphicImage library="img" name="FAQ_html_m71d86897.png" width="604" height="154" border="0"/>
+                        </p>
+
+                        <p>
+                            Attention, l'établissement que vous recherchez se trouve peut être sur une autre commune que celle que vous avez saisie.
+                            Pour le savoir, cherchez l'adresse postale de l'établissement puis saisissez bien cette information dans l'application.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse12">
+                            J'ai imprimé mon dossier et il y a une erreur, que faire ?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse12" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Vous pouvez vous reconnecter et corriger l'erreur. Ensuite, en cliquant sur le bouton <p:graphicImage
+                                library="img" name="FAQ_html_m16541d35.png" width="142" height="13"
+                                border="0"/> vous téléchargerez à nouveau votre dossier avec la correction.
+                        </p>
+
+                        <p>
+                            Vous pouvez renouveler ces opérations autant de fois que nécessaire.
+                        </p>
+
+                        <p>
+                            Quand le dossier est prêt, vous devez l'envoyer à l'adresse indiquée dans le dossier avec les pièces justificatives listées dans le dossier.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse13">
+                            Je souhaite candidater à deux formations, comment faire ?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse13" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Avec un même numéro de dossier vous pouvez candidater à plusieurs formations.
+                        </p>
+
+                        <p>
+                            Dans l'écran &#171; Récapitulatif de votre dossier &#187;, vous pouvez candidater plusieurs fois à une formation :
+                            <p:graphicImage library="img" name="FAQ_html_1c64c1e1.png" width="604" height="51" border="0"/>
+                        </p>
+
+                        <p>
+                            Vous pouvez réitérer ce choix plusieurs fois.
+                        </p>
+
+                        <p>
+                            Attention, certaines formations nécessitent de remplir des formulaires spécifiques. Après avoir choisi votre formation, vérifiez en bas de l'écran &#171; Récapitulatif de votre dossier &#187; s'il n'y a pas une section &#171; Formulaires &#187; :
+                            <p:graphicImage library="img" name="FAQ_html_m3ba1cd54.png" width="604" height="37" border="0"/>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse14">
+                            Comment vais-je suivre l'avancement de traitement de mon dossier ?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse14" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Après avoir choisi une ou plusieurs formation, vous allez suivre en ligne le traitement de votre dossier après son envoi par courrier postal.
+                        </p>
+
+                        <p>
+                            Sur chaque ligne formation, vous allez suivre :
+                            <ul>
+                                <li>la réception du dossier : Arrivé ou arrivé et incomplet</li>
+                                <li>le résultat de votre candidature</li>
+                                <li>si vous avez confirmé ou si vous vous êtes désisté.</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse15">
+                            Comment trouver la ou les formations auxquelles je souhaite poser ma candidature ?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse15" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Après avoir saisi les écrans &#171; Etat civil et contact &#187;, &#171; Baccalauréat ou équivalence &#187; et &#171; Cursus post-baccalauréat &#187;, vous arrivez sur l'écran &#171; Récapitulatif de votre dossier &#187;.
+                            Vous devez :
+                            <ul>
+                                <li>
+                                    Cliquer sur &#171; Faire un choix &#187; :
+                                    <div>
+                                        <p:graphicImage library="img" name="FAQ_html_1c64c1e1.png" width="604" height="51"
+                                                        border="0"/>
+                                    </div>
+                                </li>
+                                <li>
+                                    Vous devez choisir ensuite le type de diplôme en CLIQUANT sur les images &#171; LICENCE &#187; ou &#171; MASTER &#187; ou en cliquant sur &#171; Licence professionnelle &#187; ou &#171; Préparation aux concours &#187;
+                                </li>
+                                <li>
+                                    Enfin, il vous faudra choisir un mot clé pour afficher la liste des formations :
+                                    <p:graphicImage library="img" name="FAQ_html_290dd782.png" width="480" height="355" border="0"/>
+                                </li>
+                            </ul>
+                        </p>
+                        <p>
+                            Si vous n'avez pas trouvé votre formation, vous pouvez choisir un autre mot clé dans la liste déroulante ou cliquer sur un autre type de diplôme.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse16">
+                            Quels peuvent être les résultats de mes candidatures et que signifient-ils ?
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse16" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>
+                            Par défaut, dès que vous choisissez de candidater sur une formation, le résultat est &#171; Résultat non disponible &#187;.
+                        </p>
+                        <p>
+                            Par la suite, le résultat de votre candidature pourra être, sur chaque ligne formation :
+                            <ul>
+                                <li>Dossier recevable : votre dossier, après vérification, remplit les conditions exigées par les textes règlementaires pour candidater.</li>
+                                <li>Dossier irrecevable : votre dossier, après vérification, ne remplit pas l'ensemble des conditions exigées par les textes règlementaires pour candidater.</li>
+                                <li>Admissibilité : la phase de candidature comporte deux étapes, vous êtes admis à vous présenter aux épreuves suivantes.</li>
+                                <li>Admission : votre candidature a été retenue sur la liste principale. Vous devez :
+                                    <ol type="1">
+                                        <li>Vous devez <b>IMPERATIVEMENT</b> vous reconnectez sur Ecandidat afin de <b>confirmer votre inscription ou nous informer de votre désistement ;</b></li>
+                                        <li>Vous inscrire administrativement à l'université. N'hésitez pas à consulter notre <a href="http://www.univ-montp1.fr/formation/candidater_s_inscrire">site internet</a> <b>où vous trouverez toutes les informations nécessaires à votre inscription.</b></li>
+                                    </ol>
+                                </li>
+                                <li>Défavorable : votre candidature n'a pas été retenue.</li>
+                                <li>Liste complémentaire avec rang : vous êtes retenu sur la liste complémentaire, un rang vous a été communiqué. Un avis définitif vous sera communiqué prochainement.</li>
+                                <li>Liste complémentaire sans rang : vous êtes retenu sur la liste complémentaire, un avis définitif vous sera communiqué prochainement.</li>
+                            </ul>
+                        </p>
+                        <p>
+                            <p:graphicImage library="img" name="img_resultats.jpg" border="0" width="100%"/>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ui:composition>

@@ -18,6 +18,6 @@
         <message-bundle>META-INF/i18n/bundles/JsfMessages</message-bundle>
     </application>
     <factory>
-        <exception-handler-factory>org.esupportail.commons.exceptions.ExceptionHandlerFactory</exception-handler-factory>
+        <exception-handler-factory>org.esupportail.opi.web.candidat.utils.exceptions.ExceptionHandlerFactory</exception-handler-factory>
     </factory>
 </faces-config>

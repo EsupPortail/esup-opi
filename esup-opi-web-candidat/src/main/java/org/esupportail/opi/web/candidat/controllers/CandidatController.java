@@ -1,6 +1,5 @@
 package org.esupportail.opi.web.candidat.controllers;
 
-import fj.Effect;
 import fj.F;
 import fj.data.Option;
 import org.esupportail.commons.services.i18n.I18nService;
@@ -12,6 +11,8 @@ import org.esupportail.opi.web.candidat.beans.CandidatPojo;
 import org.esupportail.opi.web.candidat.utils.Transform;
 import org.esupportail.wssi.services.remote.Departement;
 import org.esupportail.wssi.services.remote.Pays;
+import org.primefaces.push.EventBus;
+import org.primefaces.push.EventBusFactory;
 
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.ExternalContext;
@@ -23,6 +24,7 @@ import java.util.List;
 import static fj.data.Option.fromNull;
 import static fj.data.Option.fromString;
 import static fj.data.Option.join;
+import static java.lang.String.format;
 import static org.esupportail.opi.web.candidat.utils.Transform.individuToCandidatPojo;
 
 public abstract class CandidatController {
@@ -63,6 +65,10 @@ public abstract class CandidatController {
         final Individu individu = domainService.getIndividu(candidat.getDossier(), null);
 
         domainService.updateUser(Transform.candidatPojoToIndividu.f(candidat, individu));
+
+        EventBus eventBus = EventBusFactory.getDefault().eventBus();
+        eventBus.publish(format("/candidats/%s", individu.getNumDossierOpi()),
+                format("Candidat %s enregistré", individu.getNumDossierOpi()));
     }
 
     protected void redirect(final String outcome) {

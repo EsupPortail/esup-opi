@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <div class="modal fade" id="modalPro" tabindex="-1" role="dialog" aria-labelledby="#{msgs['INDIVIDU.CURSUS_EXT']}" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">#{msgs['INDIVIDU.CURSUS_EXT']}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <p:outputPanel layout="block" autoUpdate="true" styleClass="col-xs-12">
+                            <div class="form-group">
+                                <p:outputLabel value="#{msgs['FIELD_LABEL.YEAR']}" for="proAnneeInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+                                    <h:inputText id="proAnneeInput" required="true" value="#{cursusController.cursusPro.annee}" maxlength="20" styleClass="form-control"/>
+                                    <p:message for="proAnneeInput" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <p:outputLabel value="#{msgs['FIELD_LABEL.ORGANIZATION']}" for="proOrganismeInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+                                    <h:inputText id="proOrganismeInput" required="true" value="#{cursusController.cursusPro.organisme}" maxlength="70" styleClass="form-control"/>
+                                    <p:message for="proOrganismeInput" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <p:outputLabel value="#{msgs['FIELD_LABEL.PERIOD']}" for="proDureeInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+                                    <h:inputText id="proDureeInput" required="true" value="#{cursusController.cursusPro.duree}" maxlength="20" styleClass="form-control"/>
+                                    <p:message for="proDureeInput" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <p:outputLabel value="#{msgs['FIELD_LABEL.QUOTITE']}" for="proQuotiteInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+                                    <h:inputText id="proQuotiteInput" value="#{cursusController.cursusPro.quotite}" maxlength="10" styleClass="form-control"/>
+                                    <p:message for="proQuotiteInput" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <p:outputLabel value="#{msgs['FIELD_LABEL.DESC_ACTV']}" for="proDescriptionInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+
+                                    <div class="input-group">
+                                        <span class="input-group-addon" data-toggle="tooltip" title="#{msgs['FIELD_LABEL.DESC_ACTV.HELP']}"><i class="fa fa-info-circle" /></span>
+                                        <p:inputTextarea id="proDescriptionInput" value="#{cursusController.cursusPro.description}" rows="1" maxlength="2000" autoResize="false" counter="display" counterTemplate="{0} caractères restants" styleClass="form-control"/>
+                                    </div>
+                                    <span class="help-block"><h:outputText id="display" /></span>
+                                    <p:message for="proDescriptionInput" />
+                                </div>
+                            </div>
+                        </p:outputPanel>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <p:commandLink value="#{msgs['_.BUTTON.CANCEL']}" styleClass="btn btn-sm btn-default" immediate="true">
+                        <p:ajax resetValues="true" onsuccess="$('#modalPro').modal('hide');"/>
+                    </p:commandLink>
+                    <p:commandLink value="#{msgs['_.BUTTON.ADD']}" styleClass="btn btn-sm btn-success"
+                                   actionListener="#{cursusController.addCursusPro}" update="cursusPros,:headerWrapper,:tabsCursus:alertTabCursusPro">
+                    </p:commandLink>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="container-fluid">
+        <div class="row">
+            <p:outputPanel layout="block" autoUpdate="true" styleClass="col-xs-12">
+                <div class="alert alert-info alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times"/></a>
+                    <p>#{msgs['INDIVIDU.CURSUS_EXT.DESC']}</p>
+                </div>
+                <p:dataTable id="cursusPros" value="#{cursusController.candidat.cursusPros}" var="cursus"
+                             tableStyleClass="table table-hover table-striped"
+                             rendered="#{not empty cursusController.candidat.cursusPros}">
+                    <p:column styleClass="table-column-limit">
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['FIELD_LABEL.YEAR']}" title="#{msgs['FIELD_LABEL.YEAR']}" />
+                        </f:facet>
+                        #{cursus.annee}
+                    </p:column>
+                    <p:column styleClass="table-column-limit">
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['FIELD_LABEL.ORGANIZATION']}" title="#{msgs['FIELD_LABEL.ORGANIZATION']}" />
+                        </f:facet>
+                        #{cursus.organisme}
+                    </p:column>
+                    <p:column styleClass="table-column-limit">
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['FIELD_LABEL.PERIOD']}" title="#{msgs['FIELD_LABEL.PERIOD']}" />
+                        </f:facet>
+                        #{cursus.duree}
+                    </p:column>
+                    <p:column styleClass="table-column-limit">
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['FIELD_LABEL.QUOTITE']}" title="#{msgs['FIELD_LABEL.QUOTITE']}" />
+                        </f:facet>
+                        #{cursus.quotite}
+                    </p:column>
+                    <p:column styleClass="table-column-limit">
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['FIELD_LABEL.DESC_ACTV']}" title="#{msgs['FIELD_LABEL.DESC_ACTV']}" />
+                        </f:facet>
+                        #{cursus.description}
+                    </p:column>
+                    <p:column styleClass="table-action-icon">
+                        <p:commandLink styleClass="text-danger">
+                            <i class="fa fa-trash-o"/>
+                            <p:ajax listener="#{cursusController.deleteCursusPro(cursus)}" update="cursusPros,:headerWrapper,:tabsCursus:alertTabCursusPro"/>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+            </p:outputPanel>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-actions">
+                    <a href="#" data-toggle="modal" data-target="#modalPro" class="btn btn-primary">#{msgs['_.BUTTON.ADD']}</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</ui:composition>

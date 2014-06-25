@@ -1,5 +1,7 @@
-<ehcache>
-
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="false" monitoring="autodetect"
+         dynamicConfig="true">
 	<!--
 		/properties/cache/ehcache.xml The configuration file for EhCache. This
 		file is referenced from /properties/cache/cache.xml.
@@ -7,9 +9,18 @@
 
 	<diskStore path="/tmp" />
 
-	<!--
-		Note: EhCache is disabled by default in hibernate.cfg.xml.
-	-->
+    <defaultCache maxElementsInMemory="10000" eternal="false"
+                  timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="false"
+                  diskPersistent="false" diskExpiryThreadIntervalSeconds="120"
+                  memoryStoreEvictionPolicy="LRU" />
+
+    <cache name="mailCache" eternal="false" maxElementsInMemory="1000"
+           overflowToDisk="true" diskPersistent="false" timeToIdleSeconds="0"
+           timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU" />
+
+    <!--
+        Note: EhCache is disabled by default in hibernate.cfg.xml.
+    -->
 	<cache name="fr.univ.rennes1.cri.opiR1.domain.beans.VersionManager"
 		maxElementsInMemory="100" eternal="false" timeToIdleSeconds="30"
 		timeToLiveSeconds="60" overflowToDisk="false" />
@@ -77,10 +88,5 @@
 	<cache name="enseignementApogee"
 		maxElementsInMemory="4000" eternal="false" timeToIdleSeconds="172800"
 		timeToLiveSeconds="172800" overflowToDisk="true" />
-
-	<defaultCache maxElementsInMemory="10000" eternal="false"
-		timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="false"
-		diskPersistent="false" diskExpiryThreadIntervalSeconds="120"
-		memoryStoreEvictionPolicy="LRU" />
 
 </ehcache>

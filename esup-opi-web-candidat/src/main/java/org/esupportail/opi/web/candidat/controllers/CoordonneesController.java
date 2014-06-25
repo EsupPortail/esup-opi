@@ -67,13 +67,13 @@ public class CoordonneesController extends CandidatController {
             } catch (ObjectNotFoundException e) {
                 //Le code postal n'existe pas dans Apogée.
                 final FacesContext fc = FacesContext.getCurrentInstance();
-                fc.addMessage(":coordonneesForm:codPostInput",
+                fc.addMessage(":adresseForm:codPostInput",
                         new FacesMessage(SEVERITY_ERROR, I18N_NOT_EXSIT, I18N_NOT_EXSIT));
             }
         } else if (candidat.getAdresseFixe().getPays().equals(Constantes.CODEFRANCE)) {
             final FacesContext fc = FacesContext.getCurrentInstance();
             final String errorCode = "ERROR.FIELD.INVALID";
-            fc.addMessage(":coordonneesForm:codPostInput", new FacesMessage(SEVERITY_ERROR, errorCode, errorCode));
+            fc.addMessage(":adresseForm:codPostInput", new FacesMessage(SEVERITY_ERROR, errorCode, errorCode));
             communesFix = new ArrayList<>();
         } else {
             communesFix = new ArrayList<>();
