@@ -4,7 +4,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:pe="http://primefaces.org/ui/extensions">
-    <pe:ajaxErrorHandler button="#{msgs['_.BUTTON.CLOSE']}"
+    <pe:ajaxErrorHandler button="#{msgs['_.BUTTON.VALIDATE']}"
                          widgetVar="ajaxErrorHandler">
         <div>
             <h4 class="ui-dialog-titlebar">
@@ -28,7 +28,7 @@
                                    value="Recharger la page" />
                     <p:commandLink styleClass="btn btn-default"
                                    onclick="ajaxErrorHandler.hide(); return false;"
-                                   value="#{msgs['_.BUTTON.CLOSE']}" />
+                                   value="#{msgs['_.BUTTON.VALIDATE']}" />
                 </div>
             </div>
         </div>

@@ -45,7 +45,6 @@ public class ExceptionHandler extends AjaxExceptionHandler {
                     context.responseComplete();
 
                 } else {
-//                    exception.printStackTrace();
                     exceptionUtils.send(exception);
                 }
 			}
