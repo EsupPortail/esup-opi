@@ -6,23 +6,49 @@
                 xmlns:pe="http://primefaces.org/ui/extensions">
     <pe:ajaxErrorHandler button="#{msgs['_.BUTTON.VALIDATE']}"
                          widgetVar="ajaxErrorHandler">
-        <div>
-            <h4 class="ui-dialog-titlebar">
-                Error <span style="color: red;">{error-name}</span>
-            </h4>
-            <div class="ui-dialog-content">
-                <p:panel header="Information de base" toggleable="true">
-                    <dl class="dl-horizontal">
-                        <dt>Message : </dt>
-                        <dd>{error-message}</dd>
-                        <dt>Serveur : </dt>
-                        <dd>{error-hostname}</dd>
-                    </dl>
-                </p:panel>
-                <p:panel header="Détails" toggleable="true">
-                    {error-stacktrace}
-                </p:panel>
-                <div style="text-align: center; padding: 5px;">
+        <div class="row">
+            <div class="col-xs-12">
+                <h4 class="exception-title">
+                    Erreur <span class="exception-name">{error-name}</span>
+                </h4>
+                <div class="panel-group" id="accordionExceptionBase">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordionExceptionBase" href="#collapseExceptionBase">
+                                    Information de base
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseExceptionBase" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <dl class="dl-horizontal">
+                                    <dt>Message : </dt>
+                                    <dd>{error-message}</dd>
+                                    <dt>Serveur : </dt>
+                                    <dd>{error-hostname}</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-group" id="accordionExceptionDetails">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordionExceptionDetails" href="#collapseExceptionDetails">
+                                    Détails
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseExceptionDetails" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                {error-stacktrace}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions">
                     <p:commandLink styleClass="btn btn-default"
                                    onclick="window.location.href=window.location.href; return false;"
                                    value="Recharger la page" />
@@ -32,5 +58,34 @@
                 </div>
             </div>
         </div>
+
+
+
+        <!--<div>-->
+            <!--<h4 class="ui-dialog-titlebar">-->
+                <!--Error <span style="color: red;">{error-name}</span>-->
+            <!--</h4>-->
+            <!--<div class="ui-dialog-content">-->
+                <!--<p:panel header="Information de base" toggleable="true">-->
+                    <!--<dl class="dl-horizontal">-->
+                        <!--<dt>Message : </dt>-->
+                        <!--<dd>{error-message}</dd>-->
+                        <!--<dt>Serveur : </dt>-->
+                        <!--<dd>{error-hostname}</dd>-->
+                    <!--</dl>-->
+                <!--</p:panel>-->
+                <!--<p:panel header="Détails" toggleable="true">-->
+                    <!--{error-stacktrace}-->
+                <!--</p:panel>-->
+                <!--<div style="text-align: center; padding: 5px;">-->
+                    <!--<p:commandLink styleClass="btn btn-default"-->
+                                   <!--onclick="window.location.href=window.location.href; return false;"-->
+                                   <!--value="Recharger la page" />-->
+                    <!--<p:commandLink styleClass="btn btn-default"-->
+                                   <!--onclick="ajaxErrorHandler.hide(); return false;"-->
+                                   <!--value="#{msgs['_.BUTTON.VALIDATE']}" />-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </pe:ajaxErrorHandler>
 </ui:composition>

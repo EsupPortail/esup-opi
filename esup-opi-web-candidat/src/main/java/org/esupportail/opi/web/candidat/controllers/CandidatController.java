@@ -62,7 +62,6 @@ public abstract class CandidatController {
         final Individu individu = domainService.getIndividu(candidat.getDossier(), null);
 
         domainService.updateUser(Transform.candidatPojoToIndividu.f(candidat, individu));
-        throw new NullPointerException("");
     }
 
     protected void redirect(final String outcome) {
