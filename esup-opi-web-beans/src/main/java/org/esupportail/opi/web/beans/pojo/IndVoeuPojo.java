@@ -199,7 +199,7 @@ public class IndVoeuPojo implements Serializable {
 	}
 
 	public Boolean getMyCalIsOpen() {
-		
+
 		return false;
 	}
 

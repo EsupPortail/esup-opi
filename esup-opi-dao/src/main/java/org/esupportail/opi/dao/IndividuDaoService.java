@@ -59,4 +59,6 @@ public interface IndividuDaoService {
      * @return The {@link Individu} of 'numDossierOpi' {@code id}
      */
     Option<Individu> fetchIndById(String id, Option<Boolean> onlyValidWishes);
+
+    Option<Individu> fetchIndAndAvisById(String id, Option<Boolean> onlyValidWishes);
 }

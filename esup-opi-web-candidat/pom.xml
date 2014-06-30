@@ -331,6 +331,11 @@
         </dependency>
         <dependency>
             <groupId>org.esupportail</groupId>
+            <artifactId>esup-opi-domain-newservices</artifactId>
+            <version>2.0.0-beta4-pre116-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.esupportail</groupId>
             <artifactId>esup-opi-web-beans</artifactId>
         </dependency>
 

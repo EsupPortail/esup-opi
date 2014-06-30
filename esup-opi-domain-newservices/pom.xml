@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>esup-opi</artifactId>
+        <groupId>org.esupportail</groupId>
+        <version>2.0.0-beta4-pre116-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>esup-opi-domain-newservices</artifactId>
+    <description>Domain Interface and Impl</description>
+    <dependencies>
+        <dependency>
+            <groupId>org.esupportail</groupId>
+            <artifactId>esup-opi-dao</artifactId>
+            <version>2.0.0-beta4-pre116-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.esupportail</groupId>
+            <artifactId>esup-opi-domain-services</artifactId>
+            <version>2.0.0-beta4-pre116-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
+        </dependency>
+    </dependencies>
+    <name>esup-opi-domain-newservices</name>
+</project>

@@ -753,7 +753,7 @@ public interface DomainService extends Serializable {
 	 * @return List<IndVoeu>
 	 */
 	List<IndVoeu> getRecupListIndVoeu(Individu ind, Boolean temoinEnService);
-	
+
 	//////////////////////////////////////////////////////////////
 	// IndSituation
 	//////////////////////////////////////////////////////////////

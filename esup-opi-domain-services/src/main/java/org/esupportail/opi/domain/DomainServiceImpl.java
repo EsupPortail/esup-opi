@@ -1397,7 +1397,7 @@ public final class DomainServiceImpl implements DomainService {
 		
 		return listIndVoeu;
 	}
-		
+
 
 	//////////////////////////////////////////////////////////////
 	// IndSituation

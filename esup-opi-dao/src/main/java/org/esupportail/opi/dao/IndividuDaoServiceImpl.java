@@ -345,4 +345,35 @@ public class IndividuDaoServiceImpl implements IndividuDaoService {
         }
         return none();
     }
+
+    @Override
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public Option<Individu> fetchIndAndAvisById(String id, Option<Boolean> onlyValidWishes) {
+        final Map<Individu, Set<IndVoeu>> results =
+                from(indEnt)
+                        .innerJoin(indVoeux, indVoeu)
+                        .leftJoin(indVoeuAvis, avis)
+                        .where(ind.getString("numDossierOpi").eq(id)
+                                .and(onlyValidWishes
+                                        .option(p(oneIsOne).<BooleanExpression>constant(), validWishFilter)
+                                        .f(oneIsOne)))
+                        .transform(groupBy(indEnt).as(set(indVoeu)));
+
+        for (Individu individu : results.keySet()) {
+            final Set<IndVoeu> voeux = results.get(individu);
+
+            // Gros hack dégoûtant (mais efficace, en tout cas plus que du fetch/join)
+            // pour forcer le chargement des collections par hibernate
+            for (IndVoeu v : voeux) {
+                LinkTrtCmiCamp link = v.getLinkTrtCmiCamp();
+                TraitementCmi trt = link.getTraitementCmi();
+                link.toString();
+                trt.toString();
+            }
+
+            individu.setVoeux(voeux);
+            return some(individu);
+        }
+        return none();
+    }
 }

@@ -6,14 +6,80 @@
                 template="/stylesheets/template.xhtml">
     <ui:define name="main">
         <f:metadata>
-            <f:viewAction action="#{candidaturesController.initView}" />
+            <f:viewAction action="#{candidaturesController.initView}"/>
         </f:metadata>
         <ui:include src="/stylesheets/sidebar.xhtml">
-            <ui:param name="candidat" value="#{candidaturesController.candidat}" />
+            <ui:param name="candidat" value="#{candidaturesController.candidat}"/>
         </ui:include>
         <ui:include src="/stylesheets/header.xhtml">
-            <ui:param name="candidat" value="#{candidaturesController.candidat}" />
-            <ui:param name="title" value="#{msgs['INDIVIDU.YOUR.CANDIDATURES']}" />
+            <ui:param name="candidat" value="#{candidaturesController.candidat}"/>
+            <ui:param name="title" value="#{msgs['INDIVIDU.YOUR.CANDIDATURES']}"/>
         </ui:include>
+        <h:form id="candidaturesForm" styleClass="form-horizontal">
+            <section class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p:dataTable var="indVoeuPojo"
+                                     value="#{candidaturesController.candidatVoeuxPojoAsList}"
+                                     alternateColors="false" renderedIfEmpty="false"
+                                     styleClass="displayInfo">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.FORMATION_ASK']}"/>
+                                </f:facet>
+                                <h:outputText value="#{indVoeuPojo.vrsEtape.libWebVet}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['INDIVIDU.ETAT']}"/>
+                                </f:facet>
+                                <h:outputText value="#{indVoeuPojo.etat}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.RESULT']}"/>
+                                </f:facet>
+                                <h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
+                                              rendered="#{empty indVoeuPojo.avis}"/>
+                                <ui:repeat id="datalistavis" style="myStyle" var="avis"
+                                           value="#{indVoeuPojo.avis}">
+                                    <div>
+                                        <h:outputText value="#{avis.result.libelle}"
+                                                      rendered="#{avis.temoinEnService and avis.validation}"/>
+                                    </div>
+                                </ui:repeat>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{msgs['FIELD_LABEL.COMMENTAIRE']}"/>
+                                </f:facet>
+                                <h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
+                                              rendered="#{empty indVoeuPojo.avis}"/>
+                                <ui:repeat id="datalistavis2" styleClass="myStyle" var="avis2"
+                                           value="#{indVoeuPojo.avis}">
+                                    <div>
+                                        <h:outputText value="#{avis2.commentaire}"
+                                                      rendered="#{avis2.temoinEnService and avis2.validation}"/>
+                                    </div>
+                                </ui:repeat>
+                            </p:column>
+                            <p:column>
+                                <!--<p:commandButton icon="ui-icon-minus"-->
+                                                 <!--styleClass="form-button-image"-->
+                                                 <!--rendered="#{indVoeuPojo.calIsOpen-->
+    									<!--|| sessionController.currentInd.isUpdaterOfThisStudent}"-->
+                                                 <!--title="#{msgs['_.BUTTON.DELETE']}"-->
+                                                 <!--ajax="false">-->
+                                    <!--<f:setPropertyActionListener value="#{formationController.action.deleteAction}"-->
+                                                                 <!--target="#{formationController.action.whatAction}"/>-->
+                                    <!--<f:setPropertyActionListener value="#{indVoeuPojo}"-->
+                                                                 <!--target="#{formationController.indVoeuPojo}"/>-->
+                                <!--</p:commandButton>-->
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </div>
+            </section>
+        </h:form>
     </ui:define>
 </ui:composition>
