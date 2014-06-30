@@ -10,137 +10,138 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>esup-opi-web-candidat</artifactId>
-    <packaging>war</packaging><build>
-    <defaultGoal>install</defaultGoal>
-    <resources>
-        <resource>
-            <directory>src/main/resources</directory>
-            <filtering>false</filtering>
-        </resource>
-    </resources>
-    <plugins>
-        <plugin>
-            <groupId>org.lesscss</groupId>
-            <artifactId>lesscss-maven-plugin</artifactId>
-            <version>1.7.0.1.0</version>
-            <configuration>
-                <sourceDirectory>${project.basedir}/src/main/less</sourceDirectory>
-                <outputDirectory>${project.basedir}/src/main/webapp/resources/css</outputDirectory>
-                <compress>true</compress>
-                <force>true</force>
-                <outputFileFormat>{fileName}.min.css</outputFileFormat>
-                <includes>
-                    <include>opi-candidat.less</include>
-                </includes>
-            </configuration>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>compile</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-        <plugin>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-maven-plugin</artifactId>
-            <version>9.1.4.v20140401</version>
-            <configuration>
-                <webAppConfig>
-                    <jettyEnvXml>${jetty.envXml}</jettyEnvXml>
-                    <overrideDescriptor>src/main/jetty/web-jetty.xml</overrideDescriptor>
-                </webAppConfig>
-            </configuration>
-            <dependencies>
-                <dependency>
-                    <groupId>com.atomikos</groupId>
-                    <artifactId>transactions</artifactId>
-                    <version>3.9.3</version>
-                </dependency>
-                <dependency>
-                    <groupId>com.atomikos</groupId>
-                    <artifactId>transactions-hibernate3</artifactId>
-                    <version>3.9.3</version>
-                </dependency>
-            </dependencies>
-        </plugin>
+    <packaging>war</packaging>
+    <build>
+        <defaultGoal>install</defaultGoal>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.lesscss</groupId>
+                <artifactId>lesscss-maven-plugin</artifactId>
+                <version>1.7.0.1.0</version>
+                <configuration>
+                    <sourceDirectory>${project.basedir}/src/main/less</sourceDirectory>
+                    <outputDirectory>${project.basedir}/src/main/webapp/resources/css</outputDirectory>
+                    <compress>true</compress>
+                    <force>true</force>
+                    <outputFileFormat>{fileName}.min.css</outputFileFormat>
+                    <includes>
+                        <include>opi-candidat.less</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.1.4.v20140401</version>
+                <configuration>
+                    <webAppConfig>
+                        <jettyEnvXml>${jetty.envXml}</jettyEnvXml>
+                        <overrideDescriptor>src/main/jetty/web-jetty.xml</overrideDescriptor>
+                    </webAppConfig>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.atomikos</groupId>
+                        <artifactId>transactions</artifactId>
+                        <version>3.9.3</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.atomikos</groupId>
+                        <artifactId>transactions-hibernate3</artifactId>
+                        <version>3.9.3</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
 
-        <!-- OPTIMIZE RESOURCES -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-resources-plugin</artifactId>
-            <version>2.6</version>
-            <executions>
-                <execution>
-                    <id>copy-resources</id>
-                    <phase>generate-resources</phase>
-                    <goals>
-                        <goal>copy-resources</goal>
-                    </goals>
-                    <configuration>
-                        <outputDirectory>${project.build.directory}/generated-webapp/resources</outputDirectory>
-                        <resources>
-                            <resource>
-                                <directory>${project.basedir}/src/main/webapp/resources</directory>
-                                <filtering>true</filtering>
-                                <includes>
-                                    <include>**/*.css</include>
-                                    <include>**/*.js</include>
-                                </includes>
-                            </resource>
-                        </resources>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-        <plugin>
-            <groupId>org.primefaces.extensions</groupId>
-            <artifactId>resources-optimizer-maven-plugin</artifactId>
-            <version>1.1.0</version>
-            <executions>
-                <execution>
-                    <id>optimize</id>
-                    <phase>prepare-package</phase>
-                    <goals>
-                        <goal>optimize</goal>
-                    </goals>
-                </execution>
-            </executions>
-            <configuration>
-                <resourcesSets>
-                    <resourcesSet>
-                        <inputDir>${project.build.directory}/generated-webapp</inputDir>
-                    </resourcesSet>
-                </resourcesSets>
-            </configuration>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-            <version>2.4</version>
-            <executions>
-                <execution>
-                    <id>war</id>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>war</goal>
-                    </goals>
-                </execution>
-            </executions>
-            <configuration>
-                <failOnMissingWebXml>false</failOnMissingWebXml>
-                <webappDirectory>${project.build.directory}/webapp</webappDirectory>
-                <warSourceDirectory>${project.basedir}/src/main/webapp</warSourceDirectory>
-                <warSourceExcludes>**/resources/**/*.css,**/resources/**/*.js</warSourceExcludes>
-                <webResources>
-                    <resource>
-                        <directory>${project.build.directory}/generated-webapp</directory>
-                    </resource>
-                </webResources>
-            </configuration>
-        </plugin>
-    </plugins>
-</build>
+            <!-- OPTIMIZE RESOURCES -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/generated-webapp/resources</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/src/main/webapp/resources</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>**/*.css</include>
+                                        <include>**/*.js</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.primefaces.extensions</groupId>
+                <artifactId>resources-optimizer-maven-plugin</artifactId>
+                <version>1.1.0</version>
+                <executions>
+                    <execution>
+                        <id>optimize</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>optimize</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <resourcesSets>
+                        <resourcesSet>
+                            <inputDir>${project.build.directory}/generated-webapp</inputDir>
+                        </resourcesSet>
+                    </resourcesSets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>war</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>war</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <webappDirectory>${project.build.directory}/webapp</webappDirectory>
+                    <warSourceDirectory>${project.basedir}/src/main/webapp</warSourceDirectory>
+                    <warSourceExcludes>**/resources/**/*.css,**/resources/**/*.js</warSourceExcludes>
+                    <webResources>
+                        <resource>
+                            <directory>${project.build.directory}/generated-webapp</directory>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencyManagement>
         <dependencies>
@@ -244,6 +245,11 @@
                 <artifactId>primefaces-extensions</artifactId>
                 <version>2.0.0</version>
             </dependency>
+            <dependency>
+                <groupId>org.esupportail</groupId>
+                <artifactId>esup-commons-mail</artifactId>
+                <version>2.0.0-alpha4</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -292,8 +298,8 @@
             <artifactId>primefaces</artifactId>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.primefaces.themes</groupId>-->
-            <!--<artifactId>bootstrap</artifactId>-->
+        <!--<groupId>org.primefaces.themes</groupId>-->
+        <!--<artifactId>bootstrap</artifactId>-->
         <!--</dependency>-->
         <dependency>
             <groupId>org.primefaces.extensions</groupId>
@@ -337,6 +343,10 @@
         <dependency>
             <groupId>org.esupportail</groupId>
             <artifactId>esup-opi-web-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.esupportail</groupId>
+            <artifactId>esup-commons-mail</artifactId>
         </dependency>
 
     </dependencies>

@@ -15,43 +15,55 @@
             <ui:param name="candidat" value="#{cursusController.candidat}" />
             <ui:param name="title" value="#{msgs['INDIVIDU.CURSUS']}" />
         </ui:include>
-            <p:tabView id="tabsCursus">
-                <p:tab titletip="#{msgs['INDIVIDU.BAC']}" rendered="#{true}"> <!-- TODO: controle d'acces -->
-                    <f:facet name="title">
-                        <i class="fa fa-lg fa-graduation-cap" />
-                        <span class="hidden-xs hidden-sm">#{msgs['INDIVIDU.BAC']}</span>
-                    </f:facet>
-                    <h:form id="cursusBacForm" styleClass="form-horizontal">
-                        <ui:include src="bac.xhtml" />
-                    </h:form>
-                </p:tab>
-                <p:tab titletip="#{msgs['INDIVIDU.SITUATION']}" rendered="#{false}"> <!-- TODO: controle d'acces -->
-                    <f:facet name="title">
-                        <i class="fa fa-lg fa-crosshairs" />
-                        <span class="hidden-xs hidden-sm">#{msgs['INDIVIDU.SITUATION']}</span>
-                    </f:facet>
-                </p:tab>
-                <p:tab titletip="#{msgs['INDIVIDU.CURSUS_UNI']}" rendered="#{true}"> <!-- TODO: controle d'acces -->
-                    <f:facet name="title">
-                        <i class="fa fa-lg fa-university"/>
-                        <span class="hidden-xs hidden-sm">#{msgs['INDIVIDU.CURSUS_UNI']}</span>
-                    </f:facet>
-                    <h:form id="cursusPostBacForm" styleClass="form-horizontal">
-                        <ui:include src="postBac.xhtml" />
-                    </h:form>
-                </p:tab>
-                <p:tab titletip="#{msgs['INDIVIDU.CURSUS_EXT']}" rendered="#{true}"> <!-- TODO: controle d'acces -->
-                    <f:facet name="title">
-                        <i class="fa fa-lg fa-briefcase"/>
-                        <span class="hidden-xs hidden-sm">#{msgs['INDIVIDU.CURSUS_EXT']}</span>
-                    </f:facet>
-                </p:tab>
-                <p:tab titletip="#{msgs['INDIVIDU.QUALIF.NO_DIP']}" rendered="#{true}"> <!-- TODO: controle d'acces -->
-                    <f:facet name="title">
-                        <i class="fa fa-lg fa-book"/>
-                        <span class="hidden-xs hidden-sm">#{msgs['INDIVIDU.QUALIF.NO_DIP']}</span>
-                    </f:facet>
-                </p:tab>
-            </p:tabView>
+        <p:tabView id="tabsCursus" styleClass="ui-tabs-4">
+            <p:tab id="tabCursusBac" titletip="#{msgs['INDIVIDU.BAC']}" rendered="#{true}"> <!-- TODO: controle d'acces -->
+                <f:facet name="title">
+                    <i class="fa fa-lg fa-graduation-cap" />
+                    <span>#{msgs['INDIVIDU.BAC']}</span>
+                </f:facet>
+                <h:form id="cursusBacForm" styleClass="form-horizontal">
+                    <ui:include src="bac.xhtml" />
+                </h:form>
+            </p:tab>
+            <p:tab titletip="#{msgs['INDIVIDU.SITUATION']}" rendered="#{false}"> <!-- TODO: controle d'acces -->
+                <f:facet name="title">
+                    <i class="fa fa-lg fa-crosshairs" />
+                    <span>#{msgs['INDIVIDU.SITUATION']}</span>
+                </f:facet>
+            </p:tab>
+            <p:tab id="tabCursusPostBac" titletip="#{msgs['INDIVIDU.CURSUS_UNI']}" rendered="#{true}"> <!-- TODO: controle d'acces -->
+                <f:facet name="title">
+                    <i class="fa fa-lg fa-university"/>
+                    <span>#{msgs['INDIVIDU.CURSUS_UNI']}</span>
+                </f:facet>
+                <h:form id="cursusPostBacForm" styleClass="form-horizontal">
+                    <ui:include src="postBac.xhtml" />
+                </h:form>
+            </p:tab>
+            <p:tab id="tabCursusPro" titletip="#{msgs['INDIVIDU.CURSUS_EXT']}" rendered="#{true}"> <!-- TODO: controle d'acces -->
+                <f:facet name="title">
+                    <i class="fa fa-lg fa-briefcase"/>
+                    <span>#{msgs['INDIVIDU.CURSUS_EXT']}</span>
+                    <p:outputPanel autoUpdate="true">
+                        <p:outputPanel id="alertTabCursusPro" rendered="#{empty cursusController.candidat.cursusPros}" styleClass="alert-sign text-danger"><i class="fa fa-exclamation-triangle"/></p:outputPanel>
+                    </p:outputPanel>
+                </f:facet>
+                <h:form id="cursusProForm" styleClass="form-horizontal">
+                    <ui:include src="pro.xhtml" />
+                </h:form>
+            </p:tab>
+            <p:tab id="tabCursusNoDip" titletip="#{msgs['INDIVIDU.QUALIF.NO_DIP']}" rendered="#{true}"> <!-- TODO: controle d'acces -->
+                <f:facet name="title">
+                    <i class="fa fa-lg fa-book"/>
+                    <span>#{msgs['INDIVIDU.QUALIF.NO_DIP']}</span>
+                    <p:outputPanel autoUpdate="true">
+                        <p:outputPanel id="alertTabCursusNoDip" rendered="#{empty cursusController.candidat.qualifs}" styleClass="alert-sign text-danger"><i class="fa fa-exclamation-triangle"/></p:outputPanel>
+                    </p:outputPanel>
+                </f:facet>
+                <h:form id="noDipForm" styleClass="form-horizontal">
+                    <ui:include src="qualifs.xhtml" />
+                </h:form>
+            </p:tab>
+        </p:tabView>
     </ui:define>
 </ui:composition>

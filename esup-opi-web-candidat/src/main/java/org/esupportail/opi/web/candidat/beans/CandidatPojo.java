@@ -2,6 +2,7 @@ package org.esupportail.opi.web.candidat.beans;
 
 import fj.F;
 import fj.data.Option;
+import org.esupportail.opi.domain.beans.user.indcursus.CursusPro;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -33,6 +34,12 @@ public class CandidatPojo implements Serializable {
     @NotNull
     private List<CursusScolPojo> cursusScols;
 
+    @NotNull
+    private List<CursusProPojo> cursusPros;
+
+    @NotNull
+    private List<QualifNoDipPojo> qualifs;
+
     private CandidatPojo() {}
 
     public static CandidatPojo empty() {
@@ -41,7 +48,9 @@ public class CandidatPojo implements Serializable {
                 .withEtatCivil(EtatCivil.empty())
                 .withAdresseFixe(AdresseFixe.empty())
                 .withBaccalaureat(Baccalaureat.empty())
-                .withCursusScols(new ArrayList<CursusScolPojo>());
+                .withCursusScols(new ArrayList<CursusScolPojo>())
+                .withCursusPros(new ArrayList<CursusProPojo>())
+                .withQualifs(new ArrayList<QualifNoDipPojo>());
     }
 
     public String getDossier() {
@@ -106,6 +115,32 @@ public class CandidatPojo implements Serializable {
 
     public CandidatPojo withCursusScols(List<CursusScolPojo> cursusScols) {
         setCursusScols(cursusScols);
+        return this;
+    }
+
+    public List<CursusProPojo> getCursusPros() {
+        return cursusPros;
+    }
+
+    public void setCursusPros(List<CursusProPojo> cursusPros) {
+        this.cursusPros = cursusPros;
+    }
+
+    public CandidatPojo withCursusPros(List<CursusProPojo> cursusPros) {
+        setCursusPros(cursusPros);
+        return this;
+    }
+
+    public List<QualifNoDipPojo> getQualifs() {
+        return qualifs;
+    }
+
+    public void setQualifs(List<QualifNoDipPojo> qualifs) {
+        this.qualifs = qualifs;
+    }
+
+    public CandidatPojo withQualifs(List<QualifNoDipPojo> qualifs) {
+        setQualifs(qualifs);
         return this;
     }
 

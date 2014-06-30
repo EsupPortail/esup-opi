@@ -1,6 +1,5 @@
 package org.esupportail.opi.web.candidat.controllers;
 
-import fj.Effect;
 import fj.F;
 import fj.data.Option;
 import org.esupportail.commons.services.i18n.I18nService;

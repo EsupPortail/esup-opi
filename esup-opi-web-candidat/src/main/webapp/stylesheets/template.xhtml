@@ -30,6 +30,7 @@
         <body id="body">
             <p:growl id="globalMessages" globalOnly="true" showDetail="true" autoUpdate="true" />
 
+            <ui:include src="exception-panel.xhtml" />
             <div id="content-wrapper">
                 <div class="content">
                     <ui:include src="exception-panel.xhtml" />
@@ -53,7 +54,7 @@
 
             <h:outputScript library="js" name="primefaces-locales.js" />
             <h:outputScript>
-                $(document).ready(function() {
+                function activateCurrentMenuItem() {
                     currentPath = window.location.pathname;
                     $("nav > ul > li > a").each(function() {
                         element = $(this);
@@ -63,9 +64,12 @@
                             return;
                         }
                     });
+                }
 
+                $(document).ready(function() {
                     $("input[type=text]").addClass("form-control");
                     $("[data-toggle=tooltip]").tooltip();
+                    activateCurrentMenuItem();
 
                     // select the target node
                     var target = document;
@@ -75,6 +79,7 @@
                         mutations.forEach(function(mutation) {
                             $("input[type=text]").addClass("form-control");
                             $("[data-toggle=tooltip]").tooltip();
+                            activateCurrentMenuItem();
                         });
                     });
 

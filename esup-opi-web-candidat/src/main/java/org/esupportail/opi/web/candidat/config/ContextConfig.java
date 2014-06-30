@@ -1,5 +1,6 @@
 package org.esupportail.opi.web.candidat.config;
 
+import org.esupportail.opi.web.candidat.utils.exceptions.ExceptionUtils;
 import org.esupportail.opi.web.candidat.utils.jsf.ViewScope;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.CustomScopeConfigurer;
@@ -41,7 +42,7 @@ import static java.util.Arrays.asList;
         "classpath*:/META-INF/urlGeneration/urlGeneration.xml",
 //        "web/managedAccess.xml",
         "classpath*:/META-INF/web/beans.xml"})
-@Import({ ControllerConfig.class })
+@Import({ ControllerConfig.class, Mail.class })
 public class ContextConfig {
 
     @Bean
@@ -74,5 +75,11 @@ public class ContextConfig {
         CustomScopeConfigurer configurer = new CustomScopeConfigurer();
         configurer.setScopes(scopes);
         return configurer;
+    }
+
+
+    @Bean
+    public ExceptionUtils exceptionUtils() {
+        return ExceptionUtils.exceptionUtils;
     }
 }

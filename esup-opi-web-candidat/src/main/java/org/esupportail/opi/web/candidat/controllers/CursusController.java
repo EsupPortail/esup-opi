@@ -7,14 +7,19 @@ import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.beans.user.Individu;
+import org.esupportail.opi.domain.beans.user.indcursus.IndCursus;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
+import org.esupportail.opi.web.candidat.beans.CursusProPojo;
 import org.esupportail.opi.web.candidat.beans.CursusScolPojo;
+import org.esupportail.opi.web.candidat.beans.QualifNoDipPojo;
 import org.esupportail.opi.web.candidat.utils.Transform;
 import org.esupportail.wssi.services.remote.*;
 import org.primefaces.context.PrimeFacesContext;
 import org.primefaces.context.RequestContext;
+import org.primefaces.push.EventBus;
+import org.primefaces.push.EventBusFactory;
 
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -28,49 +33,105 @@ import static fj.data.Array.iterableArray;
 import static fj.data.Array.single;
 import static fj.data.Option.fromNull;
 import static fj.data.Option.fromString;
-import static org.esupportail.opi.web.candidat.utils.Transform.cursusScolPojoToIndCursusScol;
-import static org.esupportail.opi.web.candidat.utils.Transform.individuToCandidatPojo;
+import static java.lang.String.format;
+import static org.esupportail.opi.web.candidat.utils.Transform.*;
 
 public class CursusController extends CandidatController {
 
     private CursusScolPojo cursusScol;
+    private CursusProPojo cursusPro;
+    private QualifNoDipPojo qualif;
 
     private CursusController(final DomainService domainService,
                              final DomainApoService apoService,
                              final I18nService i18nService) {
         super(domainService, apoService, i18nService);
         cursusScol = CursusScolPojo.empty();
+        cursusPro = CursusProPojo.empty();
+        qualif = QualifNoDipPojo.empty();
     }
 
     public static CursusController cursusController(final DomainService domainService,
-                                                                final DomainApoService apoService,
-                                                                final I18nService i18nService) {
+                                                    final DomainApoService apoService,
+                                                    final I18nService i18nService) {
         return new CursusController(domainService, apoService, i18nService);
     }
 
+    ////////////// CURSUS SCOL
+
     public void addCursusScol() {
         final Individu individu = domainService.getIndividu(candidat.getDossier(), null);
-        final IndCursusScol indCursusScol = p(cursusScol)
-                .map(curry(cursusScolPojoToIndCursusScol).f(apoService).f(individu))._1();
+        final IndCursusScol indCursusScol = cursusScolPojoToIndCursusScol.f(apoService, individu, cursusScol);
         domainService.addIndCursusScol(
                 domainService.add(indCursusScol, candidat.getDossier())); //TODO: replace with connected user's id
 
         final Individu refreshed = domainService.getIndividu(candidat.getDossier(), null);
-        setCandidat(p(refreshed).map(individuToCandidatPojo.f(apoService))._1());
+        setCandidat(individuToCandidatPojo.f(apoService, refreshed));
         RequestContext.getCurrentInstance().execute("$('#modalPostBac').modal('hide');");
         cursusScol = CursusScolPojo.empty();
     }
 
     public void deleteCursusScol(CursusScolPojo cursusScol) {
         final Individu individu = domainService.getIndividu(candidat.getDossier(), null);
-        final IndCursusScol indCursusScol = p(cursusScol)
-                .map(curry(cursusScolPojoToIndCursusScol).f(apoService).f(individu))._1();
+        final IndCursusScol indCursusScol = cursusScolPojoToIndCursusScol.f(apoService, individu, cursusScol);
         domainService.deleteIndCursusScol(
                 domainService.update(indCursusScol, candidat.getDossier())); //TODO: replace with connected user's id
 
         final Individu refreshed = domainService.getIndividu(candidat.getDossier(), null);
-        setCandidat(p(refreshed).map(individuToCandidatPojo.f(apoService))._1());
+        setCandidat(individuToCandidatPojo.f(apoService, refreshed));
     }
+
+
+    ////////////// CURSUS PRO
+
+    public void addCursusPro() {
+        final Individu individu = domainService.getIndividu(candidat.getDossier(), null);
+        final IndCursus indCursus = cursusProPojoToCursusPro.f(individu, cursusPro);
+        domainService.addIndCursus(
+                domainService.add(indCursus, candidat.getDossier())); //TODO: replace with connected user's id
+
+        final Individu refreshed = domainService.getIndividu(candidat.getDossier(), null);
+        setCandidat(individuToCandidatPojo.f(apoService, refreshed));
+        RequestContext.getCurrentInstance().execute("$('#modalPro').modal('hide');");
+        cursusPro = CursusProPojo.empty();
+
+    }
+
+    public void deleteCursusPro(CursusProPojo cursusPro) {
+        final Individu individu = domainService.getIndividu(candidat.getDossier(), null);
+        final IndCursus indCursus = cursusProPojoToCursusPro.f(individu, cursusPro);
+        domainService.deleteIndCursus(
+                domainService.update(indCursus, candidat.getDossier())); //TODO: replace with connected user's id
+
+        final Individu refreshed = domainService.getIndividu(candidat.getDossier(), null);
+        setCandidat(individuToCandidatPojo.f(apoService, refreshed));
+    }
+
+    ////////////// QUALIFS
+
+    public void addQualif() {
+        final Individu individu = domainService.getIndividu(candidat.getDossier(), null);
+        final IndCursus indCursus = pojoToQualif.f(individu, qualif);
+        domainService.addIndCursus(
+                domainService.add(indCursus, candidat.getDossier())); //TODO: replace with connected user's id
+
+        final Individu refreshed = domainService.getIndividu(candidat.getDossier(), null);
+        setCandidat(individuToCandidatPojo.f(apoService, refreshed));
+        RequestContext.getCurrentInstance().execute("$('#modalQualif').modal('hide');");
+        cursusPro = CursusProPojo.empty();
+
+    }
+
+    public void deleteQualif(QualifNoDipPojo qualifPojo) {
+        final Individu individu = domainService.getIndividu(candidat.getDossier(), null);
+        final IndCursus indCursus = pojoToQualif.f(individu, qualifPojo);
+        domainService.deleteIndCursus(
+                domainService.update(indCursus, candidat.getDossier())); //TODO: replace with connected user's id
+
+        final Individu refreshed = domainService.getIndividu(candidat.getDossier(), null);
+        setCandidat(individuToCandidatPojo.f(apoService, refreshed));
+    }
+
 
     public CursusScolPojo getCursusScol() {
         return cursusScol;
@@ -78,6 +139,22 @@ public class CursusController extends CandidatController {
 
     public void setCursusScol(CursusScolPojo cursusScol) {
         this.cursusScol = cursusScol;
+    }
+
+    public CursusProPojo getCursusPro() {
+        return cursusPro;
+    }
+
+    public void setCursusPro(CursusProPojo cursusPro) {
+        this.cursusPro = cursusPro;
+    }
+
+    public QualifNoDipPojo getQualif() {
+        return qualif;
+    }
+
+    public void setQualif(QualifNoDipPojo qualif) {
+        this.qualif = qualif;
     }
 
     public List<CommuneDTO> communes(String departement) {

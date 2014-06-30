@@ -1,26 +1,26 @@
 package org.esupportail.opi.web.candidat.utils;
 
 import fj.*;
-import fj.data.Array;
+import fj.data.List;
 import fj.data.Option;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.beans.user.Adresse;
 import org.esupportail.opi.domain.beans.user.AdresseFix;
 import org.esupportail.opi.domain.beans.user.Individu;
-import org.esupportail.opi.domain.beans.user.indcursus.CursusExt;
-import org.esupportail.opi.domain.beans.user.indcursus.CursusR1;
-import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
-import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
+import org.esupportail.opi.domain.beans.user.indcursus.*;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.candidat.beans.CandidatPojo;
+import org.esupportail.opi.web.candidat.beans.CursusProPojo;
 import org.esupportail.opi.web.candidat.beans.CursusScolPojo;
+import org.esupportail.opi.web.candidat.beans.QualifNoDipPojo;
 import org.esupportail.wssi.services.remote.Etablissement;
 
 import java.util.ArrayList;
 
 import static fj.data.Array.iterableArray;
-import static fj.data.Option.fromNull;
-import static fj.data.Option.fromString;
+import static fj.data.List.iterableList;
+import static fj.data.Option.*;
+import static fj.data.Option.somes;
 import static java.lang.String.format;
 import static org.esupportail.opi.web.candidat.beans.CandidatPojo.*;
 
@@ -79,13 +79,40 @@ public final class Transform {
                 }
             });
 
-            final Array<CursusScolPojo> cursusScols =  iterableArray(i.getCursusScol())
+            // Cursus post bac
+            final List<CursusScolPojo> cursusScols =  iterableList(i.getCursusScol())
                     .map(cursusScolToPojo.f(apoService));
+
+            final List<IndCursus> indCursus = iterableList(i.getCursus());
+
+            // Cursus pro
+            final List<CursusProPojo> cursusPros = somes(indCursus
+                    .map(new F<IndCursus, Option<CursusPro>>() {
+                        public Option<CursusPro> f(IndCursus c) {
+                            if (c instanceof CursusPro) {
+                                return some((CursusPro) c);
+                            }
+                            return none();
+                        }
+                    })).map(cursusProToPojo);
+
+            // Qualifications non professionalisantes
+            final List<QualifNoDipPojo> qualifs = somes(indCursus
+                    .map(new F<IndCursus, Option<QualifNonDiplomante>>() {
+                        public Option<QualifNonDiplomante> f(IndCursus c) {
+                            if (c instanceof QualifNonDiplomante) {
+                                return some((QualifNonDiplomante) c);
+                            }
+                            return none();
+                        }
+                    })).map(qualifToPojo);
 
             return candidatPojo
                     .withDossier(i.getNumDossierOpi())
                     .withEtatCivil(etatCivil)
-                    .withCursusScols(new ArrayList<>(cursusScols.toCollection()));
+                    .withCursusScols(new ArrayList<>(cursusScols.toCollection()))
+                    .withCursusPros(new ArrayList<>(cursusPros.toCollection()))
+                    .withQualifs(new ArrayList<>(qualifs.toCollection()));
         }
     };
 
@@ -139,6 +166,30 @@ public final class Transform {
                         .withFormation(formation);
             }
             return cursusScol;
+        }
+    };
+
+    public static final F<CursusPro, CursusProPojo> cursusProToPojo = new F<CursusPro, CursusProPojo>() {
+        public CursusProPojo f(CursusPro cursusPro) {
+            return CursusProPojo.empty()
+                    .withId(cursusPro.getId())
+                    .withAnnee(cursusPro.getAnnee())
+                    .withDuree(cursusPro.getDuree())
+                    .withDescription(cursusPro.getComment())
+                    .withOrganisme(cursusPro.getOrganisme())
+                    .withQuotite(cursusPro.getQuotite());
+        }
+    };
+
+    public static final F<QualifNonDiplomante, QualifNoDipPojo> qualifToPojo = new F<QualifNonDiplomante, QualifNoDipPojo>() {
+        public QualifNoDipPojo f(QualifNonDiplomante q) {
+            return QualifNoDipPojo.empty()
+                    .withId(q.getId())
+                    .withAnnee(q.getAnnee())
+                    .withDuree(q.getDuree())
+                    .withDescription(q.getComment())
+                    .withOrganisme(q.getOrganisme())
+                    .withIntitule(q.getLibelle());
         }
     };
 
@@ -237,5 +288,33 @@ public final class Transform {
                     cursusExt.setIndividu(i);
                     return cursusExt;
                 }
+    };
+
+    public static final F2<Individu, CursusProPojo, CursusPro> cursusProPojoToCursusPro = new F2<Individu, CursusProPojo, CursusPro>() {
+        public CursusPro f(Individu i, CursusProPojo p) {
+            CursusPro cursusPro = new CursusPro();
+            cursusPro.setId(p.getId());
+            cursusPro.setAnnee(p.getAnnee());
+            cursusPro.setDuree(p.getDuree());
+            cursusPro.setComment(p.getDescription());
+            cursusPro.setOrganisme(p.getOrganisme());
+            cursusPro.setQuotite(p.getQuotite());
+            cursusPro.setIndividu(i);
+            return cursusPro;
+        }
+    };
+
+    public static final F2<Individu, QualifNoDipPojo, QualifNonDiplomante> pojoToQualif = new F2<Individu, QualifNoDipPojo, QualifNonDiplomante>() {
+        public QualifNonDiplomante f(Individu i, QualifNoDipPojo p) {
+            QualifNonDiplomante qualif = new QualifNonDiplomante();
+            qualif.setId(p.getId());
+            qualif.setAnnee(p.getAnnee());
+            qualif.setDuree(p.getDuree());
+            qualif.setComment(p.getDescription());
+            qualif.setOrganisme(p.getOrganisme());
+            qualif.setLibelle(p.getIntitule());
+            qualif.setIndividu(i);
+            return qualif;
+        }
     };
 }

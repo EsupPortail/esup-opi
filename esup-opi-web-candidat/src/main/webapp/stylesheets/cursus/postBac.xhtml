@@ -68,7 +68,7 @@
                             <div class="form-group">
                                 <p:outputLabel value="#{msgs['INDIVIDU.CURSUS.ANNEE_UNI']}" for="postbacAnneeUnivInput" styleClass="col-md-3 control-label" />
                                 <div class="col-md-9">
-                                    <div class=" input-group">
+                                    <div class="input-group">
                                         <span class="input-group-addon" data-toggle="tooltip" title="#{msgs['INDIVIDU.CURSUS.ANNEE_UNI.HELP']}"><i class="fa fa-info-circle" /></span>
                                         <p:inputMask id="postbacAnneeUnivInput" required="true" value="#{cursusController.cursusScol.annee}" mask="9999" maxlength="4" styleClass="form-control">
                                         </p:inputMask>
@@ -80,7 +80,7 @@
                             <div class="form-group">
                                 <p:outputLabel value="#{msgs['FIELD_LABEL.DIPLOME_PREP']}" for="postbacDacInput" styleClass="col-md-3 control-label" />
                                 <div class="col-md-9">
-                                    <div class=" input-group">
+                                    <div class="input-group">
                                         <span class="input-group-addon" data-toggle="tooltip" title="#{msgs['FIELD_LABEL.DIPLOME_PREP.INFOS']}"><i class="fa fa-info-circle" /></span>
                                         <h:selectOneMenu id="postbacDacInput" required="true" value="#{cursusController.cursusScol.formation.dac}" styleClass="form-control">
                                             <f:selectItems value="#{cursusController.dipAutCurs(cursusController.cursusScol.etablissement.pays)}" var="dipAutCur"

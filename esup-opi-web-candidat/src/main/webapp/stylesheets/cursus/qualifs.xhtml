@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <div class="modal fade" id="modalQualif" tabindex="-1" role="dialog" aria-labelledby="#{msgs['INDIVIDU.QUALIF.NO_DIP']}" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">#{msgs['INDIVIDU.QUALIF.NO_DIP']}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <p:outputPanel layout="block" autoUpdate="true" styleClass="col-xs-12">
+                            <div class="form-group">
+                                <p:outputLabel value="#{msgs['FIELD_LABEL.YEAR']}" for="qualifAnneeInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+                                    <h:inputText id="qualifAnneeInput" required="true" value="#{cursusController.qualif.annee}" maxlength="20" styleClass="form-control"/>
+                                    <p:message for="qualifAnneeInput" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <p:outputLabel value="#{msgs['INDIVIDU.QUALIF.NO_DIP.ORG']}" for="qualifOrganismeInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+                                    <h:inputText id="qualifOrganismeInput" required="true" value="#{cursusController.qualif.organisme}" maxlength="70" styleClass="form-control"/>
+                                    <p:message for="qualifOrganismeInput" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <p:outputLabel value="#{msgs['FIELD_LABEL.PERIOD']}" for="qualifDureeInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+                                    <h:inputText id="qualifDureeInput" required="true" value="#{cursusController.qualif.duree}" maxlength="20" styleClass="form-control"/>
+                                    <p:message for="qualifDureeInput" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <p:outputLabel value="#{msgs['FIELD_LABEL.INTITULE']}" for="qualifIntituleInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+                                    <h:inputText id="qualifIntituleInput" required="true" value="#{cursusController.qualif.intitule}" maxlength="50" styleClass="form-control"/>
+                                    <p:message for="qualifIntituleInput" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <p:outputLabel value="#{msgs['INDIVIDU.QUALIF.NO_DIP.OBJ']}" for="qualifDescriptionInput" styleClass="col-md-3 control-label" />
+                                <div class="col-md-9">
+
+                                    <div class="input-group">
+                                        <span class="input-group-addon" data-toggle="tooltip" title="#{msgs['FIELD_LABEL.DESC_ACTV.HELP']}"><i class="fa fa-info-circle" /></span>
+                                        <p:inputTextarea id="qualifDescriptionInput" value="#{cursusController.qualif.description}" rows="1" maxlength="2000" autoResize="false" counter="display" counterTemplate="{0} caractères restants" styleClass="form-control"/>
+                                    </div>
+                                    <span class="help-block"><h:outputText id="display" /></span>
+                                    <p:message for="qualifDescriptionInput" />
+                                </div>
+                            </div>
+                        </p:outputPanel>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <p:commandLink value="#{msgs['_.BUTTON.CANCEL']}" styleClass="btn btn-sm btn-default" immediate="true">
+                        <p:ajax resetValues="true" onsuccess="$('#modalQualif').modal('hide');"/>
+                    </p:commandLink>
+                    <p:commandLink value="#{msgs['_.BUTTON.ADD']}" styleClass="btn btn-sm btn-success"
+                                   actionListener="#{cursusController.addQualif}" update="qualifs,:headerWrapper,:tabsCursus:alertTabCursusNoDip">
+                    </p:commandLink>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="container-fluid">
+        <div class="row">
+            <p:outputPanel layout="block" autoUpdate="true" styleClass="col-xs-12">
+                <div class="alert alert-info alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times"/></a>
+                    <p>#{msgs['INDIVIDU.QUALIF.NO_DIP.DESC']}</p>
+                </div>
+                <p:dataTable id="qualifs" value="#{cursusController.candidat.qualifs}" var="cursus"
+                             tableStyleClass="table table-hover table-striped"
+                             rendered="#{not empty cursusController.candidat.qualifs}">
+                    <p:column styleClass="table-column-limit">
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['FIELD_LABEL.YEAR']}" title="#{msgs['FIELD_LABEL.YEAR']}" />
+                        </f:facet>
+                        #{cursus.annee}
+                    </p:column>
+                    <p:column styleClass="table-column-limit">
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['INDIVIDU.QUALIF.NO_DIP.ORG']}" title="#{msgs['INDIVIDU.QUALIF.NO_DIP.ORG']}" />
+                        </f:facet>
+                        #{cursus.organisme}
+                    </p:column>
+                    <p:column styleClass="table-column-limit">
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['FIELD_LABEL.PERIOD']}" title="#{msgs['FIELD_LABEL.PERIOD']}" />
+                        </f:facet>
+                        #{cursus.duree}
+                    </p:column>
+                    <p:column styleClass="table-column-limit">
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['FIELD_LABEL.INTITULE']}" title="#{msgs['FIELD_LABEL.INTITULE']}" />
+                        </f:facet>
+                        #{cursus.intitule}
+                    </p:column>
+                    <p:column styleClass="table-column-limit">
+                        <f:facet name="header">
+                            <h:outputText value="#{msgs['INDIVIDU.QUALIF.NO_DIP.OBJ']}" title="#{msgs['INDIVIDU.QUALIF.NO_DIP.OBJ']}" />
+                        </f:facet>
+                        #{cursus.description}
+                    </p:column>
+                    <p:column styleClass="table-action-icon">
+                        <p:commandLink styleClass="text-danger">
+                            <i class="fa fa-trash-o"/>
+                            <p:ajax listener="#{cursusController.deleteQualif(cursus)}" update="qualifs,:headerWrapper,:tabsCursus:alertTabCursusNoDip"/>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+            </p:outputPanel>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-actions">
+                    <a href="#" data-toggle="modal" data-target="#modalQualif" class="btn btn-primary">#{msgs['_.BUTTON.ADD']}</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</ui:composition>

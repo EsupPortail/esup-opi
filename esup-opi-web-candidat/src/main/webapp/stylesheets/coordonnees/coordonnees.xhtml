@@ -16,21 +16,25 @@
             <ui:param name="candidat" value="#{coordonneesController.candidat}" />
             <ui:param name="title" value="#{msgs['INDIVIDU.COORD']}" />
         </ui:include>
-        <h:form id="coordonneesForm" styleClass="form-horizontal">
-            <p:tabView id="tabsCoordonnees">
-                <p:tab>
-                    <f:facet name="title">
-                        <span class="fa fa-lg fa-user" title="#{msgs['INDIVIDU.ETAT_CIV']}" /><span class="hidden-xs">#{msgs['INDIVIDU.ETAT_CIV']}</span>
-                    </f:facet>
+        <p:tabView id="tabsCoordonnees" styleClass="ui-tabs-2">
+            <p:tab titletip="#{msgs['INDIVIDU.ETAT_CIV']}">
+                <f:facet name="title">
+                    <i class="fa fa-lg fa-user" />
+                    <span>#{msgs['INDIVIDU.ETAT_CIV']}</span>
+                </f:facet>
+                <h:form id="etatCivilForm" styleClass="form-horizontal">
                     <ui:include src="etatCivil.xhtml" />
-                </p:tab>
-                <p:tab>
-                    <f:facet name="title">
-                        <span class="fa fa-lg fa-map-marker" title="#{msgs['ADRESS.FIX']}"/><span class="hidden-xs"> #{msgs['ADRESS.FIX']}</span>
-                    </f:facet>
+                </h:form>
+            </p:tab>
+            <p:tab titletip="#{msgs['ADRESS.FIX']}">
+                <f:facet name="title">
+                    <i class="fa fa-lg fa-map-marker"/>
+                    <span> #{msgs['ADRESS.FIX']}</span>
+                </f:facet>
+                <h:form id="adresseForm" styleClass="form-horizontal">
                     <ui:include src="adresseFixe.xhtml" />
-                </p:tab>
-            </p:tabView>
-        </h:form>
+                </h:form>
+            </p:tab>
+        </p:tabView>
     </ui:define>
 </ui:composition>
