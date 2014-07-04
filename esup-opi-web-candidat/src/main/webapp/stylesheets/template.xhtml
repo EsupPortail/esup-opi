@@ -9,6 +9,9 @@
         <h:head>
             <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <meta name="_csrf" content="${_csrf.token}"/>
+            <!-- default header name is X-CSRF-TOKEN -->
+            <meta name="_csrf_header" content="${_csrf.headerName}"/>
             <title>#{msgs['APPLICATION.BIG_TITLE']} - #{msgs['APPLICATION.TITLE']}</title>
 
             <f:facet name="first">
@@ -46,7 +49,7 @@
                             </f:facet>
                         </p:dialog>
                     </ui:fragment>
-
+                    <p:ajaxStatus onstart="sendCsrf();"  />
                     <ui:insert name="main"/>
                 </div>
             </div>
@@ -54,6 +57,18 @@
 
             <h:outputScript library="js" name="primefaces-locales.js" />
             <h:outputScript>
+                function sendCsrf() {
+                    var token = $("meta[name='_csrf']").attr("content");
+                    var header = $("meta[name='_csrf_header']").attr("content");
+
+                    $(document).on('pfAjaxSend.' + this.id, function(e, xhr, options) {
+                        console.log(options);
+                        console.log(e);
+                        console.log(xhr);
+                        xhr.setRequestHeader(header, token);
+                    });
+                };
+
                 function activateCurrentMenuItem() {
                     currentPath = window.location.pathname;
                     $("nav > ul > li > a").each(function() {
