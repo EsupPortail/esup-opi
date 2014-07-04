@@ -40,6 +40,9 @@ public class CandidatPojo implements Serializable {
     @NotNull
     private List<QualifNoDipPojo> qualifs;
 
+    @NotNull
+    private List<CampagnePojo> campagnes;
+
     private CandidatPojo() {}
 
     public static CandidatPojo empty() {
@@ -50,7 +53,8 @@ public class CandidatPojo implements Serializable {
                 .withBaccalaureat(Baccalaureat.empty())
                 .withCursusScols(new ArrayList<CursusScolPojo>())
                 .withCursusPros(new ArrayList<CursusProPojo>())
-                .withQualifs(new ArrayList<QualifNoDipPojo>());
+                .withQualifs(new ArrayList<QualifNoDipPojo>())
+                .withCampagnes(new ArrayList<CampagnePojo>());
     }
 
     public String getDossier() {
@@ -141,6 +145,19 @@ public class CandidatPojo implements Serializable {
 
     public CandidatPojo withQualifs(List<QualifNoDipPojo> qualifs) {
         setQualifs(qualifs);
+        return this;
+    }
+
+    public List<CampagnePojo> getCampagnes() {
+        return campagnes;
+    }
+
+    public void setCampagnes(List<CampagnePojo> campagnes) {
+        this.campagnes = campagnes;
+    }
+
+    public CandidatPojo withCampagnes(List<CampagnePojo> campagnes) {
+        setCampagnes(campagnes);
         return this;
     }
 

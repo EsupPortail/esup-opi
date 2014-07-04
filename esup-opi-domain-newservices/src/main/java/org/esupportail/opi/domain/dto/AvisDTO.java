@@ -1,5 +1,6 @@
 package org.esupportail.opi.domain.dto;
 
+import org.esupportail.opi.domain.beans.NormeSI;
 import org.esupportail.opi.domain.beans.parameters.MotivationAvis;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 
@@ -8,6 +9,13 @@ import java.io.Serializable;
 
 
 public class AvisDTO {
+
+    private Integer id;
+
+    /**
+     * Default value = true.
+     */
+    private Boolean temoinEnService;
 
     /**
      * The boolean indiquant si l'avis a ete valide.
@@ -37,13 +45,38 @@ public class AvisDTO {
     private MotivationAvisDTO motivationAvis;
 
     /**
-     * Default value = true.
+     * The result de l'avis.
      */
-    private Boolean temoinEnService;
-
+    private TypeDecision result;
 
     public static AvisDTO empty() {
         return new AvisDTO();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public AvisDTO withId(Integer id) {
+        setId(id);
+        return this;
+    }
+
+    public Boolean getTemoinEnService() {
+        return temoinEnService;
+    }
+
+    public void setTemoinEnService(Boolean temoinEnService) {
+        this.temoinEnService = temoinEnService;
+    }
+
+    public AvisDTO withTemoinEnService(Boolean temoinEnService) {
+        setTemoinEnService(temoinEnService);
+        return this;
     }
 
     public Boolean getValidation() {
@@ -111,20 +144,18 @@ public class AvisDTO {
         return this;
     }
 
-    public Boolean getTemoinEnService() {
-        return temoinEnService;
+    public TypeDecision getResult() {
+        return result;
     }
 
-    public void setTemoinEnService(Boolean temoinEnService) {
-        this.temoinEnService = temoinEnService;
+    public void setResult(TypeDecision result) {
+        this.result = result;
     }
 
-    public AvisDTO withTemoinEnService(Boolean temoinEnService) {
-        setTemoinEnService(temoinEnService);
+    public AvisDTO withResult(TypeDecision result) {
+        setResult(result);
         return this;
     }
-
-
 
     public static final class MotivationAvisDTO implements Serializable {
 

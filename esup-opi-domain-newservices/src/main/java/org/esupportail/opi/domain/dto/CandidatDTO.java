@@ -30,6 +30,8 @@ public class CandidatDTO {
 
     private Collection<CursusScolDTO> cursusScols;
 
+    private Collection<CampagneDTO> campagnes;
+
     /**
      * The vows of individu.
      * Default value : empty
@@ -46,7 +48,8 @@ public class CandidatDTO {
                 .withAdresseFixe(AdresseFixeDTO.empty())
                 .withBaccalaureat(BaccalaureatDTO.empty())
                 .withCursusScols(new ArrayList<CursusScolDTO>())
-                .withVoeux(new ArrayList<CandidatVoeuDTO>());
+                .withVoeux(new ArrayList<CandidatVoeuDTO>())
+                .withCampagnes(new ArrayList<CampagneDTO>());
     }
 
     public String getNumDossierOpi() {
@@ -124,6 +127,19 @@ public class CandidatDTO {
 
     public CandidatDTO withVoeux(ArrayList<CandidatVoeuDTO> voeux) {
         setVoeux(voeux);
+        return this;
+    }
+
+    public Collection<CampagneDTO> getCampagnes() {
+        return campagnes;
+    }
+
+    public void setCampagnes(Collection<CampagneDTO> campagnes) {
+        this.campagnes = campagnes;
+    }
+
+    public CandidatDTO withCampagnes(ArrayList<CampagneDTO> campagnes) {
+        setCampagnes(campagnes);
         return this;
     }
 

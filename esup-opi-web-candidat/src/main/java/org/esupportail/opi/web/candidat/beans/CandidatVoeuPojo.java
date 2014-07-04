@@ -1,25 +1,13 @@
 package org.esupportail.opi.web.candidat.beans;
 
-import org.esupportail.opi.domain.beans.etat.EtatVoeu;
-import org.esupportail.opi.domain.beans.parameters.TypeTraitement;
-import org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV;
-import org.esupportail.opi.domain.beans.references.rendezvous.IndividuDate;
-import org.esupportail.opi.domain.beans.user.candidature.Avis;
-import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
-import org.esupportail.opi.domain.dto.CandidatVoeuDTO;
-import org.esupportail.opi.utils.Constantes;
-import org.esupportail.opi.web.beans.utils.Utilitaires;
-import org.springframework.util.StringUtils;
+import org.esupportail.opi.domain.beans.etat.Etat;
+import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
+import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import static org.esupportail.opi.domain.beans.etat.EtatVoeu.*;
 
@@ -27,10 +15,37 @@ import static org.esupportail.opi.domain.beans.etat.EtatVoeu.*;
 public class CandidatVoeuPojo implements Serializable {
 
     /**
-     * The IndVoeu.
+     * The Individu.
      */
-    @NotNull
-    private CandidatVoeuDTO cdtoVoeu;
+    private Individu individu;
+
+    private Integer id;
+
+    /**
+     * The vow state.
+     */
+    private String state;
+
+    /**
+     * The code TypeTraitement.
+     */
+    private String codTypeTrait;
+
+    /**
+     * true if the voeu is a proposition from the commission.
+     */
+    private boolean isProp;
+
+    /**
+     * Have the Voeu be traited by the manager ?
+     * Default value false.
+     */
+    private boolean haveBeTraited;
+
+    /**
+     * The link between the traitement cmi and the campagne.
+     */
+    private LinkTrtCmiCampPojo linkTrtCmiCampPojo;
 
     /**
      * The VersionEtape.
@@ -40,34 +55,101 @@ public class CandidatVoeuPojo implements Serializable {
 
     private Collection<AvisPojo> avis;
 
-    /**
-     * The vows state.
-     */
-    private EtatVoeu etat;
+    private CandidatVoeuPojo() {}
 
-
-    public CandidatVoeuPojo(final CandidatVoeuDTO cdtoVoeu,
-                       final VersionEtapeDTO vrsEtp, Collection<AvisPojo> avis) {
-        this.cdtoVoeu = cdtoVoeu;
-        this.etat = EtatVoeu.fromString(cdtoVoeu.getState());
-        this.vrsEtape = vrsEtp;
-        this.avis = avis;
+    public static CandidatVoeuPojo empty() {
+        return new CandidatVoeuPojo();
     }
 
-    public CandidatVoeuPojo(final CandidatVoeuDTO cdtoVoeu) {
-        this.cdtoVoeu = cdtoVoeu;
+
+    public Integer getId() {
+        return id;
     }
 
-    public CandidatVoeuDTO getCandidatVoeuDTO() {
-        return cdtoVoeu;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setCandidatVoeuDTO(CandidatVoeuDTO cdtoVoeu) {
-        this.cdtoVoeu = cdtoVoeu;
+    public CandidatVoeuPojo withId(Integer id) {
+        setId(id);
+        return this;
     }
 
-    public CandidatVoeuPojo withCandidatVoeuDTO(CandidatVoeuDTO cdtoVoeu) {
-        setCandidatVoeuDTO(cdtoVoeu);
+    public Individu getIndividu() {
+        return individu;
+    }
+
+    public void setIndividu(Individu individu) {
+        this.individu = individu;
+    }
+
+    public CandidatVoeuPojo withIndividu(Individu individu) {
+        setIndividu(individu);
+        return this;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public CandidatVoeuPojo withState(String state) {
+        setState(state);
+        return this;
+    }
+
+    public String getCodTypeTrait() {
+        return codTypeTrait;
+    }
+
+    public void setCodTypeTrait(String codTypeTrait) {
+        this.codTypeTrait = codTypeTrait;
+    }
+
+    public CandidatVoeuPojo withCodTypeTrait(String codTypeTrait) {
+        setCodTypeTrait(codTypeTrait);
+        return this;
+    }
+
+    public boolean isProp() {
+        return isProp;
+    }
+
+    public void setProp(boolean isProp) {
+        this.isProp = isProp;
+    }
+
+    public CandidatVoeuPojo withProp(boolean isProp) {
+        setProp(isProp);
+        return this;
+    }
+
+    public boolean isHaveBeTraited() {
+        return haveBeTraited;
+    }
+
+    public void setHaveBeTraited(boolean haveBeTraited) {
+        this.haveBeTraited = haveBeTraited;
+    }
+
+    public CandidatVoeuPojo withHaveBeTraited(boolean haveBeTraited) {
+        setHaveBeTraited(haveBeTraited);
+        return this;
+    }
+
+    public LinkTrtCmiCampPojo getLinkTrtCmiCampPojo() {
+        return linkTrtCmiCampPojo;
+    }
+
+    public void setLinkTrtCmiCampPojo(LinkTrtCmiCampPojo linkTrtCmiCamp) {
+        this.linkTrtCmiCampPojo = linkTrtCmiCamp;
+    }
+
+    public CandidatVoeuPojo withLinkTrtCmiCamp(LinkTrtCmiCampPojo linkTrtCmiCamp) {
+        setLinkTrtCmiCampPojo(linkTrtCmiCamp);
         return this;
     }
 
@@ -79,19 +161,23 @@ public class CandidatVoeuPojo implements Serializable {
         this.vrsEtape = vrsEtape;
     }
 
-    public EtatVoeu getEtat() {
-        return etat;
-    }
-
-    public void setEtat(EtatVoeu etat) {
-        this.etat = etat;
+    public CandidatVoeuPojo withVrsEtape(VersionEtapeDTO vrsEtape) {
+        setVrsEtape(vrsEtape);
+        return this;
     }
 
     public Collection<AvisPojo> getAvis() {
         return avis;
     }
 
-    public void setAvis(List<AvisPojo> avis) {
+    public void setAvis(Collection<AvisPojo> avis) {
         this.avis = avis;
     }
+
+    public CandidatVoeuPojo withAvis(Collection<AvisPojo> avis) {
+        setAvis(avis);
+        return this;
+    }
+
+
 }

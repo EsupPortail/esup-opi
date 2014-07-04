@@ -1,5 +1,8 @@
 package org.esupportail.opi.domain.dto;
 
+import org.esupportail.opi.domain.beans.etat.Etat;
+import org.esupportail.opi.domain.beans.user.Individu;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -7,6 +10,12 @@ import java.util.Set;
 
 public class CandidatVoeuDTO {
 
+    /**
+     * The Individu.
+     */
+    private Individu individu;
+
+    private Integer id;
     /**
      * The vow state.
      */
@@ -43,6 +52,32 @@ public class CandidatVoeuDTO {
 
     public static CandidatVoeuDTO empty() {
         return new CandidatVoeuDTO();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public CandidatVoeuDTO withId(Integer id) {
+        setId(id);
+        return this;
+    }
+
+    public Individu getIndividu() {
+        return individu;
+    }
+
+    public void setIndividu(Individu individu) {
+        this.individu = individu;
+    }
+
+    public CandidatVoeuDTO withIndividu(Individu individu) {
+        setIndividu(individu);
+        return this;
     }
 
     public String getState() {

@@ -4,15 +4,13 @@ import fj.*;
 import fj.data.List;
 import fj.data.Option;
 import org.esupportail.opi.domain.DomainApoService;
+import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.user.Adresse;
 import org.esupportail.opi.domain.beans.user.AdresseFix;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.indcursus.*;
 import org.esupportail.opi.utils.Constantes;
-import org.esupportail.opi.web.candidat.beans.CandidatPojo;
-import org.esupportail.opi.web.candidat.beans.CursusProPojo;
-import org.esupportail.opi.web.candidat.beans.CursusScolPojo;
-import org.esupportail.opi.web.candidat.beans.QualifNoDipPojo;
+import org.esupportail.opi.web.candidat.beans.*;
 import org.esupportail.wssi.services.remote.Etablissement;
 
 import java.util.ArrayList;
@@ -107,12 +105,17 @@ public final class Transform {
                         }
                     })).map(qualifToPojo);
 
+            // Campagnes de candidatures
+            final List<CampagnePojo> campagnes = iterableList(i.getCampagnes())
+                    .map(campagneToPojo);
+
             return candidatPojo
                     .withDossier(i.getNumDossierOpi())
                     .withEtatCivil(etatCivil)
                     .withCursusScols(new ArrayList<>(cursusScols.toCollection()))
                     .withCursusPros(new ArrayList<>(cursusPros.toCollection()))
-                    .withQualifs(new ArrayList<>(qualifs.toCollection()));
+                    .withQualifs(new ArrayList<>(qualifs.toCollection()))
+                    .withCampagnes(new ArrayList<>(campagnes.toCollection()));
         }
     };
 
@@ -193,6 +196,14 @@ public final class Transform {
         }
     };
 
+    public static final F<Campagne, CampagnePojo> campagneToPojo = new F<Campagne, CampagnePojo>() {
+        public CampagnePojo f(Campagne campagne) {
+            return CampagnePojo.empty()
+                    .withCode(campagne.getCode())
+                    .withCodAnu(campagne.getCodAnu())
+                    .withCodeRI(campagne.getCodeRI());
+        }
+    };
 
     public static final F2<CandidatPojo, Individu, Individu> candidatPojoToIndividu = new F2<CandidatPojo, Individu, Individu>() {
         public Individu f(final CandidatPojo c, final Individu individu) {

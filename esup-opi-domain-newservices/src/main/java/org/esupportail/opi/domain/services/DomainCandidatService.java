@@ -3,6 +3,7 @@ package org.esupportail.opi.domain.services;
 import fj.data.Option;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.dto.CandidatDTO;
+import org.esupportail.opi.domain.dto.CandidatVoeuDTO;
 
 import java.io.Serializable;
 
@@ -20,4 +21,6 @@ public interface DomainCandidatService extends Serializable {
      * @return The {@link org.esupportail.opi.domain.beans.user.Individu} of 'numDossierOpi' {@code id}
      */
     Option<CandidatDTO> fetchIndById(String id, Option<Boolean> onlyValidWishes);
+
+    void deleteCandidatVoeu(Individu individu, CandidatVoeuDTO candidatVoeuDto);
 }

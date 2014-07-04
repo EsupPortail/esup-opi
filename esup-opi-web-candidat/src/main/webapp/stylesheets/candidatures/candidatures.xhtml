@@ -3,6 +3,8 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:pe="http://primefaces.org/ui/extensions"
                 template="/stylesheets/template.xhtml">
     <ui:define name="main">
         <f:metadata>
@@ -18,31 +20,43 @@
         <h:form id="candidaturesForm" styleClass="form-horizontal">
             <section class="container-fluid">
                 <div class="row">
-                    <div class="col-xs-12">
-                        <p:dataTable var="indVoeuPojo"
+                    <p:outputPanel layout="block" autoUpdate="true" styleClass="col-xs-12">
+                        <ui:fragment rendered="#{not empty candidaturesController.indSelectedForms}">
+                        <div class="alert alert-warning alert-dismissable">
+                            <a href="#" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times"/></a>
+                            <p><i class="fa fa-exclamation-triangle fa-lg"/> #{msgs['INFO.CANDIDAT.FULL_FORMS']}</p>
+                        </div>
+                        </ui:fragment>
+                        <ui:fragment rendered="#{candidaturesController.canConfirmVoeux}">
+                            <div class="alert alert-warning alert-dismissable">
+                                <a href="#" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times"/></a>
+                                <p><i class="fa fa-exclamation-triangle fa-lg"/>#{msgs['CONFIRMATION.INFO_MESSAGE']}"</p>
+                            </div>
+                        </ui:fragment>
+                        <p:dataTable id="candidatVoeu" var="candidatVoeuPojo"
                                      value="#{candidaturesController.candidatVoeuxPojoAsList}"
-                                     alternateColors="false" renderedIfEmpty="false"
-                                     styleClass="displayInfo">
-                            <p:column>
+                                     renderedIfEmpty="false"
+                                     tableStyleClass="table table-hover table-striped">
+                            <p:column styleClass="table-column-limit">
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['FIELD_LABEL.FORMATION_ASK']}"/>
                                 </f:facet>
-                                <h:outputText value="#{indVoeuPojo.vrsEtape.libWebVet}"/>
+                                <h:outputText value="#{candidatVoeuPojo.vrsEtape.libWebVet}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['INDIVIDU.ETAT']}"/>
                                 </f:facet>
-                                <h:outputText value="#{indVoeuPojo.etat}"/>
+                                <h:outputText value="#{candidatVoeuPojo.state}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{msgs['FIELD_LABEL.RESULT']}"/>
                                 </f:facet>
                                 <h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
-                                              rendered="#{empty indVoeuPojo.avis}"/>
+                                              rendered="#{empty candidatVoeuPojo.avis}"/>
                                 <ui:repeat id="datalistavis" style="myStyle" var="avis"
-                                           value="#{indVoeuPojo.avis}">
+                                           value="#{candidatVoeuPojo.avis}">
                                     <div>
                                         <h:outputText value="#{avis.result.libelle}"
                                                       rendered="#{avis.temoinEnService and avis.validation}"/>
@@ -54,9 +68,9 @@
                                     <h:outputText value="#{msgs['FIELD_LABEL.COMMENTAIRE']}"/>
                                 </f:facet>
                                 <h:outputText value="#{msgs['VOEU.RESULT.NON_DISPO']}"
-                                              rendered="#{empty indVoeuPojo.avis}"/>
+                                              rendered="#{empty candidatVoeuPojo.avis}"/>
                                 <ui:repeat id="datalistavis2" styleClass="myStyle" var="avis2"
-                                           value="#{indVoeuPojo.avis}">
+                                           value="#{candidatVoeuPojo.avis}">
                                     <div>
                                         <h:outputText value="#{avis2.commentaire}"
                                                       rendered="#{avis2.temoinEnService and avis2.validation}"/>
@@ -66,20 +80,95 @@
                             <p:column>
                                 <!--<p:commandButton icon="ui-icon-minus"-->
                                                  <!--styleClass="form-button-image"-->
-                                                 <!--rendered="#{indVoeuPojo.calIsOpen-->
+                                                 <!--rendered="#{candidatVoeuPojo.calIsOpen-->
     									<!--|| sessionController.currentInd.isUpdaterOfThisStudent}"-->
                                                  <!--title="#{msgs['_.BUTTON.DELETE']}"-->
                                                  <!--ajax="false">-->
                                     <!--<f:setPropertyActionListener value="#{formationController.action.deleteAction}"-->
                                                                  <!--target="#{formationController.action.whatAction}"/>-->
-                                    <!--<f:setPropertyActionListener value="#{indVoeuPojo}"-->
-                                                                 <!--target="#{formationController.indVoeuPojo}"/>-->
+                                    <!--<f:setPropertyActionListener value="#{candidatVoeuPojo}"-->
+                                                                 <!--target="#{formationController.candidatVoeuPojo}"/>-->
                                 <!--</p:commandButton>-->
                             </p:column>
+                            <p:column styleClass="table-action-icon" rendered="#{fn:length(candidaturesController.candidatVoeuxPojoAsList) gt 0}">
+                                <p:commandLink styleClass="text-danger">
+                                    <i class="fa fa-trash-o"/>
+                                    <p:ajax update="candidatVoeu" listener="#{candidaturesController.deleteCandidatVoeu(candidatVoeuPojo)}"/>
+                                </p:commandLink>
+                            </p:column>
                         </p:dataTable>
+                    </p:outputPanel>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-actions">
+                            <a href="#" data-toggle="modal" data-target="#modalVoeu" class="btn btn-primary">#{msgs['_.BUTTON.ADD']}</a>
+                        </div>
                     </div>
                 </div>
             </section>
         </h:form>
+
+            <div class="modal fade" id="modalVoeu" tabindex="-1" role="dialog"
+                 aria-labelledby="#{msgs['FORMATION.TITLE.SEARCH']}" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">#{msgs['FORMATION.TITLE.SEARCH']}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <pe:masterDetail id="saisiewizard" level="#{candidaturesController.wizardLevel}" showBreadcrumb="false">
+                                    <f:facet name="header">
+                                        <ul class="nav nav-tabs">
+                                            <li class="divider-vertical" />
+                                            <li class="#{candidaturesController.wizardLevel eq 1 ? 'active' : ''}"><a>#{msgs['FORMATION.ACCESS.TYP_DIPLOME']}</a></li>
+                                            <li class="divider-vertical" />
+                                            <li class="#{candidaturesController.wizardLevel eq 2 ? 'active' : ''}"><a>mot clé</a></li>
+                                            <li class="divider-vertical" />
+                                            <li class="#{candidaturesController.wizardLevel eq 3 ? 'active' : ''}"><a>diplome</a></li>
+                                            <li class="divider-vertical" />
+                                            <li class="#{candidaturesController.wizardLevel eq 4 ? 'active' : ''}"><a>formations</a></li>
+                                            <li class="divider-vertical" />
+                                        </ul>
+                                    </f:facet>
+                                    <pe:masterDetailLevel level="1">
+                                        <h:form id="typeDiplome" styleClass="form-horizontal">
+                                            Type de diplome
+                                        </h:form>
+                                    </pe:masterDetailLevel>
+                                    <pe:masterDetailLevel level="2">
+                                        <h:form id="motcle" styleClass="form-horizontal">
+                                            Mot clé
+                                        </h:form>
+                                    </pe:masterDetailLevel>
+                                    <pe:masterDetailLevel level="3">
+                                        <h:form id="diplome" styleClass="form-horizontal">
+                                            Diplome
+                                        </h:form>
+                                    </pe:masterDetailLevel>
+                                    <pe:masterDetailLevel level="4">
+                                        <h:form id="formations" styleClass="form-horizontal">
+                                            Formations
+                                        </h:form>
+                                    </pe:masterDetailLevel>
+                                </pe:masterDetail>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <p:commandLink value="#{msgs['_.BUTTON.CANCEL']}" styleClass="btn btn-sm btn-default"
+                                           immediate="true">
+                                <p:ajax resetValues="true" onsuccess="$('#modalVoeu').modal('hide');"/>
+                            </p:commandLink>
+                            <p:commandLink value="#{msgs['_.BUTTON.ADD']}" styleClass="btn btn-sm btn-success"
+                                           actionListener="#{candidaturesController.addVoeu}"
+                                           update=":headerWrapper">
+                            </p:commandLink>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
     </ui:define>
 </ui:composition>

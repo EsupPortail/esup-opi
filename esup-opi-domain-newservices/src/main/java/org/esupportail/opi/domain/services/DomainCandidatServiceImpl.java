@@ -9,6 +9,8 @@ import org.esupportail.opi.dao.DaoService;
 import org.esupportail.opi.dao.IndividuDaoService;
 //import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainApoService;
+import org.esupportail.opi.domain.DomainService;
+import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.MotivationAvis;
 import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
 import org.esupportail.opi.domain.beans.user.Adresse;
@@ -20,11 +22,12 @@ import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.dto.*;
 import org.esupportail.opi.utils.Constantes;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import static fj.data.Array.iterableArray;
 import static fj.data.Option.fromNull;
 import static fj.data.Option.fromString;
+import static fj.data.Option.some;
 import static java.lang.String.format;
 import static org.esupportail.opi.domain.dto.CandidatDTO.*;
 
@@ -36,16 +39,23 @@ public class DomainCandidatServiceImpl implements DomainCandidatService {
 
     private final DomainApoService apoService;
 
-    private DomainCandidatServiceImpl(DaoService daoService, IndividuDaoService individuDaoSrv, DomainApoService apoService) {
+    private final DomainService domainService;
+
+    private DomainCandidatServiceImpl(DaoService daoService, IndividuDaoService individuDaoSrv, DomainApoService apoService, DomainService domainService) {
         this.daoService = daoService;
         this.individuDaoSrv = individuDaoSrv;
         this.apoService = apoService;
+        this.domainService = domainService;
     }
 
-    public static DomainCandidatService domainCandidatServiceImpl(DaoService daoService, IndividuDaoService individuDaoSrv, DomainApoService apoService) {
-        return new DomainCandidatServiceImpl(daoService, individuDaoSrv, apoService);
+    public static DomainCandidatService domainCandidatServiceImpl(DaoService daoService, IndividuDaoService individuDaoSrv, DomainApoService apoService, DomainService domainService) {
+        return new DomainCandidatServiceImpl(daoService, individuDaoSrv, apoService, domainService);
     }
 
+    public void deleteCandidatVoeu(Individu individu, CandidatVoeuDTO candidatVoeuDto) {
+        IndVoeu voeu = dtoToIndVoeu.f(candidatVoeuDto);
+        domainService.deleteIndVoeu(voeu);
+    }
 
     @Override
     public Option<CandidatDTO> fetchIndById(String id, Option<Boolean> onlyValidWishes) {
@@ -112,10 +122,13 @@ public class DomainCandidatServiceImpl implements DomainCandidatService {
                     .map(cursusScolToDTO);
             candidatDTO.setCursusScols(cursusScols.toCollection());
 
-
             final Array<CandidatVoeuDTO> candidatVoeux =  iterableArray(i.getVoeux())
                     .map(indVoeuToDTO);
             candidatDTO.setVoeux(candidatVoeux.toCollection());
+
+            final Array<CampagneDTO> candidatCampagnes =  iterableArray(i.getCampagnes())
+                    .map(indCampagneToDTO);
+            candidatDTO.setCampagnes(candidatCampagnes.toCollection());
 
             return candidatDTO;
         }
@@ -143,6 +156,8 @@ public class DomainCandidatServiceImpl implements DomainCandidatService {
         public CandidatVoeuDTO f(final IndVoeu indVoeu) {
             Array<AvisDTO> avisDTOs = iterableArray(indVoeu.getAvis()).map(avisToDTO);
             final CandidatVoeuDTO candidatVoeuDTO = CandidatVoeuDTO.empty()
+                    .withId(indVoeu.getId())
+                    .withIndividu(indVoeu.getIndividu())
                     .withAvis(new ArrayList<>(avisDTOs.toCollection()))
                     .withCodTypeTrait(indVoeu.getCodTypeTrait())
                     .withHaveBeTraited(indVoeu.isHaveBeTraited())
@@ -150,6 +165,81 @@ public class DomainCandidatServiceImpl implements DomainCandidatService {
                     .withProp(indVoeu.getIsProp())
                     .withState(indVoeu.getState());
             return candidatVoeuDTO;
+        }
+    };
+
+    public static F<CandidatVoeuDTO, IndVoeu> dtoToIndVoeu = new F<CandidatVoeuDTO, IndVoeu>() {
+        @Override
+        public IndVoeu f(final CandidatVoeuDTO candidatVoeuDTO) {
+            final IndVoeu indVoeu = new IndVoeu();
+            indVoeu.setId(candidatVoeuDTO.getId());
+            indVoeu.setIndividu(candidatVoeuDTO.getIndividu());
+            indVoeu.setCodTypeTrait(candidatVoeuDTO.getCodTypeTrait());
+            indVoeu.setState(candidatVoeuDTO.getState());
+            indVoeu.setIsProp(candidatVoeuDTO.isProp());
+            indVoeu.setHaveBeTraited(candidatVoeuDTO.isHaveBeTraited());
+            indVoeu.setLinkTrtCmiCamp(dtoToLinkTrtCmiCamp.f(candidatVoeuDTO.getLinkTrtCmiCamp()));
+            indVoeu.setAvis(new HashSet<Avis>());
+            if(candidatVoeuDTO.getAvis() != null && !candidatVoeuDTO.getAvis().isEmpty()) {
+                Array<Avis> avis = iterableArray(candidatVoeuDTO.getAvis()).map(dtoToAvis);
+                indVoeu.getAvis().addAll(avis.toCollection());
+            }
+            return indVoeu;
+        }
+    };
+
+    public static F<LinkTrtCmiCampDTO, LinkTrtCmiCamp> dtoToLinkTrtCmiCamp = new F<LinkTrtCmiCampDTO, LinkTrtCmiCamp>() {
+        @Override
+        public LinkTrtCmiCamp f(final LinkTrtCmiCampDTO linkTrtCmiCampDTO) {
+            final LinkTrtCmiCamp linkTrtCmiCamp = new LinkTrtCmiCamp();
+            linkTrtCmiCamp.setCampagne(linkTrtCmiCampDTO.getCampagneDto());
+            linkTrtCmiCamp.setTraitementCmi(linkTrtCmiCampDTO.getTraitementCmi());
+            return linkTrtCmiCamp;
+        }
+    };
+
+    public static F<AvisDTO, Avis> dtoToAvis = new F<AvisDTO, Avis>() {
+        @Override
+        public Avis f(AvisDTO avisDto) {
+            final Avis avis = new Avis();
+                avis.setAppel(avisDto.getAppel());
+                avis.setCommentaire(avisDto.getCommentaire());
+                avis.setRang(avisDto.getRang());
+                avis.setValidation(avisDto.getValidation());
+                avis.setTemoinEnService(avisDto.getTemoinEnService());
+                avis.setResult(avisDto.getResult());
+            if(avisDto.getMotivationAvis() != null) {
+                avis.setMotivationAvis(dtoToMotivationAvis.f(avisDto.getMotivationAvis()));
+            }
+            return avis;
+        }
+    };
+
+    public static F<AvisDTO.MotivationAvisDTO, MotivationAvis> dtoToMotivationAvis = new F<AvisDTO.MotivationAvisDTO, MotivationAvis>() {
+        @Override
+        public MotivationAvis f(AvisDTO.MotivationAvisDTO motivationAvisDTO) {
+            final MotivationAvis motivationAvis = new MotivationAvis();
+                motivationAvis.setCode(motivationAvisDTO.getCode());
+                motivationAvis.setLibelle(motivationAvisDTO.getLibelle());
+            return motivationAvis;
+        }
+    };
+
+    public static F<Campagne, CampagneDTO> indCampagneToDTO = new F<Campagne, CampagneDTO>() {
+        @Override
+        public CampagneDTO f(final Campagne campagne) {
+            Array<LinkTrtCmiCampDTO> linkTrtCmiToDTOs = iterableArray(campagne.getLinkTrtCmiCamp()).map(linkTrtCmiToDTO);
+            final CampagneDTO campagneDTO = CampagneDTO.empty()
+                    .withId(campagne.getId())
+                    .withTemoinEnService(campagne.getTemoinEnService())
+                    .withCodAnu(campagne.getCodAnu())
+                    .withCode(campagne.getCode())
+                    .withCodeRI(campagne.getCodeRI())
+                    .withDateDebCamp(campagne.getDateDebCamp())
+                    .withDateFinCamp(campagne.getDateFinCamp())
+                    .withIsArchived(campagne.getIsArchived())
+                    .withLinkTrtCmiCamp(new ArrayList<>(linkTrtCmiToDTOs.toCollection()));
+            return campagneDTO;
         }
     };
 
@@ -161,7 +251,8 @@ public class DomainCandidatServiceImpl implements DomainCandidatService {
                     .withCommentaire(avis.getCommentaire())
                     .withRang(avis.getRang())
                     .withValidation(avis.getValidation())
-                    .withTemoinEnService(avis.getTemoinEnService());
+                    .withTemoinEnService(avis.getTemoinEnService())
+                    .withResult(avis.getResult());
             if(avis.getMotivationAvis() != null) {
                 avisDTO.withMotivationAvis(motivationAvisToDTO.f(avis.getMotivationAvis()));
             }
@@ -173,7 +264,7 @@ public class DomainCandidatServiceImpl implements DomainCandidatService {
         @Override
         public LinkTrtCmiCampDTO f(LinkTrtCmiCamp linkTrtCmi) {
             final LinkTrtCmiCampDTO linkTrtCmiDTO = LinkTrtCmiCampDTO.empty()
-                    .withTraitementCmiDto(linkTrtCmi.getTraitementCmi())
+                    .withTraitementCmi(linkTrtCmi.getTraitementCmi())
                     .withCampagneDto(linkTrtCmi.getCampagne());
             return linkTrtCmiDTO;
         }

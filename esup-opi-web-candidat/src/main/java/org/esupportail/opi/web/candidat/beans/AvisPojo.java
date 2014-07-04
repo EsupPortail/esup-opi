@@ -2,12 +2,15 @@ package org.esupportail.opi.web.candidat.beans;
 
 
 import org.esupportail.opi.domain.beans.parameters.MotivationAvis;
+import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class AvisPojo {
+
+    private Integer id;
 
     /**
      * Le booléen indiquant si l'avis est issu d'un appel.
@@ -41,11 +44,28 @@ public class AvisPojo {
      */
     private Boolean temoinEnService;
 
+    /**
+     * The result de l'avis.
+     */
+    private TypeDecision result;
+
 
     public static AvisPojo empty() {
         return new AvisPojo();
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public AvisPojo withId(Integer id) {
+        setId(id);
+        return this;
+    }
 
     public Boolean getAppel() {
         return appel;
@@ -122,6 +142,19 @@ public class AvisPojo {
 
     public AvisPojo withTemoinEnService(Boolean temoinEnService) {
         setTemoinEnService(temoinEnService);
+        return this;
+    }
+
+    public TypeDecision getResult() {
+        return result;
+    }
+
+    public void setResult(TypeDecision result) {
+        this.result = result;
+    }
+
+    public AvisPojo withResult(TypeDecision result) {
+        setResult(result);
         return this;
     }
 
