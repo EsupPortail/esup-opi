@@ -29,7 +29,11 @@ import org.springframework.security.web.header.writers.HstsHeaderWriter;
 import org.springframework.security.web.header.writers.XContentTypeOptionsHeaderWriter;
 import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import static java.lang.String.format;
 import static org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter.*;
@@ -59,28 +63,21 @@ public class Security {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
 
-            http.anonymous().disable();
-
             http
-                .antMatcher("/candidats/**")
-                    .authorizeRequests().anyRequest().authenticated()
-                        .and()
-                    .formLogin()
-                        .loginPage(Navigation.WELCOME)
-                        .failureUrl(format("%s?error=true", Navigation.WELCOME))
-                        .successHandler(new AuthSuccessHandler())
-                        .usernameParameter("username")
-                        .passwordParameter("password")
-                        .permitAll();
+                .authorizeRequests()
+                    .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                    .loginPage("/login")
+                    .loginProcessingUrl("/")
+                    .successHandler(new AuthSuccessHandler())
+                    .permitAll();
 
-            http.headers()
-                    .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsMode.SAMEORIGIN))
-                    .addHeaderWriter(new XContentTypeOptionsHeaderWriter())
-                    .addHeaderWriter(new XXssProtectionHeaderWriter())
-                    .addHeaderWriter(new CacheControlHeadersWriter())
-                    .addHeaderWriter(new HstsHeaderWriter());
+            http.sessionManagement().invalidSessionUrl("/");
 
-            http.logout().logoutUrl("/logout").deleteCookies("JSESSIONID");
+            http.logout()
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .deleteCookies("JSESSIONID");
         }
 
         @Override
@@ -89,7 +86,6 @@ public class Security {
         }
     }
 
-    @Configuration
     public static class CasSecurity extends WebSecurityConfigurerAdapter {
 
         @Inject
@@ -128,13 +124,6 @@ public class Security {
             http.sessionManagement()
                     .invalidSessionUrl(SERVICE_URL);
 
-            http.headers()
-                    .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsMode.SAMEORIGIN))
-                    .addHeaderWriter(new XContentTypeOptionsHeaderWriter())
-                    .addHeaderWriter(new XXssProtectionHeaderWriter())
-                    .addHeaderWriter(new CacheControlHeadersWriter())
-                    .addHeaderWriter(new HstsHeaderWriter());
-
             http.logout().logoutUrl("/logout").deleteCookies("JSESSIONID");
         }
 
@@ -142,6 +131,7 @@ public class Security {
             CasAuthenticationFilter filter = new CasAuthenticationFilter();
             filter.setServiceProperties(serviceProperties());
             filter.setAuthenticationManager(authenticationManager());
+            filter.setAuthenticationSuccessHandler(new AuthSuccessHandler());
             return filter;
         }
 

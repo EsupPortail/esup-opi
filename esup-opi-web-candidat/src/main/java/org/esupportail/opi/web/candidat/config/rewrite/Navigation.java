@@ -3,6 +3,7 @@ package org.esupportail.opi.web.candidat.config.rewrite;
 import org.ocpsoft.rewrite.config.Configuration;
 import org.ocpsoft.rewrite.config.ConfigurationBuilder;
 import org.ocpsoft.rewrite.config.Direction;
+import org.ocpsoft.rewrite.config.Not;
 import org.ocpsoft.rewrite.context.EvaluationContext;
 import org.ocpsoft.rewrite.servlet.config.*;
 import org.ocpsoft.rewrite.servlet.config.rule.Join;
@@ -39,13 +40,18 @@ public class Navigation extends HttpConfigurationProvider {
     public Configuration getConfiguration(final ServletContext context) {
         return ConfigurationBuilder.begin()
 
-            .addRule(Join.path("/")
-                    .to(WELCOME).withInboundCorrection())
-//
+            .addRule()
+                .when(Direction.isInbound()
+                        .and(DispatchType.isRequest())
+                        .and(Not.any(DispatchType.isForward()))
+                        .and(Method.isGet())
+                        .and(Path.matches("/login")))
+                .perform(Forward.to(WELCOME))
+
 //            .addRule()
 //            .when(Direction.isInbound()
 //                    .and(Path.matches("/logout")))
-//            .perform(Redirect.temporary("/j_spring_cas_security_logout"))
+//            .perform(Redirect.temporary("/j_spring_security_logout"))
 
             .addRule()
             .when(Direction.isInbound()
@@ -65,8 +71,14 @@ public class Navigation extends HttpConfigurationProvider {
                 }
             })
 
+            .addRule().when(Path.matches("/"))
+                .perform(Redirect.permanent("/login"))
+
             .addRule().when(Path.matches("/candidats/{dossier}"))
                 .perform(Redirect.permanent("/candidats/{dossier}/coordonnees"))
+
+            .addRule(Join.path("/")
+                    .to(WELCOME).withInboundCorrection())
 
             .addRule(Join.path("/candidats/{dossier}/coordonnees")
                     .to(COORDONNEES).withInboundCorrection())

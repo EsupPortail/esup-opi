@@ -54,50 +54,60 @@
                     
                     <div class="col-md-6 col-xs-12">
                         <div class="well">
-                            <form method="post" action="/" class="form-horizontal" enctype="application/x-www-form-urlencoded">
-                                <h3>#{msgs['WELCOME.SUB_TITLE.GOTO_DOSSIER']}</h3>
-                                <div class="form-group">
-                                    <label for="username" class="col-md-2 control-label">Username</label>
-                                    <div class="col-md-10">
-                                        <input id="username" type="password" required="true"
-                                               placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
-                                               role="textbox" aria-disabled="false" aria-readonly="false" class="form-control" />
-
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="password" class="col-md-2 control-label">Password</label>
-                                    <div class="col-md-10">
-                                        <input id="password" type="password" required="true"
-                                               placeholder="jjmmaaaa"
-                                               role="textbox" aria-disabled="false" aria-readonly="false" class="form-control" />
-                                    </div>
-                                </div>
-                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>6UUEZPA9
-                                <button type="submit" class="btn btn-primary btn-block">#{msgs['_.BUTTON.VALIDATE']}</button>
-                                <a href="#" class="btn btn-link btn-xs btn-block">#{msgs['WELCOME.FORGET_NUM_DOS']}</a>
-                            </form>
-                            <!--<h:form prependId="false" styleClass="form-horizontal">-->
+                            <!--<form method="post" action="/login" class="form-horizontal" enctype="application/x-www-form-urlencoded">-->
                                 <!--<h3>#{msgs['WELCOME.SUB_TITLE.GOTO_DOSSIER']}</h3>-->
+
+                                <!--<ui:fragment rendered="#{not empty param['error']}">-->
+                                    <!--<div class="alert alert-danger alert-dismissable">-->
+                                        <!--Erreur d'identification-->
+                                    <!--</div>-->
+                                <!--</ui:fragment>-->
                                 <!--<div class="form-group">-->
-                                    <!--<p:outputLabel value="Username" for="username" styleClass="col-md-2 control-label" />-->
+                                    <!--<label for="username" class="col-md-2 control-label">Username</label>-->
                                     <!--<div class="col-md-10">-->
-                                        <!--<p:password id="username" value="6UUEZPA9" required="true" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" styleClass="form-control"/>-->
-                                        <!--<p:message for="username" />-->
+                                        <!--<input id="username" type="password" required="true"-->
+                                               <!--placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"-->
+                                               <!--role="textbox" aria-disabled="false" aria-readonly="false" class="form-control" />-->
+
                                     <!--</div>-->
                                 <!--</div>-->
                                 <!--<div class="form-group">-->
-                                    <!--<p:outputLabel value="Password" for="password" styleClass="col-md-2 control-label" />-->
+                                    <!--<label for="password" class="col-md-2 control-label">Password</label>-->
                                     <!--<div class="col-md-10">-->
-                                        <!--<p:password id="password" value="02111989" required="true" placeholder="jjmmaaaa" styleClass="form-control"/>-->
-                                        <!--<p:message for="password" />-->
+                                        <!--<input id="password" type="password" required="true"-->
+                                               <!--placeholder="jjmmaaaa"-->
+                                               <!--role="textbox" aria-disabled="false" aria-readonly="false" class="form-control" />-->
                                     <!--</div>-->
                                 <!--</div>-->
                                 <!--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>6UUEZPA9-->
-                                <!--<p:commandButton value="#{msgs['_.BUTTON.VALIDATE']}" styleClass="btn btn-primary btn-block" immediate="true" process="@form" update="@form" />-->
                                 <!--<button type="submit" class="btn btn-primary btn-block">#{msgs['_.BUTTON.VALIDATE']}</button>-->
-                                <!--<p:commandLink value="#{msgs['WELCOME.FORGET_NUM_DOS']}" styleClass="btn btn-link btn-xs btn-block" />-->
-                            <!--</h:form>-->
+                                <!--<a href="#" class="btn btn-link btn-xs btn-block">#{msgs['WELCOME.FORGET_NUM_DOS']}</a>-->
+                            <!--</form>-->
+                            <h:form prependId="false" styleClass="form-horizontal">
+                                <h3>#{msgs['WELCOME.SUB_TITLE.GOTO_DOSSIER']}</h3>
+                                <ui:fragment rendered="#{not empty param['error']}">
+                                    <div class="alert alert-danger alert-dismissable">
+                                    Erreur d'identification
+                                    </div>
+                                </ui:fragment>
+                                <div class="form-group">
+                                    <p:outputLabel value="Username" for="username" styleClass="col-md-2 control-label" />
+                                    <div class="col-md-10">
+                                        <p:password id="username" required="true" styleClass="form-control"/>
+                                        <p:message for="username" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <p:outputLabel value="Password" for="password" styleClass="col-md-2 control-label" />
+                                    <div class="col-md-10">
+                                        <p:password id="password" required="true" placeholder="jjmmaaaa" styleClass="form-control"/>
+                                        <p:message for="password" />
+                                    </div>
+                                </div>
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>6UUEZPA9
+                                <p:commandButton type="submit" value="#{msgs['_.BUTTON.VALIDATE']}" styleClass="btn btn-primary btn-block" ajax="false" immediate="true" />
+                                <p:commandLink value="#{msgs['WELCOME.FORGET_NUM_DOS']}" styleClass="btn btn-link btn-xs btn-block" />
+                            </h:form>
                         </div>
                     </div>
                 </div>

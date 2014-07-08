@@ -41,7 +41,7 @@ public class CandidatService implements UserDetailsService {
         if (user != null) {
             return new LoggedUser(user);
         }
-        throw new UsernameNotFoundException(format("No user with %s as username was found."));
+        throw new UsernameNotFoundException(format("No user with %s as username was found.", username));
     }
 
 

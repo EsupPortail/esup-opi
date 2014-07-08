@@ -18,7 +18,11 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
         final LoggedUser loggedUser = (LoggedUser) authentication.getPrincipal();
-        setDefaultTargetUrl(format("%s?dossier=%s", Navigation.COORDONNEES, loggedUser.getUsername()));
+        if (loggedUser.isCandidat()) {
+            setDefaultTargetUrl(format("%s?dossier=%s", Navigation.COORDONNEES, loggedUser.getUsername()));
+        } else {
+            setDefaultTargetUrl(Navigation.WELCOME); //TODO: Gérer les gestionnaires
+        }
         setAlwaysUseDefaultTargetUrl(true);
         super.onAuthenticationSuccess(request, response, authentication);
     }
