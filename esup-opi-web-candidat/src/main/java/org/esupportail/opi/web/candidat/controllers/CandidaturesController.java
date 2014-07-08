@@ -25,6 +25,7 @@ import org.esupportail.opi.web.candidat.beans.AvisPojo;
 import org.esupportail.opi.web.candidat.beans.CampagnePojo;
 import org.esupportail.opi.web.candidat.beans.CandidatVoeuPojo;
 
+import org.esupportail.opi.web.candidat.services.security.CandidatService;
 import org.esupportail.opi.web.candidat.utils.TransDtoToPojo;
 import org.esupportail.opi.web.candidat.utils.TransPojoToDto;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
@@ -39,6 +40,7 @@ import static fj.data.Array.iterableArray;
 import static fj.data.Array.single;
 import static fj.data.Option.*;
 import static java.util.Arrays.asList;
+import static org.esupportail.opi.web.candidat.services.security.CandidatService.LoggedUser;
 
 public class CandidaturesController extends CandidatController {
 
@@ -48,16 +50,15 @@ public class CandidaturesController extends CandidatController {
 
     protected Array<CandidatVoeuPojo> candidatVoeuxPojo = Array.empty();
 
-    private I18NUtilsService i18NUtils;
-
     private int wizardLevel = 1;
 
     private CandidaturesController(final DomainService domainService,
                                    final DomainCandidatService domainCandidatService,
                                    final DomainApoService apoService,
                                    final I18nService i18nService,
-                                   final ParameterService parameterService) {
-        super(domainService, apoService, i18nService);
+                                   final ParameterService parameterService,
+                                   final LoggedUser loggedUser) {
+        super(domainService, apoService, i18nService, loggedUser);
         this.domainCandidatService = domainCandidatService;
         this.parameterService = parameterService;
     }
@@ -66,8 +67,14 @@ public class CandidaturesController extends CandidatController {
                                                                 final DomainCandidatService domainCandidatService,
                                                                 final DomainApoService apoService,
                                                                 final I18nService i18nService,
-                                                                final ParameterService parameterService) {
-        return new CandidaturesController(domainService, domainCandidatService, apoService, i18nService, parameterService);
+                                                                final ParameterService parameterService,
+                                                                final LoggedUser loggedUser) {
+        return new CandidaturesController(domainService,
+                                            domainCandidatService,
+                                            apoService,
+                                            i18nService,
+                                            parameterService,
+                                            loggedUser);
     }
 
     @Override

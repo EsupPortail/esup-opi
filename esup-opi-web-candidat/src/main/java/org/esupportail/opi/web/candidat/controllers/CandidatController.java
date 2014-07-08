@@ -8,6 +8,8 @@ import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorPays;
 import org.esupportail.opi.web.candidat.beans.CandidatPojo;
+import org.esupportail.opi.web.candidat.config.rewrite.Navigation;
+import org.esupportail.opi.web.candidat.services.security.CandidatService;
 import org.esupportail.opi.web.candidat.utils.Transform;
 import org.esupportail.wssi.services.remote.Departement;
 import org.esupportail.wssi.services.remote.Pays;
@@ -22,6 +24,8 @@ import java.util.List;
 import static fj.data.Option.fromNull;
 import static fj.data.Option.fromString;
 import static fj.data.Option.join;
+import static java.lang.String.format;
+import static org.esupportail.opi.web.candidat.services.security.CandidatService.LoggedUser;
 import static org.esupportail.opi.web.candidat.utils.Transform.individuToCandidatPojo;
 
 public abstract class CandidatController {
@@ -32,14 +36,20 @@ public abstract class CandidatController {
 
     protected final I18nService i18nService;
 
+    protected final LoggedUser loggedUser;
+
     protected CandidatPojo candidat;
 
     protected int currentTabIndex = 1;
 
-    protected CandidatController(DomainService domainService, DomainApoService apoService, I18nService i18nService) {
+    protected CandidatController(DomainService domainService,
+                                 DomainApoService apoService,
+                                 I18nService i18nService,
+                                 LoggedUser loggedUser) {
         this.domainService = domainService;
         this.apoService = apoService;
         this.i18nService = i18nService;
+        this.loggedUser = loggedUser;
     }
 
     public void initView() {
@@ -56,6 +66,13 @@ public abstract class CandidatController {
             redirect("/stylesheets/welcome.xhtml?faces-redirect=true");
         }
         candidat = maybeCandidat.some();
+        if (loggedUser != null &&
+                loggedUser.isCandidat() &&
+                !candidat.getDossier().equalsIgnoreCase(loggedUser.getUsername())) {
+            redirect(format("%s?faces-redirect=true&dossier=%s",
+                    Navigation.COORDONNEES,
+                    loggedUser.getUsername()));
+        }
     }
 
     public void save() {
