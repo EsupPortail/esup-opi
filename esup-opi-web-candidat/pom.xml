@@ -212,11 +212,6 @@
             </dependency>
             <dependency>
                 <groupId>org.esupportail</groupId>
-                <artifactId>esup-opi-domain-services</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.esupportail</groupId>
                 <artifactId>esup-opi-web-beans</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -330,10 +325,6 @@
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.esupportail</groupId>
-            <artifactId>esup-opi-domain-services</artifactId>
         </dependency>
         <dependency>
             <groupId>org.esupportail</groupId>

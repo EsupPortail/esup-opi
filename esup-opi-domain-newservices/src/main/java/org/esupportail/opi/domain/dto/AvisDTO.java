@@ -4,7 +4,6 @@ import org.esupportail.opi.domain.beans.NormeSI;
 import org.esupportail.opi.domain.beans.parameters.MotivationAvis;
 import org.esupportail.opi.domain.beans.parameters.TypeDecision;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 
@@ -159,7 +158,6 @@ public class AvisDTO {
 
     public static final class MotivationAvisDTO implements Serializable {
 
-        @NotNull
         private String code;
 
         private String libelle;

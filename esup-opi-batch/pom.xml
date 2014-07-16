@@ -29,11 +29,11 @@
 			<version>3.0</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+<!--		<dependency>
 			<groupId>jetty</groupId>
 			<artifactId>javax.servlet</artifactId>
 			<version>5.1.12</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.esupportail</groupId>
 			<artifactId>esup-commons2-jsf2-exception</artifactId>

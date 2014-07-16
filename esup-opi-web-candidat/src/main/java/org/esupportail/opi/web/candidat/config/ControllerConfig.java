@@ -2,10 +2,10 @@ package org.esupportail.opi.web.candidat.config;
 
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.opi.domain.DomainApoService;
+import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.domain.config.DomainCandidat;
 import org.esupportail.opi.domain.services.DomainCandidatService;
 import org.esupportail.opi.domain.DomainService;
-import org.esupportail.opi.domain.ParameterService;
 import org.esupportail.opi.web.candidat.controllers.CandidaturesController;
 import org.esupportail.opi.web.candidat.controllers.CoordonneesController;
 import org.esupportail.opi.web.candidat.controllers.CursusController;
@@ -22,13 +22,13 @@ public class ControllerConfig {
     private DomainService domainService;
 
     @Inject
-    DomainCandidatService domainCandidatService;
-
-    @Inject
     private DomainApoService apoService;
 
     @Inject
     private I18nService i18nService;
+
+    @Inject
+    private DomainCandidatService domainCandidatService;
 
     @Inject
     private ParameterService parameterService;
@@ -48,7 +48,7 @@ public class ControllerConfig {
     @Bean
     @Scope("view")
     public CandidaturesController candidaturesController() {
-        return CandidaturesController.candidaturesController(domainService, domainCandidatService, apoService, i18nService, parameterService);
+        return CandidaturesController.candidaturesController(domainService, apoService, i18nService, parameterService, domainCandidatService);
     }
 
 }

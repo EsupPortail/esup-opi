@@ -17,20 +17,25 @@
             <ui:param name="candidat" value="#{candidaturesController.candidat}"/>
             <ui:param name="title" value="#{msgs['INDIVIDU.YOUR.CANDIDATURES']}"/>
         </ui:include>
-        <h:form id="candidaturesForm" styleClass="form-horizontal">
-            <section class="container-fluid">
+        <section class="container-fluid">
+            <h:form id="candidaturesForm" styleClass="form-horizontal">
                 <div class="row">
                     <p:outputPanel layout="block" autoUpdate="true" styleClass="col-xs-12">
                         <ui:fragment rendered="#{not empty candidaturesController.indSelectedForms}">
-                        <div class="alert alert-warning alert-dismissable">
-                            <a href="#" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times"/></a>
-                            <p><i class="fa fa-exclamation-triangle fa-lg"/> #{msgs['INFO.CANDIDAT.FULL_FORMS']}</p>
-                        </div>
+                            <div class="alert alert-warning alert-dismissable">
+                                <a href="#" class="close" data-dismiss="alert" aria-hidden="true"><i
+                                        class="fa fa-times"/></a>
+
+                                <p><i class="fa fa-exclamation-triangle fa-lg"/> #{msgs['INFO.CANDIDAT.FULL_FORMS']}</p>
+                            </div>
                         </ui:fragment>
                         <ui:fragment rendered="#{candidaturesController.canConfirmVoeux}">
                             <div class="alert alert-warning alert-dismissable">
-                                <a href="#" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times"/></a>
-                                <p><i class="fa fa-exclamation-triangle fa-lg"/>#{msgs['CONFIRMATION.INFO_MESSAGE']}"</p>
+                                <a href="#" class="close" data-dismiss="alert" aria-hidden="true"><i
+                                        class="fa fa-times"/></a>
+
+                                <p><i class="fa fa-exclamation-triangle fa-lg"/>#{msgs['CONFIRMATION.INFO_MESSAGE']}"
+                                </p>
                             </div>
                         </ui:fragment>
                         <p:dataTable id="candidatVoeu" var="candidatVoeuPojo"
@@ -79,96 +84,187 @@
                             </p:column>
                             <p:column>
                                 <!--<p:commandButton icon="ui-icon-minus"-->
-                                                 <!--styleClass="form-button-image"-->
-                                                 <!--rendered="#{candidatVoeuPojo.calIsOpen-->
-    									<!--|| sessionController.currentInd.isUpdaterOfThisStudent}"-->
-                                                 <!--title="#{msgs['_.BUTTON.DELETE']}"-->
-                                                 <!--ajax="false">-->
-                                    <!--<f:setPropertyActionListener value="#{formationController.action.deleteAction}"-->
-                                                                 <!--target="#{formationController.action.whatAction}"/>-->
-                                    <!--<f:setPropertyActionListener value="#{candidatVoeuPojo}"-->
-                                                                 <!--target="#{formationController.candidatVoeuPojo}"/>-->
+                                <!--styleClass="form-button-image"-->
+                                <!--rendered="#{candidatVoeuPojo.calIsOpen-->
+                                <!--|| sessionController.currentInd.isUpdaterOfThisStudent}"-->
+                                <!--title="#{msgs['_.BUTTON.DELETE']}"-->
+                                <!--ajax="false">-->
+                                <!--<f:setPropertyActionListener value="#{formationController.action.deleteAction}"-->
+                                <!--target="#{formationController.action.whatAction}"/>-->
+                                <!--<f:setPropertyActionListener value="#{candidatVoeuPojo}"-->
+                                <!--target="#{formationController.candidatVoeuPojo}"/>-->
                                 <!--</p:commandButton>-->
                             </p:column>
-                            <p:column styleClass="table-action-icon" rendered="#{fn:length(candidaturesController.candidatVoeuxPojoAsList) gt 0}">
+                            <p:column styleClass="table-action-icon"
+                                      rendered="#{fn:length(candidaturesController.candidatVoeuxPojoAsList) gt 0}">
                                 <p:commandLink styleClass="text-danger">
                                     <i class="fa fa-trash-o"/>
-                                    <p:ajax update="candidatVoeu" listener="#{candidaturesController.deleteCandidatVoeu(candidatVoeuPojo)}"/>
+                                    <p:ajax update="candidatVoeu"
+                                            listener="#{candidaturesController.deleteCandidatVoeu(candidatVoeuPojo)}"/>
                                 </p:commandLink>
                             </p:column>
                         </p:dataTable>
                     </p:outputPanel>
                 </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="form-actions">
-                            <a href="#" data-toggle="modal" data-target="#modalVoeu" class="btn btn-primary">#{msgs['_.BUTTON.ADD']}</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </h:form>
+            </h:form>
 
-            <div class="modal fade" id="modalVoeu" tabindex="-1" role="dialog"
-                 aria-labelledby="#{msgs['FORMATION.TITLE.SEARCH']}" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">#{msgs['FORMATION.TITLE.SEARCH']}</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <pe:masterDetail id="saisiewizard" level="#{candidaturesController.wizardLevel}" showBreadcrumb="false">
-                                    <f:facet name="header">
-                                        <ul class="nav nav-tabs">
-                                            <li class="divider-vertical" />
-                                            <li class="#{candidaturesController.wizardLevel eq 1 ? 'active' : ''}"><a>#{msgs['FORMATION.ACCESS.TYP_DIPLOME']}</a></li>
-                                            <li class="divider-vertical" />
-                                            <li class="#{candidaturesController.wizardLevel eq 2 ? 'active' : ''}"><a>mot clé</a></li>
-                                            <li class="divider-vertical" />
-                                            <li class="#{candidaturesController.wizardLevel eq 3 ? 'active' : ''}"><a>diplome</a></li>
-                                            <li class="divider-vertical" />
-                                            <li class="#{candidaturesController.wizardLevel eq 4 ? 'active' : ''}"><a>formations</a></li>
-                                            <li class="divider-vertical" />
-                                        </ul>
-                                    </f:facet>
-                                    <pe:masterDetailLevel level="1">
-                                        <h:form id="typeDiplome" styleClass="form-horizontal">
-                                            Type de diplome
-                                        </h:form>
-                                    </pe:masterDetailLevel>
-                                    <pe:masterDetailLevel level="2">
-                                        <h:form id="motcle" styleClass="form-horizontal">
-                                            Mot clé
-                                        </h:form>
-                                    </pe:masterDetailLevel>
-                                    <pe:masterDetailLevel level="3">
-                                        <h:form id="diplome" styleClass="form-horizontal">
-                                            Diplome
-                                        </h:form>
-                                    </pe:masterDetailLevel>
-                                    <pe:masterDetailLevel level="4">
-                                        <h:form id="formations" styleClass="form-horizontal">
-                                            Formations
-                                        </h:form>
-                                    </pe:masterDetailLevel>
-                                </pe:masterDetail>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <p:commandLink value="#{msgs['_.BUTTON.CANCEL']}" styleClass="btn btn-sm btn-default"
-                                           immediate="true">
-                                <p:ajax resetValues="true" onsuccess="$('#modalVoeu').modal('hide');"/>
-                            </p:commandLink>
-                            <p:commandLink value="#{msgs['_.BUTTON.ADD']}" styleClass="btn btn-sm btn-success"
-                                           actionListener="#{candidaturesController.addVoeu}"
-                                           update=":headerWrapper">
-                            </p:commandLink>
-                        </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-actions">
+                        <a href="#" data-toggle="modal" data-target="#modalSearchDip"
+                           class="btn btn-primary">#{msgs['_.BUTTON.ADD']}</a>
                     </div>
                 </div>
             </div>
+        </section>
 
+
+        <div class="modal fade" id="modalSearchDip" tabindex="-1" role="dialog"
+             aria-labelledby="#{msgs['FORMATION.TITLE.SEARCH']}" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">#{msgs['FORMATION.TITLE.SEARCH']}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h:form id="cursusPostBacForm" styleClass="form-horizontal">
+                            <pe:masterDetail id="masterDetail" level="#{candidaturesController.currentLevel}" showBreadcrumb="false">
+                            <f:facet name="header">
+                                <p:messages showDetail="true"/>
+                                <h:panelGroup layout="block" style="margin-top: 10px;">
+                                    <h:panelGroup styleClass="levelTitle ui-state-default ui-corner-all
+                                  #{candidaturesController.currentLevel eq 1 ? 'ui-state-hover' : ''}">
+                                        <h:outputText value="criterias"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup styleClass="levelTitle ui-state-default ui-corner-all
+                                  #{candidaturesController.currentLevel eq 2 ? 'ui-state-hover' : ''}">
+                                        <h:outputText value="Résultat"/>
+                                    </h:panelGroup>
+                                </h:panelGroup>
+                            </f:facet>
+
+                            <pe:masterDetailLevel level="1">
+                            <div class="row">
+                                <p:outputPanel layout="block" autoUpdate="true" styleClass="col-xs-12">
+                                    <div class="form-group">
+                                        <p:outputLabel value="Type de diplome" for="typeDip"
+                                                       styleClass="col-md-3 control-label"/>
+
+                                        <div class="col-md-9">
+                                            <h:selectOneMenu id="typeDip" required="true"
+                                                             value="#{candidaturesController.typeSelected}"
+                                                             styleClass="form-control">
+                                                <f:selectItem itemValue="#{null}" itemLabel=""/>
+                                                <f:selectItems value="#{candidaturesController.groupTypeDip}"
+                                                               var="grpTypDip"
+                                                               itemLabel="#{grpTypDip.libGrpTpd}"
+                                                               itemValue="#{grpTypDip.codGrpTpd}"/>
+                                                <p:ajax update="keyWordsGroup" process="@this" partialSubmit="true"/>
+                                            </h:selectOneMenu>
+                                            <p:message for="typeDip"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p:outputPanel id="keyWordsGroup"
+                                                       rendered="#{candidaturesController.searchFormationPojo.groupTypSelected != null}">
+                                            <p:outputLabel value="#{msgs['FORMATION.SELECT.KEY_WORD']}"
+                                                           for="keyWordFormInput" styleClass="col-md-3 control-label"/>
+
+                                            <div class="col-md-9">
+                                                <h:selectOneMenu id="keyWordFormInput"
+                                                                 value="#{candidaturesController.searchFormationPojo.codKeyWordSelected}">
+                                                    <f:selectItem itemValue="#{null}" itemLabel=""/>
+                                                    <f:selectItems value="#{candidaturesController.keyWordItems}"/>
+                                                    <p:ajax listener="#{candidaturesController.selectKeyWord}"
+                                                            process="@this"
+                                                            update="blockFormVdi,EtpEmpty"/>
+                                                </h:selectOneMenu>
+                                                <p:message for="keyWordFormInput"/>
+                                            </div>
+                                        </p:outputPanel>
+                                    </div>
+                                    <div class="form-group">
+                                        <p:outputPanel id="blockFormVdi" layout="block" styleClass="form-group"
+                                                       rendered="#{candidaturesController.searchFormationPojo.versionDiplomes.size() gt 0
+                                                   and candidaturesController.searchFormationPojo.versionEtapes == null}">
+                                            <p:outputLabel value="#{msgs['FORMATION.LIST_DIPLOMES']}" for="customRadio"
+                                                           styleClass="col-md-3 control-label"/>
+
+                                            <div class="col-md-9">
+                                                <h:selectOneRadio id="customRadio"
+                                                                  value="#{candidaturesController.vrsDipSelected}"
+                                                                  layout="pageDirection">
+                                                    <f:selectItems
+                                                            value="#{candidaturesController.searchFormationPojo.versionDiplomes}"
+                                                            var="versionDiplome"
+                                                            itemLabel="#{versionDiplome.libWebVdi}"
+                                                            itemValue="#{versionDiplome.codDip}"/>
+                                                    <p:ajax process="@this" update="cmdNext"/>
+                                                </h:selectOneRadio>
+                                                <p:message for="customRadio"/>
+                                            </div>
+                                        </p:outputPanel>
+                                        <p:outputPanel id="EtpEmpty"
+                                                       rendered="#{empty candidaturesController.searchFormationPojo.versionDiplomes and candidaturesController.searchFormationPojo.versionDiplomes != null}">
+                                            <p:outputLabel value="#{msgs['FORMATION.LIST_DIPLOMES']}" for="customRadio"
+                                                           styleClass="col-md-3 control-label"/>
+                                        <div class="col-md-9">
+                                            <h:outputText escape="false"
+                                                          value="#{msgs['FORMATION.DIP.NOT_EXIST.IN_CMI']}">
+                                            </h:outputText>
+                                         </div>
+                                        </p:outputPanel>
+                                    </div>
+                                </p:outputPanel>
+                            </div>
+                                <p:outputPanel id="cmdNext">
+                                <p:commandButton value="Next" process="masterDetail"
+                                                 style="margin-top: 10px;" icon="ui-icon-arrowthick-1-e">
+                                    <pe:selectDetailLevel step="+1"/>
+                                </p:commandButton>
+                                </p:outputPanel>
+                            </pe:masterDetailLevel>
+                            <pe:masterDetailLevel level="2">
+                                <p:dataTable var="versionEtapePojo" id="versionEtapeData"
+                                             value="#{candidaturesController.searchFormationPojo.versionEtapesAsList}"
+                                             selection="#{candidaturesController.searchFormationPojo.objectToAdd}"
+                                             rowKey="#{versionEtapePojo.versionEtape}"
+                                             styleClass="paginatorData">
+                                <p:column style="width:18px!important">
+                                    <ui:fragment rendered="#{versionEtapePojo.isAlReadyChoice}">
+                                        <p:graphicImage library="images" name="flag_red.png"
+                                                        style="cursor:pointer;" id="alreadyInscription"/>
+                                        <p:overlayPanel for="alreadyInscription"
+                                                        showEvent="mouseover"
+                                                        hideEvent="mouseout"
+                                                        styleClass="containerPopup">
+                                            <h:panelGroup>
+                                                <h:panelGrid columns="1">
+                                                    <h:outputText styleClass="titrePopupAide"
+                                                                  value="#{msgs['APPLICATION.BIG_TITLE']}"/>
+                                                    <h:panelGroup>
+                                                        <h:outputText styleClass="libellesAide"
+                                                                      value="#{msgs['INDIVIDU.ALREADY.CANDIDATER']}"/>
+                                                    </h:panelGroup>
+                                                </h:panelGrid>
+                                            </h:panelGroup>
+                                        </p:overlayPanel>
+                                    </ui:fragment>
+                                </p:column>
+                                </p:dataTable>
+                            </pe:masterDetailLevel>
+
+                            </pe:masterDetail>
+                        </h:form>
+                    </div>
+                    <div class="modal-footer">
+                        <p:commandLink value="#{msgs['_.BUTTON.CANCEL']}" styleClass="btn btn-sm btn-default" immediate="true">
+                            <p:ajax resetValues="true" onsuccess="$('#modalSearchDip').modal('hide');"/>
+                        </p:commandLink>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </ui:define>
 </ui:composition>

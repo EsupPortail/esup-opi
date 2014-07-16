@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <div class="modal fade" id="modalSearchDip" tabindex="-1" role="dialog"
+         aria-labelledby="#{msgs['FORMATION.TITLE.SEARCH']}" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">#{msgs['FORMATION.TITLE.SEARCH']}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <p:outputPanel layout="block" autoUpdate="true" styleClass="col-xs-12">
+                            <div class="form-group">
+                                <p:outputLabel value="Type de diplome" for="typeDip"
+                                               styleClass="col-md-3 control-label"/>
+
+                                <div class="col-md-9">
+                                    <h:selectOneMenu id="typeDip" required="true"
+                                                     value="#{candidaturesController.searchFormationPojo.groupTypSelected}"
+                                                     styleClass="form-control">
+                                        <f:selectItem itemValue="#{null}" itemLabel=""/>
+                                        <f:selectItems value="#{candidaturesController.groupTypeDip}" var="grpTypDip"
+                                                       itemLabel="#{grpTypDip.libGrpTpd}" itemValue="#{grpTypDip}"/>
+                                        <p:ajax process="@this" partialSubmit="true"/>
+                                    </h:selectOneMenu>
+                                    <p:message for="typeDip"/>
+                                </div>
+                            </div>
+                        </p:outputPanel>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ui:composition>

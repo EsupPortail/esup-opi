@@ -72,7 +72,7 @@ public class WSApogee implements IApogee {
     }
 
     @Override
-	@Cacheable(cacheName = CacheModelConst.RENNES1_APOGEE_MODEL)
+//	@Cacheable(cacheName = CacheModelConst.RENNES1_APOGEE_MODEL)
 	public Map<Domaine2AnnuForm, List<Cles2AnnuForm>> getDomaine2AnnuFormDTO(final GrpTypDip grpTypDip,
 			final String locale) {
 		final Ren1GrpTypDip r1g =

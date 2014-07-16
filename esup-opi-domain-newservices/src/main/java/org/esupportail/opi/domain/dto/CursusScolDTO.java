@@ -1,7 +1,5 @@
 package org.esupportail.opi.domain.dto;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 
@@ -12,10 +10,8 @@ public class CursusScolDTO {
     // CUR_R1 ou CUR_EXT
     private String type = "CUR_EXT";
 
-    @Size(min=4, max=4)
     private String annee;
 
-    @NotNull
     private String obtention;
 
     private String mention;
@@ -38,16 +34,12 @@ public class CursusScolDTO {
 
     public static class Etablissement implements Serializable {
 
-        @NotNull
         private String pays;
 
-        @NotNull
         private String departement;
 
-        @NotNull
         private String ville;
 
-        @NotNull
         private String etablissement;
 
         private String typeEtablissement;

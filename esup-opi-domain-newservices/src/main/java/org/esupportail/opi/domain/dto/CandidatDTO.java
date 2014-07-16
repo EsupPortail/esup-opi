@@ -4,9 +4,6 @@ package org.esupportail.opi.domain.dto;
 import fj.F;
 import fj.data.Option;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.*;
 
@@ -15,16 +12,12 @@ import static java.lang.String.format;
 
 public class CandidatDTO {
 
-    @NotNull
     private String numDossierOpi;
 
-    @NotNull
     private EtatCivilDTO etatCivil;
 
-    @NotNull
     private AdresseFixeDTO adresseFixe;
 
-    @NotNull
     private BaccalaureatDTO baccalaureat;
 
 
@@ -145,40 +138,28 @@ public class CandidatDTO {
 
     public static final class EtatCivilDTO implements Serializable {
 
-        @NotNull
         private String civilite;
 
-        @Size(min = 1, max = 30)
         private String nomPatronymique;
 
-        @Size(max = 30)
         private String nomUsuel;
 
-        @Size(min = 1, max = 20)
         private String prenom;
 
-        @Size(max = 20)
         private String prenomAutre;
 
-        @NotNull
         private Date dateNaissance;
 
-        @NotNull
         private String paysNaissance;
 
         private String deptNaissance;
 
-        @Size(min = 1, max = 30)
         private String villeNaissance;
 
-        @NotNull
         private String nationalite;
 
-        @Size(max = 11)
         private String nne;
 
-        @NotNull
-        @Pattern(regexp = EMAIL_PATTERN)
         private String email;
 
         private EtatCivilDTO() {}
@@ -340,29 +321,20 @@ public class CandidatDTO {
         public static final String EMAIL_PATTERN =
                 "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-        @NotNull
-        @Pattern(regexp = EMAIL_PATTERN)
         private String email;
 
-        @Size(min = 10, max = 15)
         private String telFixe;
 
-        @Size(max = 10)
         private String telPortable;
 
-        @NotNull
         private String pays;
 
-        @Size(min = 2, max = 32)
         private String adresse;
 
-        @Size(max = 70)
         private String adresseCmp1;
 
-        @Size(max = 70)
         private String adresseCmp2;
 
-        @Size(min = 5, max = 5)
         private String codePostal;
 
         private String ville;
@@ -508,25 +480,18 @@ public class CandidatDTO {
 
     public static final class BaccalaureatDTO implements Serializable {
 
-        @NotNull
         private String bac;
 
         private String mention;
 
-        @NotNull
-        @Size(min=4, max=4)
         private String dateObtention;
 
-        @NotNull
         private String pays;
 
-        @NotNull
         private String departement;
 
-        @NotNull
         private String ville;
 
-        @NotNull
         private String etablissement;
 
         private String codTpe;

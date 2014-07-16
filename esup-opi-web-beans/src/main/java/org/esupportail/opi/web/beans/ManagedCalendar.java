@@ -158,7 +158,8 @@ public class ManagedCalendar implements Resettable, InitializingBean, Serializab
 		
 		return vrsEtpToDiplay;
 	}
-	
+
+
 	/**
 	 * Init the VersionEtapePojo.
 	 * @param vet

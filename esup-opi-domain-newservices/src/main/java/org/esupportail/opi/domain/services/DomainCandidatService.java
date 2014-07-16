@@ -1,11 +1,25 @@
 package org.esupportail.opi.domain.services;
 
 import fj.data.Option;
+import org.esupportail.opi.domain.beans.formation.Cles2AnnuForm;
+import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
+import org.esupportail.opi.domain.beans.formation.GrpTypDip;
+import org.esupportail.opi.domain.beans.parameters.Campagne;
+import org.esupportail.opi.domain.beans.references.commission.Commission;
+import org.esupportail.opi.domain.beans.references.commission.FormulaireCmi;
+import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Individu;
+import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
 import org.esupportail.opi.domain.dto.CandidatDTO;
 import org.esupportail.opi.domain.dto.CandidatVoeuDTO;
 
+import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+import org.esupportail.wssi.services.remote.VersionDiplomeDTO;
+
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * The candidat domain service interface.
@@ -23,4 +37,20 @@ public interface DomainCandidatService extends Serializable {
     Option<CandidatDTO> fetchIndById(String id, Option<Boolean> onlyValidWishes);
 
     void deleteCandidatVoeu(Individu individu, CandidatVoeuDTO candidatVoeuDto);
+
+    Map<VersionEtpOpi, FormulaireCmi> getFormulaireCmi(Integer codeRi);
+
+    Campagne getCampagneEnServ(Integer codeRi);
+
+    Set<Commission> getCommissions(Boolean b);
+
+    VersionEtapeDTO getVersionEtape(TraitementCmi trtCmi);
+
+    List<GrpTypDip> getGrpTypDip(Campagne camp);
+
+    Map<Domaine2AnnuForm, List<Cles2AnnuForm>> getDomaine2AnnuForm(GrpTypDip grpTypDip, String locale);
+
+    List<VersionDiplomeDTO> getVersionDiplomes(String codeKeyWord, GrpTypDip grpTpd, String codAnu);
+
+    List<VersionEtapeDTO> getVersionEtapes(VersionDiplomeDTO vrsDip, String codAnu);
 }

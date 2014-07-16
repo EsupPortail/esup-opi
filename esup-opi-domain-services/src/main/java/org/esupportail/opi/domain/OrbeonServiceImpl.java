@@ -18,6 +18,8 @@ import org.xml.sax.SAXException;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.*;
 import org.xmldb.api.modules.XPathQueryService;
+//import sun.misc.BASE64Encoder;
+//import org.apache.commons.codec.binary.Base64;
 import sun.misc.BASE64Encoder;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -255,6 +257,9 @@ public class OrbeonServiceImpl implements OrbeonService {
 			String credentials = new BASE64Encoder().encode(
 					(orbeonUsername + ":" + orbeonPassword).getBytes());
 			conn.setRequestProperty(AUTHORIZATION, BASIC + credentials);
+//			String credentials = new String(new Base64().encodeBase64(
+//					(orbeonUsername + ":" + orbeonPassword).getBytes()));
+//			conn.setRequestProperty(AUTHORIZATION, BASIC + credentials);
 		}
 		conn.setRequestMethod("PUT");
 		conn.setDoOutput(true);

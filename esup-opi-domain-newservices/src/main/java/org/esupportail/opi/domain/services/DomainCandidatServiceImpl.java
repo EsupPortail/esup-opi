@@ -7,16 +7,23 @@ import fj.data.Array;
 import fj.data.Option;
 import org.esupportail.opi.dao.DaoService;
 import org.esupportail.opi.dao.IndividuDaoService;
-//import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
+import org.esupportail.opi.domain.ParameterService;
+import org.esupportail.opi.domain.beans.formation.Cles2AnnuForm;
+import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
+import org.esupportail.opi.domain.beans.formation.GrpTypDip;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.MotivationAvis;
+import org.esupportail.opi.domain.beans.references.commission.Commission;
+import org.esupportail.opi.domain.beans.references.commission.FormulaireCmi;
 import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
+import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
 import org.esupportail.opi.domain.beans.user.Adresse;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
 import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
+import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
 import org.esupportail.opi.domain.beans.user.indcursus.IndBac;
 import org.esupportail.opi.domain.beans.user.indcursus.IndCursusScol;
 import org.esupportail.opi.domain.dto.*;
@@ -31,25 +38,31 @@ import static fj.data.Option.some;
 import static java.lang.String.format;
 import static org.esupportail.opi.domain.dto.CandidatDTO.*;
 
+import org.esupportail.wssi.services.remote.VersionEtapeDTO;
+import org.esupportail.wssi.services.remote.VersionDiplomeDTO;
+
 public class DomainCandidatServiceImpl implements DomainCandidatService {
 
     private final DaoService daoService;
 
     private final IndividuDaoService individuDaoSrv;
 
-    private final DomainApoService apoService;
+    private DomainApoService apoService;
 
     private final DomainService domainService;
 
-    private DomainCandidatServiceImpl(DaoService daoService, IndividuDaoService individuDaoSrv, DomainApoService apoService, DomainService domainService) {
+    private final ParameterService parameterService;
+
+    private DomainCandidatServiceImpl(DaoService daoService, IndividuDaoService individuDaoSrv, DomainApoService apoService, DomainService domainService, ParameterService parameterService) {
         this.daoService = daoService;
         this.individuDaoSrv = individuDaoSrv;
         this.apoService = apoService;
         this.domainService = domainService;
+        this.parameterService = parameterService;
     }
 
-    public static DomainCandidatService domainCandidatServiceImpl(DaoService daoService, IndividuDaoService individuDaoSrv, DomainApoService apoService, DomainService domainService) {
-        return new DomainCandidatServiceImpl(daoService, individuDaoSrv, apoService, domainService);
+    public static DomainCandidatService domainCandidatServiceImpl(DaoService daoService, IndividuDaoService individuDaoSrv, DomainApoService apoService, DomainService domainService, ParameterService parameterService) {
+        return new DomainCandidatServiceImpl(daoService, individuDaoSrv, apoService, domainService, parameterService);
     }
 
     public void deleteCandidatVoeu(Individu individu, CandidatVoeuDTO candidatVoeuDto) {
@@ -279,4 +292,50 @@ public class DomainCandidatServiceImpl implements DomainCandidatService {
             return motivationAvisDTO;
         }
     };
+
+    public Map<VersionEtpOpi, FormulaireCmi> getFormulaireCmi(Integer codeRi) {
+        Map<VersionEtpOpi, FormulaireCmi> map = parameterService.getFormulairesCmi(null, codeRi);
+        return map;
+    }
+
+    public Campagne getCampagneEnServ(Integer codeRi) {
+        Campagne camp = parameterService.getCampagneEnServ(codeRi);
+        return camp;
+    }
+
+    public Set<Commission> getCommissions(Boolean b) {
+        Set<Commission> cmi = parameterService.getCommissions(true);
+        return cmi;
+    }
+
+    public VersionEtapeDTO getVersionEtape(TraitementCmi trtCmi) {
+        VersionEtapeDTO vet = apoService.getVersionEtape(
+                trtCmi.getVersionEtpOpi().getCodEtp(),
+                trtCmi.getVersionEtpOpi().getCodVrsVet());
+        return vet;
+    }
+
+    @Override
+    public List<GrpTypDip> getGrpTypDip(Campagne camp) {
+        List<GrpTypDip> group = apoService.getGrpTypDip(camp);
+        return group;
+    }
+
+    @Override
+    public Map<Domaine2AnnuForm, List<Cles2AnnuForm>> getDomaine2AnnuForm(GrpTypDip grpTypDip, String locale) {
+        Map<Domaine2AnnuForm, List<Cles2AnnuForm>> domains = apoService.getDomaine2AnnuForm(grpTypDip, locale.toUpperCase());
+        return domains;
+    }
+
+    @Override
+    public List<VersionDiplomeDTO> getVersionDiplomes(String codeKeyWord, GrpTypDip grpTpd, String codAnu) {
+        List<VersionDiplomeDTO> versionDiplomeDTOs = apoService.getVersionDiplomes(codeKeyWord, grpTpd, codAnu);
+        return versionDiplomeDTOs;
+    }
+
+    @Override
+    public List<VersionEtapeDTO> getVersionEtapes(VersionDiplomeDTO vrsDip, String codAnu) {
+        List<VersionEtapeDTO> versionEtapeDTOs = apoService.getVersionEtapes(vrsDip, codAnu);
+        return versionEtapeDTOs;
+    }
 }
