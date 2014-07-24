@@ -14,6 +14,7 @@ import org.esupportail.opi.web.beans.utils.comparator.ComparatorString;
 import org.esupportail.opi.web.candidat.beans.CursusProPojo;
 import org.esupportail.opi.web.candidat.beans.CursusScolPojo;
 import org.esupportail.opi.web.candidat.beans.QualifNoDipPojo;
+import org.esupportail.opi.web.candidat.services.security.CandidatService;
 import org.esupportail.opi.web.candidat.utils.Transform;
 import org.esupportail.wssi.services.remote.*;
 import org.primefaces.context.PrimeFacesContext;
@@ -34,6 +35,7 @@ import static fj.data.Array.single;
 import static fj.data.Option.fromNull;
 import static fj.data.Option.fromString;
 import static java.lang.String.format;
+import static org.esupportail.opi.web.candidat.services.security.CandidatService.LoggedUser;
 import static org.esupportail.opi.web.candidat.utils.Transform.*;
 
 public class CursusController extends CandidatController {
@@ -44,8 +46,9 @@ public class CursusController extends CandidatController {
 
     private CursusController(final DomainService domainService,
                              final DomainApoService apoService,
-                             final I18nService i18nService) {
-        super(domainService, apoService, i18nService);
+                             final I18nService i18nService,
+                             final LoggedUser loggedUser) {
+        super(domainService, apoService, i18nService, loggedUser);
         cursusScol = CursusScolPojo.empty();
         cursusPro = CursusProPojo.empty();
         qualif = QualifNoDipPojo.empty();
@@ -53,8 +56,9 @@ public class CursusController extends CandidatController {
 
     public static CursusController cursusController(final DomainService domainService,
                                                     final DomainApoService apoService,
-                                                    final I18nService i18nService) {
-        return new CursusController(domainService, apoService, i18nService);
+                                                    final I18nService i18nService,
+                                                    final LoggedUser loggedUser) {
+        return new CursusController(domainService, apoService, i18nService, loggedUser);
     }
 
     ////////////// CURSUS SCOL

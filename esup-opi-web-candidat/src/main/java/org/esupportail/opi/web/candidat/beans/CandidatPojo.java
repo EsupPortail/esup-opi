@@ -2,7 +2,9 @@ package org.esupportail.opi.web.candidat.beans;
 
 import fj.F;
 import fj.data.Option;
+import org.esupportail.opi.domain.beans.etat.EtatIndividu;
 import org.esupportail.opi.domain.beans.user.indcursus.CursusPro;
+import org.esupportail.opi.web.beans.parameters.RegimeInscription;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -40,8 +42,11 @@ public class CandidatPojo implements Serializable {
     @NotNull
     private List<QualifNoDipPojo> qualifs;
 
-    @NotNull
     private List<CampagnePojo> campagnes;
+
+    private RegimeInscription regimeInscription;
+
+    private EtatIndividu etatCandidat;
 
     private CandidatPojo() {}
 
@@ -80,6 +85,32 @@ public class CandidatPojo implements Serializable {
 
     public CandidatPojo withEtatCivil(EtatCivil etatCivil) {
         setEtatCivil(etatCivil);
+        return this;
+    }
+
+    public EtatIndividu getEtatCandidat() {
+        return etatCandidat;
+    }
+
+    public void setEtatCandidat(EtatIndividu etatCandidat) {
+        this.etatCandidat = etatCandidat;
+    }
+
+    public CandidatPojo withEtatCandidat(EtatIndividu etatCandidat) {
+        setEtatCandidat(etatCandidat);
+        return this;
+    }
+
+    public RegimeInscription getRegimeInscription() {
+        return regimeInscription;
+    }
+
+    public void setRegimeInscription(RegimeInscription regimeInscription) {
+        this.regimeInscription = regimeInscription;
+    }
+
+    public CandidatPojo withRegimeInscription(RegimeInscription regimeInscription) {
+        setRegimeInscription(regimeInscription);
         return this;
     }
 

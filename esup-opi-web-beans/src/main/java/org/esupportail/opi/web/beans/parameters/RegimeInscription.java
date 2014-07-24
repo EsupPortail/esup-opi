@@ -167,11 +167,6 @@ public abstract class RegimeInscription  implements Serializable, InitializingBe
 		} else if (!shortLabel.equals(other.shortLabel)) { return false; }
 		return true;
 	}
-
-	
-
-	
-
 	
 	/*
 	 ******************* METHODS ********************** */

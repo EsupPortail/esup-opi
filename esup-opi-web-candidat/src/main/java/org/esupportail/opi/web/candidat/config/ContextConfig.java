@@ -42,7 +42,7 @@ import static java.util.Arrays.asList;
         "classpath*:/META-INF/urlGeneration/urlGeneration.xml",
 //        "web/managedAccess.xml",
         "classpath*:/META-INF/web/beans.xml"})
-@Import({ ControllerConfig.class, Mail.class})
+@Import({ ControllerConfig.class, Mail.class, Security.class })
 public class ContextConfig {
 
     @Bean

@@ -3,6 +3,7 @@ package org.esupportail.opi.domain.dto;
 
 import fj.F;
 import fj.data.Option;
+import org.esupportail.opi.domain.beans.etat.EtatIndividu;
 
 import java.io.Serializable;
 import java.util.*;
@@ -24,6 +25,8 @@ public class CandidatDTO {
     private Collection<CursusScolDTO> cursusScols;
 
     private Collection<CampagneDTO> campagnes;
+
+    private String etatCandidat;
 
     /**
      * The vows of individu.
@@ -68,6 +71,19 @@ public class CandidatDTO {
 
     public CandidatDTO withEtatCivil(EtatCivilDTO etatCivil) {
         setEtatCivil(etatCivil);
+        return this;
+    }
+
+    public String getEtatCandidat() {
+        return etatCandidat;
+    }
+
+    public void setEtatCandidat(String etatCandidat) {
+        this.etatCandidat = etatCandidat;
+    }
+
+    public CandidatDTO withEtatCandidat(String etatCandidat) {
+        setEtatCandidat(etatCandidat);
         return this;
     }
 

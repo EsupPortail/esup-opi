@@ -21,16 +21,16 @@ public class TransPojoToDto {
 
         @Override
         public CandidatVoeuDTO f(CandidatVoeuPojo candidatVoeuPojo) {
-            final Collection<AvisDTO> avisDto =  iterableArray(candidatVoeuPojo.getAvis())
-                    .map(avisPojoToDto).toCollection();
+/*            final Collection<AvisDTO> avisDto =  iterableArray(candidatVoeuPojo.getAvis())
+                    .map(avisPojoToDto).toCollection();*/
             final CandidatVoeuDTO candidatVoeuDto = CandidatVoeuDTO.empty()
                     .withId(candidatVoeuPojo.getId())
                     .withIndividu(candidatVoeuPojo.getIndividu())
                     .withCodTypeTrait(candidatVoeuPojo.getCodTypeTrait())
                     .withHaveBeTraited(candidatVoeuPojo.isHaveBeTraited())
                     .withProp(candidatVoeuPojo.isProp())
-                    .withState(candidatVoeuPojo.getState())
-                    .withLinkTrtCmiCamp(linkTrtCmiCampPojoToDto.f(candidatVoeuPojo.getLinkTrtCmiCampPojo()));
+                    .withState(candidatVoeuPojo.getEtatVoeu().getCodeLabel())
+                    .withLinkTrtCmiCamp(candidatVoeuPojo.getLinkTrtCmiCamp());
             return candidatVoeuDto;
         };
     };
@@ -60,6 +60,7 @@ public class TransPojoToDto {
             final LinkTrtCmiCampDTO linkTrtCmiCampDTO = LinkTrtCmiCampDTO.empty()
                     .withTraitementCmi(linkTrtCmiCampPojo.getTraitementCmi())
                     .withCampagneDto(campagneToPojo.f(linkTrtCmiCampPojo.getCampagnePojo()));
+            linkTrtCmiCampDTO.setVoeux(linkTrtCmiCampPojo.getVoeux());
             return linkTrtCmiCampDTO;
         }
     };

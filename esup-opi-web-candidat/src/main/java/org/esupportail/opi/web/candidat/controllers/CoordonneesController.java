@@ -9,6 +9,7 @@ import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.utils.Constantes;
 import org.esupportail.opi.web.beans.utils.Utilitaires;
 import org.esupportail.opi.web.beans.utils.comparator.ComparatorPays;
+import org.esupportail.opi.web.candidat.services.security.CandidatService;
 import org.esupportail.wssi.services.remote.Departement;
 import org.esupportail.wssi.services.remote.Pays;
 import org.springframework.util.StringUtils;
@@ -23,6 +24,7 @@ import java.util.List;
 import static fj.data.Option.fromString;
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 import static org.esupportail.opi.utils.Constantes.I18N_NOT_EXSIT;
+import static org.esupportail.opi.web.candidat.services.security.CandidatService.LoggedUser;
 
 public class CoordonneesController extends CandidatController {
 
@@ -30,14 +32,16 @@ public class CoordonneesController extends CandidatController {
 
     private CoordonneesController(final DomainService domainService,
                                   final DomainApoService apoService,
-                                  final I18nService i18nService) {
-        super(domainService, apoService, i18nService);
+                                  final I18nService i18nService,
+                                  final LoggedUser loggedUser) {
+        super(domainService, apoService, i18nService, loggedUser);
     }
 
     public static CoordonneesController coordonneesController(final DomainService domainService,
                                                               final DomainApoService apoService,
-                                                              final I18nService i18nService) {
-        return new CoordonneesController(domainService, apoService, i18nService);
+                                                              final I18nService i18nService,
+                                                              final LoggedUser loggedUser) {
+        return new CoordonneesController(domainService, apoService, i18nService, loggedUser);
     }
 
     @Override

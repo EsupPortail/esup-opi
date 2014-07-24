@@ -1,6 +1,7 @@
 package org.esupportail.opi.domain.dto;
 
 import org.esupportail.opi.domain.beans.etat.Etat;
+import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
 import org.esupportail.opi.domain.beans.user.Individu;
 
 import java.util.ArrayList;
@@ -45,7 +46,8 @@ public class CandidatVoeuDTO {
     /**
      * The link between the traitement cmi and the campagne.
      */
-    private LinkTrtCmiCampDTO linkTrtCmiCamp;
+//    private LinkTrtCmiCampDTO linkTrtCmiCamp;
+    private LinkTrtCmiCamp linkTrtCmiCamp;
 
 
     private CandidatVoeuDTO() {}
@@ -145,15 +147,28 @@ public class CandidatVoeuDTO {
         return this;
     }
 
-    public LinkTrtCmiCampDTO getLinkTrtCmiCamp() {
+//    public LinkTrtCmiCampDTO getLinkTrtCmiCamp() {
+//        return linkTrtCmiCamp;
+//    }
+//
+//    public void setLinkTrtCmiCamp(LinkTrtCmiCampDTO linkTrtCmiCamp) {
+//        this.linkTrtCmiCamp = linkTrtCmiCamp;
+//    }
+//
+//    public CandidatVoeuDTO withLinkTrtCmiCamp(LinkTrtCmiCampDTO linkTrtCmiCamp) {
+//        setLinkTrtCmiCamp(linkTrtCmiCamp);
+//        return this;
+//    }
+
+    public LinkTrtCmiCamp getLinkTrtCmiCamp() {
         return linkTrtCmiCamp;
     }
 
-    public void setLinkTrtCmiCamp(LinkTrtCmiCampDTO linkTrtCmiCamp) {
+    public void setLinkTrtCmiCamp(LinkTrtCmiCamp linkTrtCmiCamp) {
         this.linkTrtCmiCamp = linkTrtCmiCamp;
     }
 
-    public CandidatVoeuDTO withLinkTrtCmiCamp(LinkTrtCmiCampDTO linkTrtCmiCamp) {
+    public CandidatVoeuDTO withLinkTrtCmiCamp(LinkTrtCmiCamp linkTrtCmiCamp) {
         setLinkTrtCmiCamp(linkTrtCmiCamp);
         return this;
     }

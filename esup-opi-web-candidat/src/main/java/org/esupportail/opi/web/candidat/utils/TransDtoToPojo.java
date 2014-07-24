@@ -47,6 +47,7 @@ public final class TransDtoToPojo {
             final LinkTrtCmiCampPojo linkTrtCmiCampPojo = LinkTrtCmiCampPojo.empty()
                     .withTraitementCmi(linkTrtCmiCampDTO.getTraitementCmi())
                     .withCampagnePojo(Transform.campagneToPojo.f(linkTrtCmiCampDTO.getCampagneDto()));
+            linkTrtCmiCampPojo.setVoeux(linkTrtCmiCampDTO.getVoeux());
             return linkTrtCmiCampPojo;
         }
     };

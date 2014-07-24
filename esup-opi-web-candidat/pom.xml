@@ -211,6 +211,21 @@
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-cas</artifactId>
+                <version>${spring.security.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-web</artifactId>
+                <version>${spring.security.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>${spring.security.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.esupportail</groupId>
                 <artifactId>esup-opi-web-beans</artifactId>
                 <version>${project.version}</version>
@@ -257,6 +272,18 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-cas</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
         </dependency>
 
         <dependency>
@@ -344,6 +371,7 @@
 
     <properties>
         <spring.version>4.0.4.RELEASE</spring.version>
+        <spring.security.version>3.2.4.RELEASE</spring.security.version>
         <myfaces.version>2.2.3</myfaces.version>
         <rewrite.version>2.0.12.Final</rewrite.version>
         <jetty.envXml>src/main/jetty/jetty-env.xml</jetty.envXml>

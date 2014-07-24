@@ -804,7 +804,7 @@ public class HibernateParamDaoServiceImpl extends AbstractSimpleHibernateDaoServ
 		DetachedCriteria criteria = DetachedCriteria.forClass(CalendarIns.class);
 		criteria.createCriteria("commissions")
 					.add(Restrictions.eq("id", commission.getId()));
-		
+
 		return getHibernateTemplate().findByCriteria(criteria);
 		
 	}

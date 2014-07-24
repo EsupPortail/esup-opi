@@ -2,6 +2,9 @@ package org.esupportail.opi.web.candidat.beans;
 
 
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
+import org.esupportail.opi.domain.beans.user.candidature.IndVoeu;
+
+import java.util.Set;
 
 public class LinkTrtCmiCampPojo {
 
@@ -11,6 +14,11 @@ public class LinkTrtCmiCampPojo {
     private TraitementCmi traitementCmi;
 
     private CampagnePojo campagnePojo;
+
+    /**
+     * The list of voeux for the campagne and the traitementCmi.
+     */
+    private Set<IndVoeu> voeux;
 
     public static LinkTrtCmiCampPojo empty() {
         return new LinkTrtCmiCampPojo();
@@ -41,4 +49,19 @@ public class LinkTrtCmiCampPojo {
         setCampagnePojo(campagnePojo);
         return this;
     }
+
+    /**
+     * @return the voeux
+     */
+    public Set<IndVoeu> getVoeux() {
+        return voeux;
+    }
+
+    /**
+     * @param voeux the voeux to set
+     */
+    public void setVoeux(final Set<IndVoeu> voeux) {
+        this.voeux = voeux;
+    }
+
 }

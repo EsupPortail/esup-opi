@@ -148,12 +148,12 @@ public class ManagedCalendar implements Resettable, InitializingBean, Serializab
 		for (Map.Entry<Commission, Set<VersionEtapeDTO>> cmi : mapCmi.entrySet()) {
 			Set<VersionEtapeDTO> vet = cmi.getValue();
 			vrsEtpToDiplay.addAll(
-					initVetPojo(vet, individuPojo.getIndividu(),
-							calIsOpen(parameterService.getCalendarIns(cmi.getKey())),
-							getPeriodCAlIsOpen(parameterService.getCalendarIns(cmi.getKey()),
-									individuPojo.getRegimeInscription()
-									.getCanAlwaysAddVows()),
-							individuPojo.getHasRightsToAddVows()));
+					initVetPojo(vet,
+                                individuPojo.getIndividu(),
+							    calIsOpen(parameterService.getCalendarIns(cmi.getKey())),
+							    getPeriodCAlIsOpen(parameterService.getCalendarIns(cmi.getKey()),
+									               individuPojo.getRegimeInscription().getCanAlwaysAddVows()),
+							    individuPojo.getHasRightsToAddVows()));
 		}
 		
 		return vrsEtpToDiplay;

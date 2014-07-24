@@ -61,6 +61,9 @@ section {
   border-bottom: 1px solid @border-default-color;
   margin: 0;
   padding: 30px 15px;
+  +.container {
+    margin-top: 2em;
+  }
 }
 
 .page-header h1 {
@@ -175,7 +178,8 @@ nav {
       }
     }
   }
-  > ul > li.faq > a  {
+  > ul > li.faq > a,
+  > ul > li.logout > a{
     color: @nav-active-link;
     &:hover,
     &:focus {
@@ -183,24 +187,39 @@ nav {
     }
     &:after {
       color: #fff;
-      text-transform: uppercase;
     }
   }
 
+  > ul > li.faq > a:after {
+    text-transform: uppercase;
+  }
+
   > ul > li.divider {
-    height: 1px;
-    width: 50%;
-    margin-left: 25%;
-    box-shadow: 0px 0px 1px @nav-default-link;
+    &:before {
+      content: "";
+      display: block;
+      height: 1px;
+      width: 50%;
+      margin-left: 25%;
+      box-shadow: 0px 0px 1px @nav-default-link;
+    }
   }
 }
 
 @media screen and (min-height: 600px) {
-  nav > ul > li.faq > a  {
+  nav > ul > li.faq,
+  nav > ul > li.logout,
+  nav > ul > li.faq + li.divider {
     bottom: 0;
     left: 0;
     position: fixed;
     width: 90px;
+  }
+  nav > ul > li.faq {
+    bottom: 85px;
+  }
+  nav > ul > li.faq + li.divider {
+    bottom: 80px;
   }
 }
 
@@ -386,6 +405,10 @@ nav {
   }
 }
 
+.ui-button .ui-button-text {
+  padding: 0;
+}
+
 .ui-widget-overlay {
   background-color: #000;
   opacity: 0.5;
@@ -410,4 +433,26 @@ nav {
 }
 .ui-datatable thead th, .ui-datatable tfoot td {
   text-align: left;
+}
+
+.ui-chkbox-icon {
+  background-image: none;
+  &:after{
+    font-family: FontAwesome;
+    content: '\f096';
+  }
+}
+
+.ui-icon {
+  text-indent: 0px;
+}
+
+.ui-icon-check {
+  background-image: none;
+  display: inline-block;
+  &:after{
+    font-family: FontAwesome;
+    content: '\f046';
+  }
+
 }

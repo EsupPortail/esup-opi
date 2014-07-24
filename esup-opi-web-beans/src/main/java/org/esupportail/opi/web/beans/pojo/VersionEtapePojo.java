@@ -120,7 +120,9 @@ public class VersionEtapePojo implements Serializable {
 	 * @return Boolean true if individual can choice this vet.
 	 */
 	public Boolean getCanChoiceVet() {
-		if (hasRightsToAddVows) { return !isAlReadyChoice; }
+		if (hasRightsToAddVows) {
+            return !isAlReadyChoice;
+        }
 		return !isAlReadyChoice && calendarIsOpen;
 	}
 	

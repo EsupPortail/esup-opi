@@ -5,18 +5,23 @@ import org.esupportail.opi.domain.beans.formation.Cles2AnnuForm;
 import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
 import org.esupportail.opi.domain.beans.formation.GrpTypDip;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
+import org.esupportail.opi.domain.beans.references.NombreVoeuCge;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.FormulaireCmi;
+import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
+import org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.VersionEtpOpi;
 import org.esupportail.opi.domain.dto.CandidatDTO;
 import org.esupportail.opi.domain.dto.CandidatVoeuDTO;
 
+import org.esupportail.opi.domain.dto.LinkTrtCmiCampDTO;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 import org.esupportail.wssi.services.remote.VersionDiplomeDTO;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,7 +41,17 @@ public interface DomainCandidatService extends Serializable {
      */
     Option<CandidatDTO> fetchIndById(String id, Option<Boolean> onlyValidWishes);
 
+    /**
+     * Return the individu that have the given numDosOpi.
+     * @param numDosOpi
+     * @param dateNaissance
+     * @return the individu
+     */
+    Individu getIndividu(String numDosOpi, Date dateNaissance);
+
     void deleteCandidatVoeu(Individu individu, CandidatVoeuDTO candidatVoeuDto);
+
+    void addCandidatVoeu(CandidatVoeuDTO candidatVoeuDto);
 
     Map<VersionEtpOpi, FormulaireCmi> getFormulaireCmi(Integer codeRi);
 
@@ -53,4 +68,56 @@ public interface DomainCandidatService extends Serializable {
     List<VersionDiplomeDTO> getVersionDiplomes(String codeKeyWord, GrpTypDip grpTpd, String codAnu);
 
     List<VersionEtapeDTO> getVersionEtapes(VersionDiplomeDTO vrsDip, String codAnu);
+
+    //////////////////////////////////////////////////////////////
+    // TraitementCmi
+    //////////////////////////////////////////////////////////////
+    /**
+     * @param versionEtpOpi
+     * @param initSelection if true init the proxy selection.
+     * @return TraitementCmi
+     */
+    TraitementCmi getTraitementCmi(VersionEtpOpi versionEtpOpi, Boolean initSelection);
+
+    /**
+     * @param id
+     * @return TraitementCmi
+     */
+    TraitementCmi getTraitementCmi(Integer id);
+
+    /**
+     * @param traitementCmi
+     * @param campagne
+     * @return LinkTrtCmiCampDTO
+     */
+    LinkTrtCmiCampDTO getLinkTrtCmiCampDto(TraitementCmi traitementCmi, Campagne campagne);
+
+    /**
+     * @param traitementCmi
+     * @param campagne
+     * @return LinkTrtCmiCampDTO
+     */
+    LinkTrtCmiCamp getLinkTrtCmiCamp(TraitementCmi traitementCmi, Campagne campagne);
+
+    //////////////////////////////////////////////////////////////
+    // NombreVoeuCge
+    //////////////////////////////////////////////////////////////
+
+    /**
+     *
+     * @return liste de nombre de voeux par CGE
+     */
+    List<NombreVoeuCge> getAllNombreDeVoeuByCge();
+
+
+    //////////////////////////////////////////////////////////////
+    // CalendarRDV
+    //////////////////////////////////////////////////////////////
+
+    /**
+     *
+     * @return liste des calendriers de rendez-vous
+     */
+    List<CalendarRDV> getCalendarRdv();
+
 }

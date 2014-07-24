@@ -13,7 +13,7 @@
         <module>esup-opi-utils</module>
         <module>esup-opi-domain-beans</module>
         <module>esup-opi-domain-services</module>
-        <module>esup-opi-domain-newservices</module>
+        <module>esup-opi-domain-candidatServices</module>
         <module>esup-opi-web-jsf-servlet</module>
         <module>esup-opi-web-candidat</module>
         <module>esup-opi-web-beans</module>

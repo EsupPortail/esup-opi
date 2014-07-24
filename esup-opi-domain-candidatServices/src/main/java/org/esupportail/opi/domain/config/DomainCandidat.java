@@ -5,7 +5,8 @@ import org.esupportail.opi.dao.IndividuDaoService;
 import org.esupportail.opi.domain.DomainApoService;
 import org.esupportail.opi.domain.DomainService;
 import org.esupportail.opi.domain.ParameterService;
-import org.esupportail.opi.domain.services.*;
+import org.esupportail.opi.domain.services.DomainCandidatService;
+import org.esupportail.opi.domain.services.DomainCandidatServiceImpl;
 import org.springframework.context.annotation.*;
 
 import javax.inject.Inject;

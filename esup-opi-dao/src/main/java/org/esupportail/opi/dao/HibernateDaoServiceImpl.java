@@ -777,7 +777,6 @@ public class HibernateDaoServiceImpl extends AbstractSimpleHibernateDaoService i
 			log.debug("entering addVoeu( " + voeu + " )");
 		}
 		addObject(voeu);
-
 	}
 
 

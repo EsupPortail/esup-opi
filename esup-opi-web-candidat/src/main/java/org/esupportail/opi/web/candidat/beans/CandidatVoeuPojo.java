@@ -1,11 +1,10 @@
 package org.esupportail.opi.web.candidat.beans;
 
-import org.esupportail.opi.domain.beans.etat.Etat;
+import org.esupportail.opi.domain.beans.etat.EtatVoeu;
 import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.wssi.services.remote.VersionEtapeDTO;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -24,7 +23,7 @@ public class CandidatVoeuPojo implements Serializable {
     /**
      * The vow state.
      */
-    private String state;
+    private EtatVoeu etatVoeu;
 
     /**
      * The code TypeTraitement.
@@ -45,12 +44,12 @@ public class CandidatVoeuPojo implements Serializable {
     /**
      * The link between the traitement cmi and the campagne.
      */
-    private LinkTrtCmiCampPojo linkTrtCmiCampPojo;
+//    private LinkTrtCmiCampPojo linkTrtCmiCampPojo;
+    private LinkTrtCmiCamp linkTrtCmiCamp;
 
     /**
      * The VersionEtape.
      */
-    @NotNull
     private VersionEtapeDTO vrsEtape;
 
     private Collection<AvisPojo> avis;
@@ -88,16 +87,16 @@ public class CandidatVoeuPojo implements Serializable {
         return this;
     }
 
-    public String getState() {
-        return state;
+    public EtatVoeu getEtatVoeu() {
+        return etatVoeu;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setEtatVoeu(EtatVoeu etatVoeu) {
+        this.etatVoeu = etatVoeu;
     }
 
-    public CandidatVoeuPojo withState(String state) {
-        setState(state);
+    public CandidatVoeuPojo withEtatVoeu(EtatVoeu etatVoeu) {
+        setEtatVoeu(etatVoeu);
         return this;
     }
 
@@ -140,16 +139,17 @@ public class CandidatVoeuPojo implements Serializable {
         return this;
     }
 
-    public LinkTrtCmiCampPojo getLinkTrtCmiCampPojo() {
-        return linkTrtCmiCampPojo;
+
+    public LinkTrtCmiCamp getLinkTrtCmiCamp() {
+    return linkTrtCmiCamp;
+}
+
+    public void setLinkTrtCmiCamp(LinkTrtCmiCamp linkTrtCmiCamp) {
+        this.linkTrtCmiCamp = linkTrtCmiCamp;
     }
 
-    public void setLinkTrtCmiCampPojo(LinkTrtCmiCampPojo linkTrtCmiCamp) {
-        this.linkTrtCmiCampPojo = linkTrtCmiCamp;
-    }
-
-    public CandidatVoeuPojo withLinkTrtCmiCamp(LinkTrtCmiCampPojo linkTrtCmiCamp) {
-        setLinkTrtCmiCampPojo(linkTrtCmiCamp);
+    public CandidatVoeuPojo withLinkTrtCmiCamp(LinkTrtCmiCamp linkTrtCmiCamp) {
+        setLinkTrtCmiCamp(linkTrtCmiCamp);
         return this;
     }
 

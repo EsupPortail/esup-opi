@@ -5,6 +5,8 @@ import fj.Effect;
 import fj.F;
 import fj.data.Array;
 import fj.data.Option;
+import org.esupportail.commons.services.logging.Logger;
+import org.esupportail.commons.services.logging.LoggerImpl;
 import org.esupportail.opi.dao.DaoService;
 import org.esupportail.opi.dao.IndividuDaoService;
 import org.esupportail.opi.domain.DomainApoService;
@@ -15,10 +17,12 @@ import org.esupportail.opi.domain.beans.formation.Domaine2AnnuForm;
 import org.esupportail.opi.domain.beans.formation.GrpTypDip;
 import org.esupportail.opi.domain.beans.parameters.Campagne;
 import org.esupportail.opi.domain.beans.parameters.MotivationAvis;
+import org.esupportail.opi.domain.beans.references.NombreVoeuCge;
 import org.esupportail.opi.domain.beans.references.commission.Commission;
 import org.esupportail.opi.domain.beans.references.commission.FormulaireCmi;
 import org.esupportail.opi.domain.beans.references.commission.LinkTrtCmiCamp;
 import org.esupportail.opi.domain.beans.references.commission.TraitementCmi;
+import org.esupportail.opi.domain.beans.references.rendezvous.CalendarRDV;
 import org.esupportail.opi.domain.beans.user.Adresse;
 import org.esupportail.opi.domain.beans.user.Individu;
 import org.esupportail.opi.domain.beans.user.candidature.Avis;
@@ -33,8 +37,6 @@ import java.util.*;
 
 import static fj.data.Array.iterableArray;
 import static fj.data.Option.fromNull;
-import static fj.data.Option.fromString;
-import static fj.data.Option.some;
 import static java.lang.String.format;
 import static org.esupportail.opi.domain.dto.CandidatDTO.*;
 
@@ -53,6 +55,8 @@ public class DomainCandidatServiceImpl implements DomainCandidatService {
 
     private final ParameterService parameterService;
 
+    private final Logger log = new LoggerImpl(getClass());
+
     private DomainCandidatServiceImpl(DaoService daoService, IndividuDaoService individuDaoSrv, DomainApoService apoService, DomainService domainService, ParameterService parameterService) {
         this.daoService = daoService;
         this.individuDaoSrv = individuDaoSrv;
@@ -70,6 +74,20 @@ public class DomainCandidatServiceImpl implements DomainCandidatService {
         domainService.deleteIndVoeu(voeu);
     }
 
+    /**
+     * @see org.esupportail.opi.domain.DomainService#addIndVoeu(
+     * org.esupportail.opi.domain.beans.user.candidature.IndVoeu)
+     */
+    public void addCandidatVoeu(final CandidatVoeuDTO candidatVoeuDto) {
+        IndVoeu voeu = dtoToIndVoeu.f(candidatVoeuDto);
+        voeu.setCodUserToCreate(voeu.getIndividu().getNumDossierOpi());
+        voeu.setDateCreaEnr(new Date());
+        if (log.isDebugEnabled()) {
+            log.debug("entering addVoeu( " + voeu + " )");
+        }
+        domainService.addIndVoeu(voeu);
+    }
+
     @Override
     public Option<CandidatDTO> fetchIndById(String id, Option<Boolean> onlyValidWishes) {
         Option<Individu> individu = individuDaoSrv.fetchIndAndAvisById(id, onlyValidWishes);
@@ -80,6 +98,7 @@ public class DomainCandidatServiceImpl implements DomainCandidatService {
         public CandidatDTO f(final Individu i) {
             final CandidatDTO candidatDTO = CandidatDTO.empty();
             candidatDTO.setNumDossierOpi(i.getNumDossierOpi());
+            candidatDTO.setEtatCandidat(i.getState());
 
             // Etat civil
             final EtatCivilDTO etatCivil = EtatCivilDTO.empty()
@@ -174,7 +193,7 @@ public class DomainCandidatServiceImpl implements DomainCandidatService {
                     .withAvis(new ArrayList<>(avisDTOs.toCollection()))
                     .withCodTypeTrait(indVoeu.getCodTypeTrait())
                     .withHaveBeTraited(indVoeu.isHaveBeTraited())
-                    .withLinkTrtCmiCamp(linkTrtCmiToDTO.f(indVoeu.getLinkTrtCmiCamp()))
+                    .withLinkTrtCmiCamp(indVoeu.getLinkTrtCmiCamp())
                     .withProp(indVoeu.getIsProp())
                     .withState(indVoeu.getState());
             return candidatVoeuDTO;
@@ -191,7 +210,7 @@ public class DomainCandidatServiceImpl implements DomainCandidatService {
             indVoeu.setState(candidatVoeuDTO.getState());
             indVoeu.setIsProp(candidatVoeuDTO.isProp());
             indVoeu.setHaveBeTraited(candidatVoeuDTO.isHaveBeTraited());
-            indVoeu.setLinkTrtCmiCamp(dtoToLinkTrtCmiCamp.f(candidatVoeuDTO.getLinkTrtCmiCamp()));
+            indVoeu.setLinkTrtCmiCamp(candidatVoeuDTO.getLinkTrtCmiCamp());
             indVoeu.setAvis(new HashSet<Avis>());
             if(candidatVoeuDTO.getAvis() != null && !candidatVoeuDTO.getAvis().isEmpty()) {
                 Array<Avis> avis = iterableArray(candidatVoeuDTO.getAvis()).map(dtoToAvis);
@@ -298,6 +317,16 @@ public class DomainCandidatServiceImpl implements DomainCandidatService {
         return map;
     }
 
+    /**
+     * @see org.esupportail.opi.domain.DomainService#getIndividu(java.lang.String, java.util.Date)
+     */
+    public Individu getIndividu(final String numDosOpi, final Date dateNaissance) {
+        if (log.isDebugEnabled()) {
+            log.debug("entering getIndividu( " + numDosOpi + ", " + dateNaissance + " )");
+        }
+        return this.daoService.getIndividu(numDosOpi, dateNaissance);
+    }
+
     public Campagne getCampagneEnServ(Integer codeRi) {
         Campagne camp = parameterService.getCampagneEnServ(codeRi);
         return camp;
@@ -338,4 +367,58 @@ public class DomainCandidatServiceImpl implements DomainCandidatService {
         List<VersionEtapeDTO> versionEtapeDTOs = apoService.getVersionEtapes(vrsDip, codAnu);
         return versionEtapeDTOs;
     }
+
+    @Override
+    public TraitementCmi getTraitementCmi(
+            final VersionEtpOpi versionEtpOpi,
+            final Boolean initSelection) {
+        return parameterService.getTraitementCmi(versionEtpOpi, initSelection);
+    }
+
+    @Override
+    public TraitementCmi getTraitementCmi(final Integer id) {
+        if (log.isDebugEnabled()) {
+            log.debug("entering getTraitementCmi( " + id + " )");
+        }
+        return parameterService.getTraitementCmi(id);
+    }
+
+    @Override
+    public LinkTrtCmiCampDTO getLinkTrtCmiCampDto(final TraitementCmi traitementCmi,
+                                            final Campagne campagne) {
+        if (log.isDebugEnabled()) {
+            log.debug("entering getLinkTrtCmiCamp ( " + traitementCmi
+                    + ", " + campagne + " )");
+        }
+        return linkTrtCmiToDTO.f(parameterService.getLinkTrtCmiCamp(traitementCmi, campagne));
+    }
+
+    @Override
+    public LinkTrtCmiCamp getLinkTrtCmiCamp(final TraitementCmi traitementCmi,
+                                               final Campagne campagne) {
+        if (log.isDebugEnabled()) {
+            log.debug("entering getLinkTrtCmiCamp ( " + traitementCmi
+                    + ", " + campagne + " )");
+        }
+        return parameterService.getLinkTrtCmiCamp(traitementCmi, campagne);
+    }
+
+    // ////////////////////////////////////////////////////////////
+    // NombreVoeuCge
+    // ////////////////////////////////////////////////////////////
+
+    @Override
+    public List<NombreVoeuCge> getAllNombreDeVoeuByCge() {
+        return parameterService.getAllNombreDeVoeuByCge();
+    }
+
+    //////////////////////////////////////////////////////////////
+    // CalendarRDV
+    //////////////////////////////////////////////////////////////
+
+    @Override
+    public List<CalendarRDV> getCalendarRdv() {
+        return parameterService.getCalendarRdv();
+    }
+
 }
