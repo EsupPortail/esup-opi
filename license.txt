@@ -1,0 +1,13 @@
+La licence ESUP-Portail (https://www.esup-portail.org/wiki/display/ESUP/La+licence+ESUP-Portail)
+
+ESUP-portail is a french academic project developed under the Apache License, Version 2.0 as approved by the Open Source
+Initiative (OSI), an OSI-certified ("open") and Gnu/FSF-recognized ("free") license.
+
+The official english text of the  Apache License, Version 2.0 is available here: http://www.apache.org/licenses/LICENSE-2.0
+
+It follows that you can as well as use download contents as well modify and redistribute them provided you respect the
+Apache License, Version 2.0 terms.
+
+Downloading and using such contents do not provide any guaranty.
+
+Be sure that you have well understood the terms of the license before using the contents it covers.
