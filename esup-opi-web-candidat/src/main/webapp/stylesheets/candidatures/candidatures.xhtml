@@ -17,10 +17,10 @@
     <ui:param name="candidat" value="#{candidaturesController.candidat}"/>
     <ui:param name="title" value="#{msgs['INDIVIDU.YOUR.CANDIDATURES']}"/>
 </ui:include>
-<section class="container-fluid">
+<section class="container-fluid" id="candidaturesView">
     <h:form id="candidaturesForm" styleClass="form-horizontal">
         <div class="row">
-            <p:outputPanel layout="block" autoUpdate="true" styleClass="col-xs-12">
+            <p:outputPanel layout="block" styleClass="col-xs-12">
                 <ui:fragment rendered="#{not empty candidaturesController.indSelectedForms}">
                     <div class="alert alert-warning alert-dismissable">
                         <a href="#" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times"/></a>
@@ -98,7 +98,6 @@
     											and candidaturesController.calInsIsOpen}">
             <div class="col-xs-12">
                 <div class="form-actions">
- <!--<p:commandButton actionListener="#{candidaturesController.initCmis}" value="#{msgs['_.BUTTON.ADD']}" styleClass="btn btn-primary" onsuccess="$('#modalSearchDip').modal('show');"/>-->
                     <a href="#" data-toggle="modal" data-target="#modalSearchDip"
                        class="btn btn-primary">#{msgs['_.BUTTON.ADD']}</a>
                 </div>
@@ -106,7 +105,6 @@
         </div>
     </h:form>
 </section>
-
 
 <div class="modal fade" id="modalSearchDip" tabindex="-1" role="dialog"
      aria-labelledby="#{msgs['FORMATION.TITLE.SEARCH']}" aria-hidden="true">
@@ -126,8 +124,7 @@
 
                                 <div class="col-md-9">
                                     <h:selectOneMenu id="typeDip" required="true"
-                                                     value="#{candidaturesController.typeSelected}"
-                                                     styleClass="form-control">
+                                                     value="#{candidaturesController.typeSelected}">
                                         <f:selectItem itemValue="#{null}" itemLabel=""/>
                                         <f:selectItems value="#{candidaturesController.groupTypeDip}"
                                                        var="grpTypDip"
@@ -157,6 +154,7 @@
                                         <p:message for="keyWordFormInput"/>
                                     </div>
                                 </p:outputPanel>
+
                             </div>
                             <div class="form-group">
                                 <p:outputPanel id="blockFormVdi" layout="block" styleClass="form-group"
@@ -238,11 +236,9 @@
                                             <h:outputText value="#{msgs['FIELD_LABEL.CAL_INDISPO']}"
                                                           rendered="#{versionEtapePojo.calPeriod == null}"/>
                                         </p:column>
-                                        <p:column>
+                                        <p:column style="width:30px;text-align:center">
                                             <ui:fragment rendered="#{versionEtapePojo.isAlReadyChoice}">
                                                 <h:outputLink styleClass="text-warning" id="alreadyInscription"><i class="fa fa-flag" /></h:outputLink>
-                                                <!--<p:graphicImage library="images" name="flag_red.png"-->
-                                                <!--style="cursor:pointer;" id="alreadyInscription"/>-->
                                                 <p:overlayPanel for="alreadyInscription"
                                                                 showEvent="mouseover"
                                                                 hideEvent="mouseout"
@@ -282,10 +278,11 @@
             </div>
             <div class="modal-footer">
                 <p:commandLink value="#{msgs['_.BUTTON.ADD']}" styleClass="btn btn-sm btn-success" immediate="true">
-                    <p:ajax listener="#{candidaturesController.add}" onsuccess="$('#modalSearchDip').modal('hide');"/>
+                    <p:ajax listener="#{candidaturesController.add}" onsuccess="$('#modalSearchDip').modal('hide');"
+                            update=":candidaturesForm"/>
                 </p:commandLink>
                 <p:commandLink value="#{msgs['_.BUTTON.CANCEL']}" styleClass="btn btn-sm btn-default" immediate="true">
-                    <p:ajax resetValues="true" onsuccess="$('#modalSearchDip').modal('hide');"/>
+                    <p:ajax listener="#{candidaturesController.searchFormationPojo.resetSearch}" resetValues="true" onsuccess="$('#modalSearchDip').modal('hide');"/>
                 </p:commandLink>
             </div>
         </h:form>

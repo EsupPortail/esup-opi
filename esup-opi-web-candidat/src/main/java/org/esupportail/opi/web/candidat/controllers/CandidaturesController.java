@@ -4,6 +4,7 @@ import fj.Effect;
 import fj.F;
 import fj.data.Array;
 import fj.data.Option;
+import org.esupportail.commons.annotations.cache.RequestCache;
 import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.commons.services.logging.Logger;
 import org.esupportail.commons.services.logging.LoggerImpl;
@@ -145,8 +146,8 @@ public class CandidaturesController extends CandidatController {
         super.initView();
         initCandidatVoeuPojo(candidat.getDossier());
         initCodeRICandidat();
-        initCmis();
     }
+
 
     public void initCandidatVoeuPojo(String dossier) {
         Option<CandidatDTO> candidatdto = domainCandidatService.fetchIndById(dossier, Option.<Boolean>none());
@@ -225,12 +226,12 @@ public class CandidaturesController extends CandidatController {
         this.campagneEnServ = domainCandidatService.getCampagneEnServ(codeRI);
     }
 
-    public void initCmis() {
+
+    @RequestCache
+    public Set<Commission> getCmi() {
         Set<Commission> cmi = domainCandidatService.getCommissions(true);
-        this.initCmi = cmi;
+        return cmi;
     }
-
-
 
     /*
     ******************* METHODS ********************** */
@@ -249,7 +250,7 @@ public class CandidaturesController extends CandidatController {
      *
      * @return String
      */
-    public String add() {
+    public void add() {
 
         Set<CandidatVoeuPojo> candidatVoeuAdd = new HashSet<CandidatVoeuPojo>();
 
@@ -264,12 +265,12 @@ public class CandidaturesController extends CandidatController {
         for (VersionEtapePojo vrsVet : searchFormationPojo.getVrsEtpSelected()) {
 
             CandidatVoeuPojo cvp = null;
-
+            VersionEtpOpi vEOpi = new VersionEtpOpi(vrsVet.getVersionEtape());
             // cherche un traitementCMI de type vrsVet
-            TraitementCmi traitementCmi = domainCandidatService.getTraitementCmi(new VersionEtpOpi(vrsVet.getVersionEtape()), true);
+            TraitementCmi traitementCmi = domainCandidatService.getTraitementCmi(vEOpi, true);
             TypeTraitement typTrt = null;
 
-            // 2 recupere type traitement par defaut
+            // recupere type traitement par defaut
             Boolean authorizedAddWish = null;
 
             if (traitementCmi != null) {
@@ -297,7 +298,10 @@ public class CandidaturesController extends CandidatController {
                 }
 
                 domainCandidatService.addCandidatVoeu(TransPojoToDto.candidatVoeuPojoToCandidatVoeuDto.f(cvp));
+                VersionEtapeDTO vet = apoService.getVersionEtape(vEOpi.getCodEtp(), vEOpi.getCodVrsVet());
+                cvp.setVrsEtape(vet);
                 candidatVoeuxPojo = candidatVoeuxPojo.append(Array.single(cvp));
+                searchFormationPojo.resetSearch();
             } else {
                     log.error("entering addVoeu( " + cvp + " )");
             }
@@ -306,18 +310,6 @@ public class CandidaturesController extends CandidatController {
 
 //        //sendMail
 //        sendMailIfAddWishes(indVoeuAdd);
-//        reset();
-//
-//        //init the information to individual.
-//        initSummaryWishes(indVoeuAdd);
-//
-//        if (!candidatVoeuAdd.isEmpty()) {
-//            log.info("save to database the wishes for the individu"
-//                    + " with the num dossier = "
-//                    + getCurrentInd().getIndividu().getNumDossierOpi());
-//        }
-
-        return "";
     }
 
     /**
@@ -409,11 +401,13 @@ public class CandidaturesController extends CandidatController {
      */
     public Boolean getCanConfirmVoeux() {
         for (CandidatVoeuPojo candidatVoeuPojo : candidatVoeuxPojo) {
-            for (AvisPojo a : candidatVoeuPojo.getAvis()) {
-                // Sort the type of avis
-                if (a != null && a.getValidation() && a.getResult().getIsFinal()
-                        && a.getResult().getCodeTypeConvocation().equals("IA")) {
-                    return true;
+            if(candidatVoeuPojo.getAvis() != null && !candidatVoeuPojo.getAvis().isEmpty()) {
+                for (AvisPojo a : candidatVoeuPojo.getAvis()) {
+                    // Sort the type of avis
+                    if (a != null && a.getValidation() && a.getResult().getIsFinal()
+                            && a.getResult().getCodeTypeConvocation().equals("IA")) {
+                        return true;
+                    }
                 }
             }
         }
@@ -570,7 +564,7 @@ public class CandidaturesController extends CandidatController {
                 List<VersionEtapeDTO> list = domainCandidatService.getVersionEtapes( v, camp.getCodAnu());
 
                 Map<Commission, Set<VersionEtapeDTO>> mapCmi =
-                        Utilitaires.getCmiForVetDTO(initCmi, new HashSet<VersionEtapeDTO>(list), camp);
+                        Utilitaires.getCmiForVetDTO(getCmi(), new HashSet<VersionEtapeDTO>(list), camp);
 
                 if (!mapCmi.isEmpty()) {
                     vdi.add(v);
@@ -600,7 +594,7 @@ public class CandidaturesController extends CandidatController {
         List<VersionEtapeDTO> list = domainCandidatService.getVersionEtapes(
                 searchFormationPojo.getVrsDipSelected(), camp.getCodAnu());
 
-        Map<Commission, Set<VersionEtapeDTO>> mapCmi = Utilitaires.getCmiForVetDTO(initCmi, new HashSet<VersionEtapeDTO>(list), camp);
+        Map<Commission, Set<VersionEtapeDTO>> mapCmi = Utilitaires.getCmiForVetDTO(getCmi(), new HashSet<VersionEtapeDTO>(list), camp);
 
         searchFormationPojo.setVersionEtapes(
                 managedCandidatCalendar.getVrsEtpPojo(mapCmi, candidat.getRegimeInscription(), candidatVoeuxPojo));
